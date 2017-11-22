@@ -12,7 +12,7 @@ declare var window: any;
 declare var FB: any;
 
 @Component({
-  selector: 'app-register',
+   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
