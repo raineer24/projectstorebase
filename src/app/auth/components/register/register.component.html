@@ -1,17 +1,16 @@
 <div class="row register-container" data-hook="">
-  <div id="content" class="col-sm-12" data-hook="">
-    <div class="col-md-5 col-centered">
+  <div id="content" class="col-sm-11" data-hook="">
+    <div class="col-md-4 col-centered">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Signup to {{title}}</h3>
+          <h4 class="panel-title">Signup to {{title}}</h4>
         </div>
         <div id="existing-customer" class="panel-body" data-hook="login">
           <div class="register-third-party-register">
             <p class="register-button-info-text register-info-text">EASILY USING</p>
-            
-             <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
-             
-           
+
+              <app-register-facebook></app-register-facebook>
+
           </div>
           <p class="register-button-info-text register-info-text">- OR USING EMAIL -</p>
           <form class="register-register-form" novalidate="" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
@@ -31,7 +30,7 @@
                   placeholder="Choose Password" autocomplete="off">
                 <div *ngIf="signUpForm.get('password').errors && signUpForm.get('password').touched">
                   <span class="register-error-icon">!</span>
-                  <p class="register-error-message">{{signUpForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
+                  <p class="register-error-message">{{signUpForm.get('password').errors.msg || 'Password must be at least 7 characters'}}</p>
                 </div>
               </div>
 
@@ -49,7 +48,7 @@
                   formControlName="mobile" placeholder="Mobile Number (For order status updates)">
                 <div *ngIf="signUpForm.get('mobile').errors && signUpForm.get('mobile').touched">
                   <span class="register-error-icon">!</span>
-                  <p class="register-error-message">{{signUpForm.get('mobile').errors.msg || 'Please enter a valid mobile number (10 digits)'}}</p>
+                  <p class="register-error-message">{{signUpForm.get('mobile').errors.msg || 'Please enter a valid mobile number (11 digits)'}}</p>
                 </div>
               </div>
 
