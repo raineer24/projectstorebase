@@ -35,7 +35,7 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
     window.fbAsyncInit = () => {
       console.log("fbasyncinit")
       FB.init({
-        appId            : '382515518454780',
+        appId            : '1858414594186264',
         autoLogAppEvents : true,
         xfbml            : true,
         version          : 'v2.10'
