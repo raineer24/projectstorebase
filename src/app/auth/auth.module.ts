@@ -8,6 +8,10 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { AuthRoutes as routes } from './auth.routes';
 import { SharedModule } from '../shared/index';
 import { RegisterComponent } from './components/register/register.component';
+import { LoginFacebookComponent } from './components/login/login-facebook/login-facebook.component';
+import { LoginFormComponent } from './components/login/login-form/login-form.component';
+import { RegisterFacebookComponent } from './components/register/register-facebook/register-facebook.component';
+import { RegisterFormComponent } from './components/register/register-form/register-form.component';
 
 @NgModule({
   imports: [
@@ -18,7 +22,11 @@ import { RegisterComponent } from './components/register/register.component';
   declarations: [
     LoginComponent,
     SignUpComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginFacebookComponent,
+    LoginFormComponent,
+    RegisterFacebookComponent,
+    RegisterFormComponent
   ]
 })
 export class AuthModule { }
