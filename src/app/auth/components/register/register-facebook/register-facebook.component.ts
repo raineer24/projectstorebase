@@ -1,10 +1,6 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../interfaces';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
-import { getAuthStatus } from '../../../reducers/selectors';
+import { Subscription } from 'rxjs/Subscription';
 
 declare const window: any;
 declare const FB: any;
@@ -14,15 +10,9 @@ declare const FB: any;
   templateUrl: './register-facebook.component.html',
   styleUrls: ['./register-facebook.component.scss']
 })
-export class RegisterFacebookComponent implements OnInit, OnDestroy {
-  title = environment.AppName;
+export class RegisterFacebookComponent implements OnInit {
 
-  constructor(
-      private store: Store<AppState>,
-      private router: Router,
-      private authService: AuthService
-  ) {
-    this.redirectIfUserLoggedIn();
+  constructor() {
     // This function initializes the FB variable
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -59,18 +49,5 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
         window.FB.XFBML.parse();
     }
   }
-
-
-  redirectIfUserLoggedIn() {
-    this.store.select(getAuthStatus).subscribe(
-      data => {
-        if (data === true) { this.router.navigateByUrl('/'); }
-      }
-    );
-  }
-
-  ngOnDestroy() { }
-
-
 
 }
