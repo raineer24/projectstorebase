@@ -28,13 +28,17 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
 import { ProfileComponent } from './user/components/profile/profile.component';
+import { ProfileViewComponent } from './user/components/profile/profile-view/profile-view.component';
+import { ProfileEditComponent } from './user/components/profile/profile-edit/profile-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
     CheckoutFooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProfileViewComponent,
+    ProfileEditComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
