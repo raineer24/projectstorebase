@@ -10,6 +10,7 @@ import { ReturnsComponent } from './components/returns/returns.component';
 import { ReturnListItemComponent } from './components/returns/return-list-item/return-list-item.component';
 import { UserComponent } from './user.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileViewComponent } from './components/profile/profile-view/profile-view.component';
 
 // services
 // import { UserService } from './services/user.service';
@@ -30,7 +31,8 @@ import { OrderDetailComponent } from './components/orders/order-detail/order-det
     UserComponent,
     AddressesComponent,
     OrderDetailComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProfileViewComponent 
     // pipes
 
   ],
