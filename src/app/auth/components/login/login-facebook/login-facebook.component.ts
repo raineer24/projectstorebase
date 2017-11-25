@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { environment } from '../../../../../environments/environment';
+import { HttpService } from '../../../../core/services/http'
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
 
 declare const window: any;
 declare const FB: any;
@@ -13,7 +18,10 @@ declare const FB: any;
 })
 export class LoginFacebookComponent implements OnInit {
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private http: HttpService
+  ) {
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return;}
@@ -36,9 +44,7 @@ export class LoginFacebookComponent implements OnInit {
         console.log(response.status)
         if (response.status === 'connected') {
             // use the response variable to get any information about the user and to see the tokens about the users session
-            FB.api('/me', {fields: 'id,name,first_name,last_name,email'}, function(res) {
-              console.log('Successful login for: ' + res.name + ' '+ res.email);
-            });
+            this.onLoginSuccess();
         }
       }));
     };
@@ -49,6 +55,40 @@ export class LoginFacebookComponent implements OnInit {
     if (window.FB) {
         window.FB.XFBML.parse();
     }
+  }
+
+  onLoginSuccess() {
+    const body = {
+      'username': 'fallenaskari_21@yahoo.com',
+      'password': 'password'
+    }
+
+    FB.api('/me', {fields: 'id,name,first_name,last_name,email'}, response => {
+      console.log('Successful login for: ' + response.name + ' '+ response.email);
+
+    });
+    this.http.post('v1/users/login', body)
+      .map(res => res.json())
+      .subscribe(res => {
+        if (res.status == 200) {
+            console.log(1);
+          } else {
+            console.log(2);
+          }
+        });
+
+
+
+    //    res.json();
+    //  })
+    //this.response
+    //const apiResponse = this.httpService.post('http://localhost:6001/v1/users/login', body);
+    /*
+    this.http.post(
+
+      ).map((res: Response) => {
+
+    });*/
   }
 
 }
