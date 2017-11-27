@@ -26,6 +26,40 @@ export class AuthService {
 
   }
 
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  loginFB(data): Observable<any> {
+    return this.http.post(
+      'v1/user/account/login', data)
+      .map(res => {
+       data = res.json();
+      if (data.message == 'Found') {
+        // Setting token after login
+        this.setTokenInLocalStorage(data);
+        this.store.dispatch(this.actions.loginSuccess());
+      } else {
+        data.error = true;
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: 'Please enter valid Credentials'
+        });
+      }
+      return data;
+    });
+    // catch should be handled here with the http observable
+    // so that only the inner obs dies and not the effect Observable
+    // otherwise no further login requests will be fired
+    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
+  }
+
   /**
    *
    *
@@ -69,11 +103,10 @@ export class AuthService {
    */
   register(data): Observable<any> {
     return this.http.post(
-      'api/account',
-      { spree_user: data }
+      'v1/user/account/save', data
     ).map((res: Response) => {
       data = res.json();
-      if (!data.errors) {
+      if (data.message == 'Saved') {
         // Setting token after login
         this.setTokenInLocalStorage(res.json());
         this.store.dispatch(this.actions.loginSuccess());

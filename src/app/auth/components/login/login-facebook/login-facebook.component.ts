@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import { AuthService } from '../../../../core/services/auth.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import { HttpService } from '../../../../core/services/http'
+import { AuthService } from '../../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Response } from '@angular/http';
+import { getAuthStatus } from '../../../reducers/selectors';
+import { Subscription } from 'rxjs/Subscription';
+// import { HttpService } from '../../../../core/services/http'
+// import { Observable } from 'rxjs/Observable';
+//import { Response, Headers } from '@angular/http';
 
 declare const window: any;
 declare const FB: any;
@@ -16,11 +18,16 @@ declare const FB: any;
   templateUrl: './login-facebook.component.html',
   styleUrls: ['./login-facebook.component.scss']
 })
-export class LoginFacebookComponent implements OnInit {
+export class LoginFacebookComponent implements OnInit, OnDestroy {
+  loginSubs: Subscription;
+  returnUrl: string;
 
   constructor(
     private router: Router,
-    private http: HttpService
+    private store: Store<AppState>,
+    private route: ActivatedRoute,
+    // private http: HttpService,
+    private authService: AuthService
   ) {
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -55,27 +62,57 @@ export class LoginFacebookComponent implements OnInit {
     if (window.FB) {
         window.FB.XFBML.parse();
     }
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  ngOnDestroy() {
+    if (this.loginSubs) { this.loginSubs.unsubscribe(); }
   }
 
   onLoginSuccess() {
-    const body = {
-      'username': 'fallenaskari_21@yahoo.com',
-      'password': 'password'
-    }
-
     FB.api('/me', {fields: 'id,name,first_name,last_name,email'}, response => {
-      console.log('Successful login for: ' + response.name + ' '+ response.email);
+      console.log(`Successful login for: ${response.name} | Email: ${response.email}`);
+      let body = {
+        // 'username': 'fallenaskari_21@yahoo.com',
+        // 'password': 'password'
+        'username': response.email,
+        'password': response.email,
+        'uiid': response.id
+      }
+      this.loginSubs = this.authService.loginFB(body).subscribe(data => {
+        const error = data.error;
+        if (error) {
 
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
+        //this.store.select(getAuthStatus).subscribe(
+        //  data => {
+        //    if (data === true) { this.router.navigate([this.returnUrl]); }
+        //  }
+        //);
+      });
+
+
+      // this.authService.login(body).subscribe()
+      //
+      // this.http.post('v1/user/account/login', body)
+      //   .map(res => res.json())
+      //   .subscribe(res => {
+      //     if (res.message == 'Found') {
+      //         console.log(res.message);
+      //         console.log(1);
+      //         this.loginSubs = this.authService.login().subscribe(data => {
+      //           const error = data.error;
+      //           if (error)
+      //         });
+      //       } else {
+      //         console.log(res.message);
+      //         console.log(2);
+      //       }
+      //   });
     });
-    this.http.post('v1/users/login', body)
-      .map(res => res.json())
-      .subscribe(res => {
-        if (res.status == 200) {
-            console.log(1);
-          } else {
-            console.log(2);
-          }
-        });
+
 
 
 
