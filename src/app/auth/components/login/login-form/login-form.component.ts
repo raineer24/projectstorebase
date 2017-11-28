@@ -49,7 +49,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         if (error) {
 
         } else {
-          this.router.navigate([this.returnUrl])
+          // this.router.navigate([this.returnUrl])
+          // this.router.navigate(['user/profile']);
+          this.router.navigate(['user']);
         }
       });
     } else {
