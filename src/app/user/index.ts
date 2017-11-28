@@ -11,6 +11,7 @@ import { ReturnListItemComponent } from './components/returns/return-list-item/r
 import { UserComponent } from './user.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfileViewComponent } from './components/profile/profile-view/profile-view.component';
+import { ProfileEditComponent } from './components/profile/profile-edit/profile-edit.component';
 
 // services
 // import { UserService } from './services/user.service';
@@ -32,7 +33,9 @@ import { OrderDetailComponent } from './components/orders/order-detail/order-det
     AddressesComponent,
     OrderDetailComponent,
     ProfileComponent,
-    ProfileViewComponent 
+    ProfileViewComponent, 
+    ProfileEditComponent
+
     // pipes
 
   ],
