@@ -38,7 +38,7 @@ export class AuthService {
   loginFB(data): Observable<any> {
     return this.http.post(
       'v1/user/account/login', data)
-      .map(res => {
+      .map((res: Response) => {
        data = res.json();
       if (data.message == 'Found') {
         // Setting token after login
@@ -70,15 +70,15 @@ export class AuthService {
    */
   login(data): Observable<any> {
     return this.http.post(
-      'spree/login.json',
-      { spree_user: data }
-    ).map((res: Response) => {
+      'v1/user/account/login', data)
+      .map((res: Response) => {
       data = res.json();
-      if (!data.error) {
+      if (data.message == 'Found') {
         // Setting token after login
         this.setTokenInLocalStorage(data);
         this.store.dispatch(this.actions.loginSuccess());
       } else {
+        data.error = true;
         this.http.loading.next({
           loading: false,
           hasError: true,
