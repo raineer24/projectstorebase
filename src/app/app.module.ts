@@ -28,12 +28,13 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
-    CheckoutFooterComponent
-  ],
+    CheckoutFooterComponent,
+     ],
   imports: [
     RouterModule.forRoot(routes),
     StoreModule.provideStore(reducer),
