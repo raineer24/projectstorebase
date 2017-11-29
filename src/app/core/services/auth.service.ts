@@ -111,6 +111,7 @@ export class AuthService {
         this.setTokenInLocalStorage(res.json());
         this.store.dispatch(this.actions.loginSuccess());
       } else {
+        data.error = true;
         this.http.loading.next({
           loading: false,
           hasError: true,

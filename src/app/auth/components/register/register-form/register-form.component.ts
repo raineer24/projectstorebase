@@ -1,6 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../interfaces';
+import { Router, ActivatedRoute } from '@angular/router';
+import { getAuthStatus } from '../../../reducers/selectors';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -12,9 +16,13 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
   signUpForm: FormGroup;
   formSubmit = false;
   registerSubs: Subscription;
+  returnUrl: string;
 
   constructor(
     private fb: FormBuilder,
+    private store: Store<AppState>,
+    private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService
   ) { }
 
@@ -47,14 +55,23 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     const values = this.signUpForm.value;
     const keys = Object.keys(values);
     this.formSubmit = true;
-
+    let data = {
+      'email': values.email,
+      'password': values.password,
+      'uiid': ''
+    };
     if (this.signUpForm.valid) {
-      this.registerSubs = this.authService.register(values).subscribe(data => {
+      this.registerSubs = this.authService.register(data).subscribe(data => {
         const errors = data.errors;
         if (errors) {
-          keys.forEach(val => {
-            if (errors[val]) { this.pushErrorFor(val, errors[val][0]); };
-          });
+
+        } else {
+          this.router.navigate(['user']);
+          // this.store.select(getAuthStatus).subscribe(
+          //   data => {
+          //     if (data === true) { this.router.navigate([this.returnUrl]); }
+          //   }
+          // );
         }
       });
     } else {
