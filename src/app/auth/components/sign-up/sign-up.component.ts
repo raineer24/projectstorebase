@@ -68,13 +68,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
     const mobile = '';
     const gender = '';
 
-    this.signUpForm = this.fb.group({  
+    this.signUpForm = this.fb.group({
 	  'email': [email, Validators.compose([Validators.required, Validators.email]) ],
       'password': [password, Validators.compose([Validators.required, Validators.minLength(6)]) ],
       'password_confirmation': [password_confirmation, Validators.compose([Validators.required, Validators.minLength(6)]) ],
-      'mobile': [mobile, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ],    
+      'mobile': [mobile, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')]) ],
       'gender': [gender, Validators.required]
-    },{validator: this.matchingPasswords('password', 'password_confirmation')}
+    }, {validator: this.matchingPasswords('password', 'password_confirmation')}
 	);
   }
 
@@ -89,20 +89,20 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.registerSubs) { this.registerSubs.unsubscribe(); }
   }
-  
+
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
   return (group: FormGroup): {[key: string]: any} => {
-    let password = group.controls[passwordKey];
-    let confirmPassword = group.controls[confirmPasswordKey];
-    
+    const password = group.controls[passwordKey];
+    const confirmPassword = group.controls[confirmPasswordKey];
+
     if (password.value !== confirmPassword.value) {
       return {
-        mismatchedPasswords: true		
+        mismatchedPasswords: true
       };
     }
-  }
+  };
 }
 
-  
-  
+
+
 }
