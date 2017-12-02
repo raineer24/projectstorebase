@@ -15,15 +15,15 @@ export class RegisterFacebookComponent implements OnInit {
   constructor() {
     // This function initializes the FB variable
     (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
+      let js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return; }
       js = d.createElement(s); js.id = id;
       js.src = '//connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
     window.fbAsyncInit = () => {
-      console.log("fbasyncinit")
+      console.log('fbasyncinit');
       FB.init({
         appId            : '1858414594186264',
         autoLogAppEvents : true,
@@ -33,11 +33,11 @@ export class RegisterFacebookComponent implements OnInit {
       FB.AppEvents.logPageView();
     // This is where we do most of our code dealing with the FB variable like adding an observer to check when the user signs in
       FB.Event.subscribe('auth.statusChange', (response => {
-        console.log(response.status)
+        console.log(response.status);
         if (response.status === 'connected') {
             // use the response variable to get any information about the user and to see the tokens about the users session
             FB.api('/me', function(res) {
-              console.log('Successful login for: ' + res.name + ' '+ res.email);
+              console.log('Successful login for: ' + res.name + ' ' + res.email);
             });
         }
       }));
