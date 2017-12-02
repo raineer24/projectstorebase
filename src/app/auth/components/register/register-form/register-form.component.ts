@@ -66,7 +66,7 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
         if (errors) {
 
         } else {
-          this.router.navigate(['user']);
+          this.router.navigate(['user/profile']);
           // this.store.select(getAuthStatus).subscribe(
           //   data => {
           //     if (data === true) { this.router.navigate([this.returnUrl]); }

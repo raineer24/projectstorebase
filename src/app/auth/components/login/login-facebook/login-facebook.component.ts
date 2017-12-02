@@ -6,9 +6,6 @@ import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
 import { getAuthStatus } from '../../../reducers/selectors';
 import { Subscription } from 'rxjs/Subscription';
-// import { HttpService } from '../../../../core/services/http'
-// import { Observable } from 'rxjs/Observable';
-//import { Response, Headers } from '@angular/http';
 
 declare const window: any;
 declare const FB: any;
@@ -26,7 +23,6 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    // private http: HttpService,
     private authService: AuthService
   ) {
     (function(d, s, id){
@@ -70,7 +66,7 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
   }
 
   onLoginSuccess() {
-    FB.api('/me', {fields: 'id,name,first_name,last_name,email'}, response => {
+    FB.api('/me', {fields: 'id,name,email'}, response => {
       console.log(`Successful login for: ${response.name} | Email: ${response.email}`);
       let body = {
         // 'username': 'fallenaskari_21@yahoo.com',
@@ -79,12 +75,13 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
         'password': response.email,
         'uiid': response.id
       }
+
       this.loginSubs = this.authService.loginFB(body).subscribe(data => {
         const error = data.error;
         if (error) {
 
         } else {
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['user/profile']);
         }
         //this.store.select(getAuthStatus).subscribe(
         //  data => {
@@ -92,40 +89,9 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
         //  }
         //);
       });
-
-
-      // this.authService.login(body).subscribe()
-      //
-      // this.http.post('v1/user/account/login', body)
-      //   .map(res => res.json())
-      //   .subscribe(res => {
-      //     if (res.message == 'Found') {
-      //         console.log(res.message);
-      //         console.log(1);
-      //         this.loginSubs = this.authService.login().subscribe(data => {
-      //           const error = data.error;
-      //           if (error)
-      //         });
-      //       } else {
-      //         console.log(res.message);
-      //         console.log(2);
-      //       }
-      //   });
     });
 
 
-
-
-    //    res.json();
-    //  })
-    //this.response
-    //const apiResponse = this.httpService.post('http://localhost:6001/v1/users/login', body);
-    /*
-    this.http.post(
-
-      ).map((res: Response) => {
-
-    });*/
   }
 
 }
