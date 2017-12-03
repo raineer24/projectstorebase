@@ -5,6 +5,6 @@ export class Taxon {
   permalink: string;
   parent_id: number;
   taxonomy_id: number;
-  checked: boolean = false;
+  checked = false;
   taxons: Taxon[];
 }

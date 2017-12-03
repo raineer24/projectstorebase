@@ -7,7 +7,7 @@ import { ProductActions } from './product-actions';
 fdescribe('products', () => {
   fdescribe('product actions', () => {
     let actions: ProductActions;
-    let product: Product
+    let product: Product;
 
     beforeEach(() => {
        actions = new ProductActions();
@@ -25,7 +25,7 @@ fdescribe('products', () => {
 
     fdescribe('get all product success action', () => {
       fit('should trigger get all product success action', () => {
-        let products: Product[]; 
+        const products: Product[];
         // Products should be an array, would fail if product type was not any
         expect(actions.getAllProductsSuccess(products))
           .toEqual({
@@ -37,7 +37,7 @@ fdescribe('products', () => {
 
     fdescribe('get product detail action', () => {
       fit('should trigger get product details action', () => {
-        let id = 'some id';
+        const id = 'some id';
         expect(actions.getProductDetail(id))
           .toEqual({
             type: ProductActions.GET_PRODUCT_DETAIL,
@@ -76,7 +76,7 @@ fdescribe('products', () => {
 
     fdescribe('get all taxonomies success action', () => {
       fit('should trigger get all taxonomies success action', () => {
-        let taxonomies: any; // shouldn't this be an array?
+        const taxonomies: any; // shouldn't this be an array?
         expect(actions.getAllTaxonomiesSuccess(taxonomies))
           .toEqual({
             type: ProductActions.GET_ALL_TAXONOMIES_SUCCESS,
@@ -84,7 +84,7 @@ fdescribe('products', () => {
           });
       });
     });
-    
-  })
-  
-})
+
+  });
+
+});

@@ -36,10 +36,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const values = this.signInForm.value;
-    let data = {
+    const data = {
       'username': values.email,
       'password': values.password
-    }
+    };
 
     const keys = Object.keys(values);
 
