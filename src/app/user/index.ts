@@ -33,7 +33,7 @@ import { OrderDetailComponent } from './components/orders/order-detail/order-det
     AddressesComponent,
     OrderDetailComponent,
     ProfileComponent,
-    ProfileViewComponent, 
+    ProfileViewComponent,
     ProfileEditComponent
 
     // pipes

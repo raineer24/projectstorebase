@@ -7,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class ContentHeaderComponent implements OnInit {
   @Output() toggleSize = new EventEmitter();
-  selectedSize: string = 'COZY';
+  selectedSize = 'COZY';
 
   constructor() { }
 

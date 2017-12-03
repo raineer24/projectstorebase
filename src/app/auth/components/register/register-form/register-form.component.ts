@@ -45,9 +45,9 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
 	  'email': [email, Validators.compose([Validators.required, Validators.email]) ],
       'password': [password, Validators.compose([Validators.required, Validators.minLength(6)]) ],
       'password_confirmation': [password_confirmation, Validators.compose([Validators.required, Validators.minLength(6)]) ],
-      'mobile': [mobile, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ],
+      'mobile': [mobile, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')]) ],
       'gender': [gender, Validators.required]
-    },{validator: this.matchingPasswords('password', 'password_confirmation')}
+    }, {validator: this.matchingPasswords('password', 'password_confirmation')}
   	);
   }
 
@@ -55,7 +55,7 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     const values = this.signUpForm.value;
     const keys = Object.keys(values);
     this.formSubmit = true;
-    let data = {
+    const data = {
       'email': values.email,
       'password': values.password,
       'uiid': ''
@@ -87,15 +87,15 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
 
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
     return (group: FormGroup): {[key: string]: any} => {
-      let password = group.controls[passwordKey];
-      let confirmPassword = group.controls[confirmPasswordKey];
+      const password = group.controls[passwordKey];
+      const confirmPassword = group.controls[confirmPasswordKey];
 
       if (password.value !== confirmPassword.value) {
         return {
           mismatchedPasswords: true
         };
       }
-    }
+    };
   }
 
   ngOnDestroy() {
