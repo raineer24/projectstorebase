@@ -1,89 +1,34 @@
+<div class="form-horizontal">
 
-<div class="container">
-	<div class="row">
-		<h2>User Information</h2>
-		
-		<form class="form-horizontal">
-<fieldset>
+	<div class="form-group">
+	  <label class="col-md-4 control-label" for="textinput">Email</label>
+		<div class="col-md-4">{{ userData.email }}</div>
+	</div>
 
-<!-- Form Name -->
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Email</label>  
-  <div class="col-md-4">
-  <input id="textinput" name="textinput" placeholder="input your email" class="form-control input-md" required="" type="text">
-    
-  </div>
-</div>
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">Last Name</label>
+			<div class="col-md-4">{{ userData.lastName }}</div>
+	</div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Surname</label>  
-  <div class="col-md-4">
-  <input id="textinput" name="textinput" placeholder="input your surname" class="form-control input-md" required="" type="text">
-    
-  </div>
-</div>
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">First Name</label>
+			<div class="col-md-4">{{ userData.firstName }}</div>
+	</div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Name</label>  
-  <div class="col-md-4">
-  <input id="textinput" name="textinput" placeholder="input your name" class="form-control input-md" required="" type="text">
-    
-  </div>
-</div>
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">Gender</label>
+			<div class="col-md-4">{{ userData.gender }}</div>
+	</div>
 
-<!-- Multiple Radios (inline) -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="Gender">Gender</label>
-  <div class="col-md-4"> 
-    <label class="radio-inline" for="Gender-0">
-      <input type="radio" name="Gender" id="Gender-0" value="1" checked="checked">
-      Male
-    </label> 
-    <label class="radio-inline" for="Gender-1">
-      <input type="radio" name="Gender" id="Gender-1" value="2">
-      Female
-    </label> 
-    <label class="radio-inline" for="Gender-2">
-      <input type="radio" name="Gender" id="Gender-2" value="3">
-      Other
-    </label>
-  </div>
-</div>
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">Mobile Number</label>
+			<div class="col-md-4">{{ userData.mobileNumber }}</div>
+	</div>
 
-<!-- File Button --> 
-<div class="form-group">
-  <label class="col-md-4 control-label" for="Upload photo">Upload photo</label>
-  <div class="col-md-4">
-    <input id="Upload photo" name="Upload photo" class="input-file" type="file">
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="textinput">Phone</label>  
-  <div class="col-md-4">
-  <input id="textinput" name="textinput" placeholder="input your number" class="form-control input-md" required="" type="text">
-    
-  </div>
-</div>
-
-
-
-
-<!-- Button (Double) -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="save"></label>
-  <div class="col-md-8">
-    <button id="save" name="save" class="btn btn-success">Update profile</button>
-    <button id="cancel" name="cancel" class="btn btn-danger">Cancel</button>
-  </div>
-</div>
-
-</fieldset>
-</form>
-
+	<div class="form-group">
+	  <label class="col-md-4 control-label"></label>
+	  <div class="col-md-8">
+	    <button id="Update" name="update-btn" class="btn btn-success" (click)="onUpdateClick()">Update Profile</button>
+	  </div>
 	</div>
 </div>
