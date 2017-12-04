@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import { SellerRoutes } from './seller.routes';
 
 import { SellerComponent } from './seller.component';
 import { AccountComponent } from './components/account/account.component';
@@ -16,7 +16,7 @@ import { SellerRoutes as routes } from './seller.routes';
   	SellerComponent,
     AccountComponent,
   	ViewSellerAccountComponent,
-    EditSellerAccountComponent,
+    EditSellerAccountComponent
     // pipes
   ],
   exports: [
