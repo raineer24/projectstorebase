@@ -3,8 +3,9 @@ import { RouterModule } from '@angular/router';
 
 
 import { SellerComponent } from './seller.component';
-import { SellerAccountInfoComponent } from './seller-account-info/seller-account-info.component';
-import { EditSellerAccountDetailsComponent } from './edit-seller-account-details/edit-seller-account-details.component';
+import { ViewSellerAccountInfoComponent } from './components/view-seller-account-info/view-seller-account-info.component';
+import { EditSellerAccountComponent } from './components/edit-seller-account/edit-seller-account.component';
+
 
 import { SellerRoutes as routes } from './seller.routes';
 
@@ -12,8 +13,8 @@ import { SellerRoutes as routes } from './seller.routes';
   declarations: [
     // components
   	SellerComponent,
-  	SellerAccountInfoComponent,
-  	EditSellerAccountDetailsComponent
+  	ViewSellerAccountInfoComponent,
+    EditSellerAccountComponent,
     // pipes
   ],
   exports: [

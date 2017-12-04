@@ -28,8 +28,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
-import { ViewSellerAccountInfoComponent } from './seller/components/view-seller-account-info/view-seller-account-info.component';
-import { EditSellerAccountComponent } from './seller/components/edit-seller-account/edit-seller-account.component';
+
 
 
 
@@ -38,9 +37,7 @@ import { EditSellerAccountComponent } from './seller/components/edit-seller-acco
     AppComponent,
     CheckoutHeaderComponent,
     CheckoutFooterComponent,
-    ViewSellerAccountInfoComponent,
-    EditSellerAccountComponent,
-         ],
+     ],
   imports: [
     RouterModule.forRoot(routes),
     StoreModule.provideStore(reducer),
