@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SellerAccountInfoComponent } from './seller-account-info.component';
+import { EditSellerAccountComponent } from './edit-seller-account.component';
 
-describe('SellerAccountInfoComponent', () => {
-  let component: SellerAccountInfoComponent;
-  let fixture: ComponentFixture<SellerAccountInfoComponent>;
+describe('EditSellerAccountComponent', () => {
+  let component: EditSellerAccountComponent;
+  let fixture: ComponentFixture<EditSellerAccountComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SellerAccountInfoComponent ]
+      declarations: [ EditSellerAccountComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SellerAccountInfoComponent);
+    fixture = TestBed.createComponent(EditSellerAccountComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,6 +13,7 @@ import { SharedModule } from './shared/index';
 import { UserModule } from './user/index';
 import { HomeModule } from './home/index';
 import { LayoutModule } from './layout/index';
+import { SellerModule } from './seller/index';
 import { CoreModule } from './core/index';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './app.reducers';
@@ -27,9 +28,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
-import { SellerComponent } from './seller/seller.component';
-import { SellerAccountInfoComponent } from './seller/seller-account-info/seller-account-info.component';
-import { EditSellerAccountDetailsComponent } from './seller/edit-seller-account-details/edit-seller-account-details.component';
+import { ViewSellerAccountInfoComponent } from './seller/components/view-seller-account-info/view-seller-account-info.component';
+import { EditSellerAccountComponent } from './seller/components/edit-seller-account/edit-seller-account.component';
+
 
 
 @NgModule({
@@ -37,10 +38,9 @@ import { EditSellerAccountDetailsComponent } from './seller/edit-seller-account-
     AppComponent,
     CheckoutHeaderComponent,
     CheckoutFooterComponent,
-    SellerComponent,
-    SellerAccountInfoComponent,
-    EditSellerAccountDetailsComponent,
-     ],
+    ViewSellerAccountInfoComponent,
+    EditSellerAccountComponent,
+         ],
   imports: [
     RouterModule.forRoot(routes),
     StoreModule.provideStore(reducer),
@@ -50,7 +50,8 @@ import { EditSellerAccountDetailsComponent } from './seller/edit-seller-account-
     HomeModule,
     LayoutModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    SellerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
