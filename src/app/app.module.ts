@@ -27,6 +27,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
+import { SellerComponent } from './seller/seller.component';
+import { SellerAccountInfoComponent } from './seller/seller-account-info/seller-account-info.component';
+import { EditSellerAccountDetailsComponent } from './seller/edit-seller-account-details/edit-seller-account-details.component';
 
 
 @NgModule({
@@ -34,6 +37,9 @@ import 'rxjs/add/observable/of';
     AppComponent,
     CheckoutHeaderComponent,
     CheckoutFooterComponent,
+    SellerComponent,
+    SellerAccountInfoComponent,
+    EditSellerAccountDetailsComponent,
      ],
   imports: [
     RouterModule.forRoot(routes),
