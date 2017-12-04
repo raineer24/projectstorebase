@@ -15,7 +15,7 @@ export class TaxonsComponent implements OnInit {
   searchFilters$: Observable<any>;
   selectedFilters = [];
 
-  constructor(private store: Store<AppState>, 
+  constructor(private store: Store<AppState>,
     private actions: SearchActions,
     private ref: ChangeDetectorRef) {
     this.searchFilters$ = this.store.select(getFilters);

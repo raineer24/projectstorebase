@@ -15,7 +15,7 @@ import { ProductListItemComponent } from './content/product-list/product-list-it
 import { FilterSummaryComponent } from './content/filter-summary/filter-summary.component';
 import { CustomizeComponent } from './content/customize/customize.component';
 import { ContentHeaderComponent } from './content/content-header/content-header.component';
-import { ContentComponent } from './content/content'; 
+import { ContentComponent } from './content/content';
 // Sidebar components
 import { TaxonsComponent } from './sidebar/taxons/taxons.component';
 import { FilterComponent } from './sidebar/filter/filter.component';
