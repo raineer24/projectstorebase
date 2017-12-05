@@ -3,11 +3,11 @@ import { Product } from './../../../../core/models/product';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-product-list-item',
-  templateUrl: './product-list-item.component.html',
-  styleUrls: ['./product-list-item.component.scss']
+  selector: 'app-item-list-entry',
+  templateUrl: './item-list-entry.component.html',
+  styleUrls: ['./item-list-entry.component.scss']
 })
-export class ProductListItemComponent implements OnInit {
+export class ItemListEntryComponent implements OnInit {
   @Input() product: Product;
 
   constructor() { }
@@ -19,3 +19,4 @@ export class ProductListItemComponent implements OnInit {
     return environment.API_ENDPOINT + url;
   }
 }
+
