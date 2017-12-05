@@ -10,8 +10,8 @@ import { HomeComponent } from './home.component';
 import { BreadcrumbComponent } from './breadcrumb/components/breadcrumb/breadcrumb.component';
 
 // Content components
-import { ProductListComponent } from './content/product-list/product-list.component';
-import { ProductListItemComponent } from './content/product-list/product-list-item/product-list-item.component';
+import { ItemListComponent } from './content/item-list/item-list.component';
+import { ItemListEntryComponent } from './content/item-list/item-list-entry/item-list-entry.component';
 import { FilterSummaryComponent } from './content/filter-summary/filter-summary.component';
 import { CustomizeComponent } from './content/customize/customize.component';
 import { ContentHeaderComponent } from './content/content-header/content-header.component';
@@ -22,14 +22,14 @@ import { FilterComponent } from './sidebar/filter/filter.component';
 // Routes
 import { HomeRoutes as routes } from './home.routes';
 
-import { FilterPipe } from './content/product-list/product-filter.pipe';
+import { FilterPipe } from './content/item-list/item-list-filter.pipe';
 
 @NgModule({
   declarations: [
     // components
     HomeComponent,
-    ProductListComponent,
-    ProductListItemComponent,
+    ItemListComponent,
+    ItemListEntryComponent,
     TaxonsComponent,
     FilterComponent,
     BreadcrumbComponent,
