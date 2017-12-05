@@ -32,11 +32,12 @@ import 'rxjs/add/observable/of';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
-    CheckoutFooterComponent,
+    CheckoutFooterComponent
      ],
   imports: [
     RouterModule.forRoot(routes),
@@ -47,8 +48,7 @@ import 'rxjs/add/observable/of';
     HomeModule,
     LayoutModule,
     CoreModule,
-    SharedModule,
-    SellerModule
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
