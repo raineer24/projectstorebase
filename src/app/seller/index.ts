@@ -9,6 +9,7 @@ import { EditSellerAccountComponent } from './components/account/edit-seller-acc
 
 
 import { SellerRoutes as routes } from './seller.routes';
+import { SharedModule } from '../shared/index';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SellerRoutes as routes } from './seller.routes';
   ],
   imports: [
     RouterModule.forChild(routes),
+    SharedModule
   ],
   providers: [
   ]

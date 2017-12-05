@@ -1,14 +1,12 @@
 <div class="container">
 	<div class="row">
-    <app-edit-seller-account></app-edit-seller-account>
-    <app-view-seller-account></app-view-seller-account>
-
-    <!-- <div *ngIf="isEditMode; else elseBlock">
-      <app-profile-edit (onCancelClickEmit)="toggleEditMode()"></app-profile-edit>
+   <h1>Account seller info</h1>
+   <div *ngIf="isEditMode; else elseBlock">
+      <app-edit-seller-account (onCancelClickEmit)="toggleEditMode()"></app-edit-seller-account>
     </div>
     <ng-template #elseBlock>
-      <app-profile-view (onUpdateClickEmit)="toggleEditMode()"></app-profile-view>
-    </ng-template> -->
+      <app-view-seller-account (onUpdateClickEmit)="toggleEditMode()"></app-view-seller-account>
+    </ng-template> 
     <div>
   </div>
 </div>

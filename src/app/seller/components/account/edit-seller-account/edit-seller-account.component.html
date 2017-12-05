@@ -1,3 +1,78 @@
-<p>
-  edit-seller-account works!
-</p>
+ <form class="form-horizontal" [formGroup]="sellerEditForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <!-- Form Name -->
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 coxntrol-label" for="email">Email</label>
+      <div class="col-md-4">
+        <input id="email" name="email" formControlName="email" class="form-control input-md" required="" type="text">
+      </div>
+      <div *ngIf="sellerEditForm.get('email').errors && sellerEditForm.get('email').touched">
+        <p class="register-error-message text-danger">! {{sellerEditForm.get('email').errors.msg || 'Please enter a valid email ID'}}</p>
+      </div>
+    </div>
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="lastName">Last Name</label>
+      <div class="col-md-4">
+        <input id="lastName" name="lastName" formControlName="lastName" class="form-control input-md" required="" type="text">
+      </div>
+      <div *ngIf="sellerEditForm.get('lastName').errors && sellerEditForm.get('lastName').touched">
+        <p class="register-error-message text-danger">! {{sellerEditForm.get('lastName').errors.msg || 'Please enter your last name'}}</p>
+      </div>
+    </div>
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="firstName">First Name</label>
+      <div class="col-md-4">
+        <input id="firstName" name="firstName" formControlName="firstName" class="form-control input-md" required="" type="text">
+      </div>
+      <div *ngIf="sellerEditForm.get('firstName').errors && sellerEditForm.get('firstName').touched">
+        <p class="register-error-message text-danger">! {{sellerEditForm.get('firstName').errors.msg || 'Please enter your first name'}}</p>
+      </div>
+    </div>
+    <!-- Multiple Radios (inline) -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="gender">Gender</label>
+      <div class="col-md-4">
+        <label class="radio-inline" for="male">
+          <input type="radio" name="gender" id="male" value="male" formControlName="gender">
+          Male
+        </label>
+        <label class="radio-inline" for="female">
+          <input type="radio" name="gender" id="female" value="female" formControlName="gender">
+          Female
+        </label>
+        <!-- <label class="radio-inline" for="Gender-2">
+          <input type="radio" name="Gender" id="Gender-2" value="3">
+          Other
+        </label> -->
+      </div>
+    </div>
+    <!-- File Button -->
+    <!-- <div class="form-group">
+      <label class="col-md-4 control-label" for="Upload photo">Upload photo</label>
+      <div class="col-md-4">
+        <input id="Upload photo" name="Upload photo" class="input-file" type="file">
+      </div>
+    </div> -->
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="mobileNumber">Mobile Number</label>
+      <div class="col-md-4">
+        <input id="mobileNumber" name="mobileNumber" formControlName="mobileNumber" class="form-control input-md" required="" type="text">
+      </div>
+      <div *ngIf="sellerEditForm.get('mobileNumber').errors && sellerEditForm.get('mobileNumber').touched">
+        <p class="register-error-message text-danger">! {{sellerEditForm.get('mobileNumber').errors.msg || 'Please enter a valid mobile number'}}</p>
+      </div>
+    </div>
+    <!-- Button (Double) -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="save"></label>
+      <div class="col-md-8">
+        <button id="save" name="save" class="btn btn-success">Save Changes</button>
+        <button id="cancel" name="cancel" class="btn btn-danger" type="button" (click)="onCancelClick()">Cancel</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
