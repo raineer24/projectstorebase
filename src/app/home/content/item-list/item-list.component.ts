@@ -9,11 +9,11 @@ import { environment } from './../../../../environments/environment';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  selector: 'app-item-list',
+  templateUrl: './item-list.component.html',
+  styleUrls: ['./item-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class ItemListComponent implements OnInit {
   @Input() products;
   @Input('taxonIds') selectedTaxonIds;
   @Input() toggleLayout;
