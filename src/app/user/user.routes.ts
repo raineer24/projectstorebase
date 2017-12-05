@@ -3,6 +3,10 @@ import { UserComponent } from './user.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { AddressesComponent } from './components/addresses/addresses.component';
 import { OrderDetailComponent } from './components/orders/order-detail/order-detail.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileViewComponent } from './components/profile/profile-view/profile-view.component';
+import { ProfileEditComponent } from './components/profile/profile-edit/profile-edit.component';
+
 
 export const UserRoutes = [
   {
@@ -13,7 +17,7 @@ export const UserRoutes = [
       { path: 'overview', component: OverviewComponent, redirectTo: 'orders' },
       { path: 'orders', component: OrdersComponent },
       { path: 'orders/detail/:number', component: OrderDetailComponent },
-      { path: 'addresses', component: AddressesComponent, redirectTo: 'orders' }
-    ]
+      { path: 'addresses', component: AddressesComponent, redirectTo: 'orders' },
+      { path: 'profile', component: ProfileComponent }         ]
   },
 ];

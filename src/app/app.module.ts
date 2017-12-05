@@ -13,6 +13,7 @@ import { SharedModule } from './shared/index';
 import { UserModule } from './user/index';
 import { HomeModule } from './home/index';
 import { LayoutModule } from './layout/index';
+import { SellerModule } from './seller/index';
 import { CoreModule } from './core/index';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './app.reducers';
@@ -28,12 +29,16 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
 
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
     CheckoutFooterComponent
-  ],
+     ],
   imports: [
     RouterModule.forRoot(routes),
     StoreModule.provideStore(reducer),

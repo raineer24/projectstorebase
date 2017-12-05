@@ -1,0 +1,34 @@
+<div class="form-horizontal">
+
+	<div class="form-group">
+	  <label class="col-md-4 control-label" for="textinput">Email</label>
+		<div class="col-md-4">{{ userData.email }}</div>
+	</div>
+
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">Last Name</label>
+			<div class="col-md-4">{{ userData.lastName }}</div>
+	</div>
+
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">First Name</label>
+			<div class="col-md-4">{{ userData.firstName }}</div>
+	</div>
+
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">Gender</label>
+			<div class="col-md-4">{{ userData.gender }}</div>
+	</div>
+
+	<div class="form-group">
+			<label class="col-md-4 control-label" for="textinput">Mobile Number</label>
+			<div class="col-md-4">{{ userData.mobileNumber }}</div>
+	</div>
+
+	<div class="form-group">
+	  <label class="col-md-4 control-label"></label>
+	  <div class="col-md-8">
+	    <button id="Update" name="update-btn" type="button" class="btn btn-success" (click)="onUpdateClick()">Update Profile</button>
+	  </div>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+<div class="container">
+	<div class="row">
+   <h1>Account seller info</h1>
+   <div *ngIf="isEditMode; else elseBlock">
+      <app-edit-seller-account (onCancelClickEmit)="toggleEditMode()"></app-edit-seller-account>
+    </div>
+    <ng-template #elseBlock>
+      <app-view-seller-account (onUpdateClickEmit)="toggleEditMode()"></app-view-seller-account>
+    </ng-template> 
+    <div>
+  </div>
+</div>
