@@ -1,9 +1,9 @@
 {
-	"name": "Angular Spree",
+	"name": "Grocer X",
 	"short_name": "ng2-Spree",
 	"icons": [
 		{
-			"src": "assets/logo.png",
+			"src": "assets/omg-02.png",
 			"sizes": "192x192",
 			"type": "image\/png"
 		}
