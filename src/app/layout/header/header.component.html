@@ -13,7 +13,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" routerLink="/"><img src="assets/eos.png" alt="Eos Grocery app"></a>
+      <a class="navbar-brand" routerLink="/"><img src="assets/omg-02.png" alt="Eos Grocery app"></a>
+      <div class="desktop-query">
+        <input placeholder="Search" class="desktop-searchBar">
+        <a class="desktop-submit">
+          <span class="web-sprite desktop-iconSearch sprites-search"></span>
+        </a>
+      </div>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -28,12 +34,6 @@
 
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
 
-      <div class="desktop-query">
-        <input placeholder="Search" class="desktop-searchBar">
-        <a class="desktop-submit">
-          <span class="web-sprite desktop-iconSearch sprites-search"></span>
-        </a>
-      </div>
     </div>
   </div>
 </nav>
