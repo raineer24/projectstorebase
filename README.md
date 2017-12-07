@@ -1,3 +1,21 @@
+*EOS*
+
+Installation
+```
+nvm use 8.4.0
+
+npm install -g @angular/cli
+npm install
+
+npm start
+```
+
+Debugging
+```
+npm rebuild node-sass --force
+```
+
+
 <p align="center">
   <a href="https://angularspree.firebaseapp.com/" target='_blank'>
     <img alt="AngualreSpree Logo" title="AngularSpree Logo" src="http://res.cloudinary.com/mally/image/upload/v1490186051/Angular_spree_hqgwtq.png" width="200">
@@ -26,8 +44,8 @@
 
 ## What is AngularSpree?
 
-AngularSpree is an open source Angular(2.x+) front-end application for [Spree Commerce](https://github.com/spree/spree). 
-**It's free and always will be**. 
+AngularSpree is an open source Angular(2.x+) front-end application for [Spree Commerce](https://github.com/spree/spree).
+**It's free and always will be**.
 
 **Bootstrap 4 Compatible**
 
@@ -108,8 +126,8 @@ We are working on documentation and we can share that once we are looking at a m
 
 * Exclusively using @ngrx libraries(store, effects, actions), showcasing common patterns and best practices.
 * Fully Observable approach using RxJS 5.0.1(latest beta).
-* Uses @ngrx/store to manage the state of the app and to cache requests made to the Backend API, 
-* @angular/router to manage navigation between routes, 
+* Uses @ngrx/store to manage the state of the app and to cache requests made to the Backend API,
+* @angular/router to manage navigation between routes,
 * @ngrx/effects to isolate side effects.
 * @ngrx/actions to define the actions on the frontend.
 * Following Container/Presentation component approach.
@@ -166,7 +184,7 @@ We are using Yarn as a package manager in this project though you can also use `
 
 **Start the API for this project to work successfully.
 
-We have a very thin and custom [repo](https://github.com/aviabird/angularspree-api/) which is the backend for this project. 
+We have a very thin and custom [repo](https://github.com/aviabird/angularspree-api/) which is the backend for this project.
 Clone it and run the server. We have updated the readme on how to setup the backend API project.
 
 ## Contributing to AngularSpree
