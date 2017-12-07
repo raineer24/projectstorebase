@@ -10,6 +10,8 @@ npm install
 npm start
 ```
 
+Open <a href="http://localhost:8081/">localhost:8081</a>
+
 Debugging
 ```
 npm rebuild node-sass --force
