@@ -22,53 +22,78 @@ export class HeaderComponent implements OnInit {
   taxonomies$: Observable<any>;
   taxonList = [{
     'id': 4,
-    'name': 'Mugs',
-    'pretty_name': 'Categories -> Mugs',
-    'permalink': 'categories/mugs',
+    'name': 'All Groceries',
+    'pretty_name': 'Categories -> All',
+    'permalink': 'categories/all',
     'parent_id': 1,
     'taxonomy_id': 1,
     'taxons': null},
   {
     'id': 3,
-    'name': 'Bags',
-    'pretty_name': 'Categories -> Bags',
-    'permalink': 'categories/bags',
+    'name': 'Meat',
+    'pretty_name': 'Categories -> Meat',
+    'permalink': 'categories/meat',
+    'parent_id': 1,
+    'taxonomy_id': 1,
+    'taxons': null
+  }, {
+    'id': 6,
+    'name': 'Fish',
+    'pretty_name': 'Brand -> Fish',
+    'permalink': 'categories/vegetables',
+    'parent_id': 1,
+    'taxonomy_id': 1,
+    'taxons': null
+  }, {
+    'id': 7,
+    'name': 'Vegetables',
+    'pretty_name': 'Brand -> Vegetables',
+    'permalink': 'categories/vegetables',
     'parent_id': 1,
     'taxonomy_id': 1,
     'taxons': null
   }, {
     'id': 8,
-    'name': 'Ruby',
-    'pretty_name': 'Brand -> Ruby',
-    'permalink': 'brand/ruby',
-    'parent_id': 2,
-    'taxonomy_id': 2,
+    'name': 'Fruits',
+    'pretty_name': 'Brand -> Fruits',
+    'permalink': 'categories/fruits',
+    'parent_id': 1,
+    'taxonomy_id': 1,
     'taxons': null
   }, {
-     'id': 9,
-    'name': 'Apache',
-    'pretty_name': 'Brand -> Apache',
-    'permalink': 'brand/apache',
-    'parent_id': 2,
-    'taxonomy_id': 2,
+    'id': 9,
+    'name': 'Organic',
+    'pretty_name': 'Brand -> Organic',
+    'permalink': 'categories/organic',
+    'parent_id': 1,
+    'taxonomy_id': 1,
     'taxons': null
-  }, {
-    'id': 10,
-    'name': 'Spree',
-    'pretty_name': 'Brand -> Spree',
-    'permalink': 'brand/spree',
-    'parent_id': 2,
-    'taxonomy_id': 2,
-    'taxons': null
-  }, {
-    'id': 11,
-    'name': 'Rails',
-    'pretty_name': 'Brand -> Rails',
-    'permalink': 'brand/rails',
-    'parent_id': 2,
-    'taxonomy_id': 2,
-    'taxons': null
-  }];
+  }//, {
+  //    'id': 9,
+  //   'name': 'Apache',
+  //   'pretty_name': 'Brand -> Apache',
+  //   'permalink': 'brand/apache',
+  //   'parent_id': 2,
+  //   'taxonomy_id': 2,
+  //   'taxons': null
+  // }, {
+  //   'id': 10,
+  //   'name': 'Spree',
+  //   'pretty_name': 'Brand -> Spree',
+  //   'permalink': 'brand/spree',
+  //   'parent_id': 2,
+  //   'taxonomy_id': 2,
+  //   'taxons': null
+  // }, {
+  //   'id': 11,
+  //   'name': 'Rails',
+  //   'pretty_name': 'Brand -> Rails',
+  //   'permalink': 'brand/rails',
+  //   'parent_id': 2,
+  //   'taxonomy_id': 2,
+  //   'taxons': null
+  // }
+];
   constructor(
     private store: Store<AppState>,
     private authService: AuthService,
