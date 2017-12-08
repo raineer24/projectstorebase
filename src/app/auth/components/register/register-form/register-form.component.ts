@@ -62,8 +62,8 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     };
     if (this.signUpForm.valid) {
       this.registerSubs = this.authService.register(data).subscribe(data => {
-        const errors = data.errors;
-        if (errors) {
+        const error = data.error;
+        if (error) {
 
         } else {
           this.router.navigate(['user/profile']);

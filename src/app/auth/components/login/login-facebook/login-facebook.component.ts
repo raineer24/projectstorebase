@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Store } from '@ngrx/store';
@@ -23,7 +23,8 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private zone: NgZone
   ) {
     (function(d, s, id){
       let js, fjs = d.getElementsByTagName(s)[0];
@@ -66,27 +67,37 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
   }
 
   onLoginSuccess() {
-    FB.api('/me', {fields: 'id,name,email'}, response => {
+    FB.api('/me', {fields: 'id,name,first_name,last_name,email,gender,picture'}, response => {
       console.log(`Successful login for: ${response.name} | Email: ${response.email}`);
-      const body = {
-        // 'username': 'fallenaskari_21@yahoo.com',
-        // 'password': 'password'
-        'username': response.email,
-        'password': response.email,
-        'uiid': response.id
-      };
-      this.loginSubs = this.authService.loginFB(body).subscribe(data => {
-        const error = data.error;
-        if (error) {
 
-        } else {
-          this.router.navigate(['user/profile']);
-        }
-        //this.store.select(getAuthStatus).subscribe(
-        //  data => {
-        //    if (data === true) { this.router.navigate([this.returnUrl]); }
-        //  }
-        //);
+      let body = {
+        'username': response.email,
+        'password': response.id,
+        'email': response.email,
+        'uiid': response.id,
+        'first_name': response.first_name,
+        'last_name:': response.last_name,
+        'gender': response.gender
+      }
+      this.zone.run( () => {
+        this.loginSubs = this.authService.loginFB(body).subscribe(data => {
+          let error = data.error;
+          if (error) {
+              this.loginSubs = this.authService.register(body).subscribe(data => {
+                error = data.error;
+                if(!error) {
+                  this.router.navigate(['user/profile']);
+                }
+              })
+          } else {
+            this.router.navigate(['user/profile']);
+          }
+          //this.store.select(getAuthStatus).subscribe(
+          //  data => {
+          //    if (data === true) { this.router.navigate([this.returnUrl]); }
+          //  }
+          //);
+        });
       });
     });
 
