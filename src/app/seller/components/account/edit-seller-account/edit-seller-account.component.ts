@@ -74,7 +74,7 @@ export class EditSellerAccountComponent implements OnInit, OnDestroy {
     const keys = Object.keys(values);
 
     if (this.sellerEditForm.valid) {
-      this.sellerEditSubs = this.authService.update(data).subscribe(data => {
+      this.sellerEditSubs = this.authService.update(this.userData.id, data).subscribe(data => {
         const error = data.error;
         if (error) {
 
