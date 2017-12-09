@@ -63,8 +63,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   onSubmit() {
     const values = this.profileEditForm.value;
     let data = {
-      'id': this.userData.id,
-      'username': values.email,
+      'email': values.email,
       'lastName': values.lastName,
       'firstName': values.firstName,
       'gender': values.gender,
@@ -74,7 +73,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     const keys = Object.keys(values);
 
     if (this.profileEditForm.valid) {
-      this.profileEditSubs = this.authService.update(data).subscribe(data => {
+      this.profileEditSubs = this.authService.update(this.userData.id, data).subscribe(data => {
         const error = data.error;
         if (error) {
 

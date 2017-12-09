@@ -115,10 +115,10 @@ export class AuthService {
         this.http.loading.next({
           loading: false,
           hasError: true,
-          hasMsg: 'Please enter valid Credentials'
+          hasMsg: 'Email already in use'
         });
       }
-      return res.json();
+      return data;
     });
     // catch should be handled here with the http observable
     // so that only the inner obs dies and not the effect Observable
@@ -134,9 +134,9 @@ export class AuthService {
    *
    * @memberof AuthService
    */
-  update(data): Observable<any> {
-    return this.http.post(
-      `v1/user/account/${ data.id }/save`, data
+  update(id, data): Observable<any> {
+    return this.http.put(
+      `v1/user/account/${ id }/save`, data
     ).map((res: Response) => {
       data = res.json();
       if (data.message == 'Updated') {
@@ -159,6 +159,36 @@ export class AuthService {
     // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
   }
 
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  view(id): Observable<any> {
+    return this.http.get(
+      `v1/user/account/${ id }/view`
+    ).map((res: Response) => {
+      let data = res.json();
+      if (data.message == 'Found') {
+        this.setTokenInLocalStorage(res.json());
+      } else {
+        data.error = true;
+        // this.http.loading.next({
+        //   loading: false,
+        //   hasError: true,
+        //   hasMsg: 'Please enter valid Credentials'
+        // });
+      }
+      return data;
+    });
+    // catch should be handled here with the http observable
+    // so that only the inner obs dies and not the effect Observable
+    // otherwise no further login requests will be fired
+    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
+  }
   /**
    *
    *
