@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Store } from '@ngrx/store';
@@ -23,7 +23,8 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private zone: NgZone
   ) {
     // This function initializes the FB variable
     (function(d, s, id){
@@ -68,27 +69,34 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
   onLoginSuccess() {
     FB.api('/me', {fields: 'id,name,first_name,last_name,email,gender,picture'}, response => {
       console.log(`Successful login for: ${response.name} | Email: ${response.email}`);
-      let data = {
+      let body = {
         'username': response.email,
-        'password': response.email,
+        'password': response.id,
         'email': response.email,
         'uiid': response.id,
-        'first_name': response.first_name,
-        'last_name:': response.last_name,
-        'gender': response.gender
+        'firstName': response.first_name,
+        'lastName': response.last_name,
+        'gender': response.gender == 'male' ? 'M': 'F'
       }
-      this.loginSubs = this.authService.register(data).subscribe(data => {
-        const error = data.error;
-        if (error) {
-
-        } else {
-          this.router.navigate(['user/profile']);
-        }
-        //this.store.select(getAuthStatus).subscribe(
-        //  data => {
-        //    if (data === true) { this.router.navigate([this.returnUrl]); }
-        //  }
-        //);
+      this.zone.run( () => {
+        this.loginSubs = this.authService.loginFB(body).subscribe(data => {
+          const error = data.error;
+          if (error) {
+              this.loginSubs = this.authService.register(body).subscribe(data => {
+                const error = data.error;
+                if(!error) {
+                  this.router.navigate(['user/profile']);
+                }
+              })
+          } else {
+            this.router.navigate(['user/profile']);
+          }
+          //this.store.select(getAuthStatus).subscribe(
+          //  data => {
+          //    if (data === true) { this.router.navigate([this.returnUrl]); }
+          //  }
+          //);
+        });
       });
     });
   }

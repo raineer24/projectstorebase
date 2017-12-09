@@ -56,14 +56,19 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     const keys = Object.keys(values);
     this.formSubmit = true;
     const data = {
+      'username': values.email,
       'email': values.email,
       'password': values.password,
-      'uiid': ''
+      'uiid': '',
+      'mobileNumber' : values.mobile,
+      'gender': values.gender,
+      'lastName': values.last_name || '',
+      'firstName': values.first_name || ''
     };
     if (this.signUpForm.valid) {
       this.registerSubs = this.authService.register(data).subscribe(data => {
-        const errors = data.errors;
-        if (errors) {
+        const error = data.error;
+        if (error) {
 
         } else {
           this.router.navigate(['user/profile']);
