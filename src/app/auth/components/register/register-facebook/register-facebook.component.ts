@@ -74,9 +74,9 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
         'password': response.id,
         'email': response.email,
         'uiid': response.id,
-        'first_name': response.first_name,
-        'last_name:': response.last_name,
-        'gender': response.gender
+        'firstName': response.first_name,
+        'lastName': response.last_name,
+        'gender': response.gender == 'male' ? 'M': 'F'
       }
       this.zone.run( () => {
         this.loginSubs = this.authService.loginFB(body).subscribe(data => {

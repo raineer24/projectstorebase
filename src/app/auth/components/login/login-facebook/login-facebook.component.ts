@@ -69,15 +69,14 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
   onLoginSuccess() {
     FB.api('/me', {fields: 'id,name,first_name,last_name,email,gender,picture'}, response => {
       console.log(`Successful login for: ${response.name} | Email: ${response.email}`);
-
       let body = {
         'username': response.email,
         'password': response.id,
         'email': response.email,
         'uiid': response.id,
-        'first_name': response.first_name,
-        'last_name:': response.last_name,
-        'gender': response.gender
+        'firstName': response.first_name,
+        'lastName': response.last_name,
+        'gender': response.gender == 'male' ? 'M': 'F'
       }
       this.zone.run( () => {
         this.loginSubs = this.authService.loginFB(body).subscribe(data => {
