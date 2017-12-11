@@ -138,20 +138,29 @@ export class AuthService {
     return this.http.put(
       `v1/user/account/${ id }/save`, data
     ).map((res: Response) => {
-      data = res.json();
-      if (data.message == 'Updated') {
+      let result = res.json();
+      if (result.message == 'Updated') {
         // Setting token after login
-        this.setTokenInLocalStorage(res.json());
+        // this.setTokenInLocalStorage(res.json());
         // this.store.dispatch(this.actions.loginSuccess());
+        let storedData = JSON.parse(localStorage.getItem('user'));
+        data.message = result.message;
+        for(let key in data) {
+          if(data.hasOwnProperty(key)) {
+            storedData[key] = data[key];
+            console.log(data[key] +' '+ storedData[key])
+          }
+        }
+        this.setTokenInLocalStorage(storedData);
       } else {
-        data.error = true;
+        result.error = true;
         // this.http.loading.next({
         //   loading: false,
         //   hasError: true,
         //   hasMsg: 'Please enter valid Credentials'
         // });
       }
-      return data;
+      return result;
     });
     // catch should be handled here with the http observable
     // so that only the inner obs dies and not the effect Observable
@@ -199,7 +208,8 @@ export class AuthService {
   authorized(): Observable<any> {
     return this.http
       .get('spree/api/v1/users')
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json())
+      .catch(err => Observable.of("Error"));
     // catch should be handled here with the http observable
     // so that only the inner obs dies and not the effect Observable
     // otherwise no further login requests will be fired
