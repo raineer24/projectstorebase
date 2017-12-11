@@ -140,15 +140,11 @@ export class AuthService {
     ).map((res: Response) => {
       let result = res.json();
       if (result.message == 'Updated') {
-        // Setting token after login
-        // this.setTokenInLocalStorage(res.json());
-        // this.store.dispatch(this.actions.loginSuccess());
         let storedData = JSON.parse(localStorage.getItem('user'));
         data.message = result.message;
         for(let key in data) {
           if(data.hasOwnProperty(key)) {
             storedData[key] = data[key];
-            console.log(data[key] +' '+ storedData[key])
           }
         }
         this.setTokenInLocalStorage(storedData);
