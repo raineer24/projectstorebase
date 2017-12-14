@@ -26,7 +26,8 @@ export class UserService {
    */
   getOrders(): Observable<Order[]> {
     return this.http.get('api/orders')
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
   }
 
   /**
@@ -39,7 +40,8 @@ export class UserService {
    */
   getOrderDetail(orderNumber): Observable<Order> {
     return this.http.get(`spree/api/v1/orders/${orderNumber}`)
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
   }
 
   /**
@@ -52,7 +54,8 @@ export class UserService {
   getUser(): Observable<User> {
     const user_id = JSON.parse(localStorage.getItem('user')).id;
     return this.http.get(`spree/api/v1/users/${user_id}`)
-      .map(res => res.json());
+      .map(res => res.json())
+      .catch(res => Observable.empty());
   }
 
 }

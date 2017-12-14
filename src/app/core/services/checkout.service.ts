@@ -52,7 +52,7 @@ export class CheckoutService {
     ).map(res => {
       const lineItem: LineItem =  res.json();
       return lineItem;
-    });
+    }).catch(err => Observable.empty());
   }
 
   /**
@@ -75,7 +75,7 @@ export class CheckoutService {
         this.createEmptyOrder()
           .subscribe();
       }
-    });
+    }).catch(err => Observable.empty());
   }
 
   /**
@@ -92,7 +92,7 @@ export class CheckoutService {
     ).map(res => {
       const order = res.json();
       return order;
-    });
+    }).catch(err => Observable.empty());
   }
 
 
@@ -117,7 +117,7 @@ export class CheckoutService {
       const token = order.token;
       this.setOrderTokenInLocalStorage({order_token: token});
       return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-    });
+    }).catch(err => Observable.empty());
   }
 
   /**
@@ -132,7 +132,7 @@ export class CheckoutService {
     return this.http.delete(`spree/api/v1/orders/${this.orderNumber}/line_items/${lineItem.id}?order_token=${this.getOrderToken()}`)
       .map(() => {
         this.store.dispatch(this.actions.removeLineItemSuccess(lineItem));
-      });
+      }).catch(err => Observable.empty());
   }
 
   /**
@@ -149,7 +149,7 @@ export class CheckoutService {
     ).map((res) => {
       const order = res.json();
       this.store.dispatch(this.actions.changeOrderStateSuccess(order));
-    });
+    }).catch(err => Observable.empty());
   }
 
   /**
@@ -167,7 +167,7 @@ export class CheckoutService {
     ).map((res) => {
       const order = res.json();
       this.store.dispatch(this.actions.updateOrderSuccess(order));
-    });
+    }).catch(err => Observable.empty());
   }
 
   /**
@@ -183,7 +183,7 @@ export class CheckoutService {
     ).map((res) => {
       const payments = res.json();
       return payments;
-    });
+    }).catch(err => Observable.empty());
   }
 
   /**
@@ -207,7 +207,7 @@ export class CheckoutService {
     ).map((res) => {
       this.changeOrderState()
         .subscribe();
-    });
+    }).catch(err => Observable.empty());
   }
 
   /**

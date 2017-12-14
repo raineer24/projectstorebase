@@ -199,7 +199,8 @@ export class AuthService {
   authorized(): Observable<any> {
     return this.http
       .get('spree/api/v1/users')
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json())
+      .catch(err => Observable.empty());
     // catch should be handled here with the http observable
     // so that only the inner obs dies and not the effect Observable
     // otherwise no further login requests will be fired
@@ -220,7 +221,8 @@ export class AuthService {
         localStorage.removeItem('user');
         this.store.dispatch(this.actions.logoutSuccess());
         return res.json();
-      });
+      })
+      .catch(err => Observable.empty());
   }
 
   /**

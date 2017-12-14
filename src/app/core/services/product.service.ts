@@ -23,7 +23,8 @@ export class ProductService {
    */
   getProduct(id: string): Observable<any> {
     return this.http.get(`/spree/api/v1/products/${id}`)
-    .map(res => res.json());
+    .map(res => res.json())
+    .catch(err => Observable.empty());
   }
 
   /**
@@ -35,7 +36,8 @@ export class ProductService {
    */
   getTaxonomies(): any {
     return this.http.get(`/spree/api/v1/taxonomies?set=nested`)
-    .map(res => res.json());
+    .map(res => res.json())
+    .catch(err => Observable.empty());
   }
 
   /**
@@ -47,6 +49,7 @@ export class ProductService {
    */
   getProducts(): any {
     return this.http.get(`/spree/api/v1/products`)
-    .map(res => res.json());
+    .map(res => res.json())
+    .catch(err => Observable.empty());
   }
 }
