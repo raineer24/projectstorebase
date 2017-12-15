@@ -28,8 +28,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/empty';
 
-
+// import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 
@@ -48,6 +49,10 @@ import 'rxjs/add/observable/of';
     HomeModule,
     LayoutModule,
     CoreModule,
+    // StoreModule.provideStore(reducer),
+    // StoreDevtoolsModule.instrumentOnlyWithExtension({
+    //   maxAge: 10
+    // }),
     SharedModule
   ],
   providers: [],

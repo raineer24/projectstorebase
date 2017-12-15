@@ -13,8 +13,8 @@ export const UserRoutes = [
     path: '',
     component: UserComponent,
     children: [
-      { path: '', redirectTo: 'orders' },
-      { path: 'overview', component: OverviewComponent, redirectTo: 'orders' },
+      { path: '', redirectTo: 'profile' },
+      { path: 'overview', component: OverviewComponent, redirectTo: 'profile' },
       { path: 'orders', component: OrdersComponent },
       { path: 'orders/detail/:number', component: OrderDetailComponent },
       { path: 'addresses', component: AddressesComponent, redirectTo: 'orders' },
