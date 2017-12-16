@@ -26,7 +26,8 @@ export class ItemListComponent implements OnInit {
   ngOnInit() { }
 
   getProductImageUrl(url) {
-    return environment.API_ENDPOINT + url;
+    //return environment.API_ENDPOINT + url;
+    return `https://angularspree-new.herokuapp.com/${url}`;
   }
 
   addToCart(product: Product) {
