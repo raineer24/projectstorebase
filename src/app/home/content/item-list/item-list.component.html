@@ -8,8 +8,9 @@
         <a itemprop="url" [routerLink]="['/product/', product.slug]">
           <img itemprop="image"
             class="product-thumb"
-            alt="{{product.name}}" 
-            [src]="getProductImageUrl(product.master.images[0]?.large_url)">
+            alt="{{product.name}}"
+            [src]="getProductImageUrl(product.id)">
+          <!-- TEMPORARY: insert correct image URL -->
           <div class="product-productMetaInfo">
             <div itemprop="name" class="product-brand">{{ product.name }}</div>
             <h2 class="product-product">{{ product.description }}</h2>

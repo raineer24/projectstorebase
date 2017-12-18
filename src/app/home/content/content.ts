@@ -1,4 +1,5 @@
-import { Product } from './../../core/models/product';
+// import { Product } from './../../core/models/product';
+import { Item } from './../../core/models/item';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
@@ -12,7 +13,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 //   styleUrls: ['./content-header.component.scss']
 })
 export class ContentComponent implements OnInit {
-  @Input() products: Product[];
+  // @Input() products: Product[];
+  @Input() products: Item[];
   @Input() taxonIds;
   toggleLayout = {size: 'COZY'};
 
