@@ -26,15 +26,27 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       
-      <ul class="nav navbar-nav">
-        <li *ngFor="let taxon of taxonList" class="">
-          <a (click)="selectTaxon(taxon)" href="javascript:void(0)">{{taxon.name}}
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-      </ul>
+        <!-- <ul class="nav navbar-nav">
+            <li *ngFor="let taxon of taxonList" class="">
+              <a (click)="selectTaxon(taxon)" href="javascript:void(0)">{{taxon.name}}
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul> -->
 
-     
+      <div dropdown style="position: relative; display: inline-block" *ngFor="let taxon of taxonList">
+        <a href dropdownToggle  type="button" href="javascript:void(0)">{{taxon.name}}</a>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li *ngFor="let child of taxon.children">
+            <a class="dropdown-item" href="#">{{child}}</a>
+          </li>
+        </ul>
+      </div>
+
+      
+      
+
+    
 
     </div>
   </div>
