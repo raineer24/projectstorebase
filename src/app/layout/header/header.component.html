@@ -20,10 +20,12 @@
           <span class="web-sprite desktop-iconSearch sprites-search"></span>
         </a>
       </div>
+      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
       <ul class="nav navbar-nav">
         <li *ngFor="let taxon of taxonList" class="">
           <a (click)="selectTaxon(taxon)" href="javascript:void(0)">{{taxon.name}}
@@ -32,7 +34,7 @@
         </li>
       </ul>
 
-      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+     
 
     </div>
   </div>
