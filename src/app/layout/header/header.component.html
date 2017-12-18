@@ -34,14 +34,26 @@
             </li>
           </ul> -->
 
-      <div dropdown style="position: relative; display: inline-block" *ngFor="let taxon of taxonList">
+      <!-- <div class="nav navbar-nav" dropdown *ngFor="let taxon of taxonList">
         <a href dropdownToggle  type="button" href="javascript:void(0)">{{taxon.name}}</a>
         <ul *dropdownMenu class="dropdown-menu" role="menu">
           <li *ngFor="let child of taxon.children">
             <a class="dropdown-item" href="#">{{child}}</a>
           </li>
         </ul>
-      </div>
+      </div> -->
+
+      <ul class="nav navbar-nav">
+          <li dropdown *ngFor="let taxon of taxonList">
+            <a href dropdownToggle  type="button" href="javascript:void(0)">{{taxon.name}}</a>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+              <li *ngFor="let child of taxon.children">
+                <a class="dropdown-item" href="#">{{child}}</a>
+              </li>
+            </ul>
+        </li>
+      </ul> 
+       
 
       
       

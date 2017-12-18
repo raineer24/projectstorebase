@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
   {
     'id': 3,
     'name': 'Meat',
-    'children': ['shampoo', 'toothpaste', 'soap'],
+    'children': ['Bacon', 'Ham', 'Hotdogs'],
     'pretty_name': 'Categories -> Meat',
     'permalink': 'categories/meat',
     'parent_id': 1,
@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit {
   }, {
     'id': 6,
     'name': 'Fish',
+    'children': ['Salmom', 'Sardines', 'Seafods'],
     'pretty_name': 'Brand -> Fish',
     'permalink': 'categories/vegetables',
     'parent_id': 1,
@@ -49,6 +50,7 @@ export class HeaderComponent implements OnInit {
   }, {
     'id': 7,
     'name': 'Vegetables',
+    'children': ['Carrots', 'Onions', 'Lettuce'],
     'pretty_name': 'Brand -> Vegetables',
     'permalink': 'categories/vegetables',
     'parent_id': 1,
@@ -57,6 +59,7 @@ export class HeaderComponent implements OnInit {
   }, {
     'id': 8,
     'name': 'Fruits',
+    'children': ['Mango', 'Banana', 'Apple'],
     'pretty_name': 'Brand -> Fruits',
     'permalink': 'categories/fruits',
     'parent_id': 1,
@@ -65,6 +68,7 @@ export class HeaderComponent implements OnInit {
   }, {
     'id': 9,
     'name': 'Organic',
+    'children': ['Tea', 'Milk', 'Fruits'],
     'pretty_name': 'Brand -> Organic',
     'permalink': 'categories/organic',
     'parent_id': 1,
