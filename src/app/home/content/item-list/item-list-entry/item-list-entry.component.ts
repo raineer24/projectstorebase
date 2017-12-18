@@ -1,5 +1,6 @@
 import { environment } from './../../../../../environments/environment';
-import { Product } from './../../../../core/models/product';
+import { Item } from './../../../../core/models/item';
+// import { Product } from './../../../../core/models/product';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -8,7 +9,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./item-list-entry.component.scss']
 })
 export class ItemListEntryComponent implements OnInit {
-  @Input() product: Product;
+  @Input() product: Item;
+  // @Input() product: Product;
 
   constructor() { }
 
@@ -16,7 +18,7 @@ export class ItemListEntryComponent implements OnInit {
   }
 
   getProductImageUrl(url) {
-    return environment.API_ENDPOINT + url;
+    // return environment.API_ENDPOINT + url;
+    return `https://angularspree-new.herokuapp.com/${url}`;
   }
 }
-

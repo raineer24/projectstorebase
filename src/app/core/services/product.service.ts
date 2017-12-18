@@ -48,7 +48,7 @@ export class ProductService {
    * @memberof ProductService
    */
   getProducts(): any {
-    return this.http.get(`/spree/api/v1/products`)
+    return this.http.get(`v1/item?offset=0&limit=10`)
     .map(res => res.json())
     .catch(err => Observable.empty());
   }
