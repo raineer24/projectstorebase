@@ -1,4 +1,5 @@
 import { Product } from './../../core/models/product';
+import { Item } from './../../core/models/item';
 import { AppState } from './../../interfaces';
 import { ProductState } from './product-state';
 import { createSelector } from 'reselect';
@@ -20,7 +21,7 @@ export function fetchAllTaxonomies(state: ProductState) {
   return state.taxonomies.toJS();
 }
 
-const fetchSelectedProduct = function (state: ProductState): Product {
+const fetchSelectedProduct = function (state: ProductState): Item {
   return state.selectedProduct;
 };
 

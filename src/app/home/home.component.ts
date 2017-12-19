@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   constructor(private store: Store<AppState>, private actions: ProductActions) {
     // Get all products for the product list component
     this.store.dispatch(this.actions.getAllProducts());
-    // this.store.dispatch(this.actions.getAllTaxonomies());
+    this.store.dispatch(this.actions.getAllTaxonomies());
     this.products$ = this.store.select(getProducts);
     this.taxonomies$ = this.store.select(getTaxonomies);
     this.selectedTaxonIds$ = this.store.select(getSelectedTaxonIds);

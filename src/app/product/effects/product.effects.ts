@@ -21,7 +21,13 @@ export class ProductEffects {
     GetAllProducts$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ALL_PRODUCTS)
     .switchMap((action: Action) => this.productService.getProducts())
-    .map((data: any) => this.productActions.getAllProductsSuccess({products: data}));
+    .map((data: any) => this.productActions.getAllProductsSuccess({items: data}));
+
+    @Effect()
+      GetAllTaxonomies$: Observable<Action> = this.actions$
+      .ofType(ProductActions.GET_ALL_TAXONOMIES)
+      .switchMap((action: Action) => this.productService.getCategories())
+      .map((data: any) => this.productActions.getAllTaxonomiesSuccess({categories: data}));
 
   // @Effect()
   //   GetAllTaxonomies$: Observable<Action> = this.actions$
