@@ -7,4 +7,5 @@ export class Taxon {
   taxonomy_id: number;
   checked = false;
   taxons: Taxon[];
+  children: Taxon[];
 }

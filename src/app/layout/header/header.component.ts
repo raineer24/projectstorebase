@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit {
   taxonList = [{
     'id': 4,
     'name': 'All Groceries',
-    'children': ['shampoo', 'toothpaste', 'soap'],
+    'children': ['Bacon', 'Ham', 'Hotdogs'],
+    // 'children': [{'shampoo': 'creamsilk'}],
     'pretty_name': 'Categories -> All',
     'permalink': 'categories/all',
     'parent_id': 1,
@@ -41,7 +42,7 @@ export class HeaderComponent implements OnInit {
   }, {
     'id': 6,
     'name': 'Fish',
-    'children': ['Salmom', 'Sardines', 'Seafods'],
+    'children': [ 'Salmo', 'Sardines', 'Seafods'],
     'pretty_name': 'Brand -> Fish',
     'permalink': 'categories/vegetables',
     'parent_id': 1,
