@@ -52,4 +52,18 @@ export class ProductService {
     .map(res => res.json())
     .catch(err => Observable.empty());
   }
+
+  /**
+   *
+   *
+   * @returns {*}
+   *
+   * @memberof ProductService
+   */
+  getCategories(): any {
+    return this.http.get(`/v1/category/list`)
+    .map(res => res.json())
+    .catch(err => Observable.empty());
+  }
+
 }
