@@ -4,7 +4,14 @@
 .header-sticky-wrapper {
   background-color: #42f4eb;
 }
-
+.header-sticky-wrapper ul {
+  float: left;
+  width: 100%;
+}
+.header-sticky-wrapper ul li {
+  float: left;
+  list-style: none
+}
 
 
 // .navbar {
