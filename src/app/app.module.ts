@@ -30,6 +30,9 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/empty';
 
+//3rd party imports
+import { BsDropdownModule } from 'ngx-bootstrap';
+
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
@@ -53,7 +56,8 @@ import 'rxjs/add/observable/empty';
     // StoreDevtoolsModule.instrumentOnlyWithExtension({
     //   maxAge: 10
     // }),
-    SharedModule
+    SharedModule,
+    BsDropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]
