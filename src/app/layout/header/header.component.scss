@@ -1,6 +1,6 @@
 .topbar {
-  background-color: #fd602c;
-}
+  background: url(../../../assets/bg-header.jpg) repeat-x left top;
+ }
 .header-sticky-wrapper {
   background-color: #42f4eb;
 }
@@ -20,6 +20,13 @@
 .header-sticky-wrapper ul li:first-child {
   margin-left: 0;
   margin-right: 5em;
+}
+.input-group  {
+  float: right;
+    position: absolute;
+    top: 14px;
+    /* right: -12px; */
+    left: 173px;
 }
 
 
