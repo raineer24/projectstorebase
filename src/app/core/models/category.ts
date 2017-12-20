@@ -1,6 +1,7 @@
 export class Category {
   id: number;
   name: string;
-  parent: number;
+  level: string;
+  category_id: number;
   subcategories: Category[]
 }

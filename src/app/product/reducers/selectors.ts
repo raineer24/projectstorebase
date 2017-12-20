@@ -18,7 +18,7 @@ export function fetchProducts(state: ProductState) {
 }
 
 export function fetchAllTaxonomies(state: ProductState) {
-  return state.taxonomies.toJS();
+  return state.categories.toJS();
 }
 
 const fetchSelectedProduct = function (state: ProductState): Item {

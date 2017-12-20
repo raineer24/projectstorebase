@@ -61,7 +61,7 @@ export class ProductService {
    * @memberof ProductService
    */
   getCategories(): any {
-    return this.http.get(`/v1/category/list`)
+    return this.http.get(`v1/category/list`)
     .map(res => res.json())
     .catch(err => Observable.empty());
   }
