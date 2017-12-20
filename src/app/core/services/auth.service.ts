@@ -138,20 +138,25 @@ export class AuthService {
     return this.http.put(
       `v1/user/account/${ id }/save`, data
     ).map((res: Response) => {
-      data = res.json();
-      if (data.message == 'Updated') {
-        // Setting token after login
-        this.setTokenInLocalStorage(res.json());
-        // this.store.dispatch(this.actions.loginSuccess());
+      let result = res.json();
+      if (result.message == 'Updated') {
+        let storedData = JSON.parse(localStorage.getItem('user'));
+        data.message = result.message;
+        for(let key in data) {
+          if(data.hasOwnProperty(key)) {
+            storedData[key] = data[key];
+          }
+        }
+        this.setTokenInLocalStorage(storedData);
       } else {
-        data.error = true;
+        result.error = true;
         // this.http.loading.next({
         //   loading: false,
         //   hasError: true,
         //   hasMsg: 'Please enter valid Credentials'
         // });
       }
-      return data;
+      return result;
     });
     // catch should be handled here with the http observable
     // so that only the inner obs dies and not the effect Observable
