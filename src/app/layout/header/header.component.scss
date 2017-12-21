@@ -9,12 +9,14 @@
   width: 100%;
   padding: 0;
   text-transform: uppercase;
+  display: block; /* note */
   }
 .header-sticky-wrapper ul li {
   float: left;
   list-style: none;
   margin-left: 20px;
   font-size: 11px;
+  
   
 }
 .header-sticky-wrapper ul li:first-child {
