@@ -43,7 +43,7 @@ export const productReducer: ActionReducer<ProductState> =
       }) as ProductState;
 
    case ProductActions.GET_ALL_TAXONOMIES_SUCCESS:
-    const _categories: Category[] = payload.categories.categories;
+      const _categories: Category[] = payload.categories.categories;
     // const _subcategories: Category[] = payload.categories.subcategories;
     // const _newcat = Object.keys(_categories).map(k => {return _categories[k]})
     // let _newcat: Object[];
