@@ -1,22 +1,23 @@
 <div class="row-base" style="display: -webkit-flex">
   <section>
     <ul class="results-base">
-      <p *ngIf="products.length === 0">No Products found for this category</p>
-      <li *ngFor="let product of products | filter : selectedTaxonIds" class="product-base" [style.margin]="getMargin()" itemscope
+      <p *ngIf="items.length === 0">No Products found for this category</p>
+      <li *ngFor="let item of items | filter : selectedTaxonIds" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
         <div class="product-thumbShim"></div>
-        <a itemprop="url" [routerLink]="['/product/', product.slug]">
+        <a itemprop="url" [routerLink]="['/item/', item.slug]">
           <img itemprop="image"
             class="product-thumb"
-            alt="{{product.name}}" 
-            [src]="getProductImageUrl(product.master.images[0]?.large_url)">
+            alt="{{item.name}}"
+            [src]="getItemImageUrl(item.id)">
+          <!-- EOSNOTE - TEMPORARY: insert correct image URL -->
           <div class="product-productMetaInfo">
-            <div itemprop="name" class="product-brand">{{ product.name }}</div>
-            <h2 class="product-product">{{ product.description }}</h2>
+            <div itemprop="name" class="product-brand">{{ item.name }}</div>
+            <h2 class="product-product">{{ item.brandName }}</h2>
             <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
               <span>
                 <!-- Discounted price -->
-                <span itemprop="price" class="product-discountedPrice">$ {{ product.price }}</span>
+                <span itemprop="price" class="product-discountedPrice">$ {{ item.price }}</span>
                 <!-- Original price -->
                 <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
               </span>
@@ -41,7 +42,7 @@
         <div class="product-actions">
           <span class="product-actionsButton product-wishlist coming-soon">save</span>
           <span class="product-actionsButton product-addToBag">
-            <span (click)="addToCart(product)">Add to bag</span>
+            <span (click)="addToCart(item)">Add to bag</span>
           </span>
         </div>
       </li>

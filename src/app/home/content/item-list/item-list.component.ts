@@ -4,7 +4,8 @@ import { CheckoutService } from './../../../core/services/checkout.service';
 import { CheckoutActions } from './../../../checkout/actions/checkout.actions';
 import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
-import { Product } from './../../../core/models/product';
+// import { Product } from './../../../core/models/product';
+import { Item } from './../../../core/models/item';
 import { environment } from './../../../../environments/environment';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -14,7 +15,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./item-list.component.scss']
 })
 export class ItemListComponent implements OnInit {
-  @Input() products;
+  @Input() items;
   @Input('taxonIds') selectedTaxonIds;
   @Input() toggleLayout;
 
@@ -25,13 +26,12 @@ export class ItemListComponent implements OnInit {
 
   ngOnInit() { }
 
-  getProductImageUrl(url) {
-    //return environment.API_ENDPOINT + url;
-    return `https://angularspree-new.herokuapp.com/${url}`;
+  getItemImageUrl(url) {
+    return environment.API_ENDPOINT + url;
   }
 
-  addToCart(product: Product) {
-    const variant_id = product.master.id;
+  addToCart(item: Item) {
+    const variant_id = item.id;
     this.store.dispatch(this.checkoutActions.addToCart(variant_id));
   }
 
