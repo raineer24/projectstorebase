@@ -19,11 +19,18 @@
     </div>
     <div class="header-sticky-wrapper">
         <div class="container">
-          <ul classs="dropdown-toggle active">
+          <ul >
             <li dropdown dropdownToggle class="dropdown-toggle"><a href="#">All categories</a>
               <ul *dropdownMenu class="dropdown-menu" role="menu">
                 <li><a href="#">Fresh deals</a> </li>
-                <li><a href="#">Perishables</a> </li>
+                <li dropdown placement="left" container="body">
+                  <a dropdownToggle href="#">Perishables</a>
+                  <ul *dropdownMenu class="dropdown-menu" role="menu">
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Action1</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Action2</a></li>
+                    </ul>
+                </li>
                 <li><a href="#">Grocery</a> </li>
                 <li><a href="#">HOusehold</a> </li>
                 <li><a href="#">Health and beauty</a> </li>
@@ -33,8 +40,45 @@
                 <li><a href="#">Past Purchases</a> </li>
              </ul>
             </li>
-            <li><a href="#">Fresh deals</a></li>
-            <li><a href="#">Perishables</a></li>
+            <li dropdown dropdownToggle class="dropdown-toggle"><a href="#">Fresh DEals</a>
+              <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li><a href="#">Fresh deals</a> </li>
+                <li dropdown placement="left" container="body">
+                  <a dropdownToggle href="#">Perishables</a>
+                  <ul *dropdownMenu class="dropdown-menu" role="menu">
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Orange</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Banana</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Mango</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Nike</a> </li>
+                <li><a href="#">Adidas</a> </li>
+                <li><a href="#">Puma</a> </li>
+                <li><a href="#">Specialty goods</a> </li>
+                <li><a href="#">Bakery</a> </li>
+                <li><a href="#">Pharmacy</a> </li>
+                <li><a href="#">Past Purchases</a> </li>
+             </ul>
+            </li>
+            <li dropdown dropdownToggle class="dropdown-toggle"><a href="#">Perishables</a>
+              <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li><a href="#">MEat & Seafood</a> </li>
+                <li dropdown placement="left" container="body">
+                  <a dropdownToggle href="#">Deli</a>
+                  <ul *dropdownMenu class="dropdown-menu" role="menu">
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Action</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Action1</a></li>
+                      <li role="menuitem"><a class="dropdown-item" href="#/dropdowns#nested">Action2</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Dairy, Cheese & Eggs</a> </li>
+                <li><a href="#">Aritisan Cheese</a> </li>
+                <li><a href="#">Package CHeese</a> </li>
+                <li><a href="#">Frozen Foods</a> </li>
+                <li><a href="#">YOgurt</a> </li>
+                <li><a href="#">Pharmacy</a> </li>
+              </ul>
+            </li>
             <li><a href="#">Grocery</a></li>
             <li><a href="#">HOusehold</a></li>
             <li><a href="#">Health and beauty</a></li>
