@@ -1,33 +1,34 @@
 <nav class="navbar">
-
     <div class="topbar">
         <div class="container">
             <div class="col-md-2">
               <h1><a href="#" class="navbar-brand">OMG!</a></h1>
-             </div>
+            </div>
             <div class="col-md-4">
                 <div class="input-group">
-                    <input [(ngModel)]="asyncSelected"
-                          [typeahead]="dataSource"
-                          (typeaheadLoading)="changeTypeaheadLoading($event)"
-                          (typeaheadNoResults)="changeTypeaheadNoResults($event)"
-                          (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                          [typeaheadOptionsLimit]="7"
-                          typeaheadOptionField="name"
-                          name="test"
-                          class="form-control"
-                          placeholder="Search for...">
-                          <div *ngIf="typeaheadLoading===true">Loading</div>
-        <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div>
-                    <span class="input-group-btn">
-                      <button class="btn btn-secondary" type="button">Go!</button>
-                    </span>
-                  </div>
+                  <ng-template #searchTemplate let-keyword="item" let-index="index">
+                      <h5>{{keyword.name}}</h5>
+                  </ng-template>
+                  <input [(ngModel)]="asyncSelected"
+                        [typeahead]="dataSource"
+                        (typeaheadLoading)="changeTypeaheadLoading($event)"
+                        (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+                        (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                        [typeaheadOptionsLimit]="5"
+                        [typeaheadItemTemplate]="searchTemplate"
+                        typeaheadOptionField="name"
+                        name="test"
+                        class="form-control"
+                        placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Go!</button>
+                  </span>
+                </div>
+                <div *ngIf="typeaheadLoading===true">Loading</div>
+                <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div>
             </div>
             <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
-
         </div>
-
     </div>
     <div class="header-sticky-wrapper">
         <div class="container">

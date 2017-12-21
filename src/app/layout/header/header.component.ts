@@ -8,6 +8,7 @@ import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../core/services/auth.service';
+import { ProductService } from '../../core/services/product.service';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
@@ -42,6 +43,7 @@ export class HeaderComponent implements OnInit {
     private store: Store<AppState>,
     private authService: AuthService,
     private authActions: AuthActions,
+    private productService: ProductService,
     private searchActions: SearchActions,
     private router: Router
   ) {
@@ -49,11 +51,15 @@ export class HeaderComponent implements OnInit {
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every search
       observer.next(this.asyncSelected);
-    }).mergeMap((token: string) => this.getStatesAsObservable(token));
+    }).mergeMap((token: string) => this.getStatesAsObservable(token)).do(res => { JSON.stringify(res)
+    });
+    // }).mergeMap((token: string) => this.productService.getItemsBySearch(token))
+    // .do(res => { JSON.stringify(res)})
+    // .map(res => { res = res.list });
   }
 
   ngOnInit() {
-    this.store.dispatch(this.authActions.authorize());
+    // this.store.dispatch(this.authActions.authorize());
     this.isAuthenticated = this.store.select(getAuthStatus);
     this.totalCartItems = this.store.select(getTotalCartItems);
   }
