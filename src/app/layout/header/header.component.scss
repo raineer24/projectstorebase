@@ -30,6 +30,9 @@
     /* right: -12px; */
     left: 173px;
 }
+li.dropdown:hover > ul.dropdown-menu {
+  display: block;
+}
 
 
 // .navbar {
