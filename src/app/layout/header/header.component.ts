@@ -27,17 +27,6 @@ export class HeaderComponent implements OnInit {
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
   dataSource: Observable<any>;
-  statesComplex: any[] = [
-     { id: 1, name: 'Alabama', region: 'South' },
-     { id: 2, name: 'Alaska', region: 'West' },
-     { id: 3, name: 'Arizona', region: 'West'},
-     { id: 4, name: 'Arkansas', region: 'South' },
-     { id: 5, name: 'California', region: 'West' },
-     { id: 6, name: 'Colorado', region: 'West' },
-     { id: 7, name: 'Connecticut', region: 'Northeast' },
-     { id: 8, name: 'Delaware', region: 'South' },
-     { id: 9, name: 'Florida', region: 'South' },
-     { id: 10, name: 'Georgia', region: 'South' }];
 
   constructor(
     private store: Store<AppState>,
@@ -49,13 +38,13 @@ export class HeaderComponent implements OnInit {
   ) {
     this.categories$ = this.store.select(getTaxonomies);
     this.dataSource = Observable.create((observer: any) => {
-      // Runs on every search
-      observer.next(this.asyncSelected);
-    }).mergeMap((token: string) => this.getStatesAsObservable(token)).do(res => { JSON.stringify(res)
-    });
-    // }).mergeMap((token: string) => this.productService.getItemsBySearch(token))
-    // .do(res => { JSON.stringify(res)})
-    // .map(res => { res = res.list });
+      // Runs on every searchBar
+      if(this.asyncSelected && this.asyncSelected.length > 1) {
+        observer.next(this.asyncSelected);
+      }
+    }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
+        .map(data => { return data.list })
+    )
   }
 
   ngOnInit() {
@@ -69,22 +58,22 @@ export class HeaderComponent implements OnInit {
     // this.store.dispatch(this.searchActions.addFilter(category));
   }
 
-  autoComplete(event){
-    const text = event.target.value;
-    if(text.length > 1) {
-      console.log(event.target.value);
-    }
-  }
-
-  getStatesAsObservable(token: string): Observable<any> {
-    let query = new RegExp(token, 'ig');
-
-    return Observable.of(
-      this.statesComplex.filter((state: any) => {
-        return query.test(state.name);
-      })
-    );
-  }
+  // autoComplete(event){
+  //   const text = event.target.value;
+  //   if(text.length > 1) {
+  //     console.log(event.target.value);
+  //   }
+  // }
+  //
+  // getStatesAsObservable(token: string): Observable<any> {
+  //   let query = new RegExp(token, 'ig');
+  //
+  //   return Observable.of(
+  //     this.statesComplex.filter((state: any) => {
+  //       return query.test(state.name);
+  //     })
+  //   );
+  // }
 
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
@@ -96,6 +85,10 @@ export class HeaderComponent implements OnInit {
 
   typeaheadOnSelect(e: TypeaheadMatch): void {
     console.log('Selected value: ', e.value);
+  }
+
+  searchKeyword(): void {
+    console.log(this.asyncSelected)
   }
 
 }

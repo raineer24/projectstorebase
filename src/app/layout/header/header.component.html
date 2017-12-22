@@ -8,6 +8,7 @@
                 <div class="input-group">
                   <ng-template #searchTemplate let-keyword="item" let-index="index">
                       <h5>{{keyword.name}}</h5>
+                      <h6>   Php {{keyword.displayPrice}}</h6>
                   </ng-template>
                   <input [(ngModel)]="asyncSelected"
                         [typeahead]="dataSource"
@@ -15,13 +16,15 @@
                         (typeaheadNoResults)="changeTypeaheadNoResults($event)"
                         (typeaheadOnSelect)="typeaheadOnSelect($event)"
                         [typeaheadOptionsLimit]="5"
+                        [typeaheadWaitMs]="300"
+                        [typeaheadMinLength]="2"
                         [typeaheadItemTemplate]="searchTemplate"
+                        (keyup.enter)="searchKeyword()"
                         typeaheadOptionField="name"
-                        name="test"
                         class="form-control"
                         placeholder="Search for...">
                   <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button">Go!</button>
+                    <button class="btn btn-secondary" type="button" (click)="searchKeyword()">GO</button>
                   </span>
                 </div>
                 <div *ngIf="typeaheadLoading===true">Loading</div>
