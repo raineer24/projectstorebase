@@ -6,10 +6,10 @@
 }
 .header-sticky-wrapper ul {
   float: left;
-  width: 100%;
+  // width: 100%;
   padding: 0;
   text-transform: uppercase;
-  display: block; /* note */
+  // display: block; 
   }
 .header-sticky-wrapper ul li {
   float: left;
@@ -48,6 +48,9 @@ li.dropdown:hover > ul.dropdown-menu {
 .yamm .dropdown.yamm-fw .dropdown-menu {
   left: 0;
   right: 0;
+}
+.yamm ul.nav li.dropdown:hover > ul.dropdown-menu {
+  display: block;
 }
 
 
