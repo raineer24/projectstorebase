@@ -36,6 +36,9 @@ li.dropdown:hover > ul.dropdown-menu {
 .list-unstyled {
   min-width: 120px;
 }
+.list-unstyled li {
+  padding: 4px 0;
+}
 .yamm .dropdown {
   position: static;
 }
@@ -48,6 +51,9 @@ li.dropdown:hover > ul.dropdown-menu {
 .yamm .dropdown.yamm-fw .dropdown-menu {
   left: 0;
   right: 0;
+}
+.yamm .yamm-content {
+  padding: 20px 30px;
 }
 .yamm ul.nav li.dropdown:hover > ul.dropdown-menu {
   display: block;
