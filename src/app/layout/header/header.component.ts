@@ -9,6 +9,8 @@ import { getAuthStatus } from '../../auth/reducers/selectors';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../core/services/auth.service';
 import { AuthActions } from '../../auth/actions/auth.actions';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+
 
 @Component({
   selector: 'app-header',
@@ -19,88 +21,23 @@ import { AuthActions } from '../../auth/actions/auth.actions';
 export class HeaderComponent implements OnInit {
   isAuthenticated: Observable<boolean>;
   totalCartItems: Observable<number>;
-  taxonomies$: Observable<any>;
-  taxonList = [{
-    'id': 4,
-    'name': 'All Groceries',
-    'children': ['Bacon', 'Ham', 'Hotdogs'],
-    // 'children': [{'shampoo': 'creamsilk'}],
-    'pretty_name': 'Categories -> All',
-    'permalink': 'categories/all',
-    'parent_id': 1,
-    'taxonomy_id': 1,
-    'taxons': null},
-  {
-    'id': 3,
-    'name': 'Meat',
-    'children': ['Bacon', 'Ham', 'Hotdogs'],
-    'pretty_name': 'Categories -> Meat',
-    'permalink': 'categories/meat',
-    'parent_id': 1,
-    'taxonomy_id': 1,
-    'taxons': null
-  }, {
-    'id': 6,
-    'name': 'Fish',
-    'children': [ 'Salmo', 'Sardines', 'Seafods'],
-    'pretty_name': 'Brand -> Fish',
-    'permalink': 'categories/vegetables',
-    'parent_id': 1,
-    'taxonomy_id': 1,
-    'taxons': null
-  }, {
-    'id': 7,
-    'name': 'Vegetables',
-    'children': ['Carrots', 'Onions', 'Lettuce'],
-    'pretty_name': 'Brand -> Vegetables',
-    'permalink': 'categories/vegetables',
-    'parent_id': 1,
-    'taxonomy_id': 1,
-    'taxons': null
-  }, {
-    'id': 8,
-    'name': 'Fruits',
-    'children': ['Mango', 'Banana', 'Apple'],
-    'pretty_name': 'Brand -> Fruits',
-    'permalink': 'categories/fruits',
-    'parent_id': 1,
-    'taxonomy_id': 1,
-    'taxons': null
-  }, {
-    'id': 9,
-    'name': 'Organic',
-    'children': ['Tea', 'Milk', 'Fruits'],
-    'pretty_name': 'Brand -> Organic',
-    'permalink': 'categories/organic',
-    'parent_id': 1,
-    'taxonomy_id': 1,
-    'taxons': null
-  }//, {
-  //    'id': 9,
-  //   'name': 'Apache',
-  //   'pretty_name': 'Brand -> Apache',
-  //   'permalink': 'brand/apache',
-  //   'parent_id': 2,
-  //   'taxonomy_id': 2,
-  //   'taxons': null
-  // }, {
-  //   'id': 10,
-  //   'name': 'Spree',
-  //   'pretty_name': 'Brand -> Spree',
-  //   'permalink': 'brand/spree',
-  //   'parent_id': 2,
-  //   'taxonomy_id': 2,
-  //   'taxons': null
-  // }, {
-  //   'id': 11,
-  //   'name': 'Rails',
-  //   'pretty_name': 'Brand -> Rails',
-  //   'permalink': 'brand/rails',
-  //   'parent_id': 2,
-  //   'taxonomy_id': 2,
-  //   'taxons': null
-  // }
-];
+  categories$: Observable<any>;
+  asyncSelected: string;
+  typeaheadLoading: boolean;
+  typeaheadNoResults: boolean;
+  dataSource: Observable<any>;
+  statesComplex: any[] = [
+     { id: 1, name: 'Alabama', region: 'South' },
+     { id: 2, name: 'Alaska', region: 'West' },
+     { id: 3, name: 'Arizona', region: 'West'},
+     { id: 4, name: 'Arkansas', region: 'South' },
+     { id: 5, name: 'California', region: 'West' },
+     { id: 6, name: 'Colorado', region: 'West' },
+     { id: 7, name: 'Connecticut', region: 'Northeast' },
+     { id: 8, name: 'Delaware', region: 'South' },
+     { id: 9, name: 'Florida', region: 'South' },
+     { id: 10, name: 'Georgia', region: 'South' }];
+
   constructor(
     private store: Store<AppState>,
     private authService: AuthService,
@@ -108,7 +45,11 @@ export class HeaderComponent implements OnInit {
     private searchActions: SearchActions,
     private router: Router
   ) {
-    this.taxonomies$ = this.store.select(getTaxonomies);
+    this.categories$ = this.store.select(getTaxonomies);
+    this.dataSource = Observable.create((observer: any) => {
+      // Runs on every search
+      observer.next(this.asyncSelected);
+    }).mergeMap((token: string) => this.getStatesAsObservable(token));
   }
 
   ngOnInit() {
@@ -117,9 +58,38 @@ export class HeaderComponent implements OnInit {
     this.totalCartItems = this.store.select(getTotalCartItems);
   }
 
-  selectTaxon(taxon) {
+  selectCategory(category) {
     this.router.navigateByUrl('/');
-    this.store.dispatch(this.searchActions.addFilter(taxon));
+    // this.store.dispatch(this.searchActions.addFilter(category));
+  }
+
+  autoComplete(event){
+    const text = event.target.value;
+    if(text.length > 1) {
+      console.log(event.target.value);
+    }
+  }
+
+  getStatesAsObservable(token: string): Observable<any> {
+    let query = new RegExp(token, 'ig');
+
+    return Observable.of(
+      this.statesComplex.filter((state: any) => {
+        return query.test(state.name);
+      })
+    );
+  }
+
+  changeTypeaheadLoading(e: boolean): void {
+    this.typeaheadLoading = e;
+  }
+
+  changeTypeaheadNoResults(e: boolean): void {
+    this.typeaheadNoResults = e;
+  }
+
+  typeaheadOnSelect(e: TypeaheadMatch): void {
+    console.log('Selected value: ', e.value);
   }
 
 }
