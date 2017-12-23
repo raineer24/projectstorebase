@@ -52,10 +52,22 @@ export const productReducer: ActionReducer<ProductState> =
     //   _newcat.push(_categories[key])
     // }
 
-    return state.merge({
-      categories: _categories
-    }) as ProductState;
+      return state.merge({
+        categories: _categories
+      }) as ProductState;
 
+    case ProductActions.GET_ITEMS_BY_CATEGORY_SUCCESS:
+    const _itemsByCategory: Item[] = payload.items.list;
+    const itemsByCategoryIds: number[] = _itemsByCategory.map(product => product.id);
+    const itemsByCategoryEntities = _itemsByCategory.reduce((products: { [id: number]: Item }, product: Item) => {
+      return Object.assign(products, {
+        [product.id]: product
+      });
+    }, { });
+      return state.merge({
+        productIds: itemsByCategoryIds,
+        productEntities: itemsByCategoryEntities
+      }) as ProductState;
     default:
       return state;
   }

@@ -8,8 +8,9 @@ import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../core/services/auth.service';
-import { ProductService } from '../../core/services/product.service';
 import { AuthActions } from '../../auth/actions/auth.actions';
+import { ProductService } from '../../core/services/product.service';
+import { ProductActions } from '../../product/actions/product-actions';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
 
@@ -33,6 +34,7 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private authActions: AuthActions,
     private productService: ProductService,
+    private productActions: ProductActions,
     private searchActions: SearchActions,
     private router: Router
   ) {
@@ -53,9 +55,15 @@ export class HeaderComponent implements OnInit {
     this.totalCartItems = this.store.select(getTotalCartItems);
   }
 
+  selectAll() {
+    this.router.navigateByUrl('/');
+    this.store.dispatch(this.productActions.getAllProducts())
+  }
+
   selectCategory(category) {
     this.router.navigateByUrl('/');
     // this.store.dispatch(this.searchActions.addFilter(category));
+    this.store.dispatch(this.productActions.getItemsByCategory(category))
   }
 
   // autoComplete(event){
@@ -84,7 +92,8 @@ export class HeaderComponent implements OnInit {
   }
 
   typeaheadOnSelect(e: TypeaheadMatch): void {
-    console.log('Selected value: ', e.value);
+    this.router.navigateByUrl(`/product/${e.item.slug}`);
+    //this.router.navigate(['user/profile']);
   }
 
   searchKeyword(): void {

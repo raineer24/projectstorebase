@@ -1,4 +1,5 @@
 import { Product } from './../../core/models/product';
+import { Category } from './../../core/models/category';
 import { ProductActions } from './../actions/product-actions';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
@@ -23,11 +24,17 @@ export class ProductEffects {
     .switchMap((action: Action) => this.productService.getProducts())
     .map((data: any) => this.productActions.getAllProductsSuccess({items: data}));
 
-    @Effect()
-      GetAllTaxonomies$: Observable<Action> = this.actions$
-      .ofType(ProductActions.GET_ALL_TAXONOMIES)
-      .switchMap((action: Action) => this.productService.getCategories())
-      .map((data: any) => this.productActions.getAllTaxonomiesSuccess({categories: data}));
+  @Effect()
+    GetAllTaxonomies$: Observable<Action> = this.actions$
+    .ofType(ProductActions.GET_ALL_TAXONOMIES)
+    .switchMap((action: Action) => this.productService.getCategories())
+    .map((data: any) => this.productActions.getAllTaxonomiesSuccess({categories: data}));
+
+  @Effect()
+    GetItemsByCategory$: Observable<Action> = this.actions$
+    .ofType(ProductActions.GET_ITEMS_BY_CATEGORY)
+    .switchMap((action: Action) => this.productService.getItemsByCategory(action.payload.id, action.payload.level))
+    .map((data: any) => this.productActions.getItemsByCategorySuccess({items: data}));
 
   // @Effect()
   //   GetAllTaxonomies$: Observable<Action> = this.actions$
