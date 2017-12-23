@@ -6,21 +6,23 @@
 }
 .header-sticky-wrapper ul {
   float: left;
-  width: 100%;
+  // width: 100%;
   padding: 0;
   text-transform: uppercase;
+  // display: block; 
   }
 .header-sticky-wrapper ul li {
-  float: left;
-  list-style: none;
-  margin-left: 20px;
+  // float: left;
+  // list-style: none;
+  // margin-left: 20px;
   font-size: 11px;
   
+  
 }
-.header-sticky-wrapper ul li:first-child {
-  margin-left: 0;
-  margin-right: 5em;
-}
+// .header-sticky-wrapper ul li:first-child {
+//   margin-left: 0;
+//   margin-right: 5em;
+// }
 .input-group  {
   float: right;
     position: absolute;
@@ -28,6 +30,35 @@
     /* right: -12px; */
     left: 173px;
 }
+li.dropdown:hover > ul.dropdown-menu {
+  display: block;
+}
+.list-unstyled {
+  min-width: 120px;
+}
+.list-unstyled li {
+  padding: 4px 0;
+}
+.yamm .dropdown {
+  position: static;
+}
+.yamm .container {
+  position: relative;
+}
+.yamm .dropdown-menu {
+  left: auto;
+}
+.yamm .dropdown.yamm-fw .dropdown-menu {
+  left: 0;
+  right: 0;
+}
+.yamm .yamm-content {
+  padding: 20px 30px;
+}
+.yamm ul.nav li.dropdown:hover > ul.dropdown-menu {
+  display: block;
+}
+
 
 
 // .navbar {
