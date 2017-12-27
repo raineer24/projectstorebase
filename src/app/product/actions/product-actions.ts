@@ -10,6 +10,8 @@ export class ProductActions {
     static CLEAR_SELECTED_PRODUCT = 'CLEAR_SELECTED_PRODUCT';
     static GET_ALL_TAXONOMIES = 'GET_ALL_TAXONOMIES';
     static GET_ALL_TAXONOMIES_SUCCESS = 'GET_ALL_TAXONOMIES_SUCCESS';
+    static GET_ITEMS_BY_CATEGORY = "GET_ITEMS_BY_CATEGORY";
+    static GET_ITEMS_BY_CATEGORY_SUCCESS = "GET_ITEMS_BY_CATEGORY_SUCCESS";
 
     getAllProducts(): Action {
         return { type: ProductActions.GET_ALL_PRODUCTS };
@@ -49,6 +51,20 @@ export class ProductActions {
         return {
             type: ProductActions.GET_ALL_TAXONOMIES_SUCCESS,
             payload: taxonomies
+        };
+    }
+
+    getItemsByCategory(category: any): Action {
+        return {
+            type: ProductActions.GET_ITEMS_BY_CATEGORY,
+            payload: category
+        };
+    }
+
+    getItemsByCategorySuccess(items: any): Action {
+        return {
+            type: ProductActions.GET_ITEMS_BY_CATEGORY_SUCCESS,
+            payload: items
         };
     }
 }
