@@ -9,15 +9,17 @@
   // width: 100%;
   padding: 0;
   text-transform: uppercase;
-  // display: block; 
+  // display: block;
   }
 .header-sticky-wrapper ul li {
   // float: left;
   // list-style: none;
   // margin-left: 20px;
   font-size: 11px;
-  
-  
+  a {
+    color: #333333;
+  }
+
 }
 // .header-sticky-wrapper ul li:first-child {
 //   margin-left: 0;
@@ -72,7 +74,7 @@ li.dropdown:hover > ul.dropdown-menu {
 //     height: 46px;
 //   }
 // }
-// .navbar-header 
+// .navbar-header
 // {
 //   width: 100%
 // }
