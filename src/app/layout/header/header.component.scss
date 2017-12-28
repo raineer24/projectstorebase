@@ -10,6 +10,7 @@
   padding: 0;
   text-transform: uppercase;
   // display: block;
+  margin-top: -1px;
   }
 .header-sticky-wrapper ul li {
   // float: left;
@@ -53,6 +54,7 @@ li.dropdown:hover > ul.dropdown-menu {
 .yamm .dropdown.yamm-fw .dropdown-menu {
   left: 0;
   right: 0;
+  padding-bottom: 15px;
 }
 .yamm .yamm-content {
   padding: 20px 30px;
