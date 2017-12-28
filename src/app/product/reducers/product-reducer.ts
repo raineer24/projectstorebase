@@ -5,6 +5,8 @@ import { Category } from './../../core/models/category';
 import { ProductActions } from './../actions/product-actions';
 import { ProductState, ProductStateRecord } from './product-state';
 import { Action, ActionReducer } from '@ngrx/store';
+import { Map } from 'immutable';
+
 
 export const initialState: ProductState = new ProductStateRecord() as ProductState;
 
@@ -57,19 +59,19 @@ export const productReducer: ActionReducer<ProductState> =
       }) as ProductState;
 
     case ProductActions.GET_ITEMS_BY_CATEGORY_SUCCESS:
-    const _itemsByCategory: Item[] = payload.items.list;
-    const itemsByCategoryIds: number[] = _itemsByCategory.map(product => product.id);
-    const itemsByCategoryEntities = _itemsByCategory.reduce((products: { [id: number]: Item }, product: Item) => {
-      return Object.assign(products, {
-        [product.id]: product
-      });
-    }, { });
+      const _itemsByCategory: Item[] = payload.items.list;
+      const itemsByCategoryIds: number[] = _itemsByCategory.map(product => product.id);
+      const itemsByCategoryEntities = _itemsByCategory.reduce((products: { [id: number]: Item }, product: Item) => {
+        return Object.assign(products, {
+          [product.id]: product
+        });
+      }, { });
       return state.merge({
         productIds: itemsByCategoryIds,
         productEntities: itemsByCategoryEntities
       }) as ProductState;
 
-      case ProductActions.GET_ITEMS_BY_SEARCH_SUCCESS:
+    case ProductActions.GET_ITEMS_BY_SEARCH_SUCCESS:
       const _itemsBySearch: Item[] = payload.items.list;
       const itemsBySearchIds: number[] = _itemsBySearch.map(product => product.id);
       const itemsBySearchEntities = _itemsBySearch.reduce((products: { [id: number]: Item }, product: Item) => {
@@ -77,10 +79,22 @@ export const productReducer: ActionReducer<ProductState> =
           [product.id]: product
         });
       }, { });
-        return state.merge({
-          productIds: itemsBySearchIds,
-          productEntities: itemsBySearchEntities
-        }) as ProductState;
+      return state.merge({
+        productIds: itemsBySearchIds,
+        productEntities: itemsBySearchEntities
+      }) as ProductState;
+
+    case ProductActions.ADD_SELECTED_ITEM:
+      return state.merge({
+        selectedProductId: payload.id,
+        selectedProduct: payload
+      }) as ProductState;
+
+    case ProductActions.REMOVE_SELECTED_ITEM:
+      return state.merge({
+        selectedProductId: null,
+        selectedProduct: Map({})
+      }) as ProductState;
 
     default:
       return state;

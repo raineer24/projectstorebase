@@ -1,3 +1,9 @@
+<modal #itemDetailsModal>
+  <!-- <ng-template #modalHeader><h2>HTML inside modal</h2></ng-template> -->
+  <ng-template #modalBody>
+    <app-item-details-dialog *ngIf="selectedItem" [item]="selectedItem"></app-item-details-dialog>
+  </ng-template>
+</modal>
 <div class="row-base" style="display: -webkit-flex">
   <section>
     <ul class="results-base">
@@ -5,7 +11,8 @@
       <li *ngFor="let item of items | filter : selectedTaxonIds" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
         <div class="product-thumbShim"></div>
-        <a itemprop="url" [routerLink]="['/item', item.id]">
+        <!-- <a itemprop="url" [routerLink]="['/item', item.id]"> -->
+        <a itemprop="url" (click)="selectItem(item)">
           <img itemprop="image"
             class="product-thumb"
             alt="{{item.name}}"

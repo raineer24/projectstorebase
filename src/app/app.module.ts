@@ -33,7 +33,7 @@ import 'rxjs/add/observable/empty';
 // 3rd party imports
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
+import { ModalModule } from 'angular-custom-modal';
 
 
 @NgModule({
@@ -56,6 +56,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       maxAge: 10
     }),
     SharedModule,
+    ModalModule,
     BsDropdownModule
   ],
   providers: [],
