@@ -27,7 +27,8 @@ export class ItemListComponent implements OnInit {
   ngOnInit() { }
 
   getItemImageUrl(url) {
-    return environment.API_ENDPOINT + url;
+    return `https://loremflickr.com/g/180/240/grocery/all?${url}`;
+    // return environment.API_ENDPOINT + url;
   }
 
   addToCart(item: Item) {

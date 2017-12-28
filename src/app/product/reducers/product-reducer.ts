@@ -68,6 +68,20 @@ export const productReducer: ActionReducer<ProductState> =
         productIds: itemsByCategoryIds,
         productEntities: itemsByCategoryEntities
       }) as ProductState;
+
+      case ProductActions.GET_ITEMS_BY_SEARCH_SUCCESS:
+      const _itemsBySearch: Item[] = payload.items.list;
+      const itemsBySearchIds: number[] = _itemsBySearch.map(product => product.id);
+      const itemsBySearchEntities = _itemsBySearch.reduce((products: { [id: number]: Item }, product: Item) => {
+        return Object.assign(products, {
+          [product.id]: product
+        });
+      }, { });
+        return state.merge({
+          productIds: itemsBySearchIds,
+          productEntities: itemsBySearchEntities
+        }) as ProductState;
+
     default:
       return state;
   }

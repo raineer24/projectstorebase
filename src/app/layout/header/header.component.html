@@ -27,8 +27,8 @@
             <button class="btn btn-secondary" type="button" (click)="searchKeyword()">GO</button>
           </span>
         </div>
-        <div *ngIf="typeaheadLoading===true">Loading</div>
-        <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div>
+        <!-- <div *ngIf="typeaheadLoading===true">Loading</div>
+        <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
