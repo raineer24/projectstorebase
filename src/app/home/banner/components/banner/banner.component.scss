@@ -5,7 +5,7 @@
   color: #ffffff;
   min-height: 300px;
   .full {
-    background: #fff;
+    background: #fff URL('../../assets/bg-01.jpg');
     min-height: 300px;
   }
   ul {
@@ -18,9 +18,14 @@
       width: 32.5%;
       margin-right: 10px;
       height: 100px;
+      vertical-align: top;
+      img {
+        width: 100%;
+      }
     }
     li:last-child {
       margin-right: 0px;
     }
+
   }
 }
