@@ -7,8 +7,10 @@
       <div class="col-md-4">
         <div class="input-group">
           <ng-template #searchTemplate let-keyword="item" let-index="index">
-            <h5>{{keyword.name}}</h5>
-            <h6>   Php {{keyword.displayPrice}}</h6>
+            <div class="result-box">
+              <h5>{{keyword.name}}</h5>
+              <h6>   Php {{keyword.displayPrice}}</h6>
+            </div>
           </ng-template>
           <input [(ngModel)]="asyncSelected"
               [typeahead]="dataSource"
@@ -27,8 +29,8 @@
             <button class="btn btn-secondary" type="button" (click)="searchKeyword()">GO</button>
           </span>
         </div>
-        <div *ngIf="typeaheadLoading===true">Loading</div>
-        <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div>
+        <!-- <div *ngIf="typeaheadLoading===true">Loading</div> -->
+        <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>

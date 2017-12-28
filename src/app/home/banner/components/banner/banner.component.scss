@@ -1,0 +1,31 @@
+.banner {
+  background: #ff5847;
+  margin-top: 0px;
+  padding: 10px;
+  color: #ffffff;
+  min-height: 300px;
+  .full {
+    background: #fff URL('../../assets/bg-01.jpg');
+    min-height: 300px;
+  }
+  ul {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding: 0px;
+    li {
+      display: inline-block;
+      background: #fff;
+      width: 32.5%;
+      margin-right: 10px;
+      height: 100px;
+      vertical-align: top;
+      img {
+        width: 100%;
+      }
+    }
+    li:last-child {
+      margin-right: 0px;
+    }
+
+  }
+}

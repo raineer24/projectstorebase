@@ -40,7 +40,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
-    CheckoutFooterComponent
+    CheckoutFooterComponent,
      ],
   imports: [
     RouterModule.forRoot(routes),
