@@ -12,7 +12,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 @Component({
   selector: 'app-home',
   template: `
-    <app-breadcrumb [taxonomies]="taxonomies$ | async"></app-breadcrumb>
+    <app-banner></app-banner>
     <div class="col-xs-12">
       <!--
       <div class="col-xs-3">

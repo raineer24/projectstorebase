@@ -51,6 +51,27 @@ body {
   cursor: url('/assets/comingsoon.png'), auto !important;
 }
 
+.navbar {
+  margin-bottom: 0px !important;
+  border-bottom: 0px;
+  min-height: 40px !important;
+}
+main[_ngcontent-c0] {
+    padding: 0px !important;
+    background: #f7f7f7;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+}
+
 html {
 overflow-y: scroll;
 }
