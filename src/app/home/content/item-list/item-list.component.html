@@ -1,3 +1,9 @@
+<modal #itemDetailsModal>
+  <!-- <ng-template #modalHeader><h2>HTML inside modal</h2></ng-template> -->
+  <ng-template #modalBody>
+    <app-item-details-dialog *ngIf="selectedItem" [item]="selectedItem"></app-item-details-dialog>
+  </ng-template>
+</modal>
 <div class="row-base" style="display: -webkit-flex">
   <section>
     <ul class="results-base">
@@ -5,7 +11,8 @@
       <li *ngFor="let item of items | filter : selectedTaxonIds" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
         <div class="product-thumbShim"></div>
-        <a itemprop="url" [routerLink]="['/item/', item.slug]">
+        <!-- <a itemprop="url" [routerLink]="['/item', item.id]"> -->
+        <a itemprop="url" (click)="selectItem(item)">
           <img itemprop="image"
             class="product-thumb"
             alt="{{item.name}}"
@@ -17,7 +24,9 @@
             <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
               <span>
                 <!-- Discounted price -->
-                <span itemprop="price" class="product-discountedPrice">P {{item.price }}</span>
+
+                <span itemprop="price" class="product-discountedPrice">Php {{ item.price }}</span>
+
                 <!-- Original price -->
                 <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
               </span>

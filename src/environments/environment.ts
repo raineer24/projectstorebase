@@ -5,7 +5,10 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'http://localhost:6001/',
-  //API_ENDPOINT: 'https://angularspree-new.herokuapp.com/',
-  AppName: 'Eos Grocery App'
+  API_ENDPOINT: 'http://localhost:8081/',
+  // API_ENDPOINT: 'https://angularspree-new.herokuapp.com/',
+  // API_ENDPOINT: 'http://development.ufkkdxh3p4.ap-southeast-1.elasticbeanstalk.com',
+  AppName: 'OMG!',
+  FACEBOOK_APP_ID: '1858414594186264',
+  FACEBOOK_SRC: '//connect.facebook.net/en_US/sdk.js'
 };

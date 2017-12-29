@@ -55,7 +55,21 @@ export class ProductService {
    * @memberof ProductService
    */
   getProduct(id: string): Observable<any> {
-    return this.http.get(`/spree/api/v1/products/${id}`)
+    return this.http.get(`v1/item/${id}`)
+      .map(res => res.json())
+      .catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {string} id
+   * @returns {Observable<any>}
+   *
+   * @memberof ProductService
+   */
+  getItem(id: string): Observable<any> {
+    return this.http.get(`v1/item/${id}`)
       .map(res => res.json())
       .catch(err => Observable.empty());
   }

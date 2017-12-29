@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
   dataSource: Observable<any>;
+  searchData: Object = {};
 
   constructor(
     private store: Store<AppState>,
@@ -45,7 +46,10 @@ export class HeaderComponent implements OnInit {
         observer.next(this.asyncSelected);
       }
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
-        .map(data => { return data.list })
+        .map(data => {
+          this.searchData = { items: data };
+          return data.list
+        })
     )
   }
 
@@ -92,12 +96,13 @@ export class HeaderComponent implements OnInit {
   }
 
   typeaheadOnSelect(e: TypeaheadMatch): void {
-    this.router.navigateByUrl(`/product/${e.item.slug}`);
+    this.router.navigateByUrl(`/item/item-details/${e.item.id}`);
     //this.router.navigate(['user/profile']);
   }
 
   searchKeyword(): void {
-    console.log(this.asyncSelected)
+    this.router.navigateByUrl('/');
+    this.store.dispatch(this.productActions.getItemsBySearchSuccess(this.searchData))
   }
 
 }

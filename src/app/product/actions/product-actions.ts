@@ -12,6 +12,10 @@ export class ProductActions {
     static GET_ALL_TAXONOMIES_SUCCESS = 'GET_ALL_TAXONOMIES_SUCCESS';
     static GET_ITEMS_BY_CATEGORY = "GET_ITEMS_BY_CATEGORY";
     static GET_ITEMS_BY_CATEGORY_SUCCESS = "GET_ITEMS_BY_CATEGORY_SUCCESS";
+    static GET_ITEMS_BY_SEARCH = "GET_ITEMS_BY_SEARCH";
+    static GET_ITEMS_BY_SEARCH_SUCCESS = "GET_ITEMS_BY_SEARCH_SUCCESS";
+    static ADD_SELECTED_ITEM = "ADD_SELECTED_ITEM";
+    static REMOVE_SELECTED_ITEM = "REMOVE_SELECTED_ITEM"
 
     getAllProducts(): Action {
         return { type: ProductActions.GET_ALL_PRODUCTS };
@@ -54,6 +58,20 @@ export class ProductActions {
         };
     }
 
+    GetItemsBySearch(category: any): Action {
+        return {
+            type: ProductActions.GET_ITEMS_BY_SEARCH,
+            payload: category
+        };
+    }
+
+    getItemsBySearchSuccess(items: any): Action {
+        return {
+            type: ProductActions.GET_ITEMS_BY_SEARCH_SUCCESS,
+            payload: items
+        };
+    }
+
     getItemsByCategory(category: any): Action {
         return {
             type: ProductActions.GET_ITEMS_BY_CATEGORY,
@@ -67,4 +85,18 @@ export class ProductActions {
             payload: items
         };
     }
+
+    addSelectedItem(item: any): Action {
+        return {
+            type: ProductActions.ADD_SELECTED_ITEM,
+            payload: item
+        };
+    }
+
+    removeSelectedItem(): Action {
+        return {
+            type: ProductActions.REMOVE_SELECTED_ITEM
+        };
+    }
+
 }
