@@ -1,4 +1,21 @@
 <div>
-  {{item.name}}
-  {{item.price}}
+  <div>INSERT IMAGES HERE</div>
+  <div>
+    <p>{{item.name}}</p>
+    <p>{{item.brandName}}</p>
+    <p>{{item.packaging}}</p>
+    <p>List Price: {{item.price | currency:'PHP':true:'1.2'}}</p>
+    <p>Price: </p>
+    <p>You Save: </p>
+    <p>Item Information</p>
+    <p>
+      When this item is not available
+      <select></select>
+    </p>
+    <p>
+      <button type="button">ADD TO CART</button>
+      <button type="button">ADD TO WISHLIST</button>
+    </p>
+  </div>
+  <div>Check out these other items</div>
 </div>
