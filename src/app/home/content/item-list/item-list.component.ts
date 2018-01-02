@@ -53,4 +53,8 @@ export class ItemListComponent implements OnInit {
     this.store.dispatch(this.productActions.removeSelectedItem());
     this.itemDetailsModal.open();
   }
+
+  closeItemDialog() {
+    this.itemDetailsModal.close();
+  }
 }

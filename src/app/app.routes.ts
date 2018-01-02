@@ -15,7 +15,7 @@ export const routes: Routes = [
     //canActivate: [ CanActivateViaAuthGuard ]
   },
   {
-    path: 'product',
+    path: 'item',
     loadChildren: './product/index#ProductModule'
   },
   {

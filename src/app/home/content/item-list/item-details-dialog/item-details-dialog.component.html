@@ -1,4 +1,7 @@
 <div>
+  <div>
+    <a href="javascript:void(0)" (click)="onCloseModal()">Go back X</a>
+  </div>
   <div>INSERT IMAGES HERE</div>
   <div>
     <p>{{item.name}}</p>
@@ -7,7 +10,9 @@
     <p>List Price: {{item.price | currency:'PHP':true:'1.2'}}</p>
     <p>Price: </p>
     <p>You Save: </p>
-    <p>Item Information</p>
+    <p>
+      Item Information
+    </p>
     <p>
       When this item is not available
       <select></select>
