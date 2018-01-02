@@ -16,7 +16,7 @@
           <img itemprop="image"
             class="product-thumb"
             alt="{{item.name}}"
-            [src]="getItemImageUrl(item.id)">
+            src="../../assets/mocha-01.jpg">
           <!-- EOSNOTE - TEMPORARY: insert correct image URL -->
           <div class="product-productMetaInfo">
             <div itemprop="name" class="product-brand">{{ item.name }}</div>
@@ -24,16 +24,19 @@
             <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
               <span>
                 <!-- Discounted price -->
+
                 <span itemprop="price" class="product-discountedPrice">Php {{ item.price }}</span>
+
                 <!-- Original price -->
                 <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
               </span>
               <!--Percentage off --><!--<span class="product-discountPercentage">(40% OFF)</span>-->
             </div>
             <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
+            <button class="btn-danger">ADD TO CART</button>
           </div>
         </a>
-        <div class="product-sizeDisplayDiv">
+        <!-- <div class="product-sizeDisplayDiv">
           <div class="product-sizeDisplayHeader">
             <span>Select a size</span>
             <span class="myntraweb-sprite product-sizeDisplayRemoveMark sprites-remove"></span>
@@ -51,7 +54,7 @@
           <span class="product-actionsButton product-addToBag">
             <span (click)="addToCart(item)">Add to bag</span>
           </span>
-        </div>
+        </div> -->
       </li>
     </ul>
   </section>

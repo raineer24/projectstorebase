@@ -6,8 +6,9 @@ import { SharedModule } from './../shared/index';
 
 // Components
 import { HomeComponent } from './home.component';
+import { BannerComponent } from './banner/components/banner/banner.component';
 // Breadcrumb components
-import { BreadcrumbComponent } from './breadcrumb/components/breadcrumb/breadcrumb.component';
+// import { BreadcrumbComponent } from './breadcrumb/components/breadcrumb/breadcrumb.component';
 
 // Content components
 import { ItemListComponent } from './content/item-list/item-list.component';
@@ -36,7 +37,8 @@ import { ModalModule } from 'angular-custom-modal';
     ItemDetailsDialogComponent,
     TaxonsComponent,
     FilterComponent,
-    BreadcrumbComponent,
+    // BreadcrumbComponent,
+    BannerComponent,
     ContentHeaderComponent,
     CustomizeComponent,
     FilterSummaryComponent,

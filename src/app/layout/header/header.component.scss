@@ -9,15 +9,18 @@
   // width: 100%;
   padding: 0;
   text-transform: uppercase;
-  // display: block; 
+  // display: block;
+  margin-top: -1px;
   }
 .header-sticky-wrapper ul li {
   // float: left;
   // list-style: none;
   // margin-left: 20px;
   font-size: 11px;
-  
-  
+  a {
+    color: #333333;
+  }
+
 }
 // .header-sticky-wrapper ul li:first-child {
 //   margin-left: 0;
@@ -51,6 +54,7 @@ li.dropdown:hover > ul.dropdown-menu {
 .yamm .dropdown.yamm-fw .dropdown-menu {
   left: 0;
   right: 0;
+  padding-bottom: 15px;
 }
 .yamm .yamm-content {
   padding: 20px 30px;
@@ -59,6 +63,10 @@ li.dropdown:hover > ul.dropdown-menu {
   display: block;
 }
 
+
+.result-box {
+  min-width: 335px !important;
+}
 
 
 // .navbar {
@@ -72,7 +80,7 @@ li.dropdown:hover > ul.dropdown-menu {
 //     height: 46px;
 //   }
 // }
-// .navbar-header 
+// .navbar-header
 // {
 //   width: 100%
 // }
