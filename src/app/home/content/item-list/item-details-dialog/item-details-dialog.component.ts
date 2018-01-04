@@ -29,4 +29,8 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   onCloseModal() {
     this.onCloseModalEmit.emit();
   }
+
+  addToCart() {
+    this.store.dispatch(this.checkoutAction.addToCart(this.item.id));
+  }
 }
