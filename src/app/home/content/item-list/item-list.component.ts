@@ -27,12 +27,15 @@ export class ItemListComponent implements OnInit {
   constructor(
     private productActions: ProductActions,
     private checkoutService: CheckoutService,
+
     private store: Store<AppState>,
     private checkoutActions: CheckoutActions) { }
 
   ngOnInit() {
     this.selectedItem$ = this.store.select(getSelectedProduct);
   }
+
+
 
   getItemImageUrl(url) {
     return `https://loremflickr.com/g/180/240/grocery/all?${url}`;
@@ -50,7 +53,7 @@ export class ItemListComponent implements OnInit {
 
   selectItem(item: Item) {
     this.selectedItem = item;
-    this.store.dispatch(this.productActions.removeSelectedItem());
+    this.store.dispatch(this.productActions.addSelectedItem(item));
     this.itemDetailsModal.open();
   }
 
