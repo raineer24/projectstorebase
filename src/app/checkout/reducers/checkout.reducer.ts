@@ -45,14 +45,15 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }) as CheckoutState;
 
       case CheckoutActions.ADD_TO_CART_SUCCESS:
+
         _lineItem = payload;
         _lineItemId = _lineItem.id;
-
+console.log("TEST" + _lineItem)
         // return the same state if the item is already included.
         if (state.lineItemIds.includes(_lineItemId)) {
           return state;
         }
-
+console.log("TEST" + _lineItem.quantity)
         _totalCartItems = state.totalCartItems + _lineItem.quantity;
         _totalCartValue = state.totalCartValue + parseFloat(_lineItem.total);
         _lineItemEntity = { [_lineItemId]: _lineItem };
@@ -118,5 +119,3 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         return state;
     }
   };
-
-

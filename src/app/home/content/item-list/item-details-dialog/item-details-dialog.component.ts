@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProductActions } from './../../../../product/actions/product-actions';
+import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
 import { Item } from './../../../../core/models/item';
 import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
@@ -15,6 +16,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   constructor(
     private productActions: ProductActions,
+    private checkoutActions: CheckoutActions,
     private store: Store<AppState>
   ) { }
 
@@ -31,6 +33,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   }
 
   addToCart() {
-    this.store.dispatch(this.checkoutAction.addToCart(this.item.id));
+    this.store.dispatch(this.checkoutActions.addToCart(this.item.id));
   }
 }
