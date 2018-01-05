@@ -21,6 +21,7 @@ export class CartComponent implements OnInit {
   constructor(private store: Store<AppState>) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
+   
   }
 
   ngOnInit() {
