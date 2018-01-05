@@ -17,16 +17,16 @@
         </div>
       </div>
       <div class="panel-body">
-        <div class="row" *ngFor="let item of Items">
+        <div class="row" *ngFor="let item of products$ | async">
           <div class="col-xs-2">
             <img class="img-responsive" src="../../assets/photo-01.jpg">
           </div>
           <div class="col-xs-4">
             <h4 class="product-name">
-              <strong>{{item.namedescription}}</strong>
+              <strong>{{ item.name }}</strong>
             </h4>
             <h4>
-              <small>Portable car charger USB</small>
+              <small>{{item.description}}</small>
             </h4>
           </div>
           <div class="col-xs-6">
@@ -78,7 +78,7 @@
               </button>
             </div>
           </div>
-        </div>p-panel' is not a known element:
+        </div>
         <hr>
         <div class="row">
           <div class="text-center">
@@ -111,14 +111,4 @@
 </div>
 
 
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Itemsl</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    Total items
-  </div>
-</ng-template>
+
