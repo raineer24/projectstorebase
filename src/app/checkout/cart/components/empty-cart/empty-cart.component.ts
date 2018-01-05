@@ -9,6 +9,14 @@ export class EmptyCartComponent implements OnInit {
 
   constructor() { }
 
+  Items = [
+    {
+       namedescription: 'Mango',
+       description: 'Organic fruits'
+    }
+      
+  ];
+
   ngOnInit() {
   }
 
