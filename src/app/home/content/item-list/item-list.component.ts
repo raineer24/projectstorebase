@@ -42,9 +42,9 @@ export class ItemListComponent implements OnInit {
     // return environment.API_ENDPOINT + url;
   }
 
-  addToCart(item: Item) {
-    const variant_id = item.id;
-    this.store.dispatch(this.checkoutActions.addToCart(variant_id));
+  addToCart(item: Item, e) {
+    e.stopPropagation();
+    this.store.dispatch(this.checkoutActions.addToCart(item.id));
   }
 
   getMargin() {

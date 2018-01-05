@@ -3,7 +3,7 @@ import { CheckoutActions } from './../../checkout/actions/checkout.actions';
 import { Response, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { LineItem } from './../models/line_item';
+import { CartItem } from './../models/cart_item';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { HttpService } from './http';
@@ -40,7 +40,7 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  createNewLineItem(variant_id: number) {
+  createNewCartItem(variant_id: number) {
     // return this.http.post(
     //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderToken()}`,
     //   {
@@ -49,20 +49,22 @@ export class CheckoutService {
     //       quantity: 1
     //     }
     //   }
-    return Observable.create((observer: any) => {
-      const lineItem =
-        {
-          line_item: {
-            item_id: variant_id,
-            quantity: 1
-          }
-        }
-        observer.next(lineItem);
-      }
-    ).map(res => {
-      const lineItem: LineItem =  res.json();
-      return lineItem;
-    }).catch(err => Observable.empty());
+    // ).map(res => {
+    //   const lineItem: CartItem =  res.json();
+    //   return lineItem;
+    // }).catch(err => Observable.empty());
+
+
+     const dummy = [{
+      id: 1,
+      quantity: 1,
+      price: 1234,
+      total: 1234,
+      item_id: variant_id,
+      item: null
+    }]
+
+    return dummy;
   }
 
   /**
@@ -133,15 +135,15 @@ export class CheckoutService {
   /**
    *
    *
-   * @param {LineItem} lineItem
+   * @param {CartItem} cartItem
    * @returns
    *
    * @memberof CheckoutService
    */
-  deleteLineItem(lineItem: LineItem) {
-    return this.http.delete(`spree/api/v1/orders/${this.orderNumber}/line_items/${lineItem.id}?order_token=${this.getOrderToken()}`)
+  deleteCartItem(cartItem: CartItem) {
+    return this.http.delete(`spree/api/v1/orders/${this.orderNumber}/line_items/${cartItem.id}?order_token=${this.getOrderToken()}`)
       .map(() => {
-        this.store.dispatch(this.actions.removeLineItemSuccess(lineItem));
+        this.store.dispatch(this.actions.removeCartItemSuccess(cartItem));
       }).catch(err => Observable.empty());
   }
 

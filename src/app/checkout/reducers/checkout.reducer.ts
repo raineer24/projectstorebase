@@ -1,4 +1,4 @@
-import { LineItem } from './../../core/models/line_item';
+import { CartItem } from './../../core/models/cart_item';
 import { CheckoutActions } from './../actions/checkout.actions';
 import { CheckoutState, CheckoutStateRecord } from './checkout.state';
 import { Action, ActionReducer } from '@ngrx/store';
@@ -9,8 +9,8 @@ export const initialState: CheckoutState = new CheckoutStateRecord() as Checkout
 export const checkoutReducer: ActionReducer<CheckoutState> =
   (state: CheckoutState = initialState, { type, payload }: Action): CheckoutState => {
 
-    let _lineItems, _lineItemEntities, _lineItemIds,
-        _lineItem, _lineItemEntity, _lineItemId,
+    let _cartItems, _cartItemEntities, _cartItemIds,
+        _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue,
         _ship_address, _bill_address,
         _orderState;
@@ -19,25 +19,25 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       case CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS:
         const _orderNumber = payload.number;
-        _lineItems = payload.line_items;
-        _lineItemIds = _lineItems.map(lineItem => lineItem.id);
+        _cartItems = payload.line_items;
+        _cartItemIds = _cartItems.map(cartItem => cartItem.id);
         _totalCartItems = payload.total_quantity;
         _totalCartValue = parseFloat(payload.total);
         _ship_address = payload.ship_address;
         _bill_address = payload.bill_address;
         _orderState = payload.state;
 
-        _lineItemEntities = _lineItems.reduce((lineItems: { [id: number]: LineItem }, lineItem: LineItem) => {
-          return Object.assign(lineItems, {
-            [lineItem.id]: lineItem
+        _cartItemEntities = _cartItems.reduce((cartItems: { [id: number]: CartItem }, cartItem: CartItem) => {
+          return Object.assign(cartItems, {
+            [cartItem.id]: cartItem
           });
         }, { });
 
         return state.merge({
           orderNumber: _orderNumber,
           orderState: _orderState,
-          lineItemIds: _lineItemIds,
-          lineItemEntities: _lineItemEntities,
+          cartItemIds: _cartItemIds,
+          cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
           shipAddress: _ship_address,
@@ -45,53 +45,52 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }) as CheckoutState;
 
       case CheckoutActions.ADD_TO_CART_SUCCESS:
+        _cartItem = payload;
+        _cartItemId = _cartItem.id;
 
-        _lineItem = payload;
-        _lineItemId = _lineItem.id;
-console.log("TEST" + _lineItem)
         // return the same state if the item is already included.
-        if (state.lineItemIds.includes(_lineItemId)) {
+        if (state.cartItemIds.includes(_cartItemId)) {
           return state;
         }
-console.log("TEST" + _lineItem.quantity)
-        _totalCartItems = state.totalCartItems + _lineItem.quantity;
-        _totalCartValue = state.totalCartValue + parseFloat(_lineItem.total);
-        _lineItemEntity = { [_lineItemId]: _lineItem };
-        _lineItemIds = state.lineItemIds.push(_lineItemId);
+
+        _totalCartItems = state.totalCartItems + _cartItem.quantity;
+        _totalCartValue = state.totalCartValue + parseFloat(_cartItem.total);
+        _cartItemEntity = { [_cartItemId]: _cartItem };
+        _cartItemIds = state.cartItemIds.push(_cartItemId);
 
         return state.merge({
-          lineItemIds: _lineItemIds,
-          lineItemEntities: state.lineItemEntities.merge(_lineItemEntity),
+          cartItemIds: _cartItemIds,
+          cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue
         }) as CheckoutState;
 
-      case CheckoutActions.REMOVE_LINE_ITEM_SUCCESS:
-        _lineItem = payload;
-        _lineItemId = _lineItem.id;
-        const index = state.lineItemIds.indexOf(_lineItemId);
+      case CheckoutActions.REMOVE_CART_ITEM_SUCCESS:
+        _cartItem = payload;
+        _cartItemId = _cartItem.id;
+        const index = state.cartItemIds.indexOf(_cartItemId);
         if (index >= 0) {
-          _lineItemIds = state.lineItemIds.splice(index, 1);
-          _lineItemEntities = state.lineItemEntities.delete(_lineItemId);
-          _totalCartItems = state.totalCartItems - _lineItem.quantity;
-          _totalCartValue = state.totalCartValue - parseFloat(_lineItem.total);
+          _cartItemIds = state.cartItemIds.splice(index, 1);
+          _cartItemEntities = state.cartItemEntities.delete(_cartItemId);
+          _totalCartItems = state.totalCartItems - _cartItem.quantity;
+          _totalCartValue = state.totalCartValue - parseFloat(_cartItem.total);
         }
 
         return state.merge({
-          lineItemIds: _lineItemIds,
-          lineItemEntities: _lineItemEntities,
+          cartItemIds: _cartItemIds,
+          cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue
         }) as CheckoutState;
 
-      // case CheckoutActions.CHANGE_LINE_ITEM_QUANTITY:
+      // case CheckoutActions.CHANGE_CART_ITEM_QUANTITY:
       //   const quantity = payload.quantity;
-      //   lineItemId = payload.lineItemId;
-      //   _lineItemEntities = state.lineItemEntities;
-      //   _lineItemEntities[lineItemId][quantity] = quantity;
+      //   cartItemId = payload.cartItemId;
+      //   _cartItemEntities = state.cartItemEntities;
+      //   _cartItemEntities[cartItemId][quantity] = quantity;
 
       //   return state.merge({
-      //     lineItemEntities: _lineItemEntities
+      //     cartItemEntities: _cartItemEntities
       //   }) as CheckoutState;
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
