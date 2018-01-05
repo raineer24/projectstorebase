@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProductActions } from './../../../../product/actions/product-actions';
 import { Item } from './../../../../core/models/item';
 import { AppState } from './../../../../interfaces';
@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 })
 export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   @Input() item: Item;
+  @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private productActions: ProductActions,
@@ -18,10 +19,14 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit() {
-     this.store.dispatch(this.productActions.addSelectedItem(this.item))
+
   }
 
   ngOnDestroy() {
+    this.store.dispatch(this.productActions.removeSelectedItem())
+  }
 
+  onCloseModal() {
+    this.onCloseModalEmit.emit();
   }
 }
