@@ -29,6 +29,10 @@ export class HeaderComponent implements OnInit {
   typeaheadNoResults: boolean;
   dataSource: Observable<any>;
   searchData: Object = {};
+  catList: Object = {};
+  copycatList: Array<any> = [];
+  copyitemList: Array<any> = [];
+  catArr: Array<any> = [];
 
   constructor(
     private store: Store<AppState>,
@@ -40,6 +44,16 @@ export class HeaderComponent implements OnInit {
     private router: Router
   ) {
     this.categories$ = this.store.select(getTaxonomies);
+    this.categories$.subscribe(data => {
+          this.catList = { items: data };
+
+          for(var n=0; n < 5; n++){
+            this.copycatList[n] = data[n].name;
+          }
+          console.log(this.copycatList);
+
+
+        });
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every searchBar
       if(this.asyncSelected && this.asyncSelected.length > 1) {
@@ -48,9 +62,17 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-          return data.list
+
+          this.copyitemList = data.list;
+          for(var n=0; n<5; n++){
+            this.copyitemList.push(this.copycatList[n]);
+          }
+          console.log(this.copyitemList);
+          return data.list;
+
         })
     )
+
   }
 
   ngOnInit() {
