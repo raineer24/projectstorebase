@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "./node_modules/@angular/cli/bin/ng",
     "start-mock": "ng serve -H 0.0.0.0 --environment=mock",
-    "start": "./node_modules/@angular/cli/bin/ng serve -H 0.0.0.0 --port=8081",
+    "start": "cd dist && live-server --port=8081 --host=localhost --entry-file=/index.html",
     "build": "ng build",
     "test": "echo 'no test'",
     "lint": "",
@@ -17,7 +17,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/cli": "^1.5.5",
     "@angular/animations": "^4.2.6",
     "@angular/common": "^4.2.6",
     "@angular/compiler": "^4.2.6",
