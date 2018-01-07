@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "./node_modules/@angular/cli/bin/ng",
     "start-mock": "ng serve -H 0.0.0.0 --environment=mock",
-    "start": "npm run build--prod && cd dist && live-server --port=8081 --host=localhost --entry-file=/index.html",
+    "start": "cd dist && live-server --port=8081 --host=localhost --entry-file=/index.html",
     "build": "ng build",
     "test": "echo 'no test'",
     "lint": "",
