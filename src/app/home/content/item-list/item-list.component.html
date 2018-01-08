@@ -33,7 +33,10 @@
               <!--Percentage off --><!--<span class="product-discountPercentage">(40% OFF)</span>-->
             </div>
             <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
-            <button class="btn-danger" (click)="addToCart(item, $event)">ADD TO CART</button>
+            <button *ngIf="!isInCart(item.id); else quantityButton" class="btn-danger" (click)="addToCart(item, $event)">ADD TO CART</button>
+            <ng-template #quantityButton>
+              <button>ADD QUANTITY</button>
+            </ng-template>
           </div>
         </a>
         <!-- <div class="product-sizeDisplayDiv">

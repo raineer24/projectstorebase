@@ -20,6 +20,7 @@ export class ItemListComponent implements OnInit {
   @Input() items;
   @Input('taxonIds') selectedTaxonIds;
   @Input() toggleLayout;
+  @Input() cartItems;
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
   selectedItem: Item;
@@ -59,5 +60,16 @@ export class ItemListComponent implements OnInit {
 
   closeItemDialog() {
     this.itemDetailsModal.close();
+  }
+
+  isInCart(id: number) {
+    console.log(JSON.stringify(this.cartItems))
+    if(this.cartItems.includes(id)){
+
+      return this.cartItems[id].quantity;
+    } else {
+
+      return 0;
+    }
   }
 }
