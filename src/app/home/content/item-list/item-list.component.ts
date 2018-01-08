@@ -63,13 +63,22 @@ export class ItemListComponent implements OnInit {
   }
 
   isInCart(id: number) {
-    console.log(JSON.stringify(this.cartItems))
-    if(this.cartItems.includes(id)){
-
-      return this.cartItems[id].quantity;
+    const cartItem = this.cartItems.find(item => item.id === id);
+    if(typeof(cartItem) != "undefined"){
+      return cartItem.quantity;
     } else {
-
       return 0;
     }
   }
+
+  incrementQuantity(item: Item, e) {
+    e.stopPropagation();
+
+  }
+
+  decrementQuantity(item: Item, e) {
+    e.stopPropagation();
+    
+  }
+
 }
