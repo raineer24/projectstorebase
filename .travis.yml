@@ -4,6 +4,8 @@ node_js:
 env:
   matrix:
   - CXX=g++-4.8 TRAVIS=true
+before_install:
+  - rvm install 2.4.0
 script:
   - npm run build--prod
 deploy:
