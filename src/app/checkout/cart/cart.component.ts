@@ -28,4 +28,6 @@ export class CartComponent implements OnInit {
   ngOnInit() {
     this.products$ = this.store.select(getProducts);
   }
+
+  val1: number = 1;
 }
