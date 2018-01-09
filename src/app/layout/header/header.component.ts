@@ -45,7 +45,6 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private cd: ChangeDetectorRef
   ) {
-<<<<<<< HEAD
 
     this.categories$ = this.store.select(getTaxonomies);
     this.categories$.subscribe(data => {
@@ -58,8 +57,6 @@ export class HeaderComponent implements OnInit {
           console.log(this.copycatList);
 
         });
-=======
->>>>>>> 4d59d39329ebd30da34b9e8dcf85522fa0a588e8
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every searchBar
       if(this.asyncSelected && this.asyncSelected.length > 1) {
