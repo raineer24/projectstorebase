@@ -15,11 +15,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 
-  totalCartValue$: Observable<number>;
+  //totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
-    this.totalCartValue$ = this.store.select(getTotalCartValue);
+    //this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
    
   }
