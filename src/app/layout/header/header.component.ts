@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
   copyitemList: Array<any> = [];
   catArr: Array<any> = [];
 
+
   constructor(
     private store: Store<AppState>,
     private authService: AuthService,
@@ -43,15 +44,16 @@ export class HeaderComponent implements OnInit {
     private searchActions: SearchActions,
     private router: Router
   ) {
+
     this.categories$ = this.store.select(getTaxonomies);
     this.categories$.subscribe(data => {
           this.catList = { items: data };
-
+          //console.log(JSON.stringify(data));
           for(var n=0; n < 5; n++){
-            this.copycatList[n] = data[n].name;
+            this.copycatList[n] = data[n];
           }
-          console.log(this.copycatList);
 
+          console.log(this.copycatList);
 
         });
     this.dataSource = Observable.create((observer: any) => {
@@ -67,8 +69,31 @@ export class HeaderComponent implements OnInit {
           for(var n=0; n<5; n++){
             this.copyitemList.push(this.copycatList[n]);
           }
-          console.log(this.copyitemList);
-          return data.list;
+          var group_to_values = this.copyitemList.reduce(function (obj, item) {
+              if(item.brandName !== undefined){
+                 obj[item.name] = 'items';
+                // obj[item.brandName] = obj[item.brandName];
+                 //obj[item.price] = obj[item.price];
+              }else{
+                 obj[item.name] = 'categories';
+              }
+              return obj;
+          }, {});
+          var groups = Object.keys(group_to_values).map(function (key) {
+              return {group: group_to_values[key], name:key };
+          });
+
+          console.log(JSON.stringify(data.list));
+          console.log(JSON.stringify(groups, null, 4));
+
+          for (var i = 0, len = groups.length; i < len; i++) {
+            if(groups[i].group === 'items') {
+              groups[i]["price"] = 150;
+              console.log(groups[i]);
+            }
+          }
+
+          return groups;
 
         })
     )

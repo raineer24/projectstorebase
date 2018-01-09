@@ -7,11 +7,10 @@
       <div class="col-md-4">
         <div class="input-group">
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
-            <div class="result-box">
-                <h4>{{keyword.name}}</h4>
-                <h5> Php {{keyword.price}} </h5>
-                <!--h6>{{keyword.categories}}</h6-->
+            <div class="result-box" *ngIf="index<=2; else categories">
+                <h4>{{keyword.name}} | Php {{keyword.price}}</h4>
             </div>
+            <ng-template #categories><h5>{{keyword.name}}</h5></ng-template>
           </ng-template>
 
           <input [(ngModel)]="asyncSelected"
@@ -23,7 +22,7 @@
               [typeaheadWaitMs]="300"
               [typeaheadMinLength]="2"
               typeaheadOptionField="name"
-              typeaheadGroupField="category1"
+              typeaheadGroupField="group"
               [typeaheadItemTemplate]="searchTemplate"
               (keyup.enter)="searchKeyword()"
               class="form-control"
