@@ -9,10 +9,10 @@ export function getCheckoutState(state: AppState): CheckoutState {
 }
 
 // ******************** Individual selectors ***************************
-export function fetchLineItems(state: CheckoutState) {
-  const ids = state.lineItemIds.toJS();
-  const lineItemEntitites = state.lineItemEntities.toJS();
-  return ids.map(id => lineItemEntitites[id]);
+export function fetchCartItems(state: CheckoutState) {
+  const ids = state.cartItemIds.toJS();
+  const cartItemEntitites = state.cartItemEntities.toJS();
+  return ids.map(id => cartItemEntitites[id]);
 }
 
 export function fetchOrderNumber(state: CheckoutState) {
@@ -40,7 +40,7 @@ export function fetchOrderState(state: CheckoutState) {
 }
 
 // *************************** PUBLIC API's ****************************
-export const getLineItems = createSelector(getCheckoutState, fetchLineItems);
+export const getCartItems = createSelector(getCheckoutState, fetchCartItems);
 export const getOrderNumber = createSelector(getCheckoutState, fetchOrderNumber);
 export const getTotalCartItems = createSelector(getCheckoutState, fetchTotalCartItems);
 export const getTotalCartValue = createSelector(getCheckoutState, fetchTotalCartValue);

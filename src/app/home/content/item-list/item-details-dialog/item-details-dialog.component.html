@@ -1,21 +1,35 @@
 <div>
-  <div>INSERT IMAGES HERE</div>
-  <div>
-    <p>{{item.name}}</p>
-    <p>{{item.brandName}}</p>
-    <p>{{item.packaging}}</p>
-    <p>List Price: {{item.price | currency:'PHP':true:'1.2'}}</p>
-    <p>Price: </p>
-    <p>You Save: </p>
-    <p>Item Information</p>
-    <p>
-      When this item is not available
-      <select></select>
-    </p>
-    <p>
-      <button type="button">ADD TO CART</button>
-      <button type="button">ADD TO WISHLIST</button>
-    </p>
+  <div class="dialog-header">
+    <a href="javascript:void(0)" (click)="onCloseModal()">Go back <span>X</span></a>
   </div>
-  <div>Check out these other items</div>
+  <div class="item-details">
+    <div class="item-images">INSERT IMAGES HERE</div>
+    <div class="item-info">
+      <div>
+        <p>{{item.name}}</p>
+        <p>{{item.brandName}}</p>
+        <p>{{item.packaging}}</p>
+      </div>
+      <div>
+        <p>List Price: {{item.displayPrice | currency:'PHP':true:'1.2'}}</p>
+        <p>Price: {{item.price | currency:'PHP':true:'1.2'}}</p>
+        <p>You Save: </p>
+      </div>
+      <p>
+        Item Information
+      </p>
+      <p>
+        When this item is not available
+        <select>
+          <option selected disabled hidden>Select another item</option>
+        </select>
+      </p>
+      <p>
+        <button type="button" (click)="addToCart()">ADD TO CART</button>
+        <button type="button">ADD TO WISHLIST</button>
+      </p>
+    </div>
+  </div>
+  <br/>
+  <div class="suggested-items">Check out these other items</div>
 </div>

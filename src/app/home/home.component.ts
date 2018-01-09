@@ -4,6 +4,7 @@ import { environment } from './../../environments/environment';
 import { ProductActions } from './../product/actions/product-actions';
 import { AppState } from './../interfaces';
 import { getProducts, getTaxonomies } from './../product/reducers/selectors';
+import { getCartItems } from './../checkout/reducers/selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnChanges } from '@angular/core';
@@ -22,7 +23,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
       -->
       <div class="col-xs-12">
         <app-content
-          [products]="products$ | async">
+          [products]="products$ | async" [cartItemsArr]="cartItems$ | async">
           <!-- [taxonIds]="selectedTaxonIds$ | async"> -->
         </app-content>
       </div>
@@ -33,12 +34,15 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 export class HomeComponent implements OnInit {
   products$: Observable<any>;
   taxonomies$: Observable<any>;
+  cartItems$: Observable<any>;
   selectedTaxonIds$: Observable<number[]>;
 
   constructor(private store: Store<AppState>, private actions: ProductActions) {
     // Get all products for the product list component
     this.store.dispatch(this.actions.getAllProducts());
     this.store.dispatch(this.actions.getAllTaxonomies());
+    // this.store.dispatch(this.actions.get something)
+    this.cartItems$ = this.store.select(getCartItems)
     this.products$ = this.store.select(getProducts);
     this.taxonomies$ = this.store.select(getTaxonomies);
     this.selectedTaxonIds$ = this.store.select(getSelectedTaxonIds);

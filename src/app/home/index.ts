@@ -1,6 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ProductActions } from './../product/actions/product-actions';
+import { CheckoutActions } from './../checkout/actions/checkout.actions';
 import { SearchActions } from './reducers/search.actions';
 import { SharedModule } from './../shared/index';
 
@@ -8,7 +9,7 @@ import { SharedModule } from './../shared/index';
 import { HomeComponent } from './home.component';
 import { BannerComponent } from './banner/components/banner/banner.component';
 // Breadcrumb components
-// import { BreadcrumbComponent } from './breadcrumb/components/breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent } from './breadcrumb/components/breadcrumb/breadcrumb.component';
 
 // Content components
 import { ItemListComponent } from './content/item-list/item-list.component';
@@ -37,7 +38,7 @@ import { ModalModule } from 'angular-custom-modal';
     ItemDetailsDialogComponent,
     TaxonsComponent,
     FilterComponent,
-    // BreadcrumbComponent,
+    BreadcrumbComponent,
     BannerComponent,
     ContentHeaderComponent,
     CustomizeComponent,
@@ -55,6 +56,7 @@ import { ModalModule } from 'angular-custom-modal';
   ],
   providers: [
     ProductActions,
+    CheckoutActions,
     SearchActions
   ]
 })

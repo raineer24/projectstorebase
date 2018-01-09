@@ -5,13 +5,18 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-content',
   template: `
-    <app-item-list [(toggleLayout)]='toggleLayout' [items]='products' [taxonIds]="taxonIds"></app-item-list>
+    <app-item-list [(toggleLayout)]='toggleLayout'
+      [items]='products'
+      [taxonIds]="taxonIds"
+      [cartItems]="cartItemsArr">
+    </app-item-list>
   `,
 //   styleUrls: ['./content-header.component.scss']
 })
 export class ContentComponent implements OnInit {
   // @Input() products: Product[];
   @Input() products: Item[];
+  @Input() cartItemsArr: Item[];
   @Input() taxonIds;
   toggleLayout = {size: 'COZY'};
 

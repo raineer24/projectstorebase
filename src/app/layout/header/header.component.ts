@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { SearchActions } from './../../home/reducers/search.actions';
 import { getTaxonomies } from './../../product/reducers/selectors';
 import { getTotalCartItems } from './../../checkout/reducers/selectors';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
@@ -42,8 +42,10 @@ export class HeaderComponent implements OnInit {
     private productService: ProductService,
     private productActions: ProductActions,
     private searchActions: SearchActions,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
+<<<<<<< HEAD
 
     this.categories$ = this.store.select(getTaxonomies);
     this.categories$.subscribe(data => {
@@ -56,6 +58,8 @@ export class HeaderComponent implements OnInit {
           console.log(this.copycatList);
 
         });
+=======
+>>>>>>> 4d59d39329ebd30da34b9e8dcf85522fa0a588e8
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every searchBar
       if(this.asyncSelected && this.asyncSelected.length > 1) {
@@ -104,6 +108,7 @@ export class HeaderComponent implements OnInit {
     // this.store.dispatch(this.authActions.authorize());
     this.isAuthenticated = this.store.select(getAuthStatus);
     this.totalCartItems = this.store.select(getTotalCartItems);
+    this.categories$ = this.store.select(getTaxonomies);
   }
 
   selectAll() {
@@ -115,6 +120,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/');
     // this.store.dispatch(this.searchActions.addFilter(category));
     this.store.dispatch(this.productActions.getItemsByCategory(category))
+  }
+
+  onMenuToggle(){
+    this.cd.markForCheck();
   }
 
   // autoComplete(event){

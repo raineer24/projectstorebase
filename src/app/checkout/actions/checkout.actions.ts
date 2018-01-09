@@ -1,4 +1,4 @@
-import { LineItem } from './../../core/models/line_item';
+import { CartItem } from './../../core/models/cart_item';
 import { Order } from './../../core/models/order';
 import { Action } from '@ngrx/store';
 
@@ -7,9 +7,9 @@ export class CheckoutActions {
   static FETCH_CURRENT_ORDER_SUCCESS = 'FETCH_CURRENT_ORDER_SUCCESS';
   static ADD_TO_CART = 'ADD_TO_CART';
   static ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS';
-  static REMOVE_LINE_ITEM = 'REMOVE_LINE_ITEM';
-  static REMOVE_LINE_ITEM_SUCCESS = 'REMOVE_LINE_ITEM_SUCCESS';
-  static CHANGE_LINE_ITEM_QUANTITY = 'CHANGE_LINE_ITEM_QUANTITY';
+  static REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
+  static REMOVE_CART_ITEM_SUCCESS = 'REMOVE_CART_ITEM_SUCCESS';
+  static CHANGE_CART_ITEM_QUANTITY = 'CHANGE_CART_ITEM_QUANTITY';
   static PLACE_ORDER = 'PLACE_ORDER';
   static CHANGE_ORDER_STATE = 'CHANGE_ORDER_STATE';
   static CHANGE_ORDER_STATE_SUCCESS = 'CHANGE_ORDER_STATE_SUCCESS';
@@ -35,31 +35,31 @@ export class CheckoutActions {
     };
   }
 
-  addToCartSuccess(lineItem: LineItem): Action {
+  addToCartSuccess(cartItem: CartItem): Action {
     return {
       type: CheckoutActions.ADD_TO_CART_SUCCESS,
-      payload: lineItem
+      payload: cartItem
     };
   }
 
-  removeLineItem(lineItemId: number): Action {
+  removeCartItem(cartItemId: number): Action {
     return {
-      type: CheckoutActions.REMOVE_LINE_ITEM,
-      payload: lineItemId
+      type: CheckoutActions.REMOVE_CART_ITEM,
+      payload: cartItemId
     };
   }
 
-  removeLineItemSuccess(lineItem: LineItem): Action {
+  removeCartItemSuccess(cartItem: CartItem): Action {
     return {
-      type: CheckoutActions.REMOVE_LINE_ITEM_SUCCESS,
-      payload: lineItem
+      type: CheckoutActions.REMOVE_CART_ITEM_SUCCESS,
+      payload: cartItem
     };
   }
 
-  changeLineItemQuantity(quantity: number, lineItemId: number): Action {
+  changeCartItemQuantity(quantity: number, cartItemId: number): Action {
     return {
-      type: CheckoutActions.CHANGE_LINE_ITEM_QUANTITY,
-      payload: { quantity, lineItemId }
+      type: CheckoutActions.CHANGE_CART_ITEM_QUANTITY,
+      payload: { quantity, cartItemId }
     };
   }
 
