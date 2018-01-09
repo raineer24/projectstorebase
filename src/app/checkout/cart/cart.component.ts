@@ -7,6 +7,7 @@ import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { LineItem } from './../../core/models/line_item';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { getProducts, getTaxonomies } from "./../../product/reducers/selectors";
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +15,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-
+  products$: Observable<any>;
   //totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
 
@@ -25,6 +26,6 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.products$ = this.store.select(getProducts);
   }
-
 }
