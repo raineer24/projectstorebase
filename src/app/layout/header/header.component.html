@@ -40,9 +40,13 @@
       <div class=" navbar yamm">
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li dropdown class="dropdown yamm-fw">
-              <a href="#" class="dropdown-toggle" dropdownToggle>All categories</a>
-              <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li #dpallcategory="bs-dropdown" dropdown class="dropdown yamm-fw"
+              triggers="hover"
+              (mouseleave)="dpallcategory.hide()"
+              (onShown)="onMenuToggle()"
+              (onHidden)="onMenuToggle()">
+              <a href="javascript:void(0)" class="dropdown-toggle" dropdownToggle>All categories</a>
+              <ul *dropdownMenu class="dropdown-menu" role="menu" >
                 <li>
                   <div class="yamm-content">
                     <ng-container *ngFor="let allCategory of categories$ | async; let i = index">
@@ -61,9 +65,14 @@
                 </li>
               </ul>
             </li>
-            <li *ngFor="let category of categories$ | async" dropdown class="dropdown yamm-fw">
-              <a href="#" class="dropdown-toggle" dropdownToggle>{{category.name}}</a>
-              <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li *ngFor="let category of categories$ | async"
+              #dpmenu="bs-dropdown" dropdown class="dropdown yamm-fw "
+              triggers="hover"
+              (mouseleave)="dpmenu.hide()"
+              (onShown)="onMenuToggle()"
+              (onHidden)="onMenuToggle()">
+              <a href="#" class="dropdown-toggle" dropdownToggle (click)="false">{{category.name}}</a>
+              <ul *dropdownMenu class="dropdown-menu" role="menu" (mouseleave)="dpmenu.hide()">
                 <li>
                   <div class="yamm-content">
                     <ng-container *ngFor="let category2 of category.subCategories">

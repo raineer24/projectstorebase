@@ -1,6 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ProductActions } from './../product/actions/product-actions';
+import { CheckoutActions } from './../checkout/actions/checkout.actions';
 import { SearchActions } from './reducers/search.actions';
 import { SharedModule } from './../shared/index';
 
@@ -55,6 +56,7 @@ import { ModalModule } from 'angular-custom-modal';
   ],
   providers: [
     ProductActions,
+    CheckoutActions,
     SearchActions
   ]
 })
