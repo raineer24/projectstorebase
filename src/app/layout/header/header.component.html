@@ -6,12 +6,13 @@
       </div>
       <div class="col-md-4">
         <div class="input-group">
-          <ng-template #searchTemplate let-keyword="item" let-index="index">
-            <div class="result-box">
-              <h5>{{keyword.name}}</h5>
-              <h6>   Php {{keyword.displayPrice}}</h6>
+          <ng-template #searchTemplate let-keyword="item" let-index="index" >
+            <div class="result-box" *ngIf="index<=2; else categories">
+                <h4>{{keyword.name}} | Php {{keyword.price}}</h4>
             </div>
+            <ng-template #categories><h5>{{keyword.name}}</h5></ng-template>
           </ng-template>
+
           <input [(ngModel)]="asyncSelected"
               [typeahead]="dataSource"
               (typeaheadLoading)="changeTypeaheadLoading($event)"
@@ -20,16 +21,17 @@
               [typeaheadOptionsLimit]="5"
               [typeaheadWaitMs]="300"
               [typeaheadMinLength]="2"
+              typeaheadOptionField="name"
+              typeaheadGroupField="group"
               [typeaheadItemTemplate]="searchTemplate"
               (keyup.enter)="searchKeyword()"
-              typeaheadOptionField="name"
               class="form-control"
               placeholder="Search for...">
           <span class="input-group-btn">
             <button class="btn btn-secondary" type="button" (click)="searchKeyword()">GO</button>
           </span>
         </div>
-        <!-- <div *ngIf="typeaheadLoading===true">Loading</div> -->
+        <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
