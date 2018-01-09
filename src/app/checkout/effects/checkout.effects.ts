@@ -1,4 +1,4 @@
-import { LineItem } from './../../core/models/line_item';
+import { CartItem } from './../../core/models/cart_item';
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
 import { Action } from '@ngrx/store';
@@ -18,9 +18,9 @@ export class CheckoutEffects {
     AddToCart$ = this.actions$
     .ofType(CheckoutActions.ADD_TO_CART)
     .switchMap((action: Action) => {
-      return this.checkoutService.createNewLineItem(action.payload);
+      return this.checkoutService.createNewCartItem(action.payload);
     })
-    .map((lineItem: LineItem) => this.actions.addToCartSuccess(lineItem));
+    .map((cartItem: CartItem) => this.actions.addToCartSuccess(cartItem));
   }
   // @Effect()
     // FetchCurrentOrder$ = this.actions$
@@ -37,10 +37,9 @@ export class CheckoutEffects {
   // Use this effect once angular releases RC4
 
   // @Effect()
-  //   RemoveLineItem$ = this.actions$
+  //   RemoveCartItem$ = this.actions$
   //   .ofType(CartActions.REMOVE_LINE_ITEM)
   //   .switchMap((action: Action) => {
-  //     return this.cartService.deleteLineItem(action.payload);
+  //     return this.cartService.deleteCartItem(action.payload);
   //   })
-  //   .map(() => this.cartActions.removeLineItemSuccess());
-
+  //   .map(() => this.cartActions.removeCartItemSuccess());

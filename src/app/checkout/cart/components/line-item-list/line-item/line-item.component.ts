@@ -3,7 +3,7 @@ import { CheckoutActions } from './../../../../actions/checkout.actions';
 import { AppState } from './../../../../../interfaces';
 import { Store } from '@ngrx/store';
 import { environment } from './../../../../../../environments/environment';
-import { LineItem } from './../../../../../core/models/line_item';
+import { CartItem } from './../../../../../core/models/cart_item';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -18,22 +18,22 @@ export class LineItemComponent implements OnInit {
   quantity: number;
   amount: number;
 
-  @Input() lineItem: LineItem;
+  @Input() cartItem: CartItem;
 
   constructor(private store: Store<AppState>, private actions: CheckoutActions, private checkoutService: CheckoutService) { }
 
   ngOnInit() {
-    this.image = environment.API_ENDPOINT + this.lineItem.variant.images[0].product_url;
-    this.name = this.lineItem.variant.name;
-    this.quantity = this.lineItem.quantity;
-    this.amount = this.lineItem.display_amount;
+    // this.image = environment.API_ENDPOINT + this.cartItem.variant.images[0].product_url;
+  //  this.name = this.cartItem.item.name;
+    this.quantity = this.cartItem.quantity;
+    this.amount = this.cartItem.total;
   }
 
   // Change this method once angular releases RC4
   // Follow this linke to know more about this issue https://github.com/angular/angular/issues/12869
-  removeLineItem() {
-    // this.store.dispatch(this.actions.removeLineItem(this.lineItem.id));
-    this.checkoutService.deleteLineItem(this.lineItem)
+  removeCartItem() {
+    // this.store.dispatch(this.actions.removeLineItem(this.cartItem.id));
+    this.checkoutService.deleteCartItem(this.cartItem)
       .subscribe();
   }
 

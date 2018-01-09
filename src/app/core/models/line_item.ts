@@ -12,6 +12,7 @@ export class LineItem {
   single_display_amount: number;
   total: number;
   display_amount: number;
-  variant_id: number;
-  variant: Variant;
+  item_id: number;
+  // variant_id: number;
+  // variant: Variant;
 }
