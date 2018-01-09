@@ -5,7 +5,8 @@
   .empty-cart-icon {
     height: 85px;
     width: 85px;
-    margin: 0 auto; //background-image: url(/assets/shoppingbag.png);
+    margin: 0 auto;
+    background-image: url(/assets/shoppingbag.png);
   }
   .empty-cart-message {
     font-size: 20px;
@@ -21,26 +22,3 @@
     font-weight: 500;
   }
 }
-
-.panel {
-  margin-top: 2em;
-}
-.panel-info {
-  border-color: #ffddcc;
-}
-
-.panel-info>.panel-heading {
-  color: #ff5847;
-  background-color: #ffddcc;
-}
-
-.icon-trash {
-  color: orange;
-}
-.img-responsive {
-  width: 60%;
-}
-
-
-
-
