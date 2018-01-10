@@ -7,11 +7,11 @@ import { CartItem } from './../../../../../core/models/cart_item';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-line-item',
-  templateUrl: './line-item.component.html',
-  styleUrls: ['./line-item.component.scss']
+  selector: 'app-cart-item',
+  templateUrl: './cart-item.component.html',
+  styleUrls: ['./cart-item.component.scss']
 })
-export class LineItemComponent implements OnInit {
+export class CartItemComponent implements OnInit {
 
   image: string;
   name: string;
@@ -32,7 +32,7 @@ export class LineItemComponent implements OnInit {
   // Change this method once angular releases RC4
   // Follow this linke to know more about this issue https://github.com/angular/angular/issues/12869
   removeCartItem() {
-    // this.store.dispatch(this.actions.removeLineItem(this.cartItem.id));
+    // this.store.dispatch(this.actions.removeCartItem(this.cartItem.id));
     this.checkoutService.deleteCartItem(this.cartItem)
       .subscribe();
   }

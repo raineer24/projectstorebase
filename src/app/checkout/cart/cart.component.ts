@@ -15,18 +15,16 @@ import { getProducts, getTaxonomies } from "./../../product/reducers/selectors";
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  products$: Observable<any>;
-  //totalCartValue$: Observable<number>;
+  totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
-    //this.totalCartValue$ = this.store.select(getTotalCartValue);
+    this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
-   
   }
 
   ngOnInit() {
-    this.products$ = this.store.select(getProducts);
+    // this.products$ = this.store.select(getProducts);
   }
 
   val1: number = 1;
