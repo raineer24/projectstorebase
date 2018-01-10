@@ -59,8 +59,8 @@ export class CheckoutService {
      const dummy = [{
       id: Math.random(),
       quantity: 1,
-      price: item.price,
-      total: item.price,
+      price: Number(item.price),
+      total: Number(item.price),
       item_id: item.id,
       item: item
     }]
