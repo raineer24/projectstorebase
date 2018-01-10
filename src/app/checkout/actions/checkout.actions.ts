@@ -1,5 +1,6 @@
 import { CartItem } from './../../core/models/cart_item';
 import { Order } from './../../core/models/order';
+import { Item } from './../../core/models/item';
 import { Action } from '@ngrx/store';
 
 export class CheckoutActions {
@@ -28,10 +29,10 @@ export class CheckoutActions {
     };
   }
 
-  addToCart(variant_id: number): Action {
+  addToCart(item: Item): Action {
     return {
       type: CheckoutActions.ADD_TO_CART,
-      payload: variant_id
+      payload: item
     };
   }
 

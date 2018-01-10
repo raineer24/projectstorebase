@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 // import { Product } from './../../../core/models/product';
 import { Item } from './../../../core/models/item';
 import { environment } from './../../../../environments/environment';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-item-list',
@@ -28,7 +28,7 @@ export class ItemListComponent implements OnInit {
   constructor(
     private productActions: ProductActions,
     private checkoutService: CheckoutService,
-
+    private elRef: ElementRef,
     private store: Store<AppState>,
     private checkoutActions: CheckoutActions) { }
 
@@ -45,7 +45,7 @@ export class ItemListComponent implements OnInit {
 
   addToCart(item: Item, e) {
     e.stopPropagation();
-    this.store.dispatch(this.checkoutActions.addToCart(item.id));
+    this.store.dispatch(this.checkoutActions.addToCart(item));
   }
 
   getMargin() {
@@ -63,7 +63,7 @@ export class ItemListComponent implements OnInit {
   }
 
   isInCart(id: number) {
-    const cartItem = this.cartItems.find(item => item.id === id);
+    const cartItem = this.cartItems.find(item => item.item_id === id);
     if(typeof(cartItem) != "undefined"){
       return cartItem.quantity;
     } else {
@@ -73,12 +73,22 @@ export class ItemListComponent implements OnInit {
 
   incrementQuantity(item: Item, e) {
     e.stopPropagation();
+    const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
+    console.log(inputQuantity.value)
+    inputQuantity.value++;
 
+  //  this.store.dispatch(this.checkoutActions.changeCartItemQuantity(item.id));
   }
 
   decrementQuantity(item: Item, e) {
     e.stopPropagation();
-    
+    const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
+    inputQuantity.value--;
+  }
+
+  inputQuantity(item: Item, e) {
+    e.stopPropagation();
+  //
   }
 
 }
