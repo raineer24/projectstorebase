@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import '../node_modules/primeng/resources/themes/omega/theme.css';
+
+
+
 @font-face {
     font-family: "Whitney-semi-bold";
     src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
@@ -75,3 +79,14 @@ main[_ngcontent-c0] {
 html {
 overflow-y: scroll;
 }
+.ui-spinner {
+  width: 66%;
+}
+
+.ui-inputtext {
+  width:  100%;
+  
+}
+
+
+
