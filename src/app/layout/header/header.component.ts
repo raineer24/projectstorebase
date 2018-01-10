@@ -29,6 +29,11 @@ export class HeaderComponent implements OnInit {
   typeaheadNoResults: boolean;
   dataSource: Observable<any>;
   searchData: Object = {};
+  catList: Object = {};
+  copycatList: Array<any> = [];
+  copyitemList: Array<any> = [];
+  catArr: Array<any> = [];
+
 
   constructor(
     private store: Store<AppState>,
@@ -40,6 +45,18 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private cd: ChangeDetectorRef
   ) {
+
+    this.categories$ = this.store.select(getTaxonomies);
+    this.categories$.subscribe(data => {
+          this.catList = { items: data };
+          //console.log(JSON.stringify(data));
+          for(var n=0; n < 5; n++){
+            this.copycatList[n] = data[n];
+          }
+
+          console.log(this.copycatList);
+
+        });
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every searchBar
       if(this.asyncSelected && this.asyncSelected.length > 1) {
@@ -48,9 +65,40 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-          return data.list
+
+          this.copyitemList = data.list;
+          for(var n=0; n<5; n++){
+            this.copyitemList.push(this.copycatList[n]);
+          }
+          var group_to_values = this.copyitemList.reduce(function (obj, item) {
+              if(item.brandName !== undefined){
+                 obj[item.name] = 'items';
+                // obj[item.brandName] = obj[item.brandName];
+                 //obj[item.price] = obj[item.price];
+              }else{
+                 obj[item.name] = 'categories';
+              }
+              return obj;
+          }, {});
+          var groups = Object.keys(group_to_values).map(function (key) {
+              return {group: group_to_values[key], name:key };
+          });
+
+          console.log(JSON.stringify(data.list));
+          console.log(JSON.stringify(groups, null, 4));
+
+          for (var i = 0, len = groups.length; i < len; i++) {
+            if(groups[i].group === 'items') {
+              groups[i]["price"] = 150;
+              console.log(groups[i]);
+            }
+          }
+
+          return groups;
+
         })
     )
+
   }
 
   ngOnInit() {
