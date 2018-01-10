@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { SearchActions } from './../../home/reducers/search.actions';
 import { getTaxonomies } from './../../product/reducers/selectors';
 import { getTotalCartItems } from './../../checkout/reducers/selectors';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
@@ -11,6 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { ProductService } from '../../core/services/product.service';
 import { ProductActions } from '../../product/actions/product-actions';
+import { Item } from '../../core/models/item';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
 
@@ -21,6 +22,7 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  selectedItem: Item;
   isAuthenticated: Observable<boolean>;
   totalCartItems: Observable<number>;
   categories$: Observable<any>;
@@ -33,6 +35,8 @@ export class HeaderComponent implements OnInit {
   copycatList: Array<any> = [];
   copyitemList: Array<any> = [];
   catArr: Array<any> = [];
+  @ViewChild('itemDetailsModal') itemDetailsModal;
+
 
 
   constructor(
@@ -155,6 +159,11 @@ export class HeaderComponent implements OnInit {
   searchKeyword(): void {
     this.router.navigateByUrl('/');
     this.store.dispatch(this.productActions.getItemsBySearchSuccess(this.searchData))
+  }
+  selectItem(item: Item) {
+    this.selectedItem = item;
+    this.store.dispatch(this.productActions.addSelectedItem(item));
+    this.itemDetailsModal.open();
   }
 
 }
