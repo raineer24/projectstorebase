@@ -53,7 +53,6 @@ export class HeaderComponent implements OnInit {
           for(var n=0; n < 5; n++){
             this.copycatList[n] = data[n];
           }
-
           console.log(this.copycatList);
 
         });
@@ -89,7 +88,7 @@ export class HeaderComponent implements OnInit {
 
           for (var i = 0, len = groups.length; i < len; i++) {
             if(groups[i].group === 'items') {
-              groups[i]["price"] = 150;
+              groups[i]["price"] = this.copyitemList[i].displayPrice;
               console.log(groups[i]);
             }
           }
