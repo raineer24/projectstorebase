@@ -33,6 +33,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   }
 
   addToCart() {
-    this.store.dispatch(this.checkoutActions.addToCart(this.item.id));
+    this.store.dispatch(this.checkoutActions.addToCart(this.item));
   }
 }
