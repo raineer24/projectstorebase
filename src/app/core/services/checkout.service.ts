@@ -3,6 +3,7 @@ import { CheckoutActions } from './../../checkout/actions/checkout.actions';
 import { Response, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Item } from './../models/item';
 import { CartItem } from './../models/cart_item';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
@@ -40,7 +41,7 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  createNewCartItem(variant_id: number) {
+  createNewCartItem(item: Item) {
     // return this.http.post(
     //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderToken()}`,
     //   {
@@ -56,12 +57,12 @@ export class CheckoutService {
 
 
      const dummy = [{
-      id: 1,
+      id: Math.random(),
       quantity: 1,
-      price: 1234,
-      total: 1234,
-      item_id: variant_id,
-      item: null
+      price: item.price,
+      total: item.price,
+      item_id: item.id,
+      item: item
     }]
 
     return dummy;

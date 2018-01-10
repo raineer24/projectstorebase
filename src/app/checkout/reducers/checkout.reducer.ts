@@ -83,15 +83,15 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalCartValue: _totalCartValue
         }) as CheckoutState;
 
-      // case CheckoutActions.CHANGE_CART_ITEM_QUANTITY:
-      //   const quantity = payload.quantity;
-      //   cartItemId = payload.cartItemId;
-      //   _cartItemEntities = state.cartItemEntities;
-      //   _cartItemEntities[cartItemId][quantity] = quantity;
+      case CheckoutActions.CHANGE_CART_ITEM_QUANTITY:
+        const quantity = payload.quantity;
+        _cartItemId = payload.cartItemId;
+        _cartItemEntities = state.cartItemEntities;
+        _cartItemEntities[_cartItemId][quantity] = quantity;
 
-      //   return state.merge({
-      //     cartItemEntities: _cartItemEntities
-      //   }) as CheckoutState;
+        return state.merge({
+          cartItemEntities: _cartItemEntities
+        }) as CheckoutState;
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
 
