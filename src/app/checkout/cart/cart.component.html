@@ -1,82 +1,83 @@
 <div class="cart-section">
   <div *ngIf="(totalCartItems$ | async) > 0 else emptyCart">
-    <div class="left">
-        <div class="col-xs-8 panel-board">
-            <div class="panel panel-info">
-              <div class="panel-heading">
-                <div class="panel-title">
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <h5><span class="glyphicon glyphicon-shopping-cart"></span> OMGShopping Cart</h5>
-                    </div>
-                    <div class="col-xs-6 align-right">
-                      <button type="button" class="btn btn-primary">Continue Shopping</button>
-                    </div>
-                  </div>
-                </div>
+    <div class="col-xs-8 panel-board">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <div class="row">
+              <div class="col-xs-6">
+                <h5><span class="glyphicon glyphicon-shopping-cart"></span> OMGShopping Cart</h5>
               </div>
-              <div class="panel-body">
-                <app-cart-item-list></app-cart-item-list>
-              </div>
-              <div class="panel-footer">
-                <div class="row text-center">
-                  <div class="col-xs-9">
-                    <h4 class="text-right">Total
-                      <strong>₱50.00</strong>
-                    </h4>
-                  </div>
-                  <div class="col-xs-3">
-                    <button type="button" class="btn btn-primary">Checkout</button>
-                  </div>
-                </div>
+              <div class="col-xs-6 text-right" [routerLink]="['/']">
+                <button type="button" class="btn btn-primary">Continue Shopping</button>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <!--REVIEW ORDER-->
-            <div class="panel panel-default">
-              <div class="panel-heading text-center">
-                <h4>Review Order</h4>
-              </div>
-              <div class="panel-body">
-                <div class="col-md-12">
-                  <strong>Subtotal (# item)</strong>
-                  <div class="pull-right">
-                    <span>₱</span>
-                    <span>200.00</span>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <strong>Tax</strong>
-                  <div class="pull-right">
-                    <span>₱</span>
-                    <span>200.00</span>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <small>Shipping</small>
-                  <div class="pull-right">
-                    <span>-</span>
-                  </div>
-                  <hr>
-                </div>
-                <div class="col-md-12">
-                  <strong>Order Total</strong>
-                  <div class="pull-right">
-                    <span>₱</span>
-                    <span>150.00</span>
-                  </div>
-                  <hr>
-                </div>
-
-                <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
-
-              </div>
-
+        </div>
+        <div class="panel-body">
+          <app-cart-item-list></app-cart-item-list>
+        </div>
+        <div class="panel-footer">
+          <div class="row text-center">
+            <div class="col-xs-9">
+              <h4 class="text-right">Total
+                <strong>₱50.00</strong>
+              </h4>
             </div>
-            <!--REVIEW ORDER END-->
+            <div class="col-xs-3">
+              <button type="button" class="btn btn-primary">Checkout</button>
+            </div>
           </div>
-      <!-- <div class="checkout-header-container">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <!--REVIEW ORDER-->
+      <div class="panel panel-default">
+        <div class="panel-heading text-center">
+          <h4>Review Order</h4>
+        </div>
+        <div class="panel-body">
+          <div class="col-md-12">
+            <strong>Subtotal (# item)</strong>
+            <div class="pull-right">
+              <span>₱</span>
+              <span>200.00</span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <strong>Tax</strong>
+            <div class="pull-right">
+              <span>₱</span>
+              <span>200.00</span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <small>Shipping</small>
+            <div class="pull-right">
+              <span>-</span>
+            </div>
+            <hr>
+          </div>
+          <div class="col-md-12">
+            <strong>Order Total</strong>
+            <div class="pull-right">
+              <span>₱</span>
+              <span>150.00</span>
+            </div>
+            <hr>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
+
+        </div>
+
+      </div>
+      <!--REVIEW ORDER END-->
+    </div>
+      <!--
+          <div class="left">
+          <div class="checkout-header-container">
         <div class="checkout-header">
           <span class="text">My Shopping Bag ({{totalCartItems$ | async}})</span>
         </div>
@@ -89,10 +90,10 @@
           <span class="coming-soon">Add more from wishlist</span>
         </a>
       </div> -->
-    </div>
-    <div class="right">
-      <!-- <app-order-total-summary [totalCartValue]="totalCartValue$ | async"></app-order-total-summary> -->
-    </div>
+    <!-- </div> -->
+    <!-- <div class="right">
+      <app-order-total-summary [totalCartValue]="totalCartValue$ | async"></app-order-total-summary>
+    </div> -->
   </div>
   <ng-template #emptyCart>
     <app-empty-cart></app-empty-cart>

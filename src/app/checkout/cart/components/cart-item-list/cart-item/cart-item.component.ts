@@ -17,15 +17,20 @@ export class CartItemComponent implements OnInit {
   name: string;
   quantity: number;
   amount: number;
+  quantityValue: number;
 
   @Input() cartItem: CartItem;
 
-  constructor(private store: Store<AppState>, private actions: CheckoutActions, private checkoutService: CheckoutService) { }
+  constructor(
+    private store: Store<AppState>,
+    private actions: CheckoutActions,
+    private checkoutService: CheckoutService)
+  { }
 
   ngOnInit() {
     // this.image = environment.API_ENDPOINT + this.cartItem.variant.images[0].product_url;
   //  this.name = this.cartItem.item.name;
-    this.quantity = this.cartItem.quantity;
+    this.quantityValue = this.cartItem.quantity;
     this.amount = this.cartItem.total;
   }
 
@@ -33,8 +38,7 @@ export class CartItemComponent implements OnInit {
   // Follow this linke to know more about this issue https://github.com/angular/angular/issues/12869
   removeCartItem() {
     // this.store.dispatch(this.actions.removeCartItem(this.cartItem.id));
-    this.checkoutService.deleteCartItem(this.cartItem)
-      .subscribe();
+    // this.checkoutService.deleteCartItem(this.cartItem)
+    //   .subscribe();
   }
-
 }
