@@ -80,13 +80,25 @@ html {
 overflow-y: scroll;
 }
 .ui-spinner {
-  width: 66%;
+  width: 28%;
+
 }
 
 .ui-inputtext {
   width:  100%;
   
 }
+    .ui-spinner-input {
+
+
+  border: none;
+}
+.ui-spinner >.ui-spinner-input {
+  //width: 30%;
+  //background: orange;
+}
+
+
 
 
 

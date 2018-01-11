@@ -1,4 +1,40 @@
-<div class="order-total-summary">
+<div class="panel panel-default">
+  <div class="panel-heading text-center">
+    <h4>Review Order</h4>
+  </div>
+  <div class="panel-body">
+    <div class="col-md-12">
+      <strong>Subtotal (# item)</strong>
+      <div class="pull-right">
+        <!-- <span>{{totalCartValue | currency:'PHP':true:'1.2'}}</span> -->
+        <span>₱ {{totalCartValue | number:'1.2-2'}}</span>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <strong>Tax</strong>
+      <div class="pull-right">
+        <span>₱ {{0 | number:'1.2-2'}}</span>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <small>Shipping</small>
+      <div class="pull-right">
+        <span>₱ {{0 | number:'1.2-2'}}</span>
+      </div>
+      <hr>
+    </div>
+    <div class="col-md-12">
+      <strong>Order Total</strong>
+      <div class="pull-right">
+        <span>₱ {{totalCartValue | number:'1.2-2'}}</span>
+      </div>
+      <hr>
+    </div>
+    <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
+  </div>
+</div>
+
+<!-- <div class="order-total-summary">
   <div class="coupon-section">
     <span class="text-label">Coupons</span>
     <a class="apply-coupon coming-soon"></a>
@@ -31,4 +67,4 @@
       <span class="total-rupees">${{totalCartValue | number:'1.2-2'}}</span>
     </div>
   </div>
-</div>
+</div> -->
