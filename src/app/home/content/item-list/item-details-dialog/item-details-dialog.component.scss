@@ -33,3 +33,38 @@
   margin-top: 10px;
   border-top: 1px solid #000;
 }
+.quality-in-cart {
+  float: left;
+  background: #ff5848;
+  color: #fff;
+  font-size: 1.2em;
+  width: 29%;
+}
+.quality-in-cart label {
+  margin-left: 1.5em;
+}
+
+.quality-in-cart input
+{
+  background: transparent;
+  border: none;
+  width: 15%;
+
+}
+.quality-in-cart-btn {
+  border: none;
+  background: transparent;
+}
+.quality-wish-list {
+  background: #0be0c7;
+  width: 33%;
+  height: 34px;
+  border: none;
+  color: #fff;
+  margin-left: 1em;
+
+
+}
+
+
+

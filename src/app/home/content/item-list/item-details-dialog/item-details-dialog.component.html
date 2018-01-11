@@ -1,11 +1,17 @@
 <div>
   <div class="dialog-header">
     <!-- <p-spinner size="30" [(ngModel)]="val1"></p-spinner> -->
-    <a href="javascript:void(0)" (click)="onCloseModal()">Go back <span>X</span></a>
+    <a href="javascript:void(0)" (click)="onCloseModal()">Go back
+      <span>X</span>
+    </a>
   </div>
   <div class="item-details">
-    <div class="item-images"><img class="img-responsive" src="../../assets/ItemProd.jpg"></div> <!-- INSERT IMAGES HERE -->
-    <div class="item-info">
+
+    <div class="item-images col-md-3">
+      <img class="img-responsive" src="../../assets/ItemProd.jpg">
+    </div>
+    <!-- INSERT IMAGES HERE -->
+    <div class="item-info col-md-3">
       <div>
         <p>{{item.name}}</p>
         <p>{{item.brandName}}</p>
@@ -25,11 +31,28 @@
           <option selected disabled hidden>Select another item</option>
         </select>
       </p>
-      <p>
-        <button type="button" (click)="addToCart()">ADD TO CART</button>
-        <button type="button">ADD TO WISHLIST</button>
-      </p>
+
+      <div class="cart-my-list">
+        <div class="quality-in-cart">
+          <label for="bit">quality in cart</label>
+          <button id="bit" class="quality-in-cart-btn">-</button>
+          <input type="text">
+          <button class="quality-in-cart-btn">+</button>
+
+
+        </div>
+<button class="quality-wish-list">add to my list</button>
+
+
+      </div>
+      
+
+
+
     </div>
+
+
+
   </div>
   <br/>
   <div class="suggested-items">Check out these other items</div>
@@ -46,9 +69,9 @@
               </div>
               <div class="caption">
                 <h4>{{item.name}}</h4>
-          <p>{{item.brandName}}</p>
-        <p>{{item.packaging}}</p>
-         
+                <p>{{item.brandName}}</p>
+                <p>{{item.packaging}}</p>
+
               </div>
             </div>
           </li>
@@ -61,8 +84,8 @@
               </div>
               <div class="caption">
                 <h4>{{item.name}}</h4>
-          <p>{{item.brandName}}</p>
-      
+                <p>{{item.brandName}}</p>
+
               </div>
             </div>
           </li>
@@ -75,9 +98,9 @@
               </div>
               <div class="caption">
                 <h4>{{item.name}}</h4>
-          <p>{{item.brandName}}</p>
-        <p>{{item.packaging}}</p>
-           
+                <p>{{item.brandName}}</p>
+                <p>{{item.packaging}}</p>
+
               </div>
             </div>
           </li>
@@ -90,9 +113,9 @@
               </div>
               <div class="caption">
                 <h4>{{item.name}}</h4>
-          <p>{{item.brandName}}</p>
-        <p>{{item.packaging}}</p>
-     
+                <p>{{item.brandName}}</p>
+                <p>{{item.packaging}}</p>
+
               </div>
             </div>
           </li>
@@ -222,8 +245,8 @@
       </div>
       <!-- /Slide3 -->
     </div>
-  
-  
+
+
     <nav>
       <ul class="control-box pager">
         <li class="left">
@@ -242,7 +265,8 @@
       </ul>
     </nav>
     <!-- /.control-box -->
-  
+
   </div>
   <!-- /#myCarousel -->
 </div>
+
