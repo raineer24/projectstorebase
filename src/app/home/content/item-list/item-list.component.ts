@@ -23,7 +23,7 @@ export class ItemListComponent implements OnInit {
   @Input() cartItems;
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
-//  selectedItem: Item;
+  selectedItem: Item;
 
   constructor(
     private productActions: ProductActions,
@@ -40,12 +40,8 @@ export class ItemListComponent implements OnInit {
     return this.toggleLayout.size === 'COZY' ? '0 15px 20px 0' : '0 80px 20px 0';
   }
 
-  getItemImageUrl(url) {
-    return `https://loremflickr.com/g/180/240/grocery/all?${url}`;
-    // return environment.API_ENDPOINT + url;
-  }
-
-  openItemDialog() {
+  openItemDialog(item: Item) {
+    this.selectedItem = item;
     this.itemDetailsModal.open();
   }
 

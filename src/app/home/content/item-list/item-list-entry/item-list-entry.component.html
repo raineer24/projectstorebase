@@ -23,7 +23,7 @@
     <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
     <ng-container *ngIf="isInCart(item.id); else addCart; let quantity">
       <button (click)="decrementQuantity(item, $event)">-</button>
-      <input id="item-list-quantity-{{item.id}}" (click)="inputQuantity(item, $event)"  value="{{quantity}}" />
+      <input [(ngModel)]="itemQuantity" (click)="inputQuantity(item, $event)" />
       <button (click)="incrementQuantity(item, $event)">+</button>
     </ng-container>
     <ng-template #addCart>

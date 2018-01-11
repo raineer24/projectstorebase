@@ -1,17 +1,16 @@
-<!-- <div *ngIf="selectedItem$ | async; let selectedItem"> -->
-  <modal #itemDetailsModal>
-    <ng-template #modalBody>
-      <app-item-details-dialog [item]="selectedItem$ | async" (onCloseModalEmit)="closeItemDialog()"></app-item-details-dialog>
-    </ng-template>
-  </modal>
-<!-- <div> -->
+<modal #itemDetailsModal>
+  <!-- <ng-template #modalHeader><h2>HTML inside modal</h2></ng-template> -->
+  <ng-template #modalBody>
+    <app-item-details-dialog *ngIf="selectedItem" [item]="selectedItem" (onCloseModalEmit)="closeItemDialog()"></app-item-details-dialog>
+  </ng-template>
+</modal>
 <div class="row-base" style="display: -webkit-flex">
   <section>
     <ul class="results-base">
       <p *ngIf="items.length === 0">No Products found for this category</p>
       <li *ngFor="let item of items" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
-        <app-item-list-entry [item]="item" [cartItems]="cartItems" (onOpenModalEmit)="openItemDialog()"></app-item-list-entry>
+        <app-item-list-entry [item]="item" [cartItems]="cartItems" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
 
         <!-- <div class="product-sizeDisplayDiv">
           <div class="product-sizeDisplayHeader">

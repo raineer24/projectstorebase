@@ -1,7 +1,7 @@
 import { environment } from './../../../../../environments/environment';
 import { Item } from './../../../../core/models/item';
 import { CartItem } from './../../../../core/models/cart_item';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
 import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
@@ -15,7 +15,9 @@ import { ProductActions } from './../../../../product/actions/product-actions';
 export class ItemListEntryComponent implements OnInit {
   @Input() item: Item;
   @Input() cartItems: CartItem[];
-  @Output() onOpenModalEmit: EventEmitter<string> = new EventEmitter();
+  @Output() onOpenModalEmit: EventEmitter<any> = new EventEmitter<any>();
+  itemQuantity: number;
+//  @ViewChild('itemQuantity') itemQuantity;
 
   // @Input() product: Product;
 
@@ -26,6 +28,7 @@ export class ItemListEntryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.itemQuantity = 1;
   }
 
   getProductImageUrl(url) {
@@ -40,7 +43,7 @@ export class ItemListEntryComponent implements OnInit {
 
   selectItem(item: Item) {
     this.store.dispatch(this.productActions.addSelectedItem(item));
-    this.onOpenModalEmit.emit();
+    this.onOpenModalEmit.emit(item);
   }
 
   isInCart(id: number) {
@@ -54,6 +57,7 @@ export class ItemListEntryComponent implements OnInit {
 
   incrementQuantity(item: Item, e) {
     e.stopPropagation();
+    this.itemQuantity++;
 //    const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
 //    console.log(inputQuantity.value)
 //    inputQuantity.value++;
@@ -62,6 +66,8 @@ export class ItemListEntryComponent implements OnInit {
 
   decrementQuantity(item: Item, e) {
     e.stopPropagation();
+    if(this.itemQuantity > 1)
+      this.itemQuantity--;
     // const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
     // inputQuantity.value--;
     //this.store.dispatch(changeCartItemQuantity(inputQuantity,item.id)
