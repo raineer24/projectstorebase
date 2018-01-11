@@ -23,7 +23,7 @@ export class ItemListComponent implements OnInit {
   @Input() cartItems;
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
-  selectedItem: Item;
+//  selectedItem: Item;
 
   constructor(
     private productActions: ProductActions,
@@ -36,59 +36,21 @@ export class ItemListComponent implements OnInit {
     this.selectedItem$ = this.store.select(getSelectedProduct);
   }
 
-
+  getMargin() {
+    return this.toggleLayout.size === 'COZY' ? '0 15px 20px 0' : '0 80px 20px 0';
+  }
 
   getItemImageUrl(url) {
     return `https://loremflickr.com/g/180/240/grocery/all?${url}`;
     // return environment.API_ENDPOINT + url;
   }
 
-  addToCart(item: Item, e) {
-    e.stopPropagation();
-    this.store.dispatch(this.checkoutActions.addToCart(item));
-  }
-
-  getMargin() {
-    return this.toggleLayout.size === 'COZY' ? '0 15px 20px 0' : '0 80px 20px 0';
-  }
-
-  selectItem(item: Item) {
-    this.selectedItem = item;
-    this.store.dispatch(this.productActions.addSelectedItem(item));
+  openItemDialog() {
     this.itemDetailsModal.open();
   }
 
   closeItemDialog() {
     this.itemDetailsModal.close();
-  }
-
-  isInCart(id: number) {
-    const cartItem = this.cartItems.find(item => item.item_id === id);
-    if(typeof(cartItem) != "undefined"){
-      return cartItem.quantity;
-    } else {
-      return 0;
-    }
-  }
-
-  incrementQuantity(item: Item, e) {
-    e.stopPropagation();
-    const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
-    console.log(inputQuantity.value)
-    inputQuantity.value++;
-
-  //  this.store.dispatch(this.checkoutActions.changeCartItemQuantity(item.id));
-  }
-
-  decrementQuantity(item: Item, e) {
-    e.stopPropagation();
-    const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
-    inputQuantity.value--;
-  }
-
-  inputQuantity(item: Item, e) {
-    e.stopPropagation();
-  //
   }
 
 }
