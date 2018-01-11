@@ -28,6 +28,7 @@ import { HomeRoutes as routes } from './home.routes';
 import { FilterPipe } from './content/item-list/item-list-filter.pipe';
 
 import { ModalModule } from 'angular-custom-modal';
+import { CarouselModule } from "ngx-bootstrap";
 
 @NgModule({
   declarations: [
@@ -45,19 +46,15 @@ import { ModalModule } from 'angular-custom-modal';
     FilterSummaryComponent,
     ContentComponent,
     // pipes
-    FilterPipe,
+    FilterPipe
   ],
-  exports: [
-  ],
+  exports: [],
   imports: [
     RouterModule.forChild(routes),
     SharedModule,
-    ModalModule
+    ModalModule,
+    CarouselModule
   ],
-  providers: [
-    ProductActions,
-    CheckoutActions,
-    SearchActions
-  ]
+  providers: [ProductActions, CheckoutActions, SearchActions]
 })
 export class HomeModule {}
