@@ -3,6 +3,8 @@
 
 
 
+
+
 @font-face {
     font-family: "Whitney-semi-bold";
     src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
@@ -97,6 +99,12 @@ overflow-y: scroll;
   //width: 30%;
   //background: orange;
 }
+div.modal-dialog {
+
+  top: 40%;
+}
+
+
 
 
 
