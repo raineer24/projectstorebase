@@ -33,6 +33,13 @@
     clear: both;
   }
 }
+.dropdown-toggle {
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+
+}
 
 .suggested-items {
   margin-top: 10px;
@@ -88,7 +95,7 @@ input[value="1"] {
 .orange {
   background-color: #ff5848;
   width: 100%;
-  border-color: none;
+  border: none;
 
 }
 .carousel {

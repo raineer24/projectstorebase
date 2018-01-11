@@ -1,6 +1,6 @@
 <div>
   <div class="dialog-header">
-  
+
     <a href="javascript:void(0)" (click)="onCloseModal()">Go back
       <span>X</span>
     </a>
@@ -18,13 +18,37 @@
         <p>{{item.packaging}}</p>
       </div>
       <div>
-        <p>List Price: <s style='color:red; font-weight: bold'><span style='color: black'>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span></s></p>
-        <p>Price: <span>{{item.price | currency:'PHP':true:'1.2'}}</span></p>
+        <p>List Price:
+          <s style='color:red; font-weight: bold'>
+            <span style='color: black'>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span>
+          </s>
+        </p>
+        <p>Price:
+          <span>{{item.price | currency:'PHP':true:'1.2'}}</span>
+        </p>
         <p>You Save: </p>
       </div>
-      <p>
-        Item Information
-      </p>
+      <div class="btn-block btn-group" dropdown>
+        <button dropdownToggle type="button" class="dropdown-toggle">
+          Item Information
+          <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Another action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Something else here</a>
+          </li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Separated link</a>
+          </li>
+        </ul>
+      </div>
       <p>
         When this item is not available
         <select>
@@ -32,26 +56,22 @@
         </select>
       </p>
 
-      <div class="cart-my-list">
-        <div class="quality-in-cart">
-          <label for="bit">quality in cart</label>
-          <button id="bit" class="quality-in-cart-btn">-</button>
-          <input type="text" value="1" >
-          <button class="quality-in-cart-btn">+</button>
+<div class="cart-my-list">
+  <div class="quality-in-cart">
+    <label for="bit">quality in cart</label>
+    <button id="bit" class="quality-in-cart-btn">-</button>
+    <input type="text" value="1">
+    <button class="quality-in-cart-btn">+</button>
+  </div>
+
+  <button class="quality-wish-list">add to my wishlist</button>
 
 
-        </div>
-<button class="quality-wish-list">add to my wishlist</button>
-
-
-      </div>
-      
+</div>
+</div>
 
 
 
-    </div>
-
- 
 
   </div>
   <br/>
@@ -126,7 +146,7 @@
           </li>
         </ul>
       </div>
-     
+
       <div class="item">
         <ul class="thumbnails">
           <li class="col-sm-3">
@@ -187,7 +207,7 @@
           </li>
         </ul>
       </div>
-    
+
       <div class="item">
         <ul class="thumbnails">
           <li class="col-sm-3">
@@ -248,7 +268,7 @@
           </li>
         </ul>
       </div>
-    
+
     </div>
 
 
@@ -263,28 +283,12 @@
           <a data-slide="next" href="#myCarousel" class="arrowStil">
             <i class="glyphicon glyphicon-chevron-left"></i>
           </a>
-        
+
         </li>
       </ul>
     </nav>
-   
+
 
   </div>
-
-   <!-- <div class="col-md-8 col-xs-12 col-md-offset-2 push-md-2">
-
-    <carousel>
-      <slide>
-        <img src="../../assets/item1.jpg" alt="First slide" class="img-responsive center-block">
-      </slide>
-      <slide>
-        <img src="../../assets/item1.jpg" alt="Second slide" class="img-responsive center-block">
-      </slide>
-      <slide>
-        <img src="../../assets/item1.jpg" alt="Third slide" class="img-responsive center-block">
-      </slide>
-    </carousel>
-   </div> -->
-  
 </div>
 
