@@ -68,6 +68,43 @@
 input[value="1"] {
   margin: 0 auto;
 }
+.thumbnails {
+  list-style: none;
+}
+.caption h4 {
+  margin: 0;
+}
+.caption p {
+  margin: 0;
+}
+.caption .price {
+  font-weight: bold;
+}
+.orange {
+  background-color: #ff5848;
+  width: 100%;
+  border-color: none;
+
+}
+.carousel {
+  overflow: hidden;
+}
+.carousel-inner {
+ 
+  width: 89%;
+  float: left;
+
+}
+.carousel nav {
+  float: right;
+  position: relative;
+  overflow: hidden;
+  width: 11%;
+
+}
+
+
+
 
 
 

@@ -20,7 +20,9 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
     private store: Store<AppState>
   ) { }
 
-  ngOnInit() {
+  ngOnInit(
+    
+  ) {
 
   }
 
@@ -35,4 +37,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   addToCart() {
     this.store.dispatch(this.checkoutActions.addToCart(this.item));
   }
+   
+
 }
+
