@@ -18,6 +18,11 @@
       margin-bottom: 10px;
       p {
         margin: 0;
+        font-size: 1.2em;
+      }
+      p span {
+        font-weight: bold;
+        color: red;
       }
     }
   }
@@ -101,6 +106,9 @@ input[value="1"] {
   overflow: hidden;
   width: 11%;
 
+}
+s {
+  color: red;
 }
 
 

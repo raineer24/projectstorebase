@@ -18,8 +18,8 @@
         <p>{{item.packaging}}</p>
       </div>
       <div>
-        <p>List Price: {{item.displayPrice | currency:'PHP':true:'1.2'}}</p>
-        <p>Price: {{item.price | currency:'PHP':true:'1.2'}}</p>
+        <p>List Price: <s style='color:red; font-weight: bold'><span style='color: black'>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span></s></p>
+        <p>Price: <span>{{item.price | currency:'PHP':true:'1.2'}}</span></p>
         <p>You Save: </p>
       </div>
       <p>
@@ -51,7 +51,7 @@
 
     </div>
 
-
+ 
 
   </div>
   <br/>
