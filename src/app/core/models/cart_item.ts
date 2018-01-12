@@ -6,5 +6,6 @@ export class CartItem {
   price: number;
   total: number;
   item_id: number;
+  description: string;
   item: Item;
 }
