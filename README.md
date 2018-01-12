@@ -17,7 +17,7 @@ Debugging
 npm rebuild node-sass --force
 ```
 
-
+<!--
 <p align="center">
   <a href="https://angularspree.firebaseapp.com/" target='_blank'>
     <img alt="AngualreSpree Logo" title="AngularSpree Logo" src="http://res.cloudinary.com/mally/image/upload/v1490186051/Angular_spree_hqgwtq.png" width="200">
@@ -238,4 +238,4 @@ We love some frameworks too:-
 
 ### We are avialible for hire
 
-__If you want to hire us for a project, please contact us on `hello@aviabird.com`.__
+__If you want to hire us for a project, please contact us on `hello@aviabird.com`.__ -->
