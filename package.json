@@ -8,6 +8,7 @@
     "start":
       "cd dist && ../node_modules/live-server/live-server.js --port=8081 --host=localhost --entry-file=/index.html",
     "build": "ng build",
+    "build--prod": "ng build --prod",
     "test": "echo 'no test'",
     "lint": "",
     "e2e": "ng e2e",
