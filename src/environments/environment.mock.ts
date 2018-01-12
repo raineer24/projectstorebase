@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'http://grocer-api-dev.ap-southeast-2.elasticbeanstalk.com/',
+  // API_ENDPOINT: 'http://grocer-api-dev.ap-southeast-2.elasticbeanstalk.com/',
+  API_ENDPOINT: 'http://localhost:6001/',
   AppName: 'Grocer X'
 };
