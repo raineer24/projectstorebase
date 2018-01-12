@@ -4,6 +4,8 @@ node_js:
 env:
   matrix:
   - CXX=g++-4.8 TRAVIS=true
+before_deploy:
+  - npm run build--prod
 deploy:
   provider: elasticbeanstalk
   access_key_id: AKIAIGXY23ZL6N7QLW2A
