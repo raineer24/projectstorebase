@@ -70,7 +70,7 @@
     "sw-precache": "^5.0.0",
     "ts-node": "^1.7.2",
     "tslint": "^4.5.1",
-    "typescript": "2.4.0"
+    "typescript": "2.3.0"
   },
   "description": "Spree for Angular2",
   "main": "index.js",
