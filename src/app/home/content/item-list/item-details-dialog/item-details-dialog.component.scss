@@ -4,6 +4,9 @@
   span {
     font-weight: bold;
   }
+  .closeModal {
+    color: red;
+  }
 }
 
 .item-details {
@@ -50,10 +53,12 @@
   background: #ff5848;
   color: #fff;
   font-size: 1.2em;
-  width: 29%;
+  width: 30%;
+  height: 34px;
+
 }
 .quality-in-cart label {
-  margin-left: 1.5em;
+  margin-left: 0.8em;
 }
 
 .quality-in-cart input
