@@ -4,16 +4,19 @@
   span {
     font-weight: bold;
   }
+  .closeModal {
+    color: red;
+  }
 }
 
 .item-details {
   .item-images {
     float: left;
-    width: 50%;
+    // width: 50%;
   }
   .item-info {
-    float: left;
-    width: 50%;
+    float: right;
+    //width: 50%;
     div {
       margin-bottom: 10px;
       p {
@@ -50,10 +53,12 @@
   background: #ff5848;
   color: #fff;
   font-size: 1.2em;
-  width: 29%;
+  width: 30%;
+  height: 34px;
+
 }
 .quality-in-cart label {
-  margin-left: 1.5em;
+  margin-left: 0.8em;
 }
 
 .quality-in-cart input

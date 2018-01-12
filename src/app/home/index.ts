@@ -29,6 +29,7 @@ import { FilterPipe } from './content/item-list/item-list-filter.pipe';
 
 import { ModalModule } from 'angular-custom-modal';
 import { CarouselModule } from "ngx-bootstrap";
+import { LightboxModule } from "primeng/primeng";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { CarouselModule } from "ngx-bootstrap";
     RouterModule.forChild(routes),
     SharedModule,
     ModalModule,
-    CarouselModule
+    CarouselModule,
+    LightboxModule
   ],
   providers: [ProductActions, CheckoutActions, SearchActions]
 })
