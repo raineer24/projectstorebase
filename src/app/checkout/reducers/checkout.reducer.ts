@@ -87,14 +87,19 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         const quantity = payload.quantity;
         _cartItemId = payload.cartItemId;
         _cartItemEntities = state.cartItemEntities;
-        // const total = _cartItemEntities[_cartItemId][price] * quantity;
-        // _cartItemEntities[_cartItemId][quantity] = quantity;
-        // _cartItemEntities[_cartItemId][total] = total;
-        // _totalCartItems = state.totalCartItems + _cartItem.quantity;
-        // _totalCartValue = state.totalCartValue + parseFloat(total);
+        _cartItem = _cartItemEntities.get(_cartItemId.toString()).toJS();
+
+        const quantityDifference = quantity - _cartItem['quantity'];
+        const total = _cartItem['price'] * quantityDifference;
+
+        _cartItem['quantity'] = quantity;
+        _cartItem['total'] = _cartItem['price'] * quantity;
+        _cartItemEntity = { [_cartItemId]: _cartItem }
+        _totalCartItems = state.totalCartItems + quantityDifference;
+        _totalCartValue = state.totalCartValue + total;
 
         return state.merge({
-          cartItemEntities: _cartItemEntities,
+          cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue
         }) as CheckoutState;

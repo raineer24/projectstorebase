@@ -61,13 +61,17 @@ export class ItemListEntryComponent implements OnInit {
 //    const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
 //    console.log(inputQuantity.value)
 //    inputQuantity.value++;
-    // this.store.dispatch(this.checkoutActions.changeCartItemQuantity(item.id, 1));
+    const cartItem = this.cartItems.find(cartItem => cartItem.item_id === item.id);
+    this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
   }
 
   decrementQuantity(item: Item, e) {
     e.stopPropagation();
-    if(this.itemQuantity > 1)
+    if(this.itemQuantity > 1) {
       this.itemQuantity--;
+      const cartItem = this.cartItems.find(cartItem => cartItem.item_id === item.id);
+      this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
+    }  
     // const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
     // inputQuantity.value--;
     //this.store.dispatch(changeCartItemQuantity(inputQuantity,item.id)
