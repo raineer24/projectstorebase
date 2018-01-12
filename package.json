@@ -8,13 +8,15 @@
     "start":
       "cd dist && ../node_modules/live-server/live-server.js --port=8081 --host=localhost --entry-file=/index.html",
     "build": "ng build",
-    "build--prod": "ng build --prod",
     "test": "echo 'no test'",
     "lint": "",
     "e2e": "ng e2e",
     "compodoc":
-      "./node_modules/.bin/compodoc -p src/tsconfig.app.json -d docs/"
-   
+      "./node_modules/.bin/compodoc -p src/tsconfig.app.json -d docs/",
+    "build--prod": "ng build --prod --no-sourcemap --stats-json && npm run sw",
+    "sw": "sw-precache --root=dist --config=sw-precache-config.js",
+    "static-serve":
+      "cd dist && live-server --port=8081 --host=localhost --entry-file=/index.html"
   },
   "private": true,
   "dependencies": {
