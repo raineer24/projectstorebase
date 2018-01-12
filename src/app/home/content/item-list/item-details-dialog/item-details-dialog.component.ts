@@ -14,11 +14,31 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   @Input() item: Item;
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
 
+  images: any[];
+  
   constructor(
     private productActions: ProductActions,
     private checkoutActions: CheckoutActions,
     private store: Store<AppState>
-  ) { }
+  ) {
+       this.images = [];
+       this.images.push({
+         source: "../../assets/ItemProd.jpg",
+         thumbnail: "../../assets/ItemProd.jpg",
+         title: "Sopranos 1"
+       });
+       this.images.push({
+         source: "../../assets/ItemProd.jpg",
+         thumbnail: "../../assets/ItemProd.jpg",
+         title: "Sopranos 2"
+       });
+       this.images.push({
+         source: "../../assets/ItemProd.jpg",
+         thumbnail: "../../assets/ItemProd.jpg",
+         title: "Sopranos 3"
+       });
+       
+    }
 
   ngOnInit(
     
