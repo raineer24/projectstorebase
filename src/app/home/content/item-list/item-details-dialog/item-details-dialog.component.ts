@@ -25,17 +25,17 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
        this.images.push({
          source: "../../assets/ItemProd.jpg",
          thumbnail: "../../assets/ItemProd.jpg",
-         title: "Sopranos 1"
+         title: "quick"
        });
        this.images.push({
          source: "../../assets/ItemProd.jpg",
          thumbnail: "../../assets/ItemProd.jpg",
-         title: "Sopranos 2"
+         title: "brown"
        });
        this.images.push({
          source: "../../assets/ItemProd.jpg",
          thumbnail: "../../assets/ItemProd.jpg",
-         title: "Sopranos 3"
+         title: "fox"
        });
        
     }
