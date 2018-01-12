@@ -49,12 +49,31 @@
           </li>
         </ul>
       </div>
-      <p>
+      <div>
         When this item is not available
-        <select>
-          <option selected disabled hidden>Select another item</option>
-        </select>
-      </p>
+         <div class="btn-group btn-select-item" dropdown>
+        <button dropdownToggle type="button" class="drop1 dropdown-toggle">
+          Select another item
+          <span class="caret caret1"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Another action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Something else here</a>
+          </li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Separated link</a>
+          </li>
+        </ul>
+      </div>
+</div>
+
 
 <div class="cart-my-list">
   <div class="quality-in-cart">
