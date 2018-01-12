@@ -5,6 +5,7 @@ env:
   matrix:
   - CXX=g++-4.8 TRAVIS=true
 before_deploy:
+  - npm i -g rxjs
   - npm run build--prod
 deploy:
   provider: elasticbeanstalk
