@@ -32,12 +32,12 @@ export class HeaderComponent implements OnInit {
   dataSource: Observable<any>;
   searchData: Object = {};
   catList: Object = {};
+  mergedList: Object = {};
   copycatList: Array<any> = [];
   copyitemList: Array<any> = [];
+  itemList: Object = {};
   catArr: Array<any> = [];
   @ViewChild('itemDetailsModal') itemDetailsModal;
-
-
 
   constructor(
     private store: Store<AppState>,
@@ -52,12 +52,11 @@ export class HeaderComponent implements OnInit {
 
     this.categories$ = this.store.select(getTaxonomies);
     this.categories$.subscribe(data => {
-          this.catList = { items: data };
-          //console.log(JSON.stringify(data));
+          this.catList = { categories: data };
           for(var i=0, len = data.length; i < len; i++){
             this.copycatList[i] = data[i];
           }
-
+          console.log(this.catList);
         });
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every searchBar
@@ -67,8 +66,11 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-
+          console.log(this.searchData);
+          //this.itemList = data.list;
           this.copyitemList = data.list;
+          //this.mergedList = Object.assign(this.itemList,this.catList);
+          //console.log(JSON.stringify(this.mergedList));
           for(var i=0, len=this.copyitemList.length; i < len; i++){
              this.copyitemList.push(this.copycatList[i]);
           }
@@ -76,26 +78,26 @@ export class HeaderComponent implements OnInit {
           var group_to_values = this.copyitemList.reduce(function (obj, item) {
               if(item.brandName !== undefined){
                  obj[item.name] = 'items';
-                // obj[item.brandName] = obj[item.brandName];
-                 //obj[item.price] = obj[item.price];
               }else{
                  obj[item.name] = 'categories';
               }
               return obj;
           }, {});
-          
-          var groups = Object.keys(group_to_values).map(function (key) {
+
+          var groupings = Object.keys(group_to_values).map(function (key) {
               return {group: group_to_values[key], name:key };
           });
 
           for (var i = 0, len = groups.length; i < len; i++) {
-            if(groups[i].group === 'items') {
-              groups[i]["price"] = this.copyitemList[i].displayPrice;
-              console.log(groups[i]);
+            groupings[i]["id"] = this.copyitemList[i].id;
+            if(groupings[i].group === 'items') {
+              groupings[i]["price"] = this.copyitemList[i].displayPrice;
             }
+
+            //console.log(groups[i]);
           }
 
-          return groups;
+          return groupins;
 
         })
     )
