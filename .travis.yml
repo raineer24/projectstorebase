@@ -4,7 +4,7 @@ node_js:
 env:
   matrix:
   - CXX=g++-4.8 TRAVIS=true
-before_deploy:
+script:
   - npm run build--prod
 deploy:
   provider: elasticbeanstalk
