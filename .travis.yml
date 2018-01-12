@@ -8,6 +8,7 @@ before_install:
   - rvm install 2.4.0
   - rvm --default use 2.4.0
 script:
+  - npm install -g @angular/cli
   - npm run build--prod
 deploy:
   provider: elasticbeanstalk
