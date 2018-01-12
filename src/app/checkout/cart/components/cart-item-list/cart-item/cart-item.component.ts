@@ -18,6 +18,7 @@ export class CartItemComponent implements OnInit {
   quantity: number;
   amount: number;
   quantityValue: number;
+  description: string;
 
   @Input() cartItem: CartItem;
 
@@ -32,6 +33,7 @@ export class CartItemComponent implements OnInit {
   //  this.name = this.cartItem.item.name;
     this.quantityValue = this.cartItem.quantity;
     this.amount = this.cartItem.total;
+    this.description = this.cartItem.description;
   }
 
   // Change this method once angular releases RC4
