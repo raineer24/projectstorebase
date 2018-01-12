@@ -54,10 +54,9 @@ export class HeaderComponent implements OnInit {
     this.categories$.subscribe(data => {
           this.catList = { items: data };
           //console.log(JSON.stringify(data));
-          for(var n=0; n < 5; n++){
-            this.copycatList[n] = data[n];
+          for(var i=0, len = data.length; i < len; i++){
+            this.copycatList[i] = data[i];
           }
-          console.log(this.copycatList);
 
         });
     this.dataSource = Observable.create((observer: any) => {
@@ -70,9 +69,10 @@ export class HeaderComponent implements OnInit {
           this.searchData = { items: data };
 
           this.copyitemList = data.list;
-          for(var n=0; n<5; n++){
-            this.copyitemList.push(this.copycatList[n]);
+          for(var i=0, len=this.copyitemList.length; i < len; i++){
+             this.copyitemList.push(this.copycatList[i]);
           }
+
           var group_to_values = this.copyitemList.reduce(function (obj, item) {
               if(item.brandName !== undefined){
                  obj[item.name] = 'items';
@@ -83,12 +83,10 @@ export class HeaderComponent implements OnInit {
               }
               return obj;
           }, {});
+          
           var groups = Object.keys(group_to_values).map(function (key) {
               return {group: group_to_values[key], name:key };
           });
-
-          console.log(JSON.stringify(data.list));
-          console.log(JSON.stringify(groups, null, 4));
 
           for (var i = 0, len = groups.length; i < len; i++) {
             if(groups[i].group === 'items') {
