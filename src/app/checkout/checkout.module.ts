@@ -8,9 +8,11 @@ import { CartModule } from './cart/cart.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { LayoutModule } from "../layout/index";
 
 import { CheckoutRoutes as routes } from './checkout.routes';
+
+import { HeaderComponent } from "../layout/header/header.component";
 
 @NgModule({
   imports: [
@@ -19,11 +21,11 @@ import { CheckoutRoutes as routes } from './checkout.routes';
     EffectsModule.run(CheckoutEffects),
     CartModule,
     AddressModule,
-    PaymentModule
+    PaymentModule,
+    LayoutModule
   ],
+  exports: [HeaderComponent],
   declarations: [],
-  providers: [
-    CheckoutActions
-  ]
+  providers: [CheckoutActions]
 })
-export class CheckoutModule { }
+export class CheckoutModule {}
