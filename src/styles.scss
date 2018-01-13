@@ -79,20 +79,16 @@ main[_ngcontent-c0] {
 }
 
 html {
-overflow-y: scroll;
+  overflow-y: scroll;
 }
 .ui-spinner {
   width: 28%;
-
 }
 
 .ui-inputtext {
   width:  100%;
-  
 }
-    .ui-spinner-input {
-
-
+.ui-spinner-input {
   border: none;
 }
 .ui-spinner >.ui-spinner-input {
@@ -100,15 +96,10 @@ overflow-y: scroll;
   //background: orange;
 }
 div.modal-dialog {
-
   top: 40%;
 }
 .drop1 {
- 
  border: 1px solid #ccc !important;
-
-
-
 }
 
 .dropdown-toggle {
@@ -122,43 +113,22 @@ div.modal-dialog {
   box-shadow: none;
 }
 .caret {
-position: absolute;
-right: 22px;
-bottom: 9px;
-
-
+  position: absolute;
+  right: 22px;
+  bottom: 9px;
 }
 
 .caret1 {
-     
-     right: 11px;
-     bottom: 13px;
-
-
+  right: 11px;
+  bottom: 13px;
 }
 .btn-select-item {
   width: 40%;
 }
-.undefined {
-  width: 100px;
-}
-.undefined a img {
-  width: 100%;
+.lighter {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
   float: left;
 }
-.lighter {
-      position: relative;
-      min-height: 1px;
-      padding-left: 15px;
-      padding-right: 15px;
-      float: left
-
-}
-
-
-
-
-
-
-
-
