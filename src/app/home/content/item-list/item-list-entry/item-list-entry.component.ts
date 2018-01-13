@@ -2,10 +2,13 @@ import { environment } from './../../../../../environments/environment';
 import { Item } from './../../../../core/models/item';
 import { CartItem } from './../../../../core/models/cart_item';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms'
 import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
 import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
 import { ProductActions } from './../../../../product/actions/product-actions';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/observable/fromEvent';
 
 @Component({
   selector: 'app-item-list-entry',
@@ -16,10 +19,8 @@ export class ItemListEntryComponent implements OnInit {
   @Input() item: Item;
   @Input() cartItems: CartItem[];
   @Output() onOpenModalEmit: EventEmitter<any> = new EventEmitter<any>();
-  itemQuantity: number;
-//  @ViewChild('itemQuantity') itemQuantity;
-
-  // @Input() product: Product;
+  itemQuantity: number = 0;
+  quantityControl = new FormControl;
 
   constructor(
     private store: Store<AppState>,
@@ -28,7 +29,23 @@ export class ItemListEntryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.itemQuantity = 1;
+    //this.itemQuantity = 1;
+    const cartItem = this.getCartItem();
+    if(typeof(cartItem) != "undefined"){
+      this.itemQuantity = cartItem.quantity;
+    }
+    this.quantityControl.valueChanges
+      .debounceTime(300)
+      .subscribe(value => {
+        console.log(isNaN(value)+" " + value+" "+this.itemQuantity)
+        if(isNaN(value) || value < 0){
+          this.quantityControl.setValue(this.itemQuantity);
+        } else {
+          this.itemQuantity = value;
+          const cartItem = this.getCartItem();
+          this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
+        }
+      })
   }
 
   getProductImageUrl(url) {
@@ -36,50 +53,42 @@ export class ItemListEntryComponent implements OnInit {
     return `https://angularspree-new.herokuapp.com/${url}`;
   }
 
-  addToCart(item: Item, e) {
+  addToCart(e) {
     e.stopPropagation();
-    this.store.dispatch(this.checkoutActions.addToCart(item));
+    this.itemQuantity = 1;
+    this.store.dispatch(this.checkoutActions.addToCart(this.item));
   }
 
-  selectItem(item: Item) {
-    this.store.dispatch(this.productActions.addSelectedItem(item));
-    this.onOpenModalEmit.emit(item);
+  selectItem() {
+    this.store.dispatch(this.productActions.addSelectedItem(this.item));
+    this.onOpenModalEmit.emit(this.item);
   }
 
-  isInCart(id: number) {
-    const cartItem = this.cartItems.find(item => item.item_id === id);
-    if(typeof(cartItem) != "undefined"){
-      return cartItem.quantity;
-    } else {
-      return 0;
-    }
-  }
-
-  incrementQuantity(item: Item, e) {
+  incrementQuantity(e) {
     e.stopPropagation();
     this.itemQuantity++;
-//    const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
-//    console.log(inputQuantity.value)
-//    inputQuantity.value++;
-    const cartItem = this.cartItems.find(cartItem => cartItem.item_id === item.id);
-    this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
+    this.quantityControl.setValue(this.itemQuantity);
+    //const cartItem = this.getCartItem();
+    //this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
   }
 
-  decrementQuantity(item: Item, e) {
+  decrementQuantity(e) {
     e.stopPropagation();
     if(this.itemQuantity > 1) {
       this.itemQuantity--;
-      const cartItem = this.cartItems.find(cartItem => cartItem.item_id === item.id);
-      this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
-    }  
-    // const inputQuantity = this.elRef.nativeElement.querySelector(`#item-list-quantity-${item.id}`);
-    // inputQuantity.value--;
-    //this.store.dispatch(changeCartItemQuantity(inputQuantity,item.id)
+      this.quantityControl.setValue(this.itemQuantity);
+      //const cartItem = this.getCartItem();
+      //this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
+    }
   }
 
-  inputQuantity(item: Item, e) {
+  inputQuantity(e) {
     e.stopPropagation();
-  //
+
+  }
+
+  getCartItem(){
+    return this.cartItems.find(cartItem => cartItem.item_id === this.item.id);
   }
 
 }
