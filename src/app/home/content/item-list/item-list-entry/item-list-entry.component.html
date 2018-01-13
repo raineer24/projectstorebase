@@ -1,6 +1,32 @@
-<div class="product-tile">
-  <p> Product id: {{ product.id }} </p>
-  <!-- <p> Product Name : {{ product.name }} </p> -->
-  <p> Product Price : {{ product.price }} </p>
-  <!-- <img [src]="getProductImageUrl(product.master.images[0]?.large_url)"> -->
-</div>
+<div class="product-thumbShim"></div>
+<a itemprop="url" (click)="selectItem()">
+  <img itemprop="image"
+    class="product-thumb"
+    alt="{{item.name}}"
+    src="../../assets/mocha-01.jpg">
+  <!-- EOSNOTE - TEMPORARY: insert correct image URL -->
+  <div class="product-productMetaInfo">
+    <div itemprop="name" class="product-brand">{{ item.name }}</div>
+    <h2 class="product-product">{{ item.brandName }}</h2>
+    <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
+      <span>
+        <!-- Discounted price -->
+
+        <span itemprop="price" class="product-discountedPrice">Php {{ item.price }}</span>
+
+        <!-- Original price -->
+        <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
+      </span>
+      <!--Percentage off --><!--<span class="product-discountPercentage">(40% OFF)</span>-->
+    </div>
+    <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
+    <ng-container *ngIf="itemQuantity != 0; else addCart">
+      <button (click)="decrementQuantity($event)">-</button>
+      <input type="number" [min]="0" class="text-center" (click)="inputQuantity($event)" [value]="itemQuantity" [formControl]="quantityControl" />
+      <button (click)="incrementQuantity($event)">+</button>
+    </ng-container>
+    <ng-template #addCart>
+      <button class="btn-danger" (click)="addToCart($event)">ADD TO CART</button>
+    </ng-template>
+  </div>
+</a>
