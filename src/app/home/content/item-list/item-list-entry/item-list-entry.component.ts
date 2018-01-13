@@ -2,13 +2,12 @@ import { environment } from './../../../../../environments/environment';
 import { Item } from './../../../../core/models/item';
 import { CartItem } from './../../../../core/models/cart_item';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms'
+import { FormControl } from '@angular/forms';
 import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
 import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
 import { ProductActions } from './../../../../product/actions/product-actions';
 import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/observable/fromEvent';
 
 @Component({
   selector: 'app-item-list-entry',
@@ -29,7 +28,6 @@ export class ItemListEntryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.itemQuantity = 1;
     const cartItem = this.getCartItem();
     if(typeof(cartItem) != "undefined"){
       this.itemQuantity = cartItem.quantity;
@@ -68,8 +66,6 @@ export class ItemListEntryComponent implements OnInit {
     e.stopPropagation();
     this.itemQuantity++;
     this.quantityControl.setValue(this.itemQuantity);
-    //const cartItem = this.getCartItem();
-    //this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
   }
 
   decrementQuantity(e) {
@@ -77,14 +73,11 @@ export class ItemListEntryComponent implements OnInit {
     if(this.itemQuantity > 1) {
       this.itemQuantity--;
       this.quantityControl.setValue(this.itemQuantity);
-      //const cartItem = this.getCartItem();
-      //this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
     }
   }
 
   inputQuantity(e) {
     e.stopPropagation();
-
   }
 
   getCartItem(){
