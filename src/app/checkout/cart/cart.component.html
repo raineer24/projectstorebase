@@ -1,8 +1,9 @@
+<app-header></app-header>
 <div class="cart-section">
   <div *ngIf="(totalCartItems$ | async) > 0 else emptyCart">
     <div class="col-xs-8 panel-board">
       <div class="panel panel-info">
-        <div class="panel-heading">
+        <!-- <div class="panel-heading">
           <div class="panel-title">
             <div class="row">
               <div class="col-xs-6">
@@ -13,11 +14,11 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="panel-body">
           <app-cart-item-list></app-cart-item-list>
         </div>
-        <div class="panel-footer">
+        <!-- <div class="panel-footer">
           <div class="row text-center">
             <div class="col-xs-9">
               <h4 class="text-right">Total
@@ -28,7 +29,7 @@
               <button type="button" class="btn btn-primary">Checkout</button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="col-md-4">
@@ -58,4 +59,4 @@
     <app-empty-cart></app-empty-cart>
   </ng-template>
 </div>
-<app-header></app-header>
+
