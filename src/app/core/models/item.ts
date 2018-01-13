@@ -3,6 +3,7 @@ export class Item {
   code: number;
   name: string;
   brandName: string;
+  description: string;
   price: string;
   displayPrice: string;
   hasVat: any;

@@ -14,13 +14,35 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   @Input() item: Item;
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
 
+  images: any[];
+  
   constructor(
     private productActions: ProductActions,
     private checkoutActions: CheckoutActions,
     private store: Store<AppState>
-  ) { }
+  ) {
+       this.images = [];
+       this.images.push({
+         source: "../../assets/ItemProd.jpg",
+         thumbnail: "../../assets/ItemProd.jpg",
+         title: "quick"
+       });
+       this.images.push({
+         source: "../../assets/ItemProd.jpg",
+         thumbnail: "../../assets/ItemProd.jpg",
+         title: "brown"
+       });
+       this.images.push({
+         source: "../../assets/ItemProd.jpg",
+         thumbnail: "../../assets/ItemProd.jpg",
+         title: "fox"
+       });
+       
+    }
 
-  ngOnInit() {
+  ngOnInit(
+    
+  ) {
 
   }
 
@@ -35,4 +57,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   addToCart() {
     this.store.dispatch(this.checkoutActions.addToCart(this.item));
   }
+   
+
 }
+

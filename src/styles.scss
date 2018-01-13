@@ -3,6 +3,8 @@
 
 
 
+
+
 @font-face {
     font-family: "Whitney-semi-bold";
     src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
@@ -77,16 +79,56 @@ main[_ngcontent-c0] {
 }
 
 html {
-overflow-y: scroll;
+  overflow-y: scroll;
 }
 .ui-spinner {
-  width: 66%;
+  width: 28%;
 }
 
 .ui-inputtext {
   width:  100%;
-  
+}
+.ui-spinner-input {
+  border: none;
+}
+.ui-spinner >.ui-spinner-input {
+  //width: 30%;
+  //background: orange;
+}
+div.modal-dialog {
+  top: 40%;
+}
+.drop1 {
+ border: 1px solid #ccc !important;
 }
 
+.dropdown-toggle {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  font-size: 1.2em;
+}
+.btn-group.open .dropdown-toggle {
+  box-shadow: none;
+}
+.caret {
+  position: absolute;
+  right: 22px;
+  bottom: 9px;
+}
 
-
+.caret1 {
+  right: 11px;
+  bottom: 13px;
+}
+.btn-select-item {
+  width: 40%;
+}
+.lighter {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  float: left;
+}
