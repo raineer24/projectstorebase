@@ -19,7 +19,9 @@
       </h6>
     </div>
     <div class="col-md-7">
-      <p-spinner size="30" [(ngModel)]="quantityValue" [min]="1"></p-spinner>
+      <button (click)="decrementQuantity($event)">-</button>
+      <input type="number" [min]="0" class="text-center" [value]="quantity" [formControl]="quantityControl" />
+      <button (click)="incrementQuantity($event)">+</button>
       <button type="button" class="btn btn-link btn-xs">
         <span class="glyphicon glyphicon-trash icon-trash"> </span>
       </button>

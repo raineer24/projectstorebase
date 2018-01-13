@@ -10,39 +10,8 @@
       <p *ngIf="items.length === 0">No Products found for this category</p>
       <li *ngFor="let item of items" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
-        <div class="product-thumbShim"></div>
-        <!-- <a itemprop="url" [routerLink]="['/item', item.id]"> -->
-        <a itemprop="url" (click)="selectItem(item)">
-          <img itemprop="image"
-            class="product-thumb"
-            alt="{{item.name}}"
-            src="../../assets/mocha-01.jpg">
-          <!-- EOSNOTE - TEMPORARY: insert correct image URL -->
-          <div class="product-productMetaInfo">
-            <div itemprop="name" class="product-brand">{{ item.name }}</div>
-            <h2 class="product-product">{{ item.brandName }}</h2>
-            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
-              <span>
-                <!-- Discounted price -->
+        <app-item-list-entry [item]="item" [cartItems]="cartItems" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
 
-                <span itemprop="price" class="product-discountedPrice">Php {{ item.price }}</span>
-
-                <!-- Original price -->
-                <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
-              </span>
-              <!--Percentage off --><!--<span class="product-discountPercentage">(40% OFF)</span>-->
-            </div>
-            <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
-            <ng-container *ngIf="isInCart(item.id); else addCart; let quantity">
-              <button (click)="decrementQuantity(item, $event)">-</button>
-              <input id="item-list-quantity-{{item.id}}" (click)="inputQuantity(item, $event)"  value="{{quantity}}" />
-              <button (click)="incrementQuantity(item, $event)">+</button>
-            </ng-container>
-            <ng-template #addCart>
-              <button class="btn-danger" (click)="addToCart(item, $event)">ADD TO CART</button>
-            </ng-template>
-          </div>
-        </a>
         <!-- <div class="product-sizeDisplayDiv">
           <div class="product-sizeDisplayHeader">
             <span>Select a size</span>
