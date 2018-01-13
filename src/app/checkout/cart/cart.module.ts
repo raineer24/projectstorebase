@@ -10,7 +10,8 @@ import { OrderTotalSummaryComponent } from './components/order-total-summary/ord
 import { EmptyCartComponent } from './components/empty-cart/empty-cart.component';
 import { FormsModule } from "@angular/forms";
 import { SpinnerModule } from "primeng/primeng";
-
+import { HeaderComponent } from "../../layout/header/header.component";
+import { LayoutModule } from "../../layout/index";
 @NgModule({
   declarations: [
     CartComponent,
@@ -19,13 +20,14 @@ import { SpinnerModule } from "primeng/primeng";
     OrderTotalSummaryComponent,
     EmptyCartComponent
   ],
-  exports: [],
+  exports: [HeaderComponent],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     //BrowserModule,
-    SpinnerModule
+    SpinnerModule,
+    LayoutModule
   ],
   providers: []
 })
