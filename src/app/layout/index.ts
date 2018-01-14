@@ -9,6 +9,7 @@ import { ProfileDropdownComponent } from './header/profile-dropdown/profile-drop
 import { SharedModule } from '../shared/index';
 import { RouterModule } from '@angular/router';
 
+
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 
 @NgModule({
