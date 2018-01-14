@@ -23,8 +23,8 @@
       "styles": [
         "styles.scss",
          "../node_modules/font-awesome/css/font-awesome.min.css",
-  "../node_modules/primeng/resources/themes/omega/theme.css",
-  "../node_modules/primeng/resources/primeng.min.css"
+         "../node_modules/primeng/resources/themes/omega/theme.css",
+         "../node_modules/primeng/resources/primeng.min.css"
       ],
       "scripts": [
         "../node_modules/bootstrap/dist/js/bootstrap.js"
@@ -32,7 +32,7 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "mock": "environments/environment.mock.ts",
-        "dev": "environments/environment.ts",        
+        "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
     }
