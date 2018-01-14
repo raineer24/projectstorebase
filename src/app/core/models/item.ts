@@ -15,7 +15,7 @@ export class Item {
   packageMinimum: number;
   packageIntervals: number;
   availableOn: number;
-  itemKey: string;
+  imageKey: string;
   slug: string;
   enabled: any;
   sellerAccount_id: number;

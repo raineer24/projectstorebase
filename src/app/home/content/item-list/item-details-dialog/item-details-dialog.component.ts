@@ -15,35 +15,35 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
 
   images: any[];
-  
+
   constructor(
     private productActions: ProductActions,
     private checkoutActions: CheckoutActions,
     private store: Store<AppState>
   ) {
-       this.images = [];
-       this.images.push({
-         source: "../../assets/ItemProd.jpg",
-         thumbnail: "../../assets/ItemProd.jpg",
-         title: "quick"
-       });
-       this.images.push({
-         source: "../../assets/ItemProd.jpg",
-         thumbnail: "../../assets/ItemProd.jpg",
-         title: "brown"
-       });
-       this.images.push({
-         source: "../../assets/ItemProd.jpg",
-         thumbnail: "../../assets/ItemProd.jpg",
-         title: "fox"
-       });
-       
+
     }
 
   ngOnInit(
-    
-  ) {
 
+  ) {
+    this.images = [];
+    this.images.push({
+      source: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      thumbnail: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      title: this.item.name
+    });
+    this.images.push({
+      source: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      thumbnail: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      title: this.item.name
+    });
+    this.images.push({
+      source: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      thumbnail: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      title: this.item.name
+    });
+    // console.log(this.item);
   }
 
   ngOnDestroy() {
@@ -57,7 +57,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   addToCart() {
     this.store.dispatch(this.checkoutActions.addToCart(this.item));
   }
-   
+
 
 }
-

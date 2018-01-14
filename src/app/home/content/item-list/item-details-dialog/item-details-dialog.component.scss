@@ -48,7 +48,7 @@
   margin-top: 10px;
   border-top: 1px solid #000;
 }
-.quality-in-cart {
+.quantity-in-cart {
   float: left;
   background: #ff5848;
   color: #fff;
@@ -57,22 +57,22 @@
   height: 34px;
 
 }
-.quality-in-cart label {
+.quantity-in-cart label {
   margin-left: 0.8em;
 }
 
-.quality-in-cart input
+.quantity-in-cart input
 {
   background: transparent;
   border: none;
   width: 15%;
 
 }
-.quality-in-cart-btn {
+.quantity-in-cart-btn {
   border: none;
   background: transparent;
 }
-.quality-wish-list {
+.quantity-wish-list {
   background: #0be0c7;
   width: 33%;
   height: 34px;
@@ -107,7 +107,7 @@ input[value="1"] {
   overflow: hidden;
 }
 .carousel-inner {
- 
+
   width: 89%;
   float: left;
 
@@ -122,11 +122,3 @@ input[value="1"] {
 s {
   color: red;
 }
-
-
-
-
-
-
-
-
