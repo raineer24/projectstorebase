@@ -11,15 +11,15 @@
     </div>
 
 
-    <div class="item-images col-md-3">
-      <img class="img-responsive" src="../../assets/ItemProd.jpg">
+    <div class="item-images col-md-4">
+      <img class="img-responsive" src="https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/{{item.imageKey}}.jpg">
     </div>
     <!-- INSERT IMAGES HERE -->
     <div class="item-info col-md-6">
       <div>
         <p>{{item.name}}</p>
         <p>{{item.brandName}}</p>
-        <p>{{item.packaging}}</p>
+        <!-- <p>{{item.packaging}}</p> -->
       </div>
       <div>
         <p>List Price:
@@ -30,7 +30,7 @@
         <p>Price:
           <span  >{{item.price | currency:'PHP':true:'1.2'}}</span>
         </p>
-        <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p>
+        <!-- <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p> -->
       </div>
       <div class="btn-block btn-group" dropdown>
         <button dropdownToggle type="button" class="dropdown-toggle">
@@ -80,14 +80,14 @@
 
 
 <div class="cart-my-list">
-  <div class="quality-in-cart">
-    <label for="bit">quality in cart</label>
-    <button id="bit" class="quality-in-cart-btn">-</button>
+  <div class="quantity-in-cart">
+    <label for="bit">Quantity in cart</label>
+    <button id="bit" class="quantity-in-cart-btn">-</button>
     <input type="text" value="1">
-    <button class="quality-in-cart-btn">+</button>
+    <button class="quantity-in-cart-btn">+</button>
   </div>
 
-  <button class="quality-wish-list">Add to my wishlist</button>
+  <button class="quantity-wish-list">Add to my wishlist</button>
 
 
 </div>
@@ -97,7 +97,8 @@
 
 
   </div>
-  <br/>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <!--
   <div class="suggested-items">Check out these other items</div>
   <div class="carousel slide" id="myCarousel">
     <div class="carousel-inner">
@@ -313,4 +314,5 @@
 
 
   </div>
+  -->
 </div>
