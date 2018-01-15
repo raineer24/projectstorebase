@@ -1,8 +1,32 @@
 <app-header></app-header>
+<ul class="social">
+  <li>
+    <a class="fa fa-facebook" href="#">
+     
+    </a>
+  </li>
+
+  <li>
+    <a class="fa fa-twitter" href="#">
+     
+    </a>
+  </li>
+
+ 
+
+  <li>
+    <a class="fa fa-instagram" href="#">
+      
+    </a>
+  </li>
+
+</ul>
 <div class="cart-section">
   <div *ngIf="(totalCartItems$ | async) > 0 else emptyCart">
     <div class="col-xs-8 panel-board">
       <div class="panel panel-info">
+        <h1>Your Shopping Cart Summary</h1>
+        <p>Please review the items on your shopping cart before you checkout</p>
         <!-- <div class="panel-heading">
           <div class="panel-title">
             <div class="row">
@@ -32,10 +56,10 @@
         </div> -->
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 order">
       <app-order-total-summary [totalCartValue]="totalCartValue$ | async"></app-order-total-summary>
     </div>
-      <!--
+    <!--
           <div class="left">
           <div class="checkout-header-container">
         <div class="checkout-header">
@@ -43,7 +67,7 @@
         </div>
         <div class="total-price">Total: ${{totalCartValue$ | async | number:'1.2-2'}}</div>
       </div> -->
-      <!-- <div class="prod-set">
+    <!-- <div class="prod-set">
         <app-line-item-list></app-line-item-list>
         <a class="wishlist-link">
           <span class="icon"></span>

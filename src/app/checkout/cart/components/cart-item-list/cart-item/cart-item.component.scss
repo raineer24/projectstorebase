@@ -97,6 +97,19 @@
 		}
 	}
 }
+.panel {
+	background-color: transparent;
+}
 .input {
 	width: 30%;
+	border: none;
+	background: transparent;
+	text-align: center;
+	color: #fff;
+}
+.increment {
+	    border: 1px solid #ccc;
+	    background: transparent;
+	    border-radius: 0;
+
 }

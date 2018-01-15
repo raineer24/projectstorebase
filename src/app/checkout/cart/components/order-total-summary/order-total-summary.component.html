@@ -1,8 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading text-center">
-    <h4>Review Order</h4>
-  </div>
-  <div class="panel-body">
+
     <div class="col-md-12">
       <strong>Subtotal (# item)</strong>
       <div class="pull-right">
@@ -11,27 +8,46 @@
       </div>
     </div>
     <div class="col-md-12">
-      <strong>Tax</strong>
+      <strong>Service Fee</strong>
       <div class="pull-right">
         <span>₱ {{0 | number:'1.2-2'}}</span>
       </div>
     </div>
     <div class="col-md-12">
-      <small>Shipping</small>
+      <small>Delivery Fee</small>
       <div class="pull-right">
         <span>₱ {{0 | number:'1.2-2'}}</span>
       </div>
       <hr>
     </div>
     <div class="col-md-12">
-      <strong>Order Total</strong>
+      <strong>Discounts</strong>
+      <div class="pull-right">
+        <span>₱ 200.00</span>
+      </div>
+      <hr>
+    </div>
+    <div class="col-md-12">
+      <p>Get <span>FREE delivery</span> for orders Php 1,500 and above!</p>
+      <hr>
+    </div>
+    <div class="col-md-12">
+        <form class="coupon">
+          <input placeholder="Coupon code">
+          <span class="btn">Enter</span>
+        </form>
+        <p>Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
+        <hr>
+    </div>
+    <div class="col-md-12">
+      <strong>Total</strong>
       <div class="pull-right">
         <span>₱ {{totalCartValue | number:'1.2-2'}}</span>
       </div>
-      <hr>
+      <p>If everything looks good, click on CHECKOUT NOW to enter your delivery and payment information</p>
     </div>
-    <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
-  </div>
+    <button type="button" class="btn btn-block">Checkout now</button>
+ 
 </div>
 
 <!-- <div class="order-total-summary">
@@ -68,3 +84,4 @@
     </div>
   </div>
 </div> -->
+
