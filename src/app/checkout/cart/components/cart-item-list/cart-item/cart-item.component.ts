@@ -37,7 +37,6 @@ export class CartItemComponent implements OnInit {
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        console.log(isNaN(value)+" " + value+" "+this.quantity)
         if(isNaN(value) || value < 0){
           this.quantityControl.setValue(this.quantity);
         } else {

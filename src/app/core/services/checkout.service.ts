@@ -55,17 +55,38 @@ export class CheckoutService {
     //   return lineItem;
     // }).catch(err => Observable.empty());
 
+    return this.http.post(`v1/orderItem`,
+        {
+          "user_id": 0,
+          "item_id": item.id,
+          "quantity": 1,
+          "orderkey": Math.random() + ""
+        }
+      ).map(res => {
+          const data = res.json();
+            console.log(JSON.stringify(data))
+          const returnData = [{
+           id: data.id,
+           quantity: 1,
+           price: Number(item.price),
+           total: Number(item.price),
+           item_id: item.id,
+           item: item
+         }]
 
-     const dummy = [{
-      id: Math.random(),
-      quantity: 1,
-      price: Number(item.price),
-      total: Number(item.price),
-      item_id: item.id,
-      item: item
-    }]
+         return returnData;
+      }).catch(err => Observable.empty());
 
-    return dummy;
+    //  const dummy = [{
+    //   id: Math.random(),
+    //   quantity: 1,
+    //   price: Number(item.price),
+    //   total: Number(item.price),
+    //   item_id: item.id,
+    //   item: item
+    // }]
+
+    // return dummy;
   }
 
   /**

@@ -80,12 +80,17 @@
 
 
 <div class="cart-my-list">
-  <div class="quantity-in-cart">
-    <label for="bit">Quantity in cart</label>
-    <button id="bit" class="quantity-in-cart-btn">-</button>
-    <input type="text" value="1">
-    <button class="quantity-in-cart-btn">+</button>
-  </div>
+  <ng-container *ngIf="itemQuantity != 0; else addCart">
+    <div class="quantity-in-cart">
+      <label for="bit">Quantity in cart</label>
+      <button [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn">-</button>
+      <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
+      <button (click)="incrementQuantity()" class="quantity-in-cart-btn">+</button>
+    </div>
+  </ng-container>
+  <ng-template #addCart>
+    <button class="quantity-in-cart" (click)="addToCart()">ADD TO CART</button>
+  </ng-template>
 
   <button class="quantity-wish-list">Add to my wishlist</button>
 

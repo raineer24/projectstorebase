@@ -95,7 +95,7 @@ export class ProductService {
    * @memberof ProductService
    */
   getProducts(): any {
-    return this.http.get(`v1/item?offset=0&limit=10`)
+    return this.http.get(`v1/item?offset=0&limit=50`)
       .do(res => { console.log(res)})
       .map(res => res.json())
       .catch(err => Observable.empty());

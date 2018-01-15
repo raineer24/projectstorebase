@@ -30,6 +30,7 @@
     "@ngrx/effects": "^2.0.4",
     "@ngrx/store": "^2.2.1",
     "angular-custom-modal": "^1.0.0",
+    "@ngrx/store-devtools": "^3.2.4",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
     "core-js": "^2.4.1",
@@ -70,7 +71,10 @@
     "sw-precache": "^5.0.0",
     "ts-node": "^1.7.2",
     "tslint": "^4.5.1",
-    "typescript": "2.3.0"
+    "typescript": "2.6.1"
+  },
+  "peerDependencies": {
+    "typescript": "2.6.1"
   },
   "description": "Spree for Angular2",
   "main": "index.js",
