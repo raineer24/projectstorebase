@@ -3,6 +3,8 @@
   <div *ngIf="(totalCartItems$ | async) > 0 else emptyCart">
     <div class="col-xs-8 panel-board">
       <div class="panel panel-info">
+        <h1>Your Shopping Cart Summary</h1>
+        <p>Please review the items on your shopping cart before you checkout</p>
         <!-- <div class="panel-heading">
           <div class="panel-title">
             <div class="row">
