@@ -60,6 +60,8 @@
 }
 .social li {
   list-style: none;
+  margin-bottom: 1em;
+
 }
 
 .social li a {
@@ -72,7 +74,8 @@
   padding: 10px;
   text-decoration: none;
   text-align: center;
-  transition: background .5s ease .300ms
+  transition: background .5s ease .300ms;
+  font-size: 2em;
 }
 
 // .social li:first-child a:hover {

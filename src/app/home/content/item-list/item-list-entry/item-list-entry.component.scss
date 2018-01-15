@@ -153,7 +153,13 @@ a {
     border: none;
     background: transparent;
     text-align: center;
+    color: #fff;
+    width: 32%;
   }
+  .quantity-in-cart-btn span {
+    color: #fff;
+  }
+
   .quantity-in-cart-btn {
     border: none;
     background: transparent;
@@ -163,5 +169,13 @@ a {
     -webkit-appearance: none;
     margin: 0;
   }
+  .minus {
+    margin-right: 45px;
+  }
+  .plus {
+    margin-left: 45px;
+
+  }
+
 
 
