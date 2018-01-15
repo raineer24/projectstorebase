@@ -145,3 +145,23 @@ a {
       }
     }
   }
+  .quality-in-cart {
+    background: #ff5848;
+
+  }
+  .quality-in-cart input {
+    border: none;
+    background: transparent;
+    text-align: center;
+  }
+  .quantity-in-cart-btn {
+    border: none;
+    background: transparent;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+
