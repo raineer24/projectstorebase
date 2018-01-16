@@ -37,14 +37,17 @@ export class CartItemComponent implements OnInit {
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        console.log(isNaN(value)+" " + value+" "+this.quantity)
-        if(isNaN(value) || value < 0){
+        if(isNaN(value) || value < 1){
           this.quantityControl.setValue(this.quantity);
         } else {
           this.quantity = value;
           this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.quantity, this.cartItem.id));
         }
       })
+  }
+
+  getItemImageUrl(key) {
+    return environment.IMAGE_REPO + key + '.jpg';
   }
 
   // Change this method once angular releases RC4
@@ -56,13 +59,11 @@ export class CartItemComponent implements OnInit {
   }
 
   incrementQuantity(e) {
-    e.stopPropagation();
     this.quantity++;
     this.quantityControl.setValue(this.quantity);
   }
 
   decrementQuantity(e) {
-    e.stopPropagation();
     if(this.quantity > 1) {
       this.quantity--;
       this.quantityControl.setValue(this.quantity);

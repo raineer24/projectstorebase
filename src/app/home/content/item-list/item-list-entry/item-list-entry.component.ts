@@ -35,8 +35,7 @@ export class ItemListEntryComponent implements OnInit {
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        console.log(isNaN(value)+" " + value+" "+this.itemQuantity)
-        if(isNaN(value) || value < 0){
+        if(isNaN(value) || value < 1){
           this.quantityControl.setValue(this.itemQuantity);
         } else {
           this.itemQuantity = value;
@@ -46,9 +45,8 @@ export class ItemListEntryComponent implements OnInit {
       })
   }
 
-  getProductImageUrl(url) {
-    // return environment.API_ENDPOINT + url;
-    return `https://angularspree-new.herokuapp.com/${url}`;
+  getItemImageUrl(key) {
+    return environment.IMAGE_REPO + key + '.jpg';
   }
 
   addToCart(e) {

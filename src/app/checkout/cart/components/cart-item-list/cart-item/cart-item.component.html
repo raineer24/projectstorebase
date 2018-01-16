@@ -33,41 +33,36 @@
       <div class="row">
         <li class="col-xs-2">
           <div class="">
-            <img class="img-responsive" src="../../assets/small.jpg">
+            <img class="img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)">
           </div>
         </li>
         <li class="col-xs-4">
-          <h4 class="product-name">
+          <p class="product-name">
             <strong>{{cartItem.item.name}}</strong>
-          </h4>
-          <h4>
+          </p>
+          <p>
             <small>40per pack</small>
-          </h4>
-          <h4>Php 570.00</h4>
+          </p>
+          <p>PHP {{cartItem.price | number:'1.2'}}</p>
         </li>
         <li class="col-xs-2">
-          <button type="button" class="btn btn-xs increment">
-            <span class="glyphicon glyphicon-plus"> </span>
-          </button>
-          
-          <input class="input" value="1">
-          <button type="button " class="btn btn-xs increment">
+          <button type="button" class="btn btn-xs cart-btns" (click)="decrementQuantity()">
             <span class="glyphicon glyphicon-minus"> </span>
           </button>
+
+          <input type="number" [min]="0" class="text-center" [value]="quantity" [formControl]="quantityControl" />
+          <button type="button " class="btn btn-xs cart-btns" (click)="incrementQuantity()">
+            <span class="glyphicon glyphicon-plus"> </span>
+          </button>
         </li>
         <li class="col-xs-2">
-          <small>Php 1,710.00</small>
+          <small>PHP {{cartItem.total | number:'1.2'}}</small>
         </li>
         <li class="col-xs-2">
-          <button type="button" class="btn btn-xs increment">
+          <button type="button" class="btn btn-xs cart-btns" (click)="removeCartItem()">
             <span class="glyphicon glyphicon-remove"> </span>
           </button>
         </li>
-        
       </div>
   </div>
- 
-   
- 
 </ul>
-
