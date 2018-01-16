@@ -45,9 +45,8 @@ export class ItemListEntryComponent implements OnInit {
       })
   }
 
-  getProductImageUrl(url) {
-    // return environment.API_ENDPOINT + url;
-    return `https://angularspree-new.herokuapp.com/${url}`;
+  getItemImageUrl(key) {
+    return environment.IMAGE_REPO + key + '.jpg';
   }
 
   addToCart(e) {

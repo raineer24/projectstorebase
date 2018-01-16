@@ -46,6 +46,10 @@ export class CartItemComponent implements OnInit {
       })
   }
 
+  getItemImageUrl(key) {
+    return environment.IMAGE_REPO + key + '.jpg';
+  }
+
   // Change this method once angular releases RC4
   // Follow this linke to know more about this issue https://github.com/angular/angular/issues/12869
   removeCartItem() {

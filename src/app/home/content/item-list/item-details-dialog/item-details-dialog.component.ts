@@ -1,3 +1,4 @@
+import { environment } from './../../../../../environments/environment';
 import { Component, OnDestroy, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ProductActions } from './../../../../product/actions/product-actions';
@@ -33,18 +34,18 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   ) {
     this.images = [];
     this.images.push({
-      source: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
-      thumbnail: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      source: this.getItemImageUrl(this.item.imageKey),
+      thumbnail: this.getItemImageUrl(this.item.imageKey),
       title: this.item.name
     });
     this.images.push({
-      source: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
-      thumbnail: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      source: this.getItemImageUrl(this.item.imageKey),
+      thumbnail: this.getItemImageUrl(this.item.imageKey),
       title: this.item.name
     });
     this.images.push({
-      source: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
-      thumbnail: `https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/${this.item.imageKey}.jpg`,
+      source: this.getItemImageUrl(this.item.imageKey),
+      thumbnail: this.getItemImageUrl(this.item.imageKey),
       title: this.item.name
     });
 
@@ -67,6 +68,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.store.dispatch(this.productActions.removeSelectedItem())
+  }
+
+  getItemImageUrl(key) {
+    return environment.IMAGE_REPO + key + '.jpg';
   }
 
   onCloseModal() {

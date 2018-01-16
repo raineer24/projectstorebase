@@ -12,7 +12,7 @@
 
 
     <div class="item-images col-md-4">
-      <img class="img-responsive" src="https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/{{item.imageKey}}.jpg">
+      <img class="img-responsive" [src]="getItemImageUrl(item.imageKey)">
     </div>
     <!-- INSERT IMAGES HERE -->
     <div class="item-info col-md-6">
