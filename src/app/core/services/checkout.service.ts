@@ -64,15 +64,15 @@ export class CheckoutService {
         }
       ).map(res => {
           const data = res.json();
-            console.log(JSON.stringify(data))
-          const returnData = [{
+
+          const returnData = {
            id: data.id,
            quantity: 1,
            price: Number(item.price),
            total: Number(item.price),
            item_id: item.id,
            item: item
-         }]
+          }
 
          return returnData;
       }).catch(err => Observable.empty());
