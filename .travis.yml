@@ -14,6 +14,7 @@ deploy:
   region: "ap-southeast-2"
   # app: "grocer-web"
   # env: "grocer-web-dev"
+  local_dir: dist
   bucket: elasticbeanstalk-ap-southeast-2-259994102961
   skip_cleanup: true
   on:
