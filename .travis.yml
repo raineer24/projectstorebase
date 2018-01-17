@@ -15,5 +15,6 @@ deploy:
   app: "grocer-web"
   env: "grocer-web-dev"
   bucket_name: "elasticbeanstalk-ap-southeast-2-259994102961"
+  skip_cleanup: true
   on:
     branch: develop
