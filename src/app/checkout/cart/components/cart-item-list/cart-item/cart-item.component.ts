@@ -58,12 +58,12 @@ export class CartItemComponent implements OnInit {
     //   .subscribe();
   }
 
-  incrementQuantity(e) {
+  incrementQuantity() {
     this.quantity++;
     this.quantityControl.setValue(this.quantity);
   }
 
-  decrementQuantity(e) {
+  decrementQuantity() {
     if(this.quantity > 1) {
       this.quantity--;
       this.quantityControl.setValue(this.quantity);
