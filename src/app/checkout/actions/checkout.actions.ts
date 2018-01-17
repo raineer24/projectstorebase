@@ -22,7 +22,7 @@ export class CheckoutActions {
     return { type: CheckoutActions.FETCH_CURRENT_ORDER };
   }
 
-  fetchCurrentOrderSuccess(order: Order) {
+  fetchCurrentOrderSuccess(order) {
     return {
       type: CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS,
       payload: order
