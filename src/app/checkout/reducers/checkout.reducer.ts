@@ -83,7 +83,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalCartValue: _totalCartValue
         }) as CheckoutState;
 
-      case CheckoutActions.CHANGE_CART_ITEM_QUANTITY:
+      case CheckoutActions.UPDATE_CART_ITEM_SUCCESS:
         const quantity = payload.quantity;
         _cartItemId = payload.cartItemId;
         _cartItemEntities = state.cartItemEntities;

@@ -21,6 +21,15 @@ export class CheckoutEffects {
       return this.checkoutService.createNewCartItem(action.payload);
     })
     .map((cartItem: CartItem) => this.actions.addToCartSuccess(cartItem));
+
+  @Effect()
+    UpdateCartItem$ = this.actions$
+    .ofType(CheckoutActions.UPDATE_CART_ITEM)
+    .switchMap((action: Action) => {
+      return this.checkoutService.updateCartItem(action.payload);
+    })
+    .map((cartItem: CartItem) => this.actions.updateCartItemSuccess(cartItem.quantity, cartItem.id));
+
   }
   // @Effect()
     // FetchCurrentOrder$ = this.actions$

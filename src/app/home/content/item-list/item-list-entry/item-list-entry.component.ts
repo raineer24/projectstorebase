@@ -39,8 +39,9 @@ export class ItemListEntryComponent implements OnInit {
           this.quantityControl.setValue(this.itemQuantity);
         } else {
           this.itemQuantity = value;
-          const cartItem = this.getCartItem();
-          this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.itemQuantity, cartItem.id));
+          let cartItem = this.getCartItem();
+          cartItem.quantity = value;
+          this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
         }
       })
   }

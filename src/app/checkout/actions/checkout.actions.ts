@@ -10,7 +10,8 @@ export class CheckoutActions {
   static ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS';
   static REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
   static REMOVE_CART_ITEM_SUCCESS = 'REMOVE_CART_ITEM_SUCCESS';
-  static CHANGE_CART_ITEM_QUANTITY = 'CHANGE_CART_ITEM_QUANTITY';
+  static UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
+  static UPDATE_CART_ITEM_SUCCESS = 'UPDATE_CART_ITEM_SUCCESS';
   static PLACE_ORDER = 'PLACE_ORDER';
   static CHANGE_ORDER_STATE = 'CHANGE_ORDER_STATE';
   static CHANGE_ORDER_STATE_SUCCESS = 'CHANGE_ORDER_STATE_SUCCESS';
@@ -22,7 +23,7 @@ export class CheckoutActions {
     return { type: CheckoutActions.FETCH_CURRENT_ORDER };
   }
 
-  fetchCurrentOrderSuccess(order: Order) {
+  fetchCurrentOrderSuccess(order) {
     return {
       type: CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS,
       payload: order
@@ -57,9 +58,16 @@ export class CheckoutActions {
     };
   }
 
-  changeCartItemQuantity(quantity: number, cartItemId: number): Action {
+  updateCartItem(cartItem: CartItem): Action {
     return {
-      type: CheckoutActions.CHANGE_CART_ITEM_QUANTITY,
+      type: CheckoutActions.UPDATE_CART_ITEM,
+      payload: cartItem
+    };
+  }
+
+  updateCartItemSuccess(quantity: number, cartItemId: number): Action {
+    return {
+      type: CheckoutActions.UPDATE_CART_ITEM_SUCCESS,
       payload: { quantity, cartItemId }
     };
   }

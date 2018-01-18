@@ -60,18 +60,17 @@ export class CheckoutService {
           "user_id": 0,
           "item_id": item.id,
           "quantity": 1,
-          "orderkey": Math.random() + ""
+          "orderkey": this.getOrderToken()
         }
       ).map(res => {
           const data = res.json();
-
           const returnData = {
-           id: data.id,
-           quantity: 1,
-           price: Number(item.price),
-           total: Number(item.price),
-           item_id: item.id,
-           item: item
+           "id": data.id,
+           "quantity": 1,
+           "price": Number(item.price),
+           "total": Number(item.price),
+           "item_id": item.id,
+           "item": item
           }
 
          return returnData;
@@ -97,19 +96,40 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   fetchCurrentOrder() {
-    return this.http.get(
-      'spree/api/v1/orders/current'
-    ).map(res => {
-      const order = res.json();
-      if (order) {
-        const token = order.token;
+    // return this.http.get(
+    //   'spree/api/v1/orders/current'
+    // ).map(res => {
+    //   const order = res.json();
+    //   if (order) {
+    //     const token = order.token;
+    //     this.setOrderTokenInLocalStorage({order_token: token});
+    //     return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+    //   } else {
+    //     this.createEmptyOrder()
+    //       .subscribe();
+    //   }
+    // }).catch(err => Observable.empty());
+
+    return Observable.create((observer: any) => {
+      let token = this.getOrderToken();
+      if(typeof(token) === 'undefined') {
+        token = Math.random() + "";
         this.setOrderTokenInLocalStorage({order_token: token});
-        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-      } else {
-        this.createEmptyOrder()
-          .subscribe();
       }
-    }).catch(err => Observable.empty());
+      const order = {
+        "number": token,
+        "line_items": [],
+        "total_quantity": 0,
+        "total": 0,
+        "ship_address": "",
+        "bill_address": "",
+        "state": 'cart',
+        "token": token
+      }
+
+      return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+    })
+
   }
 
   /**
@@ -168,6 +188,28 @@ export class CheckoutService {
         this.store.dispatch(this.actions.removeCartItemSuccess(cartItem));
       }).catch(err => Observable.empty());
   }
+
+  /**
+   *
+   *
+   * @param {CartItem} cartItem
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  updateCartItem(cartItem: CartItem) {
+    return this.http.put(`v1/orderItem/${cartItem.id}`,
+        {
+          "user_id": 0,
+          "item_id": cartItem.item.id,
+          "quantity": cartItem.quantity,
+          "orderkey": this.getOrderToken()
+        }
+    ).map((res) => {
+      return cartItem;
+    }).catch(err => Observable.empty());
+  }
+
 
   /**
    *
