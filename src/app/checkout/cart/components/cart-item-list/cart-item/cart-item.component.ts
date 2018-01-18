@@ -41,7 +41,8 @@ export class CartItemComponent implements OnInit {
           this.quantityControl.setValue(this.quantity);
         } else {
           this.quantity = value;
-          this.store.dispatch(this.checkoutActions.changeCartItemQuantity(this.quantity, this.cartItem.id));
+          this.cartItem.quantity = value;
+          this.store.dispatch(this.checkoutActions.updateCartItem(this.cartItem));
         }
       })
   }
