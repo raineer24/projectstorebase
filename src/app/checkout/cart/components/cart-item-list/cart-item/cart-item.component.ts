@@ -53,9 +53,8 @@ export class CartItemComponent implements OnInit {
   // Change this method once angular releases RC4
   // Follow this linke to know more about this issue https://github.com/angular/angular/issues/12869
   removeCartItem() {
-    // this.store.dispatch(this.actions.removeCartItem(this.cartItem.id));
-    // this.checkoutService.deleteCartItem(this.cartItem)
-    //   .subscribe();
+    this.store.dispatch(this.actions.removeCartItem(this.cartItem.id));
+    this.checkoutService.deleteCartItem(this.cartItem).subscribe();
   }
 
   incrementQuantity() {

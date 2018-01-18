@@ -8,9 +8,14 @@
         <div class="input-group">
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
             <div class="result-box" *ngIf="keyword.price; else categories">
-                <h4>{{keyword.name}} | Php {{keyword.price}}</h4>
+              <div class="imgbox">
+                <img class="imgitems" itemprop="image"
+                class="product-thumb"
+                alt="{{keyword.name}}"
+                [src]="getItemImageUrl(keyword.imageKey)" width="39 px"></div>
+              <div class="itemdetailsbox">{{keyword.name}} | Php {{keyword.price}}</div>
             </div>
-            <ng-template #categories><h5>{{keyword.name}}</h5></ng-template>
+            <ng-template #categories><div class="catbox">{{keyword.name}}</div></ng-template>
           </ng-template>
 
           <input [(ngModel)]="asyncSelected"
