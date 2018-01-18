@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit {
             this.copycatList[key] = Object.assign({group:'categories'},this.copycatList[key]);
           }
 
-          var arrayName = []
+          var arrayName = [];
           itemctr = 0;
           for(var key in this.copyitemList) {
             arrayName[itemctr] = this.copyitemList[key];
