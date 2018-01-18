@@ -22,7 +22,7 @@
     <ng-container *ngIf="itemQuantity != 0; else addCart">
       <div class="quality-in-cart">
         <div class="button-padding">
-            <button class="btn quantity-in-cart-btn minus" (click)="decrementQuantity($event)">
+            <button class="btn quantity-in-cart-btn minus" (click)="decrementQuantity($event)" [disabled]="itemQuantity == 1">
               <span class="glyphicon glyphicon-minus"> </span>
             </button>
             <input type="number" [min]="0" class="text-center" (click)="inputQuantity($event)" [value]="itemQuantity" [formControl]="quantityControl" />

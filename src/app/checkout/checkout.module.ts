@@ -18,7 +18,7 @@ import { HeaderComponent } from "../layout/header/header.component";
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    EffectsModule.run(CheckoutEffects),
+    // EffectsModule.run(CheckoutEffects),
     CartModule,
     AddressModule,
     PaymentModule,
