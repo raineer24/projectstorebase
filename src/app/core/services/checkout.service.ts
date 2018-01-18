@@ -64,7 +64,6 @@ export class CheckoutService {
         }
       ).map(res => {
           const data = res.json();
-
           const returnData = {
            "id": data.id,
            "quantity": 1,
@@ -189,6 +188,28 @@ export class CheckoutService {
         this.store.dispatch(this.actions.removeCartItemSuccess(cartItem));
       }).catch(err => Observable.empty());
   }
+
+  /**
+   *
+   *
+   * @param {CartItem} cartItem
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  updateCartItem(cartItem: CartItem) {
+    return this.http.put(`v1/orderItem/${cartItem.id}`,
+        {
+          "user_id": 0,
+          "item_id": cartItem.item.id,
+          "quantity": cartItem.quantity,
+          "orderkey": this.getOrderToken()
+        }
+    ).map((res) => {
+      return cartItem;
+    }).catch(err => Observable.empty());
+  }
+
 
   /**
    *
