@@ -31,12 +31,10 @@ export class HeaderComponent implements OnInit {
   typeaheadNoResults: boolean;
   dataSource: Observable<any>;
   searchData: Object = {};
-  catList: Object = {};
-  mergedList: Object = {};
-  copycatList: Array<any> = [];
-  copyitemList: Array<any> = [];
-  itemList: Object = {};
-  catArr: Array<any> = [];
+  mergeList: Object = {};
+  copycatList: Object = {};
+  copyitemList: Object = {};
+  toTypeAhead: Array<any>;
   @ViewChild('itemDetailsModal') itemDetailsModal;
 
   constructor(
@@ -50,14 +48,6 @@ export class HeaderComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) {
 
-    this.categories$ = this.store.select(getTaxonomies);
-    this.categories$.subscribe(data => {
-          this.catList = { categories: data };
-          for(var i=0, len = data.length; i < len; i++){
-            this.copycatList[i] = data[i];
-          }
-          console.log(this.catList);
-        });
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every searchBar
       if(this.asyncSelected && this.asyncSelected.length > 1) {
@@ -66,38 +56,37 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-          console.log(this.searchData);
-          //this.itemList = data.list;
+
           this.copyitemList = data.list;
-          //this.mergedList = Object.assign(this.itemList,this.catList);
-          //console.log(JSON.stringify(this.mergedList));
-          for(var i=0, len=this.copyitemList.length; i < len; i++){
-             this.copyitemList.push(this.copycatList[i]);
+          this.copycatList = data.categories;
+
+          var itemctr = 0
+          for(var key in this.copyitemList) {
+            itemctr++;
+            this.copyitemList[key] = Object.assign({group:'items'},this.copyitemList[key]);
           }
 
-          var group_to_values = this.copyitemList.reduce(function (obj, item) {
-              if(item.brandName !== undefined){
-                 obj[item.name] = 'items';
-              }else{
-                 obj[item.name] = 'categories';
-              }
-              return obj;
-          }, {});
 
-          var groups = Object.keys(group_to_values).map(function (key) {
-              return {group: group_to_values[key], name:key };
-          });
-
-          for (var i = 0, len = groups.length; i < len; i++) {
-            groups[i]["id"] = this.copyitemList[i].id;
-            if(groups[i].group === 'items') {
-              groups[i]["price"] = this.copyitemList[i].displayPrice;
-            }
-
-            //console.log(groups[i]);
+          itemctr = 0
+          for(var key in this.copycatList) {
+            itemctr++;
+            this.copycatList[key] = Object.assign({group:'categories'},this.copycatList[key]);
           }
 
-          return groups;
+          var arrayName = [];
+          itemctr = 0;
+          for(var key in this.copyitemList) {
+            arrayName[itemctr] = this.copyitemList[key];
+            itemctr++;
+          }
+          for(var key in this.copycatList) {
+            arrayName[itemctr] = this.copycatList[key];
+            itemctr++;
+          }
+
+          console.log(arrayName);
+
+          return arrayName;
 
         })
     )
