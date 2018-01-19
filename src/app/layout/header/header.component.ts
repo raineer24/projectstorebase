@@ -67,14 +67,13 @@ export class HeaderComponent implements OnInit {
             this.copyitemList[key] = Object.assign({group:'items'},this.copyitemList[key]);
           }
 
-
           itemctr = 0
           for(var key in this.copycatList) {
             itemctr++;
             this.copycatList[key] = Object.assign({group:'categories'},this.copycatList[key]);
           }
 
-          var arrayName = []
+          var arrayName = [];
           itemctr = 0;
           for(var key in this.copyitemList) {
             arrayName[itemctr] = this.copyitemList[key];
@@ -84,8 +83,6 @@ export class HeaderComponent implements OnInit {
             arrayName[itemctr] = this.copycatList[key];
             itemctr++;
           }
-
-          console.log(arrayName);
 
           return arrayName;
 
