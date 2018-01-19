@@ -110,26 +110,78 @@ export class CheckoutService {
     //   }
     // }).catch(err => Observable.empty());
 
-    return Observable.create((observer: any) => {
-      let token = this.getOrderToken();
-      if(typeof(token) === 'undefined') {
-        token = Math.random() + "";
-        this.setOrderTokenInLocalStorage({order_token: token});
-      }
-      const order = {
-        "number": token,
-        "line_items": [],
-        "total_quantity": 0,
-        "total": 0,
-        "ship_address": "",
-        "bill_address": "",
-        "state": 'cart',
-        "token": token
-      }
+    let token = this.getOrderToken();
+    if(typeof(token) === 'undefined') {
+      token = Math.random() + "";
+      this.setOrderTokenInLocalStorage({order_token: token});
 
-      return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-    })
+      return Observable.create((observer: any) => {
+        const order = {
+          "number": token,
+          "cart_items": [],
+          "total_quantity": 0,
+          "total": 0,
+          "ship_address": "",
+          "bill_address": "",
+          "state": 'cart',
+          "token": token
+        }
+        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+      })
+    } else {
+      return this.http.get(`v1/orderItem?key=${token}`
+      ).map(res => {
+        // console.log("TEST"+data)
+        const data = res.json();
+        let cart_item = {}, cart_items = [], total = 0, total_quantity = 0;
+        for (let datum of data) {
+          cart_items.push({
+            "id": datum.orderItem_id,
+            "quantity": Number(datum.quantity),
+            "price": Number(datum.price),
+            "total": (Number(datum.price) * datum.quantity),
+            "item_id": datum.item_id,
+            "item": {
+              "id": datum.item_id,
+              "code": datum.code,
+              "name": datum.name,
+              "brandName": datum.brandName,
+              "price": datum.price,
+              "displayPrice": datum.displayPrice,
+              "hasVat": datum.hasVat,
+              "isSenior": datum.isSenior,
+              "weighted": datum.weighted,
+              "packaging": datum.packaging,
+              "packageMeasurement": datum.packageMeasurement,
+              "sizing": datum.sizing,
+              "packageMinimum": datum.packageMinumum,
+              "packageIntervals": datum.packageIntervals,
+              "availableOn": datum.availableOn,
+              "imageKey": datum.imageKey,
+              "slug": datum.slug,
+              "enabled": datum.enabled,
+              "sellerAccount_id": datum.sellerAccount_id,
+              "dateCreated": datum.dateCreated,
+              "dateUpdated": datum.dateUpdate
+            }
+          });
 
+          total += Number(datum.price) * datum.quantity;
+          total_quantity += Number(datum.quantity);
+        }
+        const order = {
+          "number": token,
+          "cart_items": cart_items,
+          "total_quantity": total_quantity,
+          "total": total,
+          "ship_address": "",
+          "bill_address": "",
+          "state": 'cart',
+          "token": token
+        }
+        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+       })
+    }
   }
 
   /**

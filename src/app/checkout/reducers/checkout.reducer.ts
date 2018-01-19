@@ -19,7 +19,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       case CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS:
         const _orderNumber = payload.number;
-        _cartItems = payload.line_items;
+        _cartItems = payload.cart_items;
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
         _totalCartItems = payload.total_quantity;
         _totalCartValue = parseFloat(payload.total);
