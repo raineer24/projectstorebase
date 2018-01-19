@@ -81,6 +81,10 @@ a {
     .btn-danger {
       background: #ff5847;
       width: 100%;
+      margin: 0px;
+      padding: 0px;
+      vertical-align: middle;
+      line-height: 26px;
     }
   }
 }
@@ -154,6 +158,9 @@ a {
       }
     }
   }
+  .button-padding {
+    line-height: 27px;
+  }
   .quality-in-cart {
     background: #ff5848;
 
@@ -161,9 +168,10 @@ a {
   .quality-in-cart input {
     border: none;
     background: transparent;
+    background: #ff7676;
     text-align: center;
     color: #fff;
-    width: 32%;
+    width: 50%;
   }
   .quantity-in-cart-btn span {
     color: #fff;
@@ -172,6 +180,10 @@ a {
   .quantity-in-cart-btn {
     border: none;
     background: transparent;
+    padding: 0px;
+    line-height: 28px;
+    width: 40px;
+    float: left;
   }
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
@@ -182,6 +194,6 @@ a {
     margin-right: 1px;
   }
   .plus {
-    margin-left: 15px;
-
+    // margin-left: 15px;
+    float: right;
   }
