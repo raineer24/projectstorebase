@@ -235,7 +235,7 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   deleteCartItem(cartItem: CartItem) {
-    return this.http.delete(`spree/api/v1/orders/${this.orderNumber}/line_items/${cartItem.id}?order_token=${this.getOrderToken()}`)
+    return this.http.delete(`v1/orderItem/${cartItem.id}`)
       .map(() => {
         this.store.dispatch(this.actions.removeCartItemSuccess(cartItem));
       }).catch(err => Observable.empty());
