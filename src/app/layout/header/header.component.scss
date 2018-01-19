@@ -68,6 +68,20 @@ li.dropdown:hover > ul.dropdown-menu {
   min-width: 335px !important;
 }
 
+.imgbox{
+  width: 40px !important;
+  display: inline-block;
+  align-self: baseline;
+}
+.itemsdetailsbox{
+  width: 290px !important;
+  margin:0;
+  float:right;
+}
+.imgitems{
+  align: left;
+  float:left
+}
 
 // .navbar {
 //   height: 146px;

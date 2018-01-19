@@ -13,6 +13,7 @@ import { ProductService } from '../../core/services/product.service';
 import { ProductActions } from '../../product/actions/product-actions';
 import { Item } from '../../core/models/item';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -66,7 +67,6 @@ export class HeaderComponent implements OnInit {
             this.copyitemList[key] = Object.assign({group:'items'},this.copyitemList[key]);
           }
 
-
           itemctr = 0
           for(var key in this.copycatList) {
             itemctr++;
@@ -83,8 +83,6 @@ export class HeaderComponent implements OnInit {
             arrayName[itemctr] = this.copycatList[key];
             itemctr++;
           }
-
-          console.log(arrayName);
 
           return arrayName;
 
@@ -154,5 +152,10 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.addSelectedItem(item));
     this.itemDetailsModal.open();
   }
+
+  getItemImageUrl(key) {
+    return environment.IMAGE_REPO + key + '.jpg';
+  }
+
 
 }
