@@ -46,7 +46,7 @@
           <p>PHP {{cartItem.price | number:'1.2'}}</p>
         </li>
         <li class="col-xs-2">
-          <button type="button" class="btn btn-xs cart-btns" (click)="decrementQuantity()">
+          <button type="button" class="btn btn-xs cart-btns" (click)="decrementQuantity()"  [disabled]="quantity == 1">
             <span class="glyphicon glyphicon-minus"> </span>
           </button>
 
