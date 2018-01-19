@@ -21,12 +21,12 @@ import { Component, OnInit, OnChanges } from '@angular/core';
       </div>
       <div class="col-xs-9">
       -->
-      <div class="col-xs-12">
+    
         <app-content
           [products]="products$ | async" [cartItemsArr]="cartItems$ | async">
           <!-- [taxonIds]="selectedTaxonIds$ | async"> -->
         </app-content>
-      </div>
+     
     </div>
   `,
   styleUrls: ['./home.component.scss']
