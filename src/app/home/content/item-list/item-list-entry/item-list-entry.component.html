@@ -11,7 +11,7 @@
       <span>
         <!-- Discounted price -->
 
-        <span itemprop="price" class="product-discountedPrice">Php {{ item.price }}</span>
+        <span itemprop="price" class="product-discountedPrice">P {{ item.price }}</span>
 
         <!-- Original price -->
         <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
@@ -33,7 +33,7 @@
       </div>
     </ng-container>
     <ng-template #addCart>
-      <button class="btn-danger" (click)="addToCart($event)">ADD TO CART</button>
+      <button class="btn-danger" (click)="addToCart($event)">Add to Cart</button>
     </ng-template>
   </div>
 </a>
