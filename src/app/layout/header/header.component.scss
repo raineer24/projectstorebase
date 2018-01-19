@@ -22,6 +22,10 @@
   }
 
 }
+  .header-sticky-wrapper ul li:nth-child(n+10) {
+      display: none;
+  }
+
 // .header-sticky-wrapper ul li:first-child {
 //   margin-left: 0;
 //   margin-right: 5em;
