@@ -33,7 +33,7 @@ a {
   background-color: transparent;
   color: #282c3f;
   .product-thumb {
-    height: 240px;
+    height: 239px;
     display: block;
     background-color: transparent;
     opacity: 1;
@@ -48,13 +48,15 @@ a {
     // padding: 0 5px;
     text-align: left;
     .product-brand, .product-product {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 420;
       line-height: 14px;
       color: #282c3f;
+      color: #494949;
       text-transform: capitalize;
       margin: 5px 0;
       padding-left: 5px;
@@ -184,6 +186,3 @@ a {
     margin-left: 15px;
 
   }
-
-
-
