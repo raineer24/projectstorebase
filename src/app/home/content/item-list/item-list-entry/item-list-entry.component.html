@@ -3,7 +3,9 @@
   <img itemprop="image"
     class="product-thumb"
     alt="{{item.name}}"
-    [src]="getItemImageUrl(item.imageKey)">
+    [src]="getItemImageUrl(item.imageKey)"
+    (load)="onImageLoaded()"
+    (error)="onImageError()">
   <div class="product-productMetaInfo">
     <div itemprop="name" class="product-brand">{{ item.name }}</div>
     <h2 class="product-product">{{ item.brandName }}</h2>
