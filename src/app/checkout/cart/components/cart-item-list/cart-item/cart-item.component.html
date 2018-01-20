@@ -43,7 +43,7 @@
           <p>
             <small>40per pack</small>
           </p>
-          <p>PHP {{cartItem.price | number:'1.2'}}</p>
+          <p>P {{cartItem.price | number:'1.2'}}</p>
         </li>
         <li class="col-xs-2">
           <button type="button" class="btn btn-xs cart-btns" (click)="decrementQuantity()"  [disabled]="quantity == 1">
@@ -56,7 +56,7 @@
           </button>
         </li>
         <li class="col-xs-2">
-          <small>PHP {{cartItem.total | number:'1.2'}}</small>
+          <small>P {{cartItem.total | number:'1.2'}}</small>
         </li>
         <li class="col-xs-2">
           <button type="button" class="btn btn-xs cart-btns" (click)="removeCartItem()">

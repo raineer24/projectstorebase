@@ -33,7 +33,7 @@ a {
   background-color: transparent;
   color: #282c3f;
   .product-thumb {
-    height: 240px;
+    height: 239px;
     display: block;
     background-color: transparent;
     opacity: 1;
@@ -52,9 +52,10 @@ a {
       text-overflow: ellipsis;
       white-space: nowrap;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 420;
       line-height: 14px;
       color: #282c3f;
+      color: #494949;
       text-transform: capitalize;
       margin: 5px 0;
       padding-left: 5px;
@@ -80,6 +81,10 @@ a {
     .btn-danger {
       background: #ff5847;
       width: 100%;
+      margin: 0px;
+      padding: 0px;
+      vertical-align: middle;
+      line-height: 26px;
     }
   }
 }
@@ -153,6 +158,9 @@ a {
       }
     }
   }
+  .button-padding {
+    line-height: 27px;
+  }
   .quality-in-cart {
     background: #ff5848;
 
@@ -160,9 +168,10 @@ a {
   .quality-in-cart input {
     border: none;
     background: transparent;
+    background: #ff7676;
     text-align: center;
     color: #fff;
-    width: 32%;
+    width: 50%;
   }
   .quantity-in-cart-btn span {
     color: #fff;
@@ -171,6 +180,11 @@ a {
   .quantity-in-cart-btn {
     border: none;
     background: transparent;
+    padding: 0px;
+    line-height: 28px;
+    width: 40px;
+    float: left;
+    border-radius: 0px;
   }
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
@@ -178,12 +192,10 @@ a {
     margin: 0;
   }
   .minus {
-    margin-right: 45px;
+    margin-right: 1px;
   }
   .plus {
-    margin-left: 45px;
-
+    // margin-left: 15px;
+    float: right;
+    background: #60b35b;
   }
-
-
-

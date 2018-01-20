@@ -1,5 +1,7 @@
 .topbar {
-  background: url(../../../assets/bg-header.jpg) repeat-x left top;
+  // background: url(../../../assets/bg-header.jpg) repeat-x left top;
+  background: #05ccb9;
+  border-bottom: 1px solid #02b5a4; //#03988a;
  }
 .header-sticky-wrapper {
   background-color: #42f4eb;
@@ -22,6 +24,10 @@
   }
 
 }
+  .header-sticky-wrapper ul li:nth-child(n+10) {
+      display: none;
+  }
+
 // .header-sticky-wrapper ul li:first-child {
 //   margin-left: 0;
 //   margin-right: 5em;
