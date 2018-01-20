@@ -1,7 +1,7 @@
 import { environment } from './../../../../../environments/environment';
 import { Item } from './../../../../core/models/item';
 import { CartItem } from './../../../../core/models/cart_item';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-item-list-entry',
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './item-list-entry.component.html',
   styleUrls: ['./item-list-entry.component.scss']
 })
@@ -20,11 +21,13 @@ export class ItemListEntryComponent implements OnInit {
   @Output() onOpenModalEmit: EventEmitter<any> = new EventEmitter<any>();
   itemQuantity: number = 0;
   quantityControl = new FormControl;
+  private imageRetries: number = 0;
 
   constructor(
     private store: Store<AppState>,
     private checkoutActions: CheckoutActions,
     private productActions: ProductActions,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -47,7 +50,35 @@ export class ItemListEntryComponent implements OnInit {
   }
 
   getItemImageUrl(key) {
-    return environment.IMAGE_REPO + key + '.jpg';
+    var url = '';
+    switch (this.imageRetries){
+      case 0: {
+        url = environment.IMAGE_REPO + key + '.jpg';
+        break;
+      }
+      case 1: {
+        url = 'assets/omg-01.png'
+        // url = environment.IMAGE_REPO + key + '.jpg';
+        break;
+      }
+      default: {
+        url = 'assets/omg-01.png'
+        break;
+      }
+    }
+    return url;
+  }
+
+  private detach() {
+    this.cdr.detach();
+  }
+
+  private onImageLoaded() {
+    this.detach();
+  }
+
+  private onImageError() {
+    this.imageRetries++;
   }
 
   addToCart(e) {
