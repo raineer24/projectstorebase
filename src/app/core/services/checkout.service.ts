@@ -111,7 +111,7 @@ export class CheckoutService {
     // }).catch(err => Observable.empty());
 
     let token = this.getOrderToken();
-    if(typeof(token) === 'undefined') {
+    if(!token) {
       token = Math.random() + "";
       this.setOrderTokenInLocalStorage({order_token: token});
 
@@ -348,7 +348,11 @@ export class CheckoutService {
    */
   private getOrderToken() {
     const order = JSON.parse(localStorage.getItem('order'));
-    const token = order.order_token;
+    let token = null;
+    if(order) {
+      token = order.order_token;
+      console.log("ESTS")
+    }
     return token;
   }
 
