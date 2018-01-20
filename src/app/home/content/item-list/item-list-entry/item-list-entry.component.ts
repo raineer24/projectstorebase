@@ -58,7 +58,6 @@ export class ItemListEntryComponent implements OnInit {
       }
       case 1: {
         url = 'assets/omg-01.png'
-        // url = environment.IMAGE_REPO + key + '.jpg';
         break;
       }
       default: {
@@ -73,11 +72,11 @@ export class ItemListEntryComponent implements OnInit {
     this.cdr.detach();
   }
 
-  private onImageLoaded() {
+  onImageLoaded() {
     this.detach();
   }
 
-  private onImageError() {
+  onImageError() {
     this.imageRetries++;
   }
 
