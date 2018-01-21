@@ -1,5 +1,5 @@
 .dialog-header {
-  text-align: right;
+  float: right;
 
   span {
     font-weight: bold;
@@ -12,20 +12,63 @@
 .item-details {
   .item-images {
     float: left;
-    // width: 50%;
+  }
+  .item-image-thumbnails {
+    float: left;
+    width: 120px;
+    float: left;
+    display: inline-block;
+    margin: 0 0 0 15px;
+    img {
+      border: 1px solid #bababa;
+      width: 100%;
+    }
+    img:first-child {
+      border-color: #ec7064;
+    }
   }
   .item-info {
     float: right;
+    font-weight: 300;
     //width: 50%;
     div {
       margin-bottom: 10px;
+      font-weight: 400;
+      /* font-size: 1.2em; */
       p {
         margin: 0;
-        font-size: 1.2em;
+        font-size: 1.1em;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        line-height: 27px;
+        label {
+          font-weight: 300;
+          width: 90px;
+          text-align: right;
+          margin: 0px;
+        }
+        span {
+          font-weight: normal;
+        }
+        span.red {
+          color: #ec7064;
+        }
       }
-      p span {
-        font-weight: bold;
-        color: red;
+      p.title {
+        font-size: 25px;
+        font-weight: 400;
+        line-height: 30px;
+        margin-bottom: 3px;
+      }
+      p.description {
+        font-weight: 500;
+      }
+      p.lp {
+        span {
+          color: #697071;
+          text-decoration-line: line-through;
+          text-decoration-color: red;
+        }
       }
     }
   }

@@ -20,11 +20,12 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   itemQuantity: number = 0;
   quantityControl = new FormControl;
   images: any[];
+  saveAmount: any;
 
   constructor(
     private productActions: ProductActions,
     private checkoutActions: CheckoutActions,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {
 
     }
@@ -69,6 +70,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.store.dispatch(this.productActions.removeSelectedItem())
+  }
+
+  hideSavings (dp, p) {
+    return (dp - p !== 0);
   }
 
   getItemImageUrl(key) {

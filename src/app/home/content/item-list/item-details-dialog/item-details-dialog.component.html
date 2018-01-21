@@ -1,38 +1,44 @@
 <div>
   <div class="dialog-header">
-
-    <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()">Go back
-      <span>X</span>
-    </a>
+    <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span>X</span></a>
   </div>
   <div class="item-details row">
-    <div class="lighter">
+    <!-- <div class="lighter">
         <p-lightbox class="col-sm-6" [images]="images"></p-lightbox>
+    </div> -->
+    <div class="item-image-thumbnails">
+      <img [src]="getItemImageUrl(item.imageKey)" />
     </div>
-
-
     <div class="item-images col-md-4">
       <img class="img-responsive" [src]="getItemImageUrl(item.imageKey)">
     </div>
     <!-- INSERT IMAGES HERE -->
     <div class="item-info col-md-6">
       <div>
-        <p>{{item.name}}</p>
+        <p class="title">{{item.name}}</p>
         <p>{{item.brandName}}</p>
-        <!-- <p>{{item.packaging}}</p> -->
+        <!-- <p>{{item.sizing}}</p> -->
       </div>
       <div>
-        <p>List Price:
-          <s style='color:red; font-weight: bold'>
-            <span style='color: black'>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span>
-          </s>
+        <p class="lp">
+          <label>List Price:</label>
+          <span>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span>
         </p>
-        <p>Price:
-          <span>{{item.price | currency:'PHP':true:'1.2'}}</span>
+        <p>
+          <label>Price:</label>
+          <span class="red">{{item.price | currency:'PHP':true:'1.2'}}</span>
+        </p>
+        <p *ngIf="hideSavings(item.displayPrice, item.price)">
+          <label>You Save:</label>
+          <span>{{item.displayPrice - item.price | currency:'PHP':true:'1.2'}}</span>
         </p>
         <!-- <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p> -->
       </div>
-      <div class="btn-block btn-group" dropdown>
+      <div>
+        <p class="description">Item Information</p>
+        <p>Learn about the origins of the Lorem Ipsum passage and generate your own text using any number of characters, words, sentences or paragraphs.</p>
+      </div>
+      <!-- <div class="btn-block btn-group" dropdown>
         <button dropdownToggle type="button" class="dropdown-toggle">
           Item Information
           <span class="caret"></span>
@@ -52,7 +58,23 @@
             <a class="dropdown-item" href="#">Separated link</a>
           </li>
         </ul>
+      </div> -->
+
+      <div class="cart-my-list">
+        <ng-container *ngIf="itemQuantity != 0; else addCart">
+          <div class="quantity-in-cart">
+            <label for="bit">Quantity in cart</label>
+            <button [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn">-</button>
+            <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
+            <button (click)="incrementQuantity()" class="quantity-in-cart-btn">+</button>
+          </div>
+        </ng-container>
+        <ng-template #addCart>
+          <button class="quantity-in-cart" (click)="addToCart()">ADD TO CART</button>
+        </ng-template>
+        <button class="quantity-wish-list">Add to my wishlist</button>
       </div>
+
       <div>
         When this item is not available
          <div class="btn-group btn-select-item" dropdown>
@@ -78,24 +100,6 @@
       </div>
 </div>
 
-
-<div class="cart-my-list">
-  <ng-container *ngIf="itemQuantity != 0; else addCart">
-    <div class="quantity-in-cart">
-      <label for="bit">Quantity in cart</label>
-      <button [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn">-</button>
-      <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
-      <button (click)="incrementQuantity()" class="quantity-in-cart-btn">+</button>
-    </div>
-  </ng-container>
-  <ng-template #addCart>
-    <button class="quantity-in-cart" (click)="addToCart()">ADD TO CART</button>
-  </ng-template>
-
-  <button class="quantity-wish-list">Add to my wishlist</button>
-
-
-</div>
 </div>
 
 
