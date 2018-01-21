@@ -20,7 +20,7 @@ export class ItemListComponent implements OnInit {
   selectedItem$: Observable<any>;
   selectedItem: Item;
 
-  constructor(private store: Store<AppState>) {    
+  constructor(private store: Store<AppState>) {
   }
 
 
@@ -33,11 +33,15 @@ export class ItemListComponent implements OnInit {
   }
 
   openItemDialog(item: Item) {
+    const slug = `/item/${item.code}/${item.slug}`;
     this.selectedItem = item;
     this.itemDetailsModal.open();
+
+    window.history.pushState('item-slug', 'Title', slug);
   }
 
   closeItemDialog() {
+    window.history.pushState('item-slug', 'Title', '/');
     this.itemDetailsModal.close();
   }
 
