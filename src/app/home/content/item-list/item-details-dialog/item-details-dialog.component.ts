@@ -57,7 +57,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        if(isNaN(value) || value < 1){
+        if(isNaN(value) || value < 1 || value > 9999){
           this.quantityControl.setValue(this.itemQuantity);
         } else {
           this.itemQuantity = value;
@@ -90,8 +90,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   }
 
   incrementQuantity() {
-    this.itemQuantity++;
-    this.quantityControl.setValue(this.itemQuantity);
+    if(this.itemQuantity < 9999) {
+      this.itemQuantity++;
+      this.quantityControl.setValue(this.itemQuantity);
+    }
   }
 
   decrementQuantity() {

@@ -27,7 +27,7 @@
             <button class="btn quantity-in-cart-btn minus" (click)="decrementQuantity($event)" [disabled]="itemQuantity == 1">
               <span class="glyphicon glyphicon-minus"> </span>
             </button>
-            <input type="number" [min]="0" class="text-center" (click)="inputQuantity($event)" [value]="itemQuantity" [formControl]="quantityControl" />
+            <input type="number" [min]="0" [max]="9999" class="text-center" (click)="inputQuantity($event)" [value]="itemQuantity" [formControl]="quantityControl" />
             <button class="btn quantity-in-cart-btn plus" (click)="incrementQuantity($event)">
               <span class="glyphicon glyphicon-plus"> </span>
             </button>

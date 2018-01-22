@@ -65,7 +65,7 @@
           <div class="quantity-in-cart">
             <label for="bit">Quantity in cart</label>
             <button [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn">-</button>
-            <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
+            <input type="number" [min]="0" [max]="9999" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
             <button (click)="incrementQuantity()" class="quantity-in-cart-btn">+</button>
           </div>
         </ng-container>

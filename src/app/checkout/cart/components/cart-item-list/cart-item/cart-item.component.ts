@@ -37,7 +37,7 @@ export class CartItemComponent implements OnInit {
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        if(isNaN(value) || value < 1){
+        if(isNaN(value) || value < 1 || value > 9999){
           this.quantityControl.setValue(this.quantity);
         } else {
           this.quantity = value;
@@ -59,8 +59,10 @@ export class CartItemComponent implements OnInit {
   }
 
   incrementQuantity() {
-    this.quantity++;
-    this.quantityControl.setValue(this.quantity);
+    if(this.quantity < 9999) {
+      this.quantity++;
+      this.quantityControl.setValue(this.quantity);
+    }
   }
 
   decrementQuantity() {
