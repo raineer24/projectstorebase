@@ -22,4 +22,7 @@ export class CartItemListComponent implements OnInit {
   ngOnInit() {
   }
 
+  trackByFn(index, item) {
+    return index;
+  }
 }
