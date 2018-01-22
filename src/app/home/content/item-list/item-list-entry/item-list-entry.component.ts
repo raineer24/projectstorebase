@@ -11,7 +11,7 @@ import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-item-list-entry',
-  changeDetection: ChangeDetectionStrategy.Default,
+//  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './item-list-entry.component.html',
   styleUrls: ['./item-list-entry.component.scss']
 })
@@ -84,6 +84,7 @@ export class ItemListEntryComponent implements OnInit {
     e.stopPropagation();
     this.itemQuantity = 1;
     this.store.dispatch(this.checkoutActions.addToCart(this.item));
+    this.cdr.detectChanges();
   }
 
   selectItem() {
