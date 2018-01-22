@@ -22,20 +22,24 @@
     </div>
     <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
     <ng-container *ngIf="itemQuantity != 0; else addCart">
-      <div class="quality-in-cart">
-        <div class="button-padding">
-            <button class="btn quantity-in-cart-btn minus" (click)="decrementQuantity($event)" [disabled]="itemQuantity == 1">
+      <div class="input-group quality-in-cart">
+       
+         
+            <button data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn btn-number" (click)="decrementQuantity($event)"
+              [disabled]="itemQuantity == 1">
               <span class="glyphicon glyphicon-minus"> </span>
             </button>
+         
+           
             <input type="number" [min]="0" class="text-center" (click)="inputQuantity($event)" [value]="itemQuantity" [formControl]="quantityControl" />
-            <button class="btn quantity-in-cart-btn plus" (click)="incrementQuantity($event)">
+            <button data-type="plus" data-field="" type="button" class="btn btn-success btn-number" (click)="incrementQuantity($event)">
               <span class="glyphicon glyphicon-plus"> </span>
             </button>
         </div>
-      </div>
+      
     </ng-container>
     <ng-template #addCart>
-      <button class="btn-danger" (click)="addToCart($event)">Add to Cart</button>
+      <button class="btn btn-danger" (click)="addToCart($event)">Add to Cart</button>
     </ng-template>
   </div>
 </a>
