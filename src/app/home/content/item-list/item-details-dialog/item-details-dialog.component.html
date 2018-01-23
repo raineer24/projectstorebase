@@ -1,6 +1,6 @@
 <div>
   <div class="dialog-header">
-    <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span>X</span></a>
+    <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span class="glyphicon glyphicon-remove"></span></a>
   </div>
   <div class="item-details row">
     <!-- <div class="lighter">
@@ -34,10 +34,10 @@
         </p>
         <!-- <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p> -->
       </div>
-      <div>
+      <!-- <div>
         <p class="description">Item Information</p>
         <p>Learn about the origins of the Lorem Ipsum passage and generate your own text using any number of characters, words, sentences or paragraphs.</p>
-      </div>
+      </div> -->
       <!-- <div class="btn-block btn-group" dropdown>
         <button dropdownToggle type="button" class="dropdown-toggle">
           Item Information
@@ -62,20 +62,32 @@
 
       <div class="cart-my-list">
         <ng-container *ngIf="itemQuantity != 0; else addCart">
-          <div class="quantity-in-cart">
+          <!-- <div class="quantity-in-cart btn">
             <label for="bit">Quantity in cart</label>
-            <button [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn">-</button>
+            <button type="button" [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn" data-type="minus" data-field=""><span class="glyphicon glyphicon-minus"></span></button>
             <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
-            <button (click)="incrementQuantity()" class="quantity-in-cart-btn">+</button>
+            <button type="button" (click)="incrementQuantity()" class="quantity-in-cart-btn" data-type="plus" data-field=""><span class="glyphicon glyphicon-plus"></span></button>
+          </div> -->
+          <div class="quantity-in-cart btn input-btn-group">
+          <label for="bit">Quantity in cart</label>
+            <button type="button" [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn" data-type="minus"
+              data-field="">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+            <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl"
+            />
+            <button type="button" (click)="incrementQuantity()" class="quantity-in-cart-btn" data-type="plus" data-field="">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
           </div>
         </ng-container>
         <ng-template #addCart>
-          <button class="quantity-in-cart" (click)="addToCart()">ADD TO CART</button>
+          <button class="quantity-in-cart btn addtocart" (click)="addToCart()">ADD TO CART</button>
         </ng-template>
-        <button class="quantity-wish-list">Add to my wishlist</button>
+        <button class="quantity-wish-list btn">Add to my list</button>
       </div>
 
-      <div>
+      <!-- <div>
         When this item is not available
          <div class="btn-group btn-select-item" dropdown>
         <button dropdownToggle type="button" class="drop1 dropdown-toggle">
@@ -98,7 +110,7 @@
           </li>
         </ul>
       </div>
-</div>
+</div> -->
 
 </div>
 
