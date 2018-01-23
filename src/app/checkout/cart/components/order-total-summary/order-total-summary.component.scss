@@ -1,6 +1,6 @@
 .order-total-summary {
-	&:before {
-		content: 'OPTIONS';
+  &:before {
+    content: 'OPTIONS';
     text-align: left;
     width: 100%;
     display: block;
@@ -9,9 +9,9 @@
     font-weight: 600;
     font-size: 12px;
     color: #7e818c;
-		font-family: "Whitney-semi-bold";
-	}
-	.coupon-section {
+    font-family: "Whitney-semi-bold";
+  }
+  .coupon-section {
     position: relative;
     text-align: left;
     font-size: inherit;
@@ -19,29 +19,28 @@
     min-height: 30px;
     padding-bottom: 20px!important;
     margin-bottom: 10px;
-		.text-label {
-			font-size: 14px;
-			display: block;
-    	font-weight: 600;
-    	color: #596062;
-      font-family: "Whitney-semi-bold";
-		}
-		.apply-coupon:after {
+    .text-label {
       font-size: 14px;
-			content: 'Apply Coupon';
-			position: absolute;
-			background: #fff;
-			color: #526cd0;
-			border: 1px solid #526cd0;
-			font-weight: 600;
+      display: block;
+      font-weight: 600;
+      color: #596062;
       font-family: "Whitney-semi-bold";
-			border-radius: 3px;
-			padding: 2px 12px;
-			top: -6px;
-			right: 0px;
-      // cursor: pointer;
-		}
-	}
+    }
+    .apply-coupon:after {
+      font-size: 14px;
+      content: 'Apply Coupon';
+      position: absolute;
+      background: #fff;
+      color: #526cd0;
+      border: 1px solid #526cd0;
+      font-weight: 600;
+      font-family: "Whitney-semi-bold";
+      border-radius: 3px;
+      padding: 2px 12px;
+      top: -6px;
+      right: 0px; // cursor: pointer;
+    }
+  }
   .gift-wrap-order {
     height: 20px;
     margin-bottom: 80px;
@@ -60,7 +59,8 @@
       margin-right: 0;
       cursor: pointer;
     }
-    .gift-card-lbl, .gift-card-price {
+    .gift-card-lbl,
+    .gift-card-price {
       font-size: 14px;
       font-family: "Whitney-semi-bold";
       font-weight: 600;
@@ -89,7 +89,9 @@
       font-family: "Whitney-semi-bold";
       color: #7e818c;
     }
-    .bag-total, .coupon, .shipping {
+    .bag-total,
+    .coupon,
+    .shipping {
       padding-bottom: 8px;
       height: 22px;
       margin-bottom: 6px;
@@ -98,19 +100,19 @@
         color: #535766;
       }
     }
-    .bag-total > .value,
-    .coupon > .apply-coupon,
-    .shipping > .shipping-fee {
+    .bag-total>.value,
+    .coupon>.apply-coupon,
+    .shipping>.shipping-fee {
       position: absolute;
       right: 0;
       text-align: right;
       color: #596062;
     }
-    .coupon > .c-blue {
+    .coupon>.c-blue {
       color: #526cd0;
       cursor: pointer;
     }
-    .shipping > .c-green {
+    .shipping>.c-green {
       color: #20bd99;
     }
   }
@@ -172,7 +174,26 @@
         font-family: "Whitney-semi-bold";
       }
     }
-
   }
+}
+
+.panel-default {
+  padding-top: 1em;
+}
+.panel-default p span {
+  color:red;
+}
+
+.panel-default .btn {
+  background-color: #ff5848;
+  color: #fff;
+  border-color: none;
+  text-transform: uppercase;
+}
+.coupon input {
+  padding: 5px 14px;
+  border-radius: 5px;
+
 
 }
+

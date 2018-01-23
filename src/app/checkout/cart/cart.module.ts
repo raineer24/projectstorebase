@@ -4,28 +4,31 @@ import { CartComponent } from './cart.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 //import { BrowserModule } from "@angular/platform-browser";
-import { LineItemListComponent } from './components/line-item-list/line-item-list.component';
-import { LineItemComponent } from './components/line-item-list/line-item/line-item.component';
+import { CartItemListComponent } from './components/cart-item-list/cart-item-list.component';
+import { CartItemComponent } from './components/cart-item-list/cart-item/cart-item.component';
 import { OrderTotalSummaryComponent } from './components/order-total-summary/order-total-summary.component';
 import { EmptyCartComponent } from './components/empty-cart/empty-cart.component';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SpinnerModule } from "primeng/primeng";
-
+import { HeaderComponent } from "../../layout/header/header.component";
+import { LayoutModule } from "../../layout/index";
 @NgModule({
   declarations: [
     CartComponent,
-    LineItemListComponent,
-    LineItemComponent,
+    CartItemListComponent,
+    CartItemComponent,
     OrderTotalSummaryComponent,
     EmptyCartComponent
   ],
-  exports: [],
+  exports: [HeaderComponent],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     //BrowserModule,
-    SpinnerModule
+    SpinnerModule,
+    LayoutModule
   ],
   providers: []
 })

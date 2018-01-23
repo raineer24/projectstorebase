@@ -3,6 +3,7 @@ export class Item {
   code: number;
   name: string;
   brandName: string;
+  description: string;
   price: string;
   displayPrice: string;
   hasVat: any;
@@ -14,6 +15,7 @@ export class Item {
   packageMinimum: number;
   packageIntervals: number;
   availableOn: number;
+  imageKey: string;
   slug: string;
   enabled: any;
   sellerAccount_id: number;

@@ -19,7 +19,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       case CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS:
         const _orderNumber = payload.number;
-        _cartItems = payload.line_items;
+        _cartItems = payload.cart_items;
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
         _totalCartItems = payload.total_quantity;
         _totalCartValue = parseFloat(payload.total);
@@ -83,15 +83,26 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalCartValue: _totalCartValue
         }) as CheckoutState;
 
-      // case CheckoutActions.CHANGE_CART_ITEM_QUANTITY:
-      //   const quantity = payload.quantity;
-      //   cartItemId = payload.cartItemId;
-      //   _cartItemEntities = state.cartItemEntities;
-      //   _cartItemEntities[cartItemId][quantity] = quantity;
+      case CheckoutActions.UPDATE_CART_ITEM_SUCCESS:
+        const quantity = payload.quantity;
+        _cartItemId = payload.cartItemId;
+        _cartItemEntities = state.cartItemEntities;
+        _cartItem = _cartItemEntities.get(_cartItemId.toString()).toJS();
 
-      //   return state.merge({
-      //     cartItemEntities: _cartItemEntities
-      //   }) as CheckoutState;
+        const quantityDifference = quantity - _cartItem['quantity'];
+        const total = _cartItem['price'] * quantityDifference;
+
+        _cartItem['quantity'] = quantity;
+        _cartItem['total'] = _cartItem['price'] * quantity;
+        _cartItemEntity = { [_cartItemId]: _cartItem }
+        _totalCartItems = state.totalCartItems + quantityDifference;
+        _totalCartValue = state.totalCartValue + total;
+
+        return state.merge({
+          cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
+          totalCartItems: _totalCartItems,
+          totalCartValue: _totalCartValue
+        }) as CheckoutState;
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
 

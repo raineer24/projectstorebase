@@ -7,11 +7,11 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-line-item-list',
-  templateUrl: './line-item-list.component.html',
-  styleUrls: ['./line-item-list.component.scss']
+  selector: 'app-cart-item-list',
+  templateUrl: './cart-item-list.component.html',
+  styleUrls: ['./cart-item-list.component.scss']
 })
-export class LineItemListComponent implements OnInit {
+export class CartItemListComponent implements OnInit {
 
   cartItems$: Observable<CartItem[]>;
 

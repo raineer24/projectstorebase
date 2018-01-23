@@ -3,6 +3,7 @@ import { CheckoutActions } from './../../checkout/actions/checkout.actions';
 import { Response, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Item } from './../models/item';
 import { CartItem } from './../models/cart_item';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
@@ -40,7 +41,7 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  createNewCartItem(variant_id: number) {
+  createNewCartItem(item: Item) {
     // return this.http.post(
     //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderToken()}`,
     //   {
@@ -54,17 +55,37 @@ export class CheckoutService {
     //   return lineItem;
     // }).catch(err => Observable.empty());
 
+    return this.http.post(`v1/orderItem`,
+        {
+          "user_id": 0,
+          "item_id": item.id,
+          "quantity": 1,
+          "orderkey": this.getOrderToken()
+        }
+      ).map(res => {
+          const data = res.json();
+          const returnData = {
+           "id": data.id,
+           "quantity": 1,
+           "price": Number(item.price),
+           "total": Number(item.price),
+           "item_id": item.id,
+           "item": item
+          }
 
-     const dummy = [{
-      id: 1,
-      quantity: 1,
-      price: 1234,
-      total: 1234,
-      item_id: variant_id,
-      item: null
-    }]
+         return returnData;
+      }).catch(err => Observable.empty());
 
-    return dummy;
+    //  const dummy = [{
+    //   id: Math.random(),
+    //   quantity: 1,
+    //   price: Number(item.price),
+    //   total: Number(item.price),
+    //   item_id: item.id,
+    //   item: item
+    // }]
+
+    // return dummy;
   }
 
   /**
@@ -75,19 +96,92 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   fetchCurrentOrder() {
-    return this.http.get(
-      'spree/api/v1/orders/current'
-    ).map(res => {
-      const order = res.json();
-      if (order) {
-        const token = order.token;
-        this.setOrderTokenInLocalStorage({order_token: token});
+    // return this.http.get(
+    //   'spree/api/v1/orders/current'
+    // ).map(res => {
+    //   const order = res.json();
+    //   if (order) {
+    //     const token = order.token;
+    //     this.setOrderTokenInLocalStorage({order_token: token});
+    //     return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+    //   } else {
+    //     this.createEmptyOrder()
+    //       .subscribe();
+    //   }
+    // }).catch(err => Observable.empty());
+
+    let token = this.getOrderToken();
+    if(!token) {
+      token = Math.random() + "";
+      this.setOrderTokenInLocalStorage({order_token: token});
+
+      return Observable.create((observer: any) => {
+        const order = {
+          "number": token,
+          "cart_items": [],
+          "total_quantity": 0,
+          "total": 0,
+          "ship_address": "",
+          "bill_address": "",
+          "state": 'cart',
+          "token": token
+        }
         return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-      } else {
-        this.createEmptyOrder()
-          .subscribe();
-      }
-    }).catch(err => Observable.empty());
+      })
+    } else {
+      return this.http.get(`v1/orderItem?key=${token}`
+      ).map(res => {
+        // console.log("TEST"+data)
+        const data = res.json();
+        let cart_item = {}, cart_items = [], total = 0, total_quantity = 0;
+        for (let datum of data) {
+          cart_items.push({
+            "id": datum.orderItem_id,
+            "quantity": Number(datum.quantity),
+            "price": Number(datum.price),
+            "total": (Number(datum.price) * datum.quantity),
+            "item_id": datum.item_id,
+            "item": {
+              "id": datum.item_id,
+              "code": datum.code,
+              "name": datum.name,
+              "brandName": datum.brandName,
+              "price": datum.price,
+              "displayPrice": datum.displayPrice,
+              "hasVat": datum.hasVat,
+              "isSenior": datum.isSenior,
+              "weighted": datum.weighted,
+              "packaging": datum.packaging,
+              "packageMeasurement": datum.packageMeasurement,
+              "sizing": datum.sizing,
+              "packageMinimum": datum.packageMinumum,
+              "packageIntervals": datum.packageIntervals,
+              "availableOn": datum.availableOn,
+              "imageKey": datum.imageKey,
+              "slug": datum.slug,
+              "enabled": datum.enabled,
+              "sellerAccount_id": datum.sellerAccount_id,
+              "dateCreated": datum.dateCreated,
+              "dateUpdated": datum.dateUpdate
+            }
+          });
+
+          total += Number(datum.price) * datum.quantity;
+          total_quantity += Number(datum.quantity);
+        }
+        const order = {
+          "number": token,
+          "cart_items": cart_items,
+          "total_quantity": total_quantity,
+          "total": total,
+          "ship_address": "",
+          "bill_address": "",
+          "state": 'cart',
+          "token": token
+        }
+        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+       })
+    }
   }
 
   /**
@@ -141,11 +235,33 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   deleteCartItem(cartItem: CartItem) {
-    return this.http.delete(`spree/api/v1/orders/${this.orderNumber}/line_items/${cartItem.id}?order_token=${this.getOrderToken()}`)
+    return this.http.delete(`v1/orderItem/${cartItem.id}`)
       .map(() => {
         this.store.dispatch(this.actions.removeCartItemSuccess(cartItem));
       }).catch(err => Observable.empty());
   }
+
+  /**
+   *
+   *
+   * @param {CartItem} cartItem
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  updateCartItem(cartItem: CartItem) {
+    return this.http.put(`v1/orderItem/${cartItem.id}`,
+        {
+          "user_id": 0,
+          "item_id": cartItem.item.id,
+          "quantity": cartItem.quantity,
+          "orderkey": this.getOrderToken()
+        }
+    ).map((res) => {
+      return cartItem;
+    }).catch(err => Observable.empty());
+  }
+
 
   /**
    *
@@ -232,7 +348,11 @@ export class CheckoutService {
    */
   private getOrderToken() {
     const order = JSON.parse(localStorage.getItem('order'));
-    const token = order.order_token;
+    let token = null;
+    if(order) {
+      token = order.order_token;
+      console.log("ESTS")
+    }
     return token;
   }
 

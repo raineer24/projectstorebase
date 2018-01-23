@@ -97,3 +97,27 @@
 		}
 	}
 }
+.panel {
+	background-color: transparent;
+	box-shadow: none;
+}
+input {
+	width: 30%;
+	border: none;
+	background: transparent;
+	text-align: center;
+}
+.cart-btns {
+  border: 1px solid #ccc;
+  background: transparent;
+  border-radius: 0;
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

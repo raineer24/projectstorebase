@@ -1,35 +1,327 @@
 <div>
   <div class="dialog-header">
-    <a href="javascript:void(0)" (click)="onCloseModal()">Go back <span>X</span></a>
+    <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span>X</span></a>
   </div>
-  <div class="item-details">
-    <div class="item-images">INSERT IMAGES HERE</div>
-    <div class="item-info">
-      <div>
-        <p>{{item.name}}</p>
-        <p>{{item.brandName}}</p>
-        <p>{{item.packaging}}</p>
-      </div>
-      <div>
-        <p>List Price: {{item.displayPrice | currency:'PHP':true:'1.2'}}</p>
-        <p>Price: {{item.price | currency:'PHP':true:'1.2'}}</p>
-        <p>You Save: </p>
-      </div>
-      <p>
-        Item Information
-      </p>
-      <p>
-        When this item is not available
-        <select>
-          <option selected disabled hidden>Select another item</option>
-        </select>
-      </p>
-      <p>
-        <button type="button" (click)="addToCart()">ADD TO CART</button>
-        <button type="button">ADD TO WISHLIST</button>
-      </p>
+  <div class="item-details row">
+    <!-- <div class="lighter">
+        <p-lightbox class="col-sm-6" [images]="images"></p-lightbox>
+    </div> -->
+    <div class="item-image-thumbnails">
+      <img [src]="getItemImageUrl(item.imageKey)" />
     </div>
+    <div class="item-images col-md-4">
+      <img class="img-responsive" [src]="getItemImageUrl(item.imageKey)">
+    </div>
+    <!-- INSERT IMAGES HERE -->
+    <div class="item-info col-md-6">
+      <div>
+        <p class="title">{{item.name}}</p>
+        <p>{{item.brandName}}</p>
+        <!-- <p>{{item.sizing}}</p> -->
+      </div>
+      <div>
+        <p class="lp">
+          <label>List Price:</label>
+          <span>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span>
+        </p>
+        <p>
+          <label>Price:</label>
+          <span class="red">{{item.price | currency:'PHP':true:'1.2'}}</span>
+        </p>
+        <p *ngIf="hideSavings(item.displayPrice, item.price)">
+          <label>You Save:</label>
+          <span>{{item.displayPrice - item.price | currency:'PHP':true:'1.2'}}</span>
+        </p>
+        <!-- <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p> -->
+      </div>
+      <div>
+        <p class="description">Item Information</p>
+        <p>Learn about the origins of the Lorem Ipsum passage and generate your own text using any number of characters, words, sentences or paragraphs.</p>
+      </div>
+      <!-- <div class="btn-block btn-group" dropdown>
+        <button dropdownToggle type="button" class="dropdown-toggle">
+          Item Information
+          <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Another action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Something else here</a>
+          </li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Separated link</a>
+          </li>
+        </ul>
+      </div> -->
+
+      <div class="cart-my-list">
+        <ng-container *ngIf="itemQuantity != 0; else addCart">
+          <div class="quantity-in-cart">
+            <label for="bit">Quantity in cart</label>
+            <button [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn">-</button>
+            <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
+            <button (click)="incrementQuantity()" class="quantity-in-cart-btn">+</button>
+          </div>
+        </ng-container>
+        <ng-template #addCart>
+          <button class="quantity-in-cart" (click)="addToCart()">ADD TO CART</button>
+        </ng-template>
+        <button class="quantity-wish-list">Add to my wishlist</button>
+      </div>
+
+      <div>
+        When this item is not available
+         <div class="btn-group btn-select-item" dropdown>
+        <button dropdownToggle type="button" class="drop1 dropdown-toggle">
+          Select another item
+          <span class="caret caret1"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Another action</a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Something else here</a>
+          </li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem">
+            <a class="dropdown-item" href="#">Separated link</a>
+          </li>
+        </ul>
+      </div>
+</div>
+
+</div>
+
+
+
+
   </div>
-  <br/>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <!--
   <div class="suggested-items">Check out these other items</div>
+  <div class="carousel slide" id="myCarousel">
+    <div class="carousel-inner">
+      <div class="item active">
+        <ul class="thumbnails">
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/item1.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>{{item.name}}</h4>
+                <p>{{item.brandName}}</p>
+                <p class="price">{{item.packaging}}</p>
+                <button class="btn btn-primary orange">Add to cart</button>
+
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/item1.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>{{item.name}}</h4>
+                <p>{{item.brandName}}</p>
+                <p class="price">{{item.packaging}}</p>
+                <button class="btn btn-primary orange">Add to cart</button>
+
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/item1.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>{{item.name}}</h4>
+                <p>{{item.brandName}}</p>
+                <p class="price">{{item.packaging}}</p>
+                <button class="btn btn-primary orange">Add to cart</button>
+
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/item1.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>{{item.name}}</h4>
+                <p>{{item.brandName}}</p>
+                <p class="price">{{item.packaging}}</p>
+                <button class="btn btn-primary orange">Add to cart</button>
+
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <ul class="thumbnails">
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="http://placehold.it/360x240" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="http://placehold.it/360x240" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="http://placehold.it/360x240" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="http://placehold.it/360x240" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <ul class="thumbnails">
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/mocha-01.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/mocha-01.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/mocha-01.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+          <li class="col-sm-3">
+            <div class="casing">
+              <div class="thumbnail">
+                <a href="#">
+                  <img src="../../assets/mocha-01.jpg" alt="">
+                </a>
+              </div>
+              <div class="caption">
+                <h4>Item Title</h4>
+                <p>Hello world, something nice to develop</p>
+                <a class="btn btn-mini" href="#">» Read More</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+
+    <nav>
+      <ul class="control-box pager">
+        <li class="left">
+          <a data-slide="prev" href="#myCarousel" class="arrowStil">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+          </a>
+        </li>
+        <li class="right">
+          <a data-slide="next" href="#myCarousel" class="arrowStil">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+          </a>
+
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+  -->
 </div>

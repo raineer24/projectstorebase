@@ -1,28 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../node_modules/primeng/resources/themes/omega/theme.css';
-
 
 
 @font-face {
-    font-family: "Whitney-semi-bold";
-    src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
+  // font-family: "Whitney-semi-bold";
+  // src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
 @font-face {
-    font-family: "Whitney";
-    src: url("assets/WhitneyHTF-Book.woff") format("woff")
+  // font-family: "Whitney";
+  // src: url("assets/WhitneyHTF-Book.woff") format("woff")
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 // bootstrap fonts
 $icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
-
 @import "app/shared/scss/themes";
 @import "app/shared/scss/custom_bootstrap";
-@import url('../node_modules/font-awesome/css/font-awesome.min.css');
 
 body {
   font-size: 15px;
   line-height: 1.5;
   color: #697071;
+  color: #4a4f50;
+  color: #333333;
   background-color: #fff;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -60,33 +61,95 @@ body {
   border-bottom: 0px;
   min-height: 40px !important;
 }
+
 main[_ngcontent-c0] {
-    padding: 0px !important;
-    background: #f7f7f7;
+  padding: 0px !important;
+  background: #f7f7f7;
 }
 
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+.nav .open>a,
+.nav .open>a:hover,
+.nav .open>a:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
+
 @media (min-width: 768px) {
-  .navbar-nav > li > a {
+  .navbar-nav>li>a {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
   }
 }
 
 html {
-overflow-y: scroll;
+  overflow-y: scroll;
 }
+
 .ui-spinner {
-  width: 66%;
+  width: 28%;
 }
 
 .ui-inputtext {
-  width:  100%;
-  
+  width: 100%;
 }
 
+.ui-spinner-input {
+  border: none;
+}
 
+.ui-spinner>.ui-spinner-input {
+  //width: 30%;
+  //background: orange;
+}
 
+div.modal-dialog {
+  top: 40%;
+}
+
+.drop1 {
+  border: 1px solid #ccc !important;
+}
+
+.dropdown-toggle {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  font-size: 1.2em;
+}
+
+.btn-group.open .dropdown-toggle {
+  box-shadow: none;
+}
+
+.caret {
+  position: absolute;
+  right: 22px;
+  bottom: 9px;
+}
+
+.caret1 {
+  right: 11px;
+  bottom: 13px;
+}
+
+.btn-select-item {
+  width: 40%;
+}
+
+.undefined {
+  width: 100px;
+}
+
+.undefined a img {
+  width: 100%;
+  float: left;
+}
+
+.lighter {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  float: left;
+}

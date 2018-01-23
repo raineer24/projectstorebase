@@ -28,6 +28,8 @@ import { HomeRoutes as routes } from './home.routes';
 import { FilterPipe } from './content/item-list/item-list-filter.pipe';
 
 import { ModalModule } from 'angular-custom-modal';
+import { CarouselModule } from "ngx-bootstrap";
+import { LightboxModule } from "primeng/primeng";
 
 @NgModule({
   declarations: [
@@ -45,19 +47,16 @@ import { ModalModule } from 'angular-custom-modal';
     FilterSummaryComponent,
     ContentComponent,
     // pipes
-    FilterPipe,
+    FilterPipe
   ],
-  exports: [
-  ],
+  exports: [],
   imports: [
     RouterModule.forChild(routes),
     SharedModule,
-    ModalModule
+    ModalModule,
+    CarouselModule,
+    LightboxModule
   ],
-  providers: [
-    ProductActions,
-    CheckoutActions,
-    SearchActions
-  ]
+  providers: [ProductActions, CheckoutActions, SearchActions]
 })
 export class HomeModule {}

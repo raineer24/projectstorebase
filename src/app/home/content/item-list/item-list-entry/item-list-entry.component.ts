@@ -1,24 +1,116 @@
 import { environment } from './../../../../../environments/environment';
 import { Item } from './../../../../core/models/item';
-// import { Product } from './../../../../core/models/product';
-import { Component, OnInit, Input } from '@angular/core';
+import { CartItem } from './../../../../core/models/cart_item';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { AppState } from './../../../../interfaces';
+import { Store } from '@ngrx/store';
+import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
+import { ProductActions } from './../../../../product/actions/product-actions';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-item-list-entry',
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './item-list-entry.component.html',
   styleUrls: ['./item-list-entry.component.scss']
 })
 export class ItemListEntryComponent implements OnInit {
-  @Input() product: Item;
-  // @Input() product: Product;
+  @Input() item: Item;
+  @Input() cartItems: CartItem[];
+  @Output() onOpenModalEmit: EventEmitter<any> = new EventEmitter<any>();
+  itemQuantity: number = 0;
+  quantityControl = new FormControl;
+  private imageRetries: number = 0;
 
-  constructor() { }
+  constructor(
+    private store: Store<AppState>,
+    private checkoutActions: CheckoutActions,
+    private productActions: ProductActions,
+    private cdr: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
+    const cartItem = this.getCartItem();
+    if(typeof(cartItem) != "undefined"){
+      this.itemQuantity = cartItem.quantity;
+    }
+    this.quantityControl.valueChanges
+      .debounceTime(300)
+      .subscribe(value => {
+        if(isNaN(value) || value < 1){
+          this.quantityControl.setValue(this.itemQuantity);
+        } else {
+          this.itemQuantity = value;
+          let cartItem = this.getCartItem();
+          cartItem.quantity = value;
+          this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
+        }
+      })
   }
 
-  getProductImageUrl(url) {
-    // return environment.API_ENDPOINT + url;
-    return `https://angularspree-new.herokuapp.com/${url}`;
+  getItemImageUrl(key) {
+    var url = '';
+    switch (this.imageRetries){
+      case 0: {
+        url = environment.IMAGE_REPO + key + '.jpg';
+        break;
+      }
+      case 1: {
+        url = 'assets/omg-01.png'
+        break;
+      }
+      default: {
+        url = 'assets/omg-01.png'
+        break;
+      }
+    }
+    return url;
   }
+
+  private detach() {
+    this.cdr.detach();
+  }
+
+  onImageLoaded() {
+    this.detach();
+  }
+
+  onImageError() {
+    this.imageRetries++;
+  }
+
+  addToCart(e) {
+    e.stopPropagation();
+    this.itemQuantity = 1;
+    this.store.dispatch(this.checkoutActions.addToCart(this.item));
+  }
+
+  selectItem() {
+    this.store.dispatch(this.productActions.addSelectedItem(this.item));
+    this.onOpenModalEmit.emit(this.item);
+  }
+
+  incrementQuantity(e) {
+    e.stopPropagation();
+    this.itemQuantity++;
+    this.quantityControl.setValue(this.itemQuantity);
+  }
+
+  decrementQuantity(e) {
+    e.stopPropagation();
+    if(this.itemQuantity > 1) {
+      this.itemQuantity--;
+      this.quantityControl.setValue(this.itemQuantity);
+    }
+  }
+
+  inputQuantity(e) {
+    e.stopPropagation();
+  }
+
+  getCartItem(){
+    return this.cartItems.find(cartItem => cartItem.item_id === this.item.id);
+  }
+
 }

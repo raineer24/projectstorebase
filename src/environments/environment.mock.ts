@@ -5,6 +5,10 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'http://grocer-api-dev.ap-southeast-2.elasticbeanstalk.com/',
-  AppName: 'Grocer X'
+  // API_ENDPOINT: 'http://grocer-api-dev.ap-southeast-2.elasticbeanstalk.com/',
+  API_ENDPOINT: 'http://localhost:6001/',
+  AppName: 'OMG!',
+  FACEBOOK_APP_ID: '1858414594186264',
+  FACEBOOK_SRC: '//connect.facebook.net/en_US/sdk.js',
+  IMAGE_REPO: 'https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/',
 };

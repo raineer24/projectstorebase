@@ -2,15 +2,20 @@
   <div class="topbar">
     <div class="container">
       <div class="col-md-2">
-        <h1><a href="#" class="navbar-brand">OMG!</a></h1>
+        <h1><a routerLink="/" class="navbar-brand">OMG!</a></h1>
       </div>
       <div class="col-md-4">
         <div class="input-group">
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
             <div class="result-box" *ngIf="keyword.price; else categories">
-                <h4>{{keyword.name}} | Php {{keyword.price}}</h4>
+              <div class="imgbox">
+                <img class="imgitems" itemprop="image"
+                class="product-thumb"
+                alt="{{keyword.name}}"
+                [src]="getItemImageUrl(keyword.imageKey)" width="39 px"></div>
+              <div class="itemdetailsbox">{{keyword.name}} | P {{keyword.price}}</div>
             </div>
-            <ng-template #categories><h5>{{keyword.name}}</h5></ng-template>
+            <ng-template #categories><div class="catbox">{{keyword.name}}</div></ng-template>
           </ng-template>
 
           <input [(ngModel)]="asyncSelected"
@@ -21,7 +26,6 @@
               [typeaheadOptionsLimit]="10"
               [typeaheadWaitMs]="300"
               [typeaheadMinLength]="2"
-              typeaheadOptionField="name"
               typeaheadGroupField="group"
               [typeaheadItemTemplate]="searchTemplate"
               (keyup.enter)="searchKeyword()"
