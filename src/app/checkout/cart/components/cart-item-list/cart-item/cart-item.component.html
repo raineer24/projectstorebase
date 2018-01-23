@@ -50,7 +50,7 @@
             <span class="glyphicon glyphicon-minus"> </span>
           </button>
 
-          <input type="number" [min]="0" [max]="9999" class="text-center" [value]="quantity" [formControl]="quantityControl" />
+          <input type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" class="text-center" [value]="quantity" [formControl]="quantityControl" />
           <button type="button " class="btn btn-xs cart-btns" (click)="incrementQuantity()" [disabled]="quantity == MAX_VALUE">
             <span class="glyphicon glyphicon-plus"> </span>
           </button>
