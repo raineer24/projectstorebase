@@ -62,11 +62,23 @@
 
       <div class="cart-my-list">
         <ng-container *ngIf="itemQuantity != 0; else addCart">
-          <div class="quantity-in-cart btn">
+          <!-- <div class="quantity-in-cart btn">
             <label for="bit">Quantity in cart</label>
             <button type="button" [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn" data-type="minus" data-field=""><span class="glyphicon glyphicon-minus"></span></button>
             <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl" />
             <button type="button" (click)="incrementQuantity()" class="quantity-in-cart-btn" data-type="plus" data-field=""><span class="glyphicon glyphicon-plus"></span></button>
+          </div> -->
+          <div class="quantity-in-cart btn input-btn-group">
+          <label for="bit">Quantity in cart</label>
+            <button type="button" [disabled]="itemQuantity == 1" (click)="decrementQuantity()" class="quantity-in-cart-btn" data-type="minus"
+              data-field="">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+            <input type="number" [min]="0" class="text-center" (click)="inputQuantity()" [value]="itemQuantity" [formControl]="quantityControl"
+            />
+            <button type="button" (click)="incrementQuantity()" class="quantity-in-cart-btn" data-type="plus" data-field="">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
           </div>
         </ng-container>
         <ng-template #addCart>
