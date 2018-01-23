@@ -139,9 +139,9 @@ export class HeaderComponent implements OnInit {
     this.typeaheadNoResults = e;
   }
 
-  typeaheadOnSelect(e: TypeaheadMatch): void {
+  typeaheadOnSelect(e): void {
     this.router.navigateByUrl(`/item/item-details/${e.item.id}`);
-    //this.router.navigate(['user/profile']);
+    this.asyncSelected = e.item.name;
   }
 
   searchKeyword(): void {
