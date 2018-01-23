@@ -7,6 +7,8 @@ import { CartItem } from './../../../../core/models/cart_item';
 import { Item } from './../../../../core/models/item';
 import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-item-details-dialog',
@@ -21,6 +23,9 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   quantityControl = new FormControl;
   images: any[];
   saveAmount: any;
+  scrolling$: Subscription;
+  MIN_VALUE: number = 1;
+  MAX_VALUE: number = 9999;
 
   constructor(
     private productActions: ProductActions,
@@ -57,7 +62,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        if(isNaN(value) || value < 1 || value > 9999){
+        if(isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE){
           this.quantityControl.setValue(this.itemQuantity);
         } else {
           this.itemQuantity = value;
@@ -66,9 +71,15 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
           this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
         }
       })
+    this.scrolling$ = Observable.fromEvent(window,'mousewheel')
+      .map((event: any) => {
+        event.preventDefault();
+        event.stopPropagation();
+      }).subscribe();
   }
 
   ngOnDestroy() {
+    this.scrolling$.unsubscribe();
     this.store.dispatch(this.productActions.removeSelectedItem())
   }
 
@@ -90,14 +101,14 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   }
 
   incrementQuantity() {
-    if(this.itemQuantity < 9999) {
+    if(this.itemQuantity < this.MAX_VALUE) {
       this.itemQuantity++;
       this.quantityControl.setValue(this.itemQuantity);
     }
   }
 
   decrementQuantity() {
-    if(this.itemQuantity > 1) {
+    if(this.itemQuantity > this.MIN_VALUE) {
       this.itemQuantity--;
       this.quantityControl.setValue(this.itemQuantity);
     }

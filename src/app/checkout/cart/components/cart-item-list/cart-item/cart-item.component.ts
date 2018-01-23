@@ -20,6 +20,8 @@ export class CartItemComponent implements OnInit {
   amount: number;
   quantityControl = new FormControl;
   @Input() cartItem: CartItem;
+  MIN_VALUE: number = 1;
+  MAX_VALUE: number = 9999;
 
   constructor(
     private store: Store<AppState>,
@@ -37,7 +39,7 @@ export class CartItemComponent implements OnInit {
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        if(isNaN(value) || value < 1 || value > 9999){
+        if(isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE){
           this.quantityControl.setValue(this.quantity);
         } else {
           this.quantity = value;
@@ -59,14 +61,14 @@ export class CartItemComponent implements OnInit {
   }
 
   incrementQuantity() {
-    if(this.quantity < 9999) {
+    if(this.quantity < this.MAX_VALUE) {
       this.quantity++;
       this.quantityControl.setValue(this.quantity);
     }
   }
 
   decrementQuantity() {
-    if(this.quantity > 1) {
+    if(this.quantity > this.MIN_VALUE) {
       this.quantity--;
       this.quantityControl.setValue(this.quantity);
     }

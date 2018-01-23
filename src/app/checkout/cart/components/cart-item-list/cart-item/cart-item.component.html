@@ -46,12 +46,12 @@
           <p>P {{cartItem.price | number:'1.2'}}</p>
         </li>
         <li class="col-xs-2">
-          <button type="button" class="btn btn-xs cart-btns" (click)="decrementQuantity()"  [disabled]="quantity == 1">
+          <button type="button" class="btn btn-xs cart-btns" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
             <span class="glyphicon glyphicon-minus"> </span>
           </button>
 
           <input type="number" [min]="0" [max]="9999" class="text-center" [value]="quantity" [formControl]="quantityControl" />
-          <button type="button " class="btn btn-xs cart-btns" (click)="incrementQuantity()">
+          <button type="button " class="btn btn-xs cart-btns" (click)="incrementQuantity()" [disabled]="quantity == MAX_VALUE">
             <span class="glyphicon glyphicon-plus"> </span>
           </button>
         </li>
