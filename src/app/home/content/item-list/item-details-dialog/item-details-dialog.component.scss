@@ -6,7 +6,13 @@
   .closeModal {
     color: red;
   }
+  .glyphicon-remove {
+    font-size: 24px;
+  }
+
 }
+
+
 
 .item-details {
   .item-images {
@@ -114,6 +120,11 @@
   border: none;
   background: transparent;
 }
+.addtocart {
+  padding: 0;
+}
+
+
 
 .quantity-wish-list {
   background: #0be0c7;

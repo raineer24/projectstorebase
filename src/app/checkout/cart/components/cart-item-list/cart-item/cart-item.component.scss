@@ -100,11 +100,18 @@
 .panel {
 	background-color: transparent;
 	box-shadow: none;
+	font-family: helvetica neue;
+
 }
 .panel .btn-danger {
 	background: #ff5848;
 
 }
+.list-inline .glyphicon {
+	font-size: 14px;
+
+}
+
 input {
 	width: 30%;
 	border: none;
@@ -112,7 +119,7 @@ input {
 	text-align: center;
 }
 .cart-btns {
-  border: 1px solid #ccc;
+  
   background: transparent;
   border-radius: 0;
 }
