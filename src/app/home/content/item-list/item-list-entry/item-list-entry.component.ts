@@ -84,6 +84,7 @@ export class ItemListEntryComponent implements OnInit {
   }
 
   addToCart(e) {
+    e.stopPropagation();
     this.itemQuantity = 1;
     this.store.dispatch(this.checkoutActions.addToCart(this.item));
     this.cdr.detectChanges();
