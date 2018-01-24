@@ -1,13 +1,18 @@
 .dialog-header {
   float: right;
-
   span {
     font-weight: bold;
   }
   .closeModal {
     color: red;
   }
+  .glyphicon-remove {
+    font-size: 24px;
+  }
+
 }
+
+
 
 .item-details {
   .item-images {
@@ -29,8 +34,7 @@
   }
   .item-info {
     float: right;
-    font-weight: 300;
-    //width: 50%;
+    font-weight: 300; //width: 50%;
     div {
       margin-bottom: 10px;
       font-weight: 400;
@@ -72,18 +76,18 @@
       }
     }
   }
-
   &:after {
     content: "";
     display: table;
     clear: both;
   }
 }
+
 .dropdown-toggle {
-    width: 100%;
-    text-align: left;
-    border: none;
-    background: transparent;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
 }
 
 .suggested-items {
@@ -96,26 +100,31 @@
   background: #ff5848;
   color: #fff;
   font-size: 1.2em;
-  width: 230px;
+  width: 36%;
   height: 34px;
 }
 
-.quantity-in-cart label {
-  margin-left: 0.8em;
+.quantity-in-cart {
+  padding: 5px 10px 0px;
+  font-size: 1em;
+  text-transform: uppercase;
 }
 
-.quantity-in-cart input
-{
+.quantity-in-cart input {
   background: transparent;
   border: none;
   width: 15%;
-
 }
 
 .quantity-in-cart-btn {
   border: none;
   background: transparent;
 }
+.addtocart {
+  padding: 0;
+}
+
+
 
 .quantity-wish-list {
   background: #0be0c7;
@@ -124,8 +133,8 @@
   border: none;
   color: #fff;
   margin-left: 1em;
-
-
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .btn-danger {
@@ -133,54 +142,62 @@
   width: 100%;
 }
 
-
 input[value="1"] {
   margin: 0 auto;
 }
+
 .thumbnails {
   list-style: none;
 }
+
 .caption h4 {
   margin: 0;
 }
+
 .caption p {
   margin: 0;
 }
+
 .caption .price {
   font-weight: bold;
 }
+
 .orange {
   background-color: #ff5848;
   width: 100%;
   border: none;
-
 }
+
 .carousel {
   overflow: hidden;
 }
-.carousel-inner {
 
+.carousel-inner {
   width: 89%;
   float: left;
-
 }
+
 .carousel nav {
   float: right;
   position: relative;
   overflow: hidden;
   width: 11%;
-
 }
+
 s {
   color: red;
 }
 
 input[type='number'] {
-    -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }
+
+
 /* Webkit browsers like Safari and Chrome */
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
+
