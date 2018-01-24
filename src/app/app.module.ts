@@ -31,6 +31,7 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/finally";
 import "rxjs/add/observable/of";
 import "rxjs/add/observable/empty";
+import "rxjs/add/observable/fromEvent";
 
 // 3rd party imports
 import { BsDropdownModule } from "ngx-bootstrap";

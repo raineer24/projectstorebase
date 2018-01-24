@@ -1,4 +1,4 @@
-<div *ngFor="let item of cartItems$ | async">
+<div *ngFor="let item of cartItems$ | async; trackBy: trackByFn">
   <app-cart-item [cartItem]="item"></app-cart-item>
 </div>
 <!-- <div class="row">
