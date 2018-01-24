@@ -96,91 +96,46 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   fetchCurrentOrder() {
-    // return this.http.get(
-    //   'spree/api/v1/orders/current'
-    // ).map(res => {
-    //   const order = res.json();
-    //   if (order) {
-    //     const token = order.token;
-    //     this.setOrderTokenInLocalStorage({order_token: token});
-    //     return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-    //   } else {
-    //     this.createEmptyOrder()
-    //       .subscribe();
-    //   }
-    // }).catch(err => Observable.empty());
-
-    let token = this.getOrderToken();
-    if(!token) {
-      token = Math.random() + "";
-      this.setOrderTokenInLocalStorage({order_token: token});
-
-      return Observable.create((observer: any) => {
-        const order = {
-          "number": token,
-          "cart_items": [],
-          "total_quantity": 0,
-          "total": 0,
-          "ship_address": "",
-          "bill_address": "",
-          "state": 'cart',
-          "token": token
-        }
-        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-      })
-    } else {
-      return this.http.get(`v1/orderItem?key=${token}`
+    let orderkey = this.getOrderToken();
+    if(orderkey) {
+      return this.http.get(`v1/orderItem?key=${orderkey}`
       ).map(res => {
-        // console.log("TEST"+data)
         const data = res.json();
-        let cart_item = {}, cart_items = [], total = 0, total_quantity = 0;
+        let cart_items = [], total = 0, total_quantity = 0;
         for (let datum of data) {
-          cart_items.push({
-            "id": datum.orderItem_id,
-            "quantity": Number(datum.quantity),
-            "price": Number(datum.price),
-            "total": (Number(datum.price) * datum.quantity),
-            "item_id": datum.item_id,
-            "item": {
-              "id": datum.item_id,
-              "code": datum.code,
-              "name": datum.name,
-              "brandName": datum.brandName,
-              "price": datum.price,
-              "displayPrice": datum.displayPrice,
-              "hasVat": datum.hasVat,
-              "isSenior": datum.isSenior,
-              "weighted": datum.weighted,
-              "packaging": datum.packaging,
-              "packageMeasurement": datum.packageMeasurement,
-              "sizing": datum.sizing,
-              "packageMinimum": datum.packageMinumum,
-              "packageIntervals": datum.packageIntervals,
-              "availableOn": datum.availableOn,
-              "imageKey": datum.imageKey,
-              "slug": datum.slug,
-              "enabled": datum.enabled,
-              "sellerAccount_id": datum.sellerAccount_id,
-              "dateCreated": datum.dateCreated,
-              "dateUpdated": datum.dateUpdate
-            }
-          });
-
+          cart_items.push(this.formatCartItem(datum));
           total += Number(datum.price) * datum.quantity;
           total_quantity += Number(datum.quantity);
         }
         const order = {
-          "number": token,
+          "number": orderkey,
           "cart_items": cart_items,
           "total_quantity": total_quantity,
           "total": total,
           "ship_address": "",
           "bill_address": "",
           "state": 'cart',
-          "token": token
+          "token": orderkey
         }
         return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
        })
+    } else {
+      return this.http.get(`v1/orderkey`
+        ).map(res => {
+          orderkey = res.json()['orderkey'];
+          this.setOrderTokenInLocalStorage({order_token: orderkey});
+          const order = {
+            "number": orderkey,
+            "cart_items": [],
+            "total_quantity": 0,
+            "total": 0,
+            "ship_address": "",
+            "bill_address": "",
+            "state": 'cart',
+            "token": orderkey
+          }
+          return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+        });
     }
   }
 
@@ -351,7 +306,6 @@ export class CheckoutService {
     let token = null;
     if(order) {
       token = order.order_token;
-      console.log("ESTS")
     }
     return token;
   }
@@ -367,5 +321,47 @@ export class CheckoutService {
   private setOrderTokenInLocalStorage(token): void {
     const jsonData = JSON.stringify(token);
     localStorage.setItem('order', jsonData);
+  }
+
+  /**
+   *
+   *
+   * @private
+   * @param {any} []
+   * @returns cartItem
+   *
+   * @memberof CheckoutService
+   */
+  private formatCartItem(datum): any {
+    return {
+      "id": datum.orderItem_id,
+      "quantity": Number(datum.quantity),
+      "price": Number(datum.price),
+      "total": (Number(datum.price) * datum.quantity),
+      "item_id": datum.item_id,
+      "item": {
+        "id": datum.item_id,
+        "code": datum.code,
+        "name": datum.name,
+        "brandName": datum.brandName,
+        "price": datum.price,
+        "displayPrice": datum.displayPrice,
+        "hasVat": datum.hasVat,
+        "isSenior": datum.isSenior,
+        "weighted": datum.weighted,
+        "packaging": datum.packaging,
+        "packageMeasurement": datum.packageMeasurement,
+        "sizing": datum.sizing,
+        "packageMinimum": datum.packageMinumum,
+        "packageIntervals": datum.packageIntervals,
+        "availableOn": datum.availableOn,
+        "imageKey": datum.imageKey,
+        "slug": datum.slug,
+        "enabled": datum.enabled,
+        "sellerAccount_id": datum.sellerAccount_id,
+        "dateCreated": datum.dateCreated,
+        "dateUpdated": datum.dateUpdate
+      }
+    }
   }
 }
