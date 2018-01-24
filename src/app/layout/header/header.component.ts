@@ -57,7 +57,8 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-
+          console.log(this.searchData);
+          //this.itemList = data.list;
           this.copyitemList = data.list;
           this.copycatList = data.categories;
 
@@ -138,9 +139,9 @@ export class HeaderComponent implements OnInit {
     this.typeaheadNoResults = e;
   }
 
-  typeaheadOnSelect(e: TypeaheadMatch): void {
+  typeaheadOnSelect(e): void {
     this.router.navigateByUrl(`/item/item-details/${e.item.id}`);
-    //this.router.navigate(['user/profile']);
+    this.asyncSelected = e.item.name;
   }
 
   searchKeyword(): void {

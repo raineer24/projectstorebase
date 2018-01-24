@@ -20,14 +20,17 @@
     <!-- Product Size -->
     <!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
     <ng-container *ngIf="itemQuantity != 0; else addCart">
-      <div class="input-group quality-in-cart" (click)="inputQuantity($event)">
-        <button data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn btn-number" (click)="decrementQuantity($event)"
+      <div class="input-group quality-in-cart btn-block" (click)="inputQuantity($event)">
+        <button data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn btn-number"
+          (click)="decrementQuantity($event)"
           [disabled]="itemQuantity == MIN_VALUE">
           <span class="glyphicon glyphicon-minus"> </span>
         </button>
-        <input type="number" class="text-center" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl"
-        />
-        <button data-type="plus" data-field="" type="button" class="btn btn-success btn-number" (click)="incrementQuantity($event)"
+        <input type="number" class="text-center"
+          [min]="MIN_VALUE" [max]="MAX_VALUE"
+          [value]="itemQuantity" [formControl]="quantityControl" />
+        <button data-type="plus" data-field="" type="button" class="btn btn-success btn-number"
+          (click)="incrementQuantity($event)"
           [disabled]="itemQuantity == MAX_VALUE">
           <span class="glyphicon glyphicon-plus"> </span>
         </button>

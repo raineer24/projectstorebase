@@ -11,7 +11,7 @@ import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-item-list-entry',
-  changeDetection: ChangeDetectionStrategy.Default,
+//  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './item-list-entry.component.html',
   styleUrls: ['./item-list-entry.component.scss']
 })
@@ -22,6 +22,8 @@ export class ItemListEntryComponent implements OnInit {
   itemQuantity: number = 0;
   quantityControl = new FormControl;
   private imageRetries: number = 0;
+  MIN_VALUE: number = 1;
+  MAX_VALUE: number = 9999;
 
   constructor(
     private store: Store<AppState>,
@@ -38,9 +40,10 @@ export class ItemListEntryComponent implements OnInit {
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
-        if(isNaN(value) || value < 1){
+        if(isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE){
           this.quantityControl.setValue(this.itemQuantity);
         } else {
+          this.cdr.detectChanges();
           this.itemQuantity = value;
           let cartItem = this.getCartItem();
           cartItem.quantity = value;
@@ -84,6 +87,7 @@ export class ItemListEntryComponent implements OnInit {
     e.stopPropagation();
     this.itemQuantity = 1;
     this.store.dispatch(this.checkoutActions.addToCart(this.item));
+    this.cdr.detectChanges();
   }
 
   selectItem() {
@@ -92,16 +96,18 @@ export class ItemListEntryComponent implements OnInit {
   }
 
   incrementQuantity(e) {
-    e.stopPropagation();
-    this.itemQuantity++;
-    this.quantityControl.setValue(this.itemQuantity);
+    if(this.itemQuantity < this.MAX_VALUE) {
+      this.itemQuantity++;
+      this.quantityControl.setValue(this.itemQuantity);
+      this.cdr.detectChanges();
+    }
   }
 
   decrementQuantity(e) {
-    e.stopPropagation();
-    if(this.itemQuantity > 1) {
+    if(this.itemQuantity > this.MIN_VALUE) {
       this.itemQuantity--;
       this.quantityControl.setValue(this.itemQuantity);
+      this.cdr.detectChanges();
     }
   }
 
