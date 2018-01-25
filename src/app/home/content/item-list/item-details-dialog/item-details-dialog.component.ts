@@ -71,7 +71,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
           this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
         }
       })
-    this.scrolling$ = Observable.fromEvent(window,'mousewheel')
+    this.scrolling$ = Observable.fromEvent(window,'wheel')
       .map((event: any) => {
         event.preventDefault();
         event.stopPropagation();
@@ -85,6 +85,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   hideSavings (dp, p) {
     return (dp - p !== 0);
+  }
+
+  hideListPrice(dp, p) {
+    return (dp !== p);
   }
 
   getItemImageUrl(key) {

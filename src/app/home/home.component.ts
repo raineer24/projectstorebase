@@ -1,4 +1,6 @@
 import { getSelectedTaxonIds } from './reducers/selectors';
+import { getSelectedProduct } from './../product/reducers/selectors';
+import { Item } from './../core/models/item';
 import { Taxonomy } from './../core/models/taxonomy';
 import { environment } from './../../environments/environment';
 import { ProductActions } from './../product/actions/product-actions';
@@ -21,12 +23,12 @@ import { Component, OnInit, OnChanges } from '@angular/core';
       </div>
       <div class="col-xs-9">
       -->
-    
+
         <app-content
           [products]="products$ | async" [cartItemsArr]="cartItems$ | async">
           <!-- [taxonIds]="selectedTaxonIds$ | async"> -->
         </app-content>
-     
+
     </div>
   `,
   styleUrls: ['./home.component.scss']
@@ -36,6 +38,8 @@ export class HomeComponent implements OnInit {
   taxonomies$: Observable<any>;
   cartItems$: Observable<any>;
   selectedTaxonIds$: Observable<number[]>;
+  selectedItem$: Observable<any>;
+  selectedItem: Item;
 
   constructor(private store: Store<AppState>, private actions: ProductActions) {
     // Get all products for the product list component
@@ -46,8 +50,11 @@ export class HomeComponent implements OnInit {
     this.products$ = this.store.select(getProducts);
     this.taxonomies$ = this.store.select(getTaxonomies);
     this.selectedTaxonIds$ = this.store.select(getSelectedTaxonIds);
+    //this.selectedItem = this.store.select(getItemImageUrl);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+   }
 
 }
