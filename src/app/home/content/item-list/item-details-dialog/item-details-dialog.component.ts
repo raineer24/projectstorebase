@@ -71,7 +71,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
           this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
         }
       })
-    this.scrolling$ = Observable.fromEvent(window,'mousewheel')
+    this.scrolling$ = Observable.fromEvent(window,'wheel')
       .map((event: any) => {
         event.preventDefault();
         event.stopPropagation();
