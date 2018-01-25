@@ -87,6 +87,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
     return (dp - p !== 0);
   }
 
+  hideListPrice(dp, p) {
+    return (dp !== p);
+  }
+
   getItemImageUrl(key) {
     return environment.IMAGE_REPO + key + '.jpg';
   }

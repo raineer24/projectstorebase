@@ -155,7 +155,7 @@ export class HeaderComponent implements OnInit {
       dpmenu.hide();
     }, 50);
   }
-
+  
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
   }
@@ -167,7 +167,7 @@ export class HeaderComponent implements OnInit {
   typeaheadOnSelect(e): void {
     this.asyncSelected = e.item.name;
     this.store.dispatch(this.productActions.addSelectedItem(e.item));
-    this.router.navigateByUrl(`/item/item-details/${e.item.id}/${e.item.slug}`);
+    this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
 
   searchKeyword(): void {
@@ -176,8 +176,8 @@ export class HeaderComponent implements OnInit {
   }
   selectItem(item: Item) {
     this.selectedItem = item;
+    console.log(item);
     this.store.dispatch(this.productActions.addSelectedItem(item));
-    this.itemDetailsModal.open();
   }
 
   getItemImageUrl(key) {
