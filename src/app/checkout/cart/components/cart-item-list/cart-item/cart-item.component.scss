@@ -101,7 +101,7 @@
 	background-color: transparent;
 	box-shadow: none;
 	font-family: helvetica neue;
-
+  margin-bottom: 0px;
 }
 .panel .btn-danger {
 	background: #ff5848;
@@ -110,7 +110,8 @@
 }
 .list-inline .glyphicon {
 	font-size: 14px;
-
+  color: #ffffff;
+  top: 2px;
 }
 
 input {
@@ -120,9 +121,12 @@ input {
 	text-align: center;
 }
 .cart-btns {
-  
-  background: transparent;
+  // background: transparent;
+  // background: #ff5848;
   border-radius: 0;
+}
+.cart-add {
+
 }
 input[type='number'] {
     -moz-appearance:textfield;

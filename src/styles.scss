@@ -65,6 +65,7 @@ body {
 main[_ngcontent-c0] {
   padding: 0px !important;
   background: #f7f7f7;
+  background: #ffffff;
 }
 
 .nav .open>a,
@@ -72,6 +73,11 @@ main[_ngcontent-c0] {
 .nav .open>a:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
+  background: #15b18d;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+  background: #15b18d;
+  background: #1ba182; 
 }
 
 @media (min-width: 768px) {
@@ -153,5 +159,3 @@ div.modal-dialog {
   padding-right: 15px;
   float: left;
 }
-
-
