@@ -1,6 +1,7 @@
 import { Taxonomy } from './../../core/models/taxonomy';
 import { Product } from './../../core/models/product';
 import { Action } from '@ngrx/store';
+import { environment } from './../../../environments/environment';
 
 export class ProductActions {
     static GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
@@ -17,7 +18,7 @@ export class ProductActions {
     static ADD_SELECTED_ITEM = "ADD_SELECTED_ITEM";
     static REMOVE_SELECTED_ITEM = "REMOVE_SELECTED_ITEM"
 
-    getAllProducts(limit: number = 20, offset: number = 0): Action {
+    getAllProducts(limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
         return {
           type: ProductActions.GET_ALL_PRODUCTS,
           payload: {

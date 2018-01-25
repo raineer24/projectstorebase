@@ -21,7 +21,6 @@ export class ProductEffects {
   @Effect()
     GetAllProducts$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ALL_PRODUCTS)
-    .do((action: Action) => console.log(action.payload.limit+" TEST"))
     .switchMap((action: Action) => this.productService.getProducts(action.payload.limit, action.payload.offset))
     .map((data: any) => this.productActions.getAllProductsSuccess({items: data}));
 

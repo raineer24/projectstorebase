@@ -19,7 +19,7 @@ export class ItemListComponent implements OnInit {
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
   selectedItem: Item;
-  itemLimit: number = 20;
+  itemLimit: number = environment.ITEMS_PER_PAGE;
 
   constructor(
     private store: Store<AppState>, private actions: ProductActions ) {
@@ -48,7 +48,7 @@ export class ItemListComponent implements OnInit {
   }
 
   loadMoreItems() {
-    this.itemLimit += 20;
+    this.itemLimit += environment.ITEMS_PER_PAGE;
     this.store.dispatch(this.actions.getAllProducts(this.itemLimit));
   }
 

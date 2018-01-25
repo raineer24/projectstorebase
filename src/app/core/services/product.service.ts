@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from './http';
 import { Injectable } from '@angular/core';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class ProductService {
@@ -35,12 +36,12 @@ export class ProductService {
    * @param {number} categoryId
    * @param {number} level
    * @param {number} offset optional, default = 0
-   * @param {number} limit optional, default = 10
+   * @param {number} limit optional, default = 20
    * @returns {Observable<any>}
    *
    * @memberof ProductService
    */
-  getItemsByCategory(categoryId: number, level: number, offset = 0, limit = 10): Observable<any> {
+  getItemsByCategory(categoryId: number, level: number, offset = 0, limit = environment.ITEMS_PER_PAGE): Observable<any> {
     return this.http.get(`v1/item?offset=${offset}&limit=${limit}&category${level}=${categoryId}`)
       .map(res => res.json())
       .catch(err => Observable.empty());
@@ -94,7 +95,7 @@ export class ProductService {
    *
    * @memberof ProductService
    */
-  getProducts(limit = 20, offset = 0): any {
+  getProducts(limit = environment.ITEMS_PER_PAGE, offset = 0): any {
     return this.http.get(`v1/item?offset=${offset}&limit=${limit}`)
       .do(res => { console.log(res)})
       .map(res => res.json())
