@@ -100,14 +100,22 @@
   background: #ff5848;
   color: #fff;
   font-size: 1.2em;
-  width: 36%;
+  //width: 36%;
   height: 34px;
+  padding-left: 8px;
+
 }
 
 .quantity-in-cart {
-  padding: 5px 10px 0px;
+  padding-left:5px;
+  padding-right: 0px;
+
   font-size: 1em;
   text-transform: uppercase;
+}
+.quantity-in-cart .btn-success {
+  float: right;
+  border-radius: 0px;
 }
 
 .quantity-in-cart input {
@@ -115,6 +123,10 @@
   border: none;
   width: 15%;
 }
+.quantity-in-cart span {
+  color: #fff;
+}
+
 
 .quantity-in-cart-btn {
   border: none;
