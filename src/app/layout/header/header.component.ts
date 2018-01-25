@@ -114,23 +114,6 @@ export class HeaderComponent implements OnInit {
     this.cd.markForCheck();
   }
 
-  // autoComplete(event){
-  //   const text = event.target.value;
-  //   if(text.length > 1) {
-  //     console.log(event.target.value);
-  //   }
-  // }
-  //
-  // getStatesAsObservable(token: string): Observable<any> {
-  //   let query = new RegExp(token, 'ig');
-  //
-  //   return Observable.of(
-  //     this.statesComplex.filter((state: any) => {
-  //       return query.test(state.name);
-  //     })
-  //   );
-  // }
-
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
   }
@@ -140,8 +123,11 @@ export class HeaderComponent implements OnInit {
   }
 
   typeaheadOnSelect(e): void {
-    this.router.navigateByUrl(`/item/item-details/${e.item.id}`);
-    this.asyncSelected = e.item.name;
+    this.asyncSelected = "";
+    this.router.navigateByUrl(`/item/${e.item.code}/${e.item.slug}`);
+    this.store.dispatch(this.productActions.addSelectedItem(e.item));
+    console.log("typeaheadOnSelect")
+
   }
 
   searchKeyword(): void {
@@ -150,8 +136,8 @@ export class HeaderComponent implements OnInit {
   }
   selectItem(item: Item) {
     this.selectedItem = item;
+    console.log(item);
     this.store.dispatch(this.productActions.addSelectedItem(item));
-    this.itemDetailsModal.open();
   }
 
   getItemImageUrl(key) {
