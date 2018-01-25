@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   currentUrl: string;
   currentStep: string;
   checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment'];
+  homeUrls = ['/', '/item']
 
   constructor(
     private router: Router,
@@ -40,11 +41,11 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  isCheckoutRoute() {
+  isHomeRoute() {
     if (!this.currentUrl) {
       return false;
     }
-    const index = this.checkoutUrls.indexOf(this.currentUrl);
+    const index = this.homeUrls.indexOf(this.currentUrl);
     if (index >= 0) {
       return true;
     } else {

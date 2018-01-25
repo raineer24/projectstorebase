@@ -46,7 +46,7 @@
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
-  <div class="header-sticky-wrapper">
+  <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
     <div class="container">
       <div class=" navbar yamm">
         <div class="navbar-collapse collapse">

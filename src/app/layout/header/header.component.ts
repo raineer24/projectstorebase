@@ -3,7 +3,7 @@ import { SearchActions } from './../../home/reducers/search.actions';
 import { getTaxonomies } from './../../product/reducers/selectors';
 import { getTotalCartItems } from './../../checkout/reducers/selectors';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
-  ViewChild, ViewChildren, QueryList } from '@angular/core';
+  ViewChild, ViewChildren, QueryList, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
@@ -24,6 +24,8 @@ import { environment } from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  @Input() currentStep: string;
+  @Input() isHomeRoute: boolean;
   selectedItem: Item;
   isAuthenticated: Observable<boolean>;
   totalCartItems: Observable<number>;
@@ -33,15 +35,11 @@ export class HeaderComponent implements OnInit {
   typeaheadNoResults: boolean;
   dataSource: Observable<any>;
   searchData: Object = {};
-  mergeList: Object = {};
   copycatList: Object = {};
   copyitemList: Object = {};
-  toTypeAhead: Array<any>;
   menuDelay: {'show': Array<any>, 'hide': Array<any>} = {show:[], hide:[]};
-  menuStatus: { isopen: boolean } = { isopen: false };
   @ViewChild('itemDetailsModal') itemDetailsModal;
   @ViewChildren("dpmenu") dpmenus: QueryList<any>;
-  menuArray: Array<any>;
 
   constructor(
     private store: Store<AppState>,
@@ -155,7 +153,7 @@ export class HeaderComponent implements OnInit {
       dpmenu.hide();
     }, 50);
   }
-  
+
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
   }
