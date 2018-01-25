@@ -4,7 +4,7 @@
     (error)="onImageError()">
   <div class="product-productMetaInfo">
     <div itemprop="name" class="product-brand">{{ item.name }}</div>
-    <h2 class="product-product">{{ item.brandName }}</h2>
+    <!-- <h2 class="product-product">{{ item.brandName }}</h2> -->
     <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
       <span>
         <!-- Discounted price -->
@@ -21,7 +21,7 @@
     <!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
     <ng-container *ngIf="itemQuantity != 0; else addCart">
       <div class="input-group quality-in-cart btn-block" (click)="inputQuantity($event)">
-        <button data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn btn-number"
+        <button data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn-left btn btn-number"
           (click)="decrementQuantity($event)"
           [disabled]="itemQuantity == MIN_VALUE">
           <span class="glyphicon glyphicon-minus"> </span>
@@ -29,7 +29,7 @@
         <input type="number" class="text-center"
           [min]="MIN_VALUE" [max]="MAX_VALUE"
           [value]="itemQuantity" [formControl]="quantityControl" />
-        <button data-type="plus" data-field="" type="button" class="btn btn-success btn-number"
+        <button data-type="plus" data-field="" type="button" class="btn btn-success btn-number btn-right"
           (click)="incrementQuantity($event)"
           [disabled]="itemQuantity == MAX_VALUE">
           <span class="glyphicon glyphicon-plus"> </span>
