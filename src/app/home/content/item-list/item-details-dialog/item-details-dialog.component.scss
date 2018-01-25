@@ -9,10 +9,7 @@
   .glyphicon-remove {
     font-size: 24px;
   }
-
 }
-
-
 
 .item-details {
   .item-images {
@@ -99,15 +96,20 @@
   float: left;
   background: #ff5848;
   color: #fff;
-  font-size: 1.2em;
-  width: 36%;
+  font-size: 1.2em; //width: 36%;
   height: 34px;
+  padding-left: 8px;
 }
 
 .quantity-in-cart {
-  padding: 5px 10px 0px;
+  padding-left: 12px;
   font-size: 1em;
   text-transform: uppercase;
+}
+
+.quantity-in-cart .btn-success {
+  float: right;
+  border-radius: 0px;
 }
 
 .quantity-in-cart input {
@@ -116,15 +118,19 @@
   width: 15%;
 }
 
+.quantity-in-cart span {
+  color: #fff;
+}
+
 .quantity-in-cart-btn {
   border: none;
   background: transparent;
 }
+
 .addtocart {
   padding: 0;
+  width: 36%;
 }
-
-
 
 .quantity-wish-list {
   background: #0be0c7;
