@@ -2,7 +2,8 @@ import { Router } from '@angular/router';
 import { SearchActions } from './../../home/reducers/search.actions';
 import { getTaxonomies } from './../../product/reducers/selectors';
 import { getTotalCartItems } from './../../checkout/reducers/selectors';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
+  ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
@@ -36,7 +37,11 @@ export class HeaderComponent implements OnInit {
   copycatList: Object = {};
   copyitemList: Object = {};
   toTypeAhead: Array<any>;
+  menuDelay: {'show': Array<any>, 'hide': Array<any>} = {show:[], hide:[]};
+  menuStatus: { isopen: boolean } = { isopen: false };
   @ViewChild('itemDetailsModal') itemDetailsModal;
+  @ViewChildren("dpmenu") dpmenus: QueryList<any>;
+  menuArray: Array<any>;
 
   constructor(
     private store: Store<AppState>,
@@ -114,6 +119,43 @@ export class HeaderComponent implements OnInit {
     this.cd.markForCheck();
   }
 
+  onMenuOver(e, index){
+    e.stopPropagation();
+    const dpmenu = this.dpmenus.toArray()[index];
+    const prev = this.dpmenus.find(data => data.isOpen);
+    if(!prev) {
+      this.menuDelay.show[index] = setTimeout(() => {
+        dpmenu.show();
+      }, 200)
+    } else {
+      clearTimeout(this.menuDelay.hide[index]);
+      prev.hide();
+      dpmenu.show();
+    }
+  }
+
+  onMenuLeave(e, index){
+    e.stopPropagation();
+    const dpmenu = this.dpmenus.toArray()[index];
+    clearTimeout(this.menuDelay.show[index]);
+    this.menuDelay.hide[index] = setTimeout(() => {
+      dpmenu.hide();
+    }, 50);
+  }
+
+  onSubMenuOver(e, index){
+    e.stopPropagation();
+    clearTimeout(this.menuDelay.hide[index]);
+  }
+
+  onSubMenuLeave(e, index){
+    e.stopPropagation();
+    const dpmenu = this.dpmenus.toArray()[index];
+    this.menuDelay.hide[index] = setTimeout(() => {
+      dpmenu.hide();
+    }, 50);
+  }
+  
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
   }
@@ -123,11 +165,9 @@ export class HeaderComponent implements OnInit {
   }
 
   typeaheadOnSelect(e): void {
-    this.asyncSelected = "";
-    this.router.navigateByUrl(`/item/${e.item.code}/${e.item.slug}`);
+    this.asyncSelected = e.item.name;
     this.store.dispatch(this.productActions.addSelectedItem(e.item));
-    console.log("typeaheadOnSelect")
-
+    this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
 
   searchKeyword(): void {
