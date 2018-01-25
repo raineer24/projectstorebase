@@ -1,8 +1,8 @@
 ul {
   margin-left: -50px;
   li.product-base {
-    width: 260px;
-    width: 205px;
+    width: 255px;
+    width: 200px;
     height:100%;
     text-align: center;
     position: relative;
@@ -92,4 +92,19 @@ ul.results-base {
 
 ul li.product-base {
   // width: 15%;
+}
+.btn-scroll {
+  width:1061px;
+  height:35px;
+  display:block;
+  overflow: auto;
+  white-space: nowrap;
+  border:0px white solid;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+div.load-more{
+  margin-left: auto;
+  margin-right: auto;
 }

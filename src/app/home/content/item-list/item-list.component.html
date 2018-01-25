@@ -4,6 +4,7 @@
     <app-item-details-dialog *ngIf="selectedItem" [item]="selectedItem" [cartItems]="cartItems" (onCloseModalEmit)="closeItemDialog()"></app-item-details-dialog>
   </ng-template>
 </modal>
+
 <div class="row-base" style="display: -webkit-flex">
   <section>
     <ul class="results-base">
@@ -33,5 +34,10 @@
         </div> -->
       </li>
     </ul>
-  </section>
-</div>
+    </section>
+  </div>
+  <div class="load-more">
+    <section class="scroll_div">
+      <button type="button" class="btn-scroll btn-danger"><span class="glyphicon glyphicon-repeat"></span>Load more...</button>
+    </section>
+  </div>

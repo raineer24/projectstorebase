@@ -20,7 +20,7 @@
         <!-- <p>{{item.sizing}}</p> -->
       </div>
       <div>
-        <p class="lp">
+        <p class="lp" *ngIf="hideListPrice(item.displayPrice, item.price)">
           <label>List Price:</label>
           <span>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span>
         </p>
