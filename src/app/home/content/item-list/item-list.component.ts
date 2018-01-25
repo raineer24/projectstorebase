@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Item } from './../../../core/models/item';
 import { environment } from './../../../../environments/environment';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { ProductActions } from './../../../product/actions/product-actions';
 
 @Component({
   selector: 'app-item-list',
@@ -13,14 +14,15 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 })
 export class ItemListComponent implements OnInit {
   @Input() items;
-  @Input('taxonIds') selectedTaxonIds;
   @Input() toggleLayout;
   @Input() cartItems;
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
   selectedItem: Item;
+  itemLimit: number = 20;
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>, private actions: ProductActions ) {
   }
 
 
@@ -43,6 +45,11 @@ export class ItemListComponent implements OnInit {
   closeItemDialog() {
     window.history.pushState('item-slug', 'Title', '/');
     this.itemDetailsModal.close();
+  }
+
+  loadMoreItems() {
+    this.itemLimit += 20;
+    this.store.dispatch(this.actions.getAllProducts(this.itemLimit));
   }
 
 }
