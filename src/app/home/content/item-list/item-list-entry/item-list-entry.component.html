@@ -1,10 +1,6 @@
 <div class="product-thumbShim"></div>
 <a itemprop="url" (click)="selectItem()">
-  <img itemprop="image"
-    class="product-thumb"
-    alt="{{item.name}}"
-    [src]="getItemImageUrl(item.imageKey)"
-    (load)="onImageLoaded()"
+  <img itemprop="image" class="product-thumb" alt="{{item.name}}" [src]="getItemImageUrl(item.imageKey)" (load)="onImageLoaded()"
     (error)="onImageError()">
   <div class="product-productMetaInfo">
     <div itemprop="name" class="product-brand">{{ item.name }}</div>
@@ -18,11 +14,13 @@
         <!-- Original price -->
         <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
       </span>
-      <!--Percentage off --><!--<span class="product-discountPercentage">(40% OFF)</span>-->
+      <!--Percentage off -->
+      <!--<span class="product-discountPercentage">(40% OFF)</span>-->
     </div>
-    <!-- Product Size --><!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
+    <!-- Product Size -->
+    <!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
     <ng-container *ngIf="itemQuantity != 0; else addCart">
-      <div class="input-group quality-in-cart" (click)="inputQuantity($event)">
+      <div class="input-group quality-in-cart btn-block" (click)="inputQuantity($event)">
         <button data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn btn-number"
           (click)="decrementQuantity($event)"
           [disabled]="itemQuantity == MIN_VALUE">

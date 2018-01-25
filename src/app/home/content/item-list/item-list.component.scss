@@ -2,14 +2,15 @@ ul {
   margin-left: -50px;
   li.product-base {
     width: 260px;
-    height:100%px;
+    width: 165px;
+    height:100%;
     text-align: center;
     position: relative;
     vertical-align: top;
     overflow: hidden;
     display: inline-block;
-    transition: all 500ms;
-    border: 1px solid #fff;
+    // transition: all 500ms;
+    // border: 1px solid #fff;
     background: #ffffff;
     margin-top: 15px !important;
     // margin: 0 30px 20px 0
@@ -89,5 +90,5 @@ ul.results-base {
 }
 
 ul li.product-base {
-  width: 15%;
+  // width: 15%;
 }
