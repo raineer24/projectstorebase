@@ -8,30 +8,42 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'app-add-address',
-  templateUrl: './add-address.component.html',
-  styleUrls: ['./add-address.component.scss']
+  selector: "app-add-address",
+  templateUrl: "./add-address.component.html",
+  styleUrls: ["./add-address.component.scss"]
 })
 export class AddAddressComponent implements OnInit, OnDestroy {
-
   addressForm: FormGroup;
   emailForm: FormGroup;
   isAuthenticated: boolean;
 
   constructor(
-    private fb: FormBuilder, private authActions: AuthActions,
+    private fb: FormBuilder,
+    private authActions: AuthActions,
     private checkoutService: CheckoutService,
     private addrService: AddressService,
-    private store: Store<AppState>) {
-      this.addressForm = addrService.initAddressForm();
-      this.emailForm = addrService.initEmailForm();
-      this.store.select(getAuthStatus).subscribe((auth) => {
-        this.isAuthenticated = auth;
-      });
+    private store: Store<AppState>
+  ) {
+    this.addressForm = addrService.initAddressForm();
+    this.emailForm = addrService.initEmailForm();
+    this.store.select(getAuthStatus).subscribe(auth => {
+      this.isAuthenticated = auth;
+    });
   }
 
-  ngOnInit() {
+  barangay: string[] = ["Bakilid", "Basak", "Colon"];
+
+  onHidden(): void {
+    console.log("Dropdown is hidden");
   }
+  onShown(): void {
+    console.log("Dropdown is shown");
+  }
+  isOpenChange(): void {
+    console.log("Dropdown state is changed");
+  }
+
+  ngOnInit() {}
 
   onSubmit() {
     const address = this.addressForm.value;
@@ -40,17 +52,17 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       addressAttributes = this.addrService.createAddresAttributes(address);
     } else {
       const email = this.getEmailFromUser();
-      addressAttributes = this.addrService.createGuestAddressAttributes(address, email);
+      addressAttributes = this.addrService.createGuestAddressAttributes(
+        address,
+        email
+      );
     }
-    this.checkoutService.updateOrder(addressAttributes)
-      .subscribe();
+    this.checkoutService.updateOrder(addressAttributes).subscribe();
   }
 
   private getEmailFromUser() {
     return this.emailForm.value.email;
   }
 
-  ngOnDestroy() {
-  }
-
+  ngOnDestroy() {}
 }
