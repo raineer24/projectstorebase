@@ -1,7 +1,8 @@
 <modal #itemDetailsModal>
   <!-- <ng-template #modalHeader><h2>HTML inside modal</h2></ng-template> -->
   <ng-template #modalBody>
-    <app-item-details-dialog *ngIf="selectedItem" [item]="selectedItem" [cartItems]="cartItems" (onCloseModalEmit)="closeItemDialog()"></app-item-details-dialog>
+    <app-item-details-dialog *ngIf="selectedItem" [item]="selectedItem" [cartItems]="cartItems"
+      (onCloseModalEmit)="closeItemDialog()"></app-item-details-dialog>
   </ng-template>
 </modal>
 
@@ -12,31 +13,11 @@
       <li *ngFor="let item of items" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
         <app-item-list-entry [item]="item" [cartItems]="cartItems" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
-
-        <!-- <div class="product-sizeDisplayDiv">
-          <div class="product-sizeDisplayHeader">
-            <span>Select a size</span>
-            <span class="myntraweb-sprite product-sizeDisplayRemoveMark sprites-remove"></span>
-          </div>
-          <div class="product-sizeButtonsContaier">
-            <button class="product-sizeButton">S</button>
-            <button class="product-sizeButton">M</button>
-            <button class="product-sizeButton">L</button>
-            <button class="product-sizeButton">XL</button>
-            <button class="product-sizeButton">XXL</button>
-          </div>
-        </div>
-        <div class="product-actions">
-          <span class="product-actionsButton product-wishlist coming-soon">save</span>
-          <span class="product-actionsButton product-addToBag">
-            <span (click)="addToCart(item)">Add to bag</span>
-          </span>
-        </div> -->
       </li>
     </ul>
     </section>
   </div>
-  <div class="load-more">
+  <div *ngIf="items.length > 0" class="load-more">
     <section class="scroll_div">
       <button type="button" class="btn-scroll btn-danger" (click)="loadMoreItems()">
         <span class="glyphicon glyphicon-repeat"></span>  Load more...

@@ -4,7 +4,7 @@ import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
 import { Item } from './../../../core/models/item';
 import { environment } from './../../../../environments/environment';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, HostListener } from '@angular/core';
 import { ProductActions } from './../../../product/actions/product-actions';
 
 @Component({
@@ -20,9 +20,13 @@ export class ItemListComponent implements OnInit {
   selectedItem$: Observable<any>;
   selectedItem: Item;
   itemLimit: number = environment.ITEMS_PER_PAGE;
+  autoLoadCtr: number = 0;
+  delay: boolean = false;
+
 
   constructor(
     private store: Store<AppState>, private actions: ProductActions ) {
+
   }
 
 
@@ -52,4 +56,19 @@ export class ItemListComponent implements OnInit {
     this.store.dispatch(this.actions.getAllProducts(this.itemLimit));
   }
 
+  autoLoad() {
+    if(this.autoLoadCtr < 3) {
+      this.autoLoadCtr++;
+      this.loadMoreItems();
+      console.log("TEST")
+    }
+  }
+
+  @HostListener("window:scroll", [])
+  onScroll(): void {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        console.log("BOTTOM")
+        this.autoLoad();
+      }
+  }
 }
