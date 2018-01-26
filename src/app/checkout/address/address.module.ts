@@ -7,7 +7,7 @@ import { NgModule } from '@angular/core';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 import { DeliveryOptionsComponent } from './delivery-options/delivery-options.component';
-
+import { BsDropdownModule } from "ngx-bootstrap";
 
 @NgModule({
   declarations: [
@@ -21,10 +21,9 @@ import { DeliveryOptionsComponent } from './delivery-options/delivery-options.co
     RouterModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BsDropdownModule.forRoot()
   ],
-  providers: [
-    AddressService
-  ]
+  providers: [AddressService]
 })
-export class AddressModule { }
+export class AddressModule {}
