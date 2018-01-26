@@ -19,10 +19,10 @@ export class ItemListComponent implements OnInit {
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
   selectedItem: Item;
-  itemLimit: number = environment.ITEMS_PER_PAGE;
   autoLoadCtr: number = 0;
   delay: boolean = false;
-
+  itemsPerPage: number = environment.ITEMS_PER_PAGE;
+  itemCtr: number = this.itemsPerPage;
 
   constructor(
     private store: Store<AppState>, private actions: ProductActions ) {
@@ -38,7 +38,7 @@ export class ItemListComponent implements OnInit {
     return this.toggleLayout.size === 'COZY' ? '0 15px 20px 0' : '0 80px 20px 0';
   }
 
-  openItemDialog(item: Item) {
+  openItemDialog(item: Item): void {
     const slug = `/item/${item.code}/${item.slug}`;
     this.selectedItem = item;
     this.itemDetailsModal.open();
@@ -46,29 +46,28 @@ export class ItemListComponent implements OnInit {
     window.history.pushState('item-slug', 'Title', slug);
   }
 
-  closeItemDialog() {
+  closeItemDialog(): void {
     window.history.pushState('item-slug', 'Title', '/');
     this.itemDetailsModal.close();
   }
 
-  loadMoreItems() {
-    this.itemLimit += environment.ITEMS_PER_PAGE;
-    this.store.dispatch(this.actions.getAllProducts(this.itemLimit));
+  loadMoreItems(): void {
+    this.itemCtr += this.itemsPerPage;
+    this.store.dispatch(this.actions.getAllProducts(this.itemCtr));
   }
 
-  autoLoad() {
-    if(this.autoLoadCtr < 3) {
+  autoLoad(): void {
+    if(this.autoLoadCtr < 3 && this.items.length >= this.itemsPerPage) {
       this.autoLoadCtr++;
       this.loadMoreItems();
-      console.log("TEST")
+      console.log("test")
     }
   }
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        console.log("BOTTOM")
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         this.autoLoad();
-      }
+    }
   }
 }
