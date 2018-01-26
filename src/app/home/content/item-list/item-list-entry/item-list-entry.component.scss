@@ -88,6 +88,7 @@ a {
       background: #6d6f79;
       background: #ff5847;
       background: #f3796d;
+      background: #ff5848;
       padding: 4px 10px;
       color: #fff;
       border-radius: 3px;
@@ -102,17 +103,14 @@ a {
       text-overflow: ellipsis;
       margin-top: 6px;
     }
-    .btn-danger {
-      background: #ff5847;
-      width: 100%;
-      margin: 0px;
-      padding: 0px;
-      vertical-align: middle;
-      line-height: 31px;
-      border-color: transparent;
-
-    }
   }
+}
+
+.btn-add-cart {
+  margin: 0px;
+  padding: 0px;
+  vertical-align: middle;
+  line-height: 32px;
 }
 
 .product-sizeDisplayDiv {
@@ -196,6 +194,7 @@ a {
   background: #ff5848;
   position: relative;
   height: 34px;
+  background: #4AD9D9;
 }
 
 .quality-in-cart .btn {
