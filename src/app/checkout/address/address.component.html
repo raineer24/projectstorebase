@@ -1,6 +1,6 @@
 <div class="address-section">
 	<div *ngIf="(shipAddress$ | async)">
-		<div class="left">
+		<div class="">
 			<div class="edit-address">
 				<span class="edit-label">
 					Select Delivery Address
@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div *ngIf="!(shipAddress$ | async)">
-		<div class="left">
+		<div class="">
 			<div class="add-address">
 				<span class="add-label">
 					ADD NEW ADDRESS
