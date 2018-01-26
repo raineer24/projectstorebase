@@ -62,22 +62,39 @@
 
       <div class="cart-my-list">
         <ng-container *ngIf="itemQuantity != 0; else addCart">
-          <div class="quantity-in-cart btn input-btn-group">
-          <label for="bit">Quantity in cart</label>
-            <button type="button" class="quantity-in-cart-btn" data-type="minus" data-field=""
-              (click)="decrementQuantity()"
-              [disabled]="itemQuantity == MIN_VALUE">
+          <div>
+               <div class="quantity-in-cart input-group">
+            <label for="bit">Quantity in cart</label>
+            
+
+                <button type="button" class="quantity-in-cart-btn btn " data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE">
+                  <span class="glyphicon glyphicon-minus"></span>
+                </button>
+          
+              
+                <input type="number" class="text-center"
+                  [min]="MIN_VALUE" [max]="MAX_VALUE"
+                  [value]="itemQuantity" [formControl]="quantityControl"/>
+                
+                      <button type="button" class="btn btn-success" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE">
+                        <span class="glyphicon glyphicon-plus"></span>
+                      </button>
+            
+                
+          </div>
+          </div>
+         
+          <!-- <div class="quantity-in-cart btn input-btn-group">
+            <label for="bit">Quantity in cart</label>
+            <button type="button" class="quantity-in-cart-btn" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE">
               <span class="glyphicon glyphicon-minus"></span>
             </button>
-            <input type="number" class="text-center"
-              [min]="MIN_VALUE" [max]="MAX_VALUE"
-              [value]="itemQuantity" [formControl]="quantityControl"/>
-            <button type="button" class="quantity-in-cart-btn" data-type="plus" data-field=""
-              (click)="incrementQuantity()"
-              [disabled]="itemQuantity == MAX_VALUE">
+            <input type="number" class="text-center" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl"
+            />
+            <button type="button" class="quantity-in-cart-btn" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE">
               <span class="glyphicon glyphicon-plus"></span>
             </button>
-          </div>
+          </div> -->
         </ng-container>
         <ng-template #addCart>
           <button class="quantity-in-cart btn addtocart" (click)="addToCart()">ADD TO CART</button>
