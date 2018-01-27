@@ -47,7 +47,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   onSubmit() {
-    console.log('Proceed!');
+
     // const address = this.addressForm.value;
     // let addressAttributes;
     // if (this.isAuthenticated) {

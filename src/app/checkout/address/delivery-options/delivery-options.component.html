@@ -1,14 +1,43 @@
-<div>
+<div align="center">
   <div col-xs-12 col-12 col-md-4 class="form-group">
-    <input width="300px" type="text"
+    <!-- <input width="300px" type="text"
            class="form-control"
            [minDate]="minDate"
            [maxDate]="maxDate"
            #dp="bsDatepicker"
-           bsDatepicker [(bsValue)]="bsValue">
+           bsDatepicker [(bsValue)]="bsValue"> -->
+           <label><h2>{{currMonth}}</h2></label>
+           <button (click)="onCalendarToggle()"> -> </button>
   </div>
 </div>
-<div class="form-group">
+<div class="time-slot" ng-repeat="slot in day.slots">
+        <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked">
+          <label>8:00 AM<br>
+            <!-- <span ng-if="slot.booked">Booked</span> -->
+            <span ng-if="!slot.booked">Available</span>
+          </label>
+          <label>11:00 AM<br>
+            <!-- <span ng-if="slot.booked">Booked</span> -->
+            <span ng-if="!slot.booked">Available</span>
+          </label>
+
+          <label>2:00 PM<br>
+            <!-- <span ng-if="slot.booked">Booked</span> -->
+            <span ng-if="!slot.booked">Available</span>
+          </label>
+
+          <label>5:00 PM<br>
+            <!--span ng-if="slot.booked">Booked</span-->
+            <span ng-if="!slot.booked">Available</span>
+          </label>
+
+          <label>8:00 PM<br>
+            <!-- <span ng-if="slot.booked">Booked</span> -->
+            <span ng-if="!slot.booked">Available</span>
+          </label>
+
+      </div>
+<!-- <div class="form-group">
   <form [formGroup]="myForm" class="form-inline">
     <div class="btn-group" btnRadioGroup formControlName="radio">
       <label btnRadio="0800" class="btn btn-primary" type="radio">8:00AM</label>
@@ -18,20 +47,4 @@
       <label btnRadio="2000" class="btn btn-primary">8:00PM</label>
     </div>
 </form>
-</div>
-<div class="row times">
-
-    <div class="col-xs-4 text-center" ng-repeat="day in days">
-
-      <h2>{{ day.name }}</h2>
-
-      <div class="time-slot" ng-repeat="slot in day.slots">
-        <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked">
-        <label >8AM<br>
-          <!--span ng-if="slot.booked">Booked</span-->
-          <span>Available</span>
-        </label>
-      </div>
-    </div>
-
-  </div>
+</div> -->

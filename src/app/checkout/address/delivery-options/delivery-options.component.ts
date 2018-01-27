@@ -23,6 +23,10 @@ export class DeliveryOptionsComponent implements OnInit {
   totalCartItems$: Observable<number>;
   myForm: FormGroup;
   minDate: Date;
+  currMonth: String;
+  today: Date;
+  dateToAdd: Date;
+  locale = "en-us";
 
   constructor(private checkoutService: CheckoutService, private store: Store<AppState>, private formBuilder: FormBuilder) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
@@ -32,9 +36,19 @@ export class DeliveryOptionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.myForm = this.formBuilder.group({
-      radio: '0800'
-    });
+    this.today = new Date();
+    this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
+    this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
+
+    console.log('Delivery Date');
+    console.log(this.currMonth);
+  }
+
+  onCalendarToggle(){
+    this.today = new Date((new Date()).setDate(this.today.getDate() + 1));
+    this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
+    this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
+    console.log(this.currMonth);
   }
 
   private setOrder() {
