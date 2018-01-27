@@ -125,16 +125,16 @@ export class CheckoutService {
         ).map(res => {
           orderkey = res.json()['orderkey'];
           this.setOrderTokenInLocalStorage({order_token: orderkey});
-          const order = {
-            "number": orderkey,
-            "cart_items": [],
-            "total_quantity": 0,
-            "total": 0,
-            "ship_address": "",
-            "bill_address": "",
-            "state": 'cart',
-            "token": orderkey
-          }
+          let order: Order = new Order;
+          order.number = null;
+          order.orderkey = orderkey;
+          order.cartItems =  [];
+          order.totalQuantity = "0";
+          order.total = "0";
+          order.shippingAddress01 = '';
+          order.billingAddress01 = '';
+          order.status = 'cart';
+          order.orderkey = orderkey;
           return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
         });
     }
