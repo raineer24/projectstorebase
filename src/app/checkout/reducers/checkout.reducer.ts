@@ -13,19 +13,19 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue,
         _ship_address, _bill_address,
-        _orderState;
+        _orderStatus;
 
     switch (type) {
 
       case CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS:
-        const _orderNumber = payload.number;
-        _cartItems = payload.cart_items;
+        const _orderNumber = payload.orderkey;
+        _cartItems = payload.cartItems;
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
-        _totalCartItems = payload.total_quantity;
+        _totalCartItems = payload.totalQuantity;
         _totalCartValue = parseFloat(payload.total);
-        _ship_address = payload.ship_address;
-        _bill_address = payload.bill_address;
-        _orderState = payload.state;
+        _ship_address = payload.shippingAddress01;
+        _bill_address = payload.billingAddress01;
+        _orderStatus = payload.status;
 
         _cartItemEntities = _cartItems.reduce((cartItems: { [id: number]: CartItem }, cartItem: CartItem) => {
           return Object.assign(cartItems, {
@@ -35,7 +35,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
         return state.merge({
           orderNumber: _orderNumber,
-          orderState: _orderState,
+          orderStatus: _orderStatus,
           cartItemIds: _cartItemIds,
           cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
@@ -107,15 +107,15 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
       // case CheckoutActions.CHANGE_ORDER_STATE:
 
       case CheckoutActions.CHANGE_ORDER_STATE_SUCCESS:
-        _orderState = payload.state;
+        _orderStatus = payload.state;
 
         return state.merge({
-          orderState: _orderState
+          orderStatus: _orderStatus
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_ORDER_SUCCESS:
-        _ship_address = payload.ship_address;
-        _bill_address = payload.bill_address;
+        _ship_address = payload.shippingAddress01;
+        _bill_address = payload.billingAddress01;
 
         return state.merge({
           shipAddress: _ship_address,

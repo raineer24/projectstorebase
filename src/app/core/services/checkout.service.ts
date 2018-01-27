@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Item } from './../models/item';
 import { CartItem } from './../models/cart_item';
+import { Order } from './../models/order';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { HttpService } from './http';
@@ -107,16 +108,26 @@ export class CheckoutService {
           total += Number(datum.price) * datum.quantity;
           total_quantity += Number(datum.quantity);
         }
-        const order = {
-          "number": orderkey,
-          "cart_items": cart_items,
-          "total_quantity": total_quantity,
-          "total": total,
-          "ship_address": "",
-          "bill_address": "",
-          "state": 'cart',
-          "token": orderkey
-        }
+        let order: Order = new Order;
+        order.number = orderkey;
+        order.orderkey = orderkey;
+        order.cartItems =  cart_items;
+        order.totalQuantity = total_quantity.toString();
+        order.total = total.toString();
+        order.shippingAddress01 = '';
+        order.billingAddress01 = '';
+        order.status = 'cart';
+        order.orderkey = orderkey;
+        // order = {
+        //   number: orderkey,
+        //   cartItems: cart_items,
+        //   totalQuantity: total_quantity,
+        //   total: total,
+        //   shippingAddress01: "",
+        //   billingAddress01: "",
+        //   status: 'cart',
+        //   orderkey: orderkey
+        // }
         return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
        })
     } else {
