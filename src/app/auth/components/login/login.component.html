@@ -2,18 +2,21 @@
   <div id="content" class="col-sm-12" data-hook="">
     <div class="col-md-5 col-centered">
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Login to {{title}}</h3>
-        </div>
         <div id="existing-customer" class="panel-body" data-hook="login">
+          <div class="panel-heading">
+            <h3 class="panel-title">Facebook</h3>
+            <!-- <h3 class="panel-title">Login to {{title}}</h3> -->
+          </div>
           <div class="login-third-party-login">
-            <p class="login-button-info-text login-info-text">EASILY USING</p>
+            <!-- <p class="login-button-info-text login-info-text">EASILY USING</p> -->
             <div class="login-button-container">
               <app-login-facebook></app-login-facebook>
-              
             </div>
           </div>
-          <p class="login-info-text">- OR USING EMAIL -</p>
+          <div class="panel-heading">
+            <h3 class="panel-title">E-mail</h3>
+            <!-- <h3 class="panel-title">Login to {{title}}</h3> -->
+          </div>
           <app-login-form></app-login-form>
           <div class="login-link-container">
             <small>
