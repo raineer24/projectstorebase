@@ -16,8 +16,13 @@
 			</span>
 		</div>
 		<div class="btn-group">
-			<app-delivery-options [orderNumber]="orderNumber$ | async"></app-delivery-options>
-			<button (click)="checkoutToPayment()" class="pay-btn">CONTINUE TO PAYMENT</button>
+			<app-delivery-options [orderNumber]="orderNumber$ | async" ></app-delivery-options>
+			<div>
+
+			</div>
+			<div>
+					<button (click)="toggleShowDeliveryAddressOption()" class="pay-btn">GO BACK</button><button (click)="checkoutToPayment()" class="pay-btn">CONTINUE TO PAYMENT</button>
+			</div>
 		</div>
 	</div>
 	<div id="enterAddress" *ngIf="!(shipAddress$ | async)">

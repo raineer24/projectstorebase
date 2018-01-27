@@ -64,4 +64,9 @@ export class DeliveryOptionsComponent implements OnInit {
     this.selectedShippingRate = this.order.shipments[0].selected_shipping_rate;
   }
 
+  toggleShowDeliveryAddressOption(){
+    document.getElementById("enterAddress").style.display = 'block';
+    document.getElementById("deliverytime").style.display = 'none';
+  }
+
 }
