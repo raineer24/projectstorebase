@@ -3,6 +3,7 @@ ul {
   li.product-base {
     width: 255px;
     width: 200px;
+    width: 14em;
     height:100%;
     text-align: center;
     position: relative;
@@ -37,7 +38,8 @@ ul {
     left: 0;
     width: 100%;
     min-height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    // background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(10, 100, 100, 0.8);
   }
   div.modal-dialog {
     padding: 25px;
