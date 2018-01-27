@@ -47,6 +47,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   onSubmit() {
+    console.log('Proceed!');
     // const address = this.addressForm.value;
     // let addressAttributes;
     // if (this.isAuthenticated) {
@@ -60,7 +61,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     // }
     // this.checkoutService.updateOrder(addressAttributes).subscribe();
     this.onProceedClickEmit.emit();
-    console.log('Proceed!');
+
   }
 
   private getEmailFromUser() {

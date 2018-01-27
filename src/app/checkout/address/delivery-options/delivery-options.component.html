@@ -17,5 +17,21 @@
       <label btnRadio="1700" class="btn btn-primary">5:00PM</label>
       <label btnRadio="2000" class="btn btn-primary">8:00PM</label>
     </div>
-  </form>
+</form>
+</div>
+<div class="row times">
+
+    <div class="col-xs-4 text-center" ng-repeat="day in days">
+
+      <h2>{{ day.name }}</h2>
+
+      <div class="time-slot" ng-repeat="slot in day.slots">
+        <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked">
+        <label >8AM<br>
+          <!--span ng-if="slot.booked">Booked</span-->
+          <span>Available</span>
+        </label>
+      </div>
+    </div>
+
   </div>
