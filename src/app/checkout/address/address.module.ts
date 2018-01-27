@@ -1,13 +1,13 @@
 import { RouterModule } from '@angular/router';
 import { AddressService } from './services/address.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { AddressComponent } from './address.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { DeliveryAddressComponent } from './delivery-address/delivery-address.component';
 import { DeliveryOptionsComponent } from './delivery-options/delivery-options.component';
-
+import { BsDropdownModule, ButtonsModule, BsDatepickerModule  } from "ngx-bootstrap";
 
 @NgModule({
   declarations: [
@@ -21,10 +21,12 @@ import { DeliveryOptionsComponent } from './delivery-options/delivery-options.co
     RouterModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ButtonsModule.forRoot()
+
   ],
-  providers: [
-    AddressService
-  ]
+  providers: [AddressService]
 })
-export class AddressModule { }
+export class AddressModule {}

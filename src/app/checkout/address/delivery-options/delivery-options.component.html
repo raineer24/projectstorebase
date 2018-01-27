@@ -1,28 +1,21 @@
-<div class="del-lbl">
-  DELIVERY SPEED
+<div>
+  <div col-xs-12 col-12 col-md-4 class="form-group">
+    <input width="300px" type="text"
+           class="form-control"
+           [minDate]="minDate"
+           [maxDate]="maxDate"
+           #dp="bsDatepicker"
+           bsDatepicker [(bsValue)]="bsValue">
+  </div>
 </div>
-<div class="del-options">
-  <div class="option">
-    <div class="option-name">
-      Standard delivery
+<div class="form-group">
+  <form [formGroup]="myForm" class="form-inline">
+    <div class="btn-group" btnRadioGroup formControlName="radio">
+      <label btnRadio="0800" class="btn btn-primary" type="radio">8:00AM</label>
+      <label btnRadio="1100" class="btn btn-primary">11:00AM</label>
+      <label btnRadio="1400" class="btn btn-primary">2:00PM</label>
+      <label btnRadio="1700" class="btn btn-primary">5:00PM</label>
+      <label btnRadio="2000" class="btn btn-primary">8:00PM</label>
     </div>
-    <div class="option-rate">
-      Free delivery
-    </div>
+  </form>
   </div>
-</div>
-<div class="mini-bag-summary">
-  <div class="items">{{totalCartItems$ | async}} ITEMS</div>
-  <div class="order-total">
-    <span>Order Total</span>
-    <span class="value">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-  </div>
-  <div class="shipping">
-    <span>Delivery</span>
-    <span class="shipping-fee c-green">FREE</span>
-  </div>
-</div>
-<div class="pay-lbl-total">
-  <span class="pay-lbl">Total Payable</span>
-  <span class="pay-total">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-</div>
