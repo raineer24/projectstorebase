@@ -105,7 +105,7 @@
     <div class="col-sm-6">
       <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" id="address" class="form-control">
+        <input type="text" id="address" class="form-control" placeholder="Home address">
       </div>
     </div>
     <div class="col-sm-6">
@@ -113,11 +113,22 @@
         <label for="province">Province</label>
         <select class="form-control" id="province">
           <option>Select</option>
-<option *ngFor="let choice of province">{{choice}}}</option>
+<option *ngFor="let choice of province">{{choice}}</option>
 
         </select>
       </div>
     </div>
+  </div>
+  <div class="row">
+<div class="col-sm-12">
+  <div class="form-group">
+    <label for="address">Address 2</label>
+    <input type="text" id="address" class="form-control" placeholder="Company Name">
+  </div>
+
+
+  </div>
+
   </div>
   <div class="row">
     <div class="col-sm-6">
