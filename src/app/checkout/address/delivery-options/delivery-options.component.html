@@ -1,17 +1,17 @@
 <div align="center">
   <div col-xs-12 col-12 col-md-4 class="form-group">
-    <!-- <input width="300px" type="text"
+    <input width="300px" type="text"
            class="form-control"
            [minDate]="minDate"
            [maxDate]="maxDate"
            #dp="bsDatepicker"
-           bsDatepicker [(bsValue)]="bsValue"> -->
-           <label><h2>{{currMonth}}</h2></label>
-           <button (click)="onCalendarToggle()"> -> </button>
+           bsDatepicker [(bsValue)]="bsValue" value="Pick a day!!">
+           <!-- <label><h2>{{currMonth}}</h2></label>
+           <button (click)="onCalendarToggle()"> -> </button> -->
   </div>
 </div>
 <div class="time-slot" ng-repeat="slot in day.slots">
-        <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked">
+        <input type="checkbox">
           <label>8:00 AM<br>
             <!-- <span ng-if="slot.booked">Booked</span> -->
             <span ng-if="!slot.booked">Available</span>
