@@ -32,6 +32,7 @@ body {
 .col-centered {
   float: none;
   margin: 0 auto;
+  opacity: 0.9;
 }
 
 .row-base {
@@ -77,7 +78,7 @@ main[_ngcontent-c0] {
 }
 .nav > li > a:hover, .nav > li > a:focus {
   background: #15b18d;
-  background: #1ba182; 
+  background: #1ba182;
 }
 
 @media (min-width: 768px) {
