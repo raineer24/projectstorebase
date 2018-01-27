@@ -6,7 +6,7 @@
 					Select Delivery Address
 				</span>
 			</div>
-			<app-delivery-address [address]="(shipAddress$ | async)"></app-delivery-address>
+			<app-delivery-address [address]="(shipAddress$ | async)" ></app-delivery-address>
 		</div>
 		<div class="right">
 			<app-delivery-options [orderNumber]="orderNumber$ | async"></app-delivery-options>
@@ -20,7 +20,7 @@
 					ADD NEW ADDRESS
 				</span>
 			</div>
-			<app-add-address></app-add-address>
+			<app-add-address (onProceedClickEmit)="toggleShowDeliveryDateOption()"></app-add-address>
 		</div>
 	</div>
 </div>

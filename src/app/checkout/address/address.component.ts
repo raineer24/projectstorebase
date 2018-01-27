@@ -44,6 +44,10 @@ export class AddressComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleShowDeliveryDateOption(){
+    console.log("Shows Delivery Date/Time page!");
+  }
+
   ngOnDestroy() {
     if (this.orderState === 'delivery') {
       this.checkoutService.changeOrderState()
