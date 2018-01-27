@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
   products$: Observable<any>;
   taxonomies$: Observable<any>;
   cartItems$: Observable<any>;
-  selectedTaxonIds$: Observable<number[]>;
   selectedItem$: Observable<any>;
   selectedItem: Item;
 
@@ -49,7 +48,6 @@ export class HomeComponent implements OnInit {
     this.cartItems$ = this.store.select(getCartItems)
     this.products$ = this.store.select(getProducts);
     this.taxonomies$ = this.store.select(getTaxonomies);
-    this.selectedTaxonIds$ = this.store.select(getSelectedTaxonIds);
     //this.selectedItem = this.store.select(getItemImageUrl);
   }
 
