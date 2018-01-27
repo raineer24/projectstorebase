@@ -31,7 +31,8 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  barangay: string[] = ["Bakilid", "Basak", "Colon"];
+barangays: string[] = ["Bakilid", "Basak", "Colon", "Fatima"];
+city: string[] = ["Catmon", "Carmen", "Cebu city", "Compostela"]
 
   onHidden(): void {
     console.log("Dropdown is hidden");

@@ -113,11 +113,8 @@
         <label for="province">Province</label>
         <select class="form-control" id="province">
           <option>Select</option>
-          <option>Capiz</option>
-          <option>Cebu</option>
-          <option>Cebu City</option>
-          <option>Bohol</option>
-          <option>Bukidnon</option>
+<option *ngFor="let choice of province">{{choice}}}</option>
+
         </select>
       </div>
     </div>
@@ -128,41 +125,22 @@
         <label for="city">City/Municipality</label>
         <select class="form-control" id="city">
           <option>Select</option>
-          <option>Talisay City</option>
-          <option>Mandaue City</option>
-          <option>Cebu City</option>
-          <option>Carcar City</option>
-          <option>Bogo City</option>
+<option *ngFor="let choice of city">{{choice}}</option>
+
         </select>
       </div>
     </div>
-    <!-- <div class="col-sm-6">
+    <div class="col-sm-6">
       <div class="form-group">
         <label for="barangay">Barangay</label>
-        <select class="form-control" id="barangay">
-          <option>Select</option>
-          <option>Bakilid</option>
-          <option>Basak</option>
-          <option>Banilad</option>
-          <option>Guizo</option>
-          <option>Labogon</option>
+        <select class="form-control " id="barangay">
+          <option value="" disabled="true">Select</option>
+          <option *ngFor="let choice of barangays">{{choice}}</option>
         </select>
       </div>
-    </div> -->
-    <div class="col-sm-6">
-          <div class="form-group">
-            <label for="barangay">Barangay</label>
-            <select class="form-control" id="barangay">
-              <option>Select</option>
-              <option>Bakilid</option>
-              <option>Basak</option>
-              <option>Banilad</option>
-              <option>Guizo</option>
-              <option>Labogon</option>
-            </select>
-          </div>
-        </div>
-  
+    </div>
+
+
     <div class="col-sm-6">
       <div class="form-group">
         <label for="phone">Phone</label>
