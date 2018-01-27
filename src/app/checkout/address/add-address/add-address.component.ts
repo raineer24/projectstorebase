@@ -32,17 +32,9 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  barangay: string[] = ["Bakilid", "Basak", "Colon"];
-
-  onHidden(): void {
-    console.log("Dropdown is hidden");
-  }
-  onShown(): void {
-    console.log("Dropdown is shown");
-  }
-  isOpenChange(): void {
-    console.log("Dropdown state is changed");
-  }
+  barangays: string[] = ["Bakilid", "Basak", "Colon", "Fatima"];
+  city: string[] = ["Catmon", "Carmen", "Cebu city", "Compostela"];
+  province: string[] = ["Cavite", "Cebu", "Compostela Valley", "Leyte"];
 
   ngOnInit() {}
 
