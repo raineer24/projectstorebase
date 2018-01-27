@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { Order } from './../../../core/models/order';
 import { CheckoutService } from './../../../core/services/checkout.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-delivery-options',
@@ -19,14 +21,20 @@ export class DeliveryOptionsComponent implements OnInit {
   shippingRates = [];
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
+  myForm: FormGroup;
+  minDate: Date;
 
-  constructor(private checkoutService: CheckoutService, private store: Store<AppState>) {
+  constructor(private checkoutService: CheckoutService, private store: Store<AppState>, private formBuilder: FormBuilder) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
+    this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() - 1);
   }
 
   ngOnInit() {
-    // this.setOrder();
+    this.myForm = this.formBuilder.group({
+      radio: '0800'
+    });
   }
 
   private setOrder() {

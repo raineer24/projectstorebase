@@ -5,7 +5,7 @@ import { AuthActions } from './../../../auth/actions/auth.actions';
 import { AddressService } from './../services/address.service';
 import { CheckoutService } from './../../../core/services/checkout.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: "app-add-address",
@@ -13,6 +13,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ["./add-address.component.scss"]
 })
 export class AddAddressComponent implements OnInit, OnDestroy {
+  @Output() onProceedClickEmit: EventEmitter<string> = new EventEmitter();
   addressForm: FormGroup;
   emailForm: FormGroup;
   isAuthenticated: boolean;
@@ -38,18 +39,20 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   onSubmit() {
-    const address = this.addressForm.value;
-    let addressAttributes;
-    if (this.isAuthenticated) {
-      addressAttributes = this.addrService.createAddresAttributes(address);
-    } else {
-      const email = this.getEmailFromUser();
-      addressAttributes = this.addrService.createGuestAddressAttributes(
-        address,
-        email
-      );
-    }
-    this.checkoutService.updateOrder(addressAttributes).subscribe();
+    // const address = this.addressForm.value;
+    // let addressAttributes;
+    // if (this.isAuthenticated) {
+    //   addressAttributes = this.addrService.createAddresAttributes(address);
+    // } else {
+    //   const email = this.getEmailFromUser();
+    //   addressAttributes = this.addrService.createGuestAddressAttributes(
+    //     address,
+    //     email
+    //   );
+    // }
+    // this.checkoutService.updateOrder(addressAttributes).subscribe();
+    this.onProceedClickEmit.emit();
+    console.log('Proceed!');
   }
 
   private getEmailFromUser() {
