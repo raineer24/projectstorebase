@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="col-xs-3">
-      <app-order-total-summary [totalCartValue]="totalCartValue$ | async"></app-order-total-summary>
+      <app-order-total-summary [totalCartItems]="totalCartItems$ | async" [totalCartValue]="totalCartValue$ | async"></app-order-total-summary>
     </div>
     <!--
           <div class="left">

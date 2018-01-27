@@ -109,7 +109,7 @@ export class CheckoutService {
           total_quantity += Number(datum.quantity);
         }
         let order: Order = new Order;
-        order.number = orderkey;
+        order.number = null;
         order.orderkey = orderkey;
         order.cartItems =  cart_items;
         order.totalQuantity = total_quantity.toString();
@@ -118,16 +118,6 @@ export class CheckoutService {
         order.billingAddress01 = '';
         order.status = 'cart';
         order.orderkey = orderkey;
-        // order = {
-        //   number: orderkey,
-        //   cartItems: cart_items,
-        //   totalQuantity: total_quantity,
-        //   total: total,
-        //   shippingAddress01: "",
-        //   billingAddress01: "",
-        //   status: 'cart',
-        //   orderkey: orderkey
-        // }
         return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
        })
     } else {
@@ -167,6 +157,29 @@ export class CheckoutService {
     }).catch(err => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  createNewOrder(itemTotal: number, totalQuantity: number) {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    return this.http.post(
+      'v1/order', {
+        orderkey: this.getOrderToken(),
+        status: 'address',
+        itemTotal: itemTotal.toString(),
+        totalQuantity: totalQuantity.toString()
+      }
+    ).map(res => {
+      const order = res.json();
+      console.log("ORDER ID" + order.id)
+      return this.store.dispatch(this.actions.createNewOrderSuccess(order.id, 'address'));
+    }).catch(err => Observable.empty());
+  }
 
   /**
    *

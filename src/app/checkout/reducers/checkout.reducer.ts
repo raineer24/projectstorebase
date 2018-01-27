@@ -13,15 +13,15 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue,
         _ship_address, _bill_address,
-        _orderStatus;
+        _orderStatus, _orderNumber;
 
     switch (type) {
 
       case CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS:
-        const _orderNumber = payload.orderkey;
+        _orderNumber = payload.number;
         _cartItems = payload.cartItems;
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
-        _totalCartItems = payload.totalQuantity;
+        _totalCartItems = Number(payload.totalQuantity);
         _totalCartValue = parseFloat(payload.total);
         _ship_address = payload.shippingAddress01;
         _bill_address = payload.billingAddress01;
@@ -106,8 +106,17 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
 
+      case CheckoutActions.CREATE_NEW_ORDER_SUCCESS:
+        _orderNumber = payload.orderId;
+        _orderStatus = payload.status;
+
+        return state.merge({
+          orderNumber: _orderNumber,
+          orderStatus: _orderStatus
+        }) as CheckoutState;
+
       case CheckoutActions.CHANGE_ORDER_STATE_SUCCESS:
-        _orderStatus = payload.state;
+        _orderStatus = payload.status;
 
         return state.merge({
           orderStatus: _orderStatus

@@ -15,31 +15,31 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
 
   stateSub$: Subscription;
-  orderState: string;
+  orderStatus: string;
   @Input() totalCartValue: number;
+  @Input() totalCartItems: number;
 
 
   constructor(private store: Store<AppState>,
     private actions: CheckoutActions,
     private checkoutService: CheckoutService,
     private router: Router) {
-  this.stateSub$ = this.store.select(getOrderState)
-    .subscribe(state => this.orderState = state);
+    this.stateSub$ = this.store.select(getOrderState).subscribe(state => this.orderStatus = state);
   }
 
   ngOnInit() {
   }
 
   placeOrder() {
-    // if (this.orderState === 'cart') {
-    //   this.checkoutService.changeOrderState()
-    //     .do(() => {
-    //       this.router.navigate(['/checkout', 'address']);
-    //     })
-    //     .subscribe();
-    // } else {
-    this.router.navigate(['/checkout', 'address']);
-    // }
+    if (this.orderStatus === 'cart') {
+      this.checkoutService.createNewOrder(this.totalCartItems, this.totalCartValue)
+        .do(() => {
+          this.router.navigate(['/checkout', 'address']);
+        })
+        .subscribe();
+    } else {
+      this.router.navigate(['/checkout', 'address']);
+    }
   }
 
   ngOnDestroy() {
