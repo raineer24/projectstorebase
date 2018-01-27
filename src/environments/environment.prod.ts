@@ -4,5 +4,6 @@ export const environment = {
   AppName: 'OMG!',
   FACEBOOK_APP_ID: '1858414594186264',
   FACEBOOK_SRC: '//connect.facebook.net/en_US/sdk.js',
-  IMAGE_REPO: 'https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/'
+  IMAGE_REPO: 'https://s3-ap-southeast-2.amazonaws.com/grocerymegan62201/gorcery/',
+  ITEMS_PER_PAGE: 20
 };
