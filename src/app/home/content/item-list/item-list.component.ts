@@ -4,7 +4,8 @@ import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
 import { Item } from './../../../core/models/item';
 import { environment } from './../../../../environments/environment';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, HostListener } from '@angular/core';
+import { ProductActions } from './../../../product/actions/product-actions';
 
 @Component({
   selector: 'app-item-list',
@@ -13,14 +14,19 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 })
 export class ItemListComponent implements OnInit {
   @Input() items;
-  @Input('taxonIds') selectedTaxonIds;
   @Input() toggleLayout;
   @Input() cartItems;
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
   selectedItem: Item;
+  autoLoadCtr: number = 0;
+  delay: boolean = false;
+  itemsPerPage: number = environment.ITEMS_PER_PAGE;
+  itemCtr: number = this.itemsPerPage;
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>, private actions: ProductActions ) {
+
   }
 
 
@@ -32,7 +38,7 @@ export class ItemListComponent implements OnInit {
     return this.toggleLayout.size === 'COZY' ? '0 15px 20px 0' : '0 80px 20px 0';
   }
 
-  openItemDialog(item: Item) {
+  openItemDialog(item: Item): void {
     const slug = `/item/${item.code}/${item.slug}`;
     this.selectedItem = item;
     this.itemDetailsModal.open();
@@ -40,9 +46,28 @@ export class ItemListComponent implements OnInit {
     window.history.pushState('item-slug', 'Title', slug);
   }
 
-  closeItemDialog() {
+  closeItemDialog(): void {
     window.history.pushState('item-slug', 'Title', '/');
     this.itemDetailsModal.close();
   }
 
+  loadMoreItems(): void {
+    this.itemCtr += this.itemsPerPage;
+    this.store.dispatch(this.actions.getAllProducts(this.itemCtr));
+  }
+
+  autoLoad(): void {
+    if(this.autoLoadCtr < 3 && this.items.length >= this.itemsPerPage) {
+      this.autoLoadCtr++;
+      this.loadMoreItems();
+      console.log("test")
+    }
+  }
+
+  @HostListener("window:scroll", [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        this.autoLoad();
+    }
+  }
 }
