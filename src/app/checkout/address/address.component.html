@@ -1,4 +1,4 @@
-<div class="address-section">
+<div class="address-section" style="align: center">
 	<div *ngIf="(shipAddress$ | async)">
 		<div class="">
 			<div class="edit-address">
@@ -9,25 +9,24 @@
 			<app-delivery-address [address]="(shipAddress$ | async)" ></app-delivery-address>
 		</div>
 	</div>
-	<div id="deliverytime" style="display:none">
-		<div>
-			<span class="edit-label">
-				<h2>When would you like your groceries delivered?</h2>
-			</span>
+	<div id="deliverytime" class="delivery-time">
+		<div class="col-md-12">
+      <h3>Pick a delivery time slot</h3>
 		</div>
-		<div class="btn-group">
-			<app-delivery-options [orderNumber]="orderNumber$ | async"></app-delivery-options>
-			<button (click)="checkoutToPayment()" class="pay-btn">CONTINUE TO PAYMENT</button>
+		<div class="col-md-12">
+			<app-delivery-options [orderNumber]="orderNumber$ | async" ></app-delivery-options>
+    </div>
+		<div class="col-md-12">
+			<div class="input-btn-group nav-but-grp">
+				<button class="btn btn-danger" (click)="toggleShowDeliveryAddressOption()">Previous</button>
+        <button class="btn btn-danger" (click)="checkoutToPayment()">Proceed to payment</button>
+			</div>
 		</div>
 	</div>
 	<div id="enterAddress" *ngIf="!(shipAddress$ | async)">
-		<div class="">
-			<div class="add-address">
-				<span class="add-label">
-					ADD NEW ADDRESS
-				</span>
-			</div>
-			<app-add-address (onProceedClickEmit)="toggleShowDeliveryDateOption()"></app-add-address>
+		<div class="col-md-12 add-address">
+      <h3>Checkout Information</h3>
 		</div>
+    <app-add-address (onProceedClickEmit)="toggleShowDeliveryDateOption()"></app-add-address>
 	</div>
 </div>
