@@ -1,50 +1,106 @@
-<div align="center">
-  <div col-xs-12 col-12 col-md-4 class="form-group">
+<!-- <div class="row">
+  <div class="form-group col-xs-12 col-12 col-md-4">
     <input width="300px" type="text"
            class="form-control"
            [minDate]="minDate"
            [maxDate]="maxDate"
            #dp="bsDatepicker"
            bsDatepicker [(bsValue)]="bsValue" value="Pick a day!!">
-           <!-- <label><h2>{{currMonth}}</h2></label>
-           <button (click)="onCalendarToggle()"> -> </button> -->
+           <label><h2>{{currMonth}}</h2></label>
+           <button (click)="onCalendarToggle()"> -> </button>
+  </div>
+</div> -->
+<!-- <div class="row">
+  <div class="time-slot col-xs-12 col-s-12 col-md-12" ng-repeat="slot in day.slots">
+    <input type="checkbox">
+      <label>8:00 AM<br>
+        <span ng-if="!slot.booked">Available</span>
+      </label>
+      <label>11:00 AM<br>
+        <span ng-if="!slot.booked">Available</span>
+      </label>
+
+      <label>2:00 PM<br>
+        <span ng-if="!slot.booked">Available</span>
+      </label>
+
+      <label>5:00 PM<br>
+        <span ng-if="!slot.booked">Available</span>
+      </label>
+
+      <label>8:00 PM<br>
+        <span ng-if="!slot.booked">Available</span>
+      </label>
+  </div>
+</div> -->
+<div class="calendar">
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3 month-label">{{ dispMonth }}</div>
+    <div class="col-xs-2 col-md-1 center">{{ currDay }}</div>
+    <div class="col-xs-2 col-md-1">Tue</div>
+    <div class="col-xs-2 col-md-1">Wed</div>
+    <div class="col-xs-2 col-md-1">Thu</div>
+    <div class="col-xs-2 col-md-1">Fri</div>
+    <div class="col-xs-2 col-md-1">Sat</div>
+    <div class="col-xs-2 col-md-1">Sun</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00AM to 11:00AM</span></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3"><span>11:00AM to 2:00PM</span></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3"><span>2:00PM to 5:00PM</span></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3"><span>5:00PM to 8:00PM</span></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00PM to 11:00PM</span></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
   </div>
 </div>
-<div class="time-slot" ng-repeat="slot in day.slots">
-        <input type="checkbox">
-          <label>8:00 AM<br>
-            <!-- <span ng-if="slot.booked">Booked</span> -->
-            <span ng-if="!slot.booked">Available</span>
-          </label>
-          <label>11:00 AM<br>
-            <!-- <span ng-if="slot.booked">Booked</span> -->
-            <span ng-if="!slot.booked">Available</span>
-          </label>
-
-          <label>2:00 PM<br>
-            <!-- <span ng-if="slot.booked">Booked</span> -->
-            <span ng-if="!slot.booked">Available</span>
-          </label>
-
-          <label>5:00 PM<br>
-            <!--span ng-if="slot.booked">Booked</span-->
-            <span ng-if="!slot.booked">Available</span>
-          </label>
-
-          <label>8:00 PM<br>
-            <!-- <span ng-if="slot.booked">Booked</span> -->
-            <span ng-if="!slot.booked">Available</span>
-          </label>
-
-      </div>
-<!-- <div class="form-group">
-  <form [formGroup]="myForm" class="form-inline">
+  <!-- <form [formGroup]="myForm" class="form-inline">
     <div class="btn-group" btnRadioGroup formControlName="radio">
-      <label btnRadio="0800" class="btn btn-primary" type="radio">8:00AM</label>
+      <label btnRadio="0800" class="btn btn-primary" type="radio">8:00AM to 11:00AM</label>
       <label btnRadio="1100" class="btn btn-primary">11:00AM</label>
       <label btnRadio="1400" class="btn btn-primary">2:00PM</label>
       <label btnRadio="1700" class="btn btn-primary">5:00PM</label>
       <label btnRadio="2000" class="btn btn-primary">8:00PM</label>
     </div>
-</form>
-</div> -->
+  </form> -->

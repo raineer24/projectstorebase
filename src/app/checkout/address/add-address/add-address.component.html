@@ -86,29 +86,43 @@
   </div>
 </form> -->
 
-<div class="col-md-9">
+<div class="col-md-7">
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <label for="firstname">First Name</label>
-        <input type="text" id="firstname" class="form-control" required>
+        <label for="firstname">First name *</label>
+        <input type="text" id="firstname" class="form-control" required placeholder="John Peter">
       </div>
     </div>
     <div class="col-sm-6">
       <div class="form-group">
-        <label for="lastname">Last Name</label>
-        <input type="text" id="firstname" class="form-control">
+        <label for="lastname">Last name *</label>
+        <input type="text" id="firstname" class="form-control" required placeholder="Quintanar">
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" id="address" class="form-control" placeholder="Home address">
+        <label for="phone">Phone *</label>
+        <input type="text" id="phone" class="form-control" required placeholder="09271234567">
       </div>
     </div>
     <div class="col-sm-6">
+      <div class="form-group">
+        <label for="email">E-mail *</label>
+        <input type="text" id="email" class="form-control" required placeholder="johnpeter@gmail.com">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label for="address1">Address 1 *</label>
+        <input type="text" id="address1" class="form-control" required placeholder="Address">
+      </div>
+    </div>
+    <!-- <div class="col-sm-6">
       <div class="form-group">
         <label for="province">Province</label>
         <select class="form-control" id="province">
@@ -117,31 +131,50 @@
 
         </select>
       </div>
-    </div>
+    </div> -->
   </div>
   <div class="row">
-<div class="col-sm-12">
-  <div class="form-group">
-    <label for="address">Address 2</label>
-    <input type="text" id="address" class="form-control" placeholder="Company Name">
-  </div>
-
-
-  </div>
-
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <div class="form-group">
-        <label for="city">City/Municipality</label>
-        <select class="form-control" id="city">
-          <option>Select</option>
-<option *ngFor="let choice of city">{{choice}}</option>
-
-        </select>
+        <label for="address2">Address 2</label>
+        <input type="text" id="address2" class="form-control" placeholder="Address (optional)">
       </div>
     </div>
-    <div class="col-sm-6">
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="form-group">
+        <!-- <label for="city">City/Municipality</label>
+        <select class="form-control" id="city">
+          <option>Select</option>
+          <option *ngFor="let choice of city">{{choice}}</option>
+        </select> -->
+        <div class="form-group">
+          <label for="city">City/Municipality</label>
+          <input type="text" id="city" class="form-control" required placeholder="Mandaue / Cebu / Consolacion">
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <div class="form-group">
+          <label for="zipcode">Zip code</label>
+          <input type="text" id="zipcode" class="form-control" required placeholder="6014">
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-5">
+      <div class="form-group">
+        <div class="form-group">
+          <label for="country">Country</label>
+          <select class="form-control" id="country">
+            <option value="Philippines">Philippines</option>
+            <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-sm-6">
       <div class="form-group">
         <label for="barangay">Barangay</label>
         <select class="form-control " id="barangay">
@@ -149,28 +182,23 @@
           <option *ngFor="let choice of barangays">{{choice}}</option>
         </select>
       </div>
-    </div>
-
-
-    <div class="col-sm-6">
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="text" id="phone" class="form-control">
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" id="email" class="form-control" placeholder="Enter your email address">
-      </div>
-    </div>
-    <div *ngIf="!isAuthenticated" class="col-sm-4">
-      <button (click)="onSubmit()">Save and Continue</button>
-    </div>
-    <div *ngIf="isAuthenticated" class="col-sm-4">
-      <button>Edit</button><button>Continue</button>
-    </div>
+    </div> -->
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <span class="note"><b>*</b> Required</span>
   </div>
+</div>
+<div class="row" style="text-align:right;">
+  <div *ngIf="!isAuthenticated" class="col-sm-12">
+    <button class="btn btn-danger" (click)="onSubmit()">Save and Continue</button>
+  </div>
+  <div *ngIf="isAuthenticated" class="col-sm-12">
+    <button>Edit</button><button>Continue</button>
+  </div>
+</div>
+
+
 </div>
 <div class="col-md-3">
   <h3>Order Summary</h3>

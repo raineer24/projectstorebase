@@ -27,6 +27,8 @@ export class DeliveryOptionsComponent implements OnInit {
   today: Date;
   dateToAdd: Date;
   locale = "en-us";
+  currDay: number;
+  dispMonth: string;
 
   constructor(private checkoutService: CheckoutService, private store: Store<AppState>, private formBuilder: FormBuilder) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
@@ -38,7 +40,9 @@ export class DeliveryOptionsComponent implements OnInit {
   ngOnInit() {
     this.today = new Date();
     this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
+    this.dispMonth = this.currMonth.toString();
     this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
+    this.currDay = this.today.getUTCDate();
 
     console.log('Delivery Date');
     console.log(this.currMonth);

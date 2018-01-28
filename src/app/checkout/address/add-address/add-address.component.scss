@@ -10,11 +10,11 @@
     padding-top: 2px;
 		color: #ea6c6c;
 	}
-	.pincode, 
-	.locality, 
-	.city, 
-	.state, 
-	.first-name, 
+	.pincode,
+	.locality,
+	.city,
+	.state,
+	.first-name,
 	.last-name,
 	.address,
 	.mobile,
@@ -91,4 +91,9 @@
 			border: none;
 		}
 	}
+}
+
+.note {
+  color: #898989;
+  font-style: italic;
 }
