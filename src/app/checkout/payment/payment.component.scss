@@ -121,21 +121,11 @@
 // 		}
 // 	}
 // }
-.paymentWrap {
-	    padding: 50px;
-	   
-
-}
-.paymentWrap .paymentbtngrp {
-	max-width: 800px;
-	margin:auto;
-}
 .paymentWrap .paymentbtn {
-	margin-left: 20px;
-	background-color: #42f4eb;
-
+  background-color: #42f4eb;
 }
 
-
-
+.paymentWrap .paymentbtngrp {
+  width: 100%;
+}
 

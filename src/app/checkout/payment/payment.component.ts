@@ -26,5 +26,6 @@ export class PaymentComponent implements OnInit {
     this.orderNumber$ = this.store.select(getOrderNumber);
   }
 
+
   ngOnInit() {}
 }
