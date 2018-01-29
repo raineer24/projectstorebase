@@ -47,29 +47,34 @@
     <div class="btn-group paymentbtngrp radio-inline">
 
       <div class="col-md-4">
-        <button class="btn paymentbtn" (click)="isCollapsed = !isCollapsed">
+        <button class="btn paymentbtn" data-toggle="collapse" data-target="#collapseExample">
           Cash on Delivery
           <i class="fa fa-truck" style="font-size:48px;"></i>
         </button>
         <hr>
-        <!-- <div [collapse]="isCollapsed" class="card card-block card-header">
-          <div class="well well-lg">
+        <div class="collapse card card-block card-header" id="collapseExample">
+          <div class="well well-lg" >
 			  <h1>Delivery Address</h1>
 		  </div>
-        </div> -->
+        </div>
       </div>
 
       <div class="col-md-4">
-        <button class="btn paymentbtn" (click)="isCollapsed = !isCollapsed"  data-toggle="collapse" data-target="#multiCollapseExample2">
+        <button class="btn paymentbtn"  data-toggle="collapse" data-target="#gc">
           Gift certificate
           <i class="fa fa-gift" style="font-size:48px;"></i>
-        </button>
-	
+		</button>
+		<hr>
+		<div class="collapse card card-block card-header" id="gc">
+			<div class="well well-lg">
+				<h1>Gift certificate</h1>
+			</div>
+		</div>
       </div>
 
 
 
-      <button class="btn paymentbtn">
+      <button class="btn paymentbtn" disabled>
         Credit card
         <i class="fa fa-credit-card" style="font-size:48px;"></i>
       </button>
@@ -95,3 +100,15 @@
 	<label for="inlineCheckbox3"> Gift certificate </label>
 </div> -->
 
+<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+	Link with href
+</a>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+ aria-controls="collapseExample">
+	Button with data-target
+</button>
+<div class="collapse" id="collapseExample">
+	<div class="well">
+		...
+	</div>
+</div>
