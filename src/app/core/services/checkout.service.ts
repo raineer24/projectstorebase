@@ -131,7 +131,8 @@ export class CheckoutService {
       const orderkey = data.orderkey;
       this.setOrderTokenInLocalStorage({order_token: orderkey});
       return this.http.post('v1/order', {
-          orderkey: orderkey
+          orderkey: orderkey,
+          status: 'cart'
         }).map(orderId => {
           let order = new Order;
           order.id = orderId.json()['id'];

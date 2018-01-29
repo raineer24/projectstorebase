@@ -31,14 +31,26 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   placeOrder() {
+
     if (this.orderStatus === 'cart') {
-      this.checkoutService.createNewOrder(this.totalCartItems, this.totalCartValue)
+      this.checkoutService.updateOrder({
+        'status': 'address',
+        'totalQuantity': this.totalCartItems,
+        'total': this.totalCartValue
+      })
         .do(() => {
           this.router.navigate(['/checkout', 'address']);
         })
         .subscribe();
     } else {
-      this.router.navigate(['/checkout', 'address']);
+      this.checkoutService.updateOrder({
+        'totalQuantity': this.totalCartItems,
+        'total': this.totalCartValue
+      })
+        .do(() => {
+          this.router.navigate(['/checkout', 'address']);
+        })
+        .subscribe();
     }
   }
 
