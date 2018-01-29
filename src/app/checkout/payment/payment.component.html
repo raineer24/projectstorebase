@@ -1,4 +1,4 @@
-<div class="rows">
+<!-- <div class="rows">
 	<div class="left">
 		<div class="payment-header">
 			<span class="lbl">Choose Payment Mode</span>
@@ -34,8 +34,37 @@
 			<div class="add-info">{{(address$ | async).address1}}</div>
 			<div class="add-info">{{(address$ | async).address2}}</div>
 			<div class="add-info">{{(address$ | async).city}} - {{(address$ | async).zipcode}}</div>
-			<!--<div class="add-info">Maharashtra</div>-->
+		<div class="add-info">Maharashtra</div>
 			<div class="add-info">Mobile: {{(address$ | async).phone}}</div>
 		</div>
 	</div>
+</div> -->
+<h1>Delivery Details</h1>
+<h3>Mode of Payment</h3>
+<p>delivery fee will be charged when transaction has been accepted.</p>
+<div class="paymentWrap">
+	<div class="btn-group">
+		<label class="btn">
+				<i class="fa fa-truck" style="font-size:48px"></i>
+		</label>
+		<label class="btn">
+				<i class="fa fa-gift" style="font-size:48px"></i>
+		</label>
+		<label class="btn">
+				<i class="fa fa-credit-card" style="font-size:48px"></i>
+		</label>
+	</div>
 </div>
+<!-- <div class="checkbox checkbox-inline checkbox-primary">
+	<input type="checkbox" id="inlineCheckbox1" value="option1">
+	<label for="inlineCheckbox1"> Cash on delivery </label>
+</div>
+<div class="checkbox checkbox-success checkbox-inline">
+	<input type="checkbox" id="inlineCheckbox2" value="option1" checked="">
+	<label for="inlineCheckbox2"> Credit card </label>
+</div>
+<div class="checkbox checkbox-inline checkbox-danger">
+	<input type="checkbox" id="inlineCheckbox3" value="option1">
+	<label for="inlineCheckbox3"> Gift certificate </label>
+</div> -->
+
