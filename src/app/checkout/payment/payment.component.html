@@ -40,32 +40,46 @@
 	</div>
 </div> -->
 <div class="container">
-	<h1>Delivery Details</h1>
-	<h3>Mode of Payment</h3>
-	<p>delivery fee will be charged when transaction has been accepted.</p>
-	<div class="col-md-8 paymentWrap">
-		<div class="btn-group paymentbtngrp radio-inline">
-			
-				<button class="btn paymentbtn">
-					Cash on Delivery
-					<i class="fa fa-truck" style="font-size:48px;"></i>
-				</button>
-		
-			
-				<button class="btn paymentbtn">
-					Gift certificate
-					<i class="fa fa-gift" style="font-size:48px;"></i>
-				</button>
-			
-		
-				<button class="btn paymentbtn">
-					Credit card
-					<i class="fa fa-credit-card" style="font-size:48px;"></i>
-				</button>
-			
-			
-		</div>
-	</div>
+  <h1>Delivery Details</h1>
+  <h3>Mode of Payment</h3>
+  <p>delivery fee will be charged when transaction has been accepted.</p>
+  <div class="col-md-8 paymentWrap">
+    <div class="btn-group paymentbtngrp radio-inline">
+
+      <div class="col-md-4">
+        <button class="btn paymentbtn" (click)="isCollapsed = !isCollapsed">
+          Cash on Delivery
+          <i class="fa fa-truck" style="font-size:48px;"></i>
+        </button>
+        <hr>
+        <!-- <div [collapse]="isCollapsed" class="card card-block card-header">
+          <div class="well well-lg">
+			  <h1>Delivery Address</h1>
+		  </div>
+        </div> -->
+      </div>
+
+      <div class="col-md-4">
+        <button class="btn paymentbtn" (click)="isCollapsed = !isCollapsed"  data-toggle="collapse" data-target="#multiCollapseExample2">
+          Gift certificate
+          <i class="fa fa-gift" style="font-size:48px;"></i>
+        </button>
+	
+      </div>
+
+
+
+      <button class="btn paymentbtn">
+        Credit card
+        <i class="fa fa-credit-card" style="font-size:48px;"></i>
+      </button>
+
+
+    </div>
+	<h1>Review and Place Order: </h1>
+	<h3>Your information:</h3>
+  </div>
+
 </div>
 
 <!-- <div class="checkbox checkbox-inline checkbox-primary">

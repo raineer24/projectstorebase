@@ -8,25 +8,23 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+  selector: "app-payment",
+  templateUrl: "./payment.component.html",
+  styleUrls: ["./payment.component.scss"]
 })
 export class PaymentComponent implements OnInit {
-
+  isCollapsed: boolean = true;
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
   address$: Observable<Address>;
   orderNumber$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
-      this.totalCartValue$ = this.store.select(getTotalCartValue);
-      this.totalCartItems$ = this.store.select(getTotalCartItems);
-      this.address$ = this.store.select(getShipAddress);
-      this.orderNumber$ = this.store.select(getOrderNumber);
+    this.totalCartValue$ = this.store.select(getTotalCartValue);
+    this.totalCartItems$ = this.store.select(getTotalCartItems);
+    this.address$ = this.store.select(getShipAddress);
+    this.orderNumber$ = this.store.select(getOrderNumber);
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
