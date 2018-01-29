@@ -76,17 +76,43 @@ export class CheckoutService {
 
          return returnData;
       }).catch(err => Observable.empty());
+  }
 
-    //  const dummy = [{
-    //   id: Math.random(),
-    //   quantity: 1,
-    //   price: Number(item.price),
-    //   total: Number(item.price),
-    //   item_id: item.id,
-    //   item: item
-    // }]
-
-    // return dummy;
+ /**
+  *
+  *
+  * @returns
+  *
+  * @memberof CheckoutService
+  */
+  fetchCurrentOrder() {
+    const orderkey = this.getOrderKey();
+    if(orderkey) { console.log("CURRENT ORDER KEY")
+      return this.http.get(`v1/order?orderkey=${orderkey}`
+      ).map(res => res.json()
+      ).mergeMap(order => {
+        if(order.id) { console.log("FETCH CURRENT ORDER")
+          return this.http.get(`v1/orderItem?key=${orderkey}`
+          ).map(res2 => {
+            let cart_items = [], total = 0, total_quantity = 0;
+            const data = res2.json();
+            for (let datum of data) {
+              cart_items.push(this.formatCartItem(datum));
+              total += Number(datum.price) * datum.quantity;
+              total_quantity += Number(datum.quantity);
+            }
+            order.cartItems =  cart_items;
+            order.totalQuantity = total_quantity.toString();
+            order.total = total.toString();
+            return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+          })
+        } else { console.log("CREATE NEW ORDER")
+          this.createNewOrder().subscribe();
+        }
+      })
+    } else { console.log("NEW ORDER KEY")
+      return this.createNewOrder();
+    }
   }
 
   /**
@@ -96,37 +122,20 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  fetchCurrentOrder() {
-    let orderkey = this.getOrderKey();
-    if(orderkey) {
-      return this.http.get(`v1/orderItem?key=${orderkey}`
-      ).map(res => {
-        const data = res.json();
-        let cart_items = [], total = 0, total_quantity = 0;
-        for (let datum of data) {
-          cart_items.push(this.formatCartItem(datum));
-          total += Number(datum.price) * datum.quantity;
-          total_quantity += Number(datum.quantity);
-        }
-        let order: Order = new Order;
-        order.number = null;
-        order.orderkey = orderkey;
-        order.cartItems =  cart_items;
-        order.totalQuantity = total_quantity.toString();
-        order.total = total.toString();
-        order.shippingAddress01 = '';
-        order.billingAddress01 = '';
-        order.status = 'cart';
-        order.orderkey = orderkey;
-        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-       })
-    } else {
-      return this.http.get(`v1/orderkey`
-        ).map(res => {
-          orderkey = res.json()['orderkey'];
-          this.setOrderTokenInLocalStorage({order_token: orderkey});
-          let order: Order = new Order;
-          order.number = null;
+  createNewOrder() {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    return this.http.get(`v1/orderkey`
+    ).map(res => res.json()
+    ).mergeMap(data => {
+      const orderkey = data.orderkey;
+      this.setOrderTokenInLocalStorage({order_token: orderkey});
+      return this.http.post('v1/order', {
+          orderkey: orderkey
+        }).map(orderId => {
+          let order = new Order;
+          order.id = orderId.json()['id'];
+          order.number = "0";
           order.orderkey = orderkey;
           order.cartItems =  [];
           order.totalQuantity = "0";
@@ -134,10 +143,9 @@ export class CheckoutService {
           order.shippingAddress01 = '';
           order.billingAddress01 = '';
           order.status = 'cart';
-          order.orderkey = orderkey;
           return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-        });
-    }
+        })
+    });
   }
 
   /**
@@ -154,30 +162,6 @@ export class CheckoutService {
     ).map(res => {
       const order = res.json();
       return order;
-    }).catch(err => Observable.empty());
-  }
-
-  /**
-   *
-   *
-   * @returns
-   *
-   * @memberof CheckoutService
-   */
-  createNewOrder(itemTotal: number, totalQuantity: number) {
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    return this.http.post(
-      'v1/order', {
-        orderkey: this.getOrderKey(),
-        status: 'address',
-        itemTotal: itemTotal.toString(),
-        totalQuantity: totalQuantity.toString()
-      }
-    ).map(res => {
-      const order = res.json();
-      console.log("ORDER ID" + order.id)
-      return this.store.dispatch(this.actions.createNewOrderSuccess(order.id, 'address'));
     }).catch(err => Observable.empty());
   }
 
