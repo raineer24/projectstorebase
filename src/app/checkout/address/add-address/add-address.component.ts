@@ -15,9 +15,7 @@ import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/cor
 export class AddAddressComponent implements OnInit, OnDestroy {
   @Output() onProceedClickEmit: EventEmitter<string> = new EventEmitter();
   addressForm: FormGroup;
-  emailForm: FormGroup;
   isAuthenticated: boolean;
-  isInvalid: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -27,18 +25,15 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private store: Store<AppState>
   ) {
     this.addressForm = addrService.initAddressForm();
-    this.emailForm = addrService.initEmailForm();
     this.store.select(getAuthStatus).subscribe(auth => {
       this.isAuthenticated = auth;
     });
   }
 
   ngOnInit() {
-    this.isInvalid = false;
   }
 
   onSubmit() {
-    console.log(this.addressForm.valid)
     const values = this.addressForm.value;
 
     if(this.addressForm.valid) {
@@ -58,12 +53,6 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       });
 
     }
-    console.log(this.addressForm);
-    console.log(this.isInvalid);
-  }
-
-  private getEmailFromUser() {
-    return this.emailForm.value.email;
   }
 
   ngOnDestroy() {}
