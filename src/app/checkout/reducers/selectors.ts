@@ -36,7 +36,7 @@ export function fetchBillAddress(state: CheckoutState) {
 }
 
 export function fetchOrderState(state: CheckoutState) {
-  return state.orderState;
+  return state.orderStatus;
 }
 
 // *************************** PUBLIC API's ****************************

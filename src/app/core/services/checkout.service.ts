@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Item } from './../models/item';
 import { CartItem } from './../models/cart_item';
+import { Order } from './../models/order';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { HttpService } from './http';
@@ -43,7 +44,7 @@ export class CheckoutService {
    */
   createNewCartItem(item: Item) {
     // return this.http.post(
-    //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderToken()}`,
+    //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderKey()}`,
     //   {
     //     line_item: {
     //       variant_id: variant_id,
@@ -60,7 +61,7 @@ export class CheckoutService {
           "user_id": 0,
           "item_id": item.id,
           "quantity": 1,
-          "orderkey": this.getOrderToken()
+          "orderkey": this.getOrderKey()
         }
       ).map(res => {
           const data = res.json();
@@ -75,17 +76,43 @@ export class CheckoutService {
 
          return returnData;
       }).catch(err => Observable.empty());
+  }
 
-    //  const dummy = [{
-    //   id: Math.random(),
-    //   quantity: 1,
-    //   price: Number(item.price),
-    //   total: Number(item.price),
-    //   item_id: item.id,
-    //   item: item
-    // }]
-
-    // return dummy;
+ /**
+  *
+  *
+  * @returns
+  *
+  * @memberof CheckoutService
+  */
+  fetchCurrentOrder() {
+    const orderkey = this.getOrderKey();
+    if(orderkey) { console.log("CURRENT ORDER KEY")
+      return this.http.get(`v1/order?orderkey=${orderkey}`
+      ).map(res => res.json()
+      ).mergeMap(order => {
+        if(order.id) { console.log("FETCH CURRENT ORDER")
+          return this.http.get(`v1/orderItem?key=${orderkey}`
+          ).map(res2 => {
+            let cart_items = [], total = 0, total_quantity = 0;
+            const data = res2.json();
+            for (let datum of data) {
+              cart_items.push(this.formatCartItem(datum));
+              total += Number(datum.price) * datum.quantity;
+              total_quantity += Number(datum.quantity);
+            }
+            order.cartItems =  cart_items;
+            order.totalQuantity = total_quantity.toString();
+            order.total = total.toString();
+            return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+          })
+        } else { console.log("CREATE NEW ORDER")
+          this.createNewOrder().subscribe();
+        }
+      })
+    } else { console.log("NEW ORDER KEY")
+      return this.createNewOrder();
+    }
   }
 
   /**
@@ -95,48 +122,31 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  fetchCurrentOrder() {
-    let orderkey = this.getOrderToken();
-    if(orderkey) {
-      return this.http.get(`v1/orderItem?key=${orderkey}`
-      ).map(res => {
-        const data = res.json();
-        let cart_items = [], total = 0, total_quantity = 0;
-        for (let datum of data) {
-          cart_items.push(this.formatCartItem(datum));
-          total += Number(datum.price) * datum.quantity;
-          total_quantity += Number(datum.quantity);
-        }
-        const order = {
-          "number": orderkey,
-          "cart_items": cart_items,
-          "total_quantity": total_quantity,
-          "total": total,
-          "ship_address": "",
-          "bill_address": "",
-          "state": 'cart',
-          "token": orderkey
-        }
-        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-       })
-    } else {
-      return this.http.get(`v1/orderkey`
-        ).map(res => {
-          orderkey = res.json()['orderkey'];
-          this.setOrderTokenInLocalStorage({order_token: orderkey});
-          const order = {
-            "number": orderkey,
-            "cart_items": [],
-            "total_quantity": 0,
-            "total": 0,
-            "ship_address": "",
-            "bill_address": "",
-            "state": 'cart',
-            "token": orderkey
-          }
+  createNewOrder() {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    return this.http.get(`v1/orderkey`
+    ).map(res => res.json()
+    ).mergeMap(data => {
+      const orderkey = data.orderkey;
+      this.setOrderTokenInLocalStorage({order_token: orderkey});
+      return this.http.post('v1/order', {
+          orderkey: orderkey,
+          status: 'cart'
+        }).map(orderId => {
+          let order = new Order;
+          order.id = orderId.json()['id'];
+          order.number = "0";
+          order.orderkey = orderkey;
+          order.cartItems =  [];
+          order.totalQuantity = "0";
+          order.total = "0";
+          order.shippingAddress01 = '';
+          order.billingAddress01 = '';
+          order.status = 'cart';
           return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-        });
-    }
+        })
+    });
   }
 
   /**
@@ -155,7 +165,6 @@ export class CheckoutService {
       return order;
     }).catch(err => Observable.empty());
   }
-
 
   /**
    *
@@ -210,7 +219,7 @@ export class CheckoutService {
           "user_id": 0,
           "item_id": cartItem.item.id,
           "quantity": cartItem.quantity,
-          "orderkey": this.getOrderToken()
+          "orderkey": this.getOrderKey()
         }
     ).map((res) => {
       return cartItem;
@@ -227,7 +236,7 @@ export class CheckoutService {
    */
   changeOrderState() {
     return this.http.put(
-      `spree/api/v1/checkouts/${this.orderNumber}/next.json?order_token=${this.getOrderToken()}`,
+      `spree/api/v1/checkouts/${this.orderNumber}/next.json?order_token=${this.getOrderKey()}`,
       {}
     ).map((res) => {
       const order = res.json();
@@ -245,12 +254,34 @@ export class CheckoutService {
    */
   updateOrder(params) {
     return this.http.put(
-      `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderToken()}`,
+      // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
+      `v1/order/${this.getOrderKey()}`,
       params
     ).map((res) => {
       const order = res.json();
       this.store.dispatch(this.actions.updateOrderSuccess(order));
     }).catch(err => Observable.empty());
+  }
+
+  getAllTimeSlot() {
+    return this.http.get(`v1/timeslotorder`
+    ).map((res) => {
+      return res.json();
+    })
+  }
+
+  setTimeSlotOrder(params) {
+    return this.http.post(`v1/timeslotorder/${params.orderId}`, params
+    ).map((res) => {
+      return res.json();
+    })
+  }
+
+  updateTimeSlotOrder(params) {
+    return this.http.put(`v1/timeslotorder/${params.orderId}`, params
+    ).map((res) => {
+      return res.json();
+    })
   }
 
   /**
@@ -262,7 +293,7 @@ export class CheckoutService {
    */
   availablePaymentMethods() {
     return this.http.get(
-      `spree/api/v1/orders/${this.orderNumber}/payments/new?order_token=${this.getOrderToken()}`
+      `spree/api/v1/orders/${this.orderNumber}/payments/new?order_token=${this.getOrderKey()}`
     ).map((res) => {
       const payments = res.json();
       return payments;
@@ -280,7 +311,7 @@ export class CheckoutService {
    */
   createNewPayment(paymentModeId, paymentAmount) {
     return this.http.post(
-      `spree/api/v1/orders/${this.orderNumber}/payments?order_token=${this.getOrderToken()}`,
+      `spree/api/v1/orders/${this.orderNumber}/payments?order_token=${this.getOrderKey()}`,
       {
         payment: {
           payment_method_id: paymentModeId,
@@ -301,7 +332,7 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  private getOrderToken() {
+  private getOrderKey() {
     const order = JSON.parse(localStorage.getItem('order'));
     let token = null;
     if(order) {
