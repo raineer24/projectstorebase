@@ -10,12 +10,13 @@ export class AddressService {
       'firstname': ['', Validators.required],
       'lastname': ['', Validators.required],
       'address1': ['', Validators.required],
-      'address2': ['', Validators.required],
-      'city': ['', Validators.required],
+      // 'address2': ['', Validators.required],
+      // 'city': ['', Validators.required],
       'phone': ['', Validators.required],
-      'zipcode': [10001, Validators.required],
-      'state_id': [3561, Validators.required],
-      'country_id': [232, Validators.required]
+      'email': ['', Validators.required],
+      'zipcode': ['', Validators.required],
+      // 'state_id': [3561, Validators.required],
+      // 'country_id': [232, Validators.required]
     });
   }
 
