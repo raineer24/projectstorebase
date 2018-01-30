@@ -13,7 +13,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ["./payment.component.scss"]
 })
 export class PaymentComponent implements OnInit {
-  isCollapsed: boolean = true;
+  isCollapsed: boolean = false;
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
   address$: Observable<Address>;
@@ -26,6 +26,10 @@ export class PaymentComponent implements OnInit {
     this.orderNumber$ = this.store.select(getOrderNumber);
   }
 
+  collapse() {
+  this.isCollapsed = true;
+  }
+  
 
   ngOnInit() {}
 }
