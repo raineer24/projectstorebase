@@ -38,14 +38,25 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log(this.addressForm.valid)
+    const values = this.addressForm.value;
 
-    if(this.addressForm.status != 'INVALID')
-    {
-      if (this.isInvalid) { this.isInvalid = false;}
+    if(this.addressForm.valid) {
+      this.checkoutService.updateOrder({
+        'shippingAddress01': values.address1,
+        'shippingAddress02': values.address2,
+        'email': values.email
+      }).do(()=>{console.log("UPDATE ADDRESS")}).subscribe();
       this.onProceedClickEmit.emit();
-    }else{
-      if(!this.isInvalid)
-        this.isInvalid = true;
+    } else {
+      const keys = Object.keys(values)
+      keys.forEach(val => {
+        const ctrl = this.addressForm.controls[val];
+        if (!ctrl.valid) {
+          ctrl.markAsTouched();
+        };
+      });
+
     }
     console.log(this.addressForm);
     console.log(this.isInvalid);

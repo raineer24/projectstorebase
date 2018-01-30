@@ -91,25 +91,16 @@
 			border: none;
 		}
 	}
+	input.ng-invalid.ng-touched {
+	  border: 1px solid red;
+	}
 }
 
 .note {
   color: #898989;
   font-style: italic;
 }
-.form-control2{
-	display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ff0000;
-  border-radius: 4px;
-}
+
 // .form input {
 //   margin: 0 .25rem;
 //   min-width: 125px;
