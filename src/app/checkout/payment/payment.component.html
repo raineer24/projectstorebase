@@ -1,4 +1,4 @@
-<div class="rows">
+<!-- <div class="rows">
 	<div class="left">
 		<div class="payment-header">
 			<span class="lbl">Choose Payment Mode</span>
@@ -34,8 +34,67 @@
 			<div class="add-info">{{(address$ | async).address1}}</div>
 			<div class="add-info">{{(address$ | async).address2}}</div>
 			<div class="add-info">{{(address$ | async).city}} - {{(address$ | async).zipcode}}</div>
-			<!--<div class="add-info">Maharashtra</div>-->
+		<div class="add-info">Maharashtra</div>
 			<div class="add-info">Mobile: {{(address$ | async).phone}}</div>
 		</div>
 	</div>
+</div> -->
+<div class="container">
+  <h1>Delivery Details</h1>
+  <h3>Mode of Payment</h3>
+  <p>delivery fee will be charged when transaction has been accepted.</p>
+  <div class="col-md-12 paymentWrap">
+    <div class="btn-group paymentbtngrp radio-inline">
+
+      <div class="col-md-3">
+        <button class="btn paymentbtn" data-toggle="collapse" data-target="#collapseExample">
+          Cash on Delivery
+          <i class="fa fa-truck" style="font-size:48px;"></i>
+        </button>
+        <hr>
+        <div class="collapse card card-block card-header" id="collapseExample">
+          <div class="well well-lg">
+            <h1>Delivery Address</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <button class="btn paymentbtn" data-toggle="collapse" data-target="#gc">
+          Gift certificate
+          <i class="fa fa-gift" style="font-size:48px;"></i>
+        </button>
+        <hr>
+        <div class="collapse card card-block card-header" id="gc">
+          <div class="well well-lg">
+            <h1>Gift certificate</h1>
+          </div>
+        </div>
+      </div>
+
+
+
+      <button class="btn paymentbtn" disabled>
+        Credit card
+        <i class="fa fa-credit-card" style="font-size:48px;"></i>
+      </button>
+
+
+    </div>
+    <h1>Review and Place Order: </h1>
+    <h3>Your information:</h3>
+  </div>
+
+<button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">Toggle collapse
+</button>
+<button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">Toggle collapse
+</button>
+<button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">Toggle collapse
+</button>
+<hr>
+<div [collapse]="isCollapsed" class="card card-block card-header">
+	<div class="well well-lg">Some content</div>
 </div>
+
+</div>
+
