@@ -33,15 +33,14 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   checkoutToPayment() {
-    if (this.orderState === 'delivery' || this.orderState === 'address') {
-      this.checkoutService.changeOrderState()
-        .do(() => {
-          this.router.navigate(['/checkout', 'payment']);
-        })
-        .subscribe();
-    } else {
+    // if (this.orderState === 'delivery' || this.orderState === 'address') {
+    //   this.checkoutService.changeOrderState()
+    //     .do(() => {
+    //       this.router.navigate(['/checkout', 'payment']);
+    //     })
+    //     .subscribe();
+    // } else {
       this.router.navigate(['/checkout', 'payment']);
-    }
   }
 
   toggleShowDeliveryDateOption(){
