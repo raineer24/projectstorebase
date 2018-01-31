@@ -7,14 +7,24 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DISABLED } from '@angular/forms/src/model';
+import { spawn } from 'child_process';
 
 @Component({
   selector: "app-payment",
   templateUrl: "./payment.component.html",
   styleUrls: ["./payment.component.scss"]
+  
 })
+
+
+
+
+
 export class PaymentComponent implements OnInit {
- 
+
+  
+  
+  customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
   address$: Observable<Address>;
@@ -28,13 +38,7 @@ export class PaymentComponent implements OnInit {
     this.orderNumber$ = this.store.select(getOrderNumber);
   }
 
-
- show() {
-  if(this.disable = true)
-    {
-      this.disable = !this.disable
-  }
-}
-
   ngOnInit() {}
 }
+
+
