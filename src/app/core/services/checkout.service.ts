@@ -86,7 +86,8 @@ export class CheckoutService {
   * @memberof CheckoutService
   */
   fetchCurrentOrder() {
-    const orderkey = this.getOrderKey();
+    const orderStorage = this.getOrderInLocalStorage(); console.log(orderStorage)
+    const orderkey = orderStorage != null ? orderStorage.order_token: null;
     if(orderkey) { console.log("CURRENT ORDER KEY")
       return this.http.get(`v1/order?orderkey=${orderkey}`
       ).map(res => res.json()
@@ -104,10 +105,11 @@ export class CheckoutService {
             order.cartItems =  cart_items;
             order.totalQuantity = total_quantity.toString();
             order.total = total.toString();
+            order.shippingAddress01 = orderStorage.address;
             return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
           })
         } else { console.log("CREATE NEW ORDER")
-          this.createNewOrder().subscribe();
+          return this.createNewOrder();
         }
       })
     } else { console.log("NEW ORDER KEY")
@@ -129,7 +131,7 @@ export class CheckoutService {
     ).map(res => res.json()
     ).mergeMap(data => {
       const orderkey = data.orderkey;
-      this.setOrderTokenInLocalStorage({order_token: orderkey});
+      this.setOrderTokenInLocalStorage({order_token: orderkey, address: ''});
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart'
@@ -252,14 +254,32 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  updateOrder(params) {
+  updateOrder(params, mode) {
+    const orderkey = this.getOrderKey();
     return this.http.put(
       // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
-      `v1/order/${this.getOrderKey()}`,
+      `v1/order/${orderkey}`,
       params
     ).map((res) => {
       const order = res.json();
-      this.store.dispatch(this.actions.updateOrderSuccess(order));
+      switch (mode) {
+        case 'cart':
+          this.store.dispatch(this.actions.updateOrderSuccess(params));
+          break;
+        case 'address':
+          this.setOrderTokenInLocalStorage(
+            {
+              order_token: orderkey,
+              address: params
+            }
+          )
+          this.store.dispatch(this.actions.updateOrderAddressSuccess(params));
+          break;
+        case 'delivery':
+          this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(params));
+          break;
+      }
+
     }).catch(err => Observable.empty());
   }
 
@@ -352,6 +372,34 @@ export class CheckoutService {
   private setOrderTokenInLocalStorage(token): void {
     const jsonData = JSON.stringify(token);
     localStorage.setItem('order', jsonData);
+  }
+
+  /**
+   *
+   *
+   * @private
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  private getOrderInLocalStorage() {
+    const order = JSON.parse(localStorage.getItem('order'));
+    return order;
+  }
+
+  /**
+   *
+   *
+   * @private
+   * @param {any} token
+   *
+   * @memberof CheckoutService
+   */
+  private setOrderInLocalStorage(params): void {
+    const keys = Object.keys(params)
+    keys.forEach(val => {
+      // order[val]
+    });
   }
 
   /**

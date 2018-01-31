@@ -106,15 +106,6 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
 
-      case CheckoutActions.CREATE_NEW_ORDER_SUCCESS:
-        _orderNumber = payload.orderId;
-        _orderStatus = payload.status;
-
-        return state.merge({
-          orderNumber: _orderNumber,
-          orderStatus: _orderStatus
-        }) as CheckoutState;
-
       case CheckoutActions.CHANGE_ORDER_STATE_SUCCESS:
         _orderStatus = payload.status;
 
@@ -123,13 +114,17 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_ORDER_SUCCESS:
-        _ship_address = payload.shippingAddress01;
-        _bill_address = payload.billingAddress01;
+        return state;
+
+      case CheckoutActions.UPDATE_ADDRESS_SUCCESS:
+        _ship_address = payload;
 
         return state.merge({
           shipAddress: _ship_address,
-          billAddress: _bill_address
         }) as CheckoutState;
+
+      case CheckoutActions.UPDATE_DELIVERY_OPTIONS_SUCCESS:
+        return state;
 
       case CheckoutActions.ORDER_COMPLETE_SUCCESS:
         return initialState;
