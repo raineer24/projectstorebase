@@ -88,157 +88,63 @@
 <!-- *ngIf="!isAuthenticated" -->
 
 <form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()" #formAddress="ngForm">
-  <div class="col-md-7">
-    <div class="row">
-      <div class="col-sm-6">
-        <div *ngIf="!isInvalid || !addressForm.get('firstname').hasError('required')" class="form-group">
-          <label for="firstname">First name</label>
-          <input type="text" id="firstname" formControlName="firstname" class="form-control" placeholder="first name" required >
-          <!-- <p *ngIf="addressForm.get('firstname').hasError('required') &&  addressForm.get('firstname').touched" class="value-err show">Please enter your first name!</p> -->
-        </div>
-        <div *ngIf="isInvalid && addressForm.get('firstname').hasError('required')" class="form-group">
-          <label for="firstname">First name</label>
-          <input type="text" id="firstname" formControlName="firstname" class="form-control2" placeholder="first name" required >
-          <!-- <p *ngIf=" && addressForm.submitted" class="value-err show">Please enter your zipcode!</p> -->
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div *ngIf="!isInvalid || !addressForm.get('lastname').hasError('required')" class="form-group">
-          <label for="lastname">Last name</label>
-          <input type="text" id="lastname" formControlName="lastname" class="form-control" placeholder="last name" required >
-          <!-- <p *ngIf="addressForm.get('firstname').hasError('required') &&  addressForm.get('firstname').touched" class="value-err show">Please enter your first name!</p> -->
-        </div>
-        <div *ngIf="isInvalid && addressForm.get('lastname').hasError('required')" class="form-group">
-          <label for="lastname">Last name</label>
-          <input type="text" id="lastname" formControlName="lastname" class="form-control2" placeholder="last name" required >
-          <!-- <p *ngIf=" && addressForm.submitted" class="value-err show">Please enter your zipcode!</p> -->
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-sm-6 form-group">
+      <label for="firstname">First name</label>
+      <input type="text" id="firstname" formControlName="firstname" class="form-control" placeholder="First Name" required >
     </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <div *ngIf="!isInvalid || !addressForm.get('phone').hasError('required')" class="form-group">
-          <label for="phone">Phone</label>
-          <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required>
-            <!--p *ngIf="addressForm.get('phone').hasError('required') &&  addressForm.get('phone').touched" class="value-err show">Please enter your contact number!</p-->
-        </div>
-        <div *ngIf="isInvalid && addressForm.get('phone').hasError('required')" class="form-group">
-          <label for="phone">Phone</label>
-          <input type="text" id="phone" formControlName="phone" class="form-control2"  placeholder="09271234567" required>
-            <!--p *ngIf="addressForm.get('phone').hasError('required') &&  addressForm.get('phone').touched" class="value-err show">Please enter your contact number!</p-->
-        </div>
-      </div>
-      <div class="col-sm-6" *ngIf="!isAuthenticated">
-          <div *ngIf="!isInvalid || !addressForm.get('phone').hasError('required')" class="form-group">
-            <label for="email">E-mail</label>
-            <input type="text" id="email" class="form-control" formControlName="email" placeholder="email" required >
-          <!-- <p *ngIf="emailForm.get('email').hasError('required') && emailForm.get('email').touched" class="value-err show">Please enter your email address!</p> -->
-          </div>
-          <div *ngIf="isInvalid && addressForm.get('email').hasError('required')" class="form-group">
-            <label for="email">E-mail</label>
-            <input type="text" id="email" class="form-control2" formControlName="email" placeholder="email" required >
-          <!-- <p *ngIf="emailForm.get('email').hasError('required') && emailForm.get('email').touched" class="value-err show">Please enter your email address!</p> -->
-          </div>
-      </div>
+    <div class="col-sm-6 form-group">
+      <label for="lastname">Last name</label>
+      <input type="text" id="lastname" formControlName="lastname" class="form-control" placeholder="Last Name" required >
     </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div *ngIf="!isInvalid || !addressForm.get('zipcode').hasError('required')" class="form-group">
-          <label for="address1">Address 1</label>
-          <input type="text" id="address1" formControlName="address1" class="form-control" placeholder="Address1" required>
-          <!-- <p *ngIf="addressForm.get('address1').hasError('required') &&  addressForm.get('address1').touched" class="value-err show">This is a mandatory field</p> -->
-        </div>
-        <div *ngIf="isInvalid && addressForm.get('address1').hasError('required')" class="form-group">
-          <label for="address1">Address 1</label>
-          <input type="text" id="address1" formControlName="address1" class="form-control2" placeholder="Address1" required>
-          <!-- <p *ngIf="addressForm.get('address1').hasError('required') &&  addressForm.get('address1').touched" class="value-err show">This is a mandatory field</p> -->
-        </div>
-      </div>
-    <!-- <div class="col-sm-6">
-      <div class="form-group">
-        <label for="province">Province</label>
-        <select class="form-control" id="province">
-          <option>Select</option>
-<option *ngFor="let choice of province">{{choice}}</option>
-
-        </select>
-      </div>
-    </div> -->
   </div>
   <div class="row">
+    <div class="col-sm-6 form-group">
+      <label for="phone">Phone</label>
+      <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required>
+    </div>
+    <div class="col-sm-6 form-group">
+      <label for="email">Email</label>
+        <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required >
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <label for="address1">Address 1</label>
+      <input type="text" id="address1" formControlName="address1" class="form-control" placeholder="Street Address, P.O. Box" required>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <label for="address2">Address 2</label>
+      <input type="text" id="address2" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5 form-group">
+      <label for="city">City/Municipality</label>
+      <input type="text" id="city" formControlName="city" class="form-control" placeholder="City/Municipality" required >
+    </div>
+    <div class="col-sm-2 form-group">
+      <label for="zipcode">Zip Code</label>
+      <input type="text" id="zipcode" formControlName="zipcode" class="form-control" placeholder="Zip Code" required >
+    </div>
+    <div class="col-sm-5 form-group">
+      <label for="country">Country</label>
+      <select class="form-control" id="country" formControlName="country">
+        <option value="Philippines">Philippines</option>
+        <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
+      </select>
+    </div>
+  </div>
+  <!-- <div class="row">
     <div class="col-sm-12">
-      <div class="form-group">
-        <label for="address2">Address 2</label>
-        <input type="text" id="address2" class="form-control" placeholder="Address2" optional>
-      </div>
+      <span class="note"><b>*</b> Required</span>
+    </div>
+  </div> -->
+  <div class="row pull-right">
+    <div class="col-sm-12">
+      <button class="btn btn-danger" >Save and Continue</button>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-5">
-      <div class="form-group">
-        <!-- <label for="city">City/Municipality</label>
-        <select class="form-control" id="city">
-          <option>Select</option>
-          <option *ngFor="let choice of city">{{choice}}</option>
-        </select> -->
-        <div class="form-group">
-          <label for="city">City/Municipality</label>
-          <input type="text" id="city" class="form-control" placeholder="City" required >
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-2">
-      <div class="form-group">
-        <div *ngIf="!isInvalid || !addressForm.get('zipcode').hasError('required')" class="form-group">
-          <label for="zipcode">Zip code</label>
-          <input type="text" id="zipcode" formControlName="zipcode" class="form-control" placeholder="zipcode" required >
-          <!-- <p *ngIf="&& addressForm.submitted" class="value-err show">Please enter your zipcode!</p> -->
-        </div>
-        <div *ngIf="isInvalid && addressForm.get('zipcode').hasError('required')" class="form-group">
-          <label for="zipcode">Zip code</label>
-          <input type="text" id="zipcode" formControlName="zipcode" class="form-control2" placeholder="zipcode" required >
-          <!-- <p *ngIf="addressForm.get('zipcode').hasError('required') && addressForm.get('zipcode').touched && addressForm.submitted" class="value-err show">Please enter your zipcode!</p> -->
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-5">
-      <div class="form-group">
-        <div class="form-group">
-          <label for="country">Country</label>
-          <select class="form-control" id="country">
-            <option value="Philippines">Philippines</option>
-            <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
-          </select>
-        </div>
-      </div>
-    </div>
-    <!-- <div class="col-sm-6">
-      <div class="form-group">
-        <label for="barangay">Barangay</label>
-        <select class="form-control " id="barangay">
-          <option value="" disabled="true">Select</option>
-          <option *ngFor="let choice of barangays">{{choice}}</option>
-        </select>
-      </div>[disabled]="!addressForm.valid"
-    </div> -->
-</div>
-<!-- <div class="row">
-  <div class="col-sm-12">
-    <span class="note"><b>*</b> Required</span>
-  </div>
-</div> -->
-<div class="row" style="text-align:right;">
-  <div *ngIf="!isAuthenticated" class="col-sm-12">
-    <button class="btn btn-danger" >Save and Continue</button>
-  </div>
-  <div *ngIf="isAuthenticated" class="col-sm-12">
-    <button>Edit</button><button>Continue</button>
-  </div>
-</div>
-
-
-</div>
-<div class="col-md-3">
-  <h3>Order Summary</h3>
-</div>
 </form>

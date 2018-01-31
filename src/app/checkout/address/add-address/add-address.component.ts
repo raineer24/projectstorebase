@@ -15,9 +15,7 @@ import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/cor
 export class AddAddressComponent implements OnInit, OnDestroy {
   @Output() onProceedClickEmit: EventEmitter<string> = new EventEmitter();
   addressForm: FormGroup;
-  emailForm: FormGroup;
   isAuthenticated: boolean;
-  isInvalid: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -27,32 +25,34 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private store: Store<AppState>
   ) {
     this.addressForm = addrService.initAddressForm();
-    this.emailForm = addrService.initEmailForm();
     this.store.select(getAuthStatus).subscribe(auth => {
       this.isAuthenticated = auth;
     });
   }
 
   ngOnInit() {
-    this.isInvalid = false;
   }
 
   onSubmit() {
+    const values = this.addressForm.value;
 
-    if(this.addressForm.status != 'INVALID')
-    {
-      if (this.isInvalid) { this.isInvalid = false;}
+    if(this.addressForm.valid) {
+      this.checkoutService.updateOrder({
+        'shippingAddress01': values.address1,
+        'shippingAddress02': values.address2,
+        'email': values.email
+      }).do(()=>{console.log("UPDATE ADDRESS")}).subscribe();
       this.onProceedClickEmit.emit();
-    }else{
-      if(!this.isInvalid)
-        this.isInvalid = true;
-    }
-    console.log(this.addressForm);
-    console.log(this.isInvalid);
-  }
+    } else {
+      const keys = Object.keys(values)
+      keys.forEach(val => {
+        const ctrl = this.addressForm.controls[val];
+        if (!ctrl.valid) {
+          ctrl.markAsTouched();
+        };
+      });
 
-  private getEmailFromUser() {
-    return this.emailForm.value.email;
+    }
   }
 
   ngOnDestroy() {}
