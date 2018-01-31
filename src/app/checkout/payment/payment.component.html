@@ -85,11 +85,11 @@
     <h3>Your information:</h3>
   </div>
 
-<button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">Toggle collapse
+<button type="button" class="btn btn-primary" (click)="show()" [disabled]="!disable" [collapse]="!isCollapsed">Toggle collapse
 </button>
-<button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">Toggle collapse
+<button type="button" class="btn btn-primary" (click)="show()" [disabled]="!disable"  >Toggle collapse2
 </button>
-<button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed">Toggle collapse
+<button type="button" class="btn btn-primary" (click)="show()" [disabled]="!disable">Toggle collapse3
 </button>
 <hr>
 <div [collapse]="isCollapsed" class="card card-block card-header">
