@@ -6,6 +6,7 @@ import { Order } from './../../../core/models/order';
 import { CheckoutService } from './../../../core/services/checkout.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class DeliveryOptionsComponent implements OnInit {
   @Input() orderNumber;
   order;
   selectedShippingRate;
+  allTimeSlots;
+  timeSlots;
   shippingRates = [];
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
@@ -29,6 +32,14 @@ export class DeliveryOptionsComponent implements OnInit {
   locale = "en-us";
   currDay: number;
   dispMonth: string;
+  slotNum: string;
+  availableSlots: Array<any>;
+  aSlots: Array<any>;
+  varLoop: number;
+  slotFull: boolean;
+  lastDay: number;
+  isShowDeliveryOption: boolean = false;
+
 
   constructor(private checkoutService: CheckoutService, private store: Store<AppState>, private formBuilder: FormBuilder) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
@@ -38,14 +49,53 @@ export class DeliveryOptionsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllTimeSlot();
+    this.slotFull = false;
+    this.varLoop = 30;
     this.today = new Date();
     this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
     this.dispMonth = this.currMonth.toString();
     this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
     this.currDay = this.today.getUTCDate();
-
+    var lDay = moment().daysInMonth();
+    this.lastDay =  lDay;
     console.log('Delivery Date');
     console.log(this.currMonth);
+  }
+
+  private getAllTimeSlot(){
+      var ctr = 0;
+      this.aSlots = [5];
+      this.checkoutService.getAllTimeSlot().subscribe( data => {
+        this.timeSlots = data;
+        this.availableSlots = data;
+        // arrSlot = this.availableSlots[0];
+            this.aSlots = this.availableSlots[ctr].range;
+        // this.availableSlots = JSON.stringify(this.availableSlots);
+        for(var key in this.aSlots)
+        {
+          console.log(this.aSlots);
+        }
+      });
+  }
+
+  counter(i: number) {
+    return new Array(i);
+  }
+
+  sevenDays(n: number){
+    var dNow = moment(new Date()).format('MMM DD');
+    var daysArr = new Array;
+    for(var ctr=0; ctr < n; ctr++)
+    {
+      if(ctr==0)
+        daysArr[ctr] = dNow;
+      else{
+        daysArr[ctr] = moment(dNow,'mm-dd').add(ctr,'days').format('MMM DD');
+        console.log(dNow);
+      }
+    }
+    return daysArr;
   }
 
   onCalendarToggle(){
@@ -69,8 +119,7 @@ export class DeliveryOptionsComponent implements OnInit {
   }
 
   toggleShowDeliveryAddressOption(){
-    document.getElementById("enterAddress").style.display = 'block';
-    document.getElementById("deliverytime").style.display = 'none';
+    this.isShowDeliveryOption = false;
   }
 
 }

@@ -35,20 +35,38 @@
 </div> -->
 <div class="calendar">
   <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3 month-label">{{ dispMonth }}</div>
-    <div class="col-xs-2 col-md-1 center">{{ currDay }}</div>
+    <div class="col-xs-3 col-sm-3 col-md-3 month-label"></div>
+    <div *ngFor="let in of sevenDays(7); let i = index" class="col-xs-2 col-md-1">{{in}}</div>
+    <!-- <div class="col-xs-2 col-md-1">Mon</div>
     <div class="col-xs-2 col-md-1">Tue</div>
     <div class="col-xs-2 col-md-1">Wed</div>
     <div class="col-xs-2 col-md-1">Thu</div>
     <div class="col-xs-2 col-md-1">Fri</div>
-    <div class="col-xs-2 col-md-1">Sat</div>
-    <div class="col-xs-2 col-md-1">Sun</div>
+    <div class="col-xs-2 col-md-1">Sat</div> -->
+
+  </div>
+
+  <div class="row">
+      <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00AM - 11:00AM</span></div>
+      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">{{aSlots.range}}</label></div>
   </div>
   <div class="row">
+      <div class="col-xs-3 col-sm-3 col-md-3"><span>11:01AM - 2:00PM</span></div>
+      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">5</label></div>
+  </div>
+  <div class="row">
+      <div class="col-xs-3 col-sm-3 col-md-3"><span>2:01PM - 5:00PM</span></div>
+      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">5</label></div>
+  </div>
+  <div class="row">
+      <div class="col-xs-3 col-sm-3 col-md-3"><span>5:01PM - 8:00PM</span></div>
+      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">5</label></div>
+  </div>
+  <!-- <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00AM to 11:00AM</span></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">{{availableSlots}}</label></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
@@ -67,34 +85,34 @@
   <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3"><span>2:00PM to 5:00PM</span></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 16}}</span>5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 15}}</span>5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 14}}</span>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 13}}</span>5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 12}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 11}}</span></label></div>
   </div>
   <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3"><span>5:00PM to 8:00PM</span></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled><span>{{lastDay - 10}}</span>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 9}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 8}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 7}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 6}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 5}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 4}}</span></label></div>
   </div>
   <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00PM to 11:00PM</span></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled><span>{{lastDay - 3}}</span>Full</label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 2}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 1}}</span></label></div>
+    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay}}</span>Full</label></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
   </div>
-</div>
+</div> -->
   <!-- <form [formGroup]="myForm" class="form-inline">
     <div class="btn-group" btnRadioGroup formControlName="radio">
       <label btnRadio="0800" class="btn btn-primary" type="radio">8:00AM to 11:00AM</label>
