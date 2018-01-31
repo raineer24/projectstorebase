@@ -3,28 +3,41 @@
   <h3>Mode of Payment</h3>
   <p>delivery fee will be charged when transaction has been accepted.</p>
 
-
-  <accordion>
-      <accordion-group>
-      <div accordion-heading>Cash on Delivery<i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-shopping-cart': !groupval?.isOpen}"></i></div>
-      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
-      <p>Instructions</p>
-    </accordion-group>
-    <accordion-group>
-      <div accordion-heading>Gift Certificate
-        <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-gift': !groupval?.isOpen}"></i>
+  <div class="col-md-12 main-panel">
+      <accordion [closeOthers]="oneAtATime">
+        <accordion-group>
+          <div accordion-heading>Cash on Delivery
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-shopping-cart': !groupval?.isOpen}"></i>
+          </div>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <p>Instructions</p>
+        </accordion-group>
+        <accordion-group>
+          <div accordion-heading>Gift Certificate
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-gift': !groupval?.isOpen}"></i>
+          </div>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <p>Instructions</p>
+        </accordion-group>
+        <accordion-group>
+          <div accordion-heading>Credit Card
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-credit-card': !groupval?.isOpen}"></i>
+          </div>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <p>Instructions</p>
+        </accordion-group>
+      </accordion>
+  </div>
+ 
+  <div class="col-md-6">
+    
+      <div class="button-group pull-right">
+          <button class="btn">Previous</button>
+          <button class="btn">Review and Place Order</button>
       </div>
-      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
-      <p>Instructions</p>
-    </accordion-group>
-    <accordion-group>
-      <div accordion-heading>Credit Card
-        <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-credit-card': !groupval?.isOpen}"></i>
-      </div>
-      <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
-      <p>Instructions</p>
-    </accordion-group>
-  </accordion>
+      
+   
+  </div>
 
 </div>
 

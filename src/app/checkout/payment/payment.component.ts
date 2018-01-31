@@ -16,14 +16,11 @@ import { spawn } from 'child_process';
   
 })
 
-
-
-
-
 export class PaymentComponent implements OnInit {
 
   
-  
+  oneAtATime: boolean = true;
+
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
