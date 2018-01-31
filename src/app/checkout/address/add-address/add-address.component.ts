@@ -17,6 +17,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   addressForm: FormGroup;
   emailForm: FormGroup;
   isAuthenticated: boolean;
+  isInvalid: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -32,28 +33,22 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  barangays: string[] = ["Bakilid", "Basak", "Colon", "Fatima"];
-  city: string[] = ["Catmon", "Carmen", "Cebu city", "Compostela"];
-  province: string[] = ["Cavite", "Cebu", "Compostela Valley", "Leyte"];
-
-  ngOnInit() {}
+  ngOnInit() {
+    this.isInvalid = false;
+  }
 
   onSubmit() {
 
-    // const address = this.addressForm.value;
-    // let addressAttributes;
-    // if (this.isAuthenticated) {
-    //   addressAttributes = this.addrService.createAddresAttributes(address);
-    // } else {
-    //   const email = this.getEmailFromUser();
-    //   addressAttributes = this.addrService.createGuestAddressAttributes(
-    //     address,
-    //     email
-    //   );
-    // }
-    // this.checkoutService.updateOrder(addressAttributes).subscribe();
-    this.onProceedClickEmit.emit();
-
+    if(this.addressForm.status != 'INVALID')
+    {
+      if (this.isInvalid) { this.isInvalid = false;}
+      this.onProceedClickEmit.emit();
+    }else{
+      if(!this.isInvalid)
+        this.isInvalid = true;
+    }
+    console.log(this.addressForm);
+    console.log(this.isInvalid);
   }
 
   private getEmailFromUser() {

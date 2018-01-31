@@ -18,6 +18,7 @@ export class CheckoutActions {
   static UPDATE_ORDER = 'UPDATE_ORDER';
   static UPDATE_ORDER_SUCCESS = 'UPDATE_ORDER_SUCCESS';
   static ORDER_COMPLETE_SUCCESS = 'ORDER_COMPLETE_SUCCESS';
+  static CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
 
   fetchCurrentOrder() {
     return { type: CheckoutActions.FETCH_CURRENT_ORDER };
@@ -70,6 +71,16 @@ export class CheckoutActions {
       type: CheckoutActions.UPDATE_CART_ITEM_SUCCESS,
       payload: { quantity, cartItemId }
     };
+  }
+
+  createNewOrderSuccess(orderId: number, status: string): Action {
+    return {
+      type: CheckoutActions.CREATE_NEW_ORDER_SUCCESS,
+      payload: {
+        id: orderId,
+        status: status
+      }
+    }
   }
 
   placeOrder(): Action {
