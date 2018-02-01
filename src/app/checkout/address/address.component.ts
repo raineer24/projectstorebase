@@ -53,8 +53,6 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   toggleShowDeliveryDateOption($event){
     this.isShowDeliveryOption = true;
-    //this.checkoutService.updateOrder().subscribe();
-    console.log("Shows Delivery Date/Time page!");
   }
 
   toggleShowDeliveryAddressOption(){

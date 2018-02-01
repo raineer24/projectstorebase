@@ -117,10 +117,12 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         return state;
 
       case CheckoutActions.UPDATE_ADDRESS_SUCCESS:
-        _ship_address = payload;
+        _ship_address = payload.shippingAddress;
+        _bill_address = payload.billingAddress;
 
         return state.merge({
           shipAddress: _ship_address,
+          billAddress: _bill_address
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_DELIVERY_OPTIONS_SUCCESS:
