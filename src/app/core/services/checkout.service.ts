@@ -86,7 +86,7 @@ export class CheckoutService {
   * @memberof CheckoutService
   */
   fetchCurrentOrder() {
-    const orderStorage = this.getOrderInLocalStorage(); console.log(orderStorage)
+    const orderStorage = this.getOrderInLocalStorage();
     const orderkey = orderStorage != null ? orderStorage.order_token: null;
     if(orderkey) { console.log("CURRENT ORDER KEY")
       return this.http.get(`v1/order?orderkey=${orderkey}`
@@ -260,7 +260,7 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   updateOrder(params, mode) {
-    const orderkey = this.getOrderKey(); console.log(JSON.stringify(params))
+    const orderkey = this.getOrderKey();
     return this.http.put(
       // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
       `v1/order/${orderkey}`,

@@ -52,8 +52,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
-    let values = this.addressForm.value; console.log(values)
+    let values = this.addressForm.value;
     if(this.addressForm.valid) {
       if(!values.isBilling){
         values.billingAddress01 = '';
