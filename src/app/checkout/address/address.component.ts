@@ -43,7 +43,8 @@ export class AddressComponent implements OnInit, OnDestroy {
     //     })
     //     .subscribe();
     // } else {
-      this.router.navigate(['/checkout', 'payment']);
+   this.router.navigate(['/checkout', 'payment']);
+    // }
   }
 
   toggleShowDeliveryDateOption($event){

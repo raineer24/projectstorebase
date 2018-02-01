@@ -6,18 +6,27 @@ import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DISABLED } from '@angular/forms/src/model';
+import { spawn } from 'child_process';
 
 @Component({
   selector: "app-payment",
   templateUrl: "./payment.component.html",
   styleUrls: ["./payment.component.scss"]
+  
 })
+
 export class PaymentComponent implements OnInit {
-  isCollapsed: boolean = false;
+
+  
+  oneAtATime: boolean = true;
+
+  customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
   address$: Observable<Address>;
   orderNumber$: Observable<number>;
+  disable: boolean = true;
 
   constructor(private store: Store<AppState>) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
@@ -26,10 +35,7 @@ export class PaymentComponent implements OnInit {
     this.orderNumber$ = this.store.select(getOrderNumber);
   }
 
-  collapse() {
-  this.isCollapsed = true;
-  }
-  
-
   ngOnInit() {}
 }
+
+
