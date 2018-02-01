@@ -1,118 +1,50 @@
-<!-- <div class="rows">
-	<div class="left">
-		<div class="payment-header">
-			<span class="lbl">Choose Payment Mode</span>
-			<span class="amt you-pay">
-				<span class="amt">You Pay</span>
-				<span class="you-pay">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-			</span>
-		</div>
-		<div class="pay-body">
-			<app-payment-modes-list [orderNumber]="orderNumber$ | async" [paymentAmount]="totalCartValue$ | async"></app-payment-modes-list>
-		</div>
-	</div>
-	<div class="right">
-		<div class="mini-bag-summary">
-			<div class="lbl">ORDER SUMMARY</div>
-			<div class="items">{{totalCartItems$ | async}} ITEMS</div>
-			<div class="order-total">
-				<span>Order Total</span>
-				<span class="value">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-			</div>
-			<div class="shipping">
-				<span>Delivery</span>
-				<span class="shipping-fee c-green">FREE</span>
-			</div>
-		</div>
-		<div class="pay-lbl-total">
-			<span class="pay-lbl">Total Payable</span>
-			<span class="pay-total">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-		</div>
-		<div class="address-summary">
-			<div class="address-lbl">DELIVER TO</div>
-			<div class="name">{{(address$ | async).full_name}}</div>
-			<div class="add-info">{{(address$ | async).address1}}</div>
-			<div class="add-info">{{(address$ | async).address2}}</div>
-			<div class="add-info">{{(address$ | async).city}} - {{(address$ | async).zipcode}}</div>
-		<div class="add-info">Maharashtra</div>
-			<div class="add-info">Mobile: {{(address$ | async).phone}}</div>
-		</div>
-	</div>
-</div> -->
 <div class="container">
   <h1>Delivery Details</h1>
   <h3>Mode of Payment</h3>
-  <p>! Delivery fee will be charged when transaction has been accepted.</p>
+  <p>delivery fee will be charged when transaction has been accepted.</p>
 
-  <accordion closeOthers="true">
-    <accordion-group class="fa fa-truck" heading="Cash On Delivery">
-      <div>
-          <textarea rows="5" cols="120">Enter additional instructions.</textarea>
-      </div>
-    </accordion-group>
-    <accordion-group class="fa fa-gift"  heading="Gift Check">
-      <div>
-        <form class="coupon">
-          <div class="input-group">
-            <input placeholder="GC code" class="form-control">
-            <span class="input-group-btn">
-              <button class="btn">Enter</button>
-            </span>
+  <div class="col-md-12 main-panel">
+    <div>
+      <accordion [closeOthers]="oneAtATime">
+        <accordion-group [isOpen]="true">
+          <div accordion-heading>Cash on Delivery
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-shopping-cart': !groupval?.isOpen}"></i>
           </div>
-        </form>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <textarea cols="50" rows="4">Instructions</textarea>
+        </accordion-group>
+        <accordion-group>
+          <div accordion-heading>Gift Certificate
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-gift': !groupval?.isOpen}"></i>
+          </div>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <p>Instructions</p>
+        </accordion-group>
+        <accordion-group>
+          <div accordion-heading>Credit Card
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-credit-card': !groupval?.isOpen}"></i>
+          </div>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <p>Instructions</p>
+        </accordion-group>
+      </accordion>
+    </div>
+    <div class="col-md-6">
+      <div class="button-group pull-right">
+          <button class="btn btn-danger" (click)="goBack()">Previous</button>
+          <button class="btn btn-danger" >Review and Place Order</button>
       </div>
-      <div>
-          <textarea rows="5" cols="120">Enter additional instructions.</textarea>
-      </div>
-    </accordion-group>
-    <accordion-group is-disabled="true" heading="Credit Card">
-    </accordion-group>
-  </accordion>
+    </div>
+  </div>
 
-  <!-- <div class="col-md-12 paymentWrap">
-    <div class="btn-group paymentbtngrp radio-inline">
-      <div class="col-md-3">
-        <button class="btn paymentbtn" data-toggle="collapse" data-target="#cod">
-          Cash on Delivery
-          <i class="fa fa-truck" style="font-size:48px;"></i>
-        </button>
-      </div>
+  <!-- <div class="col-md-6">
 
-      <div class="col-md-3">
-        <button class="btn paymentbtn" data-toggle="collapse" data-target="#gc">
-          Gift certificate
-          <i class="fa fa-gift" style="font-size:48px;"></i>
-        </button>
+      <div class="button-group pull-right">
+          <button class="btn btn-danger" (click)="goBack()">Previous</button>
+          <button class="btn btn-danger" >Review and Place Order</button>
       </div>
 
 
-      <button class="btn paymentbtn" disabled>
-        Credit card
-        <i class="fa fa-credit-card" style="font-size:48px;"></i>
-      </button>
-
-      <hr>
-      <div class="collapse card card-block card-header" id="cod">
-        <div class="instructions">
-          <textarea rows="4" cols="100">Enter additional instructions.</textarea>
-        </div>
-      </div>
-      <div class="collapse card card-block card-header" id="gc">
-        <div class="instructions">
-          <textarea rows="4" cols="100">Enter additional instructions.</textarea>
-        </div>
-        <div>
-          <form class="coupon">
-            <div class="input-group">
-              <input placeholder="GC code" class="form-control">
-              <span class="input-group-btn">
-                <button class="btn">Enter</button>
-              </span>
-
-            </div>
-          </form>
-        </div>
-      </div> -->
-
+  </div> -->
 
 </div>

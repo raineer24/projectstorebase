@@ -1,23 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 @font-face {
   // font-family: "Whitney-semi-bold";
   // src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @font-face {
   // font-family: "Whitney";
   // src: url("assets/WhitneyHTF-Book.woff") format("woff")
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 // bootstrap fonts
 $icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 @import "app/shared/scss/themes";
 @import "app/shared/scss/custom_bootstrap";
-
 body {
   font-size: 15px;
   line-height: 1.5;
@@ -76,7 +74,9 @@ main[_ngcontent-c0] {
   padding-bottom: 10px !important;
   background: #15b18d;
 }
-.nav > li > a:hover, .nav > li > a:focus {
+
+.nav>li>a:hover,
+.nav>li>a:focus {
   background: #15b18d;
   background: #1ba182;
 }
@@ -160,3 +160,23 @@ div.modal-dialog {
   padding-right: 15px;
   float: left;
 }
+
+.customClass {
+  position: relative;
+}
+
+.customClass .accordion-toggle:before {
+  font-family: FontAwesome;
+  float: left;
+  content: "\f06b";
+  font-size: 22px;
+}
+
+.customClass .db .accordion-toggle:before {
+  content: "\f09d";
+}
+
+.panel-group {
+  width: 50%;
+}
+

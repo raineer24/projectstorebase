@@ -6,30 +6,45 @@ import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DISABLED } from '@angular/forms/src/model';
+import { spawn } from 'child_process';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-payment",
   templateUrl: "./payment.component.html",
   styleUrls: ["./payment.component.scss"]
+
 })
+
 export class PaymentComponent implements OnInit {
-  isCollapsed: boolean = false;
+
+
+  oneAtATime: boolean = true;
+
+  customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
   address$: Observable<Address>;
   orderNumber$: Observable<number>;
+  disable: boolean = true;
+  backToDeliveryDate: string = "false";
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>,
+    private router: Router
+    ) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
     this.address$ = this.store.select(getShipAddress);
     this.orderNumber$ = this.store.select(getOrderNumber);
   }
 
-  collapse() {
-  this.isCollapsed = true;
+  ngOnInit() {
+    this.backToDeliveryDate = "false";
   }
-  
 
-  ngOnInit() {}
+  goBack(){
+      this.backToDeliveryDate = "true";
+      this.router.navigate(['/checkout', 'address', {backToDeliveryDate: this.backToDeliveryDate}]);
+  }
 }
