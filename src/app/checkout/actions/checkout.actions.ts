@@ -18,7 +18,9 @@ export class CheckoutActions {
   static UPDATE_ORDER = 'UPDATE_ORDER';
   static UPDATE_ORDER_SUCCESS = 'UPDATE_ORDER_SUCCESS';
   static ORDER_COMPLETE_SUCCESS = 'ORDER_COMPLETE_SUCCESS';
-  static CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
+  static UPDATE_ADDRESS_SUCCESS = 'UPDATE_ADDRESS_SUCCESS';
+  static UPDATE_DELIVERY_OPTIONS_SUCCESS = 'UPDATE_DELIVERY_OPTIONS_SUCCESS';
+
 
   fetchCurrentOrder() {
     return { type: CheckoutActions.FETCH_CURRENT_ORDER };
@@ -73,16 +75,6 @@ export class CheckoutActions {
     };
   }
 
-  createNewOrderSuccess(orderId: number, status: string): Action {
-    return {
-      type: CheckoutActions.CREATE_NEW_ORDER_SUCCESS,
-      payload: {
-        id: orderId,
-        status: status
-      }
-    }
-  }
-
   placeOrder(): Action {
     return { type: CheckoutActions.PLACE_ORDER };
   }
@@ -98,14 +90,31 @@ export class CheckoutActions {
     };
   }
 
-  updateOrder(): Action {
-    return { type: CheckoutActions.UPDATE_ORDER };
+  updateOrder(data: any): Action {
+    return {
+      type: CheckoutActions.UPDATE_ORDER,
+      payload: data
+    };
   }
 
-  updateOrderSuccess(order: Order): Action {
+  updateOrderSuccess(data: any): Action {
     return {
       type: CheckoutActions.UPDATE_ORDER_SUCCESS,
-      payload: order
+      payload: data
+    };
+  }
+
+  updateOrderAddressSuccess(data: any): Action {
+    return {
+      type: CheckoutActions.UPDATE_ADDRESS_SUCCESS,
+      payload: data
+    };
+  }
+
+  updateOrderDeliveryOptionsSuccess(data: any): Action {
+    return {
+      type: CheckoutActions.UPDATE_DELIVERY_OPTIONS_SUCCESS,
+      payload: data
     };
   }
 
