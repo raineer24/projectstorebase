@@ -4,13 +4,14 @@
   <p>delivery fee will be charged when transaction has been accepted.</p>
 
   <div class="col-md-12 main-panel">
+    <div>
       <accordion [closeOthers]="oneAtATime">
-        <accordion-group>
+        <accordion-group [isOpen]="true">
           <div accordion-heading>Cash on Delivery
             <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-shopping-cart': !groupval?.isOpen}"></i>
           </div>
           <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
-          <p>Instructions</p>
+          <textarea cols="50" rows="4">Instructions</textarea>
         </accordion-group>
         <accordion-group>
           <div accordion-heading>Gift Certificate
@@ -27,16 +28,23 @@
           <p>Instructions</p>
         </accordion-group>
       </accordion>
-  </div>
- 
-  <div class="col-md-6">
-    
+    </div>
+    <div class="col-md-6">
       <div class="button-group pull-right">
-          <button class="btn">Previous</button>
-          <button class="btn">Review and Place Order</button>
+          <button class="btn btn-danger" (click)="goBack()">Previous</button>
+          <button class="btn btn-danger" >Review and Place Order</button>
       </div>
-      
-   
+    </div>
   </div>
+
+  <!-- <div class="col-md-6">
+
+      <div class="button-group pull-right">
+          <button class="btn btn-danger" (click)="goBack()">Previous</button>
+          <button class="btn btn-danger" >Review and Place Order</button>
+      </div>
+
+
+  </div> -->
 
 </div>
