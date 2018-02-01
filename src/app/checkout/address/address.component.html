@@ -1,5 +1,5 @@
 <div class="address-section" style="align: center">
-	<div *ngIf="(shipAddress$ | async)">
+	<!-- <div *ngIf="(shipAddress$ | async)">
 		<div class="">
 			<div class="edit-address">
 				<span class="edit-label">
@@ -8,8 +8,8 @@
 			</div>
 			<app-delivery-address [address]="(shipAddress$ | async)" ></app-delivery-address>
 		</div>
-	</div>
-	<div id="deliverytime" class="delivery-time">
+	</div> -->
+	<div id="deliverytime" class="delivery-time" *ngIf="isShowDeliveryOption">
 		<div class="col-md-12">
       <h3>Pick a delivery time slot</h3>
 		</div>
@@ -23,10 +23,13 @@
 			</div>
 		</div>
 	</div>
-	<div id="enterAddress" *ngIf="!(shipAddress$ | async)">
-		<div class="col-md-12 add-address">
+	<div id="enterAddress" *ngIf="!isShowDeliveryOption">
+		<div class="col-md-7 add-address">
       <h3>Checkout Information</h3>
+			 <app-add-address (onProceedClickEmit)="toggleShowDeliveryDateOption()"></app-add-address>
 		</div>
-    <app-add-address (onProceedClickEmit)="toggleShowDeliveryDateOption()"></app-add-address>
+		<!-- <div class="col-md-3">
+		  <h3>Order Summary</h3>
+		</div> -->
 	</div>
 </div>

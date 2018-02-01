@@ -19,14 +19,17 @@ export class AddressComponent implements OnInit, OnDestroy {
   orderState: string;
   orderNumber$: Observable<number>;
   shipAddress$: Observable<Address>;
+  isShowDeliveryOption: boolean = false;
 
-  constructor(private store: Store<AppState>,
+  constructor(
+    private store: Store<AppState>,
     private checkoutService: CheckoutService,
-    private router: Router) {
-      this.orderNumber$ = this.store.select(getOrderNumber);
-      this.shipAddress$ = this.store.select(getShipAddress);
-      this.stateSub$ = this.store.select(getOrderState)
-        .subscribe(state => this.orderState = state);
+    private router: Router
+  ){
+    this.orderNumber$ = this.store.select(getOrderNumber);
+    this.shipAddress$ = this.store.select(getShipAddress);
+    this.stateSub$ = this.store.select(getOrderState)
+      .subscribe(state => this.orderState = state);
   }
 
   ngOnInit() {
@@ -44,15 +47,14 @@ export class AddressComponent implements OnInit, OnDestroy {
     // }
   }
 
-  toggleShowDeliveryDateOption(){
-    document.getElementById("enterAddress").style.display = 'none';
-    document.getElementById("deliverytime").style.display = 'block';
+  toggleShowDeliveryDateOption($event){
+    this.isShowDeliveryOption = true;
+    //this.checkoutService.updateOrder().subscribe();
     console.log("Shows Delivery Date/Time page!");
   }
 
   toggleShowDeliveryAddressOption(){
-    document.getElementById("enterAddress").style.display = 'block';
-    document.getElementById("deliverytime").style.display = 'none';
+    this.isShowDeliveryOption = false;
   }
 
   ngOnDestroy() {

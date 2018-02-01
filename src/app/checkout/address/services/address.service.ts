@@ -10,15 +10,17 @@ export class AddressService {
       'firstname': ['', Validators.required],
       'lastname': ['', Validators.required],
       'address1': ['', Validators.required],
-      // 'address2': ['', Validators.required],
-      // 'city': ['', Validators.required],
-      'phone': ['', Validators.required],
-      'email': ['', Validators.required],
+      'address2': '',
+      'city': ['', Validators.required],
+      'phone': ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')]) ],
+      'email': ['', Validators.compose([Validators.required, Validators.email])],
       'zipcode': ['', Validators.required],
+      'country': 'Philippines'
       // 'state_id': [3561, Validators.required],
       // 'country_id': [232, Validators.required]
     });
   }
+
 
   initEmailForm() {
     return this.fb.group({
