@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CheckoutService } from './../../core/services/checkout.service';
 import { getShipAddress, getOrderState, getOrderNumber } from './../reducers/selectors';
 import { AppState } from './../../interfaces';
@@ -24,7 +24,8 @@ export class AddressComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private checkoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ){
     this.orderNumber$ = this.store.select(getOrderNumber);
     this.shipAddress$ = this.store.select(getShipAddress);
@@ -33,6 +34,9 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    let fromPayment = this.route.snapshot.paramMap.get('backToDeliveryDate');
+    if(fromPayment != null)
+        this.isShowDeliveryOption = true;
   }
 
   checkoutToPayment() {
