@@ -37,7 +37,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
         'status': 'address',
         'totalQuantity': this.totalCartItems,
         'total': this.totalCartValue
-      })
+      }, 'cart')
         .do(() => {
           this.router.navigate(['/checkout', 'address']);
         })
@@ -46,7 +46,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
       this.checkoutService.updateOrder({
         'totalQuantity': this.totalCartItems,
         'total': this.totalCartValue
-      })
+      }, 'cart')
         .do(() => {
           this.router.navigate(['/checkout', 'address']);
         })
