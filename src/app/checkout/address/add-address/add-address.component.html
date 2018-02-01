@@ -21,14 +21,14 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <label for="address1">Address 1</label>
-      <input type="text" id="address1" formControlName="address1" class="form-control" placeholder="Street Address, P.O. Box" required>
+      <label for="shippingAddress01">Address 1</label>
+      <input type="text" id="address1" formControlName="shippingAddress01" class="form-control" placeholder="Street Address, P.O. Box" required>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <label for="address2">Address 2</label>
-      <input type="text" id="address2" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
+      <label for="shippingAddress02">Address 2</label>
+      <input type="text" id="address2" formControlName="shippingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
     </div>
   </div>
   <div class="row">
@@ -37,8 +37,8 @@
       <input type="text" id="city" formControlName="city" class="form-control" placeholder="City/Municipality" required >
     </div>
     <div class="col-sm-2 form-group">
-      <label for="zipcode">Zip Code</label>
-      <input type="text" id="zipcode" formControlName="zipcode" class="form-control" placeholder="Zip Code" required >
+      <label for="postalcode">Zip Code</label>
+      <input type="text" id="zipcode" formControlName="postalcode" class="form-control" placeholder="Zip Code" required >
     </div>
     <div class="col-sm-5 form-group">
       <label for="country">Country</label>
@@ -48,11 +48,54 @@
       </select>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm-8 form-group">
+      <label for="city">Special Instructions</label>
+      <textarea formControlName="specialInstructions" class="form-control" rows="4" placeholder="Landmarks, Delivery notes, etc"></textarea>
+    </div>
+  </div>
   <!-- <div class="row">
     <div class="col-sm-12">
       <span class="note"><b>*</b> Required</span>
     </div>
   </div> -->
+  <div class="row">
+    <div class="col-sm-12 bg-info form-group">
+      <input type="checkbox" #billAddress formControlName="isBilling">
+      <label>Bill to a different address</label>
+    </div>
+  </div>
+  <div *ngIf="billAddress.checked">
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label for="billingAddress01">Address 1</label>
+        <input type="text" formControlName="billingAddress01" class="form-control" placeholder="Street Address, P.O. Box" >
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label for="billingAddress02">Address 2</label>
+        <input type="text" formControlName="billingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 form-group">
+        <label for="billCity">City/Municipality</label>
+        <input type="text" formControlName="billCity" class="form-control" placeholder="City/Municipality">
+      </div>
+      <div class="col-sm-2 form-group">
+        <label for="billPostalcode">Zip Code</label>
+        <input type="text" formControlName="billPostalcode" class="form-control" placeholder="Zip Code">
+      </div>
+      <div class="col-sm-5 form-group">
+        <label for="billCountry">Country</label>
+        <select class="form-control" formControlName="billCountry">
+          <option value="Philippines">Philippines</option>
+          <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
+        </select>
+      </div>
+    </div>
+  </div>
   <div class="row pull-right">
     <div class="col-sm-12">
       <button class="btn btn-danger" >Save and Continue</button>

@@ -1,13 +1,15 @@
 import { getAuthStatus } from './../../../auth/reducers/selectors';
 import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { AuthActions } from './../../../auth/actions/auth.actions';
 import { AddressService } from './../services/address.service';
 import { CheckoutService } from './../../../core/services/checkout.service';
 import { CheckoutActions } from './../../actions/checkout.actions';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { getShipAddress, getBillAddress } from './../../reducers/selectors';
 
 
 @Component({
@@ -19,7 +21,9 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   @Output() onProceedClickEmit: EventEmitter<string> = new EventEmitter();
   addressForm: FormGroup;
   isAuthenticated: boolean;
-  addrSub: Subscription;
+  shipAddress$: Observable<any>;
+  billAddress$: Observable<any>;
+  private componentDestroyed: Subject<any> = new Subject();
 
   constructor(
     private fb: FormBuilder,
@@ -28,12 +32,19 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private checkoutService: CheckoutService,
     private addrService: AddressService,
     private store: Store<AppState>
-  ) { console.log("INIT")
-    this.addrSub = addrService.initAddressForm().subscribe(data => {
-      this.addressForm = data;
-    });
-    this.store.select(getAuthStatus).subscribe(auth => {
+  ) {
+    this.addressForm = addrService.initAddressForm();
+    this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
       this.isAuthenticated = auth;
+    });
+    this.store.select(getShipAddress).takeUntil(this.componentDestroyed).subscribe(data => {
+      this.addressForm.patchValue(data);
+    });
+    this.store.select(getBillAddress).takeUntil(this.componentDestroyed).subscribe(data => {
+      if(data.billingAddress01) {
+        this.addressForm.patchValue({'isBilling': true})
+        this.addressForm.patchValue(data);
+      }
     });
   }
 
@@ -41,21 +52,18 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const values = this.addressForm.value;
 
+    let values = this.addressForm.value; console.log(values)
     if(this.addressForm.valid) {
-      const addrData = {
-        'firstName': values.firstname,
-        'lastName': values.lasttname,
-        'phone': values.phone,
-        'shippingAddress01': values.address1,
-        'shippingAddress02': values.address2,
-        'email': values.email,
-        'city': values.city,
-        'zipCode': values.zipcode,
-        'country': values.country
+      if(!values.isBilling){
+        values.billingAddress01 = '';
+        values.billingAddress02 = '';
+        values.billCity = '';
+        values.billPostalcode = '';
+        values.billCountry = '';
       }
-      this.checkoutService.updateOrder(addrData, 'address').do(()=>{console.log("UPDATE ADDRESS")}).subscribe();
+      delete values.isBilling;
+      this.checkoutService.updateOrder(values, 'address').subscribe();
       this.onProceedClickEmit.emit();
     } else {
       const keys = Object.keys(values)
@@ -70,6 +78,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addrSub.unsubscribe();
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 }
