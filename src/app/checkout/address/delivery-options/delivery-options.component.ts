@@ -22,15 +22,10 @@ export class DeliveryOptionsComponent implements OnInit {
   allTimeSlots;
   timeSlots;
   shippingRates = [];
-  totalCartValue$: Observable<number>;
-  totalCartItems$: Observable<number>;
   myForm: FormGroup;
-  minDate: Date;
   currMonth: String;
   today: Date;
   dateToAdd: Date;
-  locale = "en-us";
-  currDay: number;
   dispMonth: string;
   slotNum: string;
   availableSlots: Array<any>;
@@ -39,43 +34,36 @@ export class DeliveryOptionsComponent implements OnInit {
   slotFull: boolean;
   lastDay: number;
   isShowDeliveryOption: boolean = false;
+  timeSlots$: Observable<any>;
 
 
   constructor(private checkoutService: CheckoutService, private store: Store<AppState>, private formBuilder: FormBuilder) {
-    this.totalCartValue$ = this.store.select(getTotalCartValue);
-    this.totalCartItems$ = this.store.select(getTotalCartItems);
-    this.minDate = new Date();
-    this.minDate.setDate(this.minDate.getDate() - 1);
+      this.timeSlots$ = this.checkoutService.getAllTimeSlot();
   }
 
   ngOnInit() {
     this.getAllTimeSlot();
     this.slotFull = false;
-    this.varLoop = 30;
-    this.today = new Date();
-    this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
-    this.dispMonth = this.currMonth.toString();
-    this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
-    this.currDay = this.today.getUTCDate();
+
     var lDay = moment().daysInMonth();
     this.lastDay =  lDay;
-    console.log('Delivery Date');
-    console.log(this.currMonth);
   }
 
   private getAllTimeSlot(){
       var ctr = 0;
       this.aSlots = [5];
+
       this.checkoutService.getAllTimeSlot().subscribe( data => {
+        console.log(data)
         this.timeSlots = data;
         this.availableSlots = data;
         // arrSlot = this.availableSlots[0];
             this.aSlots = this.availableSlots[ctr].range;
         // this.availableSlots = JSON.stringify(this.availableSlots);
-        for(var key in this.aSlots)
-        {
-          console.log(this.aSlots);
-        }
+        // for(var key in this.aSlots)
+        // {
+        //   console.log(this.aSlots);
+        // }
       });
   }
 
@@ -92,18 +80,11 @@ export class DeliveryOptionsComponent implements OnInit {
         daysArr[ctr] = dNow;
       else{
         daysArr[ctr] = moment(dNow,'mm-dd').add(ctr,'days').format('MMM DD');
-        console.log(dNow);
       }
     }
     return daysArr;
   }
 
-  onCalendarToggle(){
-    this.today = new Date((new Date()).setDate(this.today.getDate() + 1));
-    this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
-    this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
-    console.log(this.currMonth);
-  }
 
   private setOrder() {
     this.checkoutService.getOrder(this.orderNumber)

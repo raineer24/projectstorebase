@@ -33,9 +33,22 @@
       </label>
   </div>
 </div> -->
+
+<!-- TEMPORARY!!! -->
+<div *ngFor="let timeslot of timeSlots$ | async">
+  <div>DATE: {{timeslot.date}}</div>
+  <div *ngFor="let slot of timeslot.range">
+      <div>{{slot.range}}</div>
+  </div>
+</div>
+
 <div class="calendar">
   <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3 month-label"></div>
+
+
+
+
     <div *ngFor="let in of sevenDays(7); let i = index" class="col-xs-2 col-md-1">{{in}}</div>
     <!-- <div class="col-xs-2 col-md-1">Mon</div>
     <div class="col-xs-2 col-md-1">Tue</div>

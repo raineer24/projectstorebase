@@ -38,10 +38,11 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       this.isAuthenticated = auth;
     });
     this.store.select(getShipAddress).takeUntil(this.componentDestroyed).subscribe(data => {
-      this.addressForm.patchValue(data);
+      if(data)
+        this.addressForm.patchValue(data);
     });
     this.store.select(getBillAddress).takeUntil(this.componentDestroyed).subscribe(data => {
-      if(data.billingAddress01) {
+      if(data && data.billingAddress01) {
         this.addressForm.patchValue({'isBilling': true})
         this.addressForm.patchValue(data);
       }
