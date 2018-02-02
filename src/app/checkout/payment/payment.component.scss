@@ -135,4 +135,34 @@
   margin-top: 5px;
 }
 
+.panel-heading {
+  cursor: pointer;
+}
 
+.panel-title:hover {
+  color: #18bc9c;
+}
+
+.floatOver{
+            width: 300px;
+            max-width: 300px;
+            overflow: visible;
+            position: absolute;
+            top: 52px; /* 52px */
+            z-index: 1000;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+            border-radius: 0px 0px 5px 5px;
+            left: 1%;
+            background-color: rgba(245, 245, 245, 0.5);
+}
+
+.floatTab {
+	background-color: #222;
+	color: white;
+}
+
+.glyphicon-chevron-down {
+transition:transform .5s;transform:rotateX(00deg);
+}
