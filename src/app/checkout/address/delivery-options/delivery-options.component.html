@@ -35,21 +35,39 @@
 </div> -->
 
 <!-- TEMPORARY!!! -->
-<div *ngFor="let timeslot of timeSlots$ | async">
+<!-- <div *ngFor="let timeslot of timeSlots$ | async">
   <div>DATE: {{timeslot.date}}</div>
   <div *ngFor="let slot of timeslot.range">
       <div>{{slot.range}}</div>
   </div>
+</div> -->
+<form>
+<div class="calendar btn-group" btnRadioGroup [(ngModel)]="radioModel">
+  <div class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2"></div>
+    <div *ngFor="let timeslot of timeSlots" class="col-xs-1 col-md-1">
+      {{timeslot.date | date:'MMM dd'}}
+    </div>
+  </div>
+  <div *ngFor="let slot of timeSlotRows; let i = index;" class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2">{{timeSlotLabels[i]}}</div>
+    <div *ngFor="let timeslots of timeSlots" class="col-xs-1 col-md-1 ">
+      <label class="btn btn-block btn-success" btnRadio="TEST" name="index">{{timeslots.range[i].max}}</label>
+      <!-- <input class="btn btn-block btn-success" type="radio" name="timeslot">{{timeslots.range[i].max}} -->
+    </div>
+  </div>
 </div>
+</form>
 
-<div class="calendar">
+
+<!-- <div class="calendar">
   <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3 month-label"></div>
 
 
 
 
-    <div *ngFor="let in of sevenDays(7); let i = index" class="col-xs-2 col-md-1">{{in}}</div>
+    <div *ngFor="let in of sevenDays(7); let i = index" class="col-xs-2 col-md-1">{{in}}</div> -->
     <!-- <div class="col-xs-2 col-md-1">Mon</div>
     <div class="col-xs-2 col-md-1">Tue</div>
     <div class="col-xs-2 col-md-1">Wed</div>
@@ -57,11 +75,11 @@
     <div class="col-xs-2 col-md-1">Fri</div>
     <div class="col-xs-2 col-md-1">Sat</div> -->
 
-  </div>
+  <!-- </div>
 
   <div class="row">
       <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00AM - 11:00AM</span></div>
-      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">{{aSlots.range}}</label></div>
+      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio"></label></div>
   </div>
   <div class="row">
       <div class="col-xs-3 col-sm-3 col-md-3"><span>11:01AM - 2:00PM</span></div>
@@ -74,7 +92,7 @@
   <div class="row">
       <div class="col-xs-3 col-sm-3 col-md-3"><span>5:01PM - 8:00PM</span></div>
       <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">5</label></div>
-  </div>
+  </div> -->
   <!-- <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00AM to 11:00AM</span></div>
     <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>

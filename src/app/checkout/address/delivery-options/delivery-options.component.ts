@@ -35,14 +35,26 @@ export class DeliveryOptionsComponent implements OnInit {
   lastDay: number;
   isShowDeliveryOption: boolean = false;
   timeSlots$: Observable<any>;
+  timeSlotRows: Array<any>;
+  timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:01AM - 2:00PM','2:01PM - 5:00PM','5:01PM - 8:00PM'];
+  radioModel: string;
 
-
-  constructor(private checkoutService: CheckoutService, private store: Store<AppState>, private formBuilder: FormBuilder) {
+  constructor(
+    private checkoutService: CheckoutService,
+    private store: Store<AppState>,
+    private formBuilder: FormBuilder
+  ) {
       this.timeSlots$ = this.checkoutService.getAllTimeSlot();
+      this.checkoutService.getAllTimeSlot().subscribe(data => {
+        console.log(data)
+        this.timeSlots = data;
+        this.timeSlotRows = this.timeSlots[0].range;
+        console.log(this.timeSlotRows)
+      });
   }
 
   ngOnInit() {
-    this.getAllTimeSlot();
+    //this.getAllTimeSlot();
     this.slotFull = false;
 
     var lDay = moment().daysInMonth();
@@ -53,18 +65,18 @@ export class DeliveryOptionsComponent implements OnInit {
       var ctr = 0;
       this.aSlots = [5];
 
-      this.checkoutService.getAllTimeSlot().subscribe( data => {
-        console.log(data)
-        this.timeSlots = data;
-        this.availableSlots = data;
-        // arrSlot = this.availableSlots[0];
-            this.aSlots = this.availableSlots[ctr].range;
-        // this.availableSlots = JSON.stringify(this.availableSlots);
-        // for(var key in this.aSlots)
-        // {
-        //   console.log(this.aSlots);
-        // }
-      });
+      // this.checkoutService.getAllTimeSlot().subscribe( data => {
+      //   console.log(data)
+      //   this.timeSlots = data;
+      //   this.availableSlots = data;
+      //   // arrSlot = this.availableSlots[0];
+      //       this.aSlots = this.availableSlots[ctr].range;
+      //   // this.availableSlots = JSON.stringify(this.availableSlots);
+      //   // for(var key in this.aSlots)
+      //   // {
+      //   //   console.log(this.aSlots);
+      //   // }
+      // });
   }
 
   counter(i: number) {
