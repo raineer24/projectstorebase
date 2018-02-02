@@ -86,7 +86,7 @@ export class CheckoutService {
   * @memberof CheckoutService
   */
   fetchCurrentOrder() {
-    const orderStorage = this.getOrderInLocalStorage(); console.log(orderStorage)
+    const orderStorage = this.getOrderInLocalStorage();
     const orderkey = orderStorage != null ? orderStorage.order_token: null;
     if(orderkey) { console.log("CURRENT ORDER KEY")
       return this.http.get(`v1/order?orderkey=${orderkey}`
@@ -105,7 +105,8 @@ export class CheckoutService {
             order.cartItems =  cart_items;
             order.totalQuantity = total_quantity.toString();
             order.total = total.toString();
-            order.shippingAddress01 = orderStorage.address;
+            order.shippingAddress01 = orderStorage.shipping_address;
+            order.billingAddress01 = orderStorage.billing_address;
             return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
           })
         } else { console.log("CREATE NEW ORDER")
@@ -131,7 +132,11 @@ export class CheckoutService {
     ).map(res => res.json()
     ).mergeMap(data => {
       const orderkey = data.orderkey;
-      this.setOrderTokenInLocalStorage({order_token: orderkey, address: ''});
+      this.setOrderTokenInLocalStorage({
+        order_token: orderkey,
+        shipping_address: '',
+        billing_address: ''
+      });
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart'
@@ -267,13 +272,35 @@ export class CheckoutService {
           this.store.dispatch(this.actions.updateOrderSuccess(params));
           break;
         case 'address':
+          const address = {
+            'shippingAddress': {
+              'firstname': params.firstname,
+              'lastname': params.lastname,
+              'phone': params.phone,
+              'shippingAddress01': params.shippingAddress01,
+              'shippingAddress02': params.shippingAddress02,
+              'email': params.email,
+              'city': params.city,
+              'postalcode': params.postalcode,
+              'country': params.country,
+              'specialInstructions': params.specialInstructions
+            },
+            'billingAddress': {
+              'billCity': params.billCity,
+              'billCountry': params.billCountry,
+              'billingAddress01': params.billingAddress01,
+              'billingAddress02': params.billingAddress02,
+              'billPostalcode': params.billPostalcode
+            }
+          }
           this.setOrderTokenInLocalStorage(
             {
               order_token: orderkey,
-              address: params
+              shipping_address: address.shippingAddress,
+              billing_address: address.billingAddress
             }
           )
-          this.store.dispatch(this.actions.updateOrderAddressSuccess(params));
+          this.store.dispatch(this.actions.updateOrderAddressSuccess(address));
           break;
         case 'delivery':
           this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(params));

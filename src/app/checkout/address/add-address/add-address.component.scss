@@ -94,6 +94,9 @@
 	input.ng-invalid.ng-touched {
 	  border: 1px solid red;
 	}
+	textarea {
+		resize: vertical; min-height: 80px;
+	}
 }
 
 .note {
