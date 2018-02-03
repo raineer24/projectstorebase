@@ -41,8 +41,9 @@
       <div>{{slot.range}}</div>
   </div>
 </div> -->
-<form>
-<div class="calendar btn-group" btnRadioGroup [(ngModel)]="radioModel">
+
+<pre class="card card-block card-header">{{radioModel || 'null'}}</pre>
+<div class="calendar btn-group">
   <div class="row">
     <div class="col-xs-2 col-sm-2 col-md-2"></div>
     <div *ngFor="let timeslot of timeSlots" class="col-xs-1 col-md-1">
@@ -51,13 +52,22 @@
   </div>
   <div *ngFor="let slot of timeSlotRows; let i = index;" class="row">
     <div class="col-xs-2 col-sm-2 col-md-2">{{timeSlotLabels[i]}}</div>
-    <div *ngFor="let timeslots of timeSlots" class="col-xs-1 col-md-1 ">
-      <label class="btn btn-block btn-success" btnRadio="TEST" name="index">{{timeslots.range[i].max}}</label>
+    <div *ngFor="let timeslots of timeSlots; let j = index" class="col-xs-1 col-md-1 ">
+      <ng-container *ngIf="timeslots.range[i].booked < 5; else elseBlock">
+        <label [ngClass]="['btn-success', 'btn','btn-block']"
+          (click)="selectSlot($event)" #radioButtons ngControl="radioButtons"
+          [(ngModel)]="radioModel" [btnRadio]="[j,i]">{{timeslots.range[i].max}}</label>
+      </ng-container>
+      <ng-template #elseBlock>
+        <label [ngClass]="['btn-danger', 'btn','btn-block']"
+          (click)="selectSlot($event)" #radioButtons disabled
+          [(ngModel)]="radioModel" [btnRadio]="[i,j]">FULL</label>
+      </ng-template >
       <!-- <input class="btn btn-block btn-success" type="radio" name="timeslot">{{timeslots.range[i].max}} -->
     </div>
   </div>
 </div>
-</form>
+
 
 
 <!-- <div class="calendar">

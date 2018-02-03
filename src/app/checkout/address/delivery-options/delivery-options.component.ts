@@ -4,7 +4,7 @@ import { getTotalCartValue, getTotalCartItems } from './../../reducers/selectors
 import { Observable } from 'rxjs/Observable';
 import { Order } from './../../../core/models/order';
 import { CheckoutService } from './../../../core/services/checkout.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 
@@ -22,43 +22,58 @@ export class DeliveryOptionsComponent implements OnInit {
   allTimeSlots;
   timeSlots;
   shippingRates = [];
-  myForm: FormGroup;
-  currMonth: String;
-  today: Date;
-  dateToAdd: Date;
-  dispMonth: string;
-  slotNum: string;
+
   availableSlots: Array<any>;
   aSlots: Array<any>;
-  varLoop: number;
-  slotFull: boolean;
-  lastDay: number;
   isShowDeliveryOption: boolean = false;
-  timeSlots$: Observable<any>;
   timeSlotRows: Array<any>;
   timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:01AM - 2:00PM','2:01PM - 5:00PM','5:01PM - 8:00PM'];
-  radioModel: string;
+  radioModel: Array<any> = [0,0];
+  prevIndex: number;
+  prevSlot: any;
+  @ViewChildren("radioButtons") radioModels: QueryList<any>;
 
   constructor(
     private checkoutService: CheckoutService,
     private store: Store<AppState>,
     private formBuilder: FormBuilder
   ) {
-      this.timeSlots$ = this.checkoutService.getAllTimeSlot();
       this.checkoutService.getAllTimeSlot().subscribe(data => {
-        console.log(data)
         this.timeSlots = data;
         this.timeSlotRows = this.timeSlots[0].range;
+// TEMPORARY
+        console.log(data)
+        this.timeSlots[0].range[1].booked = 5;
         console.log(this.timeSlotRows)
       });
   }
 
   ngOnInit() {
-    //this.getAllTimeSlot();
-    this.slotFull = false;
+  }
 
-    var lDay = moment().daysInMonth();
-    this.lastDay =  lDay;
+  selectSlot(){
+      const i = this.radioModel[0];
+      const j = this.radioModel[1];
+      const index = (j * 8) + i;
+
+      if (index != this.prevIndex) {
+        const buttons = this.radioModels.toArray();
+        const slot = this.timeSlots[i].range[j];
+
+        if (slot.max != slot.booked) {
+          console.log(index);
+          console.log(buttons[index]);
+
+          const slot = this.timeSlots[i].range[j];
+          buttons[index].nativeElement.textContent = ((slot.max - slot.booked) - 1);
+
+          if(this.prevIndex != null)
+            buttons[this.prevIndex].nativeElement.textContent = (this.prevSlot.max - this.prevSlot.booked)
+
+          this.prevSlot = slot;
+          this.prevIndex = index;
+        }
+    }
   }
 
   private getAllTimeSlot(){
