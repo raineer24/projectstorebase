@@ -26,9 +26,8 @@ export class PaymentComponent implements OnInit {
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
   address$: Observable<Address>;
-  orderNumber$: Observable<number>;
+  orderNumber$: Observable<string>;
   disable: boolean = true;
-  backToDeliveryDate: string = "false";
 
   constructor(private store: Store<AppState>,
     private router: Router
@@ -40,11 +39,9 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.backToDeliveryDate = "false";
   }
 
   goBack(){
-      this.backToDeliveryDate = "true";
-      this.router.navigate(['/checkout', 'address', {backToDeliveryDate: this.backToDeliveryDate}]);
+      this.router.navigate(['/checkout', 'address', {deliveryOptions: true}]);
   }
 }

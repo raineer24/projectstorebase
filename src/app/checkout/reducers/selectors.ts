@@ -15,6 +15,10 @@ export function fetchCartItems(state: CheckoutState) {
   return ids.map(id => cartItemEntitites[id]);
 }
 
+export function fetchOrderId(state: CheckoutState) {
+  return state.orderId;
+}
+
 export function fetchOrderNumber(state: CheckoutState) {
   return state.orderNumber;
 }
@@ -41,6 +45,7 @@ export function fetchOrderState(state: CheckoutState) {
 
 // *************************** PUBLIC API's ****************************
 export const getCartItems = createSelector(getCheckoutState, fetchCartItems);
+export const getOrderId = createSelector(getCheckoutState, fetchOrderId);
 export const getOrderNumber = createSelector(getCheckoutState, fetchOrderNumber);
 export const getTotalCartItems = createSelector(getCheckoutState, fetchTotalCartItems);
 export const getTotalCartValue = createSelector(getCheckoutState, fetchTotalCartValue);

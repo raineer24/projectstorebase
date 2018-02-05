@@ -63,7 +63,8 @@ export class AddAddressComponent implements OnInit, OnDestroy {
         values.billCountry = '';
       }
       delete values.isBilling;
-      this.checkoutService.updateOrder(values, 'address').subscribe();
+      values.status = 'address';
+      this.checkoutService.updateOrder(values).subscribe();
       this.onProceedClickEmit.emit();
     } else {
       const keys = Object.keys(values)

@@ -27,8 +27,8 @@ export class CheckoutService {
     private actions: CheckoutActions,
     private store: Store<AppState>,
   ) {
-      this.store.select(getOrderNumber)
-        .subscribe(number => this.orderNumber = number);
+      // this.store.select(getOrderNumber)
+        // .subscribe(number => this.orderNumber = number);
     }
 
 //  Change below methods once angular releases RC4, so that this methods can be called from effects
@@ -259,7 +259,7 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  updateOrder(params, mode) {
+  updateOrder(params) {
     const orderkey = this.getOrderKey();
     return this.http.put(
       // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
@@ -267,11 +267,11 @@ export class CheckoutService {
       params
     ).map((res) => {
       const order = res.json();
-      switch (mode) {
-        case 'cart':
-          this.store.dispatch(this.actions.updateOrderSuccess(params));
+      switch (params.status) {
+        case 'cart': console.log("UPDATE CART")
+          this.store.dispatch(this.actions.updateOrderSuccess({status: 'address'}));
           break;
-        case 'address':
+        case 'address': console.log("UPDATE ADDRESS")
           const address = {
             'shippingAddress': {
               'firstname': params.firstname,
@@ -291,7 +291,8 @@ export class CheckoutService {
               'billingAddress01': params.billingAddress01,
               'billingAddress02': params.billingAddress02,
               'billPostalcode': params.billPostalcode
-            }
+            },
+            'status': 'delivery'
           }
           this.setOrderTokenInLocalStorage(
             {
@@ -302,9 +303,13 @@ export class CheckoutService {
           )
           this.store.dispatch(this.actions.updateOrderAddressSuccess(address));
           break;
-        case 'delivery':
+        case 'delivery': console.log("UPDATE DELIVERY")
           this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(params));
           break;
+        // case 'payment':
+        //   break;
+        // case: 'confirm':
+        //   break;
       }
 
     }).catch(err => Observable.empty());
@@ -318,7 +323,7 @@ export class CheckoutService {
   }
 
   setTimeSlotOrder(params) {
-    return this.http.post(`v1/timeslotorder/${params.orderId}`, params
+    return this.http.post(`v1/timeslotorder`, params
     ).map((res) => {
       return res.json();
     })

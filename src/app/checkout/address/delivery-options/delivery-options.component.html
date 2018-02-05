@@ -1,48 +1,3 @@
-<!-- <div class="row">
-  <div class="form-group col-xs-12 col-12 col-md-4">
-    <input width="300px" type="text"
-           class="form-control"
-           [minDate]="minDate"
-           [maxDate]="maxDate"
-           #dp="bsDatepicker"
-           bsDatepicker [(bsValue)]="bsValue" value="Pick a day!!">
-           <label><h2>{{currMonth}}</h2></label>
-           <button (click)="onCalendarToggle()"> -> </button>
-  </div>
-</div> -->
-<!-- <div class="row">
-  <div class="time-slot col-xs-12 col-s-12 col-md-12" ng-repeat="slot in day.slots">
-    <input type="checkbox">
-      <label>8:00 AM<br>
-        <span ng-if="!slot.booked">Available</span>
-      </label>
-      <label>11:00 AM<br>
-        <span ng-if="!slot.booked">Available</span>
-      </label>
-
-      <label>2:00 PM<br>
-        <span ng-if="!slot.booked">Available</span>
-      </label>
-
-      <label>5:00 PM<br>
-        <span ng-if="!slot.booked">Available</span>
-      </label>
-
-      <label>8:00 PM<br>
-        <span ng-if="!slot.booked">Available</span>
-      </label>
-  </div>
-</div> -->
-
-<!-- TEMPORARY!!! -->
-<!-- <div *ngFor="let timeslot of timeSlots$ | async">
-  <div>DATE: {{timeslot.date}}</div>
-  <div *ngFor="let slot of timeslot.range">
-      <div>{{slot.range}}</div>
-  </div>
-</div> -->
-
-<pre class="card card-block card-header">{{radioModel || 'null'}}</pre>
 <div class="calendar btn-group">
   <div class="row">
     <div class="col-xs-2 col-sm-2 col-md-2"></div>
@@ -53,113 +8,31 @@
   <div *ngFor="let slot of timeSlotRows; let i = index;" class="row">
     <div class="col-xs-2 col-sm-2 col-md-2">{{timeSlotLabels[i]}}</div>
     <div *ngFor="let timeslots of timeSlots; let j = index" class="col-xs-1 col-md-1 ">
-      <ng-container *ngIf="timeslots.range[i].booked < 5; else elseBlock">
-        <label [ngClass]="['btn-success', 'btn','btn-block']"
-          (click)="selectSlot($event)" #radioButtons ngControl="radioButtons"
-          [(ngModel)]="radioModel" [btnRadio]="[j,i]">{{timeslots.range[i].max}}</label>
-      </ng-container>
-      <ng-template #elseBlock>
-        <label [ngClass]="['btn-danger', 'btn','btn-block']"
+      <ng-container *ngIf="isPastTime(j,i); else elseBlock1">
+        <label [ngClass]="['btn-warning','btn','btn-block']"
           (click)="selectSlot($event)" #radioButtons disabled
-          [(ngModel)]="radioModel" [btnRadio]="[i,j]">FULL</label>
+          [(ngModel)]="radioModel" [btnRadio]="[j,i]">N/A</label>
+      </ng-container>
+      <ng-template #elseBlock1>
+        <ng-container *ngIf="timeslots.range[i].booked < 5; else elseBlock2">
+          <label [ngClass]="['btn-success','btn','btn-block']"
+            (click)="selectSlot($event)" #radioButtons
+            [(ngModel)]="radioModel" [btnRadio]="[j,i]">Available</label>
+      </ng-container>
       </ng-template >
-      <!-- <input class="btn btn-block btn-success" type="radio" name="timeslot">{{timeslots.range[i].max}} -->
+      <ng-template #elseBlock2>
+        <label [ngClass]="['btn-danger','btn','btn-block']"
+          (click)="selectSlot($event)" #radioButtons disabled
+          [(ngModel)]="radioModel" [btnRadio]="[j,i]">FULL</label>
+      </ng-template >
     </div>
   </div>
 </div>
-
-
-
-<!-- <div class="calendar">
-  <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3 month-label"></div>
-
-
-
-
-    <div *ngFor="let in of sevenDays(7); let i = index" class="col-xs-2 col-md-1">{{in}}</div> -->
-    <!-- <div class="col-xs-2 col-md-1">Mon</div>
-    <div class="col-xs-2 col-md-1">Tue</div>
-    <div class="col-xs-2 col-md-1">Wed</div>
-    <div class="col-xs-2 col-md-1">Thu</div>
-    <div class="col-xs-2 col-md-1">Fri</div>
-    <div class="col-xs-2 col-md-1">Sat</div> -->
-
-  <!-- </div>
-
-  <div class="row">
-      <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00AM - 11:00AM</span></div>
-      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio"></label></div>
-  </div>
-  <div class="row">
-      <div class="col-xs-3 col-sm-3 col-md-3"><span>11:01AM - 2:00PM</span></div>
-      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">5</label></div>
-  </div>
-  <div class="row">
-      <div class="col-xs-3 col-sm-3 col-md-3"><span>2:01PM - 5:00PM</span></div>
-      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">5</label></div>
-  </div>
-  <div class="row">
-      <div class="col-xs-3 col-sm-3 col-md-3"><span>5:01PM - 8:00PM</span></div>
-      <div *ngFor="let in of counter(7) ;let i = index" class="col-xs-2 col-md-1"><label [ngClass] ="slotFull ? 'btn btn-block btn-danger':'btn btn-block btn-success'" type="radio">5</label></div>
-  </div> -->
-  <!-- <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00AM to 11:00AM</span></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">{{availableSlots}}</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-  </div>
-  <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3"><span>11:00AM to 2:00PM</span></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-  </div>
-  <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3"><span>2:00PM to 5:00PM</span></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 16}}</span>5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 15}}</span>5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 14}}</span>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 13}}</span>5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 12}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 11}}</span></label></div>
-  </div>
-  <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3"><span>5:00PM to 8:00PM</span></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled><span>{{lastDay - 10}}</span>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 9}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 8}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 7}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 6}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 5}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 4}}</span></label></div>
-  </div>
-  <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3"><span>8:00PM to 11:00PM</span></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-danger" type="radio" disabled><span>{{lastDay - 3}}</span>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 2}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay - 1}}</span></label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio"><span>{{lastDay}}</span>Full</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-    <div class="col-xs-2 col-md-1"><label class="btn btn-block btn-success" type="radio">5</label></div>
-  </div>
-</div> -->
-  <!-- <form [formGroup]="myForm" class="form-inline">
-    <div class="btn-group" btnRadioGroup formControlName="radio">
-      <label btnRadio="0800" class="btn btn-primary" type="radio">8:00AM to 11:00AM</label>
-      <label btnRadio="1100" class="btn btn-primary">11:00AM</label>
-      <label btnRadio="1400" class="btn btn-primary">2:00PM</label>
-      <label btnRadio="1700" class="btn btn-primary">5:00PM</label>
-      <label btnRadio="2000" class="btn btn-primary">8:00PM</label>
+<div class="row">
+  <div class="col-md-12">
+    <div class="input-btn-group nav-but-grp pull-right">
+      <button class="btn btn-danger" (click)="onBackBtn()">Back to add address</button>
+      <button class="btn btn-danger" (click)="checkoutToPayment()">Proceed to payment</button>
     </div>
-  </form> -->
+  </div>
+</div>

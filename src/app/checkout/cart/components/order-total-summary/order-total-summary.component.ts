@@ -32,26 +32,26 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
 
   placeOrder() {
 
-    if (this.orderStatus === 'cart') {
+    // if (this.orderStatus === 'cart') {
       this.checkoutService.updateOrder({
-        'status': 'address',
+        'status': 'cart',
         'totalQuantity': this.totalCartItems,
         'total': this.totalCartValue
-      }, 'cart')
-        .do(() => {
+        }).do(() => {
           this.router.navigate(['/checkout', 'address']);
         })
         .subscribe();
-    } else {
-      this.checkoutService.updateOrder({
-        'totalQuantity': this.totalCartItems,
-        'total': this.totalCartValue
-      }, 'cart')
-        .do(() => {
-          this.router.navigate(['/checkout', 'address']);
-        })
-        .subscribe();
-    }
+    // } else {
+    //   this.checkoutService.updateOrder({
+    //     'status': 'cart'
+    //     'totalQuantity': this.totalCartItems,
+    //     'total': this.totalCartValue
+    //   }, 'cart')
+    //     .do(() => {
+    //       this.router.navigate(['/checkout', 'address']);
+    //     })
+    //     .subscribe();
+    // }
   }
 
   ngOnDestroy() {

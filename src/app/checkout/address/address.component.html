@@ -12,15 +12,7 @@
 	<div id="deliverytime" class="delivery-time" *ngIf="isShowDeliveryOption">
 		<div class="col-md-12">
       <h3>Pick a delivery time slot</h3>
-		</div>
-		<div class="col-md-12">
-			<app-delivery-options [orderNumber]="orderNumber$ | async" ></app-delivery-options>
-    </div>
-		<div class="col-md-12">
-			<div class="input-btn-group nav-but-grp">
-				<button class="btn btn-danger" (click)="toggleShowDeliveryAddressOption()">Previous</button>
-        <button class="btn btn-danger" (click)="checkoutToPayment()">Proceed to payment</button>
-			</div>
+			<app-delivery-options (onBackClickEmit)="toggleShowDeliveryAddressOption()"></app-delivery-options>
 		</div>
 	</div>
 	<div id="enterAddress" *ngIf="!isShowDeliveryOption">
