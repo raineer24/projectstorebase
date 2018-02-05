@@ -1,26 +1,36 @@
 <div class="container">
-  <h1>Delivery Details</h1>
+  <h1>Payment Details</h1>
   <h3>Mode of Payment</h3>
-  <p>delivery fee will be charged when transaction has been accepted.</p>
+  <p>Delivery fee will be charged when transaction has been accepted.</p>
 
   <div class="col-md-12 main-panel">
     <div>
       <accordion [closeOthers]="oneAtATime">
-        <accordion-group [isOpen]="true">
+        <accordion-group #group1 [isOpen]>
           <div accordion-heading>Cash on Delivery
-            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-shopping-cart': !groupval?.isOpen}"></i>
+            <i class="pull-left float-xs-left glyphicon glyphicon-usd"></i><i class="pull-right glyphicon" [ngClass]="group1.isOpen ? 'glyphicon-chevron-down': 'glyphicon-chevron-right'"></i>
           </div>
-          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <i class="pull-right float-xs-right glyphicon"></i>
           <textarea cols="50" rows="4">Instructions</textarea>
         </accordion-group>
-        <accordion-group>
+        <accordion-group #group2 [isOpen]>
           <div accordion-heading>Gift Certificate
-            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-gift': !groupval?.isOpen}"></i>
+            <i class="pull-left float-xs-right glyphicon glyphicon-gift"></i><i class="pull-right glyphicon" [ngClass]="group2.isOpen ? 'glyphicon-chevron-down': 'glyphicon-chevron-right'"></i>
           </div>
-          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
-          <p>Instructions</p>
+          <i class="pull-right float-xs-right glyphicon"></i>
+          <div class="box">
+              <form class="coupon">
+                <div class="input-group">
+                  <input placeholder="GC code">
+                  <button class="btn btn-danger">Enter</button>
+                </div>
+              </form>
+          </div>
+          <div>
+            <textarea cols="50" rows="4">Instructions</textarea>
+          </div>
         </accordion-group>
-        <accordion-group>
+        <accordion-group is-disabled="true">
           <div accordion-heading>Credit Card
             <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-credit-card': !groupval?.isOpen}"></i>
           </div>
@@ -35,6 +45,7 @@
           <button class="btn btn-danger" >Review and Place Order</button>
       </div>
     </div>
+
   </div>
 
   <!-- <div class="col-md-6">
@@ -47,4 +58,24 @@
 
   </div> -->
 
+
 </div>
+<!-- <div class="panel" id="#accordionMenu">
+  <div class="panel-heading collapsed floatTab" data-toggle="collapse" data-target="#accordionGroup">
+    <h4 class="panel-title accordion-toggle">
+      <i class="glyphicon glyphicon-usd"></i>&nbsp;Menu <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+    </h4>
+  </div>
+  <div class="panel-group collapse" id="accordionGroup">
+    <div class="panel">
+        <div class="panel-heading collapsed floatTab" data-toggle="collapse" data-parent="#accordionGroup" data-target="#collapseOne">
+            <h4 class="panel-title accordion-toggle">
+                     <i class="fa fa-life-saver fa-fw"></i>Example 1 <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body panel-thin">Example Text 1</div>
+        </div>
+     </div>
+  </div>
+</div> -->
