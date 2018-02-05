@@ -40,9 +40,9 @@ export class DeliveryOptionsComponent implements OnInit {
         this.timeSlots = data;
         this.timeSlotRows = this.timeSlots[0].range;
 // TEMPORARY
-        console.log(data)
-        this.timeSlots[3].range[1].booked = 5;
-        console.log(this.timeSlotRows)
+        // console.log(data)
+        // this.timeSlots[3].range[1].booked = 5;
+        // console.log(this.timeSlotRows)
       });
       this.store.select(getOrderId).takeUntil(this.componentDestroyed).subscribe(id => this.orderId = id);
       this.store.select(getOrderState).takeUntil(this.componentDestroyed).subscribe(state => this.orderStatus = state);
