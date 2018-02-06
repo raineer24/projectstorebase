@@ -92,13 +92,22 @@ export class DeliveryOptionsComponent implements OnInit {
     const i = this.radioModel[0];
     const j = this.radioModel[1];
     if(i != null) {
-      this.checkoutService.setTimeSlotOrder({
+      const params = {
           'order_id': this.orderId,
           'timeslot_id': this.timeSlots[i].range[j].timeslotId,
           'date': this.timeSlots[i].date
-        }).do(() => {
-          this.store.dispatch(this.checkoutAction.updateOrderSuccess({status: 'payment'}));
+        };
+
+      this.checkoutService.getTimeSlotOrder(this.orderId).mergeMap(res => {
+        if(typeof(res.message) != undefined){
+          return this.checkoutService.setTimeSlotOrder(params);
+        } else {
+          return this.checkoutService.updateTimeSlotOrder(params);
+        }
+      }).do(() => {
+        this.store.dispatch(this.checkoutAction.updateOrderSuccess({status: 'payment'}));
       }).subscribe();
+
       this.router.navigate(['/checkout', 'payment']);
     }
   }

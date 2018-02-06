@@ -322,6 +322,13 @@ export class CheckoutService {
     })
   }
 
+  getTimeSlotOrder(id: number) {
+    return this.http.get(`v1/timeslotorder/${id}`
+    ).map((res) => {
+      return res.json();
+    })
+  }
+
   setTimeSlotOrder(params) {
     return this.http.post(`v1/timeslotorder`, params
     ).map((res) => {
