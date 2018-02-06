@@ -1,23 +1,19 @@
 <div class="row register-container" data-hook="">
   <div id="content" class="col-sm-12" data-hook="">
-    <div class="col-md-6 col-centered">
+    <div class="col-md-5 col-centered">
       <div class="panel panel-default">
-        <!-- <div class="panel-heading">
-          <h4 class="panel-title">Signup to {{title}}</h4>
-        </div> -->
+        <div class="panel-heading" style="text-align: center;margin: 0px;">
+          <img src="../assets/omg-02.png" />
+        </div>
         <div id="existing-customer" class="panel-body" data-hook="login">
-          <div class="panel-heading">
+          <!-- <div class="panel-heading">
             <h4 class="panel-title">Facebook</h4>
-          </div>
+          </div> -->
+          <app-register-form></app-register-form>
+          <div>or</div>
           <div class="register-third-party-register">
-            <!-- <p class="register-button-info-text register-info-text">EASILY USING</p> -->
             <app-register-facebook></app-register-facebook>
           </div>
-          <!-- <p class="register-button-info-text register-info-text">- OR USING EMAIL -</p> -->
-          <div class="panel-heading">
-            <h4 class="panel-title">Email</h4>
-          </div>
-          <app-register-form></app-register-form>
           <div class="register-link-container">
             <small>
               <div class="register-login-link">
