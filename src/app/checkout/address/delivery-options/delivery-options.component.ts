@@ -1,12 +1,13 @@
 import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
-import { getTotalCartValue, getTotalCartItems } from './../../reducers/selectors';
+import { getOrderId, getOrderState } from './../../reducers/selectors';
 import { Observable } from 'rxjs/Observable';
-import { Order } from './../../../core/models/order';
+import { Subject } from 'rxjs/Subject';
 import { CheckoutService } from './../../../core/services/checkout.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { CheckoutActions } from './../../actions/checkout.actions';
+import { Component, OnInit, Input, ViewChildren, QueryList, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
 
 
 @Component({
@@ -15,111 +16,105 @@ import * as moment from 'moment';
   styleUrls: ['./delivery-options.component.scss']
 })
 export class DeliveryOptionsComponent implements OnInit {
-
-  @Input() orderNumber;
-  order;
-  selectedShippingRate;
-  allTimeSlots;
-  timeSlots;
-  shippingRates = [];
-  totalCartValue$: Observable<number>;
-  totalCartItems$: Observable<number>;
-  myForm: FormGroup;
-  minDate: Date;
-  currMonth: String;
-  today: Date;
-  dateToAdd: Date;
-  locale = "en-us";
-  currDay: number;
-  dispMonth: string;
-  slotNum: string;
+  @Output() onBackClickEmit: EventEmitter<string> = new EventEmitter();
+  timeSlots: Array<any>;
+  orderId: number;
+  orderStatus: string;
   availableSlots: Array<any>;
-  aSlots: Array<any>;
-  varLoop: number;
-  slotFull: boolean;
-  lastDay: number;
-  isShowDeliveryOption: boolean = false;
+  timeSlotRows: Array<any>;
+  timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:01AM - 2:00PM','2:01PM - 5:00PM','5:01PM - 8:00PM'];
+  radioModel: Array<number> = [null,null];
+  prevIndex: number;
+  prevSlot: any;
+  @ViewChildren("radioButtons") radioModels: QueryList<any>;
+  private componentDestroyed: Subject<any> = new Subject();
 
-
-  constructor(private checkoutService: CheckoutService, private store: Store<AppState>, private formBuilder: FormBuilder) {
-    this.totalCartValue$ = this.store.select(getTotalCartValue);
-    this.totalCartItems$ = this.store.select(getTotalCartItems);
-    this.minDate = new Date();
-    this.minDate.setDate(this.minDate.getDate() - 1);
+  constructor(
+    private checkoutAction: CheckoutActions,
+    private checkoutService: CheckoutService,
+    private store: Store<AppState>,
+    private formBuilder: FormBuilder,
+    private router: Router,
+  ) {
+      this.checkoutService.getAllTimeSlot().takeUntil(this.componentDestroyed).subscribe(data => {
+        this.timeSlots = data;
+        this.timeSlotRows = this.timeSlots[0].range;
+// TEMPORARY
+        // console.log(data)
+        // this.timeSlots[3].range[1].booked = 5;
+        // console.log(this.timeSlotRows)
+      });
+      this.store.select(getOrderId).takeUntil(this.componentDestroyed).subscribe(id => this.orderId = id);
+      this.store.select(getOrderState).takeUntil(this.componentDestroyed).subscribe(state => this.orderStatus = state);
   }
 
   ngOnInit() {
-    this.getAllTimeSlot();
-    this.slotFull = false;
-    this.varLoop = 30;
-    this.today = new Date();
-    this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
-    this.dispMonth = this.currMonth.toString();
-    this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
-    this.currDay = this.today.getUTCDate();
-    var lDay = moment().daysInMonth();
-    this.lastDay =  lDay;
-    console.log('Delivery Date');
-    console.log(this.currMonth);
   }
 
-  private getAllTimeSlot(){
-      var ctr = 0;
-      this.aSlots = [5];
-      this.checkoutService.getAllTimeSlot().subscribe( data => {
-        this.timeSlots = data;
-        this.availableSlots = data;
-        // arrSlot = this.availableSlots[0];
-            this.aSlots = this.availableSlots[ctr].range;
-        // this.availableSlots = JSON.stringify(this.availableSlots);
-        for(var key in this.aSlots)
-        {
-          console.log(this.aSlots);
-        }
-      });
-  }
+  selectSlot(event: any){
+    if(event.target.classList.contains('btn-success')) {
+      const i = this.radioModel[0];
+      const j = this.radioModel[1];
+      const index = (j * 8) + i;
+      if (index != this.prevIndex) {
+        const buttons = this.radioModels.toArray();
+        const slot = this.timeSlots[i].range[j];
 
-  counter(i: number) {
-    return new Array(i);
-  }
+        buttons[index].nativeElement.textContent = "SELECTED"//((slot.max - slot.booked) - 1);
 
-  sevenDays(n: number){
-    var dNow = moment(new Date()).format('MMM DD');
-    var daysArr = new Array;
-    for(var ctr=0; ctr < n; ctr++)
-    {
-      if(ctr==0)
-        daysArr[ctr] = dNow;
-      else{
-        daysArr[ctr] = moment(dNow,'mm-dd').add(ctr,'days').format('MMM DD');
-        console.log(dNow);
+        if(this.prevIndex != null)
+          buttons[this.prevIndex].nativeElement.textContent = "Available";//(this.prevSlot.max - this.prevSlot.booked);
+
+        this.prevSlot = slot;
+        this.prevIndex = index;
       }
     }
-    return daysArr;
   }
 
-  onCalendarToggle(){
-    this.today = new Date((new Date()).setDate(this.today.getDate() + 1));
-    this.currMonth = this.today.toLocaleString(this.locale,{month:"long"});
-    this.currMonth = this.currMonth +' '+ this.today.getUTCDate();
-    console.log(this.currMonth);
+  onBackBtn() {
+    this.onBackClickEmit.emit();
   }
 
-  private setOrder() {
-    this.checkoutService.getOrder(this.orderNumber)
-      .subscribe((order) => {
-        this.order = order;
-        this.setShippingRates();
-      });
+  isPastTime(i,j) {
+    if(i != 0) {
+      return false;
+    }
+    const range = this.timeSlots[i].range[j].range.split('to');
+    const today = new Date().getHours();
+    if(today < Number.parseInt(range[1])) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  private setShippingRates() {
-    this.shippingRates = this.order.shipments[0].shipping_rates;
-    this.selectedShippingRate = this.order.shipments[0].selected_shipping_rate;
+  checkoutToPayment() {
+    const i = this.radioModel[0];
+    const j = this.radioModel[1];
+    if(i != null) {
+      const params = {
+          'order_id': this.orderId,
+          'timeslot_id': this.timeSlots[i].range[j].timeslotId,
+          'date': this.timeSlots[i].date
+        };
+
+      this.checkoutService.getTimeSlotOrder(this.orderId).mergeMap(res => {
+        if(typeof(res.message) != undefined){
+          return this.checkoutService.setTimeSlotOrder(params);
+        } else {
+          return this.checkoutService.updateTimeSlotOrder(params);
+        }
+      }).do(() => {
+        this.store.dispatch(this.checkoutAction.updateOrderSuccess({status: 'payment'}));
+      }).subscribe();
+
+      this.router.navigate(['/checkout', 'payment']);
+    }
   }
 
-  toggleShowDeliveryAddressOption(){
-    this.isShowDeliveryOption = false;
+  ngOnDestroy() {
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 
 }

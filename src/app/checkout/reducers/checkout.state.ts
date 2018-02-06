@@ -3,7 +3,8 @@ import { CartItem } from './../../core/models/cart_item';
 import { Map, Record, List, fromJS } from 'immutable';
 
 export interface CheckoutState extends Map<string, any> {
-  orderNumber: number;
+  orderId: number;
+  orderNumber: string;
   orderStatus: string;
   cartItemIds: List<number>;
   cartItemEntities: Map<number, CartItem>;
@@ -14,6 +15,7 @@ export interface CheckoutState extends Map<string, any> {
 }
 
 export const CheckoutStateRecord = Record({
+  orderId: 0,
   orderNumber: null,
   orderStatus: null,
   cartItemIds: List([]),
