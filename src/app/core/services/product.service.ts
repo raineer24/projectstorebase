@@ -50,6 +50,23 @@ export class ProductService {
   /**
    *
    *
+   * @param {number} categoryId
+   * @param {number} level
+   * @param {number} offset optional, default = 0
+   * @param {number} limit optional, default = 20
+   * @returns {Observable<any>}
+   *
+   * @memberof ProductService
+   */
+  getItemsByKeyword(keyword: string, offset = 0, limit = environment.ITEMS_PER_PAGE): Observable<any> {
+    return this.http.get(`v1/item?offset=${offset}&limit=${limit}&keyword=${keyword}`)
+      .map(res => res.json())
+      .catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @param {string} id
    * @returns {Observable<any>}
    *
