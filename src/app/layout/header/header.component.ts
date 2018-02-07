@@ -176,7 +176,6 @@ export class HeaderComponent implements OnInit {
 
   selectItem(item: Item) {
     this.selectedItem = item;
-    console.log(item);
     this.store.dispatch(this.productActions.addSelectedItem(item));
   }
 
