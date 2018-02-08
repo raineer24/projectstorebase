@@ -1,0 +1,21 @@
+.panel-default {
+  padding: 10px 0;
+  margin: 20px 0;
+
+  hr{
+    margin: 10px 0;
+  }
+  h4 {
+    color: red;
+  }
+  .long-text {
+    max-width: 210px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .order-list {
+    max-height: 250px;
+    overflow-y: scroll;
+  }
+}

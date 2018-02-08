@@ -259,7 +259,7 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  updateOrder(params) {
+  updateOrder(params: any) {
     const orderkey = this.getOrderKey();
     return this.http.put(
       // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
@@ -313,6 +313,18 @@ export class CheckoutService {
       }
 
     }).catch(err => Observable.empty());
+  }
+
+  updateOrderPayment(id: number) {
+    const orderkey = this.getOrderKey();
+    return this.http.put(
+      // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
+      `v1/order/${id}/payment`,{
+      orderkey: orderkey,
+      status: 'payment'
+    }).map(res => {
+      return res.json();
+    })
   }
 
   getAllTimeSlot() {

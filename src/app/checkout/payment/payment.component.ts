@@ -1,7 +1,7 @@
-import { Address } from './../../core/models/address';
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
-import { getTotalCartValue, getOrderNumber, getTotalCartItems, getShipAddress } from './../reducers/selectors';
+import { getOrderId, getShipAddress, getBillAddress,
+  getTotalCartItems, getTotalCartValue, getCartItems } from './../reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -9,6 +9,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DISABLED } from '@angular/forms/src/model';
 import { spawn } from 'child_process';
 import { Router } from '@angular/router';
+import { CartItem } from './../../core/models/cart_item';
+
 
 @Component({
   selector: "app-payment",
@@ -25,23 +27,36 @@ export class PaymentComponent implements OnInit {
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
-  address$: Observable<Address>;
+  shipAddress$: Observable<any>;
+  billAddress$: Observable<any>;
   orderNumber$: Observable<string>;
+  orderTotal$: Observable<number>;
+  cartItems$: Observable<CartItem[]>;
   disable: boolean = true;
+  orderId: number;
 
   constructor(private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private checkoutService: CheckoutService
     ) {
-    this.totalCartValue$ = this.store.select(getTotalCartValue);
-    this.totalCartItems$ = this.store.select(getTotalCartItems);
-    this.address$ = this.store.select(getShipAddress);
-    this.orderNumber$ = this.store.select(getOrderNumber);
+    this.store.select(getOrderId).subscribe(id => this.orderId = id);
+    this.shipAddress$ = this.store.select(getShipAddress);
+    this.billAddress$ = this.store.select(getBillAddress);
+    this.orderTotal$ = this.store.select(getTotalCartValue);
+    this.cartItems$ = this.store.select(getCartItems);
   }
 
   ngOnInit() {
   }
 
   goBack(){
-      this.router.navigate(['/checkout', 'address', {deliveryOptions: true}]);
+    this.router.navigate(['/checkout', 'address', {deliveryOptions: true}]);
+  }
+
+  confirmOrder(){
+    this.checkoutService.updateOrderPayment(this.orderId
+      ).do(() => {
+        this.router.navigate(['/checkout', 'confirm']);
+      }).subscribe();
   }
 }
