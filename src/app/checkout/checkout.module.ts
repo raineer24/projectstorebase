@@ -13,6 +13,7 @@ import { LayoutModule } from "../layout/index";
 import { CheckoutRoutes as routes } from './checkout.routes';
 
 import { HeaderComponent } from "../layout/header/header.component";
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   imports: [
@@ -23,10 +24,10 @@ import { HeaderComponent } from "../layout/header/header.component";
     AddressModule,
     PaymentModule,
     LayoutModule,
-   
+
   ],
   exports: [HeaderComponent],
-  declarations: [],
+  declarations: [ConfirmComponent],
   providers: [CheckoutActions]
 })
 export class CheckoutModule {}

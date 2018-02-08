@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   orderSub$: Subscription;
   currentUrl: string;
   currentStep: string;
-  checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment'];
+  checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment', '/checkout/confirm'];
   homeUrls = ['/', '/item']
 
   constructor(

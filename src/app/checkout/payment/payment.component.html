@@ -30,19 +30,19 @@
             <textarea cols="50" rows="4">Instructions</textarea>
           </div>
         </accordion-group>
-        <accordion-group is-disabled="true">
+        <!-- <accordion-group is-disabled="true">
           <div accordion-heading>Credit Card
             <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-credit-card': !groupval?.isOpen}"></i>
           </div>
           <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
           <p>Instructions</p>
-        </accordion-group>
+        </accordion-group> -->
       </accordion>
     </div>
     <div class="col-md-6">
       <div class="button-group pull-right">
           <button class="btn btn-danger" (click)="goBack()">Previous</button>
-          <button class="btn btn-danger" >Review and Place Order</button>
+          <button class="btn btn-danger" (click)="confirmOrder()">Review and Place Order</button>
       </div>
     </div>
 
