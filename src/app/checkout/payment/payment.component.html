@@ -11,7 +11,7 @@
               <i class="pull-left float-xs-left glyphicon glyphicon-usd"></i><i class="pull-right glyphicon" [ngClass]="group1.isOpen ? 'glyphicon-chevron-down': 'glyphicon-chevron-right'"></i>
             </div>
             <i class="pull-right float-xs-right glyphicon"></i>
-            <textarea cols="50" rows="4">Instructions</textarea>
+            <textarea cols="50" rows="4" placeholder="Instructions"></textarea>
           </accordion-group>
           <accordion-group #group2 [isOpen]>
             <div accordion-heading>Gift Certificate
@@ -27,7 +27,7 @@
               </form>
             </div>
             <div>
-              <textarea cols="50" rows="4">Instructions</textarea>
+              <textarea cols="50" rows="4" placeholder="Instructions"></textarea>
             </div>
           </accordion-group>
           <!-- <accordion-group is-disabled="true">
@@ -50,7 +50,7 @@
     </div>
     <div class="col-md-4">
       <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async"
-        [orderTotal]="orderTotal$ | async" [cartItems]="cartItems$ | async"></app-review-order>
+        [orderTotal]="orderTotal$ | async" [cartItems]="cartItems$ | async" [deliveryDate]="deliveryDate$ | async"></app-review-order>
     </div>
   </div>
 

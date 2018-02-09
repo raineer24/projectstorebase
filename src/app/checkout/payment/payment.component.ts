@@ -1,6 +1,6 @@
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
-import { getOrderId, getShipAddress, getBillAddress,
+import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
   getTotalCartItems, getTotalCartValue, getCartItems } from './../reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
@@ -29,6 +29,7 @@ export class PaymentComponent implements OnInit {
   totalCartItems$: Observable<number>;
   shipAddress$: Observable<any>;
   billAddress$: Observable<any>;
+  deliveryDate$: Observable<any>;
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
   cartItems$: Observable<CartItem[]>;
@@ -44,6 +45,7 @@ export class PaymentComponent implements OnInit {
     this.billAddress$ = this.store.select(getBillAddress);
     this.orderTotal$ = this.store.select(getTotalCartValue);
     this.cartItems$ = this.store.select(getCartItems);
+    this.deliveryDate$ = this.store.select(getDeliveryDate);
   }
 
   ngOnInit() {

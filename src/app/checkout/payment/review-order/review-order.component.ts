@@ -11,10 +11,16 @@ export class ReviewOrderComponent implements OnInit {
   @Input() billAddress: {};
   @Input() orderTotal: {};
   @Input() cartItems: CartItem[];
+  @Input() deliveryDate: {};
+  timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:00AM - 2:00PM','2:00PM - 5:00PM','5:00PM - 8:00PM'];
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getTimeSlotLabel(index: number): string {
+    return this.timeSlotLabels[index-1];
   }
 
 }

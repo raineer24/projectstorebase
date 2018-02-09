@@ -1,6 +1,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { CheckoutService } from './../../core/services/checkout.service';
-import { getOrderState  } from './../reducers/selectors';
+import { getOrderState, getOrderId, getDeliveryDate } from './../reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -14,9 +14,12 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AddressComponent implements OnInit, OnDestroy {
 
-  stateSub$: Subscription;
-  orderState: string;
+  statusSub$: Subscription;
+  orderStatus: string;
   isShowDeliveryOption: boolean = false;
+  orderId$: Observable<number>;
+  orderStatus$: Observable<string>;
+  deliveryDate$: Observable<any>;
 
   constructor(
     private store: Store<AppState>,
@@ -24,8 +27,17 @@ export class AddressComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute
   ){
-    this.stateSub$ = this.store.select(getOrderState)
-      .subscribe(state => this.orderState = state);
+    // this.statusSub$ = this.store.select(getOrderState)
+    //   .subscribe(state => this.orderStatus = state);
+    this.orderId$ = this.store.select(getOrderId);
+    this.orderStatus$ = this.store.select(getOrderState);
+    this.deliveryDate$ = this.store.select(getDeliveryDate);
+
+
+    // this.store.select(getOrderId).takeUntil(this.componentDestroyed).subscribe(id => this.orderId = id);
+    // this.store.select(getOrderState).takeUntil(this.componentDestroyed).subscribe(state => this.orderStatus = state);
+    // this.store.select(getDeliveryDate).takeUntil(this.componentDestroyed).subscribe(date => this.deliveryDate = date);
+
   }
 
   ngOnInit() {
@@ -46,11 +58,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.orderState === 'delivery') {
-      this.checkoutService.changeOrderState()
-        .subscribe();
-    }
-    this.stateSub$.unsubscribe();
+    // this.statusSub$.unsubscribe();
   }
 
 }

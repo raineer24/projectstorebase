@@ -13,19 +13,19 @@
     <hr>
   </div>
   <div class="col-md-12" *ngIf="billAddress.billingAddress01">
-      <strong>Billing Address</strong>
-      <small>
-        <div>{{billAddress.billingAddress01}}</div>
-        <div *ngIf="billAddress.billingAddress02">{{billAddress.billingAddress02}}</div>
-        <div>{{billAddress.city}} {{billAddress.country}}</div>
-        <div>Postal Code: {{billAddress.postalcode}}</div>
-      </small>
-      <hr>
+    <strong>Billing Address</strong>
+    <small>
+      <div>{{billAddress.billingAddress01}}</div>
+      <div *ngIf="billAddress.billingAddress02">{{billAddress.billingAddress02}}</div>
+      <div>{{billAddress.billCity}} {{billAddress.billCountry}}</div>
+      <div>Postal Code: {{billAddress.billPostalcode}}</div>
+    </small>
+    <hr>
   </div>
   <div class="col-md-12">
     <strong>Delivery Schedule</strong>
     <small>
-      <div>January 1, 2019 2-5PM</div>
+      <div>{{deliveryDate.date | date:'fullDate'}} at {{getTimeSlotLabel(deliveryDate.timeslotId)}}</div>
     </small>
     <hr>
   </div>
