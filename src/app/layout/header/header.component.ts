@@ -170,11 +170,12 @@ export class HeaderComponent implements OnInit {
 
   searchKeyword(): void {
     this.router.navigateByUrl('/');
-    this.store.dispatch(this.productActions.getItemsBySearchSuccess(this.searchData))
+    if(this.asyncSelected.length > 1)
+      this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected))
   }
+
   selectItem(item: Item) {
     this.selectedItem = item;
-    console.log(item);
     this.store.dispatch(this.productActions.addSelectedItem(item));
   }
 

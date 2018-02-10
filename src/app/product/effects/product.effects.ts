@@ -30,11 +30,11 @@ export class ProductEffects {
     .switchMap((action: Action) => this.productService.getCategories())
     .map((data: any) => this.productActions.getAllTaxonomiesSuccess({categories: data}));
 
-  // @Effect()
-  // GetItemsBySearch$: Observable<Action> = this.actions$
-  //   .ofType(ProductActions.GET_ITEMS_BY_SEARCH)
-  //   .switchMap((action: Action) => this.productService.getItemsBySearch(action.payload))
-  //   .map((data: any) => this.productActions.getItemsBySearchSuccess(data));
+  @Effect()
+  GetItemsByKeyword$: Observable<Action> = this.actions$
+    .ofType(ProductActions.GET_ITEMS_BY_KEYWORD)
+    .switchMap((action: Action) => this.productService.getItemsByKeyword(action.payload))
+    .map((data: any) => this.productActions.getItemsByKeywordSuccess({items: data}));
 
   @Effect()
     GetItemsByCategory$: Observable<Action> = this.actions$

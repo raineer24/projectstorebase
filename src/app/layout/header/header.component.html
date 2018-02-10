@@ -22,6 +22,7 @@
             <ng-template #categories><div class="catbox">{{keyword.name}}</div></ng-template>
           </ng-template>
 
+          <!--NOTE: AUTOSUGGEST SEARCH
           <input [(ngModel)]="asyncSelected"
               [typeahead]="dataSource"
               (typeaheadLoading)="changeTypeaheadLoading($event)"
@@ -34,9 +35,12 @@
               [typeaheadItemTemplate]="searchTemplate"
               (keyup.enter)="searchKeyword()"
               class="form-control"
+              placeholder="Search for..."> -->
+          <input [(ngModel)]="asyncSelected"
+              class="form-control"
+              (keyup.enter)="searchKeyword()"
               placeholder="Search for...">
           <span class="input-group-btn">
-
             <button class="btn btn-secondary btn-danger" type="button" (click)="searchKeyword()">GO</button>
           </span>
         </div>
@@ -55,7 +59,7 @@
               (onShown)="onMenuToggle()"
               (onHidden)="onMenuToggle()">
               <a href="#" class="dropdown-toggle" dropdownToggle
-                (click)="false"
+                (click)="selectAll()"
                 (mouseover)="onMenuOver($event, 0)"
                 (mouseleave)="onMenuLeave($event, 0)">All categories</a>
               <ul *dropdownMenu class="dropdown-menu" role="menu"
@@ -84,7 +88,7 @@
               (onShown)="onMenuToggle()"
               (onHidden)="onMenuToggle()">
               <a href="#" class="dropdown-toggle" dropdownToggle
-                (click)="false"
+                (click)="selectCategory(category)"
                 (mouseover)="onMenuOver($event, i + 1)"
                 (mouseleave)="onMenuLeave($event, i + 1)">{{category.name}}</a>
               <ul *dropdownMenu class="dropdown-menu" role="menu"

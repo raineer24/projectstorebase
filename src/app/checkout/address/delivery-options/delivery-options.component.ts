@@ -81,7 +81,7 @@ export class DeliveryOptionsComponent implements OnInit {
     }
     const range = this.timeSlots[i].range[j].range.split('to');
     const today = new Date().getHours();
-    if(today < Number.parseInt(range[1])) {
+    if(today < Number.parseInt(range[0])) {
       return false;
     } else {
       return true;
@@ -99,7 +99,7 @@ export class DeliveryOptionsComponent implements OnInit {
         };
 
       this.checkoutService.getTimeSlotOrder(this.orderId).mergeMap(res => {
-        if(typeof(res.message) != undefined){
+        if(res.message){
           return this.checkoutService.setTimeSlotOrder(params);
         } else {
           return this.checkoutService.updateTimeSlotOrder(params);
