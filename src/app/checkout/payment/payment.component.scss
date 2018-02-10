@@ -129,7 +129,7 @@
   width: 100%;
 }
 .main-panel {
-  height: 241px;
+  height: auto;
 }
 .glyphicon {
   margin-top: 5px;
@@ -139,23 +139,27 @@
   cursor: pointer;
 }
 
+.panel-group {
+  width: 100%;
+}
+
 .panel-title:hover {
   color: #18bc9c;
 }
 
 .floatOver{
-            width: 300px;
-            max-width: 300px;
-            overflow: visible;
-            position: absolute;
-            top: 52px; /* 52px */
-            z-index: 1000;
-            padding-left: 5px;
-            padding-right: 5px;
-            padding-bottom: 5px;
-            border-radius: 0px 0px 5px 5px;
-            left: 1%;
-            background-color: rgba(245, 245, 245, 0.5);
+  width: 300px;
+  max-width: 300px;
+  overflow: visible;
+  position: absolute;
+  top: 52px; /* 52px */
+  z-index: 1000;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  border-radius: 0px 0px 5px 5px;
+  left: 1%;
+  background-color: rgba(245, 245, 245, 0.5);
 }
 
 .floatTab {

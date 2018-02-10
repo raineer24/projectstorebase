@@ -1,6 +1,6 @@
 import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
-import { getOrderId, getOrderState } from './../../reducers/selectors';
+import { getOrderId, getOrderState, getDeliveryDate } from './../../reducers/selectors';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { CheckoutService } from './../../../core/services/checkout.service';
@@ -17,15 +17,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class DeliveryOptionsComponent implements OnInit {
   @Output() onBackClickEmit: EventEmitter<string> = new EventEmitter();
+  @Input() orderId: number;
+  @Input() orderStatus: string;
+  @Input() deliveryDate: any = {};
+  selectedDateIndex: number;
   timeSlots: Array<any>;
-  orderId: number;
-  orderStatus: string;
   availableSlots: Array<any>;
   timeSlotRows: Array<any>;
-  timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:01AM - 2:00PM','2:01PM - 5:00PM','5:01PM - 8:00PM'];
-  radioModel: Array<number> = [null,null];
+  timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:00AM - 2:00PM','2:00PM - 5:00PM','5:00PM - 8:00PM'];
+  radioModel: Array<number> = [null, null];
   prevIndex: number;
   prevSlot: any;
+
   @ViewChildren("radioButtons") radioModels: QueryList<any>;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -39,17 +42,28 @@ export class DeliveryOptionsComponent implements OnInit {
       this.checkoutService.getAllTimeSlot().takeUntil(this.componentDestroyed).subscribe(data => {
         this.timeSlots = data;
         this.timeSlotRows = this.timeSlots[0].range;
-// TEMPORARY
-        // console.log(data)
-        // this.timeSlots[3].range[1].booked = 5;
-        // console.log(this.timeSlotRows)
+        const i = this.timeSlots.findIndex(day => day.date === this.deliveryDate.date);
+        // TEMPORARY
+        // this.timeSlots[5].range[2].booked = 5;
+        // console.log(this.timeSlots)
+        // this.radioModel =[7,3];
+
+        if(i > 0){
+          const j = this.timeSlots[i].range.findIndex(slot =>
+             Number(slot.timeslotId) === Number(this.deliveryDate.timeslotId));
+          if(j > 0) {
+            const slot = this.timeSlots[i].range[j];
+            if(slot.booked < slot.max && !this.isPastTime(i,j)) {
+              this.radioModel = [i, j];
+            }
+          }
+        }
       });
-      this.store.select(getOrderId).takeUntil(this.componentDestroyed).subscribe(id => this.orderId = id);
-      this.store.select(getOrderState).takeUntil(this.componentDestroyed).subscribe(state => this.orderStatus = state);
+
   }
 
-  ngOnInit() {
-  }
+
+  ngOnInit() { }
 
   selectSlot(event: any){
     if(event.target.classList.contains('btn-success')) {
@@ -92,20 +106,22 @@ export class DeliveryOptionsComponent implements OnInit {
     const i = this.radioModel[0];
     const j = this.radioModel[1];
     if(i != null) {
-      const params = {
-          'order_id': this.orderId,
-          'timeslot_id': this.timeSlots[i].range[j].timeslotId,
+      let params:any = {};
+      params = {
+          'order_id': Number(this.orderId),
+          'timeslot_id': Number(this.timeSlots[i].range[j].timeslotId),
           'date': this.timeSlots[i].date
         };
-
       this.checkoutService.getTimeSlotOrder(this.orderId).mergeMap(res => {
         if(res.message){
           return this.checkoutService.setTimeSlotOrder(params);
         } else {
           return this.checkoutService.updateTimeSlotOrder(params);
         }
-      }).do(() => {
-        this.store.dispatch(this.checkoutAction.updateOrderSuccess({status: 'payment'}));
+      }).mergeMap((res) => {
+        params.status = 'delivery';
+        return this.checkoutService.updateOrder(params);
+        //this.store.dispatch(this.checkoutAction.updateOrderDeliveryOptionsSuccess(params));
       }).subscribe();
 
       this.router.navigate(['/checkout', 'payment']);

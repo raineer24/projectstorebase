@@ -12,7 +12,8 @@
 	<div id="deliverytime" class="delivery-time" *ngIf="isShowDeliveryOption">
 		<div class="col-md-12">
       <h3>Pick a delivery time slot</h3>
-			<app-delivery-options (onBackClickEmit)="toggleShowDeliveryAddressOption()"></app-delivery-options>
+			<app-delivery-options [orderId]="orderId$ | async" [orderStatus]="orderStatus$ | async"
+			 [deliveryDate]="deliveryDate$ | async" (onBackClickEmit)="toggleShowDeliveryAddressOption()"></app-delivery-options>
 		</div>
 	</div>
 	<div id="enterAddress" *ngIf="!isShowDeliveryOption">

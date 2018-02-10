@@ -90,11 +90,13 @@ export class CheckoutService {
     const orderkey = orderStorage != null ? orderStorage.order_token: null;
     if(orderkey) { console.log("CURRENT ORDER KEY")
       return this.http.get(`v1/order?orderkey=${orderkey}`
-      ).map(res => res.json()
-      ).mergeMap(order => {
+      // ).map(res => res.json()
+      ).mergeMap(res => {
+        let order:any = {};
+        order = res.json();
         if(order.id) { console.log("FETCH CURRENT ORDER")
           return this.http.get(`v1/orderItem?key=${orderkey}`
-          ).map(res2 => {
+          ).mergeMap(res2 => {
             let cart_items = [], total = 0, total_quantity = 0;
             const data = res2.json();
             for (let datum of data) {
@@ -107,7 +109,16 @@ export class CheckoutService {
             order.total = total.toString();
             order.shippingAddress01 = orderStorage.shipping_address;
             order.billingAddress01 = orderStorage.billing_address;
-            return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+
+            return this.http.get(`v1/timeslotorder/${order.id}`
+            ).map(res3 => {
+              const date = res3.json();
+              order.deliveryDate = {
+                date: date.date,
+                timeslotId: date.timeslot_id
+              }
+              return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+            })
           })
         } else { console.log("CREATE NEW ORDER")
           return this.createNewOrder();
@@ -141,7 +152,7 @@ export class CheckoutService {
           orderkey: orderkey,
           status: 'cart'
         }).map(orderId => {
-          let order = new Order;
+          let order:any = {};
           order.id = orderId.json()['id'];
           order.number = "0";
           order.orderkey = orderkey;
@@ -150,6 +161,7 @@ export class CheckoutService {
           order.total = "0";
           order.shippingAddress01 = '';
           order.billingAddress01 = '';
+          order.deliveryDate = '';
           order.status = 'cart';
           return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
         })
@@ -221,13 +233,12 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   updateCartItem(cartItem: CartItem) {
-    return this.http.put(`v1/orderItem/${cartItem.id}`,
-        {
-          "user_id": 0,
-          "item_id": cartItem.item.id,
-          "quantity": cartItem.quantity,
-          "orderkey": this.getOrderKey()
-        }
+    return this.http.put(`v1/orderItem/${cartItem.id}`, {
+        "user_id": 0,
+        "item_id": cartItem.item.id,
+        "quantity": cartItem.quantity,
+        "orderkey": this.getOrderKey()
+      }
     ).map((res) => {
       return cartItem;
     }).catch(err => Observable.empty());
@@ -259,7 +270,7 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  updateOrder(params) {
+  updateOrder(params: any) {
     const orderkey = this.getOrderKey();
     return this.http.put(
       // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
@@ -304,7 +315,14 @@ export class CheckoutService {
           this.store.dispatch(this.actions.updateOrderAddressSuccess(address));
           break;
         case 'delivery': console.log("UPDATE DELIVERY")
-          this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(params));
+          const date = {
+            'status': 'payment',
+            'date': {
+              'date': params.date,
+              'timeslotId': params.timeslot_id
+            }
+          }
+          this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
           break;
         // case 'payment':
         //   break;
@@ -313,6 +331,20 @@ export class CheckoutService {
       }
 
     }).catch(err => Observable.empty());
+  }
+
+  updateOrderPayment(params: any) {
+    const orderkey = this.getOrderKey();
+    return this.http.put(
+      // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
+      `v1/order/${params.orderId}/payment`,{
+      orderkey: orderkey,
+      status: 'payment'
+    }).mergeMap(res => {
+      this.store.dispatch(this.actions.orderCompleteSuccess());
+      return this.createNewOrder();
+      //return res.json();
+    })
   }
 
   getAllTimeSlot() {
@@ -337,7 +369,7 @@ export class CheckoutService {
   }
 
   updateTimeSlotOrder(params) {
-    return this.http.put(`v1/timeslotorder/${params.orderId}`, params
+    return this.http.put(`v1/timeslotorder/${params.order_id}`, params
     ).map((res) => {
       return res.json();
     })

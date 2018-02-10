@@ -13,7 +13,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue,
         _ship_address, _bill_address,
-        _orderStatus, _orderId;
+        _orderStatus, _orderId, _deliveryDate;
 
     switch (type) {
 
@@ -26,6 +26,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _ship_address = payload.shippingAddress01;
         _bill_address = payload.billingAddress01;
         _orderStatus = payload.status;
+        _deliveryDate = payload.deliveryDate;
 
         _cartItemEntities = _cartItems.reduce((cartItems: { [id: number]: CartItem }, cartItem: CartItem) => {
           return Object.assign(cartItems, {
@@ -41,7 +42,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
           shipAddress: _ship_address,
-          billAddress: _bill_address
+          billAddress: _bill_address,
+          deliveryDate: _deliveryDate
         }) as CheckoutState;
 
       case CheckoutActions.ADD_TO_CART_SUCCESS:
@@ -132,7 +134,13 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_DELIVERY_OPTIONS_SUCCESS:
-        return state;
+        _orderStatus = payload.status;
+        _deliveryDate = payload.date;
+
+        return state.merge({
+          orderStatus: _orderStatus,
+          deliveryDate: _deliveryDate
+        }) as CheckoutState;
 
       case CheckoutActions.ORDER_COMPLETE_SUCCESS:
         return initialState;

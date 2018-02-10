@@ -1,14 +1,15 @@
-import { Address } from './../../core/models/address';
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
-import { getTotalCartValue, getOrderNumber, getTotalCartItems, getShipAddress } from './../reducers/selectors';
+import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
+  getTotalCartItems, getTotalCartValue, getCartItems } from './../reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { DISABLED } from '@angular/forms/src/model';
 import { spawn } from 'child_process';
 import { Router } from '@angular/router';
+import { CartItem } from './../../core/models/cart_item';
 
 @Component({
   selector: "app-payment",
@@ -18,30 +19,71 @@ import { Router } from '@angular/router';
 })
 
 export class PaymentComponent implements OnInit {
-
-
+  @ViewChild('group1') paymentCOD;
+  @ViewChild('group2') paymentGC;
   oneAtATime: boolean = true;
-
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
-  address$: Observable<Address>;
+  shipAddress$: Observable<any>;
+  billAddress$: Observable<any>;
+  deliveryDate$: Observable<any>;
   orderNumber$: Observable<string>;
+  orderTotal$: Observable<number>;
+  cartItems$: Observable<CartItem[]>;
   disable: boolean = true;
+  orderId: number;
+  codText: string;
+  gcText: string;
+  gcCode: string;
 
   constructor(private store: Store<AppState>,
-    private router: Router
+    private router: Router,
+    private checkoutService: CheckoutService
     ) {
-    this.totalCartValue$ = this.store.select(getTotalCartValue);
-    this.totalCartItems$ = this.store.select(getTotalCartItems);
-    this.address$ = this.store.select(getShipAddress);
-    this.orderNumber$ = this.store.select(getOrderNumber);
+    this.store.select(getOrderId).subscribe(id => this.orderId = id);
+    this.shipAddress$ = this.store.select(getShipAddress);
+    this.billAddress$ = this.store.select(getBillAddress);
+    this.orderTotal$ = this.store.select(getTotalCartValue);
+    this.cartItems$ = this.store.select(getCartItems);
+    this.deliveryDate$ = this.store.select(getDeliveryDate);
   }
 
   ngOnInit() {
   }
 
   goBack(){
-      this.router.navigate(['/checkout', 'address', {deliveryOptions: true}]);
+    this.router.navigate(['/checkout', 'address', {deliveryOptions: true}]);
+  }
+
+  confirmOrder(){
+    let params: any = {};
+    let isPaymentMode = false;
+
+    if (this.paymentCOD.isOpen) {
+      params = {
+        orderId: this.orderId,
+        paymentMode: 'COD',
+        paymentInstructions: this.codText,
+        status: 'payment'
+      }
+      isPaymentMode = true;
+    } else if (this.paymentGC.isOpen) {
+      params = {
+        orderId: this.orderId,
+        paymentMode: 'GC',
+        paymentInstructions: this.gcText,
+        paymentCode: this.gcCode,
+        status: 'payment'
+      }
+      isPaymentMode = true;
+    }
+
+    if(isPaymentMode) {
+      this.checkoutService.updateOrderPayment(params
+        ).do(() => {
+          this.router.navigate(['/checkout', 'confirm']);
+        }).subscribe();
+    }
   }
 }
