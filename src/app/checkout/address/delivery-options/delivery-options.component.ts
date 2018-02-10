@@ -112,7 +112,6 @@ export class DeliveryOptionsComponent implements OnInit {
           'timeslot_id': Number(this.timeSlots[i].range[j].timeslotId),
           'date': this.timeSlots[i].date
         };
-console.log(params)
       this.checkoutService.getTimeSlotOrder(this.orderId).mergeMap(res => {
         if(res.message){
           return this.checkoutService.setTimeSlotOrder(params);
@@ -120,7 +119,7 @@ console.log(params)
           return this.checkoutService.updateTimeSlotOrder(params);
         }
       }).mergeMap((res) => {
-        params.status = 'delivery'
+        params.status = 'delivery';
         return this.checkoutService.updateOrder(params);
         //this.store.dispatch(this.checkoutAction.updateOrderDeliveryOptionsSuccess(params));
       }).subscribe();

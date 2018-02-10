@@ -5,12 +5,11 @@ import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { DISABLED } from '@angular/forms/src/model';
 import { spawn } from 'child_process';
 import { Router } from '@angular/router';
 import { CartItem } from './../../core/models/cart_item';
-
 
 @Component({
   selector: "app-payment",
@@ -20,10 +19,9 @@ import { CartItem } from './../../core/models/cart_item';
 })
 
 export class PaymentComponent implements OnInit {
-
-
+  @ViewChild('group1') paymentCOD;
+  @ViewChild('group2') paymentGC;
   oneAtATime: boolean = true;
-
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
@@ -35,6 +33,9 @@ export class PaymentComponent implements OnInit {
   cartItems$: Observable<CartItem[]>;
   disable: boolean = true;
   orderId: number;
+  codText: string;
+  gcText: string;
+  gcCode: string;
 
   constructor(private store: Store<AppState>,
     private router: Router,
@@ -56,9 +57,33 @@ export class PaymentComponent implements OnInit {
   }
 
   confirmOrder(){
-    this.checkoutService.updateOrderPayment(this.orderId
-      ).do(() => {
-        this.router.navigate(['/checkout', 'confirm']);
-      }).subscribe();
+    let params: any = {};
+    let isPaymentMode = false;
+
+    if (this.paymentCOD.isOpen) {
+      params = {
+        orderId: this.orderId,
+        paymentMode: 'COD',
+        paymentInstructions: this.codText,
+        status: 'payment'
+      }
+      isPaymentMode = true;
+    } else if (this.paymentGC.isOpen) {
+      params = {
+        orderId: this.orderId,
+        paymentMode: 'GC',
+        paymentInstructions: this.gcText,
+        paymentCode: this.gcCode,
+        status: 'payment'
+      }
+      isPaymentMode = true;
+    }
+
+    if(isPaymentMode) {
+      this.checkoutService.updateOrderPayment(params
+        ).do(() => {
+          this.router.navigate(['/checkout', 'confirm']);
+        }).subscribe();
+    }
   }
 }

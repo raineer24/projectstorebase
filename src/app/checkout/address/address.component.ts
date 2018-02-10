@@ -27,17 +27,9 @@ export class AddressComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute
   ){
-    // this.statusSub$ = this.store.select(getOrderState)
-    //   .subscribe(state => this.orderStatus = state);
     this.orderId$ = this.store.select(getOrderId);
     this.orderStatus$ = this.store.select(getOrderState);
     this.deliveryDate$ = this.store.select(getDeliveryDate);
-
-
-    // this.store.select(getOrderId).takeUntil(this.componentDestroyed).subscribe(id => this.orderId = id);
-    // this.store.select(getOrderState).takeUntil(this.componentDestroyed).subscribe(state => this.orderStatus = state);
-    // this.store.select(getDeliveryDate).takeUntil(this.componentDestroyed).subscribe(date => this.deliveryDate = date);
-
   }
 
   ngOnInit() {
@@ -58,7 +50,6 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.statusSub$.unsubscribe();
   }
 
 }

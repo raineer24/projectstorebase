@@ -316,7 +316,7 @@ export class CheckoutService {
           break;
         case 'delivery': console.log("UPDATE DELIVERY")
           const date = {
-            'status': params.status,
+            'status': 'payment',
             'date': {
               'date': params.date,
               'timeslotId': params.timeslot_id
@@ -333,15 +333,17 @@ export class CheckoutService {
     }).catch(err => Observable.empty());
   }
 
-  updateOrderPayment(id: number) {
+  updateOrderPayment(params: any) {
     const orderkey = this.getOrderKey();
     return this.http.put(
       // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
-      `v1/order/${id}/payment`,{
+      `v1/order/${params.orderId}/payment`,{
       orderkey: orderkey,
       status: 'payment'
-    }).map(res => {
-      return res.json();
+    }).mergeMap(res => {
+      this.store.dispatch(this.actions.orderCompleteSuccess());
+      return this.createNewOrder();
+      //return res.json();
     })
   }
 
