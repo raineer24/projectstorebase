@@ -45,7 +45,8 @@
         font-weight: 300;
         letter-spacing: 0.5px;
         line-height: 20px;
-        width: 30em;
+        // width: 30em;
+        width: 100%;
         label {
           font-weight: 300;
           width: 90px;
@@ -103,19 +104,19 @@
 .quantity-in-cart-add,
 .quantity-in-cart {
   width: 200px;
-  height: 27px;
-  line-height: 14px;
-  font-size: 14px;
-  span {
-    line-height: 11px;
-  }
+  // height: 27px;
+  // line-height: 14px;
+  // font-size: 14px;
+  // span {
+  //   line-height: 11px;
+  // }
 }
 .quantity-in-cart {
   background: #0be0c7;
   background: #4AD9D9;
   background-color: #01e6ff;
   height: 34px;
-  height: 27px;
+  // height: 27px;
   border: none;
   color: #fff;
 }
@@ -133,34 +134,43 @@
   position: relative;
   line-height: 14px;
   font-size: 14px;
-  button {
-    font-size: 11px;
+  display: inline-block;
+  button, input {
+    position: absolute;
+  }
+  .btn-minus {
+    background: transparent;
+    left: 0px;
+    z-index: 1000;
+  }
+  .btn-success {
+    right: 0px;
+    border-radius: 0px;
   }
 }
 
-.quantity-in-cart .btn-success {
-  position: absolute;
-  right: 0px;
-  border-radius: 0px;
+.fl {
+  float: left;
+  margin-right: 5px !important;
 }
+
 
 .quantity-in-cart input {
   background: transparent;
   border: none;
   width: 100%;
   line-height: 32px;
-  line-height: 27px;
 }
 
 .quantity-in-cart span {
   color: #fff;
 }
 
-.quantity-in-cart-btn {
-  position: absolute;
-  left: 0px;
-  background: none;
-}
+// .quantity-in-cart-btn {
+//   position: absolute;
+//   left: 0px;
+//   background: none;
+// }
 
 .addtocart {
   padding: 0;
