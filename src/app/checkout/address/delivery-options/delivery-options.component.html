@@ -1,3 +1,4 @@
+<br />
 <div class="calendar btn-group">
   <div class="row">
     <div class="col-xs-2 col-sm-2 col-md-2"></div>
@@ -22,7 +23,7 @@
       </ng-template >
       <ng-template #elseBlock2>
         <ng-container *ngIf="timeslots.range[i].booked < timeslots.range[i].max; else elseBlock3">
-          <label [ngClass]="['btn-primary','btn','btn-block']"
+          <label [ngClass]="['btn-default','btn','btn-block']"
             (click)="selectSlot($event)" #radioButtons
             [(ngModel)]="radioModel" [btnRadio]="[j,i]">Open</label>
         </ng-container>
@@ -38,7 +39,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="input-btn-group nav-but-grp pull-right">
-      <button class="btn btn-danger" (click)="onBackBtn()">Back to add address</button>
+      <button class="btn btn-danger" (click)="onBackBtn()">Previous</button>
       <button class="btn btn-danger" (click)="checkoutToPayment()">Proceed to payment</button>
     </div>
   </div>

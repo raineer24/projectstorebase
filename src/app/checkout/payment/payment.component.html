@@ -42,13 +42,13 @@
 
     </div>
     <div class="col-md-4">
+      <button class="btn btn-block btn-primary place-order" (click)="confirmOrder()">Place order now</button>
       <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async"
         [orderTotal]="orderTotal$ | async" [cartItems]="cartItems$ | async" [deliveryDate]="deliveryDate$ | async"></app-review-order>
       <div class="row">
         <div class="col-md-12">
           <div class="button-group pull-right">
               <button class="btn btn-danger" (click)="goBack()">Previous</button>
-              <button class="btn btn-danger" (click)="confirmOrder()">Review and Place Order</button>
           </div>
         </div>
       </div>
