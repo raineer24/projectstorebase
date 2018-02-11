@@ -17,14 +17,14 @@
         <ng-container *ngIf="radioModel[0] == j && radioModel[1] == i; else elseBlock2">
           <label [ngClass]="['btn-success-selected','btn','btn-block']"
             (click)="selectSlot($event)" #radioButtons
-            [(ngModel)]="radioModel" [btnRadio]="[j,i]">SELECTED</label>
+            [(ngModel)]="radioModel" [btnRadio]="[j,i]"><span class="glyphicon glyphicon-ok"></span></label>
         </ng-container>
       </ng-template >
       <ng-template #elseBlock2>
         <ng-container *ngIf="timeslots.range[i].booked < timeslots.range[i].max; else elseBlock3">
-          <label [ngClass]="['btn-success','btn','btn-block']"
+          <label [ngClass]="['btn-primary','btn','btn-block']"
             (click)="selectSlot($event)" #radioButtons
-            [(ngModel)]="radioModel" [btnRadio]="[j,i]">Available</label>
+            [(ngModel)]="radioModel" [btnRadio]="[j,i]">Open</label>
         </ng-container>
       </ng-template >
       <ng-template #elseBlock3>

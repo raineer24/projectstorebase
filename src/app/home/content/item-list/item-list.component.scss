@@ -94,6 +94,10 @@ ul.results-base {
   margin: 0;
   padding: 0px;
   min-height: 970px;
+  p {
+    min-width: 1024px;
+    padding: 20px 0;
+  }
 }
 
 ul li.product-base {

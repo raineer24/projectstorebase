@@ -44,7 +44,7 @@
               <button type="button" class="btn btn-success" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
           <ng-template #addCart>
-            <button class="quantity-in-cart btn" (click)="addToCart()">Add to cart</button>
+            <button class="quantity-in-cart-add btn btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
           </ng-template>
           </span>
 
@@ -54,7 +54,7 @@
       <div>
         <p>
           <label>&nbsp;</label>
-          <span><button class="quantity-wish-list btn">Add to my list</button></span>
+          <span><button class="quantity-wish-list btn btn-primary"><span class="glyphicon glyphicon-edit"></span>Add to my list</button></span>
         </p>
       </div>
       <!-- <div>

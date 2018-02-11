@@ -100,15 +100,30 @@
   border-top: 1px solid #000;
 }
 
-.quantity-wish-list,
+.quantity-in-cart-add,
+.quantity-in-cart {
+  width: 200px;
+  height: 27px;
+  line-height: 14px;
+  font-size: 14px;
+  span {
+    line-height: 11px;
+  }
+}
 .quantity-in-cart {
   background: #0be0c7;
   background: #4AD9D9;
   background-color: #01e6ff;
-  width: 200px;
   height: 34px;
+  height: 27px;
   border: none;
   color: #fff;
+}
+.quantity-wish-list {
+  width: 200px;
+  span {
+    margin-right: 5px;
+  }
 }
 
 .quantity-in-cart {
@@ -116,6 +131,11 @@
   width: 12em;
   width: 200px;
   position: relative;
+  line-height: 14px;
+  font-size: 14px;
+  button {
+    font-size: 11px;
+  }
 }
 
 .quantity-in-cart .btn-success {
@@ -129,6 +149,7 @@
   border: none;
   width: 100%;
   line-height: 32px;
+  line-height: 27px;
 }
 
 .quantity-in-cart span {
