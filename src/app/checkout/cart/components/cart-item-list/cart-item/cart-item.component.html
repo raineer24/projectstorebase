@@ -31,14 +31,14 @@
 <ul class="list-inline">
   <div class="panel">
       <div class="row">
-        <li class="col-xs-2">
+        <!-- <li class="col-xs-2">
           <div class="">
             <img class="img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)">
           </div>
-        </li>
-        <li class="col-xs-4">
+        </li> -->
+        <li class="col-xs-6">
           <p class="product-name">{{cartItem.item.name}}</p>
-          <p>P {{cartItem.price | number:'1.2'}}</p>
+          <!-- <p>P {{cartItem.price | number:'1.2'}}</p> -->
         </li>
         <li class="col-xs-2">
           <button type="button" class="btn btn-xs cart-btns btn-danger" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
@@ -55,7 +55,7 @@
         </li>
         <li class="col-xs-2">
           <button type="button" class="btn-danger" (click)="removeCartItem()">
-            Remove
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Remove
           </button>
         </li>
       </div>

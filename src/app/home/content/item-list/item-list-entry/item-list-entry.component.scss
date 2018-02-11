@@ -57,7 +57,7 @@ a {
       text-overflow: ellipsis;
       // white-space: nowrap;
       font-size: 13px;
-      font-size: 14px;
+      // font-size: 14px;
       font-weight: 420;
       font-weight: 500;
       line-height: 14px;
@@ -111,6 +111,8 @@ a {
   padding: 0px;
   vertical-align: middle;
   line-height: 32px;
+  line-height: 24px;
+  font-size: 14px;
 }
 
 .product-sizeDisplayDiv {
@@ -194,13 +196,17 @@ a {
   background: #ff5848;
   position: relative;
   height: 34px;
+  height: 27px;
   background: #4AD9D9;
+  background: #01e6ff;
 }
 
 .quality-in-cart .btn {
   border-radius: 0px;
   position: absolute;
   z-index: 1000;
+  line-height: 11px;
+  font-size: 11px;
 }
 .quality-in-cart {
   .btn-left {
@@ -220,6 +226,7 @@ a {
   width: 50.7%;
   width: 100%;
   height: 35px;
+  height: 27px;
 }
 
 .quantity-in-cart-btn span {

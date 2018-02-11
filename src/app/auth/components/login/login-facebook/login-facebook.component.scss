@@ -114,10 +114,10 @@ fieldset {
 }
 
 .login-login-button {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  padding: 15px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  padding: 10px;
   display: block;
   width: 100%;
   border: 0;
@@ -173,6 +173,7 @@ a {
 .login-button-container {
   margin-top: 10px;
   margin-bottom: 40px;
+  height: 40px;
 }
 
 @media (min-width: 360px) {
