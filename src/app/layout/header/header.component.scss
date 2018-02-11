@@ -1,15 +1,18 @@
 .topbar {
   // background: url(../../../assets/bg-header.jpg) repeat-x left top;
-  background: #05ccb9;
-  background: #ffffff;
-  border-bottom: 1px solid #02b5a4; //#03988a;
+  // background: #05ccb9;
+  // background: #ffffff;
+  // border-bottom: 1px solid #02b5a4; //#03988a;
+  border-bottom: 1px solid #ff005d;
  }
 .header-sticky-wrapper {
-  background-color: #42f4eb;
-  background: #e0e0e0;
-  background: #1ba182;
-  border-bottom: 1px solid #cdcdcd;
-  border-bottom: 1px solid #1ba182;
+  // background-color: #42f4eb;
+  // background: #e0e0e0;
+  // background: #1ba182;
+  background: #ff005d;
+  // border-bottom: 1px solid #cdcdcd;
+  // border-bottom: 1px solid #1ba182;
+  // border-bottom: 1px solid #ff005d;
 }
 .header-sticky-wrapper ul {
   float: left;
@@ -18,32 +21,35 @@
   text-transform: uppercase;
   // display: block;
   margin-top: -1px;
-  }
+}
 .header-sticky-wrapper ul li {
   // float: left;
   // list-style: none;
   // margin-left: 20px;
   font-size: 11px;
   a {
-    color: #333333;
-    color: #f2f2f2;
+    // color: #333333;
+    // color: #f2f2f2;
   }
 
 }
-  .header-sticky-wrapper ul li:nth-child(n+10) {
-      display: none;
-  }
+.header-sticky-wrapper ul li:nth-child(n+10) {
+  display: none;
+}
 
 // .header-sticky-wrapper ul li:first-child {
 //   margin-left: 0;
 //   margin-right: 5em;
 // }
 .input-group  {
-  float: right;
-    position: absolute;
-    top: 14px;
-    /* right: -12px; */
-    left: 173px;
+  // float: right;
+  // position: absolute;
+  // top: 14px;
+  // right: -12px;
+  // left: 173px;
+  input {
+    margin: 20px 0;
+  }
 }
 // li.dropdown:hover > ul.dropdown-menu {
 //   display: block;
@@ -62,7 +68,8 @@
 }
 .yamm .dropdown-menu {
   left: auto;
-  background: #1ba182;
+  // background: #1ba182;
+  // background: #ff005d;
 }
 .yamm .dropdown.yamm-fw .dropdown-menu {
   left: 0;
@@ -105,8 +112,9 @@
 .navbar-brand {
   padding: 0px;
   height: 80px;
+  float: none;
   img {
-    height: 100%;
+    width: 100%;
   }
 }
 // .navbar-header

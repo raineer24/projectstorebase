@@ -9,3 +9,9 @@
 .cart {
   cursor: pointer;
 }
+.dropdown-menu {
+  min-width: 120px;
+  .divider {
+    margin: 5px 0;
+  }
+}

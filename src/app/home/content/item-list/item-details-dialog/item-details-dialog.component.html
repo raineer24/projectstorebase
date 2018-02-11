@@ -6,7 +6,7 @@
     <!-- <div class="lighter">
         <p-lightbox class="col-sm-6" [images]="images"></p-lightbox>
     </div> -->
-    <div class="item-image-thumbnails">
+    <div class="item-image-thumbnails col-md-1 col-xs-5">
       <img [src]="getItemImageUrl(item.imageKey)" />
     </div>
     <div class="item-images col-md-4">
@@ -44,7 +44,7 @@
               <button type="button" class="btn btn-success" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
           <ng-template #addCart>
-            <button class="quantity-in-cart btn" (click)="addToCart()">ADD TO CART</button>
+            <button class="quantity-in-cart btn" (click)="addToCart()">Add to cart</button>
           </ng-template>
           </span>
 
