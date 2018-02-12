@@ -60,8 +60,11 @@ export class ItemListComponent implements OnInit {
     if(this.autoLoadCtr < 3 && this.items.length >= this.itemsPerPage) {
       this.autoLoadCtr++;
       this.loadMoreItems();
-      console.log("test")
     }
+  }
+
+  getCartItem(id){
+    return this.cartItems.find(cartItem => cartItem.item_id === id);
   }
 
   @HostListener("window:scroll", [])

@@ -1,7 +1,8 @@
 import { environment } from './../../../../../environments/environment';
 import { Item } from './../../../../core/models/item';
 import { CartItem } from './../../../../core/models/cart_item';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges,
+   ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
@@ -11,13 +12,13 @@ import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-item-list-entry',
-//  changeDetection: ChangeDetectionStrategy.Default,
+ changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './item-list-entry.component.html',
   styleUrls: ['./item-list-entry.component.scss']
 })
-export class ItemListEntryComponent implements OnInit {
+export class ItemListEntryComponent implements OnInit, OnChanges {
   @Input() item: Item;
-  @Input() cartItems: CartItem[];
+  @Input() cartItem: CartItem;
   @Output() onOpenModalEmit: EventEmitter<any> = new EventEmitter<any>();
   itemQuantity: number = 0;
   quantityControl = new FormControl;
@@ -33,23 +34,27 @@ export class ItemListEntryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const cartItem = this.getCartItem();
-    if(typeof(cartItem) != "undefined"){
-      this.itemQuantity = cartItem.quantity;
+    if(typeof(this.cartItem) != "undefined"){
+      this.itemQuantity = this.cartItem.quantity;
     }
     this.quantityControl.valueChanges
       .debounceTime(300)
       .subscribe(value => {
         if(isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE){
-          this.quantityControl.setValue(this.itemQuantity);
+          this.quantityControl.setValue(this.cartItem.quantity);
         } else {
           this.cdr.detectChanges();
           this.itemQuantity = value;
-          let cartItem = this.getCartItem();
-          cartItem.quantity = value;
-          this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
+          this.cartItem.quantity = value;
+          this.store.dispatch(this.checkoutActions.updateCartItem(this.cartItem));
         }
       })
+  }
+
+  ngOnChanges() {
+    if(typeof(this.cartItem) != "undefined"){
+      this.itemQuantity = this.cartItem.quantity;
+    }
   }
 
   getItemImageUrl(key) {
@@ -72,7 +77,7 @@ export class ItemListEntryComponent implements OnInit {
   }
 
   private detach() {
-    this.cdr.detach();
+    // this.cdr.detach();
   }
 
   onImageLoaded() {
@@ -114,9 +119,4 @@ export class ItemListEntryComponent implements OnInit {
   inputQuantity(e) {
     e.stopPropagation();
   }
-
-  getCartItem(){
-    return this.cartItems.find(cartItem => cartItem.item_id === this.item.id);
-  }
-
 }
