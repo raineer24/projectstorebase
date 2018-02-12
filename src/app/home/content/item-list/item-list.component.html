@@ -12,7 +12,7 @@
       <p *ngIf="items.length === 0">No results found. Please try another keyword or select another category.</p>
       <li *ngFor="let item of items" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
-        <app-item-list-entry [item]="item" [cartItems]="cartItems" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
+        <app-item-list-entry [item]="item" [cartItem]="getCartItem(item.id)" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
       </li>
     </ul>
     </section>

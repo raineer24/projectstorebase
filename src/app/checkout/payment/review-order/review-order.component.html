@@ -31,10 +31,10 @@
   </div>
   <div class="col-md-12">
     <strong>Order Summary</strong>
-    <div>
+    <div class="order-list">
       <small>
       <div *ngFor="let cartItem of cartItems">
-        <div class="order-list">
+        <div>
           <div class="pull-left long-text">{{cartItem.item.name}}</div>
           &nbsp;(x{{cartItem.quantity}})
           <div class="pull-right">

@@ -28,6 +28,7 @@ export class DeliveryOptionsComponent implements OnInit {
   radioModel: Array<number> = [null, null];
   prevIndex: number;
   prevSlot: any;
+  isShowErrMsg: boolean = false;
 
   @ViewChildren("radioButtons") radioModels: QueryList<any>;
   private componentDestroyed: Subject<any> = new Subject();
@@ -48,10 +49,11 @@ export class DeliveryOptionsComponent implements OnInit {
         // console.log(this.timeSlots)
         // this.radioModel =[7,3];
 
-        if(i > 0){
+        if(i >= 0){
           const j = this.timeSlots[i].range.findIndex(slot =>
              Number(slot.timeslotId) === Number(this.deliveryDate.timeslotId));
-          if(j > 0) {
+
+          if(j >= 0) {
             const slot = this.timeSlots[i].range[j];
             if(slot.booked < slot.max && !this.isPastTime(i,j)) {
               this.radioModel = [i, j];
@@ -62,8 +64,15 @@ export class DeliveryOptionsComponent implements OnInit {
 
   }
 
-
-  ngOnInit() { }
+  ngOnInit() {
+    // console.log(this.orderStatus)
+    // if(this.orderStatus == 'delivery'
+    // || this.orderStatus == 'payment') {
+    //   //do nothing;
+    // } else {
+    //   this.router.navigate(['/']);
+    // }
+  }
 
   selectSlot(event: any){
     if(event.target.classList.contains('btn-success')) {
@@ -106,6 +115,7 @@ export class DeliveryOptionsComponent implements OnInit {
     const i = this.radioModel[0];
     const j = this.radioModel[1];
     if(i != null) {
+      this.isShowErrMsg = false;
       let params:any = {};
       params = {
           'order_id': Number(this.orderId),
@@ -119,12 +129,17 @@ export class DeliveryOptionsComponent implements OnInit {
           return this.checkoutService.updateTimeSlotOrder(params);
         }
       }).mergeMap((res) => {
-        params.status = 'delivery';
+        params = {
+          status: 'delivery'
+        }
+        console.log(params)
         return this.checkoutService.updateOrder(params);
         //this.store.dispatch(this.checkoutAction.updateOrderDeliveryOptionsSuccess(params));
       }).subscribe();
 
       this.router.navigate(['/checkout', 'payment']);
+    } else {
+      this.isShowErrMsg = true;
     }
   }
 

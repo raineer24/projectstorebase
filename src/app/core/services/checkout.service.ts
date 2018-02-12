@@ -95,7 +95,7 @@ export class CheckoutService {
         let order:any = {};
         order = res.json();
         if(order.id) { console.log("FETCH CURRENT ORDER")
-          return this.http.get(`v1/orderItem?key=${orderkey}`
+          return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`
           ).mergeMap(res2 => {
             let cart_items = [], total = 0, total_quantity = 0;
             const data = res2.json();
@@ -315,14 +315,6 @@ export class CheckoutService {
           this.store.dispatch(this.actions.updateOrderAddressSuccess(address));
           break;
         case 'delivery': console.log("UPDATE DELIVERY")
-          const date = {
-            'status': 'payment',
-            'date': {
-              'date': params.date,
-              'timeslotId': params.timeslot_id
-            }
-          }
-          this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
           break;
         // case 'payment':
         //   break;
@@ -364,6 +356,14 @@ export class CheckoutService {
   setTimeSlotOrder(params) {
     return this.http.post(`v1/timeslotorder`, params
     ).map((res) => {
+      const date = {
+        'status': 'payment',
+        'date': {
+          'date': params.date,
+          'timeslotId': params.timeslot_id
+        }
+      }
+      this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       return res.json();
     })
   }
@@ -371,6 +371,14 @@ export class CheckoutService {
   updateTimeSlotOrder(params) {
     return this.http.put(`v1/timeslotorder/${params.order_id}`, params
     ).map((res) => {
+      const date = {
+        'status': 'payment',
+        'date': {
+          'date': params.date,
+          'timeslotId': params.timeslot_id
+        }
+      }
+      this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       return res.json();
     })
   }
