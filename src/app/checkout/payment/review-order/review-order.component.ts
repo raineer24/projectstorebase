@@ -7,11 +7,11 @@ import { CartItem } from './../../../core/models/cart_item';
   styleUrls: ['./review-order.component.scss']
 })
 export class ReviewOrderComponent implements OnInit {
-  @Input() shipAddress: {};
-  @Input() billAddress: {};
-  @Input() orderTotal: {};
+  @Input() shipAddress: any = {};
+  @Input() billAddress: any = {};
+  @Input() orderTotal: any = {};
   @Input() cartItems: CartItem[];
-  @Input() deliveryDate: {};
+  @Input() deliveryDate: any = {};
   timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:00AM - 2:00PM','2:00PM - 5:00PM','5:00PM - 8:00PM'];
 
   constructor() { }
