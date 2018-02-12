@@ -1,7 +1,7 @@
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
 import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
-  getTotalCartItems, getTotalCartValue, getCartItems } from './../reducers/selectors';
+  getTotalCartItems, getTotalCartValue, getCartItems, getOrderState } from './../reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -31,6 +31,7 @@ export class PaymentComponent implements OnInit {
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
   cartItems$: Observable<CartItem[]>;
+  orderStatus: string;
   disable: boolean = true;
   orderId: number;
   codText: string;
@@ -42,6 +43,7 @@ export class PaymentComponent implements OnInit {
     private checkoutService: CheckoutService
     ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
+    this.store.select(getOrderState).subscribe(status => this.orderStatus = status)
     this.shipAddress$ = this.store.select(getShipAddress);
     this.billAddress$ = this.store.select(getBillAddress);
     this.orderTotal$ = this.store.select(getTotalCartValue);
@@ -50,6 +52,10 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log(this.orderStatus)
+    // if(this.orderStatus != 'payment') {
+    //   this.router.navigate(['/']);
+    // }
   }
 
   goBack(){
@@ -73,7 +79,7 @@ export class PaymentComponent implements OnInit {
         orderId: this.orderId,
         paymentMode: 'GC',
         paymentInstructions: this.gcText,
-        paymentCode: this.gcCode,
+        referenceId: this.gcCode,
         status: 'payment'
       }
       isPaymentMode = true;
