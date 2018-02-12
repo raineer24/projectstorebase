@@ -45,7 +45,7 @@ export class DeliveryOptionsComponent implements OnInit {
         this.timeSlotRows = this.timeSlots[0].range;
         const i = this.timeSlots.findIndex(day => day.date === this.deliveryDate.date);
         // TEMPORARY
-        this.timeSlots[5].range[2].booked = 5;
+        // this.timeSlots[5].range[2].booked = 5;
         // console.log(this.timeSlots)
         // this.radioModel =[7,3];
 
