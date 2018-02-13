@@ -59,7 +59,7 @@
               (onShown)="onMenuToggle()"
               (onHidden)="onMenuToggle()">
               <a href="#" class="dropdown-toggle" dropdownToggle
-                (click)="selectAll()"
+                (click)="selectAll(); onMenuLeave($event, 0)"
                 (mouseover)="onMenuOver($event, 0)"
                 (mouseleave)="onMenuLeave($event, 0)">All categories</a>
               <ul *dropdownMenu class="dropdown-menu" role="menu"

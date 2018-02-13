@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-          console.log(this.searchData);
+          // console.log(this.searchData);
           //this.itemList = data.list;
           this.copyitemList = data.list;
           this.copycatList = data.categories;
@@ -104,13 +104,37 @@ export class HeaderComponent implements OnInit {
 
   selectAll() {
     this.router.navigateByUrl('/');
-    this.store.dispatch(this.productActions.getAllProducts())
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: [],
+      categoryIds: []
+    }));
+    this.store.dispatch(this.productActions.getAllProducts());
   }
 
   selectCategory(category) {
     this.router.navigateByUrl('/');
-    // this.store.dispatch(this.searchActions.addFilter(category));
-    this.store.dispatch(this.productActions.getItemsByCategory(category))
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: [{
+        mode: 'category',
+        level: category.level,
+        categoryId: category.id
+      }],
+      categoryIds: []
+    }));
+    this.store.dispatch(this.productActions.getItemsByCategory(category));
+  }
+
+  searchKeyword(): void {
+    this.router.navigateByUrl('/');
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: [{
+        mode: 'search',
+        keyword: this.asyncSelected
+      }],
+      categoryIds: []
+    }));
+    if(this.asyncSelected.length > 1)
+      this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected));
   }
 
   onMenuToggle(){
@@ -166,12 +190,6 @@ export class HeaderComponent implements OnInit {
     this.asyncSelected = e.item.name;
     this.store.dispatch(this.productActions.addSelectedItem(e.item));
     this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
-  }
-
-  searchKeyword(): void {
-    this.router.navigateByUrl('/');
-    if(this.asyncSelected.length > 1)
-      this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected))
   }
 
   selectItem(item: Item) {

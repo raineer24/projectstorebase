@@ -7,7 +7,7 @@
         <p-lightbox class="col-sm-6" [images]="images"></p-lightbox>
     </div> -->
     <div class="item-image-thumbnails col-md-1 col-xs-5">
-      <img [src]="getItemImageUrl(item.imageKey)" />
+      <img [src]="getItemImageUrl(item.imageKey)" (error)="onImageError()" />
     </div>
     <div class="item-images col-md-4">
       <img class="img-responsive" [src]="getItemImageUrl(item.imageKey)">

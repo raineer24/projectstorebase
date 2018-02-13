@@ -26,6 +26,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   scrolling$: Subscription;
   MIN_VALUE: number = 1;
   MAX_VALUE: number = 9999;
+  private imageRetries: number = 0;
 
   constructor(
     private productActions: ProductActions,
@@ -92,7 +93,17 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   }
 
   getItemImageUrl(key) {
-    return environment.IMAGE_REPO + key + '.jpg';
+    let url = '';
+    if(!key || this.imageRetries > 0) {
+      url = 'assets/omg-01.png'
+    } else {
+      url = environment.IMAGE_REPO + key + '.jpg';
+    }
+    return url;
+  }
+
+  onImageError() {
+    this.imageRetries++;
   }
 
   onCloseModal() {
