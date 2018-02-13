@@ -83,7 +83,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
     this.scrolling$.unsubscribe();
     this.store.dispatch(this.productActions.removeSelectedItem());
     window.history.pushState('item-slug', 'Title', '/');
-    console.log('component destroyed');
   }
 
   hideSavings (dp, p) {
@@ -100,7 +99,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   onCloseModal() {
     this.onCloseModalEmit.emit();
-    console.log('Item Dialog Closed!');
+
   }
 
   addToCart() {
