@@ -19,6 +19,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   @Input() item: Item;
   @Input() cartItems: CartItem[];
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
+  @Output() onClose: EventEmitter<any> = new EventEmitter();
   itemQuantity: number = 0;
   quantityControl = new FormControl;
   images: any[];
@@ -80,7 +81,9 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.scrolling$.unsubscribe();
-    this.store.dispatch(this.productActions.removeSelectedItem())
+    this.store.dispatch(this.productActions.removeSelectedItem());
+    window.history.pushState('item-slug', 'Title', '/');
+    console.log('component destroyed');
   }
 
   hideSavings (dp, p) {
@@ -97,6 +100,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   onCloseModal() {
     this.onCloseModalEmit.emit();
+    console.log('Item Dialog Closed!');
   }
 
   addToCart() {
