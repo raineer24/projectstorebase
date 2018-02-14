@@ -17,7 +17,7 @@
     </ul>
     </section>
   </div>
-  <div *ngIf="items.length >= itemsPerPage" class="load-more">
+  <div *ngIf="this.items.length % this.itemsPerPage == 0" class="load-more">
     <section class="scroll_div">
       <button type="button" class="btn-scroll btn-danger" (click)="loadMoreItems()">
         <span class="glyphicon glyphicon-repeat"></span>  Load more...

@@ -64,43 +64,50 @@ export class ItemListComponent implements OnInit {
     this.itemDetailsModal.close();
   }
 
-  loadMoreItems(): void {
-      console.log(this.filters)
-      if(this.filters.length) {
-        if(this.filters[0].mode == 'search') {
-          const filter = 'search:' + this.filters[0].keyword;
-          this.resetLoadMoreVariables(filter);
+  loadMoreItems(isAutoLoad: boolean = false): void {
+    if(this.filters.length) {
+      if(this.filters[0].mode == 'search') {
+        const filter = 'search:' + this.filters[0].keyword;
+        if(this.resetLoadMoreVariables(filter, isAutoLoad)) {
           this.store.dispatch(this.actions.getItemsByKeyword(this.filters[0].keyword, this.itemCtr));
-        } else if(this.filters[0].mode == 'category') {
-          const filter = 'categoryId:' + this.filters[0].categoryId; console.log(filter+" "+this.prevFilter )
-          this.resetLoadMoreVariables(filter);
+        }
+      } else if(this.filters[0].mode == 'category') {
+        const filter = 'categoryId:' + this.filters[0].categoryId;
+        if(this.resetLoadMoreVariables(filter, isAutoLoad)) {
           this.store.dispatch(this.actions.getItemsByCategory({
             id: this.filters[0].categoryId,
             level: this.filters[0].level
           }, this.itemCtr));
         }
-      } else {
-        this.resetLoadMoreVariables('all');
+      }
+    } else {
+      if(this.resetLoadMoreVariables('all', isAutoLoad)) {
         this.store.dispatch(this.actions.getAllProducts(this.itemCtr));
       }
-      console.log(this.itemCtr)
+    }
   }
 
-  resetLoadMoreVariables(filter: string) {
+  resetLoadMoreVariables(filter: string, autoLoad: boolean = false): boolean {
+    let isAutoLoad = true;
     if(this.prevFilter == filter) {
-      this.itemCtr += this.itemsPerPage;
+      if(this.autoLoadCtr < 3 && this.items.length >= this.itemsPerPage) {
+        this.autoLoadCtr++;
+        this.itemCtr += this.itemsPerPage;
+      } else if (autoLoad){
+        isAutoLoad = false;
+      } else {
+        this.itemCtr += this.itemsPerPage;
+      }
     } else {
       this.itemCtr = this.itemsPerPage * 2;
       this.prevFilter = filter;
       this.autoLoadCtr = 1;
     }
+    return isAutoLoad;
   }
 
   autoLoad(): void {
-    if(this.autoLoadCtr < 3 && this.items.length >= this.itemsPerPage) {
-      this.autoLoadCtr++;
-      this.loadMoreItems();
-    }
+    this.loadMoreItems(true);
   }
 
   getCartItem(id){
@@ -109,8 +116,9 @@ export class ItemListComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        this.autoLoad(); console.log("AUTO LOAD")
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight
+    && this.items.length % this.itemsPerPage == 0) {
+        this.autoLoad(); console.log("AUTO LOAD "+ this.autoLoadCtr)
     }
   }
 }

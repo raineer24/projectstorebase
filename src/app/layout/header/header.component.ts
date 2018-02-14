@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
   searchData: Object = {};
   copycatList: Object = {};
   copyitemList: Object = {};
-  menuDelay: {'show': Array<any>, 'hide': Array<any>} = {show:[], hide:[]};
+  menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   @ViewChild('itemDetailsModal') itemDetailsModal;
   @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -103,6 +103,7 @@ export class HeaderComponent implements OnInit {
   }
 
   selectAll() {
+    this.menuDelay.clicked[0] = true;
     this.router.navigateByUrl('/');
     this.store.dispatch(this.searchActions.setFilter({
       filters: [],
@@ -111,17 +112,26 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.getAllProducts());
   }
 
-  selectCategory(category) {
+  selectCategory(category: any, index: number): void {
+    this.menuDelay.clicked[index] = true;
     this.router.navigateByUrl('/');
-    this.store.dispatch(this.searchActions.setFilter({
-      filters: [{
-        mode: 'category',
-        level: category.level,
-        categoryId: category.id
-      }],
-      categoryIds: []
-    }));
-    this.store.dispatch(this.productActions.getItemsByCategory(category));
+    if(category == 'all') {
+      this.store.dispatch(this.searchActions.setFilter({
+        filters: [],
+        categoryIds: []
+      }));
+      this.store.dispatch(this.productActions.getAllProducts());
+    } else {
+      this.store.dispatch(this.searchActions.setFilter({
+        filters: [{
+          mode: 'category',
+          level: category.level,
+          categoryId: category.id
+        }],
+        categoryIds: []
+      }));
+      this.store.dispatch(this.productActions.getItemsByCategory(category));
+    }
   }
 
   searchKeyword(): void {
@@ -137,40 +147,43 @@ export class HeaderComponent implements OnInit {
       this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected));
   }
 
-  onMenuToggle(){
+  onMenuToggle(): void{
     this.cd.markForCheck();
   }
 
-  onMenuOver(e, index){
+  onMenuOver(e: any, index: number): void{
     e.stopPropagation();
-    const dpmenu = this.dpmenus.toArray()[index];
-    const prev = this.dpmenus.find(data => data.isOpen);
-    if(!prev) {
-      this.menuDelay.show[index] = setTimeout(() => {
+    if(!this.menuDelay.clicked[index]) {
+      const dpmenu = this.dpmenus.toArray()[index];
+      const prev = this.dpmenus.find(data => data.isOpen);
+      if(!prev) {
+        this.menuDelay.show[index] = setTimeout(() => {
+          dpmenu.show();
+        }, 200)
+      } else {
+        clearTimeout(this.menuDelay.hide[index]);
+        prev.hide();
         dpmenu.show();
-      }, 200)
-    } else {
-      clearTimeout(this.menuDelay.hide[index]);
-      prev.hide();
-      dpmenu.show();
+      }
     }
   }
 
-  onMenuLeave(e, index){
+  onMenuLeave(e: any, index: number): void{
     e.stopPropagation();
     const dpmenu = this.dpmenus.toArray()[index];
     clearTimeout(this.menuDelay.show[index]);
     this.menuDelay.hide[index] = setTimeout(() => {
       dpmenu.hide();
     }, 50);
+    this.menuDelay.clicked[index] = false;
   }
 
-  onSubMenuOver(e, index){
+  onSubMenuOver(e: any, index: number): void{
     e.stopPropagation();
     clearTimeout(this.menuDelay.hide[index]);
   }
 
-  onSubMenuLeave(e, index){
+  onSubMenuLeave(e: any, index: number): void{
     e.stopPropagation();
     const dpmenu = this.dpmenus.toArray()[index];
     this.menuDelay.hide[index] = setTimeout(() => {
@@ -192,12 +205,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
 
-  selectItem(item: Item) {
+  selectItem(item: Item): void {
     this.selectedItem = item;
     this.store.dispatch(this.productActions.addSelectedItem(item));
   }
 
-  getItemImageUrl(key) {
+  getItemImageUrl(key): string {
     return environment.IMAGE_REPO + key + '.jpg';
   }
 
