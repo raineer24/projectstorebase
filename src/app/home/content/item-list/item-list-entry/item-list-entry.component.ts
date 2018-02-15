@@ -22,9 +22,9 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   @Output() onOpenModalEmit: EventEmitter<any> = new EventEmitter<any>();
   itemQuantity: number = 0;
   quantityControl = new FormControl;
-  private imageRetries: number = 0;
   MIN_VALUE: number = 1;
   MAX_VALUE: number = 9999;
+  private imageRetries: number = 0;
 
   constructor(
     private store: Store<AppState>,
@@ -58,19 +58,23 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   }
 
   getItemImageUrl(key) {
-    var url = '';
-    switch (this.imageRetries){
-      case 0: {
-        url = environment.IMAGE_REPO + key + '.jpg';
-        break;
-      }
-      case 1: {
-        url = 'assets/omg-01.png'
-        break;
-      }
-      default: {
-        url = 'assets/omg-01.png'
-        break;
+    let url = '';
+    if(!key) {
+      url = 'assets/omg-01.png'
+    } else {
+      switch (this.imageRetries){
+        case 0: {
+          url = environment.IMAGE_REPO + key + '.jpg';
+          break;
+        }
+        case 1: {
+          url = 'assets/omg-01.png'
+          break;
+        }
+        default: {
+          url = 'assets/omg-01.png'
+          break;
+        }
       }
     }
     return url;

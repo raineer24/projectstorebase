@@ -41,7 +41,7 @@ export class ProductService {
    *
    * @memberof ProductService
    */
-  getItemsByCategory(categoryId: number, level: number, offset = 0, limit = environment.ITEMS_PER_PAGE): Observable<any> {
+  getItemsByCategory(categoryId: number, level: number, limit = environment.ITEMS_PER_PAGE, offset = 0): Observable<any> {
     return this.http.get(`v1/item?offset=${offset}&limit=${limit}&category${level}=${categoryId}`)
       .map(res => res.json())
       .catch(err => Observable.empty());
@@ -58,7 +58,7 @@ export class ProductService {
    *
    * @memberof ProductService
    */
-  getItemsByKeyword(keyword: string, offset = 0, limit = environment.ITEMS_PER_PAGE): Observable<any> {
+  getItemsByKeyword(keyword: string, limit = environment.ITEMS_PER_PAGE, offset = 0): Observable<any> {
     return this.http.get(`v1/item?offset=${offset}&limit=${limit}&keyword=${keyword}`)
       .map(res => res.json())
       .catch(err => Observable.empty());

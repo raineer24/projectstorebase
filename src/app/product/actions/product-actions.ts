@@ -65,10 +65,14 @@ export class ProductActions {
         };
     }
 
-    getItemsByKeyword(keyword: string): Action {
+    getItemsByKeyword(keyword: string, limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
         return {
             type: ProductActions.GET_ITEMS_BY_KEYWORD,
-            payload: keyword
+            payload: {
+              keyword: keyword,
+              limit: limit,
+              offset: offset
+            }
         };
     }
 
@@ -79,10 +83,15 @@ export class ProductActions {
         };
     }
 
-    getItemsByCategory(category: any): Action {
+    getItemsByCategory(category: any, limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
         return {
             type: ProductActions.GET_ITEMS_BY_CATEGORY,
-            payload: category
+            payload: {
+              id: category.id,
+              level: category.level,
+              limit: limit,
+              offset: offset
+            }
         };
     }
 
