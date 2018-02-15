@@ -7,13 +7,14 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { AuthService } from '../../core/services/auth.service';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { ProductService } from '../../core/services/product.service';
 import { ProductActions } from '../../product/actions/product-actions';
 import { Item } from '../../core/models/item';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { Subscription } from "rxjs";
 import { environment } from '../../../environments/environment';
 
 
@@ -30,9 +31,13 @@ export class HeaderComponent implements OnInit {
   isAuthenticated: Observable<boolean>;
   totalCartItems: Observable<number>;
   categories$: Observable<any>;
+  timer: Observable<any>;
+  subscription: Subscription;
   asyncSelected: string;
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
+  bShowProgress: boolean;
+  bInputEmpty:boolean;
   dataSource: Observable<any>;
   searchData: Object = {};
   copycatList: Object = {};
@@ -97,6 +102,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     // this.store.dispatch(this.authActions.authorize());
+    this.bShowProgress = false;
+    this.bInputEmpty = false;
     this.isAuthenticated = this.store.select(getAuthStatus);
     this.totalCartItems = this.store.select(getTotalCartItems);
     this.categories$ = this.store.select(getTaxonomies);
@@ -136,6 +143,8 @@ export class HeaderComponent implements OnInit {
 
   searchKeyword(): void {
     this.router.navigateByUrl('/');
+    this.bShowProgress = true;
+    this.setProgressDisplayTimer();
     this.store.dispatch(this.searchActions.setFilter({
       filters: [{
         mode: 'search',
@@ -204,8 +213,18 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.addSelectedItem(e.item));
     this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
+  
+  setProgressDisplayTimer():void {
+    console.log(this.bShowProgress);
+    this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds
+      this.subscription = this.timer.subscribe(() => {
+      // set showloader to false to hide loading div from view after 5 seconds
+      this.bShowProgress = false;
+      console.log(this.bShowProgress);
+    });
+  }
 
-  selectItem(item: Item): void {
+  selectItem(item: Item) {
     this.selectedItem = item;
     this.store.dispatch(this.productActions.addSelectedItem(item));
   }

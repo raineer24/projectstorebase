@@ -117,6 +117,34 @@
     width: 100%;
   }
 }
+
+.loader-hidden {
+    // visibility: hidden;
+
+}
+.loader-overlay {
+    top:0;
+    left: 0;
+    opacity: 1;
+    z-index: 500000;
+}
+
+@keyframes example {
+    0%   {background-color:red; left:0px;}
+    50%  {background-color:red; left:300px;}
+    100%  {background-color:red; left:600px;}
+}
+
+/* The element to apply the animation to */
+div
+.progress-bar {
+    height: 2px;
+    width: 75px;
+    position: absolute;
+    background-color: red;
+    animation-name: example;
+    animation-duration: 1s;
+}
 // .navbar-header
 // {
 //   width: 100%

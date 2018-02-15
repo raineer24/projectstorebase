@@ -44,6 +44,9 @@
             <button class="btn btn-secondary btn-danger" type="button" (click)="searchKeyword()">GO</button>
           </span>
         </div>
+        <div class="loader-overlay" [hidden]="!bShowProgress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="60"></div>
+        </div>
         <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
