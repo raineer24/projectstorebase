@@ -118,7 +118,7 @@ export class ItemListComponent implements OnInit {
   onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight
     && this.items.length % this.itemsPerPage == 0) {
-        this.autoLoad(); console.log("AUTO LOAD "+ this.autoLoadCtr)
+        this.autoLoad();
     }
   }
 }

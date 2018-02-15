@@ -11,7 +11,7 @@
   </div>
   <div class="row">
     <div class="col-sm-6 form-group">
-      <label for="phone">Phone</label>
+      <label for="phone">Mobile Number</label>
       <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required>
     </div>
     <div class="col-sm-6 form-group">
@@ -60,7 +60,7 @@
     </div>
   </div> -->
   <div class="row">
-    <div class="col-sm-12 bg-info form-group">
+    <div class="col-sm-12 bg-info form-group" (click)="billAddress.checked = !billAddress.checked">
       <input type="checkbox" #billAddress formControlName="isBilling">
       <label>Bill to a different address</label>
     </div>
