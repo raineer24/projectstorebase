@@ -143,6 +143,8 @@ export class HeaderComponent implements OnInit {
 
   searchKeyword(): void {
     this.router.navigateByUrl('/');
+    this.bShowProgress = true;
+    this.setProgressDisplayTimer();
     this.store.dispatch(this.searchActions.setFilter({
       filters: [{
         mode: 'search',
@@ -211,20 +213,7 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.addSelectedItem(e.item));
     this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
-
-  searchKeyword(): void {
-    this.bShowProgress = true;
-    this.router.navigateByUrl('/');
-    this.setProgressDisplayTimer();
-    if(this.asyncSelected.length > 1){
-      this.bInputEmpty = true;
-
-      this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected));
-    }
-    else
-      this.bInputEmpty = false;
-  }
-
+  
   setProgressDisplayTimer():void {
     console.log(this.bShowProgress);
     this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds
