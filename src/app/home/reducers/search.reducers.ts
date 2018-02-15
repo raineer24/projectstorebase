@@ -7,6 +7,8 @@ export const initialState: SearchState = new SearchStateRecord() as SearchState;
 
 export const searchReducer: ActionReducer<SearchState> =
   (state: SearchState = initialState, {type, payload}: Action): SearchState => {
+    let _selectedFilters, _selectedTaxonIds;
+
     switch (type) {
       case SearchActions.ADD_FILTER:
         let filterAlreadyPresent = false;
@@ -20,8 +22,8 @@ export const searchReducer: ActionReducer<SearchState> =
         if (filterAlreadyPresent) {
           return state;
         } else {
-          const _selectedFilters = state.selectedFilters.concat([payload]);
-          const _selectedTaxonIds = state.selectedTaxonIds.concat(payload.id);
+          _selectedFilters = state.selectedFilters.concat([payload]);
+          _selectedTaxonIds = state.selectedTaxonIds.concat(payload.id);
           return state.merge({
             selectedFilters: _selectedFilters,
             selectedTaxonIds: _selectedTaxonIds
@@ -36,9 +38,18 @@ export const searchReducer: ActionReducer<SearchState> =
             removeIndex = index;
           }
         });
-        const _selectedFilters = state.selectedFilters.remove(removeIndex);
+        _selectedFilters = state.selectedFilters.remove(removeIndex);
         const taxonRemoveIndex = state.selectedTaxonIds.findIndex(filterId => payload.id === filterId);
-        const _selectedTaxonIds = state.selectedTaxonIds.remove(taxonRemoveIndex);
+        _selectedTaxonIds = state.selectedTaxonIds.remove(taxonRemoveIndex);
+        return state.merge({
+            selectedFilters: _selectedFilters,
+            selectedTaxonIds: _selectedTaxonIds
+        }) as SearchState;
+
+      case SearchActions.SET_FILTER:
+        _selectedFilters = payload.filters;
+        _selectedTaxonIds = payload.categoryIds;
+
         return state.merge({
             selectedFilters: _selectedFilters,
             selectedTaxonIds: _selectedTaxonIds

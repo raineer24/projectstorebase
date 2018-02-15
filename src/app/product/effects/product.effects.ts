@@ -33,13 +33,13 @@ export class ProductEffects {
   @Effect()
   GetItemsByKeyword$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ITEMS_BY_KEYWORD)
-    .switchMap((action: Action) => this.productService.getItemsByKeyword(action.payload))
+    .switchMap((action: Action) => this.productService.getItemsByKeyword(action.payload.keyword, action.payload.limit, action.payload.offset))
     .map((data: any) => this.productActions.getItemsByKeywordSuccess({items: data}));
 
   @Effect()
     GetItemsByCategory$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ITEMS_BY_CATEGORY)
-    .switchMap((action: Action) => this.productService.getItemsByCategory(action.payload.id, action.payload.level))
+    .switchMap((action: Action) => this.productService.getItemsByCategory(action.payload.id, action.payload.level, action.payload.limit, action.payload.offset))
     .map((data: any) => this.productActions.getItemsByCategorySuccess({items: data}));
 
   // @Effect()
