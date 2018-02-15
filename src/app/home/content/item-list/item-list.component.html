@@ -2,7 +2,7 @@
   <!-- <ng-template #modalHeader><h2>HTML inside modal</h2></ng-template> -->
   <ng-template #modalBody>
     <app-item-details-dialog *ngIf="selectedItem" [item]="selectedItem" [cartItems]="cartItems"
-      (onCloseModalEmit)="closeItemDialog()"></app-item-details-dialog>
+      (onCloseModalEmit)="closeItemDialog()" (onClose)="closeItemDialog()"></app-item-details-dialog>
   </ng-template>
 </modal>
 
