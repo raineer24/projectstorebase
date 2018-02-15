@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit {
   searchData: Object = {};
   copycatList: Object = {};
   copyitemList: Object = {};
-  menuDelay: {'show': Array<any>, 'hide': Array<any>} = {show:[], hide:[]};
+  menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   @ViewChild('itemDetailsModal') itemDetailsModal;
   @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-          console.log(this.searchData);
+          // console.log(this.searchData);
           //this.itemList = data.list;
           this.copyitemList = data.list;
           this.copycatList = data.categories;
@@ -110,50 +110,87 @@ export class HeaderComponent implements OnInit {
   }
 
   selectAll() {
+    this.menuDelay.clicked[0] = true;
     this.router.navigateByUrl('/');
-    this.store.dispatch(this.productActions.getAllProducts())
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: [],
+      categoryIds: []
+    }));
+    this.store.dispatch(this.productActions.getAllProducts());
   }
 
-  selectCategory(category) {
+  selectCategory(category: any, index: number): void {
+    this.menuDelay.clicked[index] = true;
     this.router.navigateByUrl('/');
-    // this.store.dispatch(this.searchActions.addFilter(category));
-    this.store.dispatch(this.productActions.getItemsByCategory(category))
-  }
-
-  onMenuToggle(){
-    this.cd.markForCheck();
-  }
-
-  onMenuOver(e, index){
-    e.stopPropagation();
-    const dpmenu = this.dpmenus.toArray()[index];
-    const prev = this.dpmenus.find(data => data.isOpen);
-    if(!prev) {
-      this.menuDelay.show[index] = setTimeout(() => {
-        dpmenu.show();
-      }, 200)
+    if(category == 'all') {
+      this.store.dispatch(this.searchActions.setFilter({
+        filters: [],
+        categoryIds: []
+      }));
+      this.store.dispatch(this.productActions.getAllProducts());
     } else {
-      clearTimeout(this.menuDelay.hide[index]);
-      prev.hide();
-      dpmenu.show();
+      this.store.dispatch(this.searchActions.setFilter({
+        filters: [{
+          mode: 'category',
+          level: category.level,
+          categoryId: category.id
+        }],
+        categoryIds: []
+      }));
+      this.store.dispatch(this.productActions.getItemsByCategory(category));
     }
   }
 
-  onMenuLeave(e, index){
+  searchKeyword(): void {
+    this.router.navigateByUrl('/');
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: [{
+        mode: 'search',
+        keyword: this.asyncSelected
+      }],
+      categoryIds: []
+    }));
+    if(this.asyncSelected.length > 1)
+      this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected));
+  }
+
+  onMenuToggle(): void{
+    this.cd.markForCheck();
+  }
+
+  onMenuOver(e: any, index: number): void{
+    e.stopPropagation();
+    if(!this.menuDelay.clicked[index]) {
+      const dpmenu = this.dpmenus.toArray()[index];
+      const prev = this.dpmenus.find(data => data.isOpen);
+      if(!prev) {
+        this.menuDelay.show[index] = setTimeout(() => {
+          dpmenu.show();
+        }, 200)
+      } else {
+        clearTimeout(this.menuDelay.hide[index]);
+        prev.hide();
+        dpmenu.show();
+      }
+    }
+  }
+
+  onMenuLeave(e: any, index: number): void{
     e.stopPropagation();
     const dpmenu = this.dpmenus.toArray()[index];
     clearTimeout(this.menuDelay.show[index]);
     this.menuDelay.hide[index] = setTimeout(() => {
       dpmenu.hide();
     }, 50);
+    this.menuDelay.clicked[index] = false;
   }
 
-  onSubMenuOver(e, index){
+  onSubMenuOver(e: any, index: number): void{
     e.stopPropagation();
     clearTimeout(this.menuDelay.hide[index]);
   }
 
-  onSubMenuLeave(e, index){
+  onSubMenuLeave(e: any, index: number): void{
     e.stopPropagation();
     const dpmenu = this.dpmenus.toArray()[index];
     this.menuDelay.hide[index] = setTimeout(() => {
@@ -203,7 +240,7 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.addSelectedItem(item));
   }
 
-  getItemImageUrl(key) {
+  getItemImageUrl(key): string {
     return environment.IMAGE_REPO + key + '.jpg';
   }
 

@@ -61,8 +61,8 @@
             <li #dpmenu="bs-dropdown" dropdown class="dropdown yamm-fw"
               (onShown)="onMenuToggle()"
               (onHidden)="onMenuToggle()">
-              <a href="#" class="dropdown-toggle" dropdownToggle
-                (click)="selectAll()"
+              <a class="dropdown-toggle" dropdownToggle
+                (click)="selectCategory('all', 0)"
                 (mouseover)="onMenuOver($event, 0)"
                 (mouseleave)="onMenuLeave($event, 0)">All categories</a>
               <ul *dropdownMenu class="dropdown-menu" role="menu"
@@ -90,8 +90,8 @@
               #dpmenu="bs-dropdown" dropdown class="dropdown yamm-fw"
               (onShown)="onMenuToggle()"
               (onHidden)="onMenuToggle()">
-              <a href="#" class="dropdown-toggle" dropdownToggle
-                (click)="selectCategory(category)"
+              <a class="dropdown-toggle" dropdownToggle
+                (click)="selectCategory(category, i + 1);"
                 (mouseover)="onMenuOver($event, i + 1)"
                 (mouseleave)="onMenuLeave($event, i + 1)">{{category.name}}</a>
               <ul *dropdownMenu class="dropdown-menu" role="menu"
@@ -116,7 +116,7 @@
               </ul>
             </li>
             <li dropdown class="dropdown yamm-fw">
-              <a href="javascript:void(0)" class="dropdown-toggle" dropdownToggle>Past Purchases</a>
+              <a class="dropdown-toggle" dropdownToggle>Past Purchases</a>
             </li>
           </ul>
         </div>

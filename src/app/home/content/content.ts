@@ -5,6 +5,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-content',
   template: `
+    <!-- <app-content-header></app-content-header> -->
     <app-item-list [(toggleLayout)]="toggleLayout"
       [items]="products"
       [cartItems]="cartItemsArr">
