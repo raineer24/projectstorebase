@@ -17,11 +17,12 @@
       <!--Percentage off -->
       <!--<span class="product-discountPercentage">(40% OFF)</span>-->
     </div>
+    <span class="product-zoom glyphicon glyphicon-search"></span>
     <!-- Product Size -->
     <!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
     <ng-container *ngIf="cartItem || itemQuantity != 0; else addCart">
       <div class="input-group quality-in-cart btn-block" (click)="inputQuantity($event)">
-        <button data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn-left btn btn-number"
+        <button title="Remove 1" data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn-left btn btn-number"
           (click)="decrementQuantity($event)"
           [disabled]="itemQuantity == MIN_VALUE">
           <span class="glyphicon glyphicon-minus"> </span>
@@ -29,7 +30,7 @@
         <input type="number" class="text-center"
           [min]="MIN_VALUE" [max]="MAX_VALUE"
           [value]="itemQuantity" [formControl]="quantityControl" />
-        <button data-type="plus" data-field="" type="button" class="btn btn-success btn-number btn-right"
+        <button title="Add more of this item" data-type="plus" data-field="" type="button" class="btn btn-success btn-number btn-right"
           (click)="incrementQuantity($event)"
           [disabled]="itemQuantity == MAX_VALUE">
           <span class="glyphicon glyphicon-plus"> </span>
@@ -37,7 +38,7 @@
       </div>
     </ng-container>
     <ng-template #addCart>
-      <button class="btn-add-cart btn-block" (click)="addToCart($event)"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to Cart</button>
+      <button title="Add 1 item" class="btn-add-cart btn-block" (click)="addToCart($event)"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
     </ng-template>
   </div>
 </a>
