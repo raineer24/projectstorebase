@@ -1,8 +1,8 @@
 <form class="form-horizontal" [formGroup]="profileEditForm" (ngSubmit)="onSubmit()">
   <fieldset>
     <div class="form-group">
-      <label class="col-md-4 control-label" for="email">Email</label>
-      <div class="col-md-4">
+      <label class="col-md-2 control-label" for="email">Email</label>
+      <div class="col-md-3">
         <input id="email" name="email" formControlName="email" class="form-control input-md" required="" type="text">
       </div>
       <div *ngIf="profileEditForm.get('email').errors && profileEditForm.get('email').touched">
@@ -10,8 +10,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-md-4 control-label" for="lastName">Last Name</label>
-      <div class="col-md-4">
+      <label class="col-md-2 control-label" for="lastName">Last Name</label>
+      <div class="col-md-3">
         <input id="lastName" name="lastName" formControlName="lastName" class="form-control input-md" required="" type="text">
       </div>
       <div *ngIf="profileEditForm.get('lastName').errors && profileEditForm.get('lastName').touched">
@@ -19,8 +19,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-md-4 control-label" for="firstName">First Name</label>
-      <div class="col-md-4">
+      <label class="col-md-2 control-label" for="firstName">First Name</label>
+      <div class="col-md-3">
         <input id="firstName" name="firstName" formControlName="firstName" class="form-control input-md" required="" type="text">
       </div>
       <div *ngIf="profileEditForm.get('firstName').errors && profileEditForm.get('firstName').touched">
@@ -240,8 +240,8 @@
      </div>     -->
     <!-- Multiple Radios (inline) -->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="gender">Gender</label>
-      <div class="col-md-4">
+      <label class="col-md-2 control-label" for="gender">Gender</label>
+      <div class="col-md-3">
         <label class="radio-inline" for="male">
           <input type="radio" name="gender" id="male" value="M" formControlName="gender">
           Male
@@ -265,8 +265,8 @@
     </div> -->
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="mobileNumber">Mobile Number</label>
-      <div class="col-md-4">
+      <label class="col-md-2 control-label" for="mobileNumber">Mobile Number</label>
+      <div class="col-md-3">
         <input id="mobileNumber" name="mobileNumber" formControlName="mobileNumber" class="form-control input-md" required="" type="text">
       </div>
       <div *ngIf="profileEditForm.get('mobileNumber').errors && profileEditForm.get('mobileNumber').touched">
@@ -275,8 +275,8 @@
     </div>
     <!-- Button (Double) -->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="save"></label>
-      <div class="col-md-8">
+      <label class="col-md-2 control-label" for="save"></label>
+      <div class="col-md-3">
         <button id="save" name="save" class="btn btn-success">Save Changes</button>
         <button id="cancel" name="cancel" class="btn btn-danger" type="button" (click)="onCancelClick()">Cancel</button>
       </div>
