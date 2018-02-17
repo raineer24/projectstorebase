@@ -44,14 +44,14 @@
           <span>
             <div *ngIf="itemQuantity != 0; else addCart" class="quantity-in-cart fl input-group">
               <!-- <label for="bit">Quantity in cart</label> -->
-                <button type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
+                <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
                 <input type="number" class="text-center"
                   [min]="MIN_VALUE" [max]="MAX_VALUE"
                   [value]="itemQuantity" [formControl]="quantityControl"/>
-                <button type="button" class="btn btn-success" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button>
+                <button title="Add more of this item" type="button" class="btn btn-success" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <ng-template #addCart>
-              <button class="quantity-in-cart-add btn btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
+              <button title="Add 1 item" class="quantity-in-cart-add btn btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
             </ng-template>
             <button class="quantity-wish-list btn btn-primary"><span class="glyphicon glyphicon-edit"></span>Add to my list</button>
           </span>
