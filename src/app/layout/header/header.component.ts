@@ -142,18 +142,20 @@ export class HeaderComponent implements OnInit {
   }
 
   searchKeyword(): void {
-    this.router.navigateByUrl('/');
-    this.bShowProgress = true;
-    this.setProgressDisplayTimer();
-    this.store.dispatch(this.searchActions.setFilter({
-      filters: [{
-        mode: 'search',
-        keyword: this.asyncSelected
-      }],
-      categoryIds: []
-    }));
-    if(this.asyncSelected.length > 1)
+    if(this.asyncSelected && this.asyncSelected.length > 1){
+      this.router.navigateByUrl('/');
+      this.bShowProgress = true;
+      this.setProgressDisplayTimer();
+      this.store.dispatch(this.searchActions.setFilter({
+        filters: [{
+          mode: 'search',
+          keyword: this.asyncSelected
+        }],
+        categoryIds: []
+      }));
+
       this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected));
+    }
   }
 
   onMenuToggle(): void{
@@ -213,7 +215,7 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.addSelectedItem(e.item));
     this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
-  
+
   setProgressDisplayTimer():void {
     console.log(this.bShowProgress);
     this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds
