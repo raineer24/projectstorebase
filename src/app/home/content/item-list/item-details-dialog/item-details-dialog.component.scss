@@ -117,13 +117,16 @@
   background: #4AD9D9;
   background-color: #01e6ff;
   background: #c7c7c7;
+  background: #ff005d;
   height: 34px;
+  height: 30px;
   // height: 27px;
   border: none;
   color: #fff;
 }
 .quantity-wish-list {
   width: 200px;
+  padding: 4px 12px;
   span {
     margin-right: 5px;
   }
@@ -139,6 +142,7 @@
   display: inline-block;
   button, input {
     position: absolute;
+    line-height: 13px;
   }
   .btn-minus {
     background: transparent;
@@ -161,7 +165,7 @@
   background: transparent;
   border: none;
   width: 100%;
-  line-height: 32px;
+  line-height: 27px;
 }
 
 .quantity-in-cart span {

@@ -21,7 +21,7 @@
     <!-- Product Size -->
     <!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
     <ng-container *ngIf="cartItem || itemQuantity != 0; else addCart">
-      <div class="input-group quality-in-cart btn-block" (click)="inputQuantity($event)">
+      <div class="input-group quantity-in-cart btn-block" (click)="inputQuantity($event)">
         <button title="Remove 1" data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn-left btn btn-number"
           (click)="decrementQuantity($event)"
           [disabled]="itemQuantity == MIN_VALUE">
