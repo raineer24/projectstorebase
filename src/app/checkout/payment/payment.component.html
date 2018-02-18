@@ -7,8 +7,10 @@
       <div class="row">
         <accordion [closeOthers]="oneAtATime" >
           <accordion-group #group1 [isOpen]="true">
-            <div accordion-heading>Cash on Delivery
-              <i class="pull-left float-xs-left glyphicon glyphicon-usd"></i><i class="pull-right glyphicon" [ngClass]="group1.isOpen ? 'glyphicon-chevron-down': 'glyphicon-chevron-right'"></i>
+            <div accordion-heading>
+              <i class="glyphicon glyphicon-usd"></i>
+              Cash on Delivery
+              <i class="pull-right glyphicon" [ngClass]="group1.isOpen ? 'glyphicon-chevron-down': 'glyphicon-chevron-right'"></i>
             </div>
             <i class="pull-right float-xs-right glyphicon"></i>
             <div class="form-group">
@@ -16,8 +18,10 @@
             </div>
           </accordion-group>
           <accordion-group #group2 [isOpen]>
-            <div accordion-heading>Gift Certificate
-              <i class="pull-left float-xs-right glyphicon glyphicon-gift"></i><i class="pull-right glyphicon" [ngClass]="group2.isOpen ? 'glyphicon-chevron-down': 'glyphicon-chevron-right'"></i>
+            <div accordion-heading>
+              <i class="glyphicon glyphicon-gift"></i>
+              Gift Certificate
+              <i class="pull-right glyphicon" [ngClass]="group2.isOpen ? 'glyphicon-chevron-down': 'glyphicon-chevron-right'"></i>
             </div>
             <i class="pull-right float-xs-right glyphicon"></i>
             <div class="form-group">
