@@ -2,5 +2,39 @@ footer {
   height: 100px;
   margin-top: 50px;
   border-top: 1px solid #f5f5f6;
-  background-color: #fff;
+  background: #ff005d;
+  padding: 20px 8%;
+  color: #ffffff;
+}
+
+.footer-container {
+  padding-bottom: 50px;
+  div > div {
+    font-weight: 450;
+    padding-right: 0px;
+  }
+  ul {
+    margin: 0;
+  }
+  ul > li {
+    display: inline-block;
+    list-style: none;
+    padding: 2px 0 0px 2px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    font-size: 14px;
+    a {
+      color: #ffffff;
+      .app-store {
+        width: 100px;
+        margin-top: 5px;
+      }
+      .play-store {
+        width: 120px;
+        position: relative;
+        left: -10px;
+      }
+    }
+  }
+
 }

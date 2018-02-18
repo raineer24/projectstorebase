@@ -56,7 +56,7 @@ fieldset {
   box-sizing: border-box;
   text-align: center;
   position: relative;
-  padding-bottom: 40px;
+  // padding-bottom: 40px;
   // background: #ffffff URL('../assets/bg-login-02.jpg') no-repeat;
   // background-size: auto 100%;
 }
@@ -159,10 +159,6 @@ fieldset {
 
 a {
   background-color: transparent;
-}
-
-.login-third-party-login {
-  margin-top: 30px;
 }
 
 .login-button-info-text {

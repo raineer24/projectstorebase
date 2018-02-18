@@ -26,6 +26,11 @@ ul {
       }
     }
   }
+  @media screen and (max-width: 400px) {
+    li.product-base {
+      width: 24.5em;
+    }
+  }
 
 }
 
