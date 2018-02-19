@@ -21,7 +21,9 @@ import { CartItem } from './../../core/models/cart_item';
 export class PaymentComponent implements OnInit {
   @ViewChild('group1') paymentCOD;
   @ViewChild('group2') paymentGC;
+  @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
   oneAtATime: boolean = true;
+  gcSelected: boolean = false;
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
@@ -34,6 +36,7 @@ export class PaymentComponent implements OnInit {
   orderStatus: string;
   disable: boolean = true;
   orderId: number;
+  gcQuantity: number = 0;
   codText: string;
   gcText: string;
   gcCode: string;
@@ -56,6 +59,12 @@ export class PaymentComponent implements OnInit {
     // if(this.orderStatus != 'payment') {
     //   this.router.navigate(['/']);
     // }
+  }
+
+  addGiftCert(){
+    this.gcQuantity++;
+    // this.itemQuantity = this.qcQuantity;
+    console.log(this.gcQuantity);
   }
 
   goBack(){
