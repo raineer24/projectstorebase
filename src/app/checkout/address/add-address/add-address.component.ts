@@ -33,9 +33,10 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private addrService: AddressService,
     private store: Store<AppState>
   ) {
-    this.addressForm = addrService.initAddressForm();
+
     this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
       this.isAuthenticated = auth;
+      this.addressForm = addrService.initAddressForm(auth);
     });
     this.store.select(getShipAddress).takeUntil(this.componentDestroyed).subscribe(data => {
       if(data)
@@ -54,7 +55,9 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let values = this.addressForm.value;
+    console.log(values);
     if(this.addressForm.valid) {
+      console.log('Valid');
       if(!values.isBilling){
         values.billingAddress01 = '';
         values.billingAddress02 = '';
@@ -67,6 +70,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       this.checkoutService.updateOrder(values).subscribe();
       this.onProceedClickEmit.emit();
     } else {
+      console.log('Invalid');
       const keys = Object.keys(values)
       keys.forEach(val => {
         const ctrl = this.addressForm.controls[val];
