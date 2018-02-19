@@ -21,4 +21,12 @@ export class UserEffects {
     .switchMap(() => this.userService.getOrders())
     .filter((orders) => orders.length > 0)
     .map((orders) => this.userActions.getUserOrdersSuccess(orders));
+
+  @Effect()
+    GetUserLists$: Observable<Action> = this.actions$
+    .ofType(UserActions.GET_USER_LISTS)
+    .switchMap(() => this.userService.getLists())
+    //.filter((orders) => orders.length > 0)
+    .map((lists) => this.userActions.getUserListsSuccess(lists));
+
 }

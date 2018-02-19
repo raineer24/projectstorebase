@@ -66,8 +66,8 @@ export class UserService {
    * @memberof UserService
    */
   getLists(): Observable<any> {
-    const userId = 1;
-    return this.http.get(`v1/list/${userId}/user`)
+    const user_id = JSON.parse(localStorage.getItem('user')).id;
+    return this.http.get(`v1/list/${user_id}/user`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

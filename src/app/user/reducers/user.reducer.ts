@@ -17,6 +17,9 @@ const userReducer: ActionReducer<UserState> =
       case UserActions.GET_USER_ORDERS_SUCCESS:
         return state.merge({ orders: payload }) as UserState;
 
+      case UserActions.GET_USER_LISTS_SUCCESS:
+        return state.merge({ lists: payload }) as UserState;
+
       default:
         return state;
     }

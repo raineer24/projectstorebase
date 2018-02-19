@@ -26,5 +26,9 @@ const fetchUserOrders = function(state: UserState): Order[] {
     return state.orders.toJS();
 };
 
+const fetchUserLists = function(state: UserState): any {
+    return state.lists.toJS();
+};
 // *************************** PUBLIC API's ****************************
 export const getUserOrders = createSelector(getUserState, fetchUserOrders);
+export const getUserLists = createSelector(getUserState, fetchUserLists);
