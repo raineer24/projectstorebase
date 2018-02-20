@@ -1,35 +1,33 @@
-<div class="container">
-  <div class="modal fade" id="gcModal" tabindex="-1" role="dialog" aria-labelledby="gcModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="gcModalLabel">Enter GC Code</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<div class="modal fade" id="gcModal" tabindex="-1" role="dialog" aria-labelledby="gcModalLabel" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="gcModalLabel">Enter GC Code</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="form-control-label">Code</label>
+          <input type="number" class="form-control" formControlName="gc-code" id="gc-code">
         </div>
-        <div class="modal-body">
-          <form class="gcForm">
-            <div class="form-group">
-              <label for="recipient-name" class="form-control-label">Code</label>
-              <input type="text" class="form-control" id="gc-code">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" (click)="addGiftCert()">Add</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="addGiftCert()" data-dismiss="modal">Add</button>
       </div>
     </div>
   </div>
+</div>
+<div class="container">
   <div class="row">
     <div class="col-md-8 main-panel">
       <h1>Payment Details</h1>
       <h3>Select Mode of Payment</h3>
       <p>Delivery fee will be charged when transaction has been accepted.</p>
       <div class="row">
-        <accordion [closeOthers]="oneAtATime" >
+        <accordion>
           <accordion-group #group1 [isOpen]="true">
             <div accordion-heading>
               <i class="glyphicon glyphicon-usd"></i>
@@ -38,10 +36,10 @@
             </div>
             <i class="pull-right float-xs-right glyphicon"></i>
             <div class="form-group">
-              <textarea [(ngModel)]="codText" class="form-control" cols="50" rows="4" placeholder="Instructions"></textarea>
+              <input type="checkbox" class=""/><label>Pay with Cash</label>
             </div>
           </accordion-group>
-          <accordion-group #group2 [isOpen]>
+          <accordion-group #group2 [isOpen]="true">
             <div accordion-heading>
               <i class="glyphicon glyphicon-gift"></i>
               Gift Certificate
@@ -49,15 +47,11 @@
             </div>
             <i class="pull-right float-xs-right glyphicon"></i>
             <div class="form-group">
-              <div><input type="number" class="text-center"
-                [min]="MIN_VALUE" [max]="MAX_VALUE"
-                [value]="itemQuantity" [formControl]="quantityControl" /></div>
-              <div class="input-group">
-                <button _ngcontent-c27="" class="btn btn-xs cart-btns btn-success" data-toggle="modal" data-target="#gcModal">
-                    <span _ngcontent-c27="" class="glyphicon glyphicon-plus"> </span>
+              <div class="col-md-12">
+                <input type="number" class="text-center" [value]="gcQuantity" disabled/>
+                <button class="btn btn-md btn-primary" data-toggle="modal" data-target="#gcModal">
+                    <p>Pay with Gift Certificate</p>
                 </button>
-                <input [(ngModel)]="gcCode" placeholder="GC code" hidden>
-                <!-- <button class="btn btn-danger">Enter</button> -->
               </div>
             </div>
             <div class="form-group">
