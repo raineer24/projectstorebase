@@ -33,12 +33,11 @@ export class ListsComponent implements OnInit {
 
   createNewList(): void{
     if(this.newList.value) {
-      console.log("TEST " + this.newList.value)
       const params = {
         name: this.newList.value,
         description: ''
       }
-    //this.store.dispatch(this.userActions.createNewList());
+      this.store.dispatch(this.userActions.createUserList(params));
     }
   }
 

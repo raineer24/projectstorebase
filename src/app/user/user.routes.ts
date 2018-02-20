@@ -19,7 +19,7 @@ export const UserRoutes = [
       { path: 'orders/detail/:number', component: OrderDetailComponent },
       { path: 'addresses', component: AddressesComponent, redirectTo: 'orders' },
       { path: 'lists', component: ListsComponent },
-      { path: 'lists/detail/:id', component: ListDetailComponent },
+      { path: 'lists/detail/:userId/:id', component: ListDetailComponent },
       { path: 'profile', component: ProfileComponent }]
   },
 ];

@@ -29,4 +29,10 @@ export class UserEffects {
     //.filter((orders) => orders.length > 0)
     .map((lists) => this.userActions.getUserListsSuccess(lists));
 
+  @Effect()
+    CreateUserList$: Observable<Action> = this.actions$
+    .ofType(UserActions.CREATE_USER_LIST)
+    .switchMap((data) => this.userService.createNewList(data.payload))
+    //.filter((orders) => orders.length > 0)
+    .map((list) => this.userActions.createUserListSuccess(list));
 }

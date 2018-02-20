@@ -1,6 +1,60 @@
-No of items: {{items$.length | async }}
-  <div *ngFor="let item of items$ | async">
-    <div class="row">
-      TEST {{item.name}} | {{item.id}}
-    </div>
+<div class="form-inline">
+  <div class="form-group valign-top">
+    <label for="usr" class="valign-top">List:</label>
+    <input type="text" class="form-control underline" id="usr" value="{{list.name}}" [formControl]="listName">
   </div>
+  <div class="form-group">
+    <label for="comment" class="valign-top">Note:</label>
+    <textarea class="form-control underline" rows="1" id="comment" value="{{list.description}}" [formControl]="listNote"></textarea>
+  </div>
+  <button type="submit" class="btn btn-default valign-top" (click)="updateList()"><small>Save Changes</small></button>
+  <button type="submit" class="btn btn-default valign-top" data-toggle="modal" data-target="#myModal"><small>Delete List</small></button>
+  <div class="pull-right">
+    <button type="submit" class="btn btn-danger" (click)="addAllToCart()">Add All to Cart</button>
+  </div>
+</div>
+<hr>
+<div *ngFor="let item of items; let i = index">
+  <ul class="list-inline">
+    <div>
+      <div class="row">
+        <li class="col-xs-2">
+          <div class="">
+            <img class="img-responsive" [src]="getItemImageUrl(item.imageKey)">
+          </div>
+        </li>
+        <li class="col-xs-6">
+          <p class="product-name">{{item.name}}</p>
+          <p class="product-name">P {{item.price | number:'1.2'}}</p>
+          <p>
+            <small>
+              <a href="javascript:void(0)" class="text-danger" (click)="addToCart(item)">Add to Cart</a>
+              &nbsp;|&nbsp;
+              <a href="javascript:void(0)" class="text-danger" (click)="removeItem(i, item.listitem_id)">Remove from List</a>
+            </small>
+          </p>
+        </li>
+      </div>
+    </div>
+  </ul>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this list?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="deleteList()">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>

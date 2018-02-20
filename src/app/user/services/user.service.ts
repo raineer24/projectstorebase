@@ -66,8 +66,8 @@ export class UserService {
    * @memberof UserService
    */
   getLists(): Observable<any> {
-    const user_id = JSON.parse(localStorage.getItem('user')).id;
-    return this.http.get(`v1/list/${user_id}/user`)
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    return this.http.get(`v1/list/${userId}/user`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -80,13 +80,21 @@ export class UserService {
    * @memberof UserService
    */
   createNewList(params): Observable<any> {
-    const userId = 1;
-    return this.http.post(`v1/${userId}/user`,{
-      userId: userId,
-      name: params.name
-    })
-      .map((res: Response) => res.json())
-      .catch(res => Observable.empty());
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    return this.http.post(`v1/list/${userId}/user`,{
+      useraccount_id: userId.toString(),
+      name: params.name,
+      description: params.description
+    }).map((res: Response) => {
+      const data = res.json();
+      const list = {
+        id: data.id,
+        name: params.name,
+        description: params.description,
+        userId: userId
+      }
+      return list;
+    }).catch(res => Observable.empty());
   }
 
   /**
@@ -97,7 +105,6 @@ export class UserService {
    * @memberof UserService
    */
   updateList(params: any): Observable<any> {
-    const userId = 1;
     return this.http.put(`v1/list/${params.id}`,{
       name: params.name,
       description: params.description
@@ -143,7 +150,6 @@ export class UserService {
 
   //removeListItem
   removeListItem(id: number): Observable<any> {
-    const userId = 1;
     return this.http.delete(`v1/listitems/${id}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());

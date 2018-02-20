@@ -32,9 +32,10 @@ export class UserActions {
     };
   }
 
-  createUserList(): Action {
+  createUserList(list: any): Action {
     return{
-      type: UserActions.CREATE_USER_LIST
+      type: UserActions.CREATE_USER_LIST,
+      payload: list
     }
   }
 
