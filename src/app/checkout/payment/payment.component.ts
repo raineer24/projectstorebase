@@ -6,6 +6,7 @@ import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { DISABLED } from '@angular/forms/src/model';
 import { spawn } from 'child_process';
 import { Router } from '@angular/router';
@@ -35,6 +36,7 @@ export class PaymentComponent implements OnInit {
   cartItems$: Observable<CartItem[]>;
   orderStatus: string;
   disable: boolean = true;
+  bCodeEntered: boolean = false;
   orderId: number;
   gcQuantity: number = 0;
   codText: string;
@@ -43,6 +45,7 @@ export class PaymentComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
     private router: Router,
+    private fb: FormBuilder,
     private checkoutService: CheckoutService
     ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
@@ -63,8 +66,6 @@ export class PaymentComponent implements OnInit {
 
   addGiftCert(){
     this.gcQuantity++;
-    // this.itemQuantity = this.qcQuantity;
-    console.log(this.gcQuantity);
   }
 
   goBack(){
