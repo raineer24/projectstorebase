@@ -12,7 +12,10 @@
       <ng-container *ngIf="isPastTime(j,i); else elseBlock1">
         <label [ngClass]="['btn-warning','btn','btn-block']"
           (click)="selectSlot($event)" #radioButtons disabled
-          [(ngModel)]="radioModel" [btnRadio]="[j,i]">N/A</label>
+          [(ngModel)]="radioModel" [btnRadio]="[j,i]">
+          <span class="hidden-xs hidden-sm">N/A</span>
+          <span class="hidden-md hidden-lg hidden-xl glyphicon glyphicon-ban-circle"></span>
+        </label>
       </ng-container>
       <ng-template #elseBlock1>
         <ng-container *ngIf="radioModel[0] == j && radioModel[1] == i; else elseBlock2">
@@ -25,13 +28,19 @@
         <ng-container *ngIf="timeslots.range[i].booked < timeslots.range[i].max; else elseBlock3">
           <label [ngClass]="['btn-default','btn','btn-block']"
             (click)="selectSlot($event)" #radioButtons
-            [(ngModel)]="radioModel" [btnRadio]="[j,i]">Open</label>
+            [(ngModel)]="radioModel" [btnRadio]="[j,i]">
+            <span class="hidden-xs hidden-sm">Open</span>
+            <span class="hidden-md hidden-lg hidden-xl glyphicon glyphicon-plus-sign"></span>
+          </label>
         </ng-container>
       </ng-template >
       <ng-template #elseBlock3>
         <label [ngClass]="['btn-danger','btn','btn-block']"
           (click)="selectSlot($event)" #radioButtons disabled
-          [(ngModel)]="radioModel" [btnRadio]="[j,i]">FULL</label>
+          [(ngModel)]="radioModel" [btnRadio]="[j,i]">
+          <span class="hidden-xs hidden-sm">FULL</span>
+          <span class="hidden-md hidden-lg hidden-xl glyphicon glyphicon-remove-circle"></span>
+        </label>
       </ng-template >
     </div>
   </div>
