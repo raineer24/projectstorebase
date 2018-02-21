@@ -59,8 +59,6 @@ export class ListDetailComponent implements OnInit {
      });
     this.store.select(getCartItems).takeUntil(this.componentDestroyed).subscribe(cartItems => {
       this.cartItems = cartItems;
-      console.log("STESETE")
-      console.log(cartItems)
     })
   }
 
@@ -110,8 +108,7 @@ export class ListDetailComponent implements OnInit {
       this.store.dispatch(this.userActions.updateUserList(list));
       this.userService.updateList(list).takeUntil(this.componentDestroyed).subscribe(res => {
         if(res.message.indexOf('Updated') >= 0) {
-          // list.userId = this.list.id;
-          // this.store.dispatch(this.userActions.updateUserListSuccess(list));
+          this.store.dispatch(this.userActions.updateUserListSuccess(list));
         }
       })
     }
@@ -119,9 +116,11 @@ export class ListDetailComponent implements OnInit {
 
   deleteList() {
     if(this.list.id) {
-// deleteUserListdeleteList
       this.userService.deleteList(this.list.id).takeUntil(this.componentDestroyed).subscribe(res => {
-        this.router.navigateByUrl('/user/lists');
+        if(res.message == 'Deleted') {
+          this.store.dispatch(this.userActions.deleteUserListSuccess(this.list.id));
+          this.router.navigateByUrl('/user/lists');
+        }
       });
     }
   }
