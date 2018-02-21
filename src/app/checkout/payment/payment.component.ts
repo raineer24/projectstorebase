@@ -5,7 +5,7 @@ import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DISABLED } from '@angular/forms/src/model';
 import { spawn } from 'child_process';
@@ -23,6 +23,8 @@ export class PaymentComponent implements OnInit {
   @ViewChild('group1') paymentCOD;
   @ViewChild('group2') paymentGC;
   @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
+  @ViewChild('gCode') gCode:ElementRef;
+  @ViewChild('addGC') addGC: ElementRef;
   oneAtATime: boolean = true;
   gcSelected: boolean = false;
   customClass: string = "customClass";
@@ -42,6 +44,7 @@ export class PaymentComponent implements OnInit {
   codText: string;
   gcText: string;
   gcCode: string;
+  totalAmount: number;
 
   constructor(private store: Store<AppState>,
     private router: Router,
@@ -62,10 +65,16 @@ export class PaymentComponent implements OnInit {
     // if(this.orderStatus != 'payment') {
     //   this.router.navigate(['/']);
     // }
+    this.orderTotal$.subscribe(val => this.totalAmount = val);
   }
 
   addGiftCert(){
-    this.gcQuantity++;
+    console.log(this.gCode.nativeElement.value);
+    console.log(this.totalAmount);
+    if(this.gCode.nativeElement.value != ''){
+      this.gcQuantity++;
+      this.gCode.nativeElement.value = '';
+    }
   }
 
   goBack(){
