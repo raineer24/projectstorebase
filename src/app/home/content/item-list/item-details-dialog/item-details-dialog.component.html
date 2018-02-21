@@ -14,7 +14,7 @@
     </div>
     <!-- INSERT IMAGES HERE -->
     <div class="item-info col-md-6">
-      <div>
+      <div class="item-name">
         <p class="title">{{item.name}}</p>
         <p>{{item.brandName}}</p>
         <!-- <p>{{item.sizing}}</p> -->
@@ -53,68 +53,68 @@
             <ng-template #addCart>
               <button title="Add 1 item" class="quantity-in-cart-add btn btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
             </ng-template>
-            <button class="quantity-wish-list btn btn-primary"><span class="glyphicon glyphicon-edit"></span>Add to my list</button>
+            <!-- START: ADD TO MY LIST-->
+            <ng-container *ngIf="isAuthenticated; else notAuth">
+              <div class="btn-group btn-select-item" dropdown [autoClose]="false">
+                <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
+                  <i class="glyphicon glyphicon-edit"></i>Add to my list
+                </button>
+                <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
+                  <div class="user-list">
+                    <ng-container *ngFor="let userList of userLists; let i = index">
+                      <li role="menuitem">
+                        <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
+                          <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="userList.state">
+                          <span >&nbsp;{{userList.name}}</span>
+                        </div>
+                      </li>
+                    </ng-container>
+                  </div>
+                  <li class="divider dropdown-divider"></li>
+                  <li role="menuitem" class="list-dropdown-item">
+                    <div>
+                      <ng-container *ngIf="!isCreateList; else createList">
+                        <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span>
+                      </ng-container>
+                      <ng-template #createList>
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="List Name" [formControl]="inputNewList">
+                          <div class="input-group-btn">
+                            <button class="btn btn-default" type="button" (click)="createNewList()">
+                              <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-template #notAuth>
+              <div class="btn-group btn-select-item" dropdown [autoClose]="false">
+                <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
+                  <span class="glyphicon glyphicon-edit"></span>
+                  Add to my list
+                </button>
+                <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
+                  <li role="menuitem">
+                      <div class="panel-body">
+                        <p>Login to add this item to a list.</p>
+                        <hr>
+                        <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
+                      </div>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+            <!-- END: ADD TO MY LIST-->
           </span>
         </p>
       </div>
-      <!-- <div>
-        <p class="description">Item Information</p>
-        <p>Learn about the origins of the Lorem Ipsum passage and generate your own text using any number of characters, words, sentences or paragraphs.</p>
-      </div> -->
-      <!-- <div class="btn-block btn-group" dropdown>
-        <button dropdownToggle type="button" class="dropdown-toggle">
-          Item Information
-          <span class="caret"></span>
-        </button>
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li role="menuitem">
-            <a class="dropdown-item" href="#">Action</a>
-          </li>
-          <li role="menuitem">
-            <a class="dropdown-item" href="#">Another action</a>
-          </li>
-          <li role="menuitem">
-            <a class="dropdown-item" href="#">Something else here</a>
-          </li>
-          <li class="divider dropdown-divider"></li>
-          <li role="menuitem">
-            <a class="dropdown-item" href="#">Separated link</a>
-          </li>
-        </ul>
-      </div> -->
-
-      <!-- <div class="cart-my-list">
-        <ng-container *ngIf="itemQuantity != 0; else addCart">
-          <div>
-            <div class="quantity-in-cart input-group">
-            <label for="bit">Quantity in cart</label>
-                <button type="button" class="quantity-in-cart-btn btn " data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
-                <input type="number" class="text-center"
-                  [min]="MIN_VALUE" [max]="MAX_VALUE"
-                  [value]="itemQuantity" [formControl]="quantityControl"/>
-                <button type="button" class="btn btn-success" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button>
-            </div>
-          </div>
-
-          <div class="quantity-in-cart btn input-btn-group">
-            <label for="bit">Quantity in cart</label>
-            <button type="button" class="quantity-in-cart-btn" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE">
-              <span class="glyphicon glyphicon-minus"></span>
-            </button>
-            <input type="number" class="text-center" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl"
-            />
-            <button type="button" class="quantity-in-cart-btn" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-          </div>
-
-        </ng-container>
-        <ng-template #addCart>
-          <button class="quantity-in-cart btn addtocart" (click)="addToCart()">ADD TO CART</button>
-        </ng-template>
-        <button class="quantity-wish-list btn">Add to my list</button>
-      </div> -->
-
+    </div> <!-- div.item-info -->
+  </div>
+</div>
       <!-- <div>
         When this item is not available
          <div class="btn-group btn-select-item" dropdown>
@@ -139,229 +139,3 @@
         </ul>
       </div>
 </div> -->
-
-</div>
-
-
-
-
-  </div>
-  <!-- <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> -->
-  <!--
-  <div class="suggested-items">Check out these other items</div>
-  <div class="carousel slide" id="myCarousel">
-    <div class="carousel-inner">
-      <div class="item active">
-        <ul class="thumbnails">
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/item1.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>{{item.name}}</h4>
-                <p>{{item.brandName}}</p>
-                <p class="price">{{item.packaging}}</p>
-                <button class="btn btn-primary orange">Add to cart</button>
-
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/item1.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>{{item.name}}</h4>
-                <p>{{item.brandName}}</p>
-                <p class="price">{{item.packaging}}</p>
-                <button class="btn btn-primary orange">Add to cart</button>
-
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/item1.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>{{item.name}}</h4>
-                <p>{{item.brandName}}</p>
-                <p class="price">{{item.packaging}}</p>
-                <button class="btn btn-primary orange">Add to cart</button>
-
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/item1.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>{{item.name}}</h4>
-                <p>{{item.brandName}}</p>
-                <p class="price">{{item.packaging}}</p>
-                <button class="btn btn-primary orange">Add to cart</button>
-
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="item">
-        <ul class="thumbnails">
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="http://placehold.it/360x240" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="http://placehold.it/360x240" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="http://placehold.it/360x240" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="http://placehold.it/360x240" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="item">
-        <ul class="thumbnails">
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/mocha-01.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/mocha-01.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/mocha-01.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-          <li class="col-sm-3">
-            <div class="casing">
-              <div class="thumbnail">
-                <a href="#">
-                  <img src="../../assets/mocha-01.jpg" alt="">
-                </a>
-              </div>
-              <div class="caption">
-                <h4>Item Title</h4>
-                <p>Hello world, something nice to develop</p>
-                <a class="btn btn-mini" href="#">» Read More</a>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-
-
-    <nav>
-      <ul class="control-box pager">
-        <li class="left">
-          <a data-slide="prev" href="#myCarousel" class="arrowStil">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-          </a>
-        </li>
-        <li class="right">
-          <a data-slide="next" href="#myCarousel" class="arrowStil">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-          </a>
-
-        </li>
-      </ul>
-    </nav>
-
-
-  </div>
-  -->
-</div>

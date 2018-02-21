@@ -134,16 +134,13 @@ export class UserService {
    * @memberof UserService
    */
   getListItems(listId: number): Observable<any> {
-    return this.http.get(`v1/listitems/${listId}/list`)
+    return this.http.get(`v1/listitems/${listId}/list?limit=5000`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
 
   addListItem(params: any): Observable<any> {
-    const userId = 1;
-    return this.http.post(`v1/listitems`,{
-
-      })
+    return this.http.post(`v1/listitems`, params)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

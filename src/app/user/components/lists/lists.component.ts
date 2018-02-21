@@ -24,11 +24,10 @@ export class ListsComponent implements OnInit {
     private store: Store<AppState>,
     private userActions: UserActions
   ) {
-    this.lists$ = this.store.select(getUserLists)
+    this.lists$ = this.store.select(getUserLists);
   }
 
   ngOnInit() {
-    this.store.dispatch(this.userActions.getUserLists());
   }
 
   createNewList(): void{

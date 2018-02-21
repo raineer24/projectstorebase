@@ -41,7 +41,6 @@ export class ListDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.store.dispatch(this.userActions.getUserLists());
     this.route.params.takeUntil(this.componentDestroyed).subscribe(
       (params: any) => {
         this.listId = params['id'];
