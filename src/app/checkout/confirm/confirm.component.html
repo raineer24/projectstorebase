@@ -1,4 +1,15 @@
 <div>
   <h1>Congratulations!</h1>
-  <button class="btn btn-danger" [routerLink]="['/']">Continue Shopping</button>
+  <div class="form-inline">
+    <button class="btn btn-danger" [routerLink]="['/']">Continue Shopping</button>
+    <button *ngIf="saveListState == 0 && isAuthenticated$ | async" class="btn btn-default" (click)="saveListState = 1">Save items to List</button>
+    <div *ngIf="saveListState == 1" class="input-group">
+      <input type="text" class="form-control" placeholder="List Name" [(ngModel)]="inputNewList">
+      <div class="input-group-btn">
+        <button class="btn btn-default" type="button" (click)="createNewList()">
+          <i class="glyphicon glyphicon-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

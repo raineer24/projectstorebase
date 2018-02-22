@@ -92,6 +92,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
       }).subscribe();
 
       // TODO:  reset checkbox state
+      this.userLists.forEach(list => list.state = false)
   }
 
   hideSavings (dp, p) {

@@ -15,6 +15,7 @@
       <div class="panel panel-info">
         <h1>Your Shopping Cart Summary</h1>
         <p>Please review the items on your shopping cart before you checkout</p>
+        <button *ngIf="isAuthenticated$ | async" class="btn btn-danger" [routerLink]="['/user','lists']">Add item(s) from List</button>
         <!-- <div class="panel-heading">
           <div class="panel-title">
             <div class="row">

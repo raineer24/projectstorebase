@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { LineItem } from './../../core/models/line_item';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { getProducts, getTaxonomies } from "./../../product/reducers/selectors";
+import { getAuthStatus } from '../../auth/reducers/selectors';
 
 @Component({
   selector: 'app-cart',
@@ -17,10 +18,12 @@ import { getProducts, getTaxonomies } from "./../../product/reducers/selectors";
 export class CartComponent implements OnInit {
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
+  isAuthenticated$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
+    this.isAuthenticated$ = this.store.select(getAuthStatus);
   }
 
   ngOnInit() {
