@@ -8,6 +8,7 @@ import { CheckoutActions } from './../../actions/checkout.actions';
 import { Component, OnInit, Input, ViewChildren, QueryList, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpService } from './../../../core/services/http';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class DeliveryOptionsComponent implements OnInit {
     private checkoutService: CheckoutService,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
+    private httpInterceptor: HttpService,
     private router: Router,
   ) {
       this.checkoutService.getAllTimeSlot().takeUntil(this.componentDestroyed).subscribe(data => {
@@ -143,7 +145,12 @@ export class DeliveryOptionsComponent implements OnInit {
         }
       }).subscribe();
     } else {
-      this.isShowErrMsg = true;
+      this.httpInterceptor.loading.next({
+        loading: false,
+        hasError: true,
+        hasMsg: `Please select a delivery time slot.`,
+        reset: 4500
+      });
     }
   }
 

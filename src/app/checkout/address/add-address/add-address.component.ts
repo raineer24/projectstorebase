@@ -10,6 +10,7 @@ import { CheckoutActions } from './../../actions/checkout.actions';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { getShipAddress, getBillAddress } from './../../reducers/selectors';
+import { HttpService } from './../../../core/services/http';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private checkoutActions: CheckoutActions,
     private checkoutService: CheckoutService,
     private addrService: AddressService,
+    private httpInterceptor: HttpService,
     private store: Store<AppState>
   ) {
 
@@ -75,7 +77,12 @@ export class AddAddressComponent implements OnInit, OnDestroy {
           ctrl.markAsTouched();
         };
       });
-
+      this.httpInterceptor.loading.next({
+        loading: false,
+        hasError: true,
+        hasMsg: `Please enter required information.`,
+        reset: 4500
+      });
     }
   }
 

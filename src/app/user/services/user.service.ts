@@ -93,6 +93,11 @@ export class UserService {
         description: params.description,
         userId: userId
       }
+      this.http.loading.next({
+        loading: false,
+        success: true,
+        message: `List ${params.name} successfully created.`
+      });
       return list;
     }).catch(res => Observable.empty());
   }
@@ -108,8 +113,14 @@ export class UserService {
     return this.http.put(`v1/list/${params.id}`,{
       name: params.name,
       description: params.description
-    }).map((res: Response) => res.json()
-    ).catch(res => Observable.empty());
+    }).map((res: Response) => {
+      this.http.loading.next({
+        loading: false,
+        success: true,
+        message: `List updated.`
+      });
+      return res.json();
+    }).catch(res => Observable.empty());
   }
 
   /**
@@ -121,8 +132,14 @@ export class UserService {
    */
   deleteList(id: number): Observable<any> {
     return this.http.delete(`v1/list/${id}`
-    ).map((res: Response) => res.json()
-    ).catch(res => Observable.empty());
+    ).map((res: Response) => {
+      this.http.loading.next({
+        loading: false,
+        info: true,
+        message: `List deleted.`
+      });
+      return res.json()
+    }).catch(res => Observable.empty());
   }
 
 
@@ -141,15 +158,33 @@ export class UserService {
 
   addListItem(params: any): Observable<any> {
     return this.http.post(`v1/listitems`, params)
-      .map((res: Response) => res.json())
-      .catch(res => Observable.empty());
+      .map((res: Response) => {
+        const response = res.json();
+        if(response.message == 'Saved') {
+          this.http.loading.next({
+            loading: false,
+            success: true,
+            message: `Item added to list.`
+          });
+        }
+        return response;
+      }).catch(res => Observable.empty());
   }
 
   //removeListItem
   removeListItem(id: number): Observable<any> {
     return this.http.delete(`v1/listitems/${id}`)
-      .map((res: Response) => res.json())
-      .catch(res => Observable.empty());
+      .map((res: Response) => {
+        const response = res.json();
+        if(response.message == 'Deleted') {
+          this.http.loading.next({
+            loading: false,
+            info: true,
+            message: `Item removed from list.`
+          });
+        }
+        return response;
+      }).catch(res => Observable.empty());
   }
 
 /*

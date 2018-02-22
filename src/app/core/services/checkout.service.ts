@@ -63,6 +63,11 @@ export class CheckoutService {
              "item_id": item.id,
              "item": item
             }
+            this.http.loading.next({
+              loading: false,
+              success: true,
+              message: `${item.name} added to cart.`
+            });
           } else {
             returnData = new CartItem;
           }
@@ -211,7 +216,12 @@ export class CheckoutService {
    */
   deleteCartItem(cartItem: CartItem) {
     return this.http.delete(`v1/orderItem/${cartItem.id}`)
-      .map(() => {
+      .map(res => {
+        this.http.loading.next({
+          loading: false,
+          info: true,
+          message: `${cartItem.item.name} removed from cart.`
+        });
         this.store.dispatch(this.actions.removeCartItemSuccess(cartItem));
       }).catch(err => Observable.empty());
   }
