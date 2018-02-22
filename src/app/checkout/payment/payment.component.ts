@@ -5,7 +5,8 @@ import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { DISABLED } from '@angular/forms/src/model';
 import { spawn } from 'child_process';
 import { Router } from '@angular/router';
@@ -21,7 +22,11 @@ import { CartItem } from './../../core/models/cart_item';
 export class PaymentComponent implements OnInit {
   @ViewChild('group1') paymentCOD;
   @ViewChild('group2') paymentGC;
+  @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
+  @ViewChild('gCode') gCode:ElementRef;
+  @ViewChild('addGC') addGC: ElementRef;
   oneAtATime: boolean = true;
+  gcSelected: boolean = false;
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
@@ -33,13 +38,17 @@ export class PaymentComponent implements OnInit {
   cartItems$: Observable<CartItem[]>;
   orderStatus: string;
   disable: boolean = true;
+  bCodeEntered: boolean = false;
   orderId: number;
+  gcQuantity: number = 0;
   codText: string;
   gcText: string;
   gcCode: string;
+  totalAmount: number;
 
   constructor(private store: Store<AppState>,
     private router: Router,
+    private fb: FormBuilder,
     private checkoutService: CheckoutService
     ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
@@ -56,6 +65,16 @@ export class PaymentComponent implements OnInit {
     // if(this.orderStatus != 'payment') {
     //   this.router.navigate(['/']);
     // }
+    this.orderTotal$.subscribe(val => this.totalAmount = val);
+  }
+
+  addGiftCert(){
+    console.log(this.gCode.nativeElement.value);
+    console.log(this.totalAmount);
+    if(this.gCode.nativeElement.value != ''){
+      this.gcQuantity++;
+      this.gCode.nativeElement.value = '';
+    }
   }
 
   goBack(){

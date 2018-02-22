@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { PaymentMode } from './../../../core/models/payment_mode';
 import { PaymentService } from './../services/payment.service';
 import { CheckoutService } from './../../../core/services/checkout.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-payment-modes-list',
@@ -20,6 +20,7 @@ export class PaymentModesListComponent implements OnInit {
   paymentModes: PaymentMode[];
   selectedMode: PaymentMode = new PaymentMode;
   isAuthenticated: boolean;
+
 
   constructor(private checkoutService: CheckoutService,
     private paymentService: PaymentService,
