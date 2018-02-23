@@ -1,25 +1,38 @@
-<div #gModal class="modal fade" id="gcModal" tabindex="-1" role="dialog" aria-labelledby="gcModalLabel" aria-hidden="true" data-backdrop="false">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <label style="font-size: 1.5em">Enter GC Code</label>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <input #gCode type="number" class="no-spin form-control" formControlName="gc-code" id="gc-code">
+<form [formGroup]="gcForm" novalidate="">
+  <div #gModal class="modal fade form-group" id="gcModal" tabindex="-1" role="dialog" aria-labelledby="gcModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog form-group" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <label style="font-size: 0.80em">You can use upto <b style="font-size: 0.95em">{{usableGCcount}}</b> GCs. </label>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <label>{{gcQuantity}}</label>
-        <button #addGC type="button" class="btn btn-primary" (click)="addGiftCert()">Add</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+        <!-- <div class=" form-group"> -->
+          <ng-container *ngIf="errMsg == null; else errInput">
+            <div class="modal-body">
+              <input #gCode type="number" class="no-spin form-control" formControlName="gc-code" id="gc-code" name="gc-code" placeholder="Enter code...">
+            </div>
+            <div class="modal-footer">
+              <button #addGC type="button" class="btn btn-primary" (click)="addGiftCert(gCode)" [disabled]="usableGCcount == 0" >Add</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+            </div>
+          </ng-container>
+          <ng-template #errInput>
+            <div class=" modal-body has-error has-feedback">
+                <input #gCode type="number" class="no-spin form-control" formControlName="gc-code" id="gc-code" name="gc-code"  placeholder="Enter a valid code....">
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+            </div>
+            <div class="modal-footer">
+              <button #addGC type="button" class="btn btn-primary" (click)="addGiftCert(gCode)" [disabled]="usableGCcount == 0" >Add</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+            </div>
+          </ng-template>
+        <!-- </div> -->
       </div>
     </div>
   </div>
-</div>
+</form>
 
 <div class="container">
   <div class="row">
@@ -40,20 +53,20 @@
             <ng-container *ngIf="totalAmount > 100; else secondCash">
               <div class="checkbox">
                 <label style="font-size: 1.5em">
-                  <input type="checkbox" value="" checked>
+                  <input #cod type="checkbox" value="" checked>
                   <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                   Pay with Cash
                 </label>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <textarea [(ngModel)]="gcText" class="form-control" cols="50" rows="4" placeholder="Instructions"></textarea>
-              </div>
+              </div> -->
             </ng-container>
             <ng-template #secondCash>
                 <div #group1>
                   <div class="checkbox">
                     <label style="font-size: 1.5em">
-                      <input type="checkbox" value="" checked disabled>
+                      <input #cod type="checkbox" value="" checked disabled>
                       <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                       Pay with Cash
                     </label>
@@ -73,8 +86,8 @@
               <i class="pull-right float-xs-right glyphicon"></i>
               <div class="input-group mb-3-gc">
                 <div class="input-group-prepend">
-                  <button class="btn btn-primary btn-outline-secondary" data-toggle="modal" data-target="#gcModal"><i class="glyphicon glyphicon-plus"></i> Use Gift Certificates</button>
-                  <input type="text" class="form-control text-center gc-count" [value]="gcQuantity" disabled aria-describedby="basic-addon2">
+                  <button class="btn btn-primary btn-outline-secondary" data-toggle="modal" data-target="#gcModal" (click)="gcCount()"><i class="glyphicon glyphicon-plus"></i> Use Gift Certificates</button>
+                  <input #giftcert type="text" class="form-control text-center gc-count" [value]="gcQuantity" disabled aria-describedby="basic-addon2">
                 </div>
               </div>
               <!-- <div class="form-group col-md-8">
@@ -108,8 +121,8 @@
 
     </div>
     <div class="col-md-4">
-      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async"
-        [orderTotal]="orderTotal$ | async" [cartItems]="cartItems$ | async" [deliveryDate]="deliveryDate$ | async"></app-review-order>
+      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmount$ | async"
+        [orderTotal]="orderTotal$ | async" [amountDue]="totalAmountDue" [cartItems]="cartItems$ | async" [deliveryDate]="deliveryDate$ | async"></app-review-order>
       <div class="row">
         <div class="col-md-12">
         <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
