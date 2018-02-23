@@ -45,7 +45,7 @@ export class DeliveryOptionsComponent implements OnInit {
         this.timeSlotRows = this.timeSlots[0].range;
         const i = this.timeSlots.findIndex(day => day.date === this.deliveryDate.date);
         // TEMPORARY
-        // this.timeSlots[5].range[2].booked = 5;
+        this.timeSlots[5].range[2].booked = 5;
         // console.log(this.timeSlots)
         // this.radioModel =[7,3];
 
@@ -129,15 +129,19 @@ export class DeliveryOptionsComponent implements OnInit {
           return this.checkoutService.updateTimeSlotOrder(params);
         }
       }).mergeMap((res) => {
-        params = {
-          status: 'delivery'
-        }
-        console.log(params)
-        return this.checkoutService.updateOrder(params);
-        //this.store.dispatch(this.checkoutAction.updateOrderDeliveryOptionsSuccess(params));
-      }).subscribe();
+        //const res2 = res.json();
+        console.log("TSTE " + res.message)
+        if(res.message == 'Slot is full') {
 
-      this.router.navigate(['/checkout', 'payment']);
+        } else {
+          params = {
+            status: 'delivery'
+          }
+          this.router.navigate(['/checkout', 'payment']);
+          return this.checkoutService.updateOrder(params);
+          //this.store.dispatch(this.checkoutAction.updateOrderDeliveryOptionsSuccess(params));
+        }
+      }).subscribe();
     } else {
       this.isShowErrMsg = true;
     }

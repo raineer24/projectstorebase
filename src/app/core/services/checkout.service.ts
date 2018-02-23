@@ -43,19 +43,7 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   createNewCartItem(item: Item) {
-    // return this.http.post(
-    //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderKey()}`,
-    //   {
-    //     line_item: {
-    //       variant_id: variant_id,
-    //       quantity: 1
-    //     }
-    //   }
-    // ).map(res => {
-    //   const lineItem: CartItem =  res.json();
-    //   return lineItem;
-    // }).catch(err => Observable.empty());
-
+    // const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.post(`v1/orderItem`,
         {
           "user_id": 0,
@@ -65,15 +53,19 @@ export class CheckoutService {
         }
       ).map(res => {
           const data = res.json();
-          const returnData = {
-           "id": data.id,
-           "quantity": 1,
-           "price": Number(item.price),
-           "total": Number(item.price),
-           "item_id": item.id,
-           "item": item
+          let returnData;
+          if(data.message = 'Saved') {
+            returnData = {
+             "id": data.id,
+             "quantity": 1,
+             "price": Number(item.price),
+             "total": Number(item.price),
+             "item_id": item.id,
+             "item": item
+            }
+          } else {
+            returnData = new CartItem;
           }
-
          return returnData;
       }).catch(err => Observable.empty());
   }
