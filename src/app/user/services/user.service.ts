@@ -8,6 +8,7 @@ import { Response } from '@angular/http';
 import { User } from '../../core/models/user';
 import { Observable } from 'rxjs/Observable';
 
+
 @Injectable()
 export class UserService {
 
@@ -79,26 +80,29 @@ export class UserService {
    *
    * @memberof UserService
    */
-  createNewList(params): Observable<any> {
+  createNewList(list): Observable<any> {
     const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.post(`v1/list/${userId}/user`,{
       useraccount_id: userId.toString(),
-      name: params.name,
-      description: params.description
+      name: list.name,
+      description: list.description
     }).map((res: Response) => {
       const data = res.json();
-      const list = {
-        id: data.id,
-        name: params.name,
-        description: params.description,
-        userId: userId
+      let storeList = {};
+      if(data.message == 'Saved') {
+        storeList = {
+          id: data.id,
+          name: list.name,
+          description: list.description,
+          userId: userId
+        }
+        this.http.loading.next({
+          loading: false,
+          success: true,
+          message: `List ${list.name} successfully created.`
+        });
       }
-      this.http.loading.next({
-        loading: false,
-        success: true,
-        message: `List ${params.name} successfully created.`
-      });
-      return list;
+      return storeList;
     }).catch(res => Observable.empty());
   }
 
@@ -109,17 +113,21 @@ export class UserService {
    *
    * @memberof UserService
    */
-  updateList(params: any): Observable<any> {
-    return this.http.put(`v1/list/${params.id}`,{
-      name: params.name,
-      description: params.description
+  updateList(list: any): Observable<any> {
+    return this.http.put(`v1/list/${list.id}`,{
+      name: list.name,
+      description: list.description
     }).map((res: Response) => {
-      this.http.loading.next({
-        loading: false,
-        success: true,
-        message: `List updated.`
-      });
-      return res.json();
+      const response = res.json();
+      if(response.message.indexOf('Updated') >= 0) {
+        this.store.dispatch(this.actions.updateUserListSuccess(list));
+        this.http.loading.next({
+          loading: false,
+          success: true,
+          message: `List updated.`
+        });
+      }
+      return response;
     }).catch(res => Observable.empty());
   }
 
@@ -133,12 +141,16 @@ export class UserService {
   deleteList(id: number): Observable<any> {
     return this.http.delete(`v1/list/${id}`
     ).map((res: Response) => {
-      this.http.loading.next({
-        loading: false,
-        info: true,
-        message: `List deleted.`
-      });
-      return res.json()
+      const response = res.json();
+      if(response.message == 'Deleted') {
+        this.store.dispatch(this.actions.deleteUserListSuccess(id));
+        this.http.loading.next({
+          loading: false,
+          info: true,
+          message: `List deleted.`
+        });
+      }
+      return response;
     }).catch(res => Observable.empty());
   }
 

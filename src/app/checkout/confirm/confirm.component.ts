@@ -34,7 +34,7 @@ export class ConfirmComponent implements OnInit {
       const d = new Date();
       const params = {
         name: this.inputNewList,
-        description: d.toDateString()
+        description: d.toLocaleDateString() +' '+ d.toLocaleTimeString()
       }
       //TODO: Add cart as list
       //this.store.dispatch(this.userActions.createUserList(params));

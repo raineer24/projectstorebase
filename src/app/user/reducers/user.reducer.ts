@@ -35,6 +35,9 @@ const userReducer: ActionReducer<UserState> =
         _list = payload;
         listEntities = state.lists;
 
+        if(!_list.id)
+          return state;
+
         return state.merge({ lists: listEntities.push(_list) }) as UserState;
 
       case UserActions.UPDATE_USER_LIST_SUCCESS:

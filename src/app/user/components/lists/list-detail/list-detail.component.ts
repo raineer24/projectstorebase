@@ -45,7 +45,7 @@ export class ListDetailComponent implements OnInit {
       (params: any) => {
         this.listId = params['id'];
         this.userService.getListItems(this.listId).takeUntil(this.componentDestroyed)
-          .subscribe(items => {this.items = items; console.log(items)});
+          .subscribe(items => {this.items = items; });
         this.store.select(getUserLists).takeUntil(this.componentDestroyed)
           .subscribe(lists => {
           const list = lists.find(data => data.id == this.listId);
@@ -79,6 +79,7 @@ export class ListDetailComponent implements OnInit {
   }
 
   addAllToCart(){
+    //TODO: add API call
     console.log(this.items.length);
     for(let i = 0, l = this.items.length; i < l; i++) {
       console.log("TEST")
@@ -104,10 +105,9 @@ export class ListDetailComponent implements OnInit {
         name: this.listName.value,
         description: this.listNote.value
       }
-      this.store.dispatch(this.userActions.updateUserList(list));
       this.userService.updateList(list).takeUntil(this.componentDestroyed).subscribe(res => {
         if(res.message.indexOf('Updated') >= 0) {
-          this.store.dispatch(this.userActions.updateUserListSuccess(list));
+
         }
       })
     }
@@ -117,7 +117,6 @@ export class ListDetailComponent implements OnInit {
     if(this.list.id) {
       this.userService.deleteList(this.list.id).takeUntil(this.componentDestroyed).subscribe(res => {
         if(res.message == 'Deleted') {
-          this.store.dispatch(this.userActions.deleteUserListSuccess(this.list.id));
           this.router.navigateByUrl('/user/lists');
         }
       });

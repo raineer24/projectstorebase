@@ -358,30 +358,40 @@ export class CheckoutService {
   setTimeSlotOrder(params) {
     return this.http.post(`v1/timeslotorder`, params
     ).map((res) => {
-      const date = {
-        'status': 'payment',
-        'date': {
-          'date': params.date,
-          'timeslotId': params.timeslot_id
+      const response = res.json();
+      if(response.message == 'Slot is full') {
+        this.showErrorMsg('timeslot');
+      } else {
+        const date = {
+          'status': 'payment',
+          'date': {
+            'date': params.date,
+            'timeslotId': params.timeslot_id
+          }
         }
+        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       }
-      this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
-      return res.json();
+      return response;
     })
   }
 
   updateTimeSlotOrder(params) {
     return this.http.put(`v1/timeslotorder/${params.order_id}`, params
     ).map((res) => {
-      const date = {
-        'status': 'payment',
-        'date': {
-          'date': params.date,
-          'timeslotId': params.timeslot_id
+      const response = res.json();
+      if(response.message == 'Slot is full') {
+        this.showErrorMsg('timeslot');
+      } else {
+        const date = {
+          'status': 'payment',
+          'date': {
+            'date': params.date,
+            'timeslotId': params.timeslot_id
+          }
         }
+        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       }
-      this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
-      return res.json();
+      return response;
     })
   }
 
@@ -424,6 +434,37 @@ export class CheckoutService {
         .subscribe();
     }).catch(err => Observable.empty());
   }
+
+  /**
+   *
+   *
+   * @param string
+   * @returns void
+   *
+   * @memberof CheckoutService
+   */
+
+  showErrorMsg(mode: string): void {
+    let message = '';
+    switch (mode) {
+      case 'address':
+        message = `Please enter required information.`;
+        break;
+      case 'delivery':
+        message = `Please select a delivery time slot.`;
+        break;
+      case 'timeslot':
+        message = `Slot is already full. Please select another slot`;
+        break;
+    }
+    this.http.loading.next({
+      loading: false,
+      hasError: true,
+      hasMsg: message,
+      reset: 4500
+    });
+   }
+
 
   /**
    *
