@@ -53,4 +53,18 @@
       </div>
     </h4>
   </div>
+  <div class="col-md-12">
+    <h4>Total GC Amount:
+      <div class="pull-right">
+        <strong><span style="font-size: 1.0em">(₱ {{gcAmount | number:'1.2-2'}})</span></strong>
+      </div>
+    </h4>
+  </div>
+  <div class="col-md-12">
+    <h4>Amount Due:
+      <div class="pull-right">
+        <strong><span>₱ {{orderTotal - gcAmount | number:'1.2-2'}}</span></strong>
+      </div>
+    </h4>
+  </div>
 </div>

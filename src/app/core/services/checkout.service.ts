@@ -236,8 +236,37 @@ export class CheckoutService {
     }).catch(err => Observable.empty());
   }
 
+  /**
+    * @param {any} gcCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    getGC(gcCode) {
+      console.log("SEARCHING FOR GIFTCERT");
+      return this.http.get(`v1/gc/${gcCode}`).map(res => {
+        const gc = res.json();
+        return gc;
+     }).catch(err => Observable.empty());
+    }
 
   /**
+    * @param {any} gcCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    updateGC_status(gcCode) {
+      console.log("UPDATING GIFTCERT - STATUS");
+      return this.http.put(`v1/gc/${gcCode}`,{
+        status:'used'
+        }).map(res => {
+          return res.json();
+      }).catch(err => Observable.empty());
+    }
+
+
+  /**return res.json();
    *
    *
    * @returns
@@ -513,5 +542,18 @@ export class CheckoutService {
         "dateUpdated": datum.dateUpdate
       }
     }
+
   }
+  // /**
+  //  *
+  //  *
+  //  * @private
+  //  * @returns
+  //  *
+  //  * @memberof CheckoutService
+  //  */
+  // private getGCfromLocalStorage() {
+  //   const gc = JSON.parse(localStorage.getGC('code'));
+  //   return gc;
+  // }
 }

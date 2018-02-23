@@ -256,3 +256,52 @@
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
 }
+
+.modalshake {
+			-webkit-animation: kf_shake 0.4s 1 linear;
+			-moz-animation: kf_shake 0.4s 1 linear;
+			-o-animation: kf_shake 0.4s 1 linear;
+		}
+		@-webkit-keyframes kf_shake {
+			0% { -webkit-transform: translate(30px); }
+			20% { -webkit-transform: translate(-30px); }
+			40% { -webkit-transform: translate(15px); }
+			60% { -webkit-transform: translate(-15px); }
+			80% { -webkit-transform: translate(8px); }
+			100% { -webkit-transform: translate(0px); }
+		}
+		@-moz-keyframes kf_shake {
+			0% { -moz-transform: translate(30px); }
+			20% { -moz-transform: translate(-30px); }
+			40% { -moz-transform: translate(15px); }
+			60% { -moz-transform: translate(-15px); }
+			80% { -moz-transform: translate(8px); }
+			100% { -moz-transform: translate(0px); }
+		}
+		@-o-keyframes kf_shake {
+			0% { -o-transform: translate(30px); }
+			20% { -o-transform: translate(-30px); }
+			40% { -o-transform: translate(15px); }
+			60% { -o-transform: translate(-15px); }
+			80% { -o-transform: translate(8px); }
+			100% { -o-origin-transform: translate(0px); }
+		}
+
+.register-error-message {
+      font-size: 11px;
+      margin-left: 15px;
+      color: #ee5f73;
+      text-align: left;
+      margin-top: -9px;
+      max-height: 500px;
+      -webkit-transition-property: all;
+      transition-property: all;
+      -webkit-transition-duration: .5s;
+      transition-duration: .5s;
+      -webkit-transition-timing-function: cubic-bezier(0,1,.5,1);
+      transition-timing-function: cubic-bezier(0,1,.5,1);
+    }
+
+.register-gender-error-icon {
+      font-size: 16px;
+    }
