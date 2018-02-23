@@ -357,16 +357,19 @@ export class CheckoutService {
   }
 
   updateOrderPayment(params: any) {
-    const orderkey = this.getOrderKey();
+    //const orderkey = this.getOrderKey();
+    params.orderkey = this.getOrderKey();
     return this.http.put(
-      // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
-      `v1/order/${params.orderId}/payment`,{
-      orderkey: orderkey,
-      status: 'payment'
-    }).mergeMap(res => {
-      this.store.dispatch(this.actions.orderCompleteSuccess());
-      return this.createNewOrder();
-      //return res.json();
+      `v1/order/${params.id}/payment`, params
+    ).map(res => {
+      const response = res.json();
+      if(response.message.indexOf('Processed') >= 0) {
+        this.store.dispatch(this.actions.orderCompleteSuccess());
+        this.createNewOrder().subscribe();
+      } else {
+        this.showErrorMsg('payment');
+      }
+      return response;
     })
   }
 
@@ -483,7 +486,10 @@ export class CheckoutService {
         message = `Please select a delivery time slot.`;
         break;
       case 'timeslot':
-        message = `Slot is already full. Please select another slot`;
+        message = `Slot is already full. Please select another slot.`;
+        break;
+      case 'payment':
+        message = `Error occured. Please review your order and try again.`;
         break;
     }
     this.http.loading.next({
