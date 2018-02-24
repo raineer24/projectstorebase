@@ -142,18 +142,18 @@ export class PaymentComponent implements OnInit {
 
     if (this.paymentCOD == 0) {
       params = {
-        orderId: this.orderId,
+        id: this.orderId,
         paymentMode: 'COD',
-        paymentInstructions: this.codText,
+        paymentInstructions: this.codText ? this.codText: '',
         status: 'payment'
       }
       isPaymentMode = true;
     } else {
       params = {
-        orderId: this.orderId,
+        id: this.orderId,
         paymentMode: 'GC',
-        paymentInstructions: this.gcText,
-        referenceId: this.gcCode,
+        paymentInstructions: this.gcText ? this.gcText: '',
+        referenceId: this.gcCode ? this.gcCode : '',
         status: 'payment'
       }
       isPaymentMode = true;
@@ -161,9 +161,11 @@ export class PaymentComponent implements OnInit {
 
     if(isPaymentMode) {
       this.checkoutService.updateOrderPayment(params
-        ).do(() => {
+      ).do(res => {
+        if(res.message.indexOf('Processed') >= 0) {
           this.router.navigate(['/checkout', 'confirm']);
-        }).subscribe();
+        }
+      }).subscribe();
     }
   }
 

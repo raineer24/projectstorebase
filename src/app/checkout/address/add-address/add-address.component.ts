@@ -75,7 +75,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
           ctrl.markAsTouched();
         };
       });
-
+      this.checkoutService.showErrorMsg('address');
     }
   }
 

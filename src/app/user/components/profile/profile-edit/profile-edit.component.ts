@@ -73,12 +73,8 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     const keys = Object.keys(values);
 
     if (this.profileEditForm.valid) {
-      this.profileEditSubs = this.authService.update(this.userData.id, data).subscribe(data => {
-        const error = data.error;
-        if (error) {
-
-        } else {
-          console.log("UPDATED!");
+      this.profileEditSubs = this.authService.update(this.userData.id, data).subscribe(res => {
+        if (res.message == 'Updated') {
         }
       });
     } else {
