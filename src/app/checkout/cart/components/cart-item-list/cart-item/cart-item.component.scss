@@ -112,9 +112,16 @@
   margin: 0px;
 }
 .list-inline .glyphicon {
-	font-size: 14px;
-  color: #ffffff;
-  top: 2px;
+	// font-size: 14px;
+  // color: #ffffff;
+  // padding: 4px;
+  // left: -1px;
+}
+.row-cart {
+  margin-bottom: 5px;
+  input {
+    border: 1px solid #b5beef;
+  }
 }
 
 input {

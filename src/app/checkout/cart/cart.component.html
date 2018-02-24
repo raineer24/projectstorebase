@@ -11,41 +11,24 @@
 </ul> -->
 <div class="cart-section">
   <div *ngIf="(totalCartItems$ | async) > 0 else emptyCart">
-    <div class="col-xs-9 panel-board">
+    <div class="col-md-9 panel-board">
       <div class="panel panel-info">
-        <h1>Your Shopping Cart Summary</h1>
-        <p>Please review the items on your shopping cart before you checkout</p>
-        <button *ngIf="isAuthenticated$ | async" class="btn btn-danger" [routerLink]="['/user','lists']">Add item(s) from List</button>
-        <!-- <div class="panel-heading">
-          <div class="panel-title">
-            <div class="row">
-              <div class="col-xs-6">
-                <h5><span class="glyphicon glyphicon-shopping-cart"></span> OMGShopping Cart</h5>
-              </div>
-              <div class="col-xs-6 text-right" [routerLink]="['/']">
-                <button type="button" class="btn btn-primary">Continue Shopping</button>
-              </div>
-            </div>
+        <div class="row">
+          <div class="col-md-9">
+            <h1>Cart summary</h1>
           </div>
-        </div> -->
-        <div class="panel-body">
-          <app-cart-item-list></app-cart-item-list>
+          <div class="col-md-3">
+            <button *ngIf="isAuthenticated$ | async" class="btn btn-danger" [routerLink]="['/user','lists']">Copy items from My List</button>
+          </div>
         </div>
-        <!-- <div class="panel-footer">
-          <div class="row text-center">
-            <div class="col-xs-9">
-              <h4 class="text-right">Total
-                <strong>₱ {{totalCartValue$ | async | number:'1.2-2'}}</strong>
-              </h4>
-            </div>
-            <div class="col-xs-3">
-              <button type="button" class="btn btn-primary">Checkout</button>
-            </div>
-          </div>
+        <!-- <p>Please review the items on your shopping cart before you checkout</p> -->
+        <app-cart-item-list></app-cart-item-list>
+        <!-- <div class="panel-body">
+          <app-cart-item-list></app-cart-item-list>
         </div> -->
       </div>
     </div>
-    <div class="col-xs-3">
+    <div class="col-md-3">
       <app-order-total-summary [totalCartItems]="totalCartItems$ | async" [totalCartValue]="totalCartValue$ | async"></app-order-total-summary>
     </div>
     <!--
