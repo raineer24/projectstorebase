@@ -44,6 +44,7 @@ export class CheckoutService {
    */
   createNewCartItem(item: Item) {
     // const userId = JSON.parse(localStorage.getItem('user')).id;
+console.log(item.id)
     return this.http.post(`v1/orderItem`,
         {
           "user_id": 0,
@@ -54,7 +55,7 @@ export class CheckoutService {
       ).map(res => {
           const data = res.json();
           let returnData;
-          if(data.message = 'Saved') {
+          if(data.message == 'Saved') {
             returnData = {
              "id": data.id,
              "quantity": 1,
@@ -62,7 +63,7 @@ export class CheckoutService {
              "total": Number(item.price),
              "item_id": item.id,
              "item": item
-            }
+           }
             this.http.loading.next({
               loading: false,
               success: true,
@@ -70,6 +71,11 @@ export class CheckoutService {
             });
           } else {
             returnData = new CartItem;
+            this.http.loading.next({
+              loading: false,
+              error: true,
+              message: `${item.name} already in cart.`
+            });
           }
          return returnData;
       }).catch(err => Observable.empty());

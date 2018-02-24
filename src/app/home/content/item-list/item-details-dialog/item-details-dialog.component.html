@@ -64,8 +64,15 @@
                     <ng-container *ngFor="let userList of userLists; let i = index">
                       <li role="menuitem">
                         <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
-                          <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="userList.state">
+                          <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
                           <span >&nbsp;{{userList.name}}</span>
+                        </div>
+                      </li>
+                    </ng-container>
+                    <ng-container *ngIf="userLists.length == 0">
+                      <li role="menuitem">
+                        <div class="list-dropdown-item">
+                          <span><i>No list created</i></span>
                         </div>
                       </li>
                     </ng-container>
@@ -99,11 +106,11 @@
                 </button>
                 <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
                   <li role="menuitem">
-                      <div class="panel-body">
-                        <p>Login to add this item to a list.</p>
-                        <hr>
-                        <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
-                      </div>
+                    <div class="panel-body">
+                      <p>Login to add this item to a list.</p>
+                      <hr>
+                      <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
+                    </div>
                   </li>
                 </ul>
               </div>

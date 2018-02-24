@@ -30,7 +30,6 @@ export class ConfirmComponent implements OnInit {
 
   createNewList() {
     if(this.inputNewList) {
-      console.log(this.inputNewList)
       const d = new Date();
       const params = {
         name: this.inputNewList,
