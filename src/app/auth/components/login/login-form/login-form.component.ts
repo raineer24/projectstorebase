@@ -7,7 +7,7 @@ import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
 import { getAuthStatus } from '../../../reducers/selectors';
 import { Subscription } from 'rxjs/Subscription';
-
+import { UserActions } from '../../../../user/actions/user.actions';
 
 @Component({
   selector: 'app-login-form',
@@ -25,6 +25,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private router: Router,
+    private userActions: UserActions,
     private authService: AuthService
   ) { }
 
@@ -49,8 +50,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         if (error) {
 
         } else {
-          // this.router.navigate([this.returnUrl])
-          this.router.navigate(['user/profile']);
+          this.store.dispatch(this.userActions.getUserLists());
+          this.router.navigate([this.returnUrl])
+          //this.router.navigate(['user/profile']);
         }
       });
     } else {

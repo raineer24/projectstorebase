@@ -1,13 +1,12 @@
-<div class="col-md-3">
+<div class="col-sm-3">
 <div class="panel panel-default">
   <div class="panel-body">
-    <h5 class="active">Grocery List</h5>
+    <h5 class="active">{{userList.name}}</h5>
     <small>
-      Description: Lorem ipsum
+      Note: {{userList.description}}
+      <br>
+      <a [routerLink]="['detail', userList.userId , userList.id]" class="text-primary">View List</a>
     </small>
-    <div class="pull-right">
-      <a [routerLink]="['detail', 1]" class="view-details-link strong">View Details</a>
-    </div>
     <!-- <div *ngFor="let line_item of order.line_items">
       <img class="line_item_image" [src]="getProductImageUrl(line_item.image_url)" alt="Line Item">
     </div> -->

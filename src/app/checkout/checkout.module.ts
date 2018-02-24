@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LayoutModule } from "../layout/index";
-
+import { FormsModule } from '@angular/forms';
 import { CheckoutRoutes as routes } from './checkout.routes';
 
 import { HeaderComponent } from "../layout/header/header.component";
@@ -24,7 +24,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
     AddressModule,
     PaymentModule,
     LayoutModule,
-
+    FormsModule
   ],
   exports: [HeaderComponent],
   declarations: [ConfirmComponent],

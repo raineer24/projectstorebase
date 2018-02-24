@@ -6,6 +6,7 @@ import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
 import { getAuthStatus } from '../../../reducers/selectors';
 import { Subscription } from 'rxjs/Subscription';
+import { UserActions } from '../../../../user/actions/user.actions';
 
 declare const window: any;
 declare const FB: any;
@@ -24,20 +25,21 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private userActions: UserActions,
     private zone: NgZone
   ) {
     (function(d, s, id){
       let js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return; }
       js = d.createElement(s); js.id = id;
-      js.src = '//connect.facebook.net/en_US/sdk.js';
+      js.src = environment.FACEBOOK_SRC;
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
     window.fbAsyncInit = () => {
       console.log('fbasyncinit');
       FB.init({
-        appId            : '1858414594186264',
+        appId            : environment.FACEBOOK_APP_ID,
         autoLogAppEvents : true,
         xfbml            : true,
         version          : 'v2.10'
@@ -85,11 +87,14 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
               this.loginSubs = this.authService.register(body).subscribe(data => {
                 error = data.error;
                 if(!error) {
+                  this.store.dispatch(this.userActions.getUserLists());
                   this.router.navigate(['user/profile']);
                 }
               })
           } else {
-            this.router.navigate(['user/profile']);
+            this.store.dispatch(this.userActions.getUserLists());
+            this.router.navigate([this.returnUrl])
+            //this.router.navigate(['user/profile']);
           }
           //this.store.select(getAuthStatus).subscribe(
           //  data => {

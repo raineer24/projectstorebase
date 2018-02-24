@@ -51,7 +51,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItemId = _cartItem.id;
 
         // return the same state if the item is already included.
-        if (state.cartItemIds.includes(_cartItemId)) {
+        if (state.cartItemIds.includes(_cartItemId) || !_cartItem.id) {
           return state;
         }
 

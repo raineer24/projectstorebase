@@ -43,19 +43,7 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   createNewCartItem(item: Item) {
-    // return this.http.post(
-    //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderKey()}`,
-    //   {
-    //     line_item: {
-    //       variant_id: variant_id,
-    //       quantity: 1
-    //     }
-    //   }
-    // ).map(res => {
-    //   const lineItem: CartItem =  res.json();
-    //   return lineItem;
-    // }).catch(err => Observable.empty());
-
+    // const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.post(`v1/orderItem`,
         {
           "user_id": 0,
@@ -65,15 +53,19 @@ export class CheckoutService {
         }
       ).map(res => {
           const data = res.json();
-          const returnData = {
-           "id": data.id,
-           "quantity": 1,
-           "price": Number(item.price),
-           "total": Number(item.price),
-           "item_id": item.id,
-           "item": item
+          let returnData;
+          if(data.message = 'Saved') {
+            returnData = {
+             "id": data.id,
+             "quantity": 1,
+             "price": Number(item.price),
+             "total": Number(item.price),
+             "item_id": item.id,
+             "item": item
+            }
+          } else {
+            returnData = new CartItem;
           }
-
          return returnData;
       }).catch(err => Observable.empty());
   }
@@ -244,8 +236,37 @@ export class CheckoutService {
     }).catch(err => Observable.empty());
   }
 
+  /**
+    * @param {any} gcCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    getGC(gcCode) {
+      console.log("SEARCHING FOR GIFTCERT");
+      return this.http.get(`v1/gc/${gcCode}`).map(res => {
+        const gc = res.json();
+        return gc;
+     }).catch(err => Observable.empty());
+    }
 
   /**
+    * @param {any} gcCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    updateGC_status(gcCode) {
+      console.log("UPDATING GIFTCERT - STATUS");
+      return this.http.put(`v1/gc/${gcCode}`,{
+        status:'used'
+        }).map(res => {
+          return res.json();
+      }).catch(err => Observable.empty());
+    }
+
+
+  /**return res.json();
    *
    *
    * @returns
@@ -521,5 +542,18 @@ export class CheckoutService {
         "dateUpdated": datum.dateUpdate
       }
     }
+
   }
+  // /**
+  //  *
+  //  *
+  //  * @private
+  //  * @returns
+  //  *
+  //  * @memberof CheckoutService
+  //  */
+  // private getGCfromLocalStorage() {
+  //   const gc = JSON.parse(localStorage.getGC('code'));
+  //   return gc;
+  // }
 }

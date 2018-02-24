@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { getSelectedProduct } from './../../../product/reducers/selectors';
+import { getAuthStatus } from './../../../auth/reducers/selectors';
 import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
 import { Item } from './../../../core/models/item';
@@ -7,6 +8,7 @@ import { environment } from './../../../../environments/environment';
 import { Component, OnInit, Input, ViewChild, HostListener, OnDestroy } from '@angular/core';
 import { ProductActions } from './../../../product/actions/product-actions';
 import { getFilters } from './../../reducers/selectors';
+import { getUserLists } from './../../../user/reducers/selector';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -20,6 +22,8 @@ export class ItemListComponent implements OnInit {
   @Input() cartItems;
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
+  isAuthenticated$: Observable<boolean>;
+  userLists$: Observable<Array<any>>
   selectedItem: Item;
   autoLoadCtr: number = 0;
   delay: boolean = false;
@@ -38,6 +42,8 @@ export class ItemListComponent implements OnInit {
 
   ngOnInit() {
     this.selectedItem$ = this.store.select(getSelectedProduct);
+    this.isAuthenticated$ = this.store.select(getAuthStatus);
+    this.userLists$ = this.store.select(getUserLists);
     this.loadSubs = this.store.select(getFilters).subscribe(res => {
       this.filters = res;
     })
