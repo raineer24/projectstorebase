@@ -14,12 +14,12 @@
     </div>
     <!-- INSERT IMAGES HERE -->
     <div class="item-info col-md-6">
-      <div class="item-name">
+      <div class="row item-name">
         <p class="title">{{item.name}}</p>
         <p>{{item.brandName}}</p>
         <!-- <p>{{item.sizing}}</p> -->
       </div>
-      <div class="meta-info">
+      <div class="row meta-info">
         <p class="lp" *ngIf="hideListPrice(item.displayPrice, item.price)">
           <label>List Price:</label>
           <span>{{item.displayPrice | currency:'PHP':true:'1.2'}}</span>
@@ -38,79 +38,88 @@
         </p>
         <!-- <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p> -->
       </div>
-      <div>
-        <p>
+      <div class="row">
+        <!-- <p> -->
+        <div class="col-md-2">
           <label>&nbsp;</label>
-          <span>
-            <div *ngIf="itemQuantity != 0; else addCart" class="quantity-in-cart fl input-group">
-              <!-- <label for="bit">Quantity in cart</label> -->
-                <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
-                <input type="number" class="text-center"
-                  [min]="MIN_VALUE" [max]="MAX_VALUE"
-                  [value]="itemQuantity" [formControl]="quantityControl"/>
-                <button title="Add more of this item" type="button" class="btn btn-success" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+        <div class="col-md-10 quantity-dialog">
+            <div class="col-md-6">
+              <div *ngIf="itemQuantity != 0; else addCart" class="input-group btn-block">
+                <!-- <label for="bit">Quantity in cart</label> -->
+                  <!-- <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button> -->
+
+                  <input type="number" class="form-control text-center"
+                    [min]="MIN_VALUE" [max]="MAX_VALUE"
+                    [value]="itemQuantity" [formControl]="quantityControl"/>
+                  <span class="input-group-btn"><button title="Add more of this item" type="button" class="btn btn-success quantity-in-cart-btn" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
+
+                  <!-- <input class="form-control text-center" type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl" /> -->
+                  <!-- <span class="input-group-btn"><button title="Add more of this item" class="btn btn-default" type="button"(click)="incrementQuantity($event)" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span> -->
+
+              </div>
+              <ng-template #addCart>
+                <button title="Add 1 item" class="quantity-in-cart-add btn btn-block btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
+              </ng-template>
             </div>
-            <ng-template #addCart>
-              <button title="Add 1 item" class="quantity-in-cart-add btn btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
-            </ng-template>
+            <div class="col-md-6">
             <!-- START: ADD TO MY LIST-->
-            <ng-container *ngIf="isAuthenticated; else notAuth">
-              <div class="btn-group btn-select-item" dropdown [autoClose]="false">
-                <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
-                  <i class="glyphicon glyphicon-edit"></i>Add to my list
-                </button>
-                <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
-                  <div class="user-list">
-                    <ng-container *ngFor="let userList of userLists; let i = index">
-                      <li role="menuitem">
-                        <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
-                          <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="userList.state">
-                          <span >&nbsp;{{userList.name}}</span>
-                        </div>
-                      </li>
-                    </ng-container>
-                  </div>
-                  <li class="divider dropdown-divider"></li>
-                  <li role="menuitem" class="list-dropdown-item">
-                    <div>
-                      <ng-container *ngIf="!isCreateList; else createList">
-                        <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span>
-                      </ng-container>
-                      <ng-template #createList>
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="List Name" [formControl]="inputNewList">
-                          <div class="input-group-btn">
-                            <button class="btn btn-default" type="button" (click)="createNewList()">
-                              <i class="glyphicon glyphicon-plus"></i>
-                            </button>
+              <ng-container *ngIf="isAuthenticated; else notAuth">
+                <div class="btn-group btn-block" dropdown [autoClose]="false">
+                  <button dropdownToggle type="button" class="btn btn-primary btn-block">
+                    <i class="glyphicon glyphicon-list"></i>&nbsp;Add to my list
+                  </button>
+                  <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
+                    <div class="user-list">
+                      <ng-container *ngFor="let userList of userLists; let i = index">
+                        <li role="menuitem">
+                          <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
+                            <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="userList.state">
+                            <span >&nbsp;{{userList.name}}</span>
                           </div>
-                        </div>
-                      </ng-template>
+                        </li>
+                      </ng-container>
                     </div>
-                  </li>
-                </ul>
-              </div>
-            </ng-container>
-            <ng-template #notAuth>
-              <div class="btn-group btn-select-item" dropdown [autoClose]="false">
-                <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
-                  <span class="glyphicon glyphicon-edit"></span>
-                  Add to my list
-                </button>
-                <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
-                  <li role="menuitem">
-                      <div class="panel-body">
-                        <p>Login to add this item to a list.</p>
-                        <hr>
-                        <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem" class="list-dropdown-item">
+                      <div>
+                        <ng-container *ngIf="!isCreateList; else createList">
+                          <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span>
+                        </ng-container>
+                        <ng-template #createList>
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="List Name" [formControl]="inputNewList">
+                            <div class="input-group-btn">
+                              <button class="btn btn-default" type="button" (click)="createNewList()">
+                                <i class="glyphicon glyphicon-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </ng-template>
                       </div>
-                  </li>
-                </ul>
-              </div>
-            </ng-template>
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+              <ng-template #notAuth>
+                <!-- <div class="btn-group" dropdown [autoClose]="false"> -->
+                <div class="btn-block" dropdown [autoClose]="false">
+                  <button dropdownToggle type="button" class="quantity-wish-list btn btn-block btn-primary"><span class="glyphicon glyphicon-list"></span>&nbsp;Add to my list</button>
+                  <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
+                    <li role="menuitem">
+                        <div class="panel-body">
+                          <p>Login to add this item to a list.</p>
+                          <hr>
+                          <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
+                        </div>
+                    </li>
+                  </ul>
+                </div>
+              </ng-template>
+            </div>
             <!-- END: ADD TO MY LIST-->
-          </span>
-        </p>
+        </div>
+        <!-- </p> -->
       </div>
     </div> <!-- div.item-info -->
   </div>
