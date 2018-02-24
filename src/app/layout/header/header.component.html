@@ -1,14 +1,54 @@
-
-<nav >
-  <div class="topbar">
-    <div class="container">
-      <div class="col-md-2">
+<nav class="navbar navbar-default navbar-fixed-top topbar">
+  <div class="container">
+    <div class="row nav-menu-top">
+      <ul class="nav navbar-nav navbar-left">
+        <li class="active"><a href="#">OMG Online!</a></li>
+        <!-- <li><a href="#">Promotions</a></li> -->
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <!-- <li><a href="#">Availability In Your Area</a></li> -->
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="row nav-menu-mid">
+      <div class="col-md-1">
         <a routerLink="/" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
         </a>
       </div>
-      <div class="col-md-8">
-        <div *ngIf="isHomeRoute" class="input-group">
+      <div class="col-md-2">
+        <ul class="nav navbar-nav">
+          <li
+          (onShown)="onMenuToggle()"
+          (onHidden)="onMenuToggle()"
+          class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <a href="#">Categories <span class="caret"></span></a>
+            <ul class="dropdown-menu multi-level">
+              <li
+              (onShown)="onMenuToggle()"
+              (onHidden)="onMenuToggle()"
+              class="dropdown-submenu" *ngFor="let category of categories$ | async; let i = index;">
+                <a
+                (click)="selectCategory(category, i + 1);"
+                (mouseover)="onMenuOver($event, i + 1)"
+                (mouseleave)="onMenuLeave($event, i + 1)"
+                href="#" class="dropdown-toggle" data-toggle="dropdown">{{ category.name }}</a>
+                <ul
+                (mouseover)="onSubMenuOver($event, i + 1)"
+                (mouseleave)="onSubMenuLeave($event, i + 1)"
+                class="dropdown-menu">
+                  <li *ngFor="let category2 of category.subCategories">
+                    <a href="javascript:void(0)" (click)="selectCategory(category2)">{{category2.name}}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
             <div class="result-box" *ngIf="keyword.price; else categories">
               <div class="imgbox">
@@ -17,7 +57,6 @@
                 alt="{{keyword.name}}"
                 [src]="getItemImageUrl(keyword.imageKey)" width="39 px"></div>
               <div class="itemdetailsbox">{{keyword.name}} | P {{keyword.price}}</div>
-
             </div>
             <ng-template #categories><div class="catbox">{{keyword.name}}</div></ng-template>
           </ng-template>
@@ -39,9 +78,9 @@
           <input [(ngModel)]="asyncSelected"
               class="form-control"
               (keyup.enter)="searchKeyword()"
-              placeholder="Search for...">
+              placeholder="Search for a product or category">
           <span class="input-group-btn">
-            <button class="btn btn-secondary btn-danger" type="button" (click)="searchKeyword()">GO</button>
+            <button class="btn btn-secondary btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
           </span>
         </div>
         <div class="loader-overlay" [hidden]="!bShowProgress">
@@ -53,6 +92,7 @@
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
+<!--
   <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
     <div class="container">
       <div class=" navbar yamm">
@@ -123,8 +163,8 @@
       </div>
     </div>
   </div>
+-->
 </nav>
-
           <!-- <ul>
             <li><a (click)="selectAll()" href="javascript:void(0)">All categories</a></li>
             <li *ngFor="let category of categories$ | async" class="">
