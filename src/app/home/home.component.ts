@@ -16,7 +16,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
   selector: 'app-home',
   template: `
     <app-banner></app-banner>
-    <div class="col-xs-12">
+    <div class="col-xs-12 home-container">
       <!--
       <div class="col-xs-3">
         <app-taxons [taxonomies]="taxonomies$ | async"></app-taxons>

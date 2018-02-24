@@ -2,16 +2,15 @@
 	min-height: 500px;
 	text-align: center;
 	.empty-cart-icon {
-		height: 85px;
-    width: 85px;
+		height: 120px;
+    width: 120px;
     margin: 0 auto;
-    background-image: url(/assets/shoppingbag.png);
 	}
 	.empty-cart-message {
 		font-size: 20px;
     color: #535766;
     font-weight: 600;
-		font-family: "Whitney-semi-bold";
+		// font-family: "Whitney-semi-bold";
 		line-height: 120px;
 		margin: 15px 0;
 	}

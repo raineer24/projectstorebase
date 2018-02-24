@@ -37,41 +37,37 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 main-panel">
-      <h1>Payment Details</h1>
-      <h3>Select Mode of Payment</h3>
-      <p>Delivery fee will be charged when transaction has been accepted.</p>
+      <h1>Select mode of Payment</h1>
+      <!-- <h3>Select Mode of Payment</h3> -->
+      <!-- <p>Delivery fee will be charged when transaction has been accepted.</p> -->
+      <p>If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
       <div class="row col-md-8">
           <div #group1>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <i class="glyphicon glyphicon-usd"></i>
               Cash on Delivery
             </div>
-            <i class="pull-right float-xs-right glyphicon"></i>
+            <i class="pull-right float-xs-right glyphicon"></i> -->
             <!-- <div class="form-group">
               <input type="checkbox" class=""/><label></label>
             </div> -->
             <ng-container *ngIf="totalAmount > 100; else secondCash">
               <div class="checkbox">
-                <label style="font-size: 1.5em">
+                <label>
                   <input #cod type="checkbox" value="" checked>
-                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                  Pay with Cash
+                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
                 </label>
               </div>
-              <!-- <div class="form-group">
-                <textarea [(ngModel)]="gcText" class="form-control" cols="50" rows="4" placeholder="Instructions"></textarea>
-              </div> -->
             </ng-container>
             <ng-template #secondCash>
                 <div #group1>
                   <div class="checkbox">
-                    <label style="font-size: 1.5em">
+                    <label>
                       <input #cod type="checkbox" value="" checked disabled>
-                      <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                      Pay with Cash
+                      <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
                     </label>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group indent-container">
                     <textarea [(ngModel)]="gcText" class="form-control" cols="50" rows="4" placeholder="Instructions"></textarea>
                   </div>
                 </div>
@@ -79,15 +75,22 @@
           </div>
           <ng-container *ngIf="totalAmount > 100; else secondGC">
             <div #group2>
-              <div accordion-heading>
+              <!-- <div accordion-heading>
                 <i class="glyphicon glyphicon-gift"></i>
                 Gift Certificate
               </div>
-              <i class="pull-right float-xs-right glyphicon"></i>
-              <div class="input-group mb-3-gc">
-                <div class="input-group-prepend">
-                  <button class="btn btn-primary btn-outline-secondary" data-toggle="modal" data-target="#gcModal" (click)="gcCount()"><i class="glyphicon glyphicon-plus"></i> Use Gift Certificates</button>
-                  <input #giftcert type="text" class="form-control text-center gc-count" [value]="gcQuantity" disabled aria-describedby="basic-addon2">
+              <i class="pull-right float-xs-right glyphicon"></i> -->
+              <div class="checkbox">
+                <label>
+                  <input #cod type="checkbox" value="" checked>
+                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with GCs
+                </label>
+              </div>
+              <div class="input-group indent-container">
+                <div class="input-group">
+                  <span class="input-group-addon">{{gcQuantity}}</span>
+                  <button class="btn btn-primary form-control" data-toggle="modal" data-target="#gcModal" (click)="gcCount()">Add Gift Certificate</button>
+                  <!-- <input #giftcert type="text" class="form-control text-center gc-count" [value]="gcQuantity" disabled aria-describedby="basic-addon2"> -->
                 </div>
               </div>
               <!-- <div class="form-group col-md-8">
@@ -98,17 +101,17 @@
                   </button>
                 </div>
               </div> -->
-              <div class="form-group">
+              <div class="form-group indent-container">
                 <textarea [(ngModel)]="gcText" class="form-control" cols="50" rows="4" placeholder="Instructions"></textarea>
               </div>
             </div>
           </ng-container>
           <ng-template #secondGC>
-              <div #group2>
-                  <div class="form-group">
+              <!-- <div #group2>
+                  <div class="form-group indent-container">
                       <p>If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
                   </div>
-              </div>
+              </div> -->
           </ng-template>
           <!-- <accordion-group is-disabled="true">
             <div accordion-heading>Credit Card
@@ -121,9 +124,7 @@
 
     </div>
     <div class="col-md-4">
-      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmount$ | async"
-        [orderTotal]="orderTotal$ | async" [amountDue]="totalAmountDue" [cartItems]="cartItems$ | async" [deliveryDate]="deliveryDate$ | async"></app-review-order>
-      <div class="row">
+      <div class="row place-order">
         <div class="col-md-12">
         <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
           <div class="button-group pull-right">
@@ -131,6 +132,8 @@
           </div>
         </div>
       </div>
+      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmount$ | async"
+        [orderTotal]="orderTotal$ | async" [amountDue]="totalAmountDue" [cartItems]="cartItems$ | async" [deliveryDate]="deliveryDate$ | async"></app-review-order>
     </div>
   </div>
  <!-- <div class="col-md-6">

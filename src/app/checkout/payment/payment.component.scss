@@ -1,5 +1,12 @@
 .place-order {
+  margin-top: 20px;
+}
+.indent-container {
+  margin-left: 50px;
   margin-top: 10px;
+  textarea {
+    resize: none;
+  }
 }
 
 .no-spin::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {

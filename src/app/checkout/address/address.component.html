@@ -11,15 +11,15 @@
 	</div> -->
 	<div id="deliverytime" class="delivery-time" *ngIf="isShowDeliveryOption">
 		<div class="col-md-12">
-      <h3><span class="num">1</span><span class="txt">Checkout information</span><span class="num num-sel">2</span><span class="txt txt-sel">Delivery time</span><span class="num">3</span>Payment</h3>
+      <h3><span class="num">1</span><span class="txt">Information</span><span class="num num-sel">2</span><span class="txt txt-sel">Delivery time</span><span class="num">3</span>Payment</h3>
       <!-- <h3>Pick a delivery time slot</h3> -->
 			<app-delivery-options [orderId]="orderId$ | async" [orderStatus]="orderStatus$ | async"
 			 [deliveryDate]="deliveryDate$ | async" (onBackClickEmit)="toggleShowDeliveryAddressOption()"></app-delivery-options>
 		</div>
 	</div>
 	<div id="enterAddress" *ngIf="!isShowDeliveryOption">
-		<div class="col-md-10 add-address">
-      <h3><span class="num num-sel">1</span><span class="txt txt-sel">Checkout information</span><span class="num">2</span><span class="txt">Delivery time</span><span class="num">3</span>Payment</h3>
+		<div class="col-md-8 add-address">
+      <h3><span class="num num-sel">1</span><span class="txt txt-sel">Information</span><span class="num">2</span><span class="txt">Delivery time</span><span class="num">3</span>Payment</h3>
 			 <app-add-address (onProceedClickEmit)="toggleShowDeliveryDateOption()"></app-add-address>
 		</div>
 		<!-- <div class="col-md-3">
