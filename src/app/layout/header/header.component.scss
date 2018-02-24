@@ -78,14 +78,14 @@
 
 .nav-menu-mid {
   padding: 8px 0;
-  min-height: 100px;
+  // min-height: 100px;
   @media (min-width: 992px) {
     .col-md-1 {
       width: 9.333333%;
     }
   }
   .navbar-nav {
-    margin-top: 20px;
+    margin-top: 10px;
     li > a {
       min-height: 0;
     }
@@ -121,7 +121,7 @@
 
 .input-group  {
   input {
-    margin: 20px 0;
+    margin: 10px 0;
     font-size: 16px;
     padding: 20px;
   }
@@ -177,9 +177,11 @@
 }
 
 .navbar-brand {
+  margin-top: 10px;
+  padding: 0;
   line-height: 70px;
   img {
-    width: 100px;
+    width: 90px;
   }
 }
 
@@ -318,7 +320,10 @@ ul.nav li.dropdown-toggle:hover > ul.dropdown-menu {
 .dropdown-submenu:hover>.dropdown-menu {
     display: block;
 }
-
+.dropdown-submenu a {
+  font-size: 14px;
+  text-transform: capitalize;
+}
 .dropdown-submenu>a:after {
     display: block;
     content: " ";
