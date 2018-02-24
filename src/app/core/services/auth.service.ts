@@ -139,7 +139,7 @@ export class AuthService {
       `v1/user/account/${ id }/save`, data
     ).map((res: Response) => {
       let result = res.json();
-      if (result.message == 'Updated') {
+      if (result.message.indexOf('Updated') >= 0) {
         let storedData = JSON.parse(localStorage.getItem('user'));
         data.message = result.message;
         for(let key in data) {
@@ -148,8 +148,12 @@ export class AuthService {
           }
         }
         this.setTokenInLocalStorage(storedData);
+        this.http.loading.next({
+          loading: false,
+          success: true,
+          message: `Profile was successfully saved.`
+        });
       } else {
-        result.error = true;
         // this.http.loading.next({
         //   loading: false,
         //   hasError: true,

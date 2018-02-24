@@ -32,9 +32,10 @@ export class ListsComponent implements OnInit {
 
   createNewList(): void{
     if(this.newList.value) {
+      const d = new Date();
       const params = {
         name: this.newList.value,
-        description: ''
+        description: d.toLocaleDateString() +' '+ d.toLocaleTimeString()
       }
       this.store.dispatch(this.userActions.createUserList(params));
     }

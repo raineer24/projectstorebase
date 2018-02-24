@@ -14,7 +14,12 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
   constructor(private httpInterceptor: HttpService) {
     this.notiSubs = this.httpInterceptor.loading.subscribe(
-      data => this.loading = data
+      data => {
+        this.loading = data;
+        if(data.reset) {
+          setTimeout(() => this.loading.hasError = false, data.reset);
+        }
+      }
     );
   }
 
