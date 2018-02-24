@@ -1,6 +1,15 @@
 .fa {
   font-size: 2rem;
 }
+.navbar-nav {
+  margin-top: 10px;
+}
+.navbar-nav > li > a {
+  min-height: 0px;
+}
+.divider {
+  top: 10px;
+}
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
   background-color: transparent;
