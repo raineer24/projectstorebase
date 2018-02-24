@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { SearchActions } from './../../home/reducers/search.actions';
 import { getTaxonomies } from './../../product/reducers/selectors';
-import { getTotalCartItems } from './../../checkout/reducers/selectors';
+import { getTotalCartValue, getTotalCartItems } from './../../checkout/reducers/selectors';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
   ViewChild, ViewChildren, QueryList, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
   selectedItem: Item;
   isAuthenticated: Observable<boolean>;
   totalCartItems: Observable<number>;
+  totalCartValue: Observable<number>;
   categories$: Observable<any>;
   timer: Observable<any>;
   subscription: Subscription;
@@ -106,6 +107,7 @@ export class HeaderComponent implements OnInit {
     this.bInputEmpty = false;
     this.isAuthenticated = this.store.select(getAuthStatus);
     this.totalCartItems = this.store.select(getTotalCartItems);
+    this.totalCartValue = this.store.select(getTotalCartValue);
     this.categories$ = this.store.select(getTaxonomies);
   }
 
