@@ -55,28 +55,33 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let values = this.addressForm.value;
-    if(this.addressForm.valid) {
-      if(!values.isBilling){
-        values.billingAddress01 = '';
-        values.billingAddress02 = '';
-        values.billCity = '';
-        values.billPostalcode = '';
-        values.billCountry = '';
-      }
+    let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country'];
+    let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
+    let hasError = false;
+
+    requiredFields.forEach(val => {
+      const ctrl = this.addressForm.controls[val];
+      if (!ctrl.valid) {
+        ctrl.markAsTouched();
+        hasError = true;
+      };
+      // console.log(requiredFields[val] + " " +this.addressForm.controls[requiredFields[val]].errors?.required);
+      // console.log(val +" "+ this.addressForm.hasError('required', [val]))
+    });
+    
+    if(!hasError) {
       delete values.isBilling;
       values.status = 'address';
       this.checkoutService.updateOrder(values).subscribe();
       this.onProceedClickEmit.emit();
     } else {
-      const keys = Object.keys(values)
-      keys.forEach(val => {
-        const ctrl = this.addressForm.controls[val];
-        if (!ctrl.valid) {
-          ctrl.markAsTouched();
-        };
-      });
       this.checkoutService.showErrorMsg('address');
     }
+  }
+
+  showBillingAddr() {
+    this.addressForm.value.isBilling = !this.addressForm.value.isBilling;
+
   }
 
   ngOnDestroy() {

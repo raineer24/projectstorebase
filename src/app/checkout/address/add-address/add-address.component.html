@@ -1,21 +1,21 @@
 <form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()" #formAddress="ngForm">
   <div class="row">
     <div class="col-sm-6 form-group">
-      <label for="firstname">First name</label>
+      <label for="firstname">First name</label><i>*</i>
       <input type="text" id="firstname" formControlName="firstname" class="form-control" placeholder="First Name" required >
     </div>
     <div class="col-sm-6 form-group">
-      <label for="lastname">Last name</label>
+      <label for="lastname">Last name</label><i>*</i>
       <input type="text" id="lastname" formControlName="lastname" class="form-control" placeholder="Last Name" required >
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6 form-group">
-      <label for="email">Email</label>
+      <label for="email">Email</label><i>*</i>
         <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required >
     </div>
     <div class="col-sm-3 form-group">
-      <label for="phone">Mobile Number</label>
+      <label for="phone">Mobile Number</label><i>*</i>
       <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required>
     </div>
     <div class="col-sm-3 form-group">
@@ -25,7 +25,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <label for="shippingAddress01">Address 1</label>
+      <label for="shippingAddress01">Address 1</label><i>*</i>
       <input type="text" id="address1" formControlName="shippingAddress01" class="form-control" placeholder="Street Address, P.O. Box" required>
     </div>
   </div>
@@ -37,17 +37,17 @@
   </div>
   <div class="row">
     <div class="col-sm-5 form-group">
-      <label for="city">City/Municipality</label>
+      <label for="city">City/Municipality</label><i>*</i>
       <input type="text" id="city" formControlName="city" class="form-control" placeholder="City/Municipality" required >
     </div>
     <div class="col-sm-2 form-group">
-      <label for="postalcode">Zip Code</label>
+      <label for="postalcode">Zip Code</label><i>*</i>
       <input type="text" id="zipcode" formControlName="postalcode" class="form-control" placeholder="Zip Code" required >
     </div>
     <div class="col-sm-5 form-group">
-      <label for="country">Country</label>
+      <label for="country">Country</label><i>*</i>
       <select class="form-control" id="country" formControlName="country">
-        <option value="Philippines">Philippines</option>
+        <option value="Philippines">Philippines</option><i>*</i>
         <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
       </select>
     </div>
@@ -58,18 +58,20 @@
       <textarea formControlName="specialInstructions" class="form-control" rows="4" placeholder="Landmarks, Delivery notes, etc"></textarea>
     </div>
   </div>
-  <!-- <div class="row">
-    <div class="col-sm-12">
-      <span class="note"><b>*</b> Required</span>
-    </div>
-  </div> -->
   <div class="row">
-    <div class="col-sm-12 bg-info form-group" (click)="billAddress.checked = !billAddress.checked">
+    <div class="col-sm-12">
+      <p>
+        <span class="note"><b>*</b>&nbsp;(required)</span>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 bg-info form-group">
       <input type="checkbox" #billAddress formControlName="isBilling">
       <label>Bill to a different address</label>
     </div>
   </div>
-  <div *ngIf="billAddress.checked">
+  <ng-container *ngIf="billAddress.checked">
     <div class="row">
       <div class="col-sm-12 form-group">
         <label for="billingAddress01">Address 1</label>
@@ -99,7 +101,7 @@
         </select>
       </div>
     </div>
-  </div>
+  </ng-container>
   <div class="row pull-right">
     <div class="col-sm-12">
       <button class="btn btn-danger">Next <span class="glyphicon glyphicon glyphicon-chevron-right"></span></button>
