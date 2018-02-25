@@ -12,6 +12,7 @@ export class UserActions {
   static UPDATE_USER_LIST_SUCCESS = 'UPDATE_USER_LIST_SUCCESS';
   static DELETE_USER_LIST = 'DELETE_USER_LIST';
   static DELETE_USER_LIST_SUCCESS = 'DELETE_USER_LIST_SUCCESS';
+  static SAVE_CART_ITEMS = 'SAVE_CART_ITEMS';
 
   getUserOrders(): Action {
     return { type: UserActions.GET_USER_ORDERS };
@@ -73,4 +74,15 @@ export class UserActions {
       payload: id
     };
   }
+
+  saveCartItems(list: any, items: Array<number>) {
+    return {
+      type: UserActions.SAVE_CART_ITEMS,
+      payload: {
+        list: list,
+        items: items
+      }
+    };
+  }
+
 }

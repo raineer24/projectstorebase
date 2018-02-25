@@ -31,12 +31,12 @@ export class ConfirmComponent implements OnInit {
   createNewList() {
     if(this.inputNewList) {
       const d = new Date();
-      const params = {
+      const list = {
         name: this.inputNewList,
         description: d.toLocaleDateString() +' '+ d.toLocaleTimeString()
       }
       //TODO: Add cart as list
-      //this.store.dispatch(this.userActions.createUserList(params));
+      // this.store.dispatch(this.userActions.saveCartItems(list,[21,32,43,43]));
       this.saveListState = 2;
     }
   }

@@ -8,7 +8,7 @@
     <textarea class="form-control underline" rows="1" id="comment" value="{{list.description}}" [formControl]="listNote"></textarea>
   </div>
   <button type="submit" class="btn btn-default valign-top" (click)="updateList()"><small>Save Changes</small></button>
-  <button type="submit" class="btn btn-default valign-top" data-toggle="modal" data-target="#myModal"><small>Delete List</small></button>
+  <button type="submit" class="btn btn-default valign-top" (click)="deleteList()"><small>Delete List</small></button>
   <div class="pull-right">
     <button type="submit" class="btn btn-danger" (click)="addAllToCart()">Add All to Cart</button>
   </div>

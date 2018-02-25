@@ -5,6 +5,7 @@ import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DISABLED } from '@angular/forms/src/model';
@@ -12,6 +13,8 @@ import { spawn } from 'child_process';
 import { Router } from '@angular/router';
 import { CartItem } from './../../core/models/cart_item';
 import { Subscription } from 'rxjs/Subscription';
+import { ReviewOrderComponent } from './review-order/review-order.component';
+import { UserActions } from './../../user/actions/user.actions';
 
 @Component({
   selector: "app-payment",
@@ -27,6 +30,7 @@ export class PaymentComponent implements OnInit {
   @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
   @ViewChild('gCode') gCode:ElementRef;
   @ViewChild('addGC') addGC: ElementRef;
+  @ViewChild(ReviewOrderComponent) appReviewOrder: ReviewOrderComponent;
   gcSelected: boolean = false;
   isShowErrMsg: boolean = false;
   customClass: string = "customClass";
@@ -38,6 +42,7 @@ export class PaymentComponent implements OnInit {
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
   cartItems$: Observable<CartItem[]>;
+  cartItemIds: Array<number>;
   totalAmountDue: number = 0;
   orderStatus: string;
   disable: boolean = true;
@@ -55,13 +60,16 @@ export class PaymentComponent implements OnInit {
   totalAmount$: Observable<number>;
   updategcStatus$: Subscription;
   errMsg: string;
+  private componentDestroyed: Subject<any> = new Subject();
 
 
-  constructor(private store: Store<AppState>,
+  constructor(
+    private store: Store<AppState>,
     private router: Router,
     private fb: FormBuilder,
-    private checkoutService: CheckoutService
-    ) {
+    private checkoutService: CheckoutService,
+    private userActions: UserActions
+  ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
     this.store.select(getOrderState).subscribe(status => this.orderStatus = status);
     this.shipAddress$ = this.store.select(getShipAddress);
@@ -69,20 +77,19 @@ export class PaymentComponent implements OnInit {
     this.orderTotal$ = this.store.select(getTotalCartValue);
     this.cartItems$ = this.store.select(getCartItems);
     this.deliveryDate$ = this.store.select(getDeliveryDate);
-
-
   }
 
   ngOnInit() {
     this.initForm();
-    this.orderTotal$.subscribe(val => {
+    this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmount = val;
       this.totalGCAmount = 0.00;
       this.tmpAmt = this.totalAmount;
       this.totalAmountDue = this.tmpAmt;
-
     });
-
+    this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
+      this.cartItemIds = cartItems.map(cartItem => cartItem.item_id);
+    });
   }
 
   initForm() {
@@ -163,6 +170,14 @@ export class PaymentComponent implements OnInit {
       this.checkoutService.updateOrderPayment(params
       ).do(res => {
         if(res.message.indexOf('Processed') >= 0) {
+          if(this.appReviewOrder.isSaveItems) {
+            const d = new Date();
+            const list = {
+              name: this.appReviewOrder.listName ? this.appReviewOrder.listName: "Order "+ Date.now(),
+              description: d.toLocaleDateString() +' '+ d.toLocaleTimeString()
+            }
+            this.store.dispatch(this.userActions.saveCartItems(list,this.cartItemIds));
+          }
           this.router.navigate(['/checkout', 'confirm']);
         }
       }).subscribe();
@@ -170,7 +185,8 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnDestroy() {
-
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 
 }
