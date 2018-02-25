@@ -32,14 +32,9 @@
 
   <li class="cart" [routerLink]="['checkout','cart']">
     <a>
-    <i class="glyphicon glyphicon-tags" aria-hidden="true"></i>
-    <span class="">{{totalCartValue | currency:'PHP':true:'1.2'}}</span>
-    </a>
-  </li>
-
-  <li class="cart" [routerLink]="['checkout','cart']">
-    <a>
       <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-      <span class="badge badge-danger">{{totalCartItems}}</span></a>
+      <span class="badge badge-danger">{{totalCartItems}}</span>
+      {{totalCartValue | number : '1.2-2'}}
+    </a>
   </li>
 </ul>
