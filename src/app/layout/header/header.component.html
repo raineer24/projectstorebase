@@ -2,22 +2,22 @@
   <div class="container">
     <div class="row nav-menu-top">
       <ul class="nav navbar-nav navbar-left">
-        <li class="active"><a href="#">OMG Online!</a></li>
+        <li class="active"><a href="#">OMG Philippines</a></li>
         <!-- <li><a href="#">Promotions</a></li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <!-- <li><a href="#">Availability In Your Area</a></li> -->
-        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Change Country</a></li>
         <li><a href="#">Contact Us</a></li>
       </ul>
     </div>
     <div class="row nav-menu-mid">
-      <div class="col-md-1">
+      <div class="col-md-1 col-sm-1">
         <a routerLink="/" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
         </a>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 col-sm-2">
         <ul class="nav navbar-nav">
           <li
           (onShown)="onMenuToggle()"
@@ -47,7 +47,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5 col-sm-5">
         <div class="input-group">
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
             <div class="result-box" *ngIf="keyword.price; else categories">
@@ -89,7 +89,7 @@
         <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
-      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
 <!--

@@ -1,62 +1,27 @@
-<!-- <div class="row">
-  <div class="col-xs-3">
-    <img class="img-responsive" src="../../assets/mocha-01.jpg">
-  </div>
-  <div class="col-xs-3">
-    <h4 class="product-name">
-      <strong>{{ cartItem.item.name }}</strong>
-    </h4>
-    <h4>
-      <small>{{ cartItem.item.description}}</small>
-    </h4>
-  </div>
-  <div class="col-xs-6">
-    <div class="col-xs-4 text-right">
-      <h6>
-        <strong>{{ cartItem.item.price}}
-          <span class="text-muted">x</span>
-        </strong>
-      </h6>
-    </div>
-    <div class="col-md-7">
-      <button (click)="decrementQuantity($event)">-</button>
-      <input type="number" [min]="0" class="text-center" [value]="quantity" [formControl]="quantityControl" />
-      <button (click)="incrementQuantity($event)">+</button>
-      <button type="button" class="btn btn-link btn-xs">
-        <span class="glyphicon glyphicon-trash icon-trash"> </span>
-      </button>
-    </div>
-  </div>
-</div> -->
 <ul class="list-inline">
   <div class="panel">
-      <div class="row">
-        <!-- <li class="col-xs-2">
-          <div class="">
-            <img class="img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)">
-          </div>
-        </li> -->
-        <li class="col-xs-6">
+      <div class="row row-cart">
+        <li class="col-md-1 col-sm-1">
+          <button type="button" class="btn btn-danger" (click)="removeCartItem()"><span class="glyphicon glyphicon-trash"></span></button>
+        </li>
+        <li class="col-md-5 col-sm-5">
           <p class="product-name">{{cartItem.item.name}}</p>
           <!-- <p>P {{cartItem.price | number:'1.2'}}</p> -->
         </li>
-        <li class="col-xs-2">
-          <button type="button" class="btn btn-xs cart-btns btn-danger" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
+        <li class="col-md-2 col-sm-2">
+          <p>P {{cartItem.price | number:'1.2'}}</p>
+        </li>
+        <li class="col-md-2 col-sm-2">
+          <!-- <button type="button" class="btn btn-xs cart-btns btn-danger" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
             <span class="glyphicon glyphicon-minus"> </span>
-          </button>
-
-          <input type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" class="text-center" [value]="quantity" [formControl]="quantityControl" />
-          <button type="button " class="btn btn-xs cart-btns btn-success" (click)="incrementQuantity()" [disabled]="quantity == MAX_VALUE">
-            <span class="glyphicon glyphicon-plus"> </span>
-          </button>
+          </button> -->
+          <div class="input-group">
+            <input type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" class="text-center form-control" [value]="quantity" [formControl]="quantityControl" />
+             <span class="input-group-btn"><button class="btn btn-success" type="button" (click)="incrementQuantity()" [disabled]="quantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
+          </div>
         </li>
-        <li class="col-xs-2">
-          <small>P {{cartItem.total | number:'1.2'}}</small>
-        </li>
-        <li class="col-xs-2">
-          <button type="button" class="btn-danger" (click)="removeCartItem()">
-            <span class="glyphicon glyphicon-remove"></span>&nbsp;Remove
-          </button>
+        <li class="col-md-2 col-sm-2">
+          P {{cartItem.total | number:'1.2'}}
         </li>
       </div>
   </div>

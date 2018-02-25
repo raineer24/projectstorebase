@@ -60,7 +60,7 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   getItemImageUrl(key) {
     let url = '';
     if(!key) {
-      url = 'assets/omg-01.png'
+      url = 'assets/omg-03.png'
     } else {
       switch (this.imageRetries){
         case 0: {
@@ -68,11 +68,11 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
           break;
         }
         case 1: {
-          url = 'assets/omg-01.png'
+          url = 'assets/omg-03.png'
           break;
         }
         default: {
-          url = 'assets/omg-01.png'
+          url = 'assets/omg-03.png'
           break;
         }
       }

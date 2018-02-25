@@ -18,21 +18,19 @@ export class AddressService {
         'shippingAddress02': '',
         'city': ['', Validators.required],
         'phone': [storedData.mobileNumber, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(11), Validators.pattern('[0-9]{7,11}')]) ],
-        'landline': ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(7), Validators.pattern('[0-9]{6,7}')]) ],
+        'landline': '',
         'email': [storedData.email, Validators.compose([Validators.required, Validators.email]) ],
         'postalcode': ['', Validators.required],
-        'country': 'Philippines',
+        'country': ['Philippines', Validators.required],
         'isBilling': false,
-        'billingAddress01': '',
+        'billingAddress01': ['', Validators.required],
         'billingAddress02': '',
-        'billCity': '',
-        'billPostalcode': '',
-        'billCountry': 'Philippines',
+        'billCity': ['', Validators.required],
+        'billPostalcode': ['', Validators.required],
+        'billCountry': ['Philippines', Validators.required],
         'specialInstructions': ''
       });
-
-    }else{
-      console.log('Not logged in!');
+    } else {
       return this.fb.group({
         'firstname': ['', Validators.required],
         'lastname': ['', Validators.required],
@@ -40,16 +38,16 @@ export class AddressService {
         'shippingAddress02': '',
         'city': ['', Validators.required],
         'phone': ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(11), Validators.pattern('[0-9]{7,11}')]) ],
-        'landline': ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(7), Validators.pattern('[0-9]{6,7}')]) ],
-        'email': ['', Validators.compose([Validators.required, Validators.email])],
+        'landline': ['', Validators.compose([Validators.minLength(6), Validators.maxLength(7), Validators.pattern('[0-9]{6,7}')]) ],
+        'email': '',
         'postalcode': ['', Validators.required],
-        'country': 'Philippines',
+        'country': ['Philippines', Validators.required],
         'isBilling': false,
-        'billingAddress01': '',
+        'billingAddress01': ['', Validators.required],
         'billingAddress02': '',
-        'billCity': '',
-        'billPostalcode': '',
-        'billCountry': 'Philippines',
+        'billCity': ['', Validators.required],
+        'billPostalcode': ['', Validators.required],
+        'billCountry': ['Philippines', Validators.required],
         'specialInstructions': ''
       });
   }
