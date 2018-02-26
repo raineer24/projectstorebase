@@ -14,7 +14,7 @@ export class ReviewOrderComponent implements OnInit {
   @Input() cartItems: CartItem[];
   @Input() deliveryDate: any = {};
   @Input() gcAmount: number;
-  timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:00AM - 2:00PM','2:00PM - 5:00PM','5:00PM - 8:00PM'];
+  timeSlotLabels: Array<string> = ['8:00AM','11:00AM','2:00PM','5:00PM','8:00PM'];
 
   constructor() { }
 
