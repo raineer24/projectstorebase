@@ -25,8 +25,9 @@ export class UserService {
    *
    * @memberof UserService
    */
-  getOrders(): Observable<Order[]> {
-    return this.http.get('api/orders')
+  getOrders(): Observable<any> {
+    const user_id = JSON.parse(localStorage.getItem('user')).id;
+    return this.http.get(`v1/user/account/order/${user_id}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
