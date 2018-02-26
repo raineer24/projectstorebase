@@ -79,19 +79,22 @@ export class ListDetailComponent implements OnInit {
   }
 
   addAllToCart(){
-    //TODO: add API call
-    console.log(this.items.length);
-    for(let i = 0, l = this.items.length; i < l; i++) {
-      console.log("TEST")
+    for(let i = 0, delay = 0, l = this.items.length; i < l; i++ ) {
+      delay = i * 100;
       if(!this.cartItems.find(cartItem => cartItem.item_id === this.items[i].id)) {
-        this.addToCart(this.items[i]);
-        console.log("ADD");
+        setTimeout(() => {
+          this.store.dispatch(this.checkoutActions.addItemsToCart(this.items[i]));
+        }, delay)
+      } else {
+        setTimeout(() => {
+          this.userService.showMessage('item_exist',this.items[i].name);
+        }, delay)
       }
     }
   }
 
-  removeItem(index: number, id: number): void {
-    this.userService.removeListItem(id).takeUntil(this.componentDestroyed).subscribe(res => {
+  removeItem(item: any, index: number): void {
+    this.userService.removeListItem(item.listitem_id, item.name).takeUntil(this.componentDestroyed).subscribe(res => {
       if(res.message == 'Deleted') {
         this.items.splice(index, 1);
       }

@@ -64,59 +64,67 @@
             </div>
             <div class="col-md-6">
             <!-- START: ADD TO MY LIST-->
-              <ng-container *ngIf="isAuthenticated; else notAuth">
-                <div class="btn-group btn-block" dropdown [autoClose]="false">
-                  <button dropdownToggle type="button" class="btn btn-primary btn-block">
-                    <i class="glyphicon glyphicon-list"></i>&nbsp;Add to my list
-                  </button>
-                  <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
-                    <div class="user-list">
-                      <ng-container *ngFor="let userList of userLists; let i = index">
-                        <li role="menuitem">
-                          <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
-                            <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="userList.state">
-                            <span >&nbsp;{{userList.name}}</span>
-                          </div>
-                        </li>
-                      </ng-container>
-                    </div>
-                    <li class="divider dropdown-divider"></li>
-                    <li role="menuitem" class="list-dropdown-item">
-                      <div>
-                        <ng-container *ngIf="!isCreateList; else createList">
-                          <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span>
-                        </ng-container>
-                        <ng-template #createList>
-                          <div class="input-group">
-                            <input type="text" class="form-control" placeholder="List Name" [formControl]="inputNewList">
-                            <div class="input-group-btn">
-                              <button class="btn btn-default" type="button" (click)="createNewList()">
-                                <i class="glyphicon glyphicon-plus"></i>
-                              </button>
-                            </div>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </ng-container>
-              <ng-template #notAuth>
-                <!-- <div class="btn-group" dropdown [autoClose]="false"> -->
-                <div class="btn-block" dropdown [autoClose]="false">
-                  <button dropdownToggle type="button" class="quantity-wish-list btn btn-block btn-primary"><span class="glyphicon glyphicon-list"></span>&nbsp;Add to my list</button>
-                  <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
-                    <li role="menuitem">
-                        <div class="panel-body">
-                          <p>Login to add this item to a list.</p>
-                          <hr>
-                          <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
+            <ng-container *ngIf="isAuthenticated; else notAuth">
+              <div class="btn-group btn-select-item" dropdown [autoClose]="false">
+                <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
+                  <i class="glyphicon glyphicon-edit"></i>Add to my list
+                </button>
+                <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
+                  <div class="user-list">
+                    <ng-container *ngFor="let userList of userLists; let i = index">
+                      <li role="menuitem">
+                        <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
+                          <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
+                          <span >&nbsp;{{userList.name}}</span>
                         </div>
-                    </li>
-                  </ul>
-                </div>
-              </ng-template>
-            </div>
+                      </li>
+                    </ng-container>
+                    <ng-container *ngIf="userLists.length == 0">
+                      <li role="menuitem">
+                        <div class="list-dropdown-item">
+                          <span><i>No list created</i></span>
+                        </div>
+                      </li>
+                    </ng-container>
+                  </div>
+                  <li class="divider dropdown-divider"></li>
+                  <li role="menuitem" class="list-dropdown-item">
+                    <div>
+                      <ng-container *ngIf="!isCreateList; else createList">
+                        <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span>
+                      </ng-container>
+                      <ng-template #createList>
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="List Name" [formControl]="inputNewList">
+                          <div class="input-group-btn">
+                            <button class="btn btn-default" type="button" (click)="createNewList()">
+                              <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-template #notAuth>
+              <div class="btn-group btn-select-item" dropdown [autoClose]="false">
+                <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
+                  <span class="glyphicon glyphicon-edit"></span>
+                  Add to my list
+                </button>
+                <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
+                  <li role="menuitem">
+                    <div class="panel-body">
+                      <p>Login to add this item to a list.</p>
+                      <hr>
+                      <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
             <!-- END: ADD TO MY LIST-->
         </div>
         <!-- </p> -->

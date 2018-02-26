@@ -20,7 +20,7 @@ export class CheckoutActions {
   static ORDER_COMPLETE_SUCCESS = 'ORDER_COMPLETE_SUCCESS';
   static UPDATE_ADDRESS_SUCCESS = 'UPDATE_ADDRESS_SUCCESS';
   static UPDATE_DELIVERY_OPTIONS_SUCCESS = 'UPDATE_DELIVERY_OPTIONS_SUCCESS';
-
+  static ADD_ITEMS_TO_CART = 'ADD_ITEMS_TO_CART';
 
   fetchCurrentOrder() {
     return { type: CheckoutActions.FETCH_CURRENT_ORDER };
@@ -36,6 +36,13 @@ export class CheckoutActions {
   addToCart(item: Item): Action {
     return {
       type: CheckoutActions.ADD_TO_CART,
+      payload: item
+    };
+  }
+
+  addItemsToCart(item: Item): Action {
+    return {
+      type: CheckoutActions.ADD_ITEMS_TO_CART,
       payload: item
     };
   }

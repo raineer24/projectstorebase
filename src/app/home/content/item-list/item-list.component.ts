@@ -68,7 +68,6 @@ export class ItemListComponent implements OnInit {
   closeItemDialog(): void {
     window.history.pushState('item-slug', 'Title', '/');
     this.itemDetailsModal.close();
-    console.log('Item Dialog Closed!');
   }
 
   loadMoreItems(isAutoLoad: boolean = false): void {

@@ -184,7 +184,7 @@ export class UserService {
   }
 
   //removeListItem
-  removeListItem(id: number): Observable<any> {
+  removeListItem(id: number, itemName: string = "Item"): Observable<any> {
     return this.http.delete(`v1/listitems/${id}`)
       .map((res: Response) => {
         const response = res.json();
@@ -192,13 +192,32 @@ export class UserService {
           this.http.loading.next({
             loading: false,
             info: true,
-            message: `Item removed from list.`
+            message: `${itemName} removed from list.`
           });
         }
         return response;
       }).catch(res => Observable.empty());
   }
 
+  getListsOfItem(id: number): Observable<any> {
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    return this.http.get(`v1/listitems/${userId}/item/${id}?limit=100`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  showMessage(mode: string, itemName: string) {
+    switch(mode) {
+      case 'item_exist':
+        this.http.loading.next({
+          loading: false,
+          error: true,
+          message: `${itemName} already in cart.`
+        });
+        break;
+    }
+
+  }
 /*
 GET list/{useraccount_id} = return all user's list
 POST list {useraccount_id} = create new list

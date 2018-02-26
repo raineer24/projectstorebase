@@ -29,12 +29,13 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   itemQuantity: number = 0;
   quantityControl = new FormControl;
-  images: any[];
   saveAmount: any;
   scrolling$: Subscription;
   isCreateList: boolean = false;
   MIN_VALUE: number = 1;
   MAX_VALUE: number = 9999;
+  includedLists: Array<any> = [];
+  listState: Array<any> = [];
   inputNewList = new FormControl;
   private imageRetries: number = 0;
   private componentDestroyed: Subject<any> = new Subject();
@@ -45,30 +46,9 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
     private userActions: UserActions,
     private userService: UserService,
     private store: Store<AppState>,
-  ) {
+  ) { }
 
-    }
-
-  ngOnInit(
-
-  ) {
-    this.images = [];
-    this.images.push({
-      source: this.getItemImageUrl(this.item.imageKey),
-      thumbnail: this.getItemImageUrl(this.item.imageKey),
-      title: this.item.name
-    });
-    this.images.push({
-      source: this.getItemImageUrl(this.item.imageKey),
-      thumbnail: this.getItemImageUrl(this.item.imageKey),
-      title: this.item.name
-    });
-    this.images.push({
-      source: this.getItemImageUrl(this.item.imageKey),
-      thumbnail: this.getItemImageUrl(this.item.imageKey),
-      title: this.item.name
-    });
-
+  ngOnInit() {
     const cartItem = this.getCartItem();
     if(typeof(cartItem) != "undefined"){
       this.itemQuantity = cartItem.quantity;
@@ -91,8 +71,15 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
         event.stopPropagation();
       }).subscribe();
 
-      // TODO:  reset checkbox state
-      this.userLists.forEach(list => list.state = false)
+    this.userService.getListsOfItem(this.item.id).takeUntil(this.componentDestroyed).subscribe(res => {
+      this.includedLists = res.map(x => {
+        return {
+          list_id: x.list_id,
+          listitem_id: x.listitem_id
+        }
+      });
+      this.setListCheckbox();
+    })
   }
 
   hideSavings (dp, p) {
@@ -150,15 +137,13 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   }
 
   selectList(index: number, id: number) {
-    // console.log(this.checkbox[index])
-    // this.checkbox[index].checked != this.checkbox[index].checked;
-    let state; console.log(this.userLists)
-    if(this.userLists[index].state == 'undefined') {
-      this.userLists[index].state = true;
+    let state;
+    if(this.listState[id] == 'undefined') {
+      this.listState[id] = true;
       state = true;
     } else {
-      state = !this.userLists[index].state;
-      this.userLists[index].state = state;
+      state = !this.listState[id];
+      this.listState[id] = state;
     }
     if(state) {
       const listitem = {
@@ -166,53 +151,46 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
         item_id: this.item.id
       }
       this.userService.addListItem(listitem).takeUntil(this.componentDestroyed).subscribe(res => {
-        console.log(res.message)
         if(res.message == 'Saved') {
+          this.includedLists.push({list_id: id, listitem_id: res.id});
+          this.setListCheckbox();
         } else {
         }
       })
     } else {
-      // TODO: implement delete
-      // this.userService.removeListItem(this.id).takeUntil(this.componentDestroyed).subscribe(res => {
-      //   if(res.message == 'Deleted') {
-      //   } else {
-      //   }
-      // })
+      const ind = this.includedLists.findIndex(x => x.list_id == id);
+      this.userService.removeListItem(this.includedLists[ind].listitem_id).takeUntil(this.componentDestroyed).subscribe(res => {
+        if(res.message == 'Deleted') {
+          this.includedLists.splice(ind,1);
+          this.setListCheckbox();
+        } else {
+        }
+      })
     }
-  }
-
-  addToList(id: number,index: number): void {
-    // if(event.target.checked) {
-    //   //let checkbox = this.listCheckBox.toArray()[index];
-    //   const listitem = {
-    //     list_id: id,
-    //     item_id: this.item.id
-    //   }
-    //   this.userService.addListItem(listitem).takeUntil(this.componentDestroyed).subscribe(res => {
-    //     if(res.message == 'Saved') {
-    //     }
-    //   })
-    // }
-    // else {
-    //   this.userService.removeListItem(this.id).takeUntil(this.componentDestroyed).subscribe(res => {
-    //     if(res.message == 'Deleted') {
-    //     } else {
-    //
-    //   }
-    //   })
-    // }
   }
 
   createNewList(): void{
     if(this.inputNewList.value) {
+      const d = new Date();
       const params = {
         name: this.inputNewList.value,
-        description: ''
+        description: d.toLocaleDateString() +' '+ d.toLocaleTimeString()
       }
       this.store.dispatch(this.userActions.createUserList(params));
       this.inputNewList.setValue('');
       this.isCreateList = false;
+      this.setListCheckbox();
     }
+  }
+
+  setListCheckbox(): void {
+    this.userLists.forEach(list => {
+      if(this.includedLists.find(x => x.list_id == list.id)){
+        this.listState[list.id] = true;
+      } else {
+        this.listState[list.id] = false;
+      }
+    });
   }
 
   ngOnDestroy() {

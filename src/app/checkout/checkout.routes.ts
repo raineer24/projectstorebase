@@ -8,6 +8,6 @@ export const CheckoutRoutes = [
   { path: 'cart', component: CartComponent },
   { path: 'address', component: AddressComponent },
   { path: 'payment', component: PaymentComponent },
-  { path: 'confirm', component: ConfirmComponent }
+  { path: 'confirm/:key', component: ConfirmComponent }
 
 ];

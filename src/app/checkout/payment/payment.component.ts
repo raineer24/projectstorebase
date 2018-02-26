@@ -2,9 +2,11 @@ import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
 import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
   getTotalCartItems, getTotalCartValue, getCartItems, getOrderState } from './../reducers/selectors';
+import { getAuthStatus } from './../../auth/reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DISABLED } from '@angular/forms/src/model';
@@ -22,8 +24,6 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class PaymentComponent implements OnInit {
   gcForm: FormGroup;
-  @ViewChild('cod') paymentCOD;
-  @ViewChild('giftcert') paymentGC;
   @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
   @ViewChild('gCode') gCode:ElementRef;
   @ViewChild('addGC') addGC: ElementRef;
@@ -38,14 +38,13 @@ export class PaymentComponent implements OnInit {
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
   cartItems$: Observable<CartItem[]>;
+  isAuthenticated$: Observable<boolean>;
+  cartItemIds: Array<number>;
   totalAmountDue: number = 0;
   orderStatus: string;
-  disable: boolean = true;
-  bCodeEntered: boolean = false;
   orderId: number;
+  instructionsText: string = '';
   gcQuantity: number = 0;
-  codText: string;
-  gcText: string;
   gcCode: string;
   totalAmount: number;
   tmpAmt: number = 0;
@@ -55,13 +54,15 @@ export class PaymentComponent implements OnInit {
   totalAmount$: Observable<number>;
   updategcStatus$: Subscription;
   errMsg: string;
+  private componentDestroyed: Subject<any> = new Subject();
 
 
-  constructor(private store: Store<AppState>,
+  constructor(
+    private store: Store<AppState>,
     private router: Router,
     private fb: FormBuilder,
     private checkoutService: CheckoutService
-    ) {
+  ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
     this.store.select(getOrderState).subscribe(status => this.orderStatus = status);
     this.shipAddress$ = this.store.select(getShipAddress);
@@ -69,20 +70,20 @@ export class PaymentComponent implements OnInit {
     this.orderTotal$ = this.store.select(getTotalCartValue);
     this.cartItems$ = this.store.select(getCartItems);
     this.deliveryDate$ = this.store.select(getDeliveryDate);
-
-
+    this.isAuthenticated$ = this.store.select(getAuthStatus);
   }
 
   ngOnInit() {
     this.initForm();
-    this.orderTotal$.subscribe(val => {
+    this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmount = val;
       this.totalGCAmount = 0.00;
       this.tmpAmt = this.totalAmount;
       this.totalAmountDue = this.tmpAmt;
-
     });
-
+    this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
+      this.cartItemIds = cartItems.map(cartItem => cartItem.item_id);
+    });
   }
 
   initForm() {
@@ -136,41 +137,25 @@ export class PaymentComponent implements OnInit {
   }
 
   confirmOrder(){
-    console.log('confirm order');
+    const orderKey = this.checkoutService.getOrderKey();
     let params: any = {};
-    let isPaymentMode = false;
-
-    if (this.paymentCOD == 0) {
-      params = {
-        id: this.orderId,
-        paymentMode: 'COD',
-        paymentInstructions: this.codText ? this.codText: '',
-        status: 'payment'
-      }
-      isPaymentMode = true;
-    } else {
-      params = {
-        id: this.orderId,
-        paymentMode: 'GC',
-        paymentInstructions: this.gcText ? this.gcText: '',
-        referenceId: this.gcCode ? this.gcCode : '',
-        status: 'payment'
-      }
-      isPaymentMode = true;
+    params = {
+      id: this.orderId,
+      specialInstructions: this.instructionsText,
+      status: 'payment'
     }
 
-    if(isPaymentMode) {
-      this.checkoutService.updateOrderPayment(params
-      ).do(res => {
-        if(res.message.indexOf('Processed') >= 0) {
-          this.router.navigate(['/checkout', 'confirm']);
-        }
-      }).subscribe();
-    }
+    this.checkoutService.updateOrderPayment(params
+    ).subscribe(res => {
+      if(res.message.indexOf('Processed') >= 0) {
+        this.router.navigate(['/checkout', 'confirm', orderKey]);
+      }
+    });
   }
 
   ngOnDestroy() {
-
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 
 }

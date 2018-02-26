@@ -44,6 +44,7 @@ export class CheckoutService {
    */
   createNewCartItem(item: Item) {
     // const userId = JSON.parse(localStorage.getItem('user')).id;
+console.log(item.id)
     return this.http.post(`v1/orderItem`,
         {
           "user_id": 0,
@@ -54,7 +55,7 @@ export class CheckoutService {
       ).map(res => {
           const data = res.json();
           let returnData;
-          if(data.message = 'Saved') {
+          if(data.message == 'Saved') {
             returnData = {
              "id": data.id,
              "quantity": 1,
@@ -62,7 +63,7 @@ export class CheckoutService {
              "total": Number(item.price),
              "item_id": item.id,
              "item": item
-            }
+           }
             this.http.loading.next({
               loading: false,
               success: true,
@@ -70,6 +71,11 @@ export class CheckoutService {
             });
           } else {
             returnData = new CartItem;
+            this.http.loading.next({
+              loading: false,
+              error: true,
+              message: `${item.name} already in cart.`
+            });
           }
          return returnData;
       }).catch(err => Observable.empty());
@@ -173,13 +179,17 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  getOrder(orderNumber) {
-    return this.http.get(
-      `spree/api/v1/orders/${orderNumber}.json`
-    ).map(res => {
-      const order = res.json();
-      return order;
-    }).catch(err => Observable.empty());
+  getOrder(orderKey) {
+    return this.http.get(`v1/order?orderkey=${orderKey}`)
+      .map(res => res.json())
+      .flatMap((order: any) => {
+        return this.http.get(`v1/orderItem?limit=5000&key=${orderKey}`)
+          .map(res => {
+            order.items = res.json()
+            return order;
+          })
+      })
+      .catch(err => Observable.empty());
   }
 
   /**
@@ -504,12 +514,12 @@ export class CheckoutService {
   /**
    *
    *
-   * @private
+   *
    * @returns
    *
    * @memberof CheckoutService
    */
-  private getOrderKey() {
+  getOrderKey() {
     const order = JSON.parse(localStorage.getItem('order'));
     let token = null;
     if(order) {
