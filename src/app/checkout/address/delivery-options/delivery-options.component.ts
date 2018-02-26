@@ -27,7 +27,7 @@ export class DeliveryOptionsComponent implements OnInit {
   timeSlots: Array<any>;
   availableSlots: Array<any>;
   timeSlotRows: Array<any>;
-  timeSlotLabels: Array<string> = ['8:00AM - 11:00AM','11:00AM - 2:00PM','2:00PM - 5:00PM','5:00PM - 8:00PM'];
+  timeSlotLabels: Array<string> = ['8:00AM','11:00AM','2:00PM','5:00PM','8:00PM'];
   selectedTimeSlot: Array<number> = [null, null];
   prevIndex: number;
   // prevSlot: any;
