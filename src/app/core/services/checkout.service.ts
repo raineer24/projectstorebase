@@ -43,10 +43,10 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   createNewCartItem(item: Item) {
-    // const userId = JSON.parse(localStorage.getItem('user')).id;
+    const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.post(`v1/orderItem`,
         {
-          "user_id": 0,
+          "user_id": userId ? userId: null,
           "item_id": item.id,
           "quantity": 1,
           "orderkey": this.getOrderKey()
@@ -139,8 +139,7 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   createNewOrder() {
-    const user = JSON.parse(localStorage.getItem('user'));
-
+    const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.get(`v1/orderkey`
     ).map(res => res.json()
     ).mergeMap(data => {
@@ -152,7 +151,8 @@ export class CheckoutService {
       });
       return this.http.post('v1/order', {
           orderkey: orderkey,
-          status: 'cart'
+          status: 'cart',
+          useraccount_id: userId ? userId: null
         }).map(orderId => {
           let order:any = {};
           order.id = orderId.json()['id'];
@@ -244,8 +244,9 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   updateCartItem(cartItem: CartItem) {
+    const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.put(`v1/orderItem/${cartItem.id}`, {
-        "user_id": 0,
+        "user_id": userId ? userId: null,
         "item_id": cartItem.item.id,
         "quantity": cartItem.quantity,
         "orderkey": this.getOrderKey()
@@ -312,11 +313,11 @@ export class CheckoutService {
    */
   updateOrder(params: any) {
     const orderkey = this.getOrderKey();
-    return this.http.put(
-      // `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderKey()}`,
-      `v1/order/${orderkey}`,
-      params
-    ).map((res) => {
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    params['useraccount_id'] = userId ? userId: null;
+    console.log(params)
+    return this.http.put(`v1/order/${orderkey}`,params)
+    .map((res) => {
       const order = res.json();
       switch (params.status) {
         case 'cart': console.log("UPDATE CART")
@@ -366,11 +367,11 @@ export class CheckoutService {
   }
 
   updateOrderPayment(params: any) {
-    //const orderkey = this.getOrderKey();
-    params.orderkey = this.getOrderKey();
-    return this.http.put(
-      `v1/order/${params.id}/payment`, params
-    ).map(res => {
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    params['useraccount_id']= userId ? userId: null;
+    params['orderkey'] = this.getOrderKey();
+    return this.http.put(`v1/order/${params.id}/payment`, params)
+    .map(res => {
       const response = res.json();
       if(response.message.indexOf('Processed') >= 0) {
         this.store.dispatch(this.actions.orderCompleteSuccess());
