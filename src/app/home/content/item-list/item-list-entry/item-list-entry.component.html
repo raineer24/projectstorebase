@@ -42,6 +42,7 @@
             </button> -->
 
             <!-- <div class="input-group"> -->
+              <span class="input-group-btn"><button title="Remove 1" data-type="minus" data-field="" type="button" class="btn-left btn btn-default" (click)="decrementQuantity($event)" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button></span>
               <input class="form-control text-center" type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl" />
               <span class="input-group-btn"><button title="Add more of this item" class="btn btn-success" type="button"(click)="incrementQuantity($event)"
               [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
