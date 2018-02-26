@@ -2,6 +2,7 @@ import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
 import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
   getTotalCartItems, getTotalCartValue, getCartItems, getOrderState } from './../reducers/selectors';
+import { getAuthStatus } from './../../auth/reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -13,8 +14,6 @@ import { spawn } from 'child_process';
 import { Router } from '@angular/router';
 import { CartItem } from './../../core/models/cart_item';
 import { Subscription } from 'rxjs/Subscription';
-import { ReviewOrderComponent } from './review-order/review-order.component';
-import { UserActions } from './../../user/actions/user.actions';
 
 @Component({
   selector: "app-payment",
@@ -25,12 +24,9 @@ import { UserActions } from './../../user/actions/user.actions';
 
 export class PaymentComponent implements OnInit {
   gcForm: FormGroup;
-  @ViewChild('cod') paymentCOD;
-  @ViewChild('giftcert') paymentGC;
   @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
   @ViewChild('gCode') gCode:ElementRef;
   @ViewChild('addGC') addGC: ElementRef;
-  @ViewChild(ReviewOrderComponent) appReviewOrder: ReviewOrderComponent;
   gcSelected: boolean = false;
   isShowErrMsg: boolean = false;
   customClass: string = "customClass";
@@ -42,15 +38,13 @@ export class PaymentComponent implements OnInit {
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
   cartItems$: Observable<CartItem[]>;
+  isAuthenticated$: Observable<boolean>;
   cartItemIds: Array<number>;
   totalAmountDue: number = 0;
   orderStatus: string;
-  disable: boolean = true;
-  bCodeEntered: boolean = false;
   orderId: number;
+  instructionsText: string = '';
   gcQuantity: number = 0;
-  codText: string;
-  gcText: string;
   gcCode: string;
   totalAmount: number;
   tmpAmt: number = 0;
@@ -67,8 +61,7 @@ export class PaymentComponent implements OnInit {
     private store: Store<AppState>,
     private router: Router,
     private fb: FormBuilder,
-    private checkoutService: CheckoutService,
-    private userActions: UserActions
+    private checkoutService: CheckoutService
   ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
     this.store.select(getOrderState).subscribe(status => this.orderStatus = status);
@@ -77,6 +70,7 @@ export class PaymentComponent implements OnInit {
     this.orderTotal$ = this.store.select(getTotalCartValue);
     this.cartItems$ = this.store.select(getCartItems);
     this.deliveryDate$ = this.store.select(getDeliveryDate);
+    this.isAuthenticated$ = this.store.select(getAuthStatus);
   }
 
   ngOnInit() {
@@ -143,45 +137,20 @@ export class PaymentComponent implements OnInit {
   }
 
   confirmOrder(){
-    console.log('confirm order');
+    const orderKey = this.checkoutService.getOrderKey();
     let params: any = {};
-    let isPaymentMode = false;
-
-    if (this.paymentCOD == 0) {
-      params = {
-        id: this.orderId,
-        paymentMode: 'COD',
-        paymentInstructions: this.codText ? this.codText: '',
-        status: 'payment'
-      }
-      isPaymentMode = true;
-    } else {
-      params = {
-        id: this.orderId,
-        paymentMode: 'GC',
-        paymentInstructions: this.gcText ? this.gcText: '',
-        referenceId: this.gcCode ? this.gcCode : '',
-        status: 'payment'
-      }
-      isPaymentMode = true;
+    params = {
+      id: this.orderId,
+      specialInstructions: this.instructionsText,
+      status: 'payment'
     }
 
-    if(isPaymentMode) {
-      this.checkoutService.updateOrderPayment(params
-      ).do(res => {
-        if(res.message.indexOf('Processed') >= 0) {
-          if(this.appReviewOrder.isSaveItems) {
-            const d = new Date();
-            const list = {
-              name: this.appReviewOrder.listName ? this.appReviewOrder.listName: "Order "+ Date.now(),
-              description: d.toLocaleDateString() +' '+ d.toLocaleTimeString()
-            }
-            this.store.dispatch(this.userActions.saveCartItems(list,this.cartItemIds));
-          }
-          this.router.navigate(['/checkout', 'confirm']);
-        }
-      }).subscribe();
-    }
+    this.checkoutService.updateOrderPayment(params
+    ).subscribe(res => {
+      if(res.message.indexOf('Processed') >= 0) {
+        this.router.navigate(['/checkout', 'confirm', orderKey]);
+      }
+    });
   }
 
   ngOnDestroy() {

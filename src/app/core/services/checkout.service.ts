@@ -179,13 +179,17 @@ console.log(item.id)
    *
    * @memberof CheckoutService
    */
-  getOrder(orderNumber) {
-    return this.http.get(
-      `spree/api/v1/orders/${orderNumber}.json`
-    ).map(res => {
-      const order = res.json();
-      return order;
-    }).catch(err => Observable.empty());
+  getOrder(orderKey) {
+    return this.http.get(`v1/order?orderkey=${orderKey}`)
+      .map(res => res.json())
+      .flatMap((order: any) => {
+        return this.http.get(`v1/orderItem?limit=5000&key=${orderKey}`)
+          .map(res => {
+            order.items = res.json()
+            return order;
+          })
+      })
+      .catch(err => Observable.empty());
   }
 
   /**
@@ -510,12 +514,12 @@ console.log(item.id)
   /**
    *
    *
-   * @private
+   *
    * @returns
    *
    * @memberof CheckoutService
    */
-  private getOrderKey() {
+  getOrderKey() {
     const order = JSON.parse(localStorage.getItem('order'));
     let token = null;
     if(order) {
