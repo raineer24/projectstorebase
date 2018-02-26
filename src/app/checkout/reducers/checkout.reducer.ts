@@ -22,7 +22,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItems = payload.cartItems;
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
         _totalCartItems = Number(payload.totalQuantity);
-        _totalCartValue = parseFloat(payload.total);
+        _totalCartValue = parseFloat(payload.itemTotal);
         _ship_address = payload.shippingAddress01;
         _bill_address = payload.billingAddress01;
         _orderStatus = payload.status;

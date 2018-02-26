@@ -44,7 +44,6 @@ export class CheckoutService {
    */
   createNewCartItem(item: Item) {
     // const userId = JSON.parse(localStorage.getItem('user')).id;
-console.log(item.id)
     return this.http.post(`v1/orderItem`,
         {
           "user_id": 0,
@@ -109,7 +108,7 @@ console.log(item.id)
             }
             order.cartItems =  cart_items;
             order.totalQuantity = total_quantity.toString();
-            order.total = total.toString();
+            order.itemTotal = total.toString();
             order.shippingAddress01 = orderStorage.shipping_address;
             order.billingAddress01 = orderStorage.billing_address;
 
@@ -161,7 +160,7 @@ console.log(item.id)
           order.orderkey = orderkey;
           order.cartItems =  [];
           order.totalQuantity = "0";
-          order.total = "0";
+          order.itemTotal = "0";
           order.shippingAddress01 = '';
           order.billingAddress01 = '';
           order.deliveryDate = '';
