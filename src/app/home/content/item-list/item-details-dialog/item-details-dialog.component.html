@@ -49,6 +49,9 @@
                 <!-- <label for="bit">Quantity in cart</label> -->
                   <!-- <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button> -->
 
+                  <span class="input-group-btn">
+                    <button title="Remove 1" type="button" class="btn btn-minus btn-default" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
+                  </span>
                   <input type="number" class="form-control text-center"
                     [min]="MIN_VALUE" [max]="MAX_VALUE"
                     [value]="itemQuantity" [formControl]="quantityControl"/>
