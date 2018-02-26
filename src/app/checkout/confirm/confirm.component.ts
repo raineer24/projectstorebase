@@ -33,14 +33,13 @@ export class ConfirmComponent implements OnInit {
 
   ngOnInit() {
     this.isAuthenticated$ = this.store.select(getAuthStatus);
-    //
     this.route.params.map((params: any) => {
       this.orderKey = params['key']
         return this.checkoutService.getOrder(this.orderKey).map(details => {
           this.orderDetails = details;
-          console.log(details)
+          console.log(details);
           this.cartItemArray = details['items'].map(item => item.item_id)
-          return this.orderDetails;
+          return details;
         }).subscribe();
     }).subscribe();
   }
