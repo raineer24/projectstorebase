@@ -14,12 +14,18 @@
       <label for="email">Email</label><i>*</i>
         <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required >
     </div>
-    <div class="col-sm-3 form-group">
+    <div class="col-sm-4 form-group">
       <label for="phone">Mobile Number</label><i>*</i>
-      <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required>
+      <div class="form-inline">
+          <select name="prefix" formControlName="prefix" class="form-control">
+            <option value="+63">+63</option>
+          </select>
+          <input id="phone" name="phone" formControlName="phone" class="form-control input-md" required placeholder="9271234567" type="text">
+      </div>
+      <!-- <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required> -->
     </div>
-    <div class="col-sm-3 form-group">
-      <label for="landline">Landline Number</label>
+    <div class="col-sm-2 form-group">
+      <label for="landline">Landline No.</label>
       <input type="text" id="landline" formControlName="landline" class="form-control"  placeholder="3452124" required>
     </div>
   </div>

@@ -29,8 +29,15 @@
     </div>
 
     <div class="register-input-item">
-      <input type="number" class="register-user-input-mobile register-user-input" name="mobile"
-        formControlName="mobile" placeholder="Mobile Number (For order status updates)">
+      <div class="register-user-input-mobile register-user-input" >
+        <div>
+          <select name="prefix" formControlName="prefix">
+            <option value="+63">+63</option>
+          </select>
+          <input type="number" name="mobile"
+            formControlName="mobile" placeholder="Mobile Number (For status updates)">
+        </div>
+      </div>
       <div *ngIf="signUpForm.get('mobile').errors && signUpForm.get('mobile').touched">
         <span class="register-error-icon">!</span>
         <p class="register-error-message">{{signUpForm.get('mobile').errors.msg || 'Please enter a valid mobile number (10 digits)'}}</p>

@@ -40,12 +40,14 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.userData = JSON.parse(localStorage.getItem('user'));
+    const mobileNumber = this.userData.mobileNumber.split(" ");
     this.profileEditForm = this.fb.group({
       'email': [this.userData.email, Validators.compose([Validators.required, Validators.email]) ],
       'lastName': [this.userData.lastName, Validators.required],
       'firstName': [this.userData.firstName, Validators.required],
-      'gender': [this.userData.gender,Validators.required],
-      'mobileNumber': [this.userData.mobileNumber, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ]
+      'gender': [this.userData.gender, Validators.required],
+      'mobileNumber': [mobileNumber[1], Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ],
+      'prefix': [mobileNumber[0], Validators.required]
     });
     // this.profileEditForm = this.fb.group({
     //   'email': [this.userData.email, Validators.compose([Validators.required, Validators.email]) ],
@@ -67,7 +69,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       'lastName': values.lastName,
       'firstName': values.firstName,
       'gender': values.gender,
-      'mobileNumber': values.mobileNumber
+      'mobileNumber': values.prefix+" "+values.mobileNumber
     }
 
     const keys = Object.keys(values);

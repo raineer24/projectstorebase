@@ -41,6 +41,8 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     this.store.select(getShipAddress).takeUntil(this.componentDestroyed).subscribe(data => {
       if(data)
         this.addressForm.patchValue(data);
+        const mobileNumber = data.phone.split(" ");
+        this.addressForm.patchValue({'prefix': mobileNumber[0], 'phone': mobileNumber[1]});
     });
     this.store.select(getBillAddress).takeUntil(this.componentDestroyed).subscribe(data => {
       if(data && data.billingAddress01) {
@@ -68,9 +70,11 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       // console.log(requiredFields[val] + " " +this.addressForm.controls[requiredFields[val]].errors?.required);
       // console.log(val +" "+ this.addressForm.hasError('required', [val]))
     });
-    
+
     if(!hasError) {
+      values.phone = values.prefix +" "+ values.phone;
       delete values.isBilling;
+      delete values.prefix;
       values.status = 'address';
       this.checkoutService.updateOrder(values).subscribe();
       this.onProceedClickEmit.emit();
