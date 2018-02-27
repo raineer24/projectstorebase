@@ -5,8 +5,12 @@
   hr{
     margin: 10px 0;
   }
-  h4 {
-    color: red;
+  h5 {
+    color: #464646;
+    margin-bottom: 0px;
+  }
+  h5.focus {
+    color: #ff5847;
   }
   .long-text {
     max-width: 210px;
