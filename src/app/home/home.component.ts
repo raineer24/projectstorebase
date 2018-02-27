@@ -9,8 +9,8 @@ import { getProducts, getTaxonomies } from './../product/reducers/selectors';
 import { getCartItems } from './../checkout/reducers/selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { Component, OnInit, OnChanges } from '@angular/core';
-// import { Product } from '../core/models/product';
 
 @Component({
   selector: 'app-home',
@@ -37,22 +37,17 @@ export class HomeComponent implements OnInit {
   products$: Observable<any>;
   taxonomies$: Observable<any>;
   cartItems$: Observable<any>;
-  selectedItem$: Observable<any>;
-  selectedItem: Item;
 
-  constructor(private store: Store<AppState>, private actions: ProductActions) {
-    // Get all products for the product list component
-    this.store.dispatch(this.actions.getAllProducts());
-    this.store.dispatch(this.actions.getAllTaxonomies());
-    // this.store.dispatch(this.actions.get something)
+  constructor(
+    private store: Store<AppState>
+  ) {
     this.cartItems$ = this.store.select(getCartItems)
     this.products$ = this.store.select(getProducts);
     this.taxonomies$ = this.store.select(getTaxonomies);
-    //this.selectedItem = this.store.select(getItemImageUrl);
   }
 
   ngOnInit() {
 
-   }
+  }
 
 }

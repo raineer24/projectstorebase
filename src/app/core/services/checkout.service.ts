@@ -323,7 +323,6 @@ export class CheckoutService {
     const orderkey = this.getOrderKey();
     const userId = JSON.parse(localStorage.getItem('user')).id;
     params['useraccount_id'] = userId ? userId: null;
-    console.log(params)
     return this.http.put(`v1/order/${orderkey}`,params)
     .map((res) => {
       const order = res.json();

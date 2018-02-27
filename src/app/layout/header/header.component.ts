@@ -122,8 +122,9 @@ export class HeaderComponent implements OnInit {
   }
 
   selectCategory(category: any, index: number): void {
-    this.menuDelay.clicked[index] = true;
-    this.router.navigateByUrl('/');
+    if(typeof(index) != 'undefined') {
+      this.menuDelay.clicked[index] = true;
+    }
     if(category == 'all') {
       this.store.dispatch(this.searchActions.setFilter({
         filters: [],
@@ -141,6 +142,7 @@ export class HeaderComponent implements OnInit {
       }));
       this.store.dispatch(this.productActions.getItemsByCategory(category));
     }
+    this.router.navigateByUrl('/');
   }
 
   searchKeyword(): void {
@@ -218,7 +220,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
 
-  setProgressDisplayTimer():void {
+  setProgressDisplayTimer(): void {
     console.log(this.bShowProgress);
     this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds
       this.subscription = this.timer.subscribe(() => {
@@ -236,6 +238,5 @@ export class HeaderComponent implements OnInit {
   getItemImageUrl(key): string {
     return environment.IMAGE_REPO + key + '.jpg';
   }
-
 
 }
