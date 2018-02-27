@@ -36,84 +36,99 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-8 main-panel">
-      <h1>Select mode of Payment</h1>
-      <!-- <h3>Select Mode of Payment</h3> -->
-      <!-- <p>Delivery fee will be charged when transaction has been accepted.</p> -->
+    <div class="col-md-6 main-panel">
+      <h1>Payment</h1>
+      <h4>Select mode of payment</h4>
       <p>If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
-      <div class="row col-md-8">
-          <div #group1>
-            <!-- <div class="form-group">
-              <i class="glyphicon glyphicon-usd"></i>
-              Cash on Delivery
-            </div>
-            <i class="pull-right float-xs-right glyphicon"></i> -->
-            <!-- <div class="form-group">
-              <input type="checkbox" class=""/><label></label>
-            </div> -->
-            <ng-container *ngIf="totalAmount > 100; else secondCash">
-              <div class="checkbox">
-                <label>
-                  <input #cod type="checkbox" value="" checked>
-                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
-                </label>
-              </div>
-            </ng-container>
-            <ng-template #secondCash>
-                <div #group1>
-                  <div class="checkbox">
-                    <label>
-                      <input #cod type="checkbox" value="" checked disabled>
-                      <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
-                    </label>
-                  </div>
-                  <div class="form-group">
-                    <textarea [(ngModel)]="instructionsText" class="form-control" cols="50" rows="4" placeholder="Instructions"></textarea>
-                  </div>
-                </div>
-            </ng-template>
-          </div>
-          <ng-container *ngIf="totalAmount > 100; else secondGC">
-            <div #group2>
-              <div class="checkbox">
-                <label>
-                  <input #cod type="checkbox" value="">
-                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with GCs
-                </label>
-              </div>
-
-              <!-- <div class="input-group">
-                  <span class="input-group-addon">{{gcQuantity}}</span>
-                  <input #gCode type="number" class="no-spin" id="gc-code" name="gc-code"  placeholder="Enter a valid code...."/>
-                  <span class="input-group-btn">
-                    <button class="btn btn-primary" (click)="addGiftCert(gCode)" [disabled]="gCode.value == ''">Add Gift Certificate</button>
-                  </span>
-              </div> -->
-
-              <div class="input-group">
-                <span class="input-group-btn"><button type="button" class="btn btn-default" disabled>{{gcQuantity}}
-                </button></span>
-                <input #gCode type="number" class="form-control no-spin" id="gc-code" name="gc-code" placeholder="Enter a valid code...." />
-                 <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="addGiftCert(gCode)">Add Gift Certificate</button></span>
-              </div>
-
-              <div class="list-group">
-                <ul class="list-group">
-                    <li *ngFor="let gc of gcList" class="list-group-item d-flex justify-content-between align-items-center">{{gc.code}}
-                      <span class="badge badge-primary badge-pill">{{gc.value}}</span>
-                    </li>
-                </ul>
-              </div>
-              <div class="form-group">
-                <textarea [(ngModel)]="instructionsText" class="form-control" cols="50" rows="4" placeholder="Instructions"></textarea>
-              </div>
+      <div class="">
+        <div #group1>
+          <ng-container *ngIf="totalAmount > 100; else secondCash">
+            <div class="checkbox">
+              <label>
+                <input #cod type="checkbox" value="" checked>
+                <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
+              </label>
             </div>
           </ng-container>
-          <ng-template #secondGC>
+          <ng-template #secondCash>
+              <div #group1>
+                <div class="checkbox">
+                  <label>
+                    <input #cod type="checkbox" value="" checked disabled>
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
+                  </label>
+                </div>
+              </div>
           </ng-template>
+        </div>
+        <ng-container *ngIf="totalAmount > 100; else secondGC">
+          <div #group2>
+            <div class="checkbox">
+              <label>
+                <input #cod type="checkbox" value="">
+                <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with GCs
+              </label>
+            </div>
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-8">
+                <div class="input-group">
+                  <span class="input-group-btn"><button type="button" class="btn btn-default" disabled>{{gcQuantity}}
+                  </button></span>
+                  <input #gCode type="number" class="form-control no-spin" id="gc-code" name="gc-code" placeholder="Enter a valid gift certificate code" />
+                   <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="addGiftCert(gCode)">Add</button></span>
+                </div>
+                <div class="list-group gc-group">
+                  <ul class="list-group">
+                      <li *ngFor="let gc of gcList" class="list-group-item d-flex justify-content-between align-items-center">{{gc.code}}
+                        <span class="badge badge-primary badge-pill">{{gc.value}}</span>
+                      </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <!-- <ng-template #secondGC>
+            <div #group2>
+                <div class="form-group indent-container">
+                    <p>If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
+                </div>
+            </div>
+        </ng-template> -->
+        <!-- <accordion-group is-disabled="true">
+          <div accordion-heading>Credit Card
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-credit-card': !groupval?.isOpen}"></i>
+          </div>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <p>Instructions</p>
+        </accordion-group> -->
+      </div>
+      <div>
+        <h4>Vouchers / Coupons</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Enter voucher" />
+            <span class="input-group-btn">
+              <button class="btn btn-primary">Add</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h4>Special instructions</h4>
+      </div>
+      <div>
+        <div>
+          <textarea [(ngModel)]="instructionsText" class="form-control si" cols="50" rows="4" placeholder="Please tell us nearby landmarks, delivery notes, amount of cash, etc..."></textarea>
+        </div>
       </div>
 
     </div>
+
+    <div class="col-md-2"></div>
 
     <div class="col-md-4">
       <div class="row place-order">
