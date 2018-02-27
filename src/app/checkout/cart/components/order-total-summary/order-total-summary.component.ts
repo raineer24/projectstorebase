@@ -40,6 +40,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.grandTotal = this.totalCartValue + this.serviceFee + this.deliveryFee;
+    this.totalAmtDue = this.totalCartValue + this.serviceFee + this.deliveryFee - this.discount;
   }
 
   applyCoupon(coupon){
@@ -49,10 +50,12 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
             if(data.message != null) {
               console.log('ERROR');
               this.errMsg = data.message;
+              this.discount = 0;
               return this.totalCartValue;
             } else if (data.status == "used") {
               console.log('ERROR');
               this.errMsg = "Already used!";
+              this.discount = 0;
               return this.totalCartValue;
             }
             else {
@@ -60,7 +63,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
               this.errMsg = null;
               this.coupon.nativeElement.value = '';
               this.discount = data.discount;
-              this.totalAmtDue = this.totalCartValue + this.serviceFee + this.deliveryFee - this.discount;
+              this.totalAmtDue = this.totalAmtDue - this.discount;
               console.log(this.totalAmtDue);
               //this.totalCartValue = this.totalCartValue - Number(data.discount);
               this.forCoupon = {
@@ -83,8 +86,8 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   placeOrder() {
-
-    // if (this.orderStatus === 'cart') {
+      if(this.discount == null) { this.discount = 0; }
+      console.log(this.discount);
       this.checkoutService.updateOrder({
         'status': 'cart',
         'totalQuantity': this.totalCartItems,
