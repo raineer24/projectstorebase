@@ -1,6 +1,5 @@
 .content {
   background-color: #fff;
-  width: 759px;
   display: inline-block;
   vertical-align: top;
   .queried-for {
@@ -62,10 +61,10 @@
           background-position: -311px -160px;
           &.selected {
             background-position: -311px -180px;
-            cursor: default;  
+            cursor: default;
           }
         }
-        
+
       }
     }
     ul.sort {
@@ -84,7 +83,7 @@
         margin-left: 5px;
         text-decoration: none;
         cursor: pointer;
-        
+
       }
       li:after {
         content: ' ';
@@ -116,4 +115,3 @@
     display: table;
   }
 }
-

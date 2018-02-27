@@ -7,6 +7,7 @@ import { ProductActions } from './../product/actions/product-actions';
 import { AppState } from './../interfaces';
 import { getProducts, getTaxonomies } from './../product/reducers/selectors';
 import { getCartItems } from './../checkout/reducers/selectors';
+import { getFilters, getSortSettings } from './reducers/selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -25,7 +26,10 @@ import { Component, OnInit, OnChanges } from '@angular/core';
       -->
 
         <app-content
-          [products]="products$ | async" [cartItemsArr]="cartItems$ | async">
+          [products]="products$ | async"
+          [cartItemsArr]="cartItems$ | async"
+          [filters]="filters$ | async"
+          [sorting]="sorting$ | async" >
           <!-- [taxonIds]="selectedTaxonIds$ | async"> -->
         </app-content>
 
@@ -37,6 +41,8 @@ export class HomeComponent implements OnInit {
   products$: Observable<any>;
   taxonomies$: Observable<any>;
   cartItems$: Observable<any>;
+  filters$: Observable<any>;
+  sorting$: Observable<any>;
 
   constructor(
     private store: Store<AppState>
@@ -44,6 +50,8 @@ export class HomeComponent implements OnInit {
     this.cartItems$ = this.store.select(getCartItems)
     this.products$ = this.store.select(getProducts);
     this.taxonomies$ = this.store.select(getTaxonomies);
+    this.filters$ = this.store.select(getFilters);
+    this.sorting$ = this.store.select(getSortSettings);
   }
 
   ngOnInit() {

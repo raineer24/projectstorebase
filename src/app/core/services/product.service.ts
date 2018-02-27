@@ -33,40 +33,6 @@ export class ProductService {
   /**
    *
    *
-   * @param {number} categoryId
-   * @param {number} level
-   * @param {number} offset optional, default = 0
-   * @param {number} limit optional, default = 20
-   * @returns {Observable<any>}
-   *
-   * @memberof ProductService
-   */
-  getItemsByCategory(categoryId: number, level: number, limit = environment.ITEMS_PER_PAGE, offset = 0): Observable<any> {
-    return this.http.get(`v1/item?offset=${offset}&limit=${limit}&category${level}=${categoryId}`)
-      .map(res => res.json())
-      .catch(err => Observable.empty());
-  }
-
-  /**
-   *
-   *
-   * @param {number} categoryId
-   * @param {number} level
-   * @param {number} offset optional, default = 0
-   * @param {number} limit optional, default = 20
-   * @returns {Observable<any>}
-   *
-   * @memberof ProductService
-   */
-  getItemsByKeyword(keyword: string, limit = environment.ITEMS_PER_PAGE, offset = 0): Observable<any> {
-    return this.http.get(`v1/item?offset=${offset}&limit=${limit}&keyword=${keyword}`)
-      .map(res => res.json())
-      .catch(err => Observable.empty());
-  }
-
-  /**
-   *
-   *
    * @param {string} id
    * @returns {Observable<any>}
    *
@@ -112,9 +78,31 @@ export class ProductService {
    *
    * @memberof ProductService
    */
-  getProducts(limit = environment.ITEMS_PER_PAGE, offset = 0): any {
-    return this.http.get(`v1/item?offset=${offset}&limit=${limit}`)
-      .do(res => { console.log(res)})
+  getProducts(params: any, options: any): any {
+    let url = [];
+    if(options.limit) {
+      url.push(`limit=${options.limit}`);
+    } else {
+      url.push(`limit=${environment.ITEMS_PER_PAGE}`);
+    }
+    if(options.offset)
+      url.push(`offset=${options.offset}`);
+    if(options.sortBy)
+      url.push(`sortBy=${options.sortBy}`);
+    if(options.sortOrder)
+      url.push(`sort=${options.sortOrder}`);
+
+    switch(params.mode) {
+      case 'search':
+        url.push(`keyword=${params.keyword}`)
+        break;
+      case 'category':
+        url.push(`category${params.level}=${params.categoryId}`)
+        break;
+    }
+    const urlString = "v1/item?" + url.join('&');
+    console.log("URL "+ urlString);
+    return this.http.get(urlString)
       .map(res => res.json())
       .catch(err => Observable.empty());
   }

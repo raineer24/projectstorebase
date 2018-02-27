@@ -55,6 +55,13 @@ export const searchReducer: ActionReducer<SearchState> =
             selectedTaxonIds: _selectedTaxonIds
         }) as SearchState;
 
+      case SearchActions.SET_SORTING:
+        const _sorting = payload;
+        
+        return state.merge({
+            sorting: _sorting
+        }) as SearchState;
+
       default:
         return state;
     }

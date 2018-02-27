@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { SearchActions } from './../../home/reducers/search.actions';
 import { getTaxonomies } from './../../product/reducers/selectors';
 import { getTotalCartValue, getTotalCartItems } from './../../checkout/reducers/selectors';
+import { getSortSettings } from './../../home/reducers/selectors';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
   ViewChild, ViewChildren, QueryList, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -43,6 +44,8 @@ export class HeaderComponent implements OnInit {
   searchData: Object = {};
   copycatList: Object = {};
   copyitemList: Object = {};
+  sortSettings: any;
+  sortSubs: Subscription;
   menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   @ViewChild('itemDetailsModal') itemDetailsModal;
   @ViewChildren("dpmenu") dpmenus: QueryList<any>;
@@ -109,56 +112,61 @@ export class HeaderComponent implements OnInit {
     this.totalCartItems = this.store.select(getTotalCartItems);
     this.totalCartValue = this.store.select(getTotalCartValue);
     this.categories$ = this.store.select(getTaxonomies);
+    this.sortSubs = this.store.select(getSortSettings).subscribe(sort => {
+      this.sortSettings = sort;
+    })
+  }
+
+  ngOnDestroy() {
+    this.sortSubs.unsubscribe();
   }
 
   selectAll() {
     this.menuDelay.clicked[0] = true;
-    this.router.navigateByUrl('/');
     this.store.dispatch(this.searchActions.setFilter({
       filters: [],
       categoryIds: []
     }));
     this.store.dispatch(this.productActions.getAllProducts());
+    this.router.navigateByUrl('/');
   }
 
   selectCategory(category: any, index: number): void {
     if(typeof(index) != 'undefined') {
       this.menuDelay.clicked[index] = true;
     }
+    let filters;
     if(category == 'all') {
-      this.store.dispatch(this.searchActions.setFilter({
-        filters: [],
-        categoryIds: []
-      }));
-      this.store.dispatch(this.productActions.getAllProducts());
+      this.store.dispatch(this.productActions.getAllProducts(this.sortSettings));
     } else {
-      this.store.dispatch(this.searchActions.setFilter({
-        filters: [{
-          mode: 'category',
-          level: category.level,
-          categoryId: category.id
-        }],
-        categoryIds: []
-      }));
-      this.store.dispatch(this.productActions.getItemsByCategory(category));
+      filters = {
+        mode: 'category',
+        level: category.level,
+        categoryId: category.id
+      }
+      this.store.dispatch(this.productActions.getItemsByCategory(filters, this.sortSettings));
     }
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: filters ? [filters]: [],
+      categoryIds: []
+    }));
     this.router.navigateByUrl('/');
   }
 
   searchKeyword(): void {
     if(this.asyncSelected && this.asyncSelected.length > 1){
-      this.router.navigateByUrl('/');
       this.bShowProgress = true;
       this.setProgressDisplayTimer();
+      const filters = {
+        mode: 'search',
+        keyword: this.asyncSelected
+      };
       this.store.dispatch(this.searchActions.setFilter({
-        filters: [{
-          mode: 'search',
-          keyword: this.asyncSelected
-        }],
+        filters: [filters],
         categoryIds: []
       }));
-
-      this.store.dispatch(this.productActions.getItemsByKeyword(this.asyncSelected));
+      this.store.dispatch(this.productActions.getItemsByKeyword(filters, this.sortSettings));
+      this.router.navigateByUrl('/');
     }
   }
 

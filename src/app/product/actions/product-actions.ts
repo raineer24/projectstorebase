@@ -18,12 +18,16 @@ export class ProductActions {
     static ADD_SELECTED_ITEM = "ADD_SELECTED_ITEM";
     static REMOVE_SELECTED_ITEM = "REMOVE_SELECTED_ITEM"
 
-    getAllProducts(limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
+    getAllProducts(sorting: any = {}, limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
         return {
           type: ProductActions.GET_ALL_PRODUCTS,
           payload: {
-            limit: limit,
-            offset: offset
+            options: {
+              limit: limit,
+              offset: offset,
+              sortBy: sorting.sortBy ? sorting.sortBy: null,
+              sortOrder: sorting.sortOrder ? sorting.sortOrder: null
+            }
           }
         };
     }
@@ -65,13 +69,17 @@ export class ProductActions {
         };
     }
 
-    getItemsByKeyword(keyword: string, limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
+    getItemsByKeyword(params: any, sorting: any = {}, limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
         return {
             type: ProductActions.GET_ITEMS_BY_KEYWORD,
             payload: {
-              keyword: keyword,
-              limit: limit,
-              offset: offset
+              params: params,
+              options: {
+                limit: limit,
+                offset: offset,
+                sortBy: sorting.sortBy ? sorting.sortBy: null,
+                sortOrder: sorting.sortOrder ? sorting.sortOrder: null
+              }
             }
         };
     }
@@ -83,14 +91,18 @@ export class ProductActions {
         };
     }
 
-    getItemsByCategory(category: any, limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
+    getItemsByCategory(params: any, sorting: any = {}, limit: number = environment.ITEMS_PER_PAGE, offset: number = 0): Action {
         return {
             type: ProductActions.GET_ITEMS_BY_CATEGORY,
             payload: {
-              id: category.id,
-              level: category.level,
-              limit: limit,
-              offset: offset
+              params: params,
+              options: {
+                limit: limit,
+                offset: offset,
+                sortBy: sorting.sortBy ? sorting.sortBy: null,
+                sortOrder: sorting.sortOrder ? sorting.sortOrder: null
+              }
+
             }
         };
     }
