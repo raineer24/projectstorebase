@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
 import { ProductActions } from './../../../product/actions/product-actions';
@@ -14,14 +14,57 @@ export class ContentHeaderComponent implements OnInit {
   @Input() filterSettings: any;
   @Input() sortSettings: any;
   selectedSize = 'COZY';
+  breadcrumbs = ['Home']
 
   constructor(
     private store: Store<AppState>,
     private searchActions: SearchActions,
-    private productActions: ProductActions
+    private productActions: ProductActions,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
+
+  }
+
+  ngOnChanges() {
+    this.setBreadcrumbs();
+  }
+
+  setBreadcrumbs(): void {
+    this.breadcrumbs = ['Home'];
+    switch(this.filterSettings[0].mode) {
+      case 'category':
+        this.breadcrumbs = this.breadcrumbs.concat(this.filterSettings[0].breadcrumbs.map(cat => cat.name));
+        break;
+      case 'search':
+        this.breadcrumbs[1] = 'Search Results';
+        break;
+      default:
+    }
+  }
+
+  selectBreadcrumb(breadcrumb): void {
+    let filters;
+    if(breadcrumb == 'Home') {
+      this.store.dispatch(this.productActions.getAllProducts());
+    } else if(this.filterSettings[0].mode == 'category') {
+      const breadcrumbs = this.filterSettings[0].breadcrumbs;
+      const index = breadcrumbs.findIndex(x => x.name == breadcrumb);
+      breadcrumbs.length = index + 1;
+      filters = {
+        mode: 'category',
+        level: breadcrumbs[index].level,
+        categoryId: breadcrumbs[index].id,
+        breadcrumbs: breadcrumbs
+      }
+
+      this.store.dispatch(this.productActions.getItemsByCategory(filters, this.sortSettings));
+    }
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: filters ? [filters]: [],
+      categoryIds: []
+    }));
   }
 
   toggleView(view) {
