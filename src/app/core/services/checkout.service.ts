@@ -100,16 +100,24 @@ export class CheckoutService {
         if(order.id) { console.log("FETCH CURRENT ORDER")
           return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`
           ).mergeMap(res2 => {
-            let cart_items = [], total = 0, total_quantity = 0;
+            let cart_items = [], total = 200, total_quantity = 0, discount = 0,
+                              amtDue = 0, amtPaid = 0;
             const data = res2.json();
             for (let datum of data) {
               cart_items.push(this.formatCartItem(datum));
               total += Number(datum.price) * datum.quantity;
               total_quantity += Number(datum.quantity);
+              discount = Number(datum.discount);
+              amtDue = Number(datum.totalAmtDue);
+              amtPaid = Number(datum.totalAmtPaid);
+
             }
             order.cartItems =  cart_items;
             order.totalQuantity = total_quantity.toString();
             order.itemTotal = total.toString();
+            order.discount = discount.toString();
+            order.adjustmentTotal= amtDue.toString();
+            order.paymentTotal = amtPaid.toString();
             order.shippingAddress01 = orderStorage.shipping_address;
             order.billingAddress01 = orderStorage.billing_address;
 
