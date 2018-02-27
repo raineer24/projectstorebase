@@ -1,5 +1,11 @@
 @import "../../../shared/scss/themes";
 
+.auth-logo {
+  img {
+    width: 120px;
+  }
+}
+
 .panel {
   margin-bottom: 20px;
   margin: 20px 0;
