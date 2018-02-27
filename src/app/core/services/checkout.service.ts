@@ -46,7 +46,7 @@ export class CheckoutService {
     const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.post(`v1/orderItem`,
         {
-          "user_id": userId ? userId: null,
+          "user_id": userId ? userId: 0,
           "item_id": item.id,
           "quantity": 1,
           "orderkey": this.getOrderKey()
@@ -152,7 +152,7 @@ export class CheckoutService {
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart',
-          useraccount_id: userId ? userId: null
+          useraccount_id: userId ? userId: 0
         }).map(orderId => {
           let order:any = {};
           order.id = orderId.json()['id'];
@@ -246,7 +246,7 @@ export class CheckoutService {
   updateCartItem(cartItem: CartItem) {
     const userId = JSON.parse(localStorage.getItem('user')).id;
     return this.http.put(`v1/orderItem/${cartItem.id}`, {
-        "user_id": userId ? userId: null,
+        "user_id": userId ? userId: 0,
         "item_id": cartItem.item.id,
         "quantity": cartItem.quantity,
         "orderkey": this.getOrderKey()
@@ -314,7 +314,7 @@ export class CheckoutService {
   updateOrder(params: any) {
     const orderkey = this.getOrderKey();
     const userId = JSON.parse(localStorage.getItem('user')).id;
-    params['useraccount_id'] = userId ? userId: null;
+    params['useraccount_id'] = userId ? userId: 0;
     return this.http.put(`v1/order/${orderkey}`,params)
     .map((res) => {
       const order = res.json();
@@ -367,7 +367,7 @@ export class CheckoutService {
 
   updateOrderPayment(params: any) {
     const userId = JSON.parse(localStorage.getItem('user')).id;
-    params['useraccount_id']= userId ? userId: null;
+    params['useraccount_id']= userId ? userId: 0;
     params['orderkey'] = this.getOrderKey();
     return this.http.put(`v1/order/${params.id}/payment`, params)
     .map(res => {
