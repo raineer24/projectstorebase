@@ -93,7 +93,7 @@
   <div class="col-md-12">
     <h4>Amount Due:
       <div class="pull-right">
-        <strong><span>₱ {{amountDue | number:'1.2-2'}}</span></strong>
+        <strong><span>₱ {{amountDue + deliveryFee + serviceFee | number:'1.2-2'}}</span></strong>
       </div>
     </h4>
   </div>

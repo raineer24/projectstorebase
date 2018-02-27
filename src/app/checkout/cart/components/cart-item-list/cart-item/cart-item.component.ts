@@ -22,6 +22,7 @@ export class CartItemComponent implements OnInit {
   @Input() cartItem: CartItem;
   MIN_VALUE: number = 1;
   MAX_VALUE: number = 9999;
+  private imageRetries: number = 0;
 
   constructor(
     private store: Store<AppState>,

@@ -23,8 +23,19 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
         _totalCartItems = Number(payload.totalQuantity);
         _totalCartValue = parseFloat(payload.itemTotal);
-        _totalDiscount = parseFloat(payload.totalDiscount);
-        _totalAmountPaid = parseFloat(payload.totalAmtPaid);
+
+        if(payload.totalDiscount != null){
+            _totalDiscount = parseFloat(payload.totalDiscount);
+        } else {
+            _totalDiscount = 0;
+        }
+
+        if(payload.totalAmtPaid != null) {
+          _totalAmountPaid = parseFloat(payload.totalAmtPaid);
+        } else {
+          _totalAmountPaid = 0;
+        }
+
         _totalAmountDue = _totalCartValue - _totalDiscount - _totalAmountPaid;
         _ship_address = payload.shippingAddress01;
         _bill_address = payload.billingAddress01;

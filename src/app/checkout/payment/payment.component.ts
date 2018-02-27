@@ -60,6 +60,7 @@ export class PaymentComponent implements OnInit {
   updategcStatus$: Subscription;
   errMsg: string;
   forGC: any;
+  gcList: any;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -84,18 +85,20 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.gcList = [];
     this.initForm();
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmount = val;
       this.totalPaidAmount = 0.00;
       this.tmpAmt = this.totalAmount;
-      this.totalAmountDue = this.tmpAmt;
+      // this.totalAmountDue = this.tmpAmt;
     });
     this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
       this.cartItemIds = cartItems.map(cartItem => cartItem.item_id);
     });
     this.totalAmountDue$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmountDue = val;
+      console.log(this.totalAmountDue);
     });
   }
 
@@ -118,11 +121,17 @@ export class PaymentComponent implements OnInit {
           return this.totalPaidAmount;
         } else {
           console.log("update gc table");
+          this.gcList.push({
+            code: code.value,
+            value: data.amount
+          })
+          console.log(this.gcList);
           this.updateGCStatus(code.value);
           console.log(data.amount);
           // this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
           this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
           this.totalAmountDue = this.totalAmountDue - Number(data.amount);
+          console.log(this.totalAmountDue);
           this.forGC = {
               value: this.totalPaidAmount,
               amtDue: this.totalAmountDue
