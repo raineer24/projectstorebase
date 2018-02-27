@@ -17,7 +17,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   stateSub$: Subscription;
   orderStatus: string;
   serviceFee: number = 100.00;
-  deliveryFee: number = 100.00
+  deliveryFee: number = 100.00;
   @Input() totalCartValue: number;
   @Input() totalCartItems: number;
   @Input() discount: number = 0;
@@ -25,6 +25,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   @ViewChild('coupon') coupon:ElementRef;
   @ViewChild('appCoupon') appCoupon:ElementRef;
   totalDiscount$: Subscription;
+  grandTotal: number = 0;
   forCoupon: any;
   errMsg: string;
   isShowErrMsg: boolean = false;
@@ -38,7 +39,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.totalAmtDue = this.totalCartValue - this.serviceFee - this.deliveryFee;
+    this.grandTotal = this.totalCartValue + this.serviceFee + this.deliveryFee;
   }
 
   applyCoupon(coupon){
@@ -59,7 +60,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
               this.errMsg = null;
               this.coupon.nativeElement.value = '';
               this.discount = data.discount;
-              this.totalAmtDue = this.totalCartValue - this.discount;
+              this.totalAmtDue = this.totalCartValue + this.serviceFee + this.deliveryFee - this.discount;
               console.log(this.totalAmtDue);
               //this.totalCartValue = this.totalCartValue - Number(data.discount);
               this.forCoupon = {
@@ -88,8 +89,9 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
         'status': 'cart',
         'totalQuantity': this.totalCartItems,
         'itemTotal': this.totalCartValue,
+        'total': this.grandTotal,
         'discount':this.discount,
-        'totalAmountDue': this.totalAmtDue
+        'adjustmentTotal': this.totalAmtDue
         }).do(() => {
           this.router.navigate(['/checkout', 'address']);
         })

@@ -49,6 +49,8 @@ export class PaymentComponent implements OnInit {
   instructionsText: string = '';
   gcQuantity: number = 0;
   gcCode: string;
+  deliveryFee: number = 100.00;
+  serviceFee: number = 100.00
   totalAmount: number;
   tmpAmt: number = 0;
   paymentTotal: number = 0;
@@ -155,10 +157,14 @@ export class PaymentComponent implements OnInit {
 
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
+    let grandTotal = this.totalAmount + this.serviceFee + this.deliveryFee;
     let params: any = {};
     params = {
       id: this.orderId,
       specialInstructions: this.instructionsText,
+      paymentTotal: this.totalPaidAmount,
+      adjustmentTotal: this.totalAmountDue,
+      total: grandTotal,
       status: 'payment'
     }
 
