@@ -118,6 +118,7 @@ export class AuthService {
           gender: data.gender,
           dataCreated: d,
           dateUpdated: d,
+          dateAuthorized: d,
           dateTime: d
         });
         this.store.dispatch(this.actions.loginSuccess());
@@ -235,14 +236,17 @@ export class AuthService {
    * @memberof AuthService
    */
   logout() {
-    return this.http.get('spree/logout.json')
-      .map((res: Response) => {
-        // Setting token after login
-        localStorage.removeItem('user');
-        this.store.dispatch(this.actions.logoutSuccess());
-        return res.json();
-      })
-      .catch(err => Observable.empty());
+    // return this.http.get('spree/logout.json')
+    // .map((res: Response) => {
+    //   // Setting token after login
+    //   localStorage.removeItem('user');
+    //   this.store.dispatch(this.actions.logoutSuccess());
+    //   return res.json();
+    // })
+    // .catch(err => Observable.empty());
+    localStorage.removeItem('user');
+    this.store.dispatch(this.actions.logoutSuccess());
+    return Observable.empty();
   }
 
   /**
@@ -257,4 +261,30 @@ export class AuthService {
     const jsonData = JSON.stringify(user_data);
     localStorage.setItem('user', jsonData);
   }
+
+
+  /**
+   *
+   *
+   *
+   * @param void
+   *
+   * @memberof AuthService
+   */
+  checkSessionPersistence(): void {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user) {
+      const d = Date.now();
+      const elapsedTime = d - user.dateAuthorized;
+      if(elapsedTime < 1800000) { //30 minutes
+        this.store.dispatch(this.actions.loginSuccess());
+        user.dateAuthorized = d;
+        this.setTokenInLocalStorage(user)
+      } else {
+        localStorage.removeItem('user');
+      }
+    }
+
+  }
+
 }

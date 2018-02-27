@@ -33,14 +33,16 @@ export class ContentHeaderComponent implements OnInit {
 
   setBreadcrumbs(): void {
     this.breadcrumbs = ['Home'];
-    switch(this.filterSettings[0].mode) {
-      case 'category':
-        this.breadcrumbs = this.breadcrumbs.concat(this.filterSettings[0].breadcrumbs.map(cat => cat.name));
-        break;
-      case 'search':
-        this.breadcrumbs[1] = 'Search Results';
-        break;
-      default:
+    if(this.filterSettings.length) {
+      switch(this.filterSettings[0].mode) {
+        case 'category':
+          this.breadcrumbs = this.breadcrumbs.concat(this.filterSettings[0].breadcrumbs.map(cat => cat.name));
+          break;
+        case 'search':
+          this.breadcrumbs[1] = 'Search Results';
+          break;
+        default:
+      }
     }
   }
 
