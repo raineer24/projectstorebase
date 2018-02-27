@@ -21,7 +21,7 @@ export class ProductEffects {
   @Effect()
     GetAllProducts$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ALL_PRODUCTS)
-    .switchMap((action: Action) => this.productService.getProducts(action.payload.limit, action.payload.offset))
+    .switchMap((action: Action) => this.productService.getProducts({},action.payload.options))
     .map((data: any) => this.productActions.getAllProductsSuccess({items: data}));
 
   @Effect()
@@ -33,13 +33,13 @@ export class ProductEffects {
   @Effect()
   GetItemsByKeyword$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ITEMS_BY_KEYWORD)
-    .switchMap((action: Action) => this.productService.getItemsByKeyword(action.payload.keyword, action.payload.limit, action.payload.offset))
+    .switchMap((action: Action) => this.productService.getProducts(action.payload.params, action.payload.options))
     .map((data: any) => this.productActions.getItemsByKeywordSuccess({items: data}));
 
   @Effect()
     GetItemsByCategory$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ITEMS_BY_CATEGORY)
-    .switchMap((action: Action) => this.productService.getItemsByCategory(action.payload.id, action.payload.level, action.payload.limit, action.payload.offset))
+    .switchMap((action: Action) => this.productService.getProducts(action.payload.params, action.payload.options))
     .map((data: any) => this.productActions.getItemsByCategorySuccess({items: data}));
 
   // @Effect()

@@ -5,6 +5,7 @@ export class SearchActions {
     static ADD_FILTER = 'ADD_FILTER';
     static REMOVE_FILTER = 'REMOVE_FILTER';
     static SET_FILTER = 'SET_FILTER';
+    static SET_SORTING = 'SET_SORTING';
 
     /**
      * @method getAllFtilers
@@ -42,9 +43,28 @@ export class SearchActions {
     }
 
     setFilter(filter: any) {
+      /*
+      filter = {
+        filters: [],
+        categoryIds: []
+      })
+      */
       return {
         type: SearchActions.SET_FILTER,
         payload: filter
+      }
+    }
+
+    setSorting(sorting: any) {
+      /*
+      sorting = {
+        sortBy: '',
+        sortOrder: ''
+      })
+      */
+      return {
+        type: SearchActions.SET_SORTING,
+        payload: sorting
       }
     }
 }
