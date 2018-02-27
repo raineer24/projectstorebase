@@ -80,7 +80,7 @@ export class ProductService {
    */
   getProducts(params: any, options: any): any {
     let url = [];
-    if(options.limit) {
+    if(options && options.limit) {
       url.push(`limit=${options.limit}`);
     } else {
       url.push(`limit=${environment.ITEMS_PER_PAGE}`);

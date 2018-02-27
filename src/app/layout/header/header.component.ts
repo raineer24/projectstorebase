@@ -131,18 +131,19 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  selectCategory(category: any, index: number): void {
-    if(typeof(index) != 'undefined') {
-      this.menuDelay.clicked[index] = true;
-    }
+  selectCategory(...categories): void {
+    // if(typeof(index) != 'undefined') {
+    //   this.menuDelay.clicked[index] = true;
+    // }
     let filters;
-    if(category == 'all') {
+    if(categories[0] == 'all') {
       this.store.dispatch(this.productActions.getAllProducts(this.sortSettings));
     } else {
       filters = {
         mode: 'category',
-        level: category.level,
-        categoryId: category.id
+        level: categories[0].level,
+        categoryId: categories[0].id,
+        breadcrumbs: categories.map(cat => { return {id: cat.id, name: cat.name, level: cat.level}}).reverse()
       }
       this.store.dispatch(this.productActions.getItemsByCategory(filters, this.sortSettings));
     }
@@ -229,12 +230,10 @@ export class HeaderComponent implements OnInit {
   }
 
   setProgressDisplayTimer(): void {
-    console.log(this.bShowProgress);
     this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds
       this.subscription = this.timer.subscribe(() => {
       // set showloader to false to hide loading div from view after 5 seconds
       this.bShowProgress = false;
-      console.log(this.bShowProgress);
     });
   }
 
