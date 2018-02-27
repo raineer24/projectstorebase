@@ -1,7 +1,7 @@
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
 import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate,
-  getTotalCartItems, getTotalCartValue, getCartItems, getOrderState } from './../reducers/selectors';
+  getTotalCartItems, getTotalCartValue, getCartItems, getOrderState, getTotalDiscount, getTotalAmtDue, getTotalAmtPaid } from './../reducers/selectors';
 import { getAuthStatus } from './../../auth/reducers/selectors';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
@@ -32,6 +32,9 @@ export class PaymentComponent implements OnInit {
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
+  totalDiscount$:Observable<number>;
+  totalAmountDue$: Observable<number>;
+  totalAmountPaid$: Observable<number>
   shipAddress$: Observable<any>;
   billAddress$: Observable<any>;
   deliveryDate$: Observable<any>;
@@ -49,11 +52,12 @@ export class PaymentComponent implements OnInit {
   totalAmount: number;
   tmpAmt: number = 0;
   paymentTotal: number = 0;
-  totalGCAmount: number = 0;
+  totalPaidAmount: number = 0;
   usableGCcount: number = 0;
   totalAmount$: Observable<number>;
   updategcStatus$: Subscription;
   errMsg: string;
+  forGC: any;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -61,13 +65,17 @@ export class PaymentComponent implements OnInit {
     private store: Store<AppState>,
     private router: Router,
     private fb: FormBuilder,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private checkoutAction: CheckoutActions
   ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
     this.store.select(getOrderState).subscribe(status => this.orderStatus = status);
     this.shipAddress$ = this.store.select(getShipAddress);
     this.billAddress$ = this.store.select(getBillAddress);
     this.orderTotal$ = this.store.select(getTotalCartValue);
+    this.totalDiscount$ = this.store.select(getTotalDiscount);
+    this.totalAmountPaid$ = this.store.select(getTotalAmtPaid);
+    this.totalAmountDue$ = this.store.select(getTotalAmtDue);
     this.cartItems$ = this.store.select(getCartItems);
     this.deliveryDate$ = this.store.select(getDeliveryDate);
     this.isAuthenticated$ = this.store.select(getAuthStatus);
@@ -77,12 +85,15 @@ export class PaymentComponent implements OnInit {
     this.initForm();
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmount = val;
-      this.totalGCAmount = 0.00;
+      this.totalPaidAmount = 0.00;
       this.tmpAmt = this.totalAmount;
       this.totalAmountDue = this.tmpAmt;
     });
     this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
       this.cartItemIds = cartItems.map(cartItem => cartItem.item_id);
+    });
+    this.totalAmountDue$.takeUntil(this.componentDestroyed).subscribe(val => {
+      this.totalAmountDue = val;
     });
   }
 
@@ -98,22 +109,28 @@ export class PaymentComponent implements OnInit {
     if(code.value != ''){
       this.totalAmount$ = this.checkoutService.getGC(code.value).map(data => {
         if(data.message != null) {
-          console.log('ERROR');
           this.errMsg = data.message;
-          return this.totalGCAmount;
+          return this.totalPaidAmount;
         } else if (data.status == "used") {
-          console.log('ERROR');
           this.errMsg = "Already used!";
-          return this.totalGCAmount;
-        }
-        else {
+          return this.totalPaidAmount;
+        } else {
           console.log("update gc table");
           this.updateGCStatus(code.value);
+          console.log(data.amount);
+          // this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
+          this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
+          this.totalAmountDue = this.totalAmountDue - Number(data.amount);
+          this.forGC = {
+              value: this.totalPaidAmount,
+              amtDue: this.totalAmountDue
+            }
           this.errMsg = null;
           this.gcQuantity++;
           this.gcCount();
+          this.store.dispatch(this.checkoutAction.applyGC(this.forGC));
           this.gCode.nativeElement.value = '';
-          return this.totalGCAmount += Number(data.amount);
+          return this.totalPaidAmount;
         }
       })
 
