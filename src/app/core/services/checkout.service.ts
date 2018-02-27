@@ -532,6 +532,14 @@ export class CheckoutService {
     return token;
   }
 
+  getvoucher(vCode) {
+        console.log("SEARCHING FOR VOUCHER");
+        return this.http.get(`v1/voucher/${vCode}`).map(res => {
+          const v = res.json();
+          return v;
+       }).catch(err => Observable.empty());
+  }
+
   /**
    *
    *

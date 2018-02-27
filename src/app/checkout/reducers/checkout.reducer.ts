@@ -11,7 +11,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
     let _cartItems, _cartItemEntities, _cartItemIds,
         _cartItem, _cartItemEntity, _cartItemId,
-        _totalCartItems = 0, _totalCartValue,
+        _totalCartItems = 0, _totalCartValue, _totalDiscount = 0, _totalAmountPaid = 0, _totalAmountDue = 0,
         _ship_address, _bill_address,
         _orderStatus, _orderId, _deliveryDate;
 
@@ -23,6 +23,9 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
         _totalCartItems = Number(payload.totalQuantity);
         _totalCartValue = parseFloat(payload.itemTotal);
+        _totalDiscount = parseFloat(payload.totalDiscount);
+        _totalAmountPaid = parseFloat(payload.totalAmtPaid);
+        _totalAmountDue = _totalCartValue - _totalDiscount - _totalAmountPaid;
         _ship_address = payload.shippingAddress01;
         _bill_address = payload.billingAddress01;
         _orderStatus = payload.status;
@@ -41,6 +44,9 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
+          totalDiscount: _totalDiscount,
+          totalAmountPaid: _totalAmountPaid,
+          totalAmountDue: _totalAmountDue,
           shipAddress: _ship_address,
           billAddress: _bill_address,
           deliveryDate: _deliveryDate
@@ -104,6 +110,17 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue
+        }) as CheckoutState;
+
+      //case APPLY COUPON
+      case CheckoutActions.APPLY_COUPON:
+        _totalDiscount = payload.value;
+        _totalAmountDue = _totalCartValue - _totalDiscount;
+        // _totalCartValue = _totalCartValue - _totalDiscount;
+        // console.log(_totalCartValue);
+        return state.merge({
+          totalDiscount: _totalDiscount,
+          totalAmountDue: _totalAmountDue
         }) as CheckoutState;
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
