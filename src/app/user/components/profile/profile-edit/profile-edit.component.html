@@ -265,13 +265,19 @@
     </div> -->
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-2 control-label" for="mobileNumber">Mobile Number</label>
-      <div class="col-md-3">
-        <input id="mobileNumber" name="mobileNumber" formControlName="mobileNumber" class="form-control input-md" required="" type="text">
+      <div class="form-inline">
+        <label class="col-md-2 control-label" for="mobileNumber">Mobile Number</label>
+        <div class="col-md-3">
+          <select name="prefix" formControlName="prefix" class="form-control">
+            <option value="+63">+63</option>
+          </select>
+          <input id="mobileNumber" name="mobileNumber" formControlName="mobileNumber" class="form-control input-md" required="" type="text">
+        </div>
       </div>
       <div *ngIf="profileEditForm.get('mobileNumber').errors && profileEditForm.get('mobileNumber').touched">
         <p class="register-error-message text-danger">! {{profileEditForm.get('mobileNumber').errors.msg || 'Please enter a valid mobile number'}}</p>
       </div>
+
     </div>
     <!-- Button (Double) -->
     <div class="form-group">

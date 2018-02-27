@@ -105,20 +105,31 @@ export class AuthService {
     return this.http.post(
       'v1/user/account/save', data
     ).map((res: Response) => {
-      data = res.json();
-      if (data.message == 'Saved') {
+      let response = res.json();
+      console.log(data)
+      if (response.message == 'Saved') {
         // Setting token after login
-        this.setTokenInLocalStorage(res.json());
+        const d = Date.now();
+        this.setTokenInLocalStorage({
+          id: response.id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          mobileNumber: data.mobileNumber,
+          gender: data.gender,
+          dataCreated: d,
+          dateUpdated: d,
+          dateTime: d
+        });
         this.store.dispatch(this.actions.loginSuccess());
       } else {
-        data.error = true;
+        response.error = true;
         this.http.loading.next({
           loading: false,
           hasError: true,
           hasMsg: 'Email already in use'
         });
       }
-      return data;
+      return response;
     });
     // catch should be handled here with the http observable
     // so that only the inner obs dies and not the effect Observable

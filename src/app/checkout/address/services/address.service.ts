@@ -11,13 +11,15 @@ export class AddressService {
   initAddressForm(auth) {
     if(auth){
       let storedData = JSON.parse(localStorage.getItem('user'));
+      const mobileNumber = storedData.mobileNumber.split(" ");
       return this.fb.group({
         'lastname': [storedData.lastName, Validators.required],
         'firstname': [storedData.firstName, Validators.required],
         'shippingAddress01': ['', Validators.required],
         'shippingAddress02': '',
         'city': ['', Validators.required],
-        'phone': [storedData.mobileNumber, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(11), Validators.pattern('[0-9]{7,11}')]) ],
+        'prefix': [mobileNumber[0], Validators.required],
+        'phone': [mobileNumber[1], Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')]) ],
         'landline': '',
         'email': [storedData.email, Validators.compose([Validators.required, Validators.email]) ],
         'postalcode': ['', Validators.required],
@@ -37,8 +39,9 @@ export class AddressService {
         'shippingAddress01': ['', Validators.required],
         'shippingAddress02': '',
         'city': ['', Validators.required],
-        'phone': ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(11), Validators.pattern('[0-9]{7,11}')]) ],
-        'landline': ['', Validators.compose([Validators.minLength(6), Validators.maxLength(7), Validators.pattern('[0-9]{6,7}')]) ],
+        'prefix': ['+63', Validators.required],
+        'phone': ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(11), Validators.pattern('[0-9]{10}')]) ],
+        'landline': '',
         'email': '',
         'postalcode': ['', Validators.required],
         'country': ['Philippines', Validators.required],
