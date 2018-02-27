@@ -4,18 +4,21 @@
         <li class="col-md-1 col-sm-1">
           <button type="button" class="btn btn-danger" (click)="removeCartItem()"><span class="glyphicon glyphicon-trash"></span></button>
         </li>
-        <li class="col-md-5 col-sm-5">
+        <li class="col-md-4 col-sm-4">
           <p class="product-name">{{cartItem.item.name}}</p>
           <!-- <p>P {{cartItem.price | number:'1.2'}}</p> -->
         </li>
         <li class="col-md-2 col-sm-2">
           <p>P {{cartItem.price | number:'1.2'}}</p>
         </li>
-        <li class="col-md-2 col-sm-2">
+        <li class="col-md-3 col-sm-3">
           <!-- <button type="button" class="btn btn-xs cart-btns btn-danger" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
             <span class="glyphicon glyphicon-minus"> </span>
           </button> -->
           <div class="input-group">
+            <span class="input-group-btn"><button type="button" class="btn btn-default" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
+              <span class="glyphicon glyphicon-minus"> </span>
+            </button></span>
             <input type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" class="text-center form-control" [value]="quantity" [formControl]="quantityControl" />
              <span class="input-group-btn"><button class="btn btn-success" type="button" (click)="incrementQuantity()" [disabled]="quantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
           </div>
