@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { CheckoutService } from './core/services/checkout.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { ProductActions } from './product/actions/product-actions';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private checkoutService: CheckoutService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private actions: ProductActions
     ) {
     router
       .events
@@ -39,6 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.orderSub$ = this.checkoutService.fetchCurrentOrder()
           .subscribe();
       });
+      this.store.dispatch(this.actions.getAllProducts());
+      this.store.dispatch(this.actions.getAllTaxonomies());
   }
 
   isHomeRoute() {

@@ -2,13 +2,13 @@
   <div class="container">
     <div class="row nav-menu-top">
       <ul class="nav navbar-nav navbar-left">
-        <li class="active"><a href="#">OMG Philippines</a></li>
+        <li class="active"><a routerLink="/">OMG Philippines</a></li>
         <!-- <li><a href="#">Promotions</a></li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <!-- <li><a href="#">Availability In Your Area</a></li> -->
-        <li><a href="#">Change Country</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a routerLink="/">Change Country</a></li>
+        <li><a routerLink="/">Contact Us</a></li>
       </ul>
     </div>
     <div class="row nav-menu-mid">
@@ -23,7 +23,7 @@
           (onShown)="onMenuToggle()"
           (onHidden)="onMenuToggle()"
           class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          <a href="#">Categories <span class="caret"></span></a>
+          <a href="#"  (click)="selectCategory('all',null)">Categories <span class="caret"></span></a>
             <ul class="dropdown-menu multi-level">
               <li
               (onShown)="onMenuToggle()"

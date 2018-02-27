@@ -18,7 +18,7 @@ export class UserActions {
     return { type: UserActions.GET_USER_ORDERS };
   }
 
-  getUserOrdersSuccess(orders: Order[]): Action {
+  getUserOrdersSuccess(orders: any[]): Action {
     return { type: UserActions.GET_USER_ORDERS_SUCCESS, payload: orders };
   }
 

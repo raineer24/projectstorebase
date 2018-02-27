@@ -41,7 +41,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     this.store.select(getShipAddress).takeUntil(this.componentDestroyed).subscribe(data => {
       if(data)
         this.addressForm.patchValue(data);
-        if(data.phone){
+        if(data.phone) {
           const mobileNumber = data.phone.split(" ");
           this.addressForm.patchValue({'prefix': mobileNumber[0], 'phone': mobileNumber[1]});
         }
@@ -59,7 +59,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let values = this.addressForm.value;
-    let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country'];
+    let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country','prefix'];
     let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
     let hasError = false;
 
