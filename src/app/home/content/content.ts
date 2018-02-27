@@ -5,12 +5,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-content',
   template: `
-    <div class="row">
-      <div class="col-md-6"></div>
-      <div class="col-md-6 text-right">
-        <app-content-header [filterSettings]="filters" [sortSettings]="sorting"></app-content-header>
-      </div>
-    </div>
+    <app-content-header [filterSettings]="filters" [sortSettings]="sorting"></app-content-header>
     <app-item-list [(toggleLayout)]="toggleLayout"
       [items]="products"
       [cartItems]="cartItemsArr"

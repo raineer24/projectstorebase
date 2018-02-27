@@ -1,19 +1,35 @@
-<div class="content">
-  <div class="options small">
-    <!-- <ul class="img-size">
-      <label>View:</label>
-      <li (click)="toggleView('COMPACT')" [ngClass]="{'big': true, 'selected': isBigSelected()}"></li>
-      <li (click)="toggleView('COZY')" [ngClass]="{'small': true, 'selected': isSmallSelected()}"></li>
-    </ul> -->
-    <ul class="sort">
-      <label>Sort - </label>
-      <!-- <li data-sortkey=":popularity">Popular</li>
-      <li data-sortkey=":new">New</li>
-      <li data-sortkey=":discount">Discount</li> -->
-      <label>Price:
-        <li data-sortkey=":low" (click)="sortItems('low-price')">Low</li>
-        <li data-sortkey=":high" (click)="sortItems('high-price')">High</li>
-      </label>
-    </ul>
+<div class="row">
+  <div class="col-md-8">
+    <ol class="breadcrumb">
+      <li *ngFor="let breadcrumb of breadcrumbs; let i = index;">
+        <a *ngIf="i != breadcrumbs.length - 1; else elseBlock" href="#" class="breadcrumb-item" (click)="selectBreadcrumb(breadcrumb)">
+          <span>{{breadcrumb}}</span>
+        </a>
+        <ng-template #elseBlock>
+          <b class="breadcrumb-item text-danger">{{breadcrumb}}</b>
+        </ng-template>
+      </li>
+    </ol>
+  </div>
+  <div class="col-md-4 text-right">
+    <div class="content">
+      <div class="options small">
+        <!-- <ul class="img-size">
+          <label>View:</label>
+          <li (click)="toggleView('COMPACT')" [ngClass]="{'big': true, 'selected': isBigSelected()}"></li>
+          <li (click)="toggleView('COZY')" [ngClass]="{'small': true, 'selected': isSmallSelected()}"></li>
+        </ul> -->
+        <ul class="sort">
+          <label>Sort - </label>
+          <!-- <li data-sortkey=":popularity">Popular</li>
+          <li data-sortkey=":new">New</li>
+          <li data-sortkey=":discount">Discount</li> -->
+          <label>Price:
+            <li data-sortkey=":low" (click)="sortItems('low-price')">Low</li>
+            <li data-sortkey=":high" (click)="sortItems('high-price')">High</li>
+          </label>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
