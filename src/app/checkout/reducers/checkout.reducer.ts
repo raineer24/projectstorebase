@@ -65,12 +65,14 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _totalCartValue = state.totalCartValue + parseFloat(_cartItem.total);
         _cartItemEntity = { [_cartItemId]: _cartItem };
         _cartItemIds = state.cartItemIds.push(_cartItemId);
+        _totalAmountDue = _totalCartValue - _totalAmountPaid - _totalDiscount;
 
         return state.merge({
           cartItemIds: _cartItemIds,
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
-          totalCartValue: _totalCartValue
+          totalCartValue: _totalCartValue,
+          totalAmountDue: _totalAmountDue
         }) as CheckoutState;
 
       case CheckoutActions.REMOVE_CART_ITEM_SUCCESS:
@@ -82,13 +84,15 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _cartItemEntities = state.cartItemEntities.delete(_cartItemId);
           _totalCartItems = state.totalCartItems - _cartItem.quantity;
           _totalCartValue = state.totalCartValue - parseFloat(_cartItem.total);
+          _totalAmountDue = _totalCartValue - _totalAmountPaid - _totalDiscount;
         }
 
         return state.merge({
           cartItemIds: _cartItemIds,
           cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
-          totalCartValue: _totalCartValue
+          totalCartValue: _totalCartValue,
+          totalAmountDue: _totalAmountDue
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_CART_ITEM_SUCCESS:
@@ -105,23 +109,38 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItemEntity = { [_cartItemId]: _cartItem }
         _totalCartItems = state.totalCartItems + quantityDifference;
         _totalCartValue = state.totalCartValue + total;
+        _totalAmountDue = _totalCartValue - _totalAmountPaid - _totalDiscount;
 
         return state.merge({
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
-          totalCartValue: _totalCartValue
+          totalCartValue: _totalCartValue,
+          totalAmountDue: _totalAmountDue
         }) as CheckoutState;
 
       //case APPLY COUPON
       case CheckoutActions.APPLY_COUPON:
         _totalDiscount = payload.value;
-        _totalAmountDue = _totalCartValue - _totalDiscount;
+        _totalAmountDue = payload.amtDue;
         // _totalCartValue = _totalCartValue - _totalDiscount;
         // console.log(_totalCartValue);
         return state.merge({
           totalDiscount: _totalDiscount,
           totalAmountDue: _totalAmountDue
         }) as CheckoutState;
+
+      //case APPLY GC
+      case CheckoutActions.APPLY_GC:
+        console.log(payload.value);
+        console.log(payload.amtDue);
+        _totalAmountPaid = payload.value;
+        _totalAmountDue = payload.amtDue;
+          // _totalCartValue = _totalCartValue - _totalDiscount;
+          // console.log(_totalCartValue);
+        return state.merge({
+          totalAmountPaid: _totalAmountPaid,
+          totalAmountDue: _totalAmountDue
+      }) as CheckoutState;
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
 

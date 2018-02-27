@@ -133,7 +133,7 @@
         </div>
       </div>
       <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmount$ | async"
-        [orderTotal]="orderTotal$ | async" [amountDue]="totalAmountDue" [cartItems]="cartItems$ | async"
+        [orderTotal]="orderTotal$ | async" [discount]="totalDiscount$ | async" [amountDue]="totalAmountDue$ | async" [cartItems]="cartItems$ | async"
         [deliveryDate]="deliveryDate$ | async"></app-review-order>
     </div>
   </div>
