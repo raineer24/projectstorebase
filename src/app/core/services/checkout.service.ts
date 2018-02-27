@@ -43,10 +43,11 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   createNewCartItem(item: Item) {
-    const userId = JSON.parse(localStorage.getItem('user')).id;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
     return this.http.post(`v1/orderItem`,
         {
-          "user_id": userId ? userId: 0,
+          "user_id": userId,
           "item_id": item.id,
           "quantity": 1,
           "orderkey": this.getOrderKey()
@@ -139,7 +140,8 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   createNewOrder() {
-    const userId = JSON.parse(localStorage.getItem('user')).id;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
     return this.http.get(`v1/orderkey`
     ).map(res => res.json()
     ).mergeMap(data => {
@@ -152,7 +154,7 @@ export class CheckoutService {
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart',
-          useraccount_id: userId ? userId: 0
+          useraccount_id: userId
         }).map(orderId => {
           let order:any = {};
           order.id = orderId.json()['id'];
@@ -244,9 +246,10 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   updateCartItem(cartItem: CartItem) {
-    const userId = JSON.parse(localStorage.getItem('user')).id;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
     return this.http.put(`v1/orderItem/${cartItem.id}`, {
-        "user_id": userId ? userId: 0,
+        "user_id": userId,
         "item_id": cartItem.item.id,
         "quantity": cartItem.quantity,
         "orderkey": this.getOrderKey()
@@ -313,8 +316,9 @@ export class CheckoutService {
    */
   updateOrder(params: any) {
     const orderkey = this.getOrderKey();
-    const userId = JSON.parse(localStorage.getItem('user')).id;
-    params['useraccount_id'] = userId ? userId: 0;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
+    params['useraccount_id'] = userId;
     return this.http.put(`v1/order/${orderkey}`,params)
     .map((res) => {
       const order = res.json();
@@ -366,8 +370,9 @@ export class CheckoutService {
   }
 
   updateOrderPayment(params: any) {
-    const userId = JSON.parse(localStorage.getItem('user')).id;
-    params['useraccount_id']= userId ? userId: 0;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
+    params['useraccount_id']= userId;
     params['orderkey'] = this.getOrderKey();
     return this.http.put(`v1/order/${params.id}/payment`, params)
     .map(res => {
