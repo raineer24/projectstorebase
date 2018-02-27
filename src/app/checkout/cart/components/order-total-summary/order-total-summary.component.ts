@@ -21,6 +21,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   @Input() totalCartValue: number;
   @Input() totalCartItems: number;
   @Input() discount: number = 0;
+  @Input() totalAmtDue: number;
   @ViewChild('coupon') coupon:ElementRef;
   @ViewChild('appCoupon') appCoupon:ElementRef;
   totalDiscount$: Subscription;
@@ -37,6 +38,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // this.totalAmtDue = this.totalCartValue - this.serviceFee - this.deliveryFee;
   }
 
   applyCoupon(coupon){
@@ -57,10 +59,12 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
               this.errMsg = null;
               this.coupon.nativeElement.value = '';
               this.discount = data.discount;
-
-              this.totalCartValue = this.totalCartValue - Number(data.discount);
+              this.totalAmtDue = this.totalCartValue - this.discount;
+              console.log(this.totalAmtDue);
+              //this.totalCartValue = this.totalCartValue - Number(data.discount);
               this.forCoupon = {
-                value: Number(data.discount)
+                value: Number(data.discount),
+                amtDue: this.totalAmtDue
               };
               // this.renderer.setElementAttribute(this.appCoupon.nativeElement, 'disabled', 'true');
               this.coupon.nativeElement.value = '';
@@ -84,7 +88,8 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
         'status': 'cart',
         'totalQuantity': this.totalCartItems,
         'itemTotal': this.totalCartValue,
-        'discount':this.discount
+        'discount':this.discount,
+        'totalAmountDue': this.totalAmtDue
         }).do(() => {
           this.router.navigate(['/checkout', 'address']);
         })
