@@ -5,10 +5,17 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-content',
   template: `
-    <!-- <app-content-header></app-content-header> -->
+    <div class="row">
+      <div class="col-md-6"></div>
+      <div class="col-md-6 text-right">
+        <app-content-header [filterSettings]="filters" [sortSettings]="sorting"></app-content-header>
+      </div>
+    </div>
     <app-item-list [(toggleLayout)]="toggleLayout"
       [items]="products"
-      [cartItems]="cartItemsArr">
+      [cartItems]="cartItemsArr"
+      [sortSettings]="sorting"
+      [filterSettings]="filters" >
     </app-item-list>
   `,
 //   styleUrls: ['./content-header.component.scss']
@@ -16,6 +23,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 export class ContentComponent implements OnInit {
   @Input() products: Item[];
   @Input() cartItemsArr: Item[];
+  @Input() filters: any;
+  @Input() sorting: any;
   toggleLayout = {size: 'COZY'};
 
   constructor() { }

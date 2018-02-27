@@ -16,6 +16,12 @@ function fetchSelectedTaxonIds(state: SearchState) {
     return state.selectedTaxonIds.toJS();
 }
 
+function fetchSorting(state: SearchState) {
+    return state.sorting.toJS();
+}
+
+
 /******************* Public Selector API's ******************/
 export const getFilters = createSelector(getSearchState, fetchSelectedFilters);
 export const getSelectedTaxonIds = createSelector(getSearchState, fetchSelectedTaxonIds);
+export const getSortSettings = createSelector(getSearchState, fetchSorting)
