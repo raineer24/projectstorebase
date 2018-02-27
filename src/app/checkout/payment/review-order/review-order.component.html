@@ -47,54 +47,52 @@
     <hr>
   </div>
   <div class="col-md-12">
-    <h4>Order Total:
+    <h5>Sub Total:
       <div class="pull-right">
         <strong><span>₱ {{orderTotal | number:'1.2-2'}}</span></strong>
       </div>
-    </h4>
+    </h5>
   </div>
   <div class="col-md-12">
-    <div>
-      <h5>Delivery Fee:
-        <div class="pull-right">
-          <strong><span>₱ {{deliveryFee | number:'1.2-2'}}</span></strong>
-        </div>
-      </h5>
-    </div>
-    <div>
-      <h5>Service Fee:
-        <div class="pull-right">
-          <strong><span>₱ {{serviceFee | number:'1.2-2'}}</span></strong>
-        </div>
-      </h5>
-    </div>
+    <h5>Service Fee:
+      <div class="pull-right">
+        <strong><span>₱ {{serviceFee | number:'1.2-2'}}</span></strong>
+      </div>
+    </h5>
   </div>
   <div class="col-md-12">
-    <h4>Total Discount:
+    <h5>Delivery Fee:
+      <div class="pull-right">
+        <strong><span>₱ {{deliveryFee | number:'1.2-2'}}</span></strong>
+      </div>
+    </h5>
+  </div>
+  <div class="col-md-12">
+    <h5>Total Discounts:
       <div class="pull-right">
         <strong><span style="font-size: 1.0em"> - (₱ {{discount | number:'1.2-2'}})</span></strong>
       </div>
-    </h4>
+    </h5>
   </div>
   <div class="col-md-12">
-    <h4>Grand Total:
+    <h5>Grand Total:
       <div class="pull-right">
         <strong><span>₱ {{orderTotal + deliveryFee + serviceFee | number:'1.2-2'}}</span></strong>
       </div>
-    </h4>
+    </h5>
   </div>
   <div class="col-md-12">
-    <h4>Total Amount Paid:
+    <h5>Credits:
       <div class="pull-right">
         <strong><span style="font-size: 1.0em"> - (₱ {{gcAmount | number:'1.2-2'}})</span></strong>
       </div>
-    </h4>
+    </h5>
   </div>
   <div class="col-md-12">
-    <h4>Amount Due:
+    <h5 class="focus">Amount Due:
       <div class="pull-right">
         <strong><span>₱ {{amountDue + deliveryFee + serviceFee | number:'1.2-2'}}</span></strong>
       </div>
-    </h4>
+    </h5>
   </div>
 </div>
