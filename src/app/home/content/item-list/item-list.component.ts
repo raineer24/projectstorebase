@@ -89,7 +89,7 @@ export class ItemListComponent implements OnInit {
 
   resetLoadMoreVariables(filter: string, autoLoad: boolean = false): boolean {
     let isAutoLoad = true;
-    if(this.prevFilter == filter) { console.log("TEST")
+    if(this.prevFilter == filter) {
       if(this.autoLoadCtr < 3 && this.items.length >= this.itemsPerPage) {
         this.autoLoadCtr++;
         this.itemCtr += this.itemsPerPage;
