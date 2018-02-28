@@ -82,7 +82,7 @@ export class ItemListComponent implements OnInit {
       }
     } else {
       if(this.resetLoadMoreVariables('all', isAutoLoad)) {
-        this.store.dispatch(this.actions.getAllProducts({},this.itemCtr));
+        this.store.dispatch(this.actions.getAllProducts(this.sortSettings,this.itemCtr));
       }
     }
   }
