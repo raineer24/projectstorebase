@@ -49,7 +49,27 @@ export class CartItemComponent implements OnInit {
   }
 
   getItemImageUrl(key) {
-    return environment.IMAGE_REPO + key + ".jpg";
+    let url = "";
+    if (!key) {
+      url = "assets/omg-04.png";
+    } else {
+      switch (this.imageRetries) {
+        case 0: {
+          // return environment.IMAGE_REPO + key + ".jpg";
+          url = environment.IMAGE_REPO + key + ".jpg";
+          break;
+        }
+        case 1: {
+          url = "assets/omg-04.png";
+          break;
+        }
+        default: {
+          url = "assets/omg-04.png";
+          break;
+        }
+      }
+    }
+    return url;
   }
 
   // Change this method once angular releases RC4
