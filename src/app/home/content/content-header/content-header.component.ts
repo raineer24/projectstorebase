@@ -53,14 +53,12 @@ export class ContentHeaderComponent implements OnInit {
     } else if(this.filterSettings[0].mode == 'category') {
       const breadcrumbs = this.filterSettings[0].breadcrumbs;
       const index = breadcrumbs.findIndex(x => x.name == breadcrumb);
-      breadcrumbs.length = index + 1;
       filters = {
         mode: 'category',
         level: breadcrumbs[index].level,
         categoryId: breadcrumbs[index].id,
-        breadcrumbs: breadcrumbs
+        breadcrumbs: breadcrumbs.slice(0, index + 1)
       }
-
       this.store.dispatch(this.productActions.getItemsByCategory(filters, this.sortSettings));
     }
     this.store.dispatch(this.searchActions.setFilter({
