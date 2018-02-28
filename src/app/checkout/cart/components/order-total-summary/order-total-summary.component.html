@@ -44,16 +44,17 @@
       </div>
       <hr>
     </div>
-    <div class="box">
+    <div class="col-md-12">
         <form class="coupon">
           <div class="input-group">
-          <input #coupon placeholder="Coupon code" class="form-control">
+          <input #coupon placeholder="Coupon code" class="form-control input-sm">
              <span class="input-group-btn">
-             <button #appCoupon class="btn" (click)="applyCoupon(coupon)">Enter</button>
+             <button #appCoupon class="btn btn-default btn-sm" (click)="applyCoupon(coupon)">Apply</button>
             </span>
           </div>
+          <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
         </form>
-        <p>Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
+
         <hr>
     </div>
     <div class="col-md-12">
@@ -61,7 +62,7 @@
       <div class="pull-right">
         <span>₱ {{totalAmtDue | number:'1.2-2'}}</span>
       </div>
-      <p>If everything looks good, click on CHECKOUT NOW to enter your delivery and payment information</p>
+      <p class="small">If everything looks good, click on CHECKOUT NOW to enter your delivery and payment information</p>
     </div>
     &nbsp;
 </div>
