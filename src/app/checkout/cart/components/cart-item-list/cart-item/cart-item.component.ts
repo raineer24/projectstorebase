@@ -9,16 +9,16 @@ import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 
 @Component({
-  selector: 'app-cart-item',
-  templateUrl: './cart-item.component.html',
-  styleUrls: ['./cart-item.component.scss']
+  selector: "app-cart-item",
+  templateUrl: "./cart-item.component.html",
+  styleUrls: ["./cart-item.component.scss"]
 })
 export class CartItemComponent implements OnInit {
   image: string;
   name: string;
   quantity: number;
   amount: number;
-  quantityControl = new FormControl;
+  quantityControl = new FormControl();
   @Input() cartItem: CartItem;
   MIN_VALUE: number = 1;
   MAX_VALUE: number = 9999;
@@ -28,30 +28,28 @@ export class CartItemComponent implements OnInit {
     private store: Store<AppState>,
     private actions: CheckoutActions,
     private checkoutService: CheckoutService,
-    private checkoutActions: CheckoutActions)
-  { }
+    private checkoutActions: CheckoutActions
+  ) {}
 
   ngOnInit() {
     // this.image = environment.API_ENDPOINT + this.cartItem.variant.images[0].product_url;
-  //  this.name = this.cartItem.item.name;
+    //  this.name = this.cartItem.item.name;
 
     this.amount = this.cartItem.total;
     this.quantity = this.cartItem.quantity;
-    this.quantityControl.valueChanges
-      .debounceTime(300)
-      .subscribe(value => {
-        if(isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE){
-          this.quantityControl.setValue(this.quantity);
-        } else {
-          this.quantity = value;
-          this.cartItem.quantity = value;
-          this.store.dispatch(this.checkoutActions.updateCartItem(this.cartItem));
-        }
-      })
+    this.quantityControl.valueChanges.debounceTime(300).subscribe(value => {
+      if (isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
+        this.quantityControl.setValue(this.quantity);
+      } else {
+        this.quantity = value;
+        this.cartItem.quantity = value;
+        this.store.dispatch(this.checkoutActions.updateCartItem(this.cartItem));
+      }
+    });
   }
 
   getItemImageUrl(key) {
-    return environment.IMAGE_REPO + key + '.jpg';
+    return environment.IMAGE_REPO + key + ".jpg";
   }
 
   // Change this method once angular releases RC4
@@ -62,17 +60,25 @@ export class CartItemComponent implements OnInit {
   }
 
   incrementQuantity() {
-    if(this.quantity < this.MAX_VALUE) {
+    if (this.quantity < this.MAX_VALUE) {
       this.quantity++;
       this.quantityControl.setValue(this.quantity);
     }
   }
 
   decrementQuantity() {
-    if(this.quantity > this.MIN_VALUE) {
+    if (this.quantity > this.MIN_VALUE) {
       this.quantity--;
       this.quantityControl.setValue(this.quantity);
     }
   }
+  keyPress(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
 
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
 }

@@ -16,11 +16,11 @@ import { Subject } from 'rxjs/Subject';
 
 
 @Component({
-  selector: 'app-item-details-dialog',
-  templateUrl: './item-details-dialog.component.html',
-  styleUrls: ['./item-details-dialog.component.scss']
+  selector: "app-item-details-dialog",
+  templateUrl: "./item-details-dialog.component.html",
+  styleUrls: ["./item-details-dialog.component.scss"]
 })
-export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
+export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   @Input() item: Item;
   @Input() cartItems: CartItem[];
   @Input() isAuthenticated: boolean;
@@ -28,7 +28,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   itemQuantity: number = 0;
-  quantityControl = new FormControl;
+  quantityControl = new FormControl();
   saveAmount: any;
   scrolling$: Subscription;
   isCreateList: boolean = false;
@@ -36,7 +36,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   MAX_VALUE: number = 9999;
   includedLists: Array<any> = [];
   listState: Array<any> = [];
-  inputNewList = new FormControl;
+  inputNewList = new FormControl();
   private imageRetries: number = 0;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -45,57 +45,59 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
     private checkoutActions: CheckoutActions,
     private userActions: UserActions,
     private userService: UserService,
-    private store: Store<AppState>,
-  ) { }
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit() {
     const cartItem = this.getCartItem();
-    if(typeof(cartItem) != "undefined"){
+    if (typeof cartItem != "undefined") {
       this.itemQuantity = cartItem.quantity;
     }
-    this.quantityControl.valueChanges
-      .debounceTime(300)
-      .subscribe(value => {
-        if(isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE){
-          this.quantityControl.setValue(this.itemQuantity);
-        } else {
-          this.itemQuantity = value;
-          let cartItem = this.getCartItem();
-          cartItem.quantity = value;
-          this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
-        }
-      })
-    this.scrolling$ = Observable.fromEvent(window,'wheel')
+    this.quantityControl.valueChanges.debounceTime(300).subscribe(value => {
+      if (isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
+        this.quantityControl.setValue(this.itemQuantity);
+      } else {
+        this.itemQuantity = value;
+        let cartItem = this.getCartItem();
+        cartItem.quantity = value;
+        this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
+      }
+    });
+    this.scrolling$ = Observable.fromEvent(window, "wheel")
       .map((event: any) => {
         event.preventDefault();
         event.stopPropagation();
-      }).subscribe();
+      })
+      .subscribe();
 
-    this.userService.getListsOfItem(this.item.id).takeUntil(this.componentDestroyed).subscribe(res => {
-      this.includedLists = res.map(x => {
-        return {
-          list_id: x.list_id,
-          listitem_id: x.listitem_id
-        }
+    this.userService
+      .getListsOfItem(this.item.id)
+      .takeUntil(this.componentDestroyed)
+      .subscribe(res => {
+        this.includedLists = res.map(x => {
+          return {
+            list_id: x.list_id,
+            listitem_id: x.listitem_id
+          };
+        });
+        this.setListCheckbox();
       });
-      this.setListCheckbox();
-    })
   }
 
-  hideSavings (dp, p) {
-    return (dp - p !== 0);
+  hideSavings(dp, p) {
+    return dp - p !== 0;
   }
 
   hideListPrice(dp, p) {
-    return (dp !== p);
+    return dp !== p;
   }
 
   getItemImageUrl(key) {
-    let url = '';
-    if(!key || this.imageRetries > 0) {
-      url = 'assets/omg-01.png'
+    let url = "";
+    if (!key || this.imageRetries > 0) {
+      url = "assets/omg-03.png";
     } else {
-      url = environment.IMAGE_REPO + key + '.jpg';
+      url = environment.IMAGE_REPO + key + ".jpg";
     }
     return url;
   }
@@ -106,7 +108,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   onCloseModal() {
     this.onCloseModalEmit.emit();
-
   }
 
   addToCart() {
@@ -115,20 +116,20 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   }
 
   incrementQuantity() {
-    if(this.itemQuantity < this.MAX_VALUE) {
+    if (this.itemQuantity < this.MAX_VALUE) {
       this.itemQuantity++;
       this.quantityControl.setValue(this.itemQuantity);
     }
   }
 
   decrementQuantity() {
-    if(this.itemQuantity > this.MIN_VALUE) {
+    if (this.itemQuantity > this.MIN_VALUE) {
       this.itemQuantity--;
       this.quantityControl.setValue(this.itemQuantity);
     }
   }
 
-  getCartItem(){
+  getCartItem() {
     return this.cartItems.find(cartItem => cartItem.item_id === this.item.id);
   }
 
@@ -138,46 +139,52 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   selectList(index: number, id: number) {
     let state;
-    if(this.listState[id] == 'undefined') {
+    if (this.listState[id] == "undefined") {
       this.listState[id] = true;
       state = true;
     } else {
       state = !this.listState[id];
       this.listState[id] = state;
     }
-    if(state) {
+    if (state) {
       const listitem = {
         list_id: id,
         item_id: this.item.id
-      }
-      this.userService.addListItem(listitem).takeUntil(this.componentDestroyed).subscribe(res => {
-        if(res.message == 'Saved') {
-          this.includedLists.push({list_id: id, listitem_id: res.id});
-          this.setListCheckbox();
-        } else {
-        }
-      })
+      };
+      this.userService
+        .addListItem(listitem)
+        .takeUntil(this.componentDestroyed)
+        .subscribe(res => {
+          if (res.message == "Saved") {
+            this.includedLists.push({ list_id: id, listitem_id: res.id });
+            this.setListCheckbox();
+          } else {
+          }
+        });
     } else {
       const ind = this.includedLists.findIndex(x => x.list_id == id);
-      this.userService.removeListItem(this.includedLists[ind].listitem_id).takeUntil(this.componentDestroyed).subscribe(res => {
-        if(res.message == 'Deleted') {
-          this.includedLists.splice(ind,1);
-          this.setListCheckbox();
-        } else {
-        }
-      })
+      this.userService
+        .removeListItem(this.includedLists[ind].listitem_id)
+        .takeUntil(this.componentDestroyed)
+        .subscribe(res => {
+          if (res.message == "Deleted") {
+            this.includedLists.splice(ind, 1);
+            this.setListCheckbox();
+          } else {
+          }
+        });
     }
   }
 
-  createNewList(): void{
-    if(this.inputNewList.value) {
+  createNewList(): void {
+    if (this.inputNewList.value) {
       const d = new Date();
       const params = {
         name: this.inputNewList.value,
-        description: d.toLocaleDateString() +' '+ d.toLocaleTimeString()
-      }
+        description: d.toLocaleDateString() + " " + d.toLocaleTimeString()
+      };
       this.store.dispatch(this.userActions.createUserList(params));
-      this.inputNewList.setValue('');
+      this.inputNewList.setValue("");
       this.isCreateList = false;
       this.setListCheckbox();
     }
@@ -185,7 +192,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
 
   setListCheckbox(): void {
     this.userLists.forEach(list => {
-      if(this.includedLists.find(x => x.list_id == list.id)){
+      if (this.includedLists.find(x => x.list_id == list.id)) {
         this.listState[list.id] = true;
       } else {
         this.listState[list.id] = false;
@@ -196,9 +203,17 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy{
   ngOnDestroy() {
     this.scrolling$.unsubscribe();
     this.store.dispatch(this.productActions.removeSelectedItem());
-    window.history.pushState('item-slug', 'Title', '/');
+    window.history.pushState("item-slug", "Title", "/");
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
   }
+  keyPress(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
 
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
 }

@@ -115,6 +115,7 @@ export class HeaderComponent implements OnInit {
     this.sortSubs = this.store.select(getSortSettings).subscribe(sort => {
       this.sortSettings = sort;
     })
+   
   }
 
   ngOnDestroy() {
