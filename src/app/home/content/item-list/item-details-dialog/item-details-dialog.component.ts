@@ -95,7 +95,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   getItemImageUrl(key) {
     let url = "";
     if (!key || this.imageRetries > 0) {
-      url = "assets/omg-01.png";
+      url = "assets/omg-03.png";
     } else {
       url = environment.IMAGE_REPO + key + ".jpg";
     }
