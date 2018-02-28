@@ -22,7 +22,6 @@ export class ReviewOrderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
   }
 
   getTimeSlotLabel(index: number): string {
