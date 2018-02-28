@@ -70,7 +70,7 @@
   <div class="col-md-12">
     <h5>Total Discounts:
       <div class="pull-right">
-        <strong><span style="font-size: 1.0em"> - (₱ {{discount | number:'1.2-2'}})</span></strong>
+        <strong><span> - (₱ {{discount | number:'1.2-2'}})</span></strong>
       </div>
     </h5>
   </div>
@@ -84,15 +84,15 @@
   <div class="col-md-12">
     <h5>Credits:
       <div class="pull-right">
-        <strong><span style="font-size: 1.0em"> - (₱ {{gcAmount | number:'1.2-2'}})</span></strong>
+        <strong><span> - (₱ {{(gcAmount ? gcAmount : 0) | number:'1.2-2'}})</span></strong>
       </div>
     </h5>
   </div>
   <div class="col-md-12">
-    <h5 class="focus">Amount Due:
+    <h4 class="focus">Amount Due:
       <div class="pull-right">
         <strong><span>₱ {{amountDue + deliveryFee + serviceFee | number:'1.2-2'}}</span></strong>
       </div>
-    </h5>
+    </h4>
   </div>
 </div>
