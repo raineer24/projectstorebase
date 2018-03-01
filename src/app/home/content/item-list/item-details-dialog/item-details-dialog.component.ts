@@ -63,17 +63,20 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
       }
     });
-    this.scrolling$ = Observable.fromEvent(window, "wheel")
+    Observable.fromEvent(window, "wheel")
       .map((event: any) => {
         event.preventDefault();
         event.stopPropagation();
       })
+      .takeUntil(this.componentDestroyed)
       .subscribe();
-
+      console.log("LIST")
+      console.log(this.item.id)
     this.userService
       .getListsOfItem(this.item.id)
       .takeUntil(this.componentDestroyed)
       .subscribe(res => {
+
         this.includedLists = res.map(x => {
           return {
             list_id: x.list_id,
@@ -201,9 +204,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.scrolling$.unsubscribe();
-    this.store.dispatch(this.productActions.removeSelectedItem());
-    window.history.pushState("item-slug", "Title", "/");
+    this.onCloseModalEmit.emit();
+    // this.scrolling$.unsubscribe();
+    // this.store.dispatch(this.productActions.removeSelectedItem());
+    // window.history.pushState("item-slug", "Title", "/");
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
   }

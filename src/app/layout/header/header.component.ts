@@ -39,16 +39,12 @@ export class HeaderComponent implements OnInit {
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
   bShowProgress: boolean;
-  bInputEmpty:boolean;
   dataSource: Observable<any>;
   searchData: Object = {};
-  copycatList: Object = {};
-  copyitemList: Object = {};
   sortSettings: any;
   sortSubs: Subscription;
-  menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
-  @ViewChild('itemDetailsModal') itemDetailsModal;
-  @ViewChildren("dpmenu") dpmenus: QueryList<any>;
+  // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
+  // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
   constructor(
     private store: Store<AppState>,
@@ -60,54 +56,12 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private cd: ChangeDetectorRef
   ) {
-
-    this.dataSource = Observable.create((observer: any) => {
-      // Runs on every searchBar
-      if(this.asyncSelected && this.asyncSelected.length > 1) {
-        observer.next(this.asyncSelected);
-      }
-    }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
-        .map(data => {
-          this.searchData = { items: data };
-          // console.log(this.searchData);
-          //this.itemList = data.list;
-          this.copyitemList = data.list;
-          this.copycatList = data.categories;
-
-          var itemctr = 0
-          for(var key in this.copyitemList) {
-            itemctr++;
-            this.copyitemList[key] = Object.assign({group:'items'},this.copyitemList[key]);
-          }
-
-          itemctr = 0
-          for(var key in this.copycatList) {
-            itemctr++;
-            this.copycatList[key] = Object.assign({group:'categories'},this.copycatList[key]);
-          }
-
-          var arrayName = [];
-          itemctr = 0;
-          for(var key in this.copyitemList) {
-            arrayName[itemctr] = this.copyitemList[key];
-            itemctr++;
-          }
-          for(var key in this.copycatList) {
-            arrayName[itemctr] = this.copycatList[key];
-            itemctr++;
-          }
-
-          return arrayName;
-
-        })
-    )
-
+    this.initAutoSuggest();
   }
 
   ngOnInit() {
     // this.store.dispatch(this.authActions.authorize());
     this.bShowProgress = false;
-    this.bInputEmpty = false;
     this.isAuthenticated = this.store.select(getAuthStatus);
     this.totalCartItems = this.store.select(getTotalCartItems);
     this.totalCartValue = this.store.select(getTotalCartValue);
@@ -115,21 +69,12 @@ export class HeaderComponent implements OnInit {
     this.sortSubs = this.store.select(getSortSettings).subscribe(sort => {
       this.sortSettings = sort;
     })
-   
+
   }
 
   ngOnDestroy() {
     this.sortSubs.unsubscribe();
-  }
-
-  selectAll() {
-    this.menuDelay.clicked[0] = true;
-    this.store.dispatch(this.searchActions.setFilter({
-      filters: [],
-      categoryIds: []
-    }));
-    this.store.dispatch(this.productActions.getAllProducts());
-    this.router.navigateByUrl('/');
+    this.subscription.unsubscribe();
   }
 
   selectCategory(...categories): void {
@@ -176,6 +121,8 @@ export class HeaderComponent implements OnInit {
     this.cd.markForCheck();
   }
 
+  //  NOTE: MEGA MENU DELAY CODE - START
+  /*
   onMenuOver(e: any, index: number): void{
     e.stopPropagation();
     if(!this.menuDelay.clicked[index]) {
@@ -215,6 +162,53 @@ export class HeaderComponent implements OnInit {
       dpmenu.hide();
     }, 50);
   }
+  */
+  //  NOTE: MEGA MENU DELAY CODE - END
+
+  // NOTE: AUTO SUGGEST CODE - START
+  initAutoSuggest(): void {
+    this.dataSource = Observable.create((observer: any) => {
+      // Runs on every searchBar
+      if(this.asyncSelected && this.asyncSelected.length > 1) {
+        observer.next(this.asyncSelected);
+      }
+    }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
+        .map(data => {
+          this.searchData = { items: data };
+          // console.log(this.searchData);
+          //this.itemList = data.list;
+          let copycatList: Object = {}, copyitemList: Object = {};
+          copyitemList = data.list;
+          copycatList = data.categories;
+
+          var itemctr = 0
+          for(var key in copyitemList) {
+            itemctr++;
+            copyitemList[key] = Object.assign({group:'items'},copyitemList[key]);
+          }
+
+          itemctr = 0
+          for(var key in copycatList) {
+            itemctr++;
+            copycatList[key] = Object.assign({group:'categories'},copycatList[key]);
+          }
+
+          var arrayName = [];
+          itemctr = 0;
+          for(var key in copyitemList) {
+            arrayName[itemctr] = copyitemList[key];
+            itemctr++;
+          }
+          for(var key in copycatList) {
+            arrayName[itemctr] = copycatList[key];
+            itemctr++;
+          }
+
+          return arrayName;
+
+        })
+    )
+  }
 
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
@@ -229,6 +223,7 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.addSelectedItem(e.item));
     this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
   }
+  // NOTE: AUTO SUGGEST CODE - END
 
   setProgressDisplayTimer(): void {
     this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds

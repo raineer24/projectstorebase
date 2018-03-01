@@ -201,10 +201,14 @@ export class UserService {
   }
 
   getListsOfItem(id: number): Observable<any> {
-    const userId = JSON.parse(localStorage.getItem('user')).id;
-    return this.http.get(`v1/listitems/${userId}/item/${id}?limit=100`)
-      .map((res: Response) => res.json())
-      .catch(res => Observable.empty());
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user) {
+      return this.http.get(`v1/listitems/${user.id}/item/${id}?limit=100`)
+        .map((res: Response) => res.json())
+        .catch(res => Observable.empty());
+    } else {
+      return Observable.empty();
+    }
   }
 
   showMessage(mode: string, itemName: string) {

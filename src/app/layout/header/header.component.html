@@ -58,6 +58,7 @@
       </div>
       <div class="col-md-5 col-sm-5">
         <div class="input-group">
+          <!-- NOTE: AUTOSUGGEST SEARCH -->
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
             <div class="result-box" *ngIf="keyword.price; else categories">
               <div class="imgbox">
@@ -69,8 +70,6 @@
             </div>
             <ng-template #categories><div class="catbox">{{keyword.name}}</div></ng-template>
           </ng-template>
-
-          <!--NOTE: AUTOSUGGEST SEARCH
           <input [(ngModel)]="asyncSelected"
               [typeahead]="dataSource"
               (typeaheadLoading)="changeTypeaheadLoading($event)"
@@ -83,11 +82,12 @@
               [typeaheadItemTemplate]="searchTemplate"
               (keyup.enter)="searchKeyword()"
               class="form-control"
-              placeholder="Search for..."> -->
-          <input [(ngModel)]="asyncSelected"
+              placeholder="Search for...">
+          <!-- NOTE: REGULAR SEARCH -->
+          <!-- <input [(ngModel)]="asyncSelected"
               class="form-control"
               (keyup.enter)="searchKeyword()"
-              placeholder="Search for a product or category">
+              placeholder="Search for a product or category"> -->
           <span class="input-group-btn">
             <button class="btn btn-secondary btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
           </span>
