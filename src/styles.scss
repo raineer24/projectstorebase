@@ -185,3 +185,16 @@ div.modal-dialog {
 .panel-group {
   width: 50%;
 }
+@media screen and (max-width: 767px) {
+    .navbar-default .navbar-collapse,
+  .navbar-default .navbar-form {
+    border-color: #e7e7e7;
+    background: #ffc5bf;
+    position: absolute;
+    width: 78%;
+    z-index: 999;
+    top: 58px;
+    left: 15px;
+  }
+}
+
