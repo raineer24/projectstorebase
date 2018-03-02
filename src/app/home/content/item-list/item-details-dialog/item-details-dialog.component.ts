@@ -1,18 +1,16 @@
-import { environment } from './../../../../../environments/environment';
-import { Component, OnDestroy, OnInit, Input, Output,
-  EventEmitter  } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, Output, OnChanges, EventEmitter  } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { AppState } from './../../../../interfaces';
+import { environment } from './../../../../../environments/environment';
+import { CartItem } from './../../../../core/models/cart_item';
+import { Item } from './../../../../core/models/item';
 import { ProductActions } from './../../../../product/actions/product-actions';
 import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
 import { UserActions } from './../../../../user/actions/user.actions';
 import { UserService } from './../../../../user/services/user.service';
-import { CartItem } from './../../../../core/models/cart_item';
-import { Item } from './../../../../core/models/item';
-import { AppState } from './../../../../interfaces';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 
 @Component({
@@ -30,7 +28,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   itemQuantity: number = 0;
   quantityControl = new FormControl();
   saveAmount: any;
-  scrolling$: Subscription;
   isCreateList: boolean = false;
   MIN_VALUE: number = 1;
   MAX_VALUE: number = 9999;
@@ -70,8 +67,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       })
       .takeUntil(this.componentDestroyed)
       .subscribe();
-      console.log("LIST")
-      console.log(this.item.id)
     this.userService
       .getListsOfItem(this.item.id)
       .takeUntil(this.componentDestroyed)
@@ -85,6 +80,15 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         });
         this.setListCheckbox();
       });
+  }
+
+  ngOnChanges() {
+    if (this.cartItems.length) {
+      const cartItem = this.getCartItem();
+      if(cartItem) {
+        this.itemQuantity = cartItem.quantity;
+      }
+    }
   }
 
   hideSavings(dp, p) {
@@ -205,9 +209,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.onCloseModalEmit.emit();
-    // this.scrolling$.unsubscribe();
-    // this.store.dispatch(this.productActions.removeSelectedItem());
-    // window.history.pushState("item-slug", "Title", "/");
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
   }

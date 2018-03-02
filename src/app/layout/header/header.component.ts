@@ -184,13 +184,13 @@ export class HeaderComponent implements OnInit {
           var itemctr = 0
           for(var key in copyitemList) {
             itemctr++;
-            copyitemList[key] = Object.assign({group:'items'},copyitemList[key]);
+            copyitemList[key] = Object.assign({group:'ITEMS'},copyitemList[key]);
           }
 
           itemctr = 0
           for(var key in copycatList) {
             itemctr++;
-            copycatList[key] = Object.assign({group:'categories'},copycatList[key]);
+            copycatList[key] = Object.assign({group:'CATEGORIES'},copycatList[key]);
           }
 
           var arrayName = [];
@@ -220,8 +220,11 @@ export class HeaderComponent implements OnInit {
 
   typeaheadOnSelect(e): void {
     this.asyncSelected = e.item.name;
-    this.store.dispatch(this.productActions.addSelectedItem(e.item));
-    this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
+    if(this.isHomeRoute) {
+      this.store.dispatch(this.productActions.addSelectedItem(e.item));
+    } else {
+      this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
+    }
   }
   // NOTE: AUTO SUGGEST CODE - END
 
@@ -238,8 +241,14 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(this.productActions.addSelectedItem(item));
   }
 
-  getItemImageUrl(key): string {
-    return environment.IMAGE_REPO + key + '.jpg';
+  getItemImageUrl(key) {
+    let url = "";
+    if (!key) {
+      url = "assets/omg-03.png";
+    } else {
+      url = environment.IMAGE_REPO + key + ".jpg";
+    }
+    return url;
   }
 
 }

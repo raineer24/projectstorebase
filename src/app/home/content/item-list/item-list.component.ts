@@ -10,7 +10,7 @@ import { getAuthStatus } from './../../../auth/reducers/selectors';
 import { Item } from './../../../core/models/item';
 import { ProductService } from './../../../core/services/product.service';
 import { ProductActions } from './../../../product/actions/product-actions';
-import { getSelectedProduct } from './../../../product/reducers/selectors';
+import { getSelectedItem } from './../../../product/reducers/selectors';
 import { getUserLists } from './../../../user/reducers/selector';
 
 
@@ -35,7 +35,6 @@ export class ItemListComponent implements OnInit {
   itemsPerPage: number = environment.ITEMS_PER_PAGE;
   itemCtr: number = this.itemsPerPage;
   prevFilter: string = 'all';
-  loadSubs: Subscription;
 
   constructor(
     private store: Store<AppState>,
@@ -48,37 +47,23 @@ export class ItemListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store.select(getSelectedProduct).map(item => {
-    //   console.log("ITEM")
-    //   console.log(item);
-    //   return item;
-    // })
-    // .do(item => {
-    //   // return Observable.if()
-    // })
-    // .subscribe();
-//     this.route.params.mergeMap((params: any) => params['id'])
-//       .map(itemId => {
-//         console.log("ITEM ID: "+itemId);
-// // this.store.dispatch()
-//         return
-//      })
-
-    this.route.params.mergeMap((params: any) => params['id'])
+    this.route.params.map((params: any) => params['id'])
       .subscribe(itemId => {
         if(itemId) {
            this.productService.getProduct(itemId.toString()).subscribe(item => {
-             console.log(item)
-            this.selectedItem = item[0];
-            this.itemDetailsModal.open();
+             console.log(this.cartItems)
+            this.store.dispatch(this.actions.addSelectedItem(item[0]));
           })
         }
       });
-
-
+    this.store.select(getSelectedItem).subscribe(item => {
+      if(item.id) {
+        this.selectedItem = item;
+        this.itemDetailsModal.open();
+      }
+    })
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.userLists$ = this.store.select(getUserLists);
-    console.log("TEST@TEST")
   }
 
   ngOnDestroy() {
@@ -89,14 +74,15 @@ export class ItemListComponent implements OnInit {
   }
 
   openItemDialog(item: Item): void {
-    this.router.navigateByUrl(`/item/${item.id}/${item.slug}`);
-    // this.selectedItem = item;
-    // this.itemDetailsModal.open();
+    const slug = `/item/${item.id}/${item.slug}`;
+    window.history.pushState('item-slug', 'Title', slug);
+    this.store.dispatch(this.actions.addSelectedItem(item));
   }
 
   closeItemDialog(): void {
+    window.history.pushState('item-slug', 'Title', '/');
+    this.store.dispatch(this.actions.removeSelectedItem());
     this.itemDetailsModal.close();
-    this.router.navigateByUrl('/');
   }
 
   loadMoreItems(isAutoLoad: boolean = false): void {

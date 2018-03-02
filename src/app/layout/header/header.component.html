@@ -62,13 +62,16 @@
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
             <div class="result-box" *ngIf="keyword.price; else categories">
               <div class="imgbox">
-                <img class="imgitems" itemprop="image"
-                class="product-thumb"
+                <img class="product-thumb imgitems img-responsive" itemprop="image"
                 alt="{{keyword.name}}"
-                [src]="getItemImageUrl(keyword.imageKey)" width="39 px"></div>
-              <div class="itemdetailsbox">{{keyword.name}} | P {{keyword.price}}</div>
+                [src]="getItemImageUrl(keyword.imageKey)"></div>
+              <div class="itemdetailsbox small">
+                <p>{{keyword.name}}</p>
+                <p>₱ {{keyword.price | number:'1.2-2'}}</div>
             </div>
-            <ng-template #categories><div class="catbox">{{keyword.name}}</div></ng-template>
+            <ng-template #categories>
+              <div class="catbox">{{keyword.name}}</div>
+            </ng-template>
           </ng-template>
           <input [(ngModel)]="asyncSelected"
               [typeahead]="dataSource"

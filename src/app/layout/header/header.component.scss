@@ -160,22 +160,29 @@
   padding: 20px 30px;
 }
 
-.result-box {
-  min-width: 335px !important;
+.input-group {
+  ul.dropdown-menu {
+    background-color: #fff !important;
+  }
 }
 
-.imgbox{
-  width: 40px !important;
-  display: inline-block;
-  align-self: baseline;
-  float: left;
-}
-.itemdetailsbox{
-  height: 55px;
-}
-.imgitems{
-  align: left;
-  float:left
+.result-box {
+  min-width: 335px !important;
+
+  .imgbox{
+    width: 40px !important;
+    max-height: 55px;
+    display: inline-block;
+    align-self: baseline;
+    float: left;
+  }
+  .itemdetailsbox {
+    height: 55px;
+  }
+  .imgitems {
+    align: left;
+    float:left
+  }
 }
 
 .navbar-brand {
