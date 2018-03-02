@@ -355,3 +355,21 @@ ul.nav li.dropdown-toggle:hover > ul.dropdown-menu {
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+@media screen and (max-width: 767px) {
+.input-group{
+    display: none;
+  }
+.navbar-toggle {
+  float: left;
+}
+.omglogo {
+  width: 40%;
+  padding-left: 44px;
+  float: left;
+
+}
+.omglogo img {
+max-width: 93px;
+
+}
+}
