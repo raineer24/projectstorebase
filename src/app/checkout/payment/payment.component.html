@@ -65,11 +65,11 @@
           <div #group2>
             <div class="checkbox">
               <label>
-                <input #cod type="checkbox" value="">
+                <input #cod type="checkbox" value="" [(ngModel)]="checked">
                 <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with GCs
               </label>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="checked">
               <div class="col-md-1"></div>
               <div class="col-md-8">
                 <div class="input-group">
@@ -104,19 +104,22 @@
           <p>Instructions</p>
         </accordion-group> -->
       </div>
-      <!-- <div>
+     <div>
         <h4>Vouchers / Coupons</h4>
       </div>
       <div class="row">
         <div class="col-md-9">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Enter voucher" />
+            <input #coupon placeholder="Coupon code" class="form-control input-sm">
             <span class="input-group-btn">
-              <button class="btn btn-primary">Add</button>
+              <button #appCoupon class="btn btn-primary" (click)="applyCoupon(coupon)">Add</button>
             </span>
           </div>
         </div>
-      </div> -->
+        <div class="col-md-12">
+            <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
+        </div>
+      </div>
       <div>
         <h4>Special instructions</h4>
       </div>
@@ -139,7 +142,7 @@
           </div>
         </div>
       </div>
-      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmount$ | async"
+      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async"
         [orderTotal]="orderTotal$ | async" [discount]="totalDiscount$ | async" [amountDue]="totalAmountDue$ | async" [cartItems]="cartItems$ | async"
         [deliveryDate]="deliveryDate$ | async"></app-review-order>
     </div>
