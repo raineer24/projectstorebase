@@ -107,7 +107,23 @@
      <div>
         <h4>Vouchers / Coupons</h4>
       </div>
-      <div class="row">
+      <ng-container *ngIf="vErrMsg == null; else errInput">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="input-group">
+              <input #coupon placeholder="Coupon code" class="form-control input-sm">
+              <span class="input-group-btn">
+                <button #appCoupon class="btn btn-primary" (click)="applyCoupon(coupon)">Add</button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
+          </div>
+        </div>
+    </ng-container>
+    <ng-template #errInput>
+      <div class="row has-error has-feedback">
         <div class="col-md-9">
           <div class="input-group">
             <input #coupon placeholder="Coupon code" class="form-control input-sm">
@@ -117,9 +133,10 @@
           </div>
         </div>
         <div class="col-md-12">
-            <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
+          <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
         </div>
       </div>
+    </ng-template>
       <div>
         <h4>Special instructions</h4>
       </div>
