@@ -99,7 +99,14 @@
         <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
-      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+<app-profile-dropdown [ngClass]="{'col-sm-12': !visible, 'col-sm-6': boolValue}" [totalCartItems]="totalCartItems | async"
+  *ngIf="visible"
+
+
+  [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated |
+
+  async"></app-profile-dropdown>
+
     </div>
   </div>
   
@@ -130,7 +137,9 @@
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-<app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+<app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated |
+  async"></app-profile-dropdown>
+
   </div>
       <!-- <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown> -->
 <!--
