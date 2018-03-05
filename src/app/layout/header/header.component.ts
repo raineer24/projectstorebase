@@ -177,35 +177,19 @@ export class HeaderComponent implements OnInit {
           this.searchData = { items: data };
           // console.log(this.searchData);
           //this.itemList = data.list;
-          let copycatList: Object = {}, copyitemList: Object = {};
-          copyitemList = data.list;
-          copycatList = data.categories;
+          let dataItems = data.list;
+          let dataCategories = data.categories;
+          let mergedData = [], itemctr = 0;
 
-          var itemctr = 0
-          for(var key in copyitemList) {
-            itemctr++;
-            copyitemList[key] = Object.assign({group:'ITEMS'},copyitemList[key]);
+          for(let key in dataItems) {
+            mergedData[itemctr++] = Object.assign({group:'ITEMS'}, dataItems[key]);
           }
+          // NOTE: DISABLED CATEGORY SEARCH FOR NOW
+          // for(let key in dataCategories) {
+          //   mergedData[itemctr++] = Object.assign({group:'CATEGORIES'}, dataCategories[key]);
+          // }
 
-          itemctr = 0
-          for(var key in copycatList) {
-            itemctr++;
-            copycatList[key] = Object.assign({group:'CATEGORIES'},copycatList[key]);
-          }
-
-          var arrayName = [];
-          itemctr = 0;
-          for(var key in copyitemList) {
-            arrayName[itemctr] = copyitemList[key];
-            itemctr++;
-          }
-          for(var key in copycatList) {
-            arrayName[itemctr] = copycatList[key];
-            itemctr++;
-          }
-
-          return arrayName;
-
+          return mergedData;
         })
     )
   }
@@ -219,11 +203,17 @@ export class HeaderComponent implements OnInit {
   }
 
   typeaheadOnSelect(e): void {
-    this.asyncSelected = e.item.name;
-    if(this.isHomeRoute) {
-      this.store.dispatch(this.productActions.addSelectedItem(e.item));
+    if(e.item.group.toUpperCase() == 'ITEMS') {
+      if(this.isHomeRoute) {
+        this.asyncSelected = e.item.name;
+        const slug = `/item/${e.item.id}/${e.item.slug}`;
+        window.history.pushState('item-slug', 'Title', slug);
+        this.store.dispatch(this.productActions.addSelectedItem(e.item));
+      } else {
+        this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
+      }
     } else {
-      this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
+      console.log(e)
     }
   }
   // NOTE: AUTO SUGGEST CODE - END

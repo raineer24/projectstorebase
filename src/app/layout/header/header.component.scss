@@ -171,17 +171,32 @@
 
   .imgbox{
     width: 40px !important;
-    max-height: 55px;
     display: inline-block;
     align-self: baseline;
-    float: left;
+    text-align: center;
   }
   .itemdetailsbox {
     height: 55px;
+    padding: 0 5px;
+    display: inline-block;
+    vertical-align: middle;
+
+    p:last-child {
+      margin: 0;
+    }
   }
-  .imgitems {
-    align: left;
-    float:left
+  img {
+    max-height: 50px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  typeahead-container ul.dropdown-menu {
+    background-color: #fff;
+
+    li a, li a.active {
+      color: #000;
+    }
   }
 }
 
