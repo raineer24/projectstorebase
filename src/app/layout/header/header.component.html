@@ -11,7 +11,7 @@
         <li><a routerLink="/">Contact Us</a></li>
       </ul>
     </div>
-    <div class="row nav-menu-mid hidden-xs">
+    <div [ngClass]="mobile ? 'hidden-xs' : 'not-hide'" class="row nav-menu-mid ">
       <div class="col-md-1 col-sm-1 hidden-xs">
         <a routerLink="/" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
@@ -99,12 +99,12 @@
         <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
-      <!-- <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown> -->
+      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
   
-  <div class="hidden-sm hidden-md hidden-lg hidden-xl" style="padding: 0 10px;">
-    
+ 
+      <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'" style="padding: 0 10px;">
       
           
     
@@ -130,9 +130,9 @@
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-
+      <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
   </div>
-      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+     
 <!--
   <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
     <div class="container">
