@@ -23,7 +23,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getSellerOrders(id: number): Observable<any> {
-    return this.http.get(`/seller/account/order/${id}`)
+    return this.http.get(`v1/seller/account/order/${id}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
