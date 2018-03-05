@@ -2,21 +2,21 @@
   <table class="table table-hover table-striped">
     <thead>
       <tr>
-        <th>Order ID</th>
+        <th>Order Number</th>
         <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let order of orders; let i = index">
-        <td>{{i}}</td>
-        <td>PENDING</td>
+        <td>{{order.number}}</td>
+        <td class="text-uppercase">{{order.status}}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-default">PRINT</button>
-            <button type="button" class="btn btn-default">EDIT VALUE</button>
-            <button type="button" class="btn btn-default">FORWARD TO DELIVERY</button>
-            <button type="button" class="btn btn-default">CANCEL ORDER</button>
+            <button type="button" class="btn btn-default btn-sm">PRINT</button>
+            <button type="button" class="btn btn-default btn-sm">EDIT VALUE</button>
+            <button type="button" class="btn btn-default btn-sm">FORWARD TO DELIVERY</button>
+            <button type="button" class="btn btn-default btn-sm">CANCEL ORDER</button>
           </div>
         </td>
       </tr>
