@@ -377,6 +377,10 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   .mobile {
     padding: 10px 10px 0;
   }
+   .navbar-toggle {
+     padding: 8px 10px;
+   }
+
   .input-group {
     display: none;
   }
@@ -393,6 +397,8 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   }
   .numbers {
     float: left;
+    line-height: 18px;
+
   }
   .numbers p {
     display: inline;
