@@ -63,6 +63,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  isAdminRoute() {
+    if (!this.currentUrl) {
+      return false;
+    }
+    if (this.currentUrl.indexOf('/admin') >= 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private findCurrentStep(currentRoute) {
     const currRouteFragments = currentRoute.split('/');
     const length = currRouteFragments.length;
