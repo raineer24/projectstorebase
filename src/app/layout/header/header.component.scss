@@ -368,6 +368,9 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
 }
 
 @media screen and (max-width: 767px) {
+  body {
+    padding-top: 0;
+  }
   .input-group {
     display: none;
   }
@@ -376,13 +379,35 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   }
   .omglogo {
     width: 45%;
-    padding-left: 40px;
+    padding-left: 60px;
     float: left;
   }
   .omglogo img {
-    max-width: 85px;
+    max-width: 70px;
     
   }
-  
+  .numbers {
+    float: left;
+  }
+  .numbers p {
+    display: inline;
+    padding: 10px;
+  }
+  .numbers p a {
+    font-size: 26px;
+    color:#ff5847;
+  }
+ .numbers p a i {
+   line-height: 29px;
+ }
+  .numbers p a i.glyphicon-search {
+      font-size: 20px;
+
+  }
+.numbers p a i.fa-shopping-cart {
+
+  font-size: 22px;
+}
+
 }
 

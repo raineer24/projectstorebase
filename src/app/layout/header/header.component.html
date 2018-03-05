@@ -131,7 +131,22 @@
       </span>
     </div>
       <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
-  </div>
+<div class="numbers">
+  <p>
+    <a href="">
+      <i class="glyphicon glyphicon-search"></i>
+    </a>
+    
+  </p>
+  <p class="cart" [routerLink]="['checkout','cart']">
+    <a>
+      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      <!-- <span class="badge badge-danger">{{totalCartItems}}</span>
+      {{totalCartValue}} -->
+    </a>
+  </p>
+</div>
+    </div>
      
 <!--
   <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
@@ -205,6 +220,7 @@
     </div>
   </div>
 -->
+
 </nav>
           <!-- <ul>
             <li><a (click)="selectAll()" href="javascript:void(0)">All categories</a></li>
@@ -270,7 +286,6 @@
             </ul>
         </li>
       </ul>  -->
-
 
 
 
