@@ -21,11 +21,12 @@ export function fetchAllTaxonomies(state: ProductState) {
   return state.categories.toJS();
 }
 
-const fetchSelectedProduct = function (state: ProductState): Item {
-  return state.selectedProduct;
+export function fetchSelectedItem(state: ProductState) {
+  return state.selectedProduct ? state.selectedProduct.toJS() : state.selectedProduct;
+
 };
 
 // *************************** PUBLIC API's ****************************
-export const getSelectedProduct = createSelector(getProductState, fetchSelectedProduct);
+export const getSelectedItem = createSelector(getProductState, fetchSelectedItem);
 export const getProducts = createSelector(getProductState, fetchProducts);
 export const getTaxonomies = createSelector(getProductState, fetchAllTaxonomies);

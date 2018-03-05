@@ -98,7 +98,7 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   }
 
   selectItem() {
-    this.store.dispatch(this.productActions.addSelectedItem(this.item));
+    // this.store.dispatch(this.productActions.addSelectedItem(this.item));
     this.onOpenModalEmit.emit(this.item);
   }
 
