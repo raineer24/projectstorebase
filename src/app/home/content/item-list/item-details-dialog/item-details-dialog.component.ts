@@ -54,8 +54,8 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       this.itemQuantity = cartItem.quantity;
     }
     this.quantityControl.valueChanges.debounceTime(300).subscribe(value => {
-      if (isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
-        this.quantityControl.setValue(this.itemQuantity);
+      if (isNaN(value) || !Number.isInteger(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
+        //do nothing
       } else {
         this.itemQuantity = value;
         let cartItem = this.getCartItem();
@@ -207,6 +207,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
   }
+
   keyPress(event: any) {
     const pattern = /[0-9]/;
     const inputChar = String.fromCharCode(event.charCode);
@@ -214,6 +215,19 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input
       event.preventDefault();
+    }
+  }
+
+  checkIfValid(e) {
+    const value = e.target.value;
+    if(isNaN(value) || !Number.isInteger(value)) {
+      this.quantityControl.setValue(this.itemQuantity)
+    }
+    if (value < this.MIN_VALUE) {
+      this.quantityControl.setValue(this.MIN_VALUE)
+    }
+    if (value > this.MAX_VALUE) {
+      this.quantityControl.setValue(this.MAX_VALUE)
     }
   }
 }

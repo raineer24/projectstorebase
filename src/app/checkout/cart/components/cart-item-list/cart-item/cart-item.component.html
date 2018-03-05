@@ -2,7 +2,7 @@
   <div class="panel">
       <div class="row row-cart">
 
-        <li class="col-md-2 col-sm-2 col-xs-12">
+        <li class="col-md-2 col-sm-2 col-xs-4">
           <img class="item-image-thumbnails img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)">
         </li>
 
@@ -18,7 +18,10 @@
             <span class="input-group-btn"><button type="button" class="btn btn-default" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
               <span class="glyphicon glyphicon-minus"> </span>
             </button></span>
-            <input type="number" (keypress)='keyPress($event)' [min]="MIN_VALUE" [max]="MAX_VALUE" class="text-center form-control" [value]="quantity" [formControl]="quantityControl" />
+            <input type="number" class="text-center form-control"
+              [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
+              [value]="quantity" [formControl]="quantityControl"
+              (blur)='checkIfValid($event)' (keypress)='keyPress($event)'/>
              <span class="input-group-btn"><button class="btn btn-success" type="button" (click)="incrementQuantity()" [disabled]="quantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
           </div>
         </li>
