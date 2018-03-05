@@ -367,6 +367,12 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   border-radius: 6px 0 6px 6px;
 }
 
+@media screen and (max-width: 900px) {
+  .omglogo {
+   
+  }
+}
+
 @media screen and (max-width: 767px) {
   body {
     padding-top: 0;
@@ -377,10 +383,12 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   .mobile {
     padding: 10px 10px 0;
   }
-   .navbar-toggle {
-     padding: 8px 10px;
-   }
-
+  .navbar-toggle {
+    padding: 8px 10px;
+  }
+  .navbar-default {
+    width: 100%;
+  }
   .input-group {
     display: none;
   }
@@ -388,17 +396,19 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
     float: left;
   }
   .omglogo {
-    width: 45%;
-    padding-left: 92px;
+     width: 55%;
+
+    padding-left: 91px;
     float: left;
+    line-height: 29px;
+    text-align: center;
   }
   .omglogo img {
-    max-width: 70px;
+    max-width: 55px;
   }
   .numbers {
     float: right;
     line-height: 18px;
-
   }
   .numbers p {
     display: inline;
@@ -417,5 +427,12 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   .numbers p a i.fa-shopping-cart {
     font-size: 22px;
   }
+  @media screen and (max-width: 375px) {
+    .omglogo {
+      width: 47%;
+      padding-left: 68px;
+    }
+  }
+
 }
 
