@@ -63,7 +63,9 @@ export class PaymentComponent implements OnInit {
   totalAmtDue: number = 0;
   updategcStatus$: Subscription;
   discount$: Subscription;
-  errMsg: string;
+  vErrMsg: string;
+  gErrMsg: string;
+  hasErr: boolean = false;
   forGC: any;
   gcList: any;
   forCoupon: any;
@@ -104,15 +106,12 @@ export class PaymentComponent implements OnInit {
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmount = val;
       this.totalPaidAmount = 0.00;
-      // this.tmpAmt = this.totalAmount;
-      // this.totalAmountDue = this.tmpAmt;
     });
     this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
       this.cartItemIds = cartItems.map(cartItem => cartItem.item_id);
     });
     this.totalAmountDue$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmountDue = val;
-      console.log(this.totalAmountDue);
     });
     this.totalDiscount$.takeUntil(this.componentDestroyed).subscribe(val => val);
   }
@@ -130,23 +129,28 @@ export class PaymentComponent implements OnInit {
     if(this.coupon.nativeElement.value != ''){
           this.discount$ = this.checkoutService.getvoucher(this.coupon.nativeElement.value).subscribe(data => {
             if(data.message != null) {
-              console.log('ERROR');
-              this.errMsg = data.message;
+              this.vErrMsg = data.message;
+              this.hasErr = true;
               this.discount = 0;
+              this.checkoutService.showErrorMsg('voucher');
               return this.totalPaidAmount;
             } else if (data.status == "used") {
-              console.log('ERROR');
-              this.errMsg = "Already used!";
+              this.vErrMsg = "Already used!";
+              this.hasErr = true;
+              this.checkoutService.showErrorMsg('voucher');
               this.discount = 0;
               return this.totalPaidAmount;
-            }
-            else {
-              console.log(data.discount);
-              this.errMsg = null;
+            } else if (data.state == "undefined"){
+                this.vErrMsg = "Invalid!";
+                this.hasErr = true;
+                this.checkoutService.showErrorMsg('voucher');
+                this.discount = 0;
+                return this.totalPaidAmount;
+            } else {
+              this.vErrMsg = null;
               this.coupon.nativeElement.value = '';
               this.discount = data.discount;
               this.totalAmountDue = this.totalAmountDue - this.discount;
-              console.log(this.totalAmountDue);
               //this.totalCartValue = this.totalCartValue - Number(data.discount);
               this.forCoupon = {
                 value: Number(data.discount),
@@ -156,7 +160,6 @@ export class PaymentComponent implements OnInit {
               this.coupon.nativeElement.value = '';
               this.appCoupon.nativeElement.disabled = true;
               this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
-              console.log(this.totalPaidAmount);
               return this.totalPaidAmount;
 
             }
@@ -173,12 +176,12 @@ export class PaymentComponent implements OnInit {
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
         if(data.message != null) {
-          this.errMsg = data.message;
-          console.log(this.errMsg);
+          this.gErrMsg = data.message;
+          this.checkoutService.showErrorMsg('giftcert');
           return this.totalPaidAmount;
         } else if (data.status == "used") {
-          this.errMsg = "Already used!";
-          console.log(this.errMsg);
+          this.gErrMsg = "Already used!";
+          this.checkoutService.showErrorMsg('giftcert');
           return this.totalPaidAmount;
         } else {
           console.log("update gc table");
@@ -190,19 +193,15 @@ export class PaymentComponent implements OnInit {
             code: code.value,
             value: data.amount
           });
-          console.log(this.gcList);
           this.updateGCStatus(code.value);
-          console.log(data.amount);
-          // this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
           this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
           this.totalAmountDue = this.totalAmountDue - Number(data.amount);
-          console.log(this.totalAmountDue);
           this.forGC = {
               value: this.totalPaidAmount,
               amtDue: this.totalAmountDue,
               gCerts: tempList
             }
-          this.errMsg = null;
+          this.gErrMsg = null;
           this.gcQuantity++;
           this.gcCount();
           this.store.dispatch(this.checkoutAction.applyGC(this.forGC));

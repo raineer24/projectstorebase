@@ -515,6 +515,12 @@ export class CheckoutService {
       case 'payment':
         message = `Error occured. Please review your order and try again.`;
         break;
+      case 'voucher':
+        message = "Please enter a valid coupon.";
+        break;
+      case 'giftcert':
+        message = "Please enter a valid gift certificate";
+        break;
     }
     this.http.loading.next({
       loading: false,
