@@ -1,5 +1,5 @@
 <div>
-  <table class="table table-hover">
+  <table class="table table-hover table-striped">
     <thead>
       <tr>
         <th>Order ID</th>
@@ -8,8 +8,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>00001</td>
+      <tr *ngFor="let order of orders; let i = index">
+        <td>{{i}}</td>
         <td>PENDING</td>
         <td>
           <div class="btn-group">
