@@ -50,12 +50,12 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
             if(data.message != null) {
               console.log('ERROR');
               this.errMsg = data.message;
-              this.discount = 0;
+              this.discount = -1;
               return this.totalCartValue;
             } else if (data.status == "used") {
               console.log('ERROR');
               this.errMsg = "Already used!";
-              this.discount = 0;
+              this.discount = -1;
               return this.totalCartValue;
             }
             else {

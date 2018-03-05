@@ -12,7 +12,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
     let _cartItems, _cartItemEntities, _cartItemIds,
         _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue, _totalDiscount = 0, _totalAmountPaid = 0, _totalAmountDue = 0,
-        _ship_address, _bill_address,
+        _ship_address, _bill_address, _giftCerts,
         _orderStatus, _orderId, _deliveryDate;
 
     switch (type) {
@@ -60,7 +60,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalAmountDue: _totalAmountDue,
           shipAddress: _ship_address,
           billAddress: _bill_address,
-          deliveryDate: _deliveryDate
+          deliveryDate: _deliveryDate,
+          // giftCerts: _giftCerts
         }) as CheckoutState;
 
       case CheckoutActions.ADD_TO_CART_SUCCESS:
@@ -83,7 +84,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
-          totalAmountDue: _totalAmountDue
+          totalAmountDue: _totalAmountDue,
+          // giftCerts: _giftCerts
         }) as CheckoutState;
 
       case CheckoutActions.REMOVE_CART_ITEM_SUCCESS:
@@ -103,7 +105,9 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
-          totalAmountDue: _totalAmountDue
+          totalAmountDue: _totalAmountDue,
+          totalDiscount: _totalDiscount,
+          // giftCerts:_giftCerts
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_CART_ITEM_SUCCESS:
@@ -126,7 +130,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
-          totalAmountDue: _totalAmountDue
+          totalAmountDue: _totalAmountDue,
+          // giftCerts: _giftCerts
         }) as CheckoutState;
 
       //case APPLY COUPON
@@ -142,15 +147,13 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       //case APPLY GC
       case CheckoutActions.APPLY_GC:
-        console.log(payload.value);
-        console.log(payload.amtDue);
         _totalAmountPaid = payload.value;
         _totalAmountDue = payload.amtDue;
-          // _totalCartValue = _totalCartValue - _totalDiscount;
-          // console.log(_totalCartValue);
+        _giftCerts = state.giftCerts.push(payload.gCerts);
         return state.merge({
           totalAmountPaid: _totalAmountPaid,
-          totalAmountDue: _totalAmountDue
+          totalAmountDue: _totalAmountDue,
+          giftCerts: _giftCerts
       }) as CheckoutState;
 
       // case CheckoutActions.CHANGE_ORDER_STATE:

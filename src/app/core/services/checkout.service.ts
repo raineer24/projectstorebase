@@ -275,8 +275,10 @@ export class CheckoutService {
     */
     getGC(gcCode) {
       console.log("SEARCHING FOR GIFTCERT");
+      console.log(gcCode);
       return this.http.get(`v1/gc/${gcCode}`).map(res => {
         const gc = res.json();
+        console.log(gc);
         return gc;
      }).catch(err => Observable.empty());
     }
