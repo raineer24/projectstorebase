@@ -24,6 +24,7 @@ body {
   background: #ff005d;
   padding-top: 120px;
 }
+
 section {
   background: #ffffff;
 }
@@ -70,18 +71,20 @@ main[_ngcontent-c0] {
 .nav .open>a:hover {
   color: #ff005d;
 }
+
 .nav .open>a:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   background: #ff005d;
   color: #ffffff;
 }
-.nav > li > a:hover,
-.nav > li > a:focus {
+
+.nav>li>a:hover,
+.nav>li>a:focus {
   color: #ff005d;
 }
 
-.navbar-right > li > a {
+.navbar-right>li>a {
   color: #ff005d;
 }
 
@@ -185,19 +188,32 @@ div.modal-dialog {
 .panel-group {
   width: 50%;
 }
+
 @media screen and (max-width: 767px) {
   body {
     padding-top: 0;
   }
-    .navbar-default .navbar-collapse,
+  .navbar-default .navbar-collapse,
   .navbar-default .navbar-form {
     border-color: #e7e7e7;
-    background: #ffc5bf;
+    background: #ff5847;
     position: absolute;
     width: 78%;
     z-index: 999;
     top: 58px;
     left: 15px;
   }
+  .navbar-nav li {
+    text-align: center;
+  }
+  .navbar-default .navbar-toggle:hover,
+  .navbar-default .navbar-toggle:focus {
+    background-color: transparent;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+  }
+  .navbar-default .navbar-toggle .icon-bar {
+    background: #ff5847;
+  }
 }
-

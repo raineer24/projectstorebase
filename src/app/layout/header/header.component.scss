@@ -371,6 +371,12 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   body {
     padding-top: 0;
   }
+  .nav-menu-mid {
+    padding: 0;
+  }
+  .mobile {
+    padding: 10px 10px 0;
+  }
   .input-group {
     display: none;
   }
@@ -384,7 +390,6 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   }
   .omglogo img {
     max-width: 70px;
-    
   }
   .numbers {
     float: left;
@@ -395,19 +400,16 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   }
   .numbers p a {
     font-size: 26px;
-    color:#ff5847;
+    color: #ff5847;
   }
- .numbers p a i {
-   line-height: 29px;
- }
+  .numbers p a i {
+    line-height: 29px;
+  }
   .numbers p a i.glyphicon-search {
-      font-size: 20px;
-
+    font-size: 20px;
   }
-.numbers p a i.fa-shopping-cart {
-
-  font-size: 22px;
-}
-
+  .numbers p a i.fa-shopping-cart {
+    font-size: 22px;
+  }
 }
 
