@@ -65,9 +65,11 @@ export class PaymentComponent implements OnInit {
   updategcStatus$: Subscription;
   discount$: Subscription;
   vErrMsg: string;
-  gErrMsg: string;
+  gErrMsg: string = "Enter a valid coupon.";
   hasErr: boolean = false;
+  hasGC: boolean = false;
   forGC: any;
+  bCouponEntered: boolean = false;
   gcList: any;
   forCoupon: any;
   private componentDestroyed: Subject<any> = new Subject();
@@ -126,51 +128,40 @@ export class PaymentComponent implements OnInit {
     );
   }
 
-
-  applyCoupon(coupon){
-    console.log(this.coupon.nativeElement.value);
-    if(this.coupon.nativeElement.value != ''){
-          this.discount$ = this.checkoutService.getvoucher(this.coupon.nativeElement.value).subscribe(data => {
-            if(data.message != null) {
-              this.vErrMsg = data.message;
-              this.hasErr = true;
-              this.discount = 0;
-              this.checkoutService.showErrorMsg('voucher');
-              return this.totalPaidAmount;
-            } else if (data.status == "used") {
-              this.vErrMsg = "Already used!";
-              this.hasErr = true;
-              this.checkoutService.showErrorMsg('voucher');
-              this.discount = 0;
-              return this.totalPaidAmount;
-            } else if (data.state == "undefined"){
-                this.vErrMsg = "Invalid!";
-                this.hasErr = true;
-                this.checkoutService.showErrorMsg('voucher');
-                this.discount = 0;
-                return this.totalPaidAmount;
-            } else {
-              this.vErrMsg = null;
-              this.coupon.nativeElement.value = '';
-              this.discount = data.discount;
-              this.totalAmountDue = this.totalAmountDue - this.discount;
-              //this.totalCartValue = this.totalCartValue - Number(data.discount);
-              this.forCoupon = {
-                value: Number(data.discount),
-                amtDue: this.totalAmountDue
-              };
-              // this.renderer.setElementAttribute(this.appCoupon.nativeElement, 'disabled', 'true');
-              this.coupon.nativeElement.value = '';
-              this.appCoupon.nativeElement.disabled = true;
-              this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
-              return this.totalPaidAmount;
-
-            }
-          })
-
-        } else {
-          this.isShowErrMsg = true;
+//new voucher validation
+  checkVoucher(code){
+    if(code.value.length > 3){
+      this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
+        if(this.bCouponEntered){
+          this.totalAmountDue = Number(this.totalAmountDue) + Number(this.discount);
+          this.forCoupon = {
+            value: 0,
+            amtDue:this.totalAmountDue
+          };
+          this.store.dispatch(this.checkoutAction.removeCoupon(this.forCoupon));
+          this.bCouponEntered = false;
         }
+        if(data.message != null) {
+            this.gErrMsg = "Coupon not valid";
+        } else if (data.status == "used") {
+            this.gErrMsg = "Coupon already used!";
+        } else {
+            this.gErrMsg = "Coupon valid!";
+            this.discount = data.discount;
+            this.totalAmountDue = this.totalAmountDue - this.discount;
+            this.forCoupon = {
+              value: Number(data.discount),
+              amtDue: this.totalAmountDue
+            };
+            this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
+            this.bCouponEntered = true;
+        }
+      })
+    } else {
+      this.gErrMsg = "Enter a valid coupon.";
+
+    }
+    return this.totalPaidAmount;
   }
 
   addGiftCert(code){
