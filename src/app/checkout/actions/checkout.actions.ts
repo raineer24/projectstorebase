@@ -9,6 +9,7 @@ export class CheckoutActions {
   static ADD_TO_CART = 'ADD_TO_CART';
   static ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS';
   static APPLY_COUPON = 'APPLY_COUPON';
+  static REMOVE_COUPON = 'REMOVE_COUPON';
   static APPLY_GC = 'APPLY_GC';
   static REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
   static REMOVE_CART_ITEM_SUCCESS = 'REMOVE_CART_ITEM_SUCCESS';
@@ -95,6 +96,13 @@ export class CheckoutActions {
     return {
       type: CheckoutActions.UPDATE_CART_ITEM_SUCCESS,
       payload: { quantity, cartItemId }
+    };
+  }
+
+  removeCoupon(coupon: any): Action {
+    return {
+      type: CheckoutActions.REMOVE_COUPON,
+      payload: coupon
     };
   }
 
