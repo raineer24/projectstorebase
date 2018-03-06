@@ -26,7 +26,7 @@ export class CartComponent implements OnInit {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
     this.totalAmtDue$ = this.store.select(getTotalAmtDue);
-    this.totalDiscount$ = this.store.select(getTotalDiscount);
+    // this.totalDiscount$ = this.store.select(getTotalDiscount);
     this.isAuthenticated$ = this.store.select(getAuthStatus);
   }
 
