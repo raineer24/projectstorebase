@@ -19,23 +19,23 @@
         </div>
         <hr>
         <div class="row small">
-          <div class="col-xs-12"><strong>Special instructions:</strong> {{orderDetails.specialInstructions}}</div>
+          <div class="col-xs-12"><strong>Special instructions:</strong> {{orderDetails.specialInstructions ? orderDetails.specialInstructions : 'None'}}</div>
         </div>
         <div class="row small">
-          <div class="col-xs-10 text-right">Subtotal</div>
-          <div class="col-xs-2 text-right text-primary">₱ {{orderDetails.subTotal | number:'1.2-2'}}</div>
+          <div class="col-xs-10 text-right"><h5>Subtotal</h5></div>
+          <div class="col-xs-2 text-right text-primary"><h5>₱ {{orderDetails.subTotal | number:'1.2-2'}}</h5></div>
         </div>
         <div class="row small">
-          <div class="col-xs-10 text-right">Fees</div>
-          <div class="col-xs-2 text-right text-primary">₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}</div>
+          <div class="col-xs-10 text-right"><h5>Fees</h5></div>
+          <div class="col-xs-2 text-right text-primary"><h5>₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}</h5></div>
         </div>
         <div class="row small">
-          <div class="col-xs-10 text-right">Discount</div>
-          <div class="col-xs-2 text-right text-success">- ₱ {{orderDetails.discountTotal | number:'1.2-2'}}</div>
+          <div class="col-xs-10 text-right"><h5>Discount</h5></div>
+          <div class="col-xs-2 text-right"><h5 class="text-success">- ₱ {{orderDetails.discountTotal | number:'1.2-2'}}</h5></div>
         </div>
         <div class="row small">
-          <div class="col-xs-10 text-right">Credits</div>
-          <div class="col-xs-2 text-right text-success">- ₱ {{orderDetails.paymentTotal | number:'1.2-2'}}</div>
+          <div class="col-xs-10 text-right"><h5>Credits</h5></div>
+          <div class="col-xs-2 text-right text-success"><h5 class="text-success">- ₱ {{orderDetails.paymentTotal | number:'1.2-2'}}</h5></div>
         </div>
         <div class="row">
           <div class="col-xs-10 text-right"><h4>Total</h4></div>
