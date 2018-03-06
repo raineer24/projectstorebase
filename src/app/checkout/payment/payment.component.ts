@@ -128,6 +128,7 @@ export class PaymentComponent implements OnInit {
     );
   }
 
+//new voucher validation
   checkVoucher(code){
     if(code.value.length > 3){
       this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {

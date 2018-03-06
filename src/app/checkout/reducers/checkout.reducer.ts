@@ -145,7 +145,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalAmountDue: _totalAmountDue
         }) as CheckoutState;
 
-      //case REMOVE COUPON
+      //case REMOVE COUPON when input changed
       case CheckoutActions.REMOVE_COUPON:
         _totalDiscount = 0;
         _totalAmountDue = payload.amtDue;
