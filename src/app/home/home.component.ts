@@ -1,17 +1,17 @@
-import { getSelectedTaxonIds } from './reducers/selectors';
-import { getSelectedProduct } from './../product/reducers/selectors';
-import { Item } from './../core/models/item';
-import { Taxonomy } from './../core/models/taxonomy';
-import { environment } from './../../environments/environment';
-import { ProductActions } from './../product/actions/product-actions';
-import { AppState } from './../interfaces';
-import { getProducts, getTaxonomies } from './../product/reducers/selectors';
-import { getCartItems } from './../checkout/reducers/selectors';
-import { getFilters, getSortSettings } from './reducers/selectors';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { AppState } from './../interfaces';
+import { environment } from './../../environments/environment';
+import { getFilters, getSortSettings } from './reducers/selectors';
+import { Item } from './../core/models/item';
+import { ProductActions } from './../product/actions/product-actions';
+import { getSelectedItem } from './../product/reducers/selectors'
+import { getProducts, getTaxonomies } from './../product/reducers/selectors';
+import { getCartItems } from './../checkout/reducers/selectors';
+
+
 
 @Component({
   selector: 'app-home',

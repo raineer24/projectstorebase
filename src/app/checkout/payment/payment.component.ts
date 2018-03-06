@@ -58,6 +58,7 @@ export class PaymentComponent implements OnInit {
   totalAmount: number = 0;
   paymentTotal: number = 0;
   totalPaidAmount: number = 0;
+  totalDiscount: number = 0;
   usableGCcount: number = 0;
   totalAmount$: Observable<number>;
   totalAmtDue: number = 0;
@@ -115,7 +116,9 @@ export class PaymentComponent implements OnInit {
     this.totalAmountDue$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmountDue = val;
     });
-    this.totalDiscount$.takeUntil(this.componentDestroyed).subscribe(val => val);
+    this.totalDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
+      this.totalDiscount = val;
+    });
   }
 
   initForm() {
@@ -227,6 +230,7 @@ export class PaymentComponent implements OnInit {
       id: this.orderId,
       specialInstructions: this.instructionsText,
       paymentTotal: this.totalPaidAmount,
+      discountTotal: this.totalDiscount,
       adjustmentTotal: this.totalAmountDue,
       total: grandTotal,
       status: 'payment'
