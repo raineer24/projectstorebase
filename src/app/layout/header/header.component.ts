@@ -98,6 +98,7 @@ export class HeaderComponent implements OnInit {
       categoryIds: []
     }));
     this.router.navigateByUrl('/');
+    window.scrollTo(0, 0);
   }
 
   searchKeyword(): void {
