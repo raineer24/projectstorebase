@@ -19,12 +19,20 @@
         </div>
         <hr>
         <div class="row small">
-          <div class="col-xs-10 text-right">Subtotal:</div>
-          <div class="col-xs-2 text-right">₱ {{orderDetails.itemTotal | number:'1.2-2'}}</div>
+          <div class="col-xs-10 text-right">Subtotal</div>
+          <div class="col-xs-2 text-right text-primary">₱ {{(orderDetails.itemTotal + orderDetails.paymentTotal) | number:'1.2-2'}}</div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right">Fees</div>
+          <div class="col-xs-2 text-right text-primary">₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}</div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right">Credits</div>
+          <div class="col-xs-2 text-right text-success">- ₱ {{orderDetails.paymentTotal | number:'1.2-2'}}</div>
         </div>
         <div class="row">
-          <div class="col-xs-10 text-right">Total:</div>
-          <div class="col-xs-2 text-right"><strong class="text-danger">₱ {{orderDetails.total | number:'1.2-2'}}</strong></div>
+          <div class="col-xs-10 text-right"><h4>Total</h4></div>
+          <div class="col-xs-2 text-right"><h4 class="text-primary">₱ {{orderDetails.total | number:'1.2-2'}}</h4></div>
         </div>
       </div>
     </div>
