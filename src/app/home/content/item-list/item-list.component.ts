@@ -1,15 +1,18 @@
-import { Observable } from 'rxjs/Observable';
-import { getSelectedProduct } from './../../../product/reducers/selectors';
-import { getAuthStatus } from './../../../auth/reducers/selectors';
-import { AppState } from './../../../interfaces';
-import { Store } from '@ngrx/store';
-import { Item } from './../../../core/models/item';
-import { environment } from './../../../../environments/environment';
 import { Component, OnInit, Input, ViewChild, HostListener, OnDestroy } from '@angular/core';
-import { ProductActions } from './../../../product/actions/product-actions';
-import { getFilters } from './../../reducers/selectors';
-import { getUserLists } from './../../../user/reducers/selector';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { AppState } from './../../../interfaces';
+import { environment } from './../../../../environments/environment';
+import { getFilters } from './../../reducers/selectors';
+import { getAuthStatus } from './../../../auth/reducers/selectors';
+import { Item } from './../../../core/models/item';
+import { ProductService } from './../../../core/services/product.service';
+import { ProductActions } from './../../../product/actions/product-actions';
+import { getSelectedItem } from './../../../product/reducers/selectors';
+import { getUserLists } from './../../../user/reducers/selector';
+
 
 @Component({
   selector: 'app-item-list',
@@ -32,17 +35,33 @@ export class ItemListComponent implements OnInit {
   itemsPerPage: number = environment.ITEMS_PER_PAGE;
   itemCtr: number = this.itemsPerPage;
   prevFilter: string = 'all';
-  loadSubs: Subscription;
 
   constructor(
     private store: Store<AppState>,
-    private actions: ProductActions
+    private actions: ProductActions,
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
 
   }
 
   ngOnInit() {
-    this.selectedItem$ = this.store.select(getSelectedProduct);
+    this.route.params.map((params: any) => params['id'])
+      .subscribe(itemId => {
+        if(itemId) {
+           this.productService.getProduct(itemId.toString()).subscribe(item => {
+             console.log(this.cartItems)
+            this.store.dispatch(this.actions.addSelectedItem(item[0]));
+          })
+        }
+      });
+    this.store.select(getSelectedItem).subscribe(item => {
+      if(item.id) {
+        this.selectedItem = item;
+        this.itemDetailsModal.open();
+      }
+    })
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.userLists$ = this.store.select(getUserLists);
   }
@@ -55,15 +74,14 @@ export class ItemListComponent implements OnInit {
   }
 
   openItemDialog(item: Item): void {
-    const slug = `/item/${item.code}/${item.slug}`;
-    this.selectedItem = item;
-    this.itemDetailsModal.open();
-
+    const slug = `/item/${item.id}/${item.slug}`;
     window.history.pushState('item-slug', 'Title', slug);
+    this.store.dispatch(this.actions.addSelectedItem(item));
   }
 
   closeItemDialog(): void {
     window.history.pushState('item-slug', 'Title', '/');
+    this.store.dispatch(this.actions.removeSelectedItem());
     this.itemDetailsModal.close();
   }
 

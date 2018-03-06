@@ -35,6 +35,10 @@ export function fetchTotalDiscount(state: CheckoutState) {
   return state.totalDiscount;
 }
 
+export function fetchGiftCerts(state: CheckoutState) {
+  return state.giftCerts ? state.giftCerts.toJS() : state.giftCerts;
+}
+
 export function fetchTotalAmtPaid(state: CheckoutState) {
   return state.totalAmountPaid;
 }
@@ -73,3 +77,4 @@ export const getShipAddress = createSelector(getCheckoutState, fetchShipAddress)
 export const getBillAddress = createSelector(getCheckoutState, fetchBillAddress);
 export const getOrderState = createSelector(getCheckoutState, fetchOrderState);
 export const getDeliveryDate = createSelector(getCheckoutState, fetchDeliveryDate);
+export const getGiftCerts = createSelector(getCheckoutState, fetchGiftCerts);

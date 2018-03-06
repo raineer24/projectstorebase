@@ -275,8 +275,10 @@ export class CheckoutService {
     */
     getGC(gcCode) {
       console.log("SEARCHING FOR GIFTCERT");
+      console.log(gcCode);
       return this.http.get(`v1/gc/${gcCode}`).map(res => {
         const gc = res.json();
+        console.log(gc);
         return gc;
      }).catch(err => Observable.empty());
     }
@@ -512,6 +514,12 @@ export class CheckoutService {
         break;
       case 'payment':
         message = `Error occured. Please review your order and try again.`;
+        break;
+      case 'voucher':
+        message = "Please enter a valid coupon.";
+        break;
+      case 'giftcert':
+        message = "Please enter a valid gift certificate";
         break;
     }
     this.http.loading.next({
