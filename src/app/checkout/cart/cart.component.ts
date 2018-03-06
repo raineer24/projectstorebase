@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { getTotalCartValue, getOrderState, getTotalCartItems, getTotalAmtDue } from './../reducers/selectors';
+import { getTotalCartValue, getOrderState, getTotalCartItems, getTotalAmtDue, getTotalDiscount } from './../reducers/selectors';
 import { Observable } from 'rxjs/Observable';
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
@@ -19,12 +19,14 @@ export class CartComponent implements OnInit {
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
   totalAmtDue$: Observable<number>;
+  totalDiscount$: Observable<number>;
   isAuthenticated$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
     this.totalAmtDue$ = this.store.select(getTotalAmtDue);
+    this.totalDiscount$ = this.store.select(getTotalDiscount);
     this.isAuthenticated$ = this.store.select(getAuthStatus);
   }
 
