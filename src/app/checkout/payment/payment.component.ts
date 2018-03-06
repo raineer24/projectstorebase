@@ -138,10 +138,10 @@ export class PaymentComponent implements OnInit {
 
 //new voucher validation
   checkVoucher(code){
-    if(code.value.length > 3){
-      this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
-        if(this.bCouponEntered){
-          this.totalAmountDue = Number(this.totalAmountDue) + Number(this.discount);
+    this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
+      if(code.value.length > 3) {
+        if(this.bCouponEntered) {
+          // this.totalAmountDue = Number(this.totalAmountDue) + Number(this.discount);
           this.forCoupon = {
             value: 0,
             amtDue:this.totalAmountDue
@@ -159,7 +159,7 @@ export class PaymentComponent implements OnInit {
             this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
             this.discount = data.discount;
-            this.totalAmountDue = this.totalAmountDue - this.discount;
+            // this.totalAmountDue = this.totalAmountDue - this.discount;
             this.forCoupon = {
               value: Number(data.discount),
               amtDue: this.totalAmountDue
@@ -167,10 +167,16 @@ export class PaymentComponent implements OnInit {
             this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
             this.bCouponEntered = true;
         }
-      })
-    } else {
-      this.setDefault();
-    }
+      } else {
+        this.forCoupon = {
+          value: 0,
+          amtDue:this.totalAmountDue
+        };
+        this.store.dispatch(this.checkoutAction.removeCoupon(this.forCoupon));
+        this.bCouponEntered = false;
+        this.setDefault();
+      }
+    });
     return this.totalPaidAmount;
   }
 
@@ -199,7 +205,7 @@ export class PaymentComponent implements OnInit {
           });
           this.updateGCStatus(code.value);
           this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
-          this.totalAmountDue = this.totalAmountDue - Number(data.amount);
+          // this.totalAmountDue = this.totalAmountDue - Number(data.amount);
           this.forGC = {
               value: this.totalPaidAmount,
               amtDue: this.totalAmountDue,
