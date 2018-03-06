@@ -26,6 +26,7 @@ import { environment } from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  mobile: boolean = false;
   @Input() currentStep: string;
   @Input() isHomeRoute: boolean;
   selectedItem: Item;

@@ -63,12 +63,12 @@ ul {
     background-color: rgba(65, 65, 65, 0.8);
   }
   div.modal-dialog {
-    padding: 25px;
+    //padding: 25px;
     position: absolute;
-    top: 41%;
+    top: 25%;
     left: 50%;
     width: 86%;
-    height: 90%;
+    height: 29%; //height: 29%;
     -webkit-transform: translate(-50%, -50%) !important;
             transform: translate(-50%, -50%) !important;
   }

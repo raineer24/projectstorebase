@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-fixed-top topbar">
   <div class="container">
-    <div class="row nav-menu-top">
+    <div class="row nav-menu-top hidden-xs">
       <ul class="nav navbar-nav navbar-left">
         <li class="active"><a routerLink="/">OMG Philippines</a></li>
         <!-- <li><a href="#">Promotions</a></li> -->
@@ -11,13 +11,13 @@
         <li><a routerLink="/">Contact Us</a></li>
       </ul>
     </div>
-    <div class="row nav-menu-mid">
-      <div class="col-md-1 col-sm-1">
+    <div [ngClass]="mobile ? 'hidden-xs' : 'not-hide'" class="row nav-menu-mid ">
+      <div class="col-md-1 col-sm-1 hidden-xs">
         <a routerLink="/" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
         </a>
       </div>
-      <div class="col-md-2 col-sm-2">
+      <div class="col-md-2 col-sm-2 hidden-xs">
         <ul class="nav navbar-nav">
           <li
           (onShown)="onMenuToggle()"
@@ -56,7 +56,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-5 col-sm-5">
+      <div class="col-md-5 col-sm-5 col-xs-12">
         <div class="input-group">
           <!-- NOTE: AUTOSUGGEST SEARCH -->
           <ng-template #searchTemplate let-keyword="item" let-index="index" >
@@ -94,6 +94,7 @@
           <span class="input-group-btn">
             <button class="btn btn-secondary btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
           </span>
+
         </div>
         <div class="loader-overlay" [hidden]="!bShowProgress">
               <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="60"></div>
@@ -104,6 +105,52 @@
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
+  
+ 
+      <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'"  class="mobile">
+      
+          
+    
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div class="omglogo">
+        <a routerLink="/">
+          <img src="assets/omg-logo-01.png" />
+        </a>
+    </div>
+      
+   
+    <div class="input-group col-xs-9">
+      <input [(ngModel)]="asyncSelected"
+          class="form-control"
+          (keyup.enter)="searchKeyword()"
+          placeholder="Search for a product or category">
+      <span class="input-group-btn">
+        <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
+      </span>
+    </div>
+      <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+<div class="numbers">
+  <p>
+    <a href="">
+      <i class="glyphicon glyphicon-search"></i>
+    </a>
+    
+  </p>
+  <p class="cart" [routerLink]="['checkout','cart']">
+    <a>
+      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      <!-- <span class="badge badge-danger">{{totalCartItems}}</span>
+      {{totalCartValue}} -->
+    </a>
+  </p>
+</div>
+    </div>
+     
 <!--
   <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
     <div class="container">
@@ -176,6 +223,7 @@
     </div>
   </div>
 -->
+
 </nav>
           <!-- <ul>
             <li><a (click)="selectAll()" href="javascript:void(0)">All categories</a></li>
@@ -241,7 +289,6 @@
             </ul>
         </li>
       </ul>  -->
-
 
 
 

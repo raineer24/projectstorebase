@@ -24,6 +24,7 @@ body {
   background: #ff005d;
   padding-top: 120px;
 }
+
 section {
   background: #ffffff;
 }
@@ -70,19 +71,26 @@ main[_ngcontent-c0] {
 .nav .open>a:hover {
   color: #ff005d;
 }
+
 .nav .open>a:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   background: #ff005d;
   color: #ffffff;
 }
-.nav > li > a:hover,
-.nav > li > a:focus {
+
+.nav>li>a:hover,
+.nav>li>a:focus {
   color: #ff005d;
 }
 
-.navbar-right > li > a {
+.navbar-right>li>a {
   color: #ff005d;
+}
+@media screen and (max-width: 900px) {
+  .navbar-nav>li>a {
+    font-size: 12px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -115,6 +123,7 @@ html {
 
 div.modal-dialog {
   top: 40%;
+  height: 46%;
 }
 
 .drop1 {
@@ -184,4 +193,44 @@ div.modal-dialog {
 
 .panel-group {
   width: 50%;
+}
+
+
+@media screen and (max-width: 767px) {
+  body {
+    padding-top: 0;
+  }
+ .navbar-nav > li > a {
+   font-size: 12px;
+ }
+
+
+  .navbar-default .navbar-collapse,
+  .navbar-default .navbar-form {
+    border-color: #e7e7e7;
+    background: #ff5847;
+    position: absolute;
+    width: 92%;
+    z-index: 999;
+    top: 58px;
+    left: 15px;
+  }
+  .navbar-nav li {
+    text-align: center;
+  }
+  .navbar-default .navbar-toggle:hover,
+  .navbar-default .navbar-toggle:focus {
+    background-color: transparent;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+    
+       padding: 3px 10px;
+    margin-top: 0;
+
+
+  }
+  .navbar-default .navbar-toggle .icon-bar {
+    background: #ff5847;
+  }
 }

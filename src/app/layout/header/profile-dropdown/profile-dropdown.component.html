@@ -1,3 +1,4 @@
+<div class="rightsign collapse navbar-collapse cl-effect-13" id="bs-example-navbar-collapse-1">
 <ul class="nav navbar-nav navbar-right">
   <!-- <li class="dropdown" dropdown *ngIf="!isAuthenticated">
     <a class="dropdown-toggle" dropdownToggle>
@@ -10,7 +11,14 @@
       <li><a [routerLink]="['/auth', 'login']">Login</a></li>
     </ul>
   </li> -->
-
+  <ul class="" *dropdownMenu>
+    <li>
+      <a [routerLink]="['/auth']">Sign up</a>
+    </li>
+    <li>
+      <a [routerLink]="['/auth', 'login']">Login</a>
+    </li>
+  </ul>
   <li *ngIf="!isAuthenticated"><a [routerLink]="['/auth']">Register</a></li>
   <li *ngIf="!isAuthenticated"><a [routerLink]="['/auth', 'login']">Sign in</a></li>
 
@@ -30,7 +38,7 @@
     </ul>
   </li>
 
-  <li class="cart" [routerLink]="['checkout','cart']">
+  <li class="cart hidden-xs" [routerLink]="['checkout','cart']">
     <a>
       <i class="fa fa-shopping-cart" aria-hidden="true"></i>
       <span class="badge badge-danger">{{totalCartItems}}</span>
@@ -38,3 +46,7 @@
     </a>
   </li>
 </ul>
+    
+
+</div>
+
