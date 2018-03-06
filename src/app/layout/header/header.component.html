@@ -1,19 +1,19 @@
 <nav class="navbar navbar-default navbar-fixed-top topbar">
   <div class="container">
-    <div class="row nav-menu-top hidden-xs">
+    <!-- <div class="row nav-menu-top hidden-xs">
       <ul class="nav navbar-nav navbar-left">
         <li class="active"><a routerLink="/">OMG Philippines</a></li>
-        <!-- <li><a href="#">Promotions</a></li> -->
+      
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <!-- <li><a href="#">Availability In Your Area</a></li> -->
+       
         <li><a routerLink="/">Change Country</a></li>
         <li><a routerLink="/">Contact Us</a></li>
       </ul>
-    </div>
+    </div> -->
     <div [ngClass]="mobile ? 'hidden-xs' : 'not-hide'" class="row nav-menu-mid ">
       <div class="col-md-1 col-sm-1 hidden-xs">
-        <a routerLink="/" class="navbar-brand">
+        <a routerLink="/"  (click)="selectCategory('all')" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
         </a>
       </div>
