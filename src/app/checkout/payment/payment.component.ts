@@ -151,13 +151,13 @@ export class PaymentComponent implements OnInit {
           this.bCouponEntered = false;
         }
         if(data.message != null) {
-            this.gErrMsg = 'Invalid coupon or voucher';
+            // this.gErrMsg = 'Invalid coupon or voucher';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
         } else if (data.status == "used") {
-            this.gErrMsg = 'Coupon or voucher already consumed';
+            // this.gErrMsg = 'Coupon or voucher already consumed';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
         } else {
-            this.gErrMsg = 'Coupon or voucher is valid!';
+            // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
             this.discount = data.discount;
             // this.totalAmountDue = this.totalAmountDue - this.discount;
@@ -187,11 +187,11 @@ export class PaymentComponent implements OnInit {
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
         if(data.message != null) {
-          this.gErrMsg = data.message;
+          // this.gErrMsg = data.message;
           this.checkoutService.showErrorMsg('giftcert');
           return this.totalPaidAmount;
         } else if (data.status == "used") {
-          this.gErrMsg = "Already used!";
+          // this.gErrMsg = "Already used!";
           this.checkoutService.showErrorMsg('giftcert');
           return this.totalPaidAmount;
         } else {
