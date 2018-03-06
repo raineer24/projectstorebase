@@ -49,28 +49,21 @@
   <div class="col-md-12">
     <h5>Sub Total
       <div class="pull-right">
-        <strong><span>₱ {{orderTotal | number:'1.2-2'}}</span></strong>
+        <span>₱ {{orderTotal | number:'1.2-2'}}</span>
       </div>
     </h5>
   </div>
   <div class="col-md-12">
     <h5>Service Fee
       <div class="pull-right">
-        <strong><span>₱ {{serviceFee | number:'1.2-2'}}</span></strong>
+        <span>₱ {{serviceFee | number:'1.2-2'}}</span>
       </div>
     </h5>
   </div>
   <div class="col-md-12">
     <h5>Delivery Fee
       <div class="pull-right">
-        <strong><span>₱ {{deliveryFee | number:'1.2-2'}}</span></strong>
-      </div>
-    </h5>
-  </div>
-  <div class="col-md-12" *ngIf="discount > 0">
-    <h5>Total Discount
-      <div class="pull-right">
-        <strong><span class="text-success"> - ₱ {{discount | number:'1.2-2'}}</span></strong>
+        <span>₱ {{deliveryFee | number:'1.2-2'}}</span>
       </div>
     </h5>
   </div>
@@ -80,6 +73,13 @@
         <strong><span class="text-primary">₱ {{orderTotal + deliveryFee + serviceFee | number:'1.2-2'}}</span></strong>
       </div>
     </h4>
+  </div>
+  <div class="col-md-12" *ngIf="discount > 0">
+    <h5>Discounts
+      <div class="pull-right">
+        <strong><span class="text-success"> - ₱ {{discount | number:'1.2-2'}}</span></strong>
+      </div>
+    </h5>
   </div>
   <div class="col-md-12" *ngIf="gcAmount > 0">
     <h5>Credits
