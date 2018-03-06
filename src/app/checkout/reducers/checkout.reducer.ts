@@ -145,6 +145,18 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalAmountDue: _totalAmountDue
         }) as CheckoutState;
 
+      //case REMOVE COUPON when input changed
+      case CheckoutActions.REMOVE_COUPON:
+        _totalDiscount = 0;
+        _totalAmountDue = payload.amtDue;
+        // _totalAmountDue = payload.amtDue;
+        // _totalCartValue = _totalCartValue - _totalDiscount;
+        // console.log(_totalCartValue);
+        return state.merge({
+          totalDiscount: _totalDiscount,
+          totalAmountDue: _totalAmountDue
+        }) as CheckoutState;
+
       //case APPLY GC
       case CheckoutActions.APPLY_GC:
         _totalAmountPaid = payload.value;
