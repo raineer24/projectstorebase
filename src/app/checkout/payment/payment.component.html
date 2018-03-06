@@ -39,7 +39,7 @@
     <div class="col-md-6 main-panel">
       <h1>Payment</h1>
       <h4>Select mode of payment</h4>
-      <p>If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
+      <p class="small">If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
       <div class="">
         <div #group1>
           <ng-container *ngIf="totalAmount > 100; else secondCash">
@@ -154,19 +154,19 @@
 
       <div>
         <h4>Vouchers / Coupons</h4>
+        <p class="small">Limited to use of 1 coupon per acheckout. Coupon is subject to Terms and Conditions.</p>
       </div>
       <!-- new Voucher entry point-->
       <div class="col-md-8">
         <div class="input-group">
           <input #coupon type="number" class="form-control no-spin" id="gc-code" name="gc-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
-           <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i>{{gErrMsg}}</button></span>
+           <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
         </div>
 
       </div>
 
         <div class="row">
           <div class="col-md-12">
-            <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
           </div>
         </div>
     <!-- </ng-container> -->
