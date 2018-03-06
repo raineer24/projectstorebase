@@ -26,19 +26,19 @@
       </div>
       <hr>
     </div>
-    <!-- <div class="col-md-12">
-      <strong>Discounts</strong>
+    <div class="col-md-12" *ngIf="totalDiscounts > 0">
+      <small>Discounts</small>
       <div class="pull-right">
-        <span>₱ 200.00</span>
+        <span>₱ {{totalDiscounts | number:'1.2-2'}}</span>
       </div>
       <hr>
-    </div> -->
+    </div>
     <!-- <div class="col-md-12">
       <p>Get <span>FREE delivery</span> for orders Php 1,500 and above!</p>
       <hr>
-    </div> -->
+    </div-->
     <div class="col-md-12">
-      <small>Grand Total</small>
+      <strong>Grand Total</strong>
       <div class="pull-right">
         <span>₱ {{totalCartValue + deliveryFee + serviceFee | number:'1.2-2'}}</span>
       </div>
