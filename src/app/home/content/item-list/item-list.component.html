@@ -14,7 +14,7 @@
       <li *ngFor="let item of items" class="product-base" [style.margin]="getMargin()" itemscope
         itemtype="https://schema.org/Product">
         <app-item-list-entry [item]="item" [cartItem]="getCartItem(item.id)" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
-        <span class="product-zoom glyphicon glyphicon-search"></span>
+        <!--span class="product-zoom glyphicon glyphicon-search"></span-->
       </li>
     </ul>
     </section>
