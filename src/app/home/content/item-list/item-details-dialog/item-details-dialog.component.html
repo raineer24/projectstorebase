@@ -73,13 +73,20 @@
                 <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
                   <i class="glyphicon glyphicon-edit"></i>Add to my list
                 </button>
+
                 <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
                   <div class="user-list">
                     <ng-container *ngFor="let userList of userLists; let i = index">
                       <li role="menuitem">
                         <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
-                          <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
-                          <span >&nbsp;{{userList.name}}</span>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
+                              <span class="cr"><i class="cr-icon fa fa-check"></i></span>&nbsp;<strong>{{userList.name}}</strong>
+                            </label>
+                          </div>
+                          <!-- <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
+                          <span >&nbsp;{{userList.name}}</span> -->
                         </div>
                       </li>
                     </ng-container>
@@ -95,7 +102,10 @@
                   <li role="menuitem" class="list-dropdown-item">
                     <div>
                       <ng-container *ngIf="!isCreateList; else createList">
-                        <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span>
+                        <!-- <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span> -->
+                        <div class="input-group">
+                           <span class="input-group-btn"><button class="btn btn-primary btn-block newList" type="button" (click)="toggleCreateNewList()"><i class="glyphicon glyphicon-edit"></i> Create new list</button></span>
+                        </div>
                       </ng-container>
                       <ng-template #createList>
                         <div class="input-group">
