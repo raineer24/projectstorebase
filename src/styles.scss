@@ -87,6 +87,11 @@ main[_ngcontent-c0] {
 .navbar-right>li>a {
   color: #ff005d;
 }
+@media screen and (max-width: 900px) {
+  .navbar-nav>li>a {
+    font-size: 12px;
+  }
+}
 
 @media (min-width: 768px) {
   .navbar-nav>li>a {
@@ -189,11 +194,15 @@ div.modal-dialog {
   width: 50%;
 }
 
+
 @media screen and (max-width: 767px) {
   body {
     padding-top: 0;
   }
- 
+ .navbar-nav > li > a {
+   font-size: 12px;
+ }
+
 
   .navbar-default .navbar-collapse,
   .navbar-default .navbar-form {
