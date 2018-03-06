@@ -22,6 +22,7 @@ export class ConfirmComponent implements OnInit {
   orderKey: string;
   orderDetails: any;
   cartItemArray: Array<number>;
+  fees: Object;
 
   constructor(
     private userActions: UserActions,
@@ -32,6 +33,10 @@ export class ConfirmComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.fees = {
+      service: 100,
+      delivery: 100,
+    };
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.route.params.map((params: any) => {
       this.orderKey = params['key']
