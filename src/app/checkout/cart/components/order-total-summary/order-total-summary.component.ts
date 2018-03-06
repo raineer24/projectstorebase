@@ -20,7 +20,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   deliveryFee: number = 100.00;
   @Input() totalCartValue: number;
   @Input() totalCartItems: number;
-  @Input() discount: number = 0;
+  @Input() totalDiscounts: number;
   @Input() totalAmtDue: number;
   @ViewChild('coupon') coupon:ElementRef;
   @ViewChild('appCoupon') appCoupon:ElementRef;
@@ -40,60 +40,17 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.grandTotal = this.totalCartValue + this.serviceFee + this.deliveryFee;
-    this.totalAmtDue = this.totalCartValue + this.serviceFee + this.deliveryFee - this.discount;
-  }
-
-  applyCoupon(coupon){
-    console.log(this.coupon.nativeElement.value);
-    if(this.coupon.nativeElement.value != ''){
-          this.totalDiscount$ = this.checkoutService.getvoucher(this.coupon.nativeElement.value).subscribe(data => {
-            if(data.message != null) {
-              console.log('ERROR');
-              this.errMsg = data.message;
-              this.discount = -1;
-              return this.totalCartValue;
-            } else if (data.status == "used") {
-              console.log('ERROR');
-              this.errMsg = "Already used!";
-              this.discount = -1;
-              return this.totalCartValue;
-            }
-            else {
-              console.log(data.discount);
-              this.errMsg = null;
-              this.coupon.nativeElement.value = '';
-              this.discount = data.discount;
-              this.totalAmtDue = this.totalAmtDue - this.discount;
-              console.log(this.totalAmtDue);
-              //this.totalCartValue = this.totalCartValue - Number(data.discount);
-              this.forCoupon = {
-                value: Number(data.discount),
-                amtDue: this.totalAmtDue
-              };
-              // this.renderer.setElementAttribute(this.appCoupon.nativeElement, 'disabled', 'true');
-              this.coupon.nativeElement.value = '';
-              this.appCoupon.nativeElement.disabled = true;
-              this.store.dispatch(this.actions.applyCoupon(this.forCoupon));
-              console.log(this.totalCartValue);
-              return this.totalCartValue;
-
-            }
-          })
-
-        } else {
-          this.isShowErrMsg = true;
-        }
+    this.totalAmtDue = this.totalCartValue + this.serviceFee + this.deliveryFee - this.totalDiscounts;
   }
 
   placeOrder() {
-      if(this.discount == null) { this.discount = 0; }
-      console.log(this.discount);
+      if(this.totalDiscounts == null) { this.totalDiscounts = 0; }
       this.checkoutService.updateOrder({
         'status': 'cart',
         'totalQuantity': this.totalCartItems,
         'itemTotal': this.totalCartValue,
         'total': this.grandTotal,
-        'discount':this.discount,
+        'discount':this.totalDiscounts,
         'adjustmentTotal': this.totalAmtDue
         }).do(() => {
           this.router.navigate(['/checkout', 'address']);

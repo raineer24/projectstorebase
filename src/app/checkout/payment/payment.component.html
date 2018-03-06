@@ -158,10 +158,8 @@
       <!-- new Voucher entry point-->
       <div class="col-md-8">
         <div class="input-group">
-          <span class="input-group-btn"><button type="button" class="btn btn-default" disabled>C
-          </button></span>
           <input #coupon type="number" class="form-control no-spin" id="gc-code" name="gc-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
-           <span class="input-group-btn"><button class="btn btn-primary" type="button" disabled>{{gErrMsg}}</button></span>
+           <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i>{{gErrMsg}}</button></span>
         </div>
 
       </div>
