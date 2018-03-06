@@ -50,7 +50,7 @@
     "@angular/compiler-cli": "^4.2.6",
     "@angularclass/hmr": "^1.2.2",
     "@compodoc/compodoc": "^1.0.0-beta.8",
-    "@ngrx/store-devtools": "^3.2.3",
+    "@ngrx/store-devtools": "^3.2.4",
     "@types/grecaptcha": "^2.0.31",
     "@types/jasmine": "2.5.38",
     "@types/morris.js": "^0.5.6",
