@@ -65,13 +65,14 @@ export class PaymentComponent implements OnInit {
   updategcStatus$: Subscription;
   discount$: Subscription;
   vErrMsg: string;
-  gErrMsg: string = "Enter a valid coupon.";
+  gErrMsg: string = " ";
   hasErr: boolean = false;
   hasGC: boolean = false;
   forGC: any;
   bCouponEntered: boolean = false;
   gcList: any;
   forCoupon: any;
+  voucherIcon: string;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -95,6 +96,12 @@ export class PaymentComponent implements OnInit {
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.giftCertList$ = this.store.select(getGiftCerts);
   }
+
+  setDefault() {
+    this.gErrMsg = '';
+    this.voucherIcon = 'glyphicon glyphicon-tag text-default';
+  }
+
 
   ngOnInit() {
     this.gcList = [];
@@ -126,6 +133,7 @@ export class PaymentComponent implements OnInit {
     this.gcForm = this.fb.group({
   	  'gc-code': [gcCode ] }
     );
+    this.setDefault();
   }
 
 //new voucher validation
@@ -142,11 +150,14 @@ export class PaymentComponent implements OnInit {
           this.bCouponEntered = false;
         }
         if(data.message != null) {
-            this.gErrMsg = "Coupon not valid";
+            this.gErrMsg = 'Invalid coupon or voucher';
+            this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
         } else if (data.status == "used") {
-            this.gErrMsg = "Coupon already used!";
+            this.gErrMsg = 'Coupon or voucher already consumed';
+            this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
         } else {
-            this.gErrMsg = "Coupon valid!";
+            this.gErrMsg = 'Coupon or voucher is valid!';
+            this.voucherIcon = 'glyphicon glyphicon-ok text-success';
             this.discount = data.discount;
             this.totalAmountDue = this.totalAmountDue - this.discount;
             this.forCoupon = {
@@ -158,8 +169,7 @@ export class PaymentComponent implements OnInit {
         }
       })
     } else {
-      this.gErrMsg = "Enter a valid coupon.";
-
+      this.setDefault();
     }
     return this.totalPaidAmount;
   }
