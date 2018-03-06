@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'http://localhost:8081/',
+  API_ENDPOINT: 'http://localhost:8001/',
   // API_ENDPOINT: 'https://angularspree-new.herokuapp.com/',
   //API_ENDPOINT: 'http://grocer-api-dev.ap-southeast-2.elasticbeanstalk.com/',
   AppName: 'OMG!',

@@ -38,8 +38,8 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
       this.itemQuantity = this.cartItem.quantity;
     }
     this.quantityControl.valueChanges.debounceTime(300).subscribe(value => {
-      if (isNaN(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
-        this.quantityControl.setValue(this.cartItem.quantity);
+      if (isNaN(value) || !Number.isInteger(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
+        // do nothing
       } else {
         this.cdr.detectChanges();
         this.itemQuantity = value;
@@ -98,7 +98,7 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   }
 
   selectItem() {
-    this.store.dispatch(this.productActions.addSelectedItem(this.item));
+    // this.store.dispatch(this.productActions.addSelectedItem(this.item));
     this.onOpenModalEmit.emit(this.item);
   }
 
@@ -121,6 +121,7 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   inputQuantity(e) {
     e.stopPropagation();
   }
+
   keyPress(event: any) {
     const pattern = /[0-9]/;
     const inputChar = String.fromCharCode(event.charCode);
@@ -128,6 +129,19 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input
       event.preventDefault();
+    }
+  }
+
+  checkIfValid(e) {
+    const value = e.target.value;
+    if(isNaN(value) || !Number.isInteger(value)) {
+      this.quantityControl.setValue(this.itemQuantity)
+    }
+    if (value < this.MIN_VALUE) {
+      this.quantityControl.setValue(this.MIN_VALUE)
+    }
+    if (value > this.MAX_VALUE) {
+      this.quantityControl.setValue(this.MAX_VALUE)
     }
   }
 }

@@ -73,7 +73,8 @@ export class ProductService {
 
   /**
    *
-   *
+   * @param options { limit: number, offset: number, sortBy: string, sortOrder: string}
+   * @param params { mode: 'keyword', keyword: string}, {mode: 'category', level: number, categoryId: number}
    * @returns {*}
    *
    * @memberof ProductService
