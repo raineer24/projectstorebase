@@ -13,7 +13,7 @@
     </div>
     <div [ngClass]="mobile ? 'hidden-xs' : 'not-hide'" class="row nav-menu-mid ">
       <div class="col-md-1 col-sm-1 hidden-xs">
-        <a routerLink="/" class="navbar-brand">
+        <a routerLink="/"  (click)="selectCategory('all')" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
         </a>
       </div>
