@@ -157,18 +157,16 @@
         <p class="small sub-text">Limited to use of 1 coupon per acheckout. Coupon is subject to Terms and Conditions.</p>
       </div>
       <!-- new Voucher entry point-->
-      <div class="col-md-8">
+      <div class="col-md-6">
         <div class="input-group">
+          <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
           <input #coupon type="number" class="form-control no-spin" id="gc-code" name="gc-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
-           <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
         </div>
-
       </div>
-
-        <div class="row">
-          <div class="col-md-12">
-          </div>
+      <div class="row">
+        <div class="col-md-12">
         </div>
+      </div>
     <!-- </ng-container> -->
     <!-- <ng-template #errInput>
       <div class="row has-error has-feedback">

@@ -47,51 +47,51 @@
     <hr>
   </div>
   <div class="col-md-12">
-    <h5>Sub Total:
+    <h5>Sub Total
       <div class="pull-right">
-        <strong><span>₱ {{orderTotal | number:'1.2-2'}}</span></strong>
+        <span>₱ {{orderTotal | number:'1.2-2'}}</span>
       </div>
     </h5>
   </div>
   <div class="col-md-12">
-    <h5>Service Fee:
+    <h5>Service Fee
       <div class="pull-right">
-        <strong><span>₱ {{serviceFee | number:'1.2-2'}}</span></strong>
+        <span>₱ {{serviceFee | number:'1.2-2'}}</span>
       </div>
     </h5>
   </div>
   <div class="col-md-12">
-    <h5>Delivery Fee:
+    <h5>Delivery Fee
       <div class="pull-right">
-        <strong><span>₱ {{deliveryFee | number:'1.2-2'}}</span></strong>
+        <span>₱ {{deliveryFee | number:'1.2-2'}}</span>
       </div>
     </h5>
+  </div>
+  <div class="col-md-12">
+    <h4>Grand Total
+      <div class="pull-right">
+        <strong><span class="text-primary">₱ {{orderTotal + deliveryFee + serviceFee | number:'1.2-2'}}</span></strong>
+      </div>
+    </h4>
   </div>
   <div class="col-md-12" *ngIf="discount > 0">
-    <h5>Total Discounts:
+    <h5>Discounts
       <div class="pull-right">
-        <strong><span> - ₱ {{discount | number:'1.2-2'}}</span></strong>
+        <strong><span class="text-success"> - ₱ {{discount | number:'1.2-2'}}</span></strong>
+      </div>
+    </h5>
+  </div>
+  <div class="col-md-12" *ngIf="gcAmount > 0">
+    <h5>Credits
+      <div class="pull-right">
+        <strong><span class="text-success"> - ₱ {{(gcAmount ? gcAmount : 0) | number:'1.2-2'}}</span></strong>
       </div>
     </h5>
   </div>
   <div class="col-md-12">
-    <h5>Grand Total:
+    <h4 class="focus">Amount Due
       <div class="pull-right">
-        <strong><span>₱ {{orderTotal + deliveryFee + serviceFee | number:'1.2-2'}}</span></strong>
-      </div>
-    </h5>
-  </div>
-  <div class="col-md-12">
-    <h5>Credits:
-      <div class="pull-right">
-        <strong><span> - ₱ {{(gcAmount ? gcAmount : 0) | number:'1.2-2'}}</span></strong>
-      </div>
-    </h5>
-  </div>
-  <div class="col-md-12">
-    <h4 class="focus">Amount Due:
-      <div class="pull-right">
-        <strong><span>₱ {{amountDue + deliveryFee + serviceFee - discount - gcAmount | number:'1.2-2'}}</span></strong>
+        <strong><span class="text-primary">₱ {{amountDue + deliveryFee + serviceFee - discount - gcAmount | number:'1.2-2'}}</span></strong>
       </div>
     </h4>
   </div>
