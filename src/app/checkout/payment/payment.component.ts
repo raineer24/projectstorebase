@@ -38,6 +38,7 @@ export class PaymentComponent implements OnInit {
   totalDiscount$:Observable<number>;
   totalAmountDue$: Observable<number>;
   totalAmountPaid$: Observable<number>
+  tempDiscount$: Observable<any>;
   shipAddress$: Observable<any>;
   billAddress$: Observable<any>;
   deliveryDate$: Observable<any>;
@@ -88,7 +89,7 @@ export class PaymentComponent implements OnInit {
     this.shipAddress$ = this.store.select(getShipAddress);
     this.billAddress$ = this.store.select(getBillAddress);
     this.orderTotal$ = this.store.select(getTotalCartValue);
-    this.totalDiscount$ = this.store.select(getTotalDiscount);
+    this.tempDiscount$ = this.store.select(getTotalDiscount);
     this.totalAmountPaid$ = this.store.select(getTotalAmtPaid);
     this.totalAmountDue$ = this.store.select(getTotalAmtDue);
     this.cartItems$ = this.store.select(getCartItems);
@@ -247,7 +248,7 @@ export class PaymentComponent implements OnInit {
       id: this.orderId,
       specialInstructions: this.instructionsText,
       paymentTotal: this.totalPaidAmount,
-      discountTotal: this.totalDiscount,
+      discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
       total: grandTotal,
       status: 'payment'
