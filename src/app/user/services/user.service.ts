@@ -40,8 +40,8 @@ export class UserService {
    *
    * @memberof UserService
    */
-  getOrderDetail(orderNumber): Observable<Order> {
-    return this.http.get(`spree/api/v1/orders/${orderNumber}`)
+  getOrderDetail(orderkey): Observable<any> {
+    return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

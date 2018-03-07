@@ -16,7 +16,7 @@ export const UserRoutes = [
       { path: '', redirectTo: 'profile' },
       { path: 'overview', component: OverviewComponent },
       { path: 'orders', component: OrdersComponent },
-      { path: 'orders/detail/:number', component: OrderDetailComponent },
+      { path: 'orders/detail/:orderkey', component: OrderDetailComponent },
       { path: 'addresses', component: AddressesComponent, redirectTo: 'orders' },
       { path: 'lists', component: ListsComponent },
       { path: 'lists/detail/:userId/:id', component: ListDetailComponent },
