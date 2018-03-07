@@ -1,4 +1,10 @@
 <div *ngIf="order">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/user','orders']">Orders</a></li>
+      <li class="breadcrumb-item text-primary" aria-current="page">Order Details - #{{order.number}}</li>
+    </ol>
+  </nav>
   <h5>SHIPPING DETAILS</h5>
   <div class="panel panel-default">
     <div class="row panel-body">
