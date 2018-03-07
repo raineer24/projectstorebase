@@ -280,7 +280,8 @@ export class AuthService {
       const elapsedTime = d - user.dateAuthorized;
       if(elapsedTime < 1800000) { //30 minutes
         this.store.dispatch(this.actions.loginSuccess());
-        this.store.dispatch(this.userActions.getUserLists());user.dateAuthorized = d;
+        this.store.dispatch(this.userActions.getUserLists());
+        user.dateAuthorized = d;
         this.setTokenInLocalStorage(user)
       } else {
         localStorage.removeItem('user');

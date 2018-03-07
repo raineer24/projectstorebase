@@ -6,7 +6,7 @@
         <h5>Order No: {{order.number}}</h5>
       </div>
       <div class="col-md-6">
-        <h5>Ordered on {{order.dateCreated | date:'EEEE, MMMM d, y, h:mm:ss a'}}</h5>
+        <h5>Ordered on {{order.dateCreated | date:'fullDate'}}</h5>
       </div>
       <div class="col-md-6">
         <h5>ADDRESS</h5>
@@ -86,15 +86,15 @@
       <div class='row' *ngFor="let item of orderItems">
         <br>
         <div class="col-md-2">
-          <div class="item_image_container">
-            <img class="img-responsive item_image" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
+          <div class="item-img-container">
+            <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
           </div>
         </div>
 
         <div class="col-md-3">
           <h5 class="ptitle">
             <a [routerLink]="['/item',item.id, item.slug]">
-              <span class="text-uppercase text-primary">{{item.name}}</span>
+              <span class="text-primary">{{item.name}}</span>
             </a>
           </h5>
         </div>
