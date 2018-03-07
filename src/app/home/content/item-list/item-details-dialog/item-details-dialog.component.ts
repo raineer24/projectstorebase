@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AppState } from './../../../../interfaces';
 import { environment } from './../../../../../environments/environment';
+import { SearchActions } from './../../../reducers/search.actions';
 import { CartItem } from './../../../../core/models/cart_item';
 import { Item } from './../../../../core/models/item';
 import { ProductActions } from './../../../../product/actions/product-actions';
@@ -19,7 +20,8 @@ import { UserService } from './../../../../user/services/user.service';
   styleUrls: ["./item-details-dialog.component.scss"]
 })
 export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
-  @Input() item: Item;
+  @Input() item: any;
+  @Input() categories: any;
   @Input() cartItems: CartItem[];
   @Input() isAuthenticated: boolean;
   @Input() userLists: any;
@@ -34,18 +36,31 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   includedLists: Array<any> = [];
   listState: Array<any> = [];
   inputNewList = new FormControl();
+  itemCategories: Array<any> = [];
   private imageRetries: number = 0;
   private componentDestroyed: Subject<any> = new Subject();
 
   constructor(
     private productActions: ProductActions,
     private checkoutActions: CheckoutActions,
+    private searchActions: SearchActions,
     private userActions: UserActions,
     private userService: UserService,
     private store: Store<AppState>
   ) {}
 
   ngOnInit() {
+    if(this.categories && this.item) {
+      let index1, index2, index3;
+      index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
+      index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
+      index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
+      this.itemCategories = [
+        this.categories[index1],
+        this.categories[index1].subCategories[index2],
+        this.categories[index1].subCategories[index2].subCategories[index3]
+      ]
+    }
     const cartItem = this.getCartItem();
     if (typeof cartItem != "undefined") {
       this.itemQuantity = cartItem.quantity;
@@ -89,6 +104,12 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.itemQuantity = cartItem.quantity;
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.onCloseModalEmit.emit();
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 
   hideSavings(dp, p) {
@@ -207,12 +228,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.onCloseModalEmit.emit();
-    this.componentDestroyed.next();
-    this.componentDestroyed.unsubscribe();
-  }
-
   keyPress(event: any) {
     const pattern = /[0-9]/;
     const inputChar = String.fromCharCode(event.charCode);
@@ -235,4 +250,26 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       this.quantityControl.setValue(this.MAX_VALUE)
     }
   }
+
+  selectCategory(...categories): void {
+    let filters;
+    if(categories[0] == 'all') {
+      this.store.dispatch(this.productActions.getAllProducts());
+    } else {
+      filters = {
+        mode: 'category',
+        level: categories[0].level,
+        categoryId: categories[0].id,
+        breadcrumbs: categories.map(cat => { return {id: cat.id, name: cat.name, level: cat.level}}).reverse()
+      }
+      this.store.dispatch(this.productActions.getItemsByCategory(filters));
+    }
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: filters ? [filters]: [],
+      categoryIds: []
+    }));
+    this.onCloseModal()
+    window.scrollTo(0, 0);
+  }
+
 }

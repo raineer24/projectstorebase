@@ -24,6 +24,7 @@ export class ItemListComponent implements OnInit {
   @Input() toggleLayout;
   @Input() cartItems;
   @Input() sortSettings;
+  @Input() categories;
   @Input() filterSettings: Array<any> = [];
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
@@ -51,7 +52,6 @@ export class ItemListComponent implements OnInit {
       .subscribe(itemId => {
         if(itemId) {
            this.productService.getProduct(itemId.toString()).subscribe(item => {
-             console.log(this.cartItems)
             this.store.dispatch(this.actions.addSelectedItem(item[0]));
           })
         }

@@ -1,5 +1,12 @@
 <div>
   <div class="dialog-header">
+    <div *ngIf="itemCategories.length" class="row">
+      <ol class="breadcrumb small">
+        <li><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
+        <li *ngIf="itemCategories[1]"><a (click)=selectCategory(itemCategories[1],itemCategories[0])>{{itemCategories[1].name}}</a></li>
+        <li *ngIf="itemCategories[2]"><a (click)=selectCategory(itemCategories[2],itemCategories[1],itemCategories[0])>{{itemCategories[2].name}}</a></li>
+      </ol>
+    </div>
     <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span class="glyphicon glyphicon-remove"></span></a>
   </div>
   <div class="item-details row">
@@ -14,6 +21,7 @@
     </div>
     <!-- INSERT IMAGES HERE -->
     <div class="item-info col-md-6">
+
       <div class="row item-name">
         <p class="title">{{item.name}}</p>
         <p>{{item.brandName}}</p>
