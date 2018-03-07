@@ -1,11 +1,13 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="col-xs-6">
-      <h5 class="active">Order #{{order.number}}&nbsp;| Status: {{order.status | uppercase}}</h5>
+      <h5 class="active">
+        Order #{{order.number}}&nbsp;| Status: {{order.status | uppercase}}</h5>
       <small>
-        Placed on {{order.dateCreated | date:'fullDate'}} /
-        ₱ {{order.total | number:'1.2-2'}} /
-        {{order.totalQuantity}} items
+        Placed on {{order.dateCreated | date:'fullDate'}} |
+        <!-- ₱ {{order.total | number:'1.2-2'}} /
+        {{order.totalQuantity}} items -->
+        <a [routerLink]="['detail', order.orderkey]" class="text-primary">View Details</a>
         <!-- Payment: {{order.paymentStatus| humanize | uppercase}} -->
       </small>
     </div>

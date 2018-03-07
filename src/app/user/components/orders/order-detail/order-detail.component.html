@@ -1,125 +1,117 @@
 <div *ngIf="order">
+  <h5>SHIPPING DETAILS</h5>
+  <div class="panel panel-default">
+    <div class="row panel-body">
+      <div class="col-md-6">
+        <h5>Order No: {{order.number}}</h5>
+      </div>
+      <div class="col-md-6">
+        <h5>Ordered on {{order.dateCreated | date:'fullDate'}}</h5>
+      </div>
+      <div class="col-md-6">
+        <h5>ADDRESS</h5>
+        <address>
+          <strong>{{order.firstname}} {{order.lastname}}</strong><br>
+          {{order.shippingAddress01}}<br>
+          <ng-container *ngIf="order.shippingAddress02">
+            {{order.shippingAddress02}}<br>
+          </ng-container>
+          {{order.city}}, {{order.country}} {{order.postalcode}}<br>
+          <abbr title="Mobile Number">M:</abbr> {{order.phone}}
+          <ng-container *ngIf="order.landline">
+            <br><abbr title="Phone Number">P:</abbr> {{order.landline}}
+          </ng-container>
+        </address>
+      </div>
+
+      <div class="col-md-6">
+        <h5>ORDER SUMMARY</h5>
+        <dl>
+          <dd>
+            Item(s) Subtotal: ₱ {{order.itemTotal | number:'1.2-2'}}
+          </dd>
+          <dd>
+            Fees: ₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}
+          </dd>
+          <dd *ngIf="order.discountTotal">
+            Discount: <span class="text-success">- ₱ {{order.discountTotal | number:'1.2-2'}}</span>
+          </dd>
+          <dd *ngIf="order.paymentTotal">
+            Credits: <span class="text-success">- ₱ {{order.paymentTotal | number:'1.2-2'}}</span>
+          </dd>
+          <dt>
+            Total: <span class="text-primary">₱ {{order.grandTotal | number:'1.2-2'}}</span>
+          </dt>
+        </dl>
+      </div>
+
+      <!-- <dl class="col-md-12">
+        <dt>
+          Payment: {{order.payment_state | humanize | uppercase}}
+        </dt>
+      </dl> -->
+    </div>
+  </div>
+  <br>
+  <h5>ORDER ITEMS</h5>
   <div class="panel panel-default">
     <div class="panel-body">
-      <div class="row">
+      <!-- <div class="row">
         <div class="active col-md-6">
           <div class="row">
-
             <div class="col-md-4">
               <small>SHIPMENT</small>
               <h5>
-                <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-                {{order.total}}
+                ₱ {{order.total | number:'1.2-2'}}
+              </h5>
+            </div>
+            <div class="col-md-4">
+              <small>STATUS</small>
+              <h5 class="status">
+                {{order.status | uppercase}}
               </h5>
             </div>
 
             <div class="col-md-4">
-              <small>STATUS</small>
-              <h5 class="status">
-                {{order.shipment_state | uppercase}}
-              </h5>
-            </div>
-            
-            <div class="col-md-4">
               <small>ITEMS</small>
               <h5>
-                {{order.line_items.length}}
+                {{order.totalQuantity}}
               </h5>
             </div>
 
           </div>
           </div>
       </div>
-      <hr>
-      <div class='row' *ngFor="let line_item of order.line_items">
+      <hr> -->
+      <div class='row' *ngFor="let item of orderItems">
         <br>
         <div class="col-md-2">
-          <img class="line_item_image" [src]="getProductImageUrl(line_item)" alt="Line Item">
+          <div class="item-img-container">
+            <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
+          </div>
         </div>
-        
+
         <div class="col-md-3">
           <h5 class="ptitle">
-            <a [routerLink]="['/product', line_item.variant.slug]">
-              <span class="text-uppercase text-primary">{{line_item.variant.name}}</span>
+            <a [routerLink]="['/item',item.id, item.slug]">
+              <span class="text-primary">{{item.name}}</span>
             </a>
           </h5>
         </div>
 
         <div class="col-md-3">
           <h5 class="strong">
-            <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-            {{line_item.total}}
+            {{item.total}}
           </h5>
           <small>
-            MRP: 
-            <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-            {{line_item.price}}
-          </small><br/>
-          <small class="text-warning">
-            VAT/CST: 
-            <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-            {{line_item.total - line_item.price}}
+            Price: ₱ {{item.price | number:'1.2-2'}}<br/>
+            Quantity: {{item.quantity}}
           </small>
         </div>
 
         <div class="col-md-4">
-          <p>
-            <strong class="text-warning">Please note:</strong> You can return or exchange this within 30 days. 
-          </p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <br>
-  <h5>SHIPPING DETAILS</h5>
-  <div class="panel panel-default">
-    <div class="row panel-body">
-      <div class="col-md-12">
-        <h5>Order No: {{order.number}}</h5>
-      </div>
-      
-      <div class="col-md-12">
-        <address>
-          <strong>{{order.ship_address.full_name}}.</strong><br>
-          {{order.ship_address.address1}}<br>
-          {{order.ship_address.address2}}<br>
-          {{order.ship_address.city}}, {{order.ship_address.zipcode}}<br>
-          <abbr title="Phone">P:</abbr> {{order.ship_address.phone}}
-        </address>
-      </div>
-
-      <dl class="col-md-12">
-        <dt>
-          Total Amount:
-          <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-          {{order.total}}
-        </dt>
-        
-        <dd>
-          MRP: 
-          <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-          {{order.item_total}}
-        </dd>
-
-        <dd>
-          Shipping: 
-          <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-          {{order.ship_total}}
-        </dd>
-        
-        <dd>
-          Adjustment: 
-          <i class="fa fa-{{order.currency | lowercase}}" aria-hidden="true"></i>
-          {{order.adjustment_total}}
-        </dd>
-      </dl>
-
-      <dl class="col-md-12">
-        <dt>
-          Payment: {{order.payment_state | humanize | uppercase}}
-        </dt>
-      </dl>
     </div>
   </div>
 </div>

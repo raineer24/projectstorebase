@@ -43,6 +43,7 @@ export class ConfirmComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    //NOTE: TEMPORARY!!! FEES TO BE DECIDED
     this.fees = {
       service: 100,
       delivery: 100,
