@@ -39,8 +39,8 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.grandTotal = this.totalCartValue + this.serviceFee + this.deliveryFee;
-    this.totalAmtDue = this.totalCartValue + this.serviceFee + this.deliveryFee - this.totalDiscounts;
+    this.grandTotal = this.totalCartValue + this.serviceFee + this.deliveryFee - this.totalDiscounts;
+    this.totalAmtDue = this.grandTotal;
   }
 
   placeOrder() {
