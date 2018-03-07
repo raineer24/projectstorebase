@@ -29,6 +29,7 @@ export class PaymentComponent implements OnInit {
   @ViewChild('addGC') addGC: ElementRef;
   @ViewChild('coupon') coupon:ElementRef;
   @ViewChild('appCoupon') appCoupon:ElementRef;
+  @ViewChild('gc') gc:ElementRef;
   @Input() discount: number = 0;
   gcSelected: boolean = false;
   isShowErrMsg: boolean = false;
@@ -68,12 +69,12 @@ export class PaymentComponent implements OnInit {
   vErrMsg: string;
   gErrMsg: string = " ";
   hasErr: boolean = false;
-  hasGC: boolean = false;
   forGC: any;
   bCouponEntered: boolean = false;
   gcList: any;
   forCoupon: any;
   voucherIcon: string;
+  checkedGC: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -106,16 +107,19 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     this.gcList = [];
-    this.initForm();
     this.store.select(getGiftCerts).takeUntil(this.componentDestroyed).subscribe(gc => {
         this.gcList = gc.map(gcert => gcert[0]);
         if(this.gcList.length) {
           this.gcQuantity = this.gcList.length;
+          this.checkedGC = true;
+          console.log(this.gcQuantity);
+          console.log(typeof(this.gcQuantity));
         }
+        this.initForm();
     });
 
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
-      this.totalAmount = val;
+      this.totalAmount = val + this.deliveryFee + this.serviceFee - this.totalDiscount;
       this.totalPaidAmount = 0.00;
     });
     this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
@@ -124,9 +128,10 @@ export class PaymentComponent implements OnInit {
     this.totalAmountDue$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmountDue = val;
     });
-    this.totalDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
+    this.tempDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalDiscount = val;
     });
+
   }
 
   initForm() {
@@ -141,13 +146,8 @@ export class PaymentComponent implements OnInit {
   checkVoucher(code){
     this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
       if(code.value.length > 3) {
-        if(this.bCouponEntered) {
-          // this.totalAmountDue = Number(this.totalAmountDue) + Number(this.discount);
-          this.forCoupon = {
-            value: 0,
-            amtDue:this.totalAmountDue
-          };
-          this.store.dispatch(this.checkoutAction.removeCoupon(this.forCoupon));
+        if(this.bCouponEntered){
+          this.store.dispatch(this.checkoutAction.removeCoupon());
           this.bCouponEntered = false;
         }
         if(data.message != null) {
@@ -159,8 +159,8 @@ export class PaymentComponent implements OnInit {
         } else {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
-            this.discount = data.discount;
-            // this.totalAmountDue = this.totalAmountDue - this.discount;
+            this.discount = Number(data.discount);
+            this.totalAmountDue = this.totalAmount -Number(data.discount);
             this.forCoupon = {
               value: Number(data.discount),
               amtDue: this.totalAmountDue
@@ -169,11 +169,7 @@ export class PaymentComponent implements OnInit {
             this.bCouponEntered = true;
         }
       } else {
-        this.forCoupon = {
-          value: 0,
-          amtDue:this.totalAmountDue
-        };
-        this.store.dispatch(this.checkoutAction.removeCoupon(this.forCoupon));
+        this.store.dispatch(this.checkoutAction.removeCoupon());
         this.bCouponEntered = false;
         this.setDefault();
       }
@@ -206,7 +202,7 @@ export class PaymentComponent implements OnInit {
           });
           this.updateGCStatus(code.value);
           this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
-          // this.totalAmountDue = this.totalAmountDue - Number(data.amount);
+          this.totalAmountDue = this.totalAmountDue - this.totalPaidAmount;
           this.forGC = {
               value: this.totalPaidAmount,
               amtDue: this.totalAmountDue,

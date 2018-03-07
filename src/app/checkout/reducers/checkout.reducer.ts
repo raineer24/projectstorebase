@@ -24,6 +24,12 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _totalCartItems = Number(payload.totalQuantity);
         _totalCartValue = parseFloat(payload.itemTotal);
 
+        if(_totalCartValue > 0){
+          _totalCartValue = _totalCartValue - _totalDiscount;
+        } else {
+          _totalCartValue = 0;
+        }
+
         if(payload.totalDiscount != null){
             _totalDiscount = parseFloat(payload.totalDiscount);
         } else {
@@ -36,7 +42,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _totalAmountPaid = 0;
         }
 
-        _totalAmountDue = _totalCartValue - _totalDiscount - _totalAmountPaid;
+        _totalAmountDue = _totalCartValue - _totalAmountPaid;
         _ship_address = payload.shippingAddress01;
         _bill_address = payload.billingAddress01;
         _orderStatus = payload.status;
@@ -74,10 +80,10 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }
 
         _totalCartItems = state.totalCartItems + _cartItem.quantity;
-        _totalCartValue = state.totalCartValue + parseFloat(_cartItem.total);
+        _totalCartValue = state.totalCartValue + parseFloat(_cartItem.total) - _totalDiscount;
         _cartItemEntity = { [_cartItemId]: _cartItem };
         _cartItemIds = state.cartItemIds.push(_cartItemId);
-        _totalAmountDue = _totalCartValue - _totalAmountPaid - _totalDiscount;
+        _totalAmountDue = _totalCartValue - _totalAmountPaid;
 
         return state.merge({
           cartItemIds: _cartItemIds,
@@ -96,8 +102,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _cartItemIds = state.cartItemIds.splice(index, 1);
           _cartItemEntities = state.cartItemEntities.delete(_cartItemId);
           _totalCartItems = state.totalCartItems - _cartItem.quantity;
-          _totalCartValue = state.totalCartValue - parseFloat(_cartItem.total);
-          _totalAmountDue = _totalCartValue - _totalAmountPaid - _totalDiscount;
+          _totalCartValue = state.totalCartValue - parseFloat(_cartItem.total) - _totalDiscount;
+          _totalAmountDue = _totalCartValue - _totalAmountPaid ;
         }
 
         return state.merge({
@@ -123,8 +129,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItem['total'] = _cartItem['price'] * quantity;
         _cartItemEntity = { [_cartItemId]: _cartItem }
         _totalCartItems = state.totalCartItems + quantityDifference;
-        _totalCartValue = state.totalCartValue + total;
-        _totalAmountDue = _totalCartValue - _totalAmountPaid - _totalDiscount;
+        _totalCartValue = state.totalCartValue + total - _totalDiscount;
+        _totalAmountDue = _totalCartValue - _totalAmountPaid ;
 
         return state.merge({
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
@@ -137,18 +143,18 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
       //case APPLY COUPON
       case CheckoutActions.APPLY_COUPON:
         _totalDiscount = payload.value;
-        _totalAmountDue = payload.amtDue;
+        _totalCartValue = state.totalCartValue - _totalDiscount;
         // _totalCartValue = _totalCartValue - _totalDiscount;
         // console.log(_totalCartValue);
         return state.merge({
           totalDiscount: _totalDiscount,
-          totalAmountDue: _totalAmountDue
+          totalCartValue: _totalCartValue
         }) as CheckoutState;
 
       //case REMOVE COUPON when input changed
       case CheckoutActions.REMOVE_COUPON:
         _totalDiscount = 0;
-        _totalAmountDue = payload.amtDue;
+        _totalAmountDue = state.totalCartValue;
         // _totalAmountDue = payload.amtDue;
         // _totalCartValue = _totalCartValue - _totalDiscount;
         // console.log(_totalCartValue);

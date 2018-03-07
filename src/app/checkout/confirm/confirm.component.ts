@@ -53,7 +53,8 @@ export class ConfirmComponent implements OnInit {
       this.orderKey = params['key']
         return this.checkoutService.getOrder(this.orderKey).map(details => {
           details.subTotal = Number(details.itemTotal);
-          details.amountTotal = Number(details.total) - Number(details.paymentTotal) - Number(details.discountTotal);
+          // details.amountTotal = Number(details.total) - Number(details.paymentTotal) - Number(details.discountTotal);
+          details.amountTotal = Number(details.adjustmentTotal);
           this.orderDetails = details;
           console.log(details);
           this.cartItemArray = details['items'].map(item => item.item_id)
