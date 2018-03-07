@@ -1,3 +1,9 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/user','lists']">Lists</a></li>
+    <li class="breadcrumb-item text-primary" aria-current="page">List - {{list.name}}</li>
+  </ol>
+</nav>
 <div class="form-inline">
   <div class="form-group valign-top">
     <label for="usr" class="valign-top">List:</label>
