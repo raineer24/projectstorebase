@@ -304,10 +304,12 @@ Image credits: unsplash.com
   padding-left: 4px !important;
 }
 .sub-banner div:first-child {
+  padding-left: 0px !important;
   padding-right: 4px !important;
 }
 .sub-banner div:last-child {
   padding-left: 4px !important;
+  padding-right: 0px !important;
 }
 
 .top-add {
