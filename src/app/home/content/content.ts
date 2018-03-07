@@ -7,7 +7,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
   template: `
     <app-content-header [filterSettings]="filters" [sortSettings]="sorting"></app-content-header>
     <app-item-list [(toggleLayout)]="toggleLayout"
-      [items]="products"
+      [items]="items"
+      [categories]="categories"
       [cartItems]="cartItemsArr"
       [sortSettings]="sorting"
       [filterSettings]="filters" >
@@ -16,7 +17,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 //   styleUrls: ['./content-header.component.scss']
 })
 export class ContentComponent implements OnInit {
-  @Input() products: Item[];
+  @Input() items: Item[];
+  @Input() categories: any;
   @Input() cartItemsArr: Item[];
   @Input() filters: any;
   @Input() sorting: any;
