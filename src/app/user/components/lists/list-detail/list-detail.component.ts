@@ -66,7 +66,7 @@ export class ListDetailComponent implements OnInit {
     if (key) {
       url = environment.IMAGE_REPO + key + '.jpg';
     } else {
-      url = 'assets/omg-01.png';
+      url = 'assets/omg-04.png';
     }
     return url;
   }

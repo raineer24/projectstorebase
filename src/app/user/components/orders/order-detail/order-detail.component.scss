@@ -2,6 +2,17 @@
   color: #20bd99;
 }
 
-.line_item_image {
+.item_image_container {
   border: 1px solid #eee;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+}
+
+.item_image {
+  max-width: 90px;
+  max-height: 90px;
+  vertical-align: middle;
+  display: inline-block;
 }
