@@ -121,4 +121,18 @@ export class ProductService {
     .catch(err => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @returns {*}
+   *
+   * @memberof ProductService
+   */
+  getSuggestedItems(id: number): any {
+    return this.http.get(`v1/item/${id}/suggestions`)
+    .map(res => res.json())
+    .catch(err => Observable.empty());
+  }
+
+
 }

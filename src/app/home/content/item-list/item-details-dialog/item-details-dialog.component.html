@@ -1,12 +1,12 @@
 <div>
   <div class="dialog-header">
-    <div *ngIf="itemCategories.length" class="row">
+    <!-- <div *ngIf="itemCategories.length" class="row">
       <ol class="breadcrumb small">
         <li><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
         <li *ngIf="itemCategories[1]"><a (click)=selectCategory(itemCategories[1],itemCategories[0])>{{itemCategories[1].name}}</a></li>
         <li *ngIf="itemCategories[2]"><a (click)=selectCategory(itemCategories[2],itemCategories[1],itemCategories[0])>{{itemCategories[2].name}}</a></li>
       </ol>
-    </div>
+    </div> -->
     <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span class="glyphicon glyphicon-remove"></span></a>
   </div>
   <div class="item-details row">
@@ -52,29 +52,29 @@
           <label>&nbsp;</label>
         </div>
         <div class="col-md-10 quantity-dialog">
-            <div class="col-md-6">
-              <div *ngIf="itemQuantity != 0; else addCart" class="input-group btn-block">
-                <!-- <label for="bit">Quantity in cart</label> -->
-                  <!-- <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button> -->
+          <div class="col-md-6">
+            <div *ngIf="itemQuantity != 0; else addCart" class="input-group btn-block">
+              <!-- <label for="bit">Quantity in cart</label> -->
+                <!-- <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button> -->
 
-                  <span class="input-group-btn">
-                    <button title="Remove 1" type="button" class="btn btn-minus btn-default" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
-                  </span>
-                  <input type="number" class="form-control text-center"
-                    [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
-                    [value]="itemQuantity" [formControl]="quantityControl"
-                    (blur)="checkIfValid($event)" (keypress)="keyPress($event)" />
-                  <span class="input-group-btn"><button title="Add more of this item" type="button" class="btn btn-success quantity-in-cart-btn" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
+                <span class="input-group-btn">
+                  <button title="Remove 1" type="button" class="btn btn-minus btn-default" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
+                </span>
+                <input type="number" class="form-control text-center"
+                  [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
+                  [value]="itemQuantity" [formControl]="quantityControl"
+                  (blur)="checkIfValid($event)" (keypress)="keyPress($event)" />
+                <span class="input-group-btn"><button title="Add more of this item" type="button" class="btn btn-success quantity-in-cart-btn" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
 
-                  <!-- <input class="form-control text-center" type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl" /> -->
-                  <!-- <span class="input-group-btn"><button title="Add more of this item" class="btn btn-default" type="button"(click)="incrementQuantity($event)" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span> -->
+                <!-- <input class="form-control text-center" type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl" /> -->
+                <!-- <span class="input-group-btn"><button title="Add more of this item" class="btn btn-default" type="button"(click)="incrementQuantity($event)" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span> -->
 
-              </div>
-              <ng-template #addCart>
-                <button title="Add 1 item" class="quantity-in-cart-add btn btn-block btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
-              </ng-template>
             </div>
-            <div class="col-md-6">
+            <ng-template #addCart>
+              <button title="Add 1 item" class="quantity-in-cart-add btn btn-block btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
+            </ng-template>
+          </div>
+          <div class="col-md-6">
             <!-- START: ADD TO MY LIST-->
             <ng-container *ngIf="isAuthenticated; else notAuth">
               <div class="btn-group btn-select-item" dropdown [autoClose]="false">
@@ -148,11 +148,27 @@
               </div>
             </ng-template>
             <!-- END: ADD TO MY LIST-->
+          </div>
         </div>
         <!-- </p> -->
       </div>
     </div> <!-- div.item-info -->
   </div>
+  <!-- START: RECOMMENDED LIST -->
+  <hr>
+  <div class="row suggested-items">
+    <h5>Please check these other items</h5>
+    <section class="col-xs-12">
+      <ul class="">
+        <li *ngFor="let item of suggestedItems" class="product-base" itemscope
+          itemtype="https://schema.org/Product">
+          <app-item-list-entry [item]="item" [cartItem]="getCartItem(item.id)" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
+          <!--span class="product-zoom glyphicon glyphicon-search"></span-->
+        </li>
+      </ul>
+    </section>
+  </div>
+  <!-- END: RECOMMENDED LIST -->
 </div>
       <!-- <div>
         When this item is not available

@@ -8,6 +8,7 @@ import { environment } from './../../../../../environments/environment';
 import { SearchActions } from './../../../reducers/search.actions';
 import { CartItem } from './../../../../core/models/cart_item';
 import { Item } from './../../../../core/models/item';
+import { ProductService } from './../../../../core/services/product.service';
 import { ProductActions } from './../../../../product/actions/product-actions';
 import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
 import { UserActions } from './../../../../user/actions/user.actions';
@@ -27,6 +28,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   @Input() userLists: any;
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
   @Output() onClose: EventEmitter<any> = new EventEmitter();
+  suggestedItems: Array<Object>;
   itemQuantity: number = 0;
   quantityControl = new FormControl();
   saveAmount: any;
@@ -41,6 +43,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   private componentDestroyed: Subject<any> = new Subject();
 
   constructor(
+    private productService: ProductService,
     private productActions: ProductActions,
     private checkoutActions: CheckoutActions,
     private searchActions: SearchActions,
@@ -50,17 +53,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if(this.categories && this.item) {
-      let index1, index2, index3;
-      index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
-      index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
-      index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
-      this.itemCategories = [
-        this.categories[index1],
-        this.categories[index1].subCategories[index2],
-        this.categories[index1].subCategories[index2].subCategories[index3]
-      ]
-    }
+
     const cartItem = this.getCartItem();
     if (typeof cartItem != "undefined") {
       this.itemQuantity = cartItem.quantity;
@@ -82,11 +75,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       })
       .takeUntil(this.componentDestroyed)
       .subscribe();
-    this.userService
-      .getListsOfItem(this.item.id)
+
+    this.userService.getListsOfItem(this.item.id)
       .takeUntil(this.componentDestroyed)
       .subscribe(res => {
-
         this.includedLists = res.map(x => {
           return {
             list_id: x.list_id,
@@ -95,6 +87,34 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         });
         this.setListCheckbox();
       });
+
+    this.productService.getSuggestedItems(this.item.id)
+      .takeUntil(this.componentDestroyed)
+      .subscribe(res => {
+        this.suggestedItems = res;
+      });
+    if(this.categories && this.item) {
+        // let index1, index2, index3;
+        // index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
+        // index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
+        // index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
+        // this.itemCategories = [
+        //   this.categories[index1],
+        //   this.categories[index1].subCategories[index2],
+        //   this.categories[index1].subCategories[index2].subCategories[index3]
+        // ]
+        // index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
+        // this.itemCategories[0] = this.categories[index1];
+        // if (this.item.category2) {
+        //   index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
+        //   this.itemCategories[1] = index2 >= 0 ? this.categories[index1].subCategories[index2]: null;
+        // }
+        // if (this.item.category3) {
+        //   index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
+        //   this.itemCategories[2] = index3 >= 0 ? this.categories[index1].subCategories[index2].subCategories[index3]: null;
+        // }
+        // console.log(this.itemCategories)
+    }
   }
 
   ngOnChanges() {
