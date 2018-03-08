@@ -26,6 +26,7 @@ import { environment } from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  public shouldShow =true;
   mobile: boolean = false;
   @Input() currentStep: string;
   @Input() isHomeRoute: boolean;
@@ -79,7 +80,7 @@ export class HeaderComponent implements OnInit {
     this.subscription.unsubscribe();
   }
   toggle() {
-    this.show = !this.show;
+    this.shouldShow = !this.shouldShow;
     if (this.show) {
       //return this.show = false;
     }
