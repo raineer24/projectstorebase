@@ -108,20 +108,21 @@
   
  
       <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'"  class="mobile">
-      
+<div class="omglogo">
+  <a routerLink="/">
+    <img src="assets/omg-logo-01.png" />
+  </a>
+</div>
+
           
     
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-menu" style="float: left">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <div class="omglogo">
-        <a routerLink="/">
-          <img src="assets/omg-logo-01.png" />
-        </a>
-    </div>
+
       
    
     <div class="input-group col-xs-9">
@@ -134,21 +135,27 @@
       </span>
     </div>
       <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
-<div class="numbers">
-  <p>
-    <a href="">
-      <i class="glyphicon glyphicon-search"></i>
-    </a>
-    
-  </p>
-  <p class="cart" [routerLink]="['checkout','cart']">
-    <a>
-      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-      <!-- <span class="badge badge-danger">{{totalCartItems}}</span>
-      {{totalCartValue}} -->
-    </a>
-  </p>
+
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-menu" style="background: none;border: none;margin: 0 3px 0 0;padding-left: 12px;border-left: 1px solid #eee;height: 40px;font-size:130%;color:#888;">
+  <span class="fa fa-search"></span>
+</button>
+<div id="search-menu" class="navbar-collapse collapse">
+  <form>
+    <div class="form-group">
+      <input [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)" (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+      (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10" [typeaheadWaitMs]="300" [typeaheadMinLength]="2"
+      typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate" (keyup.enter)="searchKeyword()" class="form-control"
+      placeholder="Search for..." type="text" class="form-control" id="search"  name="q" style="width:85%;display:inline-block;">
+      <button type="submit" class="btn btn-default" style="width:13%">
+        <span class="glyphicon glyphicon-search"></span>
+      </button>
+    </div>
+  </form>
+
 </div>
+
+ 
+
     </div>
      
 <!--

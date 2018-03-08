@@ -402,6 +402,9 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   .nav-menu-mid {
     padding: 0;
   }
+  #search-menu {
+    height: 500px;
+  }
   .mobile {
     padding: 10px 10px 0;
   }
@@ -415,15 +418,15 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
     display: none;
   }
   .navbar-toggle {
-    float: left;
+    float: right;
   }
   .omglogo {
      width: 55%;
 
-    padding-left: 91px;
+    //padding-left: 91px;
     float: left;
     line-height: 29px;
-    text-align: center;
+    //text-align: center;
   }
   .omglogo img {
     max-width: 70px;
@@ -451,7 +454,7 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   }
   @media screen and (max-width: 414px) {
     .omglogo {
-      width: 44%;
+      width: 18%;
 
     }
 
