@@ -160,7 +160,7 @@
     </span>
 <div>
 <ng-container>
-  <form ngNoForm>
+  <form ngNoForm >
     
     <span [hidden]="!shouldShow">
       <button type="button" (click)="toggle()" class="btn btn-danger pull-right">
@@ -170,8 +170,8 @@
     <input *ngIf="!shouldShow" type="search" [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
       (typeaheadNoResults)="changeTypeaheadNoResults($event)" (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10"
       [typeaheadWaitMs]="300" [typeaheadMinLength]="2" typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate"
-      (keyup.enter)="searchKeyword()" class="form-control" placeholder="Search for..." type="text" class="form-control" id="search"
-      name="q" style="width:85%;display:inline-block;">
+      (keyup.enter)="searchKeyword()" class="form-control" placeholder="Search for..." class="form-control" 
+      name="q" style="width: 82%;">
   </form>
 </ng-container>
 </div>
