@@ -38,7 +38,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   includedLists: Array<any> = [];
   listState: Array<any> = [];
   inputNewList = new FormControl();
-  itemCategories: Array<any> = [];
+  itemCategories: Array<any> = [null,null,null];
   private imageRetries: number = 0;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -93,28 +93,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.suggestedItems = res;
       });
-    if(this.categories && this.item) {
-        // let index1, index2, index3;
-        // index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
-        // index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
-        // index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
-        // this.itemCategories = [
-        //   this.categories[index1],
-        //   this.categories[index1].subCategories[index2],
-        //   this.categories[index1].subCategories[index2].subCategories[index3]
-        // ]
-        // index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
-        // this.itemCategories[0] = this.categories[index1];
-        // if (this.item.category2) {
-        //   index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
-        //   this.itemCategories[1] = index2 >= 0 ? this.categories[index1].subCategories[index2]: null;
-        // }
-        // if (this.item.category3) {
-        //   index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
-        //   this.itemCategories[2] = index3 >= 0 ? this.categories[index1].subCategories[index2].subCategories[index3]: null;
-        // }
-        // console.log(this.itemCategories)
-    }
+    this.initBreadCrumbs();
   }
 
   ngOnChanges() {
@@ -124,12 +103,31 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.itemQuantity = cartItem.quantity;
       }
     }
+    if (!this.itemCategories[0]) {
+      this.initBreadCrumbs();
+    }
   }
 
   ngOnDestroy() {
     this.onCloseModalEmit.emit();
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
+  }
+
+  initBreadCrumbs(): void {
+    if(this.categories.length && this.item) {
+      let index1, index2, index3;
+      index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
+      this.itemCategories[0] = this.categories[index1];
+      if (this.item.category2) {
+        index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
+        this.itemCategories[1] = index2 >= 0 ? this.categories[index1].subCategories[index2]: null;
+      }
+      if (this.item.category3) {
+        index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
+        this.itemCategories[2] = index3 >= 0 ? this.categories[index1].subCategories[index2].subCategories[index3]: null;
+      }
+    }
   }
 
   hideSavings(dp, p) {

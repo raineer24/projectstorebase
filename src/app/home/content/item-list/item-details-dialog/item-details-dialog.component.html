@@ -1,19 +1,20 @@
-<div>
+<div *ngIf="item">
   <div class="dialog-header">
-    <!-- <div *ngIf="itemCategories.length" class="row">
+    <div class="row">
       <ol class="breadcrumb small">
-        <li><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
+        <li>&nbsp;</li>
+        <li ><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
         <li *ngIf="itemCategories[1]"><a (click)=selectCategory(itemCategories[1],itemCategories[0])>{{itemCategories[1].name}}</a></li>
         <li *ngIf="itemCategories[2]"><a (click)=selectCategory(itemCategories[2],itemCategories[1],itemCategories[0])>{{itemCategories[2].name}}</a></li>
       </ol>
-    </div> -->
+    </div>
     <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span class="glyphicon glyphicon-remove"></span></a>
   </div>
   <div class="item-details row">
     <!-- <div class="lighter">
         <p-lightbox class="col-sm-6" [images]="images"></p-lightbox>
     </div> -->
-    <div class="item-image-thumbnails col-md-1 col-xs-5">
+    <div class="item-image-thumbnails col-md-1 col-xs-3">
       <img [src]="getItemImageUrl(item.imageKey)" (error)="onImageError()" />
     </div>
     <div class="item-images col-md-4">
