@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit {
   searchData: Object = {};
   sortSettings: any;
   sortSubs: Subscription;
+  show: boolean = false;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -76,6 +77,12 @@ export class HeaderComponent implements OnInit {
   ngOnDestroy() {
     this.sortSubs.unsubscribe();
     this.subscription.unsubscribe();
+  }
+  toggle() {
+    this.show = !this.show;
+    if (this.show) {
+      //return this.show = false;
+    }
   }
 
   selectCategory(...categories): void {

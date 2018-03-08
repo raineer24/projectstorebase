@@ -136,7 +136,7 @@
     </div>
       <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
 
-<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-menu" style="background: none;border: none;margin: 0 3px 0 0;padding-left: 12px;border-left: 1px solid #eee;height: 40px;font-size:130%;color:#888;">
+<!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-menu" style="background: none;border: none;margin: 0 3px 0 0;padding-left: 12px;border-left: 1px solid #eee;height: 40px;font-size:130%;color:#888;">
   <span class="fa fa-search"></span>
 </button>
 <div id="search-menu" class="navbar-collapse collapse">
@@ -152,9 +152,26 @@
     </div>
   </form>
 
-</div>
+</div> -->
 
- 
+<ng-container>
+  <form ngNoForm>
+    <span [hidden]="show">
+      <button type="button" (click)="toggle()" class="btn toggle-search btn-default btn-circle">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </span>
+    <span [hidden]="!show">
+      <button type="button" (click)="toggle()" class="btn toggle-search btn-default btn-circle">
+        <i class="glyphicon glyphicon-close"></i>
+      </button>
+    </span>
+    <input *ngIf="show" type="search"  [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)" (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+    (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10" [typeaheadWaitMs]="300" [typeaheadMinLength]="2"
+    typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate" (keyup.enter)="searchKeyword()" class="form-control"
+    placeholder="Search for..." type="text" class="form-control" id="search" name="q" style="width:85%;display:inline-block;">
+  </form>
+</ng-container>
 
     </div>
      
