@@ -153,25 +153,36 @@
   </form>
 
 </div> -->
-
+<span [hidden]="shouldShow">
+      <button type="button" (click)="toggle()" class="btn btn-danger pull-right">
+        <i class="glyphicon glyphicon glyphicon-remove"></i>
+      </button>
+    </span>
+<div>
 <ng-container>
   <form ngNoForm>
-    <span [hidden]="shouldShow">
-      <button type="button" (click)="toggle()" class="btn toggle-search btn-default pull-right">
-        <i class="glyphicon glyphicon-search"></i>
-      </button>
-    </span>
+    
     <span [hidden]="!shouldShow">
-      <button type="button" (click)="toggle()" class="btn toggle-search btn-default btn-circle">
-        <i class="glyphicon glyphicon-close"></i>
+      <button type="button" (click)="toggle()" class="btn btn-danger pull-right">
+        <i class="glyphicon glyphicon glyphicon-search"></i>
       </button>
     </span>
-    <input *ngIf="!shouldShow" type="search"  [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)" (typeaheadNoResults)="changeTypeaheadNoResults($event)"
-    (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10" [typeaheadWaitMs]="300" [typeaheadMinLength]="2"
-    typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate" (keyup.enter)="searchKeyword()" class="form-control"
-    placeholder="Search for..." type="text" class="form-control" id="search" name="q" style="width:85%;display:inline-block;">
+    <input *ngIf="!shouldShow" type="search" [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
+      (typeaheadNoResults)="changeTypeaheadNoResults($event)" (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10"
+      [typeaheadWaitMs]="300" [typeaheadMinLength]="2" typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate"
+      (keyup.enter)="searchKeyword()" class="form-control" placeholder="Search for..." type="text" class="form-control" id="search"
+      name="q" style="width:85%;display:inline-block;">
   </form>
 </ng-container>
+</div>
+  <div class="cart pull-right" [ngClass]="{show: shouldShow, hide: !shouldShow}"  [routerLink]="['checkout','cart']">
+    <button class="btn btn-danger">
+        <i class="glyphicon glyphicon-shopping-cart"></i>
+    </button>
+   
+
+  </div>
+
 
     </div>
      
