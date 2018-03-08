@@ -1,6 +1,6 @@
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
-import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate, getGiftCerts,
+import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate, getGiftCerts, getGrandTotal,
   getTotalCartItems, getTotalCartValue, getCartItems, getOrderState, getTotalDiscount, getTotalAmtDue, getTotalAmtPaid } from './../reducers/selectors';
 import { getAuthStatus } from './../../auth/reducers/selectors';
 import { AppState } from './../../interfaces';
@@ -45,6 +45,7 @@ export class PaymentComponent implements OnInit {
   deliveryDate$: Observable<any>;
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
+  cartTotal$: Observable<number>;
   cartItems$: Observable<CartItem[]>;
   isAuthenticated$: Observable<boolean>;
   giftCertList$:Observable<any>;
@@ -89,7 +90,8 @@ export class PaymentComponent implements OnInit {
     this.store.select(getOrderState).subscribe(status => this.orderStatus = status);
     this.shipAddress$ = this.store.select(getShipAddress);
     this.billAddress$ = this.store.select(getBillAddress);
-    this.orderTotal$ = this.store.select(getTotalCartValue);
+    this.cartTotal$ = this.store.select(getTotalCartValue);
+    this.orderTotal$ = this.store.select(getGrandTotal);
     this.tempDiscount$ = this.store.select(getTotalDiscount);
     this.totalAmountPaid$ = this.store.select(getTotalAmtPaid);
     this.totalAmountDue$ = this.store.select(getTotalAmtDue);
@@ -135,6 +137,7 @@ export class PaymentComponent implements OnInit {
   }
 
   initForm() {
+    console.log(this.gcList);
     const gcCode = '';
     this.gcForm = this.fb.group({
   	  'gc-code': [gcCode ] }
@@ -162,8 +165,7 @@ export class PaymentComponent implements OnInit {
             this.discount = Number(data.discount);
             this.totalAmountDue = this.totalAmount -Number(data.discount);
             this.forCoupon = {
-              value: Number(data.discount),
-              amtDue: this.totalAmountDue
+              value: Number(data.discount)
             };
             this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
             this.bCouponEntered = true;
@@ -179,6 +181,7 @@ export class PaymentComponent implements OnInit {
 
   addGiftCert(code){
     let tempList = [];
+    let amountPaid = 0;
     console.log(code.value);
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
@@ -201,11 +204,10 @@ export class PaymentComponent implements OnInit {
             value: data.amount
           });
           this.updateGCStatus(code.value);
-          this.totalPaidAmount = this.totalPaidAmount + Number(data.amount);
-          this.totalAmountDue = this.totalAmountDue - this.totalPaidAmount;
+          amountPaid = Number(data.amount);
+          // this.totalAmountDue = this.totalAmountDue - this.totalPaidAmount;
           this.forGC = {
-              value: this.totalPaidAmount,
-              amtDue: this.totalAmountDue,
+              value: amountPaid,
               gCerts: tempList
             }
           this.gErrMsg = null;
@@ -213,6 +215,7 @@ export class PaymentComponent implements OnInit {
           this.gcCount();
           this.store.dispatch(this.checkoutAction.applyGC(this.forGC));
           this.gCode.nativeElement.value = '';
+          this.totalPaidAmount += amountPaid;
           return this.totalPaidAmount;
         }
       })
