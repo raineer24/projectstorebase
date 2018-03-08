@@ -54,7 +54,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    const cartItem = this.getCartItem();
+    const cartItem = this.getCartItem(this.item.id);
     if (typeof cartItem != "undefined") {
       this.itemQuantity = cartItem.quantity;
     }
@@ -63,7 +63,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         //do nothing
       } else {
         this.itemQuantity = value;
-        let cartItem = this.getCartItem();
+        let cartItem = this.getCartItem(this.item.id);
         cartItem.quantity = value;
         this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
       }
@@ -98,7 +98,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
 
   ngOnChanges() {
     if (this.cartItems.length) {
-      const cartItem = this.getCartItem();
+      const cartItem = this.getCartItem(this.item.id);
       if(cartItem) {
         this.itemQuantity = cartItem.quantity;
       }
@@ -175,8 +175,8 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCartItem() {
-    return this.cartItems.find(cartItem => cartItem.item_id === this.item.id);
+  getCartItem(id: number) {
+    return this.cartItems.find(cartItem => cartItem.item_id === id);
   }
 
   toggleCreateNewList(): void {

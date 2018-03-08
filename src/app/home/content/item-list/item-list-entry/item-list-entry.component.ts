@@ -19,6 +19,7 @@ import 'rxjs/add/operator/debounceTime';
 export class ItemListEntryComponent implements OnInit, OnChanges {
   @Input() item: Item;
   @Input() cartItem: CartItem;
+  @Input() isClickable: boolean = true;
   @Output() onOpenModalEmit: EventEmitter<any> = new EventEmitter<any>();
   itemQuantity: number = 0;
   quantityControl = new FormControl();
@@ -98,8 +99,9 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   }
 
   selectItem() {
-    // this.store.dispatch(this.productActions.addSelectedItem(this.item));
-    this.onOpenModalEmit.emit(this.item);
+    if(this.isClickable) {
+      this.onOpenModalEmit.emit(this.item);
+    }
   }
 
   incrementQuantity(e) {

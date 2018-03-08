@@ -75,8 +75,8 @@
               <button title="Add 1 item" class="quantity-in-cart-add btn btn-block btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
             </ng-template>
           </div>
+          <!-- START: ADD TO MY LIST-->
           <div class="col-md-6">
-            <!-- START: ADD TO MY LIST-->
             <ng-container *ngIf="isAuthenticated; else notAuth">
               <div class="btn-group btn-select-item" dropdown [autoClose]="false">
                 <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
@@ -148,8 +148,8 @@
                 </ul>
               </div>
             </ng-template>
-            <!-- END: ADD TO MY LIST-->
           </div>
+          <!-- END: ADD TO MY LIST-->
         </div>
         <!-- </p> -->
       </div>
@@ -161,9 +161,9 @@
     <h5>Please check these other items</h5>
     <section class="col-xs-12">
       <ul class="">
-        <li *ngFor="let item of suggestedItems" class="product-base" itemscope
+        <li *ngFor="let suggested of suggestedItems" class="product-base" itemscope
           itemtype="https://schema.org/Product">
-          <app-item-list-entry [item]="item" [cartItem]="getCartItem(item.id)" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
+          <app-item-list-entry [item]="suggested" [cartItem]="getCartItem(suggested.id)" [isClickable]="false"></app-item-list-entry>
           <!--span class="product-zoom glyphicon glyphicon-search"></span-->
         </li>
       </ul>
