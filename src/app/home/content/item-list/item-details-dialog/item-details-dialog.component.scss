@@ -10,13 +10,18 @@
     a {
       color: #666;
       text-transform: capitalize;
+      cursor: pointer;
     }
   }
 }
 
 .item-details {
   .item-images {
-    // float: left;
+    text-align: center;
+    img {
+      display: inline-block;
+      max-height: 350px;
+    }
   }
   .item-image-thumbnails {
     // float: left;
@@ -99,11 +104,6 @@
 //   background: transparent;
 // }
 
-.suggested-items {
-  margin-top: 10px;
-  border-top: 1px solid #000;
-}
-
 .quantity-in-cart {
   margin: 0px !important;
   width: 12em;
@@ -154,20 +154,6 @@
   // }
 }
 
-.addtocart {
-  padding: 0;
-  width: 36%;
-}
-
-
-// .btn {
-//   border-radius: 0px;
-// }
-//
-// .btn-danger {
-//   // background: #ff5847;
-//   width: 100%;
-// }
 
 input[value="1"] {
   margin: 0 auto;
@@ -177,43 +163,6 @@ input[value="1"] {
   list-style: none;
 }
 
-.caption h4 {
-  margin: 0;
-}
-
-.caption p {
-  margin: 0;
-}
-
-.caption .price {
-  font-weight: bold;
-}
-
-.orange {
-  background-color: #ff5848;
-  width: 100%;
-  border: none;
-}
-
-.carousel {
-  overflow: hidden;
-}
-
-.carousel-inner {
-  width: 89%;
-  float: left;
-}
-
-.carousel nav {
-  float: right;
-  position: relative;
-  overflow: hidden;
-  width: 11%;
-}
-
-s {
-  color: red;
-}
 
 input[type='number'] {
   -moz-appearance: textfield;
@@ -227,7 +176,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* dropdown */
+/* LIST DROPDOWN */
 ul.list-dropdown {
   width:  200px;
   background-color: #fff;
@@ -310,4 +259,45 @@ ul.list-dropdown {
 
 .newList {
   // width: 176px;
+}
+
+.suggested-items {
+  h5 {
+    color: #666;
+    width: 1000px;
+    margin: 10px auto;
+  }
+  section {
+    overflow-y: scroll;
+
+    ul {
+      padding: 0;
+      height: 284px;
+      // width: 2000px;
+      width: 1000px;
+      margin: 0 auto;
+
+      li.product-base {
+        width: 255px;
+        width: 200px;
+        width: 14em;
+        width: 11.6em;
+        width: 12em;
+        height:100%;
+        text-align: center;
+        position: relative;
+        vertical-align: top;
+        overflow: hidden;
+        display: inline-block;
+        background: #ffffff;
+        margin: 0 10px;
+      }
+
+      @media screen and (max-width: 400px) {
+        li.product-base {
+          width: 24.5em;
+        }
+      }
+    }
+  }
 }
