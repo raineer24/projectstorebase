@@ -8,6 +8,7 @@ import { environment } from '../../../../../environments/environment';
 })
 export class OrderListItemComponent implements OnInit {
   @Input() order: any;
+  @Input() tSlot: any;
 
   constructor() { }
 
