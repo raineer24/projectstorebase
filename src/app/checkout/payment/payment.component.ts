@@ -63,6 +63,7 @@ export class PaymentComponent implements OnInit {
   totalPaidAmount: number = 0;
   totalDiscount: number = 0;
   usableGCcount: number = 0;
+  paymentHolder: number = 0;
   totalAmount$: Observable<number>;
   totalAmtDue: number = 0;
   updategcStatus$: Subscription;
@@ -216,6 +217,7 @@ export class PaymentComponent implements OnInit {
           this.store.dispatch(this.checkoutAction.applyGC(this.forGC));
           this.gCode.nativeElement.value = '';
           this.totalPaidAmount += amountPaid;
+          this.paymentHolder = this.totalPaidAmount;
           return this.totalPaidAmount;
         }
       })
@@ -243,12 +245,14 @@ export class PaymentComponent implements OnInit {
     const orderKey = this.checkoutService.getOrderKey();
     let grandTotal = this.totalAmount + this.serviceFee + this.deliveryFee;
     let params: any = {};
+    console.log(this.totalPaidAmount);
     params = {
       id: this.orderId,
       specialInstructions: this.instructionsText,
-      paymentTotal: this.totalPaidAmount,
+      paymentTotal: this.paymentHolder,
       discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
+
       total: grandTotal,
       status: 'payment'
     }
