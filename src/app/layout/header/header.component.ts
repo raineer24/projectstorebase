@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   mobile: boolean = false;
   @Input() currentStep: string;
   @Input() isHomeRoute: boolean;
+  categories: Array<any>;
   selectedItem: Item;
   isAuthenticated: Observable<boolean>;
   totalCartItems: Observable<number>;
@@ -44,6 +45,7 @@ export class HeaderComponent implements OnInit {
   searchData: Object = {};
   sortSettings: any;
   sortSubs: Subscription;
+  catSubs: Subscription;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -69,11 +71,15 @@ export class HeaderComponent implements OnInit {
     this.categories$ = this.store.select(getTaxonomies);
     this.sortSubs = this.store.select(getSortSettings).subscribe(sort => {
       this.sortSettings = sort;
-    })
-
+    });
+    this.catSubs = this.categories$.subscribe(data => {
+      // flatten level 1 and 2 categories
+      this.categories = data.concat([].concat.apply([], data.map(cat => cat.subCategories)));
+    });
   }
 
   ngOnDestroy() {
+    this.catSubs.unsubscribe();
     this.sortSubs.unsubscribe();
     this.subscription.unsubscribe();
   }
@@ -182,16 +188,17 @@ export class HeaderComponent implements OnInit {
           //this.itemList = data.list;
           let dataItems = data.list;
           let dataCategories = data.categories;
-          let mergedData = [], itemctr = 0;
+          let mergedData = [], itemctr = 0, i = 0;
 
           for(let key in dataItems) {
             mergedData[itemctr++] = Object.assign({group:'ITEMS'}, dataItems[key]);
           }
-          // NOTE: DISABLED CATEGORY SEARCH FOR NOW
-          // for(let key in dataCategories) {
-          //   mergedData[itemctr++] = Object.assign({group:'CATEGORIES'}, dataCategories[key]);
-          // }
-
+          for(let key in dataCategories) {
+            mergedData[itemctr++] = Object.assign({group:'CATEGORIES'}, dataCategories[key]);
+            if(++i >= 5) {
+              break;
+            }
+          }
           return mergedData;
         })
     )
@@ -207,8 +214,8 @@ export class HeaderComponent implements OnInit {
 
   typeaheadOnSelect(e): void {
     if(e.item.group.toUpperCase() == 'ITEMS') {
+      this.asyncSelected = e.item.name;
       if(this.isHomeRoute) {
-        this.asyncSelected = e.item.name;
         const slug = `/item/${e.item.id}/${e.item.slug}`;
         window.history.pushState('item-slug', 'Title', slug);
         this.store.dispatch(this.productActions.addSelectedItem(e.item));
@@ -216,7 +223,22 @@ export class HeaderComponent implements OnInit {
         this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
       }
     } else {
-      console.log(e)
+      this.asyncSelected = e.item.name.replace(/\b\w/g, l => l.toUpperCase());
+      let category1, category2;
+      switch(e.item.level) {
+      case "1":
+        this.selectCategory(e.item)
+        break;
+      case "2": // selectCategory(level2, level1)
+        category1 = this.categories.find(cat => cat.id == e.item.category_id);
+        this.selectCategory(e.item, category1);
+        break;
+      case "3": // selectCategory(level3, level2, level1)
+        category2 = this.categories.find(cat => cat.id == e.item.category_id);
+        category1 = this.categories.find(cat => cat.id == category2.category_id);
+        this.selectCategory(e.item, category2, category1);
+        break;
+      }
     }
   }
   // NOTE: AUTO SUGGEST CODE - END

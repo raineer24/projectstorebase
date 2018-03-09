@@ -235,3 +235,11 @@ div.modal-dialog {
     background: #ff5847;
   }
 }
+
+typeahead-container ul.dropdown-menu {
+  background-color: #fff;
+
+  li a, li a.active {
+    color: #000;
+  }
+}
