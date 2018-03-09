@@ -108,14 +108,14 @@
             </div>
           </div>
         </div> -->
-        <ng-container *ngIf="totalAmount > 100">
+        <ng-container *ngIf="totalAmountDue > 0">
           <div #group4 class="GiftCert">
               <div class="checkbox">
                 <label>
                   <input #gc type="checkbox" [(ngModel)]="checkedGC" >
                   <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with GCs
                 </label>
-              </div>      
+              </div>
           <div class="row" *ngIf="checkedGC">
             <div class="col-md-1"></div>
             <div class="col-md-8">
@@ -205,7 +205,7 @@
           </div>
         </div>
       </div>
-      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async"
+      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async" [cartTotal]="cartTotal$ | async"
         [orderTotal]="orderTotal$ | async" [discount]="tempDiscount$ | async" [amountDue]="totalAmountDue$ | async" [cartItems]="cartItems$ | async"
         [deliveryDate]="deliveryDate$ | async"></app-review-order>
     </div>

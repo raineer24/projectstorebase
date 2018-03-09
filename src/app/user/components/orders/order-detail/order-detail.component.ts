@@ -20,16 +20,22 @@ import { LineItem } from '../../../../core/models/line_item';
 export class OrderDetailComponent implements OnInit, OnDestroy {
   routeSubscription$: Subscription;
   orderSubscription$: Subscription;
+  timeslotSubscription$: Subscription;
   orderNumber: String;
   order: any;
+  tSlot: any;
+  deliveryDate: any = {};
   orderItems: Array<any>
   fees: Object;
+  timeSlotLabels: Array<string> = ['8:00AM','11:00AM','2:00PM','5:00PM','8:00PM'];
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
+    private userAction: UserActions,
     private store: Store<AppState>
   ) {
+
   }
 
   ngOnInit() {
@@ -38,15 +44,23 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
       service: 100,
       delivery: 100,
     };
+
+    this.store.dispatch(this.userAction.getUserOrders());
+
     this.routeSubscription$ = this.route.params.subscribe(
       (params: any) => {
+
         const orderKey =  params['orderkey'];
         this.store.select(getUserOrders).subscribe(orders => {
           this.order = orders.find(order => order.orderkey == orderKey);
-          if(this.order) {
-            this.order.discountTotal = Number(this.order.discountTotal);
-            this.order.paymentTotal = Number(this.order.paymentTotal);
-            this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
+            if(this.order) {
+              console.log(this.order.id);
+              this.order.discountTotal = Number(this.order.discountTotal);
+              this.order.paymentTotal = Number(this.order.paymentTotal);
+              this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
+              this.timeslotSubscription$ = this.userService.getTimeSlotOrder(this.order.id).subscribe( timeslot => {
+                  this.tSlot = timeslot;
+              });
           }
         })
 
@@ -67,6 +81,10 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
       url = environment.IMAGE_REPO + key + ".jpg";
     }
     return url;
+  }
+
+  getTimeSlotLabel(index: number): string {
+    return this.timeSlotLabels[index-1];
   }
 
   ngOnDestroy() {

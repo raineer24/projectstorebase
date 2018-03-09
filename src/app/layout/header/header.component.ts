@@ -122,6 +122,7 @@ export class HeaderComponent implements OnInit {
       }));
       this.store.dispatch(this.productActions.getItemsByKeyword(filters, this.sortSettings));
       this.router.navigateByUrl('/');
+      window.scrollTo(0, 0);
     }
   }
 

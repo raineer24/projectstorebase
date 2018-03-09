@@ -10,6 +10,7 @@ export class ReviewOrderComponent implements OnInit {
   @Input() shipAddress: any = {};
   @Input() billAddress: any = {};
   @Input() orderTotal: any = {};
+  @Input() cartTotal: any = {};
   @Input() amountDue: any = {};
   @Input() cartItems: CartItem[];
   @Input() deliveryDate: any = {};
@@ -24,7 +25,7 @@ export class ReviewOrderComponent implements OnInit {
 
   ngOnInit() {
     //this.grandTotal = this.orderTotal + this.serviceFee + this.deliveryFee - this.discount;
-    this.amountDue = this.orderTotal - this.gcAmount;
+    //this.cartTotal = this.orderTotal - this.gcAmount;
   }
 
   getTimeSlotLabel(index: number): string {
