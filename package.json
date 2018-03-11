@@ -9,7 +9,7 @@
     "build": "ng build",
     "test": "echo 'no test'",
     "lint": "",
-    "e2e": "ng e2e",
+    "e2e": "node e2e/home.js",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -d docs/",
     "build--prod": "ng build --prod --no-sourcemap --stats-json && npm run sw",
     "sw": "sw-precache --root=dist --config=sw-precache-config.js",
