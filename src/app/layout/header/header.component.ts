@@ -46,11 +46,8 @@ export class HeaderComponent implements OnInit {
   searchData: Object = {};
   sortSettings: any;
   sortSubs: Subscription;
-<<<<<<< HEAD
   show: boolean = false;
-=======
   catSubs: Subscription;
->>>>>>> 06efe146d81b4f6340976288adde3119e5418f48
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
