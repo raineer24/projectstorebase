@@ -180,8 +180,8 @@
     text-align: center;
   }
   .itemdetailsbox {
-    height: 55px;
-    padding: 0 5px;
+    height: 50px;
+    padding: 5px 10px;
     display: inline-block;
     vertical-align: middle;
 
@@ -194,13 +194,18 @@
     display: inline-block;
     vertical-align: middle;
   }
+}
 
-  typeahead-container ul.dropdown-menu {
-    background-color: #fff;
+.catbox {
+  text-transform: capitalize;
+  padding: 5px;
+}
 
-    li a, li a.active {
-      color: #000;
-    }
+typeahead-container ul.dropdown-menu {
+  background-color: #fff;
+
+  li a, li a.active {
+    color: #000;
   }
 }
 
@@ -558,4 +563,3 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   }
 
 }
-

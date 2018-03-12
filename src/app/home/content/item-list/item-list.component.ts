@@ -134,7 +134,7 @@ export class ItemListComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight
+    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 225)
     && this.items.length % this.itemsPerPage == 0) {
         this.autoLoad();
     }

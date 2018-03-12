@@ -12,7 +12,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
     let _cartItems, _cartItemEntities, _cartItemIds,
         _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue, _totalDiscount = 0, _totalAmountPaid = 0, _totalAmountDue = 0,
-        _ship_address, _bill_address, _giftCerts,
+        _ship_address, _bill_address, _giftCerts, _deliveryFee = 100, _serviceFee = 100, _grandTotal = 0,
         _orderStatus, _orderId, _deliveryDate;
 
     switch (type) {
@@ -42,11 +42,12 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _totalAmountPaid = 0;
         }
 
-        _totalAmountDue = _totalCartValue - _totalAmountPaid;
         _ship_address = payload.shippingAddress01;
         _bill_address = payload.billingAddress01;
         _orderStatus = payload.status;
         _deliveryDate = payload.deliveryDate;
+        _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+        _totalAmountDue = _grandTotal - _totalAmountPaid;
 
         _cartItemEntities = _cartItems.reduce((cartItems: { [id: number]: CartItem }, cartItem: CartItem) => {
           return Object.assign(cartItems, {
@@ -64,6 +65,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalDiscount: _totalDiscount,
           totalAmountPaid: _totalAmountPaid,
           totalAmountDue: _totalAmountDue,
+          grandTotal: _grandTotal,
           shipAddress: _ship_address,
           billAddress: _bill_address,
           deliveryDate: _deliveryDate,
@@ -80,16 +82,18 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }
 
         _totalCartItems = state.totalCartItems + _cartItem.quantity;
-        _totalCartValue = state.totalCartValue + parseFloat(_cartItem.total) - _totalDiscount;
+        _totalCartValue = state.totalCartValue + parseFloat(_cartItem.total);
+        _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
         _cartItemEntity = { [_cartItemId]: _cartItem };
         _cartItemIds = state.cartItemIds.push(_cartItemId);
-        _totalAmountDue = _totalCartValue - _totalAmountPaid;
+        _totalAmountDue = _grandTotal - _totalAmountPaid;
 
         return state.merge({
           cartItemIds: _cartItemIds,
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
+          grandTotal: _grandTotal,
           totalAmountDue: _totalAmountDue,
           // giftCerts: _giftCerts
         }) as CheckoutState;
@@ -102,8 +106,9 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _cartItemIds = state.cartItemIds.splice(index, 1);
           _cartItemEntities = state.cartItemEntities.delete(_cartItemId);
           _totalCartItems = state.totalCartItems - _cartItem.quantity;
-          _totalCartValue = state.totalCartValue - parseFloat(_cartItem.total) - _totalDiscount;
-          _totalAmountDue = _totalCartValue - _totalAmountPaid ;
+          _totalCartValue = state.totalCartValue - parseFloat(_cartItem.total);
+          _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+          _totalAmountDue = _grandTotal - _totalAmountPaid ;
         }
 
         return state.merge({
@@ -129,13 +134,15 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItem['total'] = _cartItem['price'] * quantity;
         _cartItemEntity = { [_cartItemId]: _cartItem }
         _totalCartItems = state.totalCartItems + quantityDifference;
-        _totalCartValue = state.totalCartValue + total - _totalDiscount;
-        _totalAmountDue = _totalCartValue - _totalAmountPaid ;
+        _totalCartValue = state.totalCartValue + total;
+        _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+        _totalAmountDue = _grandTotal - _totalAmountPaid;
 
         return state.merge({
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
+          grandTotal: _grandTotal,
           totalAmountDue: _totalAmountDue,
           // giftCerts: _giftCerts
         }) as CheckoutState;
@@ -143,18 +150,20 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
       //case APPLY COUPON
       case CheckoutActions.APPLY_COUPON:
         _totalDiscount = payload.value;
-        _totalCartValue = state.totalCartValue - _totalDiscount;
+        _grandTotal = state.totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+        _totalAmountDue = _grandTotal - state.totalAmountPaid;
         // _totalCartValue = _totalCartValue - _totalDiscount;
         // console.log(_totalCartValue);
         return state.merge({
           totalDiscount: _totalDiscount,
-          totalCartValue: _totalCartValue
+          grandTotal: _grandTotal,
+          totalAmountDue: _totalAmountDue
         }) as CheckoutState;
 
       //case REMOVE COUPON when input changed
       case CheckoutActions.REMOVE_COUPON:
         _totalDiscount = 0;
-        _totalAmountDue = state.totalCartValue;
+        _totalAmountDue = state.grandTotal;
         // _totalAmountDue = payload.amtDue;
         // _totalCartValue = _totalCartValue - _totalDiscount;
         // console.log(_totalCartValue);
@@ -165,8 +174,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       //case APPLY GC
       case CheckoutActions.APPLY_GC:
-        _totalAmountPaid = payload.value;
-        _totalAmountDue = payload.amtDue;
+        _totalAmountPaid = state.totalAmountPaid + payload.value;
+        _totalAmountDue = state.grandTotal - _totalAmountPaid;
         _giftCerts = state.giftCerts.push(payload.gCerts);
         return state.merge({
           totalAmountPaid: _totalAmountPaid,

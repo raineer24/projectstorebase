@@ -48,6 +48,9 @@
           <dt>
             Total: <span class="text-primary">₱ {{order.grandTotal | number:'1.2-2'}}</span>
           </dt>
+          <dt>
+            Timeslot: <span class="text-primary">{{tSlot.datetime | date:'fullDate'}} at {{getTimeSlotLabel(tSlot.timeslot_id)}}</span>
+          </dt>
         </dl>
       </div>
 

@@ -47,6 +47,18 @@ export class UserService {
   }
 
   /**
+  *
+  *@param {number}id
+  *
+  *
+  */
+  getTimeSlotOrder(id: number) {
+    return this.http.get(`v1/timeslotorder/${id}`
+    ).map((res) => {
+      return res.json();
+    })
+  }
+  /**
    *
    *
    * @returns {Observable<User>}
