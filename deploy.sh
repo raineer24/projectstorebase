@@ -1,3 +1,4 @@
+nvm use 8.8.1
 git stash
 git co develop
 git pull origin develop
