@@ -266,4 +266,8 @@ export class HeaderComponent implements OnInit {
     return url;
   }
 
+  onImageError(e: any): void {
+    e.target.src = "assets/omg-03.png";
+  }
+
 }

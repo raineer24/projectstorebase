@@ -3,10 +3,10 @@
     <!-- <div class="row nav-menu-top hidden-xs">
       <ul class="nav navbar-nav navbar-left">
         <li class="active"><a routerLink="/">OMG Philippines</a></li>
-      
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
-       
+
         <li><a routerLink="/">Change Country</a></li>
         <li><a routerLink="/">Contact Us</a></li>
       </ul>
@@ -63,7 +63,7 @@
             <div class="result-box" *ngIf="keyword.price; else categories">
               <div class="imgbox">
                 <img class="product-thumb imgitems img-responsive" itemprop="image"
-                alt="{{keyword.name}}"
+                alt="{{keyword.name}}" (error)="onImageError($event)"
                 [src]="getItemImageUrl(keyword.imageKey)"></div>
               <div class="itemdetailsbox small">
                 <p>{{keyword.name}}</p>
@@ -105,12 +105,12 @@
       <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
-  
- 
+
+
       <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'"  class="mobile">
-      
-          
-    
+
+
+
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
@@ -122,8 +122,8 @@
           <img src="assets/omg-logo-01.png" />
         </a>
     </div>
-      
-   
+
+
     <div class="input-group col-xs-9">
       <input [(ngModel)]="asyncSelected"
           class="form-control"
@@ -139,7 +139,7 @@
     <a href="">
       <i class="glyphicon glyphicon-search"></i>
     </a>
-    
+
   </p>
   <p class="cart" [routerLink]="['checkout','cart']">
     <a>
@@ -150,7 +150,7 @@
   </p>
 </div>
     </div>
-     
+
 <!--
   <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
     <div class="container">
