@@ -1,4 +1,9 @@
-<div class="default">
+<div *ngIf="!show">
+  <input type="password" [(ngModel)]="name" #ctrl="ngModel" required>
+  <button (click)="setValue()">Enter</button>
+</div>
+
+<div class="default" *ngIf="show">
   <section>
     <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
     <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
