@@ -116,8 +116,6 @@ export class PaymentComponent implements OnInit {
         if(this.gcList.length) {
           this.gcQuantity = this.gcList.length;
           this.checkedGC = true;
-          console.log(this.gcQuantity);
-          console.log(typeof(this.gcQuantity));
         }
         this.initForm();
     });
@@ -139,7 +137,6 @@ export class PaymentComponent implements OnInit {
   }
 
   initForm() {
-    console.log(this.gcList);
     const gcCode = '';
     this.gcForm = this.fb.group({
   	  'gc-code': [gcCode ] }
@@ -231,7 +228,6 @@ export class PaymentComponent implements OnInit {
   gcCount(){
     this.usableGCcount = Math.floor(this.totalAmount / 100);
     this.usableGCcount = this.usableGCcount - this.gcQuantity;
-    console.log('usable GCs - '+this.usableGCcount);
   }
 
   goBack(){
@@ -246,7 +242,6 @@ export class PaymentComponent implements OnInit {
     const orderKey = this.checkoutService.getOrderKey();
     let grandTotal = this.totalAmount;
     let params: any = {};
-    console.log(this.totalPaidAmount);
     params = {
       id: this.orderId,
       specialInstructions: this.instructionsText,
@@ -258,10 +253,10 @@ export class PaymentComponent implements OnInit {
     }
 
     this.checkoutService.updateOrderPayment(params
-    ).map(res => {
+    ).mergeMap(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
-        this.checkoutService.updateVoucherStatus(this.voucherCode).do(()=>{});
+        return this.checkoutService.updateVoucherStatus(this.voucherCode);
       }
 
     }).subscribe();
