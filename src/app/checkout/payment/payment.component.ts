@@ -122,7 +122,7 @@ export class PaymentComponent implements OnInit {
     });
 
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
-      this.totalAmount = val + this.deliveryFee + this.serviceFee - this.totalDiscount;
+      this.totalAmount = val - this.totalDiscount;
       this.totalPaidAmount = 0.00;
     });
     this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
@@ -183,7 +183,6 @@ export class PaymentComponent implements OnInit {
   addGiftCert(code){
     let tempList = [];
     let amountPaid = 0;
-    console.log(code.value);
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
         if(data.message != null) {
@@ -243,7 +242,7 @@ export class PaymentComponent implements OnInit {
 
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
-    let grandTotal = this.totalAmount + this.serviceFee + this.deliveryFee;
+    let grandTotal = this.totalAmount;
     let params: any = {};
     console.log(this.totalPaidAmount);
     params = {
@@ -252,7 +251,6 @@ export class PaymentComponent implements OnInit {
       paymentTotal: this.paymentHolder,
       discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
-
       total: grandTotal,
       status: 'payment'
     }
