@@ -284,19 +284,48 @@ export class CheckoutService {
     }
 
   /**
-    * @param {any} gcCode
+    * @param {any} vCode
     * @returns
     *
     * @memberof CheckoutService
     */
-    updateGC_status(gcCode) {
-      console.log("UPDATING GIFTCERT - STATUS");
-      return this.http.put(`v1/gc/${gcCode}`,{
-        status:'used'
+    getvoucher(vCode) {
+          console.log("SEARCHING FOR VOUCHER");
+          return this.http.get(`v1/voucher/${vCode}`).map(res => {
+            const v = res.json();
+            return v;
+         }).catch(err => Observable.empty());
+    }
+
+  /**
+    * @param {any} vCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    updateVoucherStatus(vCode) {
+      console.log("UPDATING VOUCHER - STATUS " + vCode);
+      return this.http.put(`v1/voucher/${vCode}`,{
+        status:'consumed'
         }).map(res => {
           return res.json();
       }).catch(err => Observable.empty());
     }
+
+    /**
+      * @param {any} gcCode
+      * @returns
+      *
+      * @memberof CheckoutService
+      */
+      updateGC_status(gcCode) {
+        console.log("UPDATING GIFTCERT - STATUS");
+        return this.http.put(`v1/gc/${gcCode}`,{
+          status:'used'
+          }).map(res => {
+            return res.json();
+        }).catch(err => Observable.empty());
+      }
 
 
   /**return res.json();
@@ -546,14 +575,6 @@ export class CheckoutService {
       token = order.order_token;
     }
     return token;
-  }
-
-  getvoucher(vCode) {
-        console.log("SEARCHING FOR VOUCHER");
-        return this.http.get(`v1/voucher/${vCode}`).map(res => {
-          const v = res.json();
-          return v;
-       }).catch(err => Observable.empty());
   }
 
   /**

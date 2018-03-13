@@ -74,6 +74,7 @@ export class PaymentComponent implements OnInit {
   forGC: any;
   bCouponEntered: boolean = false;
   gcList: any;
+  voucherCode: any;
   forCoupon: any;
   voucherIcon: string;
   checkedGC: boolean = false;
@@ -163,6 +164,7 @@ export class PaymentComponent implements OnInit {
         } else {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
+            this.voucherCode = Number(code.value);
             this.discount = Number(data.discount);
             this.totalAmountDue = this.totalAmount -Number(data.discount);
             this.forCoupon = {
@@ -256,11 +258,14 @@ export class PaymentComponent implements OnInit {
     }
 
     this.checkoutService.updateOrderPayment(params
-    ).subscribe(res => {
+    ).map(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
+        this.checkoutService.updateVoucherStatus(this.voucherCode).do(()=>{});
       }
-    });
+
+    }).subscribe();
+
   }
 
   ngOnDestroy() {
