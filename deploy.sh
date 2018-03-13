@@ -1,8 +1,8 @@
 nvm use 8.8.1
 git stash
-git co develop
+git checkout develop
 git pull origin develop
-git co deploy-develop
+git checkout deploy-develop
 npm run build--prod
 git add dist/* -f
 git add -u
