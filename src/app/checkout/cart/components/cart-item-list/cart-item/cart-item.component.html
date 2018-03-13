@@ -3,7 +3,7 @@
       <div class="row row-cart">
 
         <li class="col-md-2 col-sm-2 col-xs-4">
-          <img class="item-image-thumbnails img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)">
+          <img class="item-image-thumbnails img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)" (error)="onImageError()">
         </li>
 
         <li class="col-md-4 col-sm-4">
