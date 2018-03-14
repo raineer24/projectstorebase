@@ -11,7 +11,7 @@
         <li><a routerLink="/">Contact Us</a></li>
       </ul>
     </div> -->
-    <div [ngClass]="mobile ? 'hidden-xs' : 'not-hide'" class="row nav-menu-mid ">
+    <div  [ngClass]="mobile ? 'hidden-xs' : 'not-hide'" class="row nav-menu-mid ">
       <div class="col-md-1 col-sm-1 hidden-xs">
         <a routerLink="/"  (click)="selectCategory('all')" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
@@ -102,12 +102,12 @@
         <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
-      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      <app-profile-dropdown *ngIf="display"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
 
 
-      <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'"  class="mobile">
+      <div  [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'"  class="mobile">
 <div class="omglogo" [ngClass]="{show: shouldShow, hide: !shouldShow}">
   <a routerLink="/">
     <img src="assets/omg-logo-01.png" />
@@ -116,7 +116,7 @@
 
           
     
-    <button (click)="toggleMenu()" class="hamburger">
+    <button (click)="toggleMenu()" class="hamburger"  [ngClass]="{show: shouldShow, hide: !shouldShow}">
       <span>toggle menu</span>
     </button>
 
@@ -131,7 +131,7 @@
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-      <app-profile-dropdown [@slideInOut]="menuState"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      <app-profile-dropdown  [@slideInOut]="menuState"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
 
 <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-menu" style="background: none;border: none;margin: 0 3px 0 0;padding-left: 12px;border-left: 1px solid #eee;height: 40px;font-size:130%;color:#888;">
   <span class="fa fa-search"></span>

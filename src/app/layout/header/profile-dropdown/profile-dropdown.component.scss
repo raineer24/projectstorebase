@@ -1,6 +1,7 @@
 
 :host {
-  background: #1a2580;
+  background: #ff5847;
+
   color: #fff;
   position: fixed;
   left: auto;
@@ -8,7 +9,7 @@
   right: 0;
   bottom: 0;
   width: 20%;
-  min-width: 250px;
+  min-width: 197px;
   z-index: 9999;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
@@ -21,27 +22,6 @@ ul {
   list-style: none;
 }
 
-:host {
-  background: #1a2580;
-  color: #fff;
-  position: fixed;
-  left: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 20%;
-  min-width: 250px;
-  z-index: 9999;
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
- 
-ul {
-  font-size: 18px;
-  line-height: 3;
-  font-weight: 400;
-  padding-top: 50px;
-  list-style: none;
-}
 .fa {
   font-size: 2rem;
 }
