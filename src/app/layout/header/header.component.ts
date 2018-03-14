@@ -17,13 +17,25 @@ import { Item } from '../../core/models/item';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Subscription } from "rxjs";
 import { environment } from '../../../environments/environment';
-
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('out', style({
+        transform: 'translate3d(100%, 0, 0)'
+      })),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
+    ]),
+  ]
 })
 export class HeaderComponent implements OnInit {
   public shouldShow =true;
@@ -48,6 +60,8 @@ export class HeaderComponent implements OnInit {
   sortSubs: Subscription;
   show: boolean = false;
   catSubs: Subscription;
+  menuState: string = 'out';
+  isopen: false
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -90,6 +104,10 @@ export class HeaderComponent implements OnInit {
     if (this.show) {
       //return this.show = false;
     }
+  }
+  toggleMenu() {
+    // 1-line if statement that toggles the value:
+    this.menuState = this.menuState === 'out' ? 'in' : 'out';
   }
 
   selectCategory(...categories): void {

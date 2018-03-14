@@ -131,7 +131,7 @@
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-      <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      <app-profile-dropdown [@slideInOut]="menuState"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
 
 <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-menu" style="background: none;border: none;margin: 0 3px 0 0;padding-left: 12px;border-left: 1px solid #eee;height: 40px;font-size:130%;color:#888;">
   <span class="fa fa-search"></span>
