@@ -78,16 +78,16 @@ export class ConfirmComponent implements OnInit {
           this.timeSlot = time.range;
 
           //Sets time as AM/PM
-          if(this.timeSlot != '8:00' && this.timeSlot != '11:00' ){
+          if(tsID > 2){
             this.merridian = 'PM';
           } else {  this.merridian = 'AM'; }
 
           //Convert military time to standard time - 13:00 becomes 1:00
-          if(this.timeSlot == '14:00'){
+          if(tsID == 3){
             this.timeSlot = '2:00';
-          } else if(this.timeSlot == '17:00'){
+          } else if(tsID == 4){
             this.timeSlot = '5:00';
-          } else if (this.timeSlot == '20:00'){
+          } else if (tsID == 5 ){
             this.timeSlot = '8:00';
           }
 
