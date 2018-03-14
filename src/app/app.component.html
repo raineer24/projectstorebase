@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="panel-footer plan">
-      <div class="alert alert-danger" *ngIf="errorMessage">Wrong Password. Please try again!</div>
+      <div class="alert alert-danger" [hidden]="!errorMessage">Wrong Password. Please try again!</div>
       <button class="btn btn-lg" (click)="setValue()">Enter</button>
     </div>
   </div>
