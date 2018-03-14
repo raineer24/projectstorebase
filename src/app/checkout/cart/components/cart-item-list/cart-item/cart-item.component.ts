@@ -71,6 +71,10 @@ export class CartItemComponent implements OnInit {
     return url;
   }
 
+  onImageError():void {
+    this.imageRetries++;
+  }
+
   // Change this method once angular releases RC4
   // Follow this linke to know more about this issue https://github.com/angular/angular/issues/12869
   removeCartItem() {

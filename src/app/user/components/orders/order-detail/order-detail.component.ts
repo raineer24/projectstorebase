@@ -58,6 +58,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
               this.order.discountTotal = Number(this.order.discountTotal);
               this.order.paymentTotal = Number(this.order.paymentTotal);
               this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
+              console.log(this.order.grandTotal);
               this.timeslotSubscription$ = this.userService.getTimeSlotOrder(this.order.id).subscribe( timeslot => {
                   this.tSlot = timeslot;
               });
