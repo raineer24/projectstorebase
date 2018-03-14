@@ -23,9 +23,14 @@ export class ConfirmComponent implements OnInit {
   saveListState: number = 0;
   inputNewList: string;
   isAuthenticated$: Observable<boolean>;
+  timeSlotOrder$: Subscription;
+  timeSlot$: Subscription;
   orderKey: string;
   orderDetails: any;
+  timeSlot: any;
+  deliveryDate: any;
   cartItemArray: Array<number>;
+  merridian: string;
   fees: Object;
   sortSettings: any;
 
@@ -57,8 +62,36 @@ export class ConfirmComponent implements OnInit {
           details.amountTotal = Number(details.adjustmentTotal);
           this.orderDetails = details;
           console.log(details);
+          this.showTimeSlotOrder(details.id);
           this.cartItemArray = details['items'].map(item => item.item_id)
           return details;
+        }).subscribe();
+    }).subscribe();
+  }
+
+  showTimeSlotOrder(orderId){
+    let tsID = 0;
+    this.timeSlotOrder$ = this.userService.getTimeSlotOrder(orderId).map( timeslot => {
+        this.deliveryDate = timeslot.datetime;
+        tsID = timeslot.id;
+        this.timeSlot$ = this.userService.getTimeslot(tsID).map( time => {
+          this.timeSlot = time.range;
+
+          //Sets time as AM/PM
+          if(this.timeSlot != '8:00' && this.timeSlot != '11:00' ){
+            this.merridian = 'PM';
+          } else {  this.merridian = 'AM'; }
+
+          //Convert military time to standard time - 13:00 becomes 1:00
+          if(this.timeSlot == '14:00'){
+            this.timeSlot = '2:00';
+          } else if(this.timeSlot == '17:00'){
+            this.timeSlot = '5:00';
+          } else if (this.timeSlot == '20:00'){
+            this.timeSlot = '8:00';
+          }
+
+          return this.timeSlot;
         }).subscribe();
     }).subscribe();
   }

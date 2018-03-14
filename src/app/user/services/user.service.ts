@@ -58,6 +58,20 @@ export class UserService {
       return res.json();
     })
   }
+
+  /**
+  *
+  *@param {number}id
+  *
+  *retrieve specific timeslot
+  */
+  getTimeslot(id: number) {
+    return this.http.get(`v1/timeslot/${id}`
+    ).map((res) => {
+      return res.json();
+    })
+  }
+
   /**
    *
    *

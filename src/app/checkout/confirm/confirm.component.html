@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading">Summary of Order <b>#{{orderDetails.number}}</b>, {{orderDetails.totalQuantity}} items ordered</div>
+      <div class="panel-heading">Summary of Order <b>#{{orderDetails.number}}</b>, {{orderDetails.totalQuantity}} items ordered. This will be delivered to you on <b>{{deliveryDate | date:'fullDate'}}</b> at <b>{{timeSlot}} {{merridian}}</b>. </div>
       <div class="panel-body">
         <div class="row orderlist small">
           <div *ngFor="let item of orderDetails.items">
