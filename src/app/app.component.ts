@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   homeUrls = ['/', '/item']
   name: string;
   show: boolean;
+  errorMessage:string;
   private password = 'omg';
   constructor(
     private router: Router,
@@ -43,7 +44,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.name == this.password) {
       this.show = true;
     }
-    
+    (!this.name == !this.password) 
+    this.errorMessage = this.name;
   }
 
   ngOnInit() {

@@ -1,8 +1,21 @@
-<div *ngIf="!show">
-  <input type="password" [(ngModel)]="name" #ctrl="ngModel" required>
-  <button (click)="setValue()">Enter</button>
-</div>
 
+<div *ngIf="!show" class="col-sm-3 col-xs-12">
+  <div class="panel panel-default text-center">
+    <div class="panel-heading">
+      <h1>Eos App</h1>
+    </div>
+    <div class="panel-body">
+      <div >
+        <input type="password" [(ngModel)]="name" #ctrl="ngModel" required>
+       
+      </div>
+    </div>
+    <div class="panel-footer plan">
+      <div class="alert alert-danger" *ngIf="errorMessage">Wrong Password. Please try again!</div>
+      <button class="btn btn-lg" (click)="setValue()">Enter</button>
+    </div>
+  </div>
+</div>  
 <div class="default" *ngIf="show">
   <section>
     <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
