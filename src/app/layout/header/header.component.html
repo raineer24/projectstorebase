@@ -116,11 +116,8 @@
 
           
     
-    <button type="button" [ngClass]="{show: shouldShow, hide: !shouldShow}"class="navbar-toggle" data-toggle="collapse" data-target="#top-menu" style="float: left">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+    <button (click)="toggleMenu()" class="hamburger">
+      <span>toggle menu</span>
     </button>
 
       
