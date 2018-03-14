@@ -62,6 +62,7 @@ export class HeaderComponent implements OnInit {
   catSubs: Subscription;
   menuState: string = 'out';
   isopen: false
+  display: boolean = true;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 

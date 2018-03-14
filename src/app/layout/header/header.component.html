@@ -102,7 +102,7 @@
         <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
-      <app-profile-dropdown *ngIf="display"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      <app-profile-dropdown *ngIf="!display" [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
     </div>
   </div>
 
@@ -116,11 +116,16 @@
 
           
     
-    <button (click)="toggleMenu()" class="hamburger"  [ngClass]="{show: shouldShow, hide: !shouldShow}">
+    <!-- <button (click)="toggleMenu()" class="hamburger"  [ngClass]="{show: shouldShow, hide: !shouldShow}">
       <span>toggle menu</span>
-    </button>
+    </button> -->
 
-      
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-menu" style="float: left">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
    
     <div class="input-group col-xs-9">
       <input [(ngModel)]="asyncSelected"
@@ -131,7 +136,9 @@
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-      <app-profile-dropdown  [@slideInOut]="menuState"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      <!-- <app-profile-dropdown [@slideInOut]="menuState"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown> -->
+        <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async"
+          [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
 
 <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-menu" style="background: none;border: none;margin: 0 3px 0 0;padding-left: 12px;border-left: 1px solid #eee;height: 40px;font-size:130%;color:#888;">
   <span class="fa fa-search"></span>
