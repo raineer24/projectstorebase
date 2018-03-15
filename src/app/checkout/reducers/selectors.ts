@@ -31,8 +31,16 @@ export function fetchTotalCartValue(state: CheckoutState) {
   return state.totalCartValue;
 }
 
+export function fetchGrandTotal(state: CheckoutState) {
+  return state.grandTotal;
+}
+
 export function fetchTotalDiscount(state: CheckoutState) {
   return state.totalDiscount;
+}
+
+export function fetchGiftCerts(state: CheckoutState) {
+  return state.giftCerts ? state.giftCerts.toJS() : state.giftCerts;
 }
 
 export function fetchTotalAmtPaid(state: CheckoutState) {
@@ -66,6 +74,7 @@ export const getOrderId = createSelector(getCheckoutState, fetchOrderId);
 export const getOrderNumber = createSelector(getCheckoutState, fetchOrderNumber);
 export const getTotalCartItems = createSelector(getCheckoutState, fetchTotalCartItems);
 export const getTotalCartValue = createSelector(getCheckoutState, fetchTotalCartValue);
+export const getGrandTotal = createSelector(getCheckoutState, fetchGrandTotal);
 export const getTotalDiscount = createSelector(getCheckoutState, fetchTotalDiscount);
 export const getTotalAmtPaid = createSelector(getCheckoutState, fetchTotalAmtPaid);
 export const getTotalAmtDue = createSelector(getCheckoutState, fetchTotalAmtDue);
@@ -73,3 +82,4 @@ export const getShipAddress = createSelector(getCheckoutState, fetchShipAddress)
 export const getBillAddress = createSelector(getCheckoutState, fetchBillAddress);
 export const getOrderState = createSelector(getCheckoutState, fetchOrderState);
 export const getDeliveryDate = createSelector(getCheckoutState, fetchDeliveryDate);
+export const getGiftCerts = createSelector(getCheckoutState, fetchGiftCerts);

@@ -6,6 +6,7 @@ import { HttpService } from './http';
 import { AppState } from '../../interfaces';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../auth/actions/auth.actions';
+import { UserActions } from '../../user/actions/user.actions';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
   constructor(
     private http: HttpService,
     private actions: AuthActions,
+    private userActions: UserActions,
     private store: Store<AppState>
   ) {
 
@@ -278,6 +280,7 @@ export class AuthService {
       const elapsedTime = d - user.dateAuthorized;
       if(elapsedTime < 1800000) { //30 minutes
         this.store.dispatch(this.actions.loginSuccess());
+        this.store.dispatch(this.userActions.getUserLists());
         user.dateAuthorized = d;
         this.setTokenInLocalStorage(user)
       } else {

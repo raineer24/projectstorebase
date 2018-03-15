@@ -19,19 +19,34 @@
         </div>
         <hr>
         <div class="row small">
-          <div class="col-xs-10 text-right">Subtotal:</div>
-          <div class="col-xs-2 text-right">₱ {{orderDetails.itemTotal | number:'1.2-2'}}</div>
+          <div class="col-xs-12"><strong>Special instructions:</strong> {{orderDetails.specialInstructions ? orderDetails.specialInstructions : 'None'}}</div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Subtotal</h5></div>
+          <div class="col-xs-2 text-right text-primary"><h5>₱ {{orderDetails.subTotal | number:'1.2-2'}}</h5></div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Fees</h5></div>
+          <div class="col-xs-2 text-right text-primary"><h5>₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}</h5></div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Discount</h5></div>
+          <div class="col-xs-2 text-right"><h5 class="text-success">- ₱ {{orderDetails.discountTotal | number:'1.2-2'}}</h5></div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Credits</h5></div>
+          <div class="col-xs-2 text-right text-success"><h5 class="text-success">- ₱ {{orderDetails.paymentTotal | number:'1.2-2'}}</h5></div>
         </div>
         <div class="row">
-          <div class="col-xs-10 text-right">Total:</div>
-          <div class="col-xs-2 text-right"><strong class="text-danger">₱ {{orderDetails.total | number:'1.2-2'}}</strong></div>
+          <div class="col-xs-10 text-right"><h4>Total</h4></div>
+          <div class="col-xs-2 text-right"><h4 class="text-primary">₱ {{orderDetails.amountTotal | number:'1.2-2'}}</h4></div>
         </div>
       </div>
     </div>
   </ng-container>
   <div class="form-inline">
-    <button class="btn btn-danger" [routerLink]="['/']">Continue Shopping</button>
-    <!-- <button *ngIf="saveListState == 0" class="btn btn-default" (click)="saveListState = 1">Save items to List</button> -->
+    <button class="btn btn-danger" (click)="selectCategory('all')">Continue Shopping</button>
+    <!-- <button *ngIf="saveListState == 0" [routerLink]="['/']" class="btn btn-default" (click)="saveListState = 1">Save items to List</button> -->
     <button *ngIf="saveListState == 0 && isAuthenticated$ | async" class="btn btn-default" (click)="saveListState = 1">Save items to List</button>
     <div *ngIf="saveListState == 1" class="input-group">
       <input type="text" class="form-control" placeholder="List Name" [(ngModel)]="inputNewList">

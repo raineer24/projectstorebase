@@ -275,26 +275,57 @@ export class CheckoutService {
     */
     getGC(gcCode) {
       console.log("SEARCHING FOR GIFTCERT");
+      console.log(gcCode);
       return this.http.get(`v1/gc/${gcCode}`).map(res => {
         const gc = res.json();
+        console.log(gc);
         return gc;
      }).catch(err => Observable.empty());
     }
 
   /**
-    * @param {any} gcCode
+    * @param {any} vCode
     * @returns
     *
     * @memberof CheckoutService
     */
-    updateGC_status(gcCode) {
-      console.log("UPDATING GIFTCERT - STATUS");
-      return this.http.put(`v1/gc/${gcCode}`,{
-        status:'used'
+    getvoucher(vCode) {
+          console.log("SEARCHING FOR VOUCHER");
+          return this.http.get(`v1/voucher/${vCode}`).map(res => {
+            const v = res.json();
+            return v;
+         }).catch(err => Observable.empty());
+    }
+
+  /**
+    * @param {any} vCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    updateVoucherStatus(vCode) {
+      console.log("UPDATING VOUCHER - STATUS " + vCode);
+      return this.http.put(`v1/voucher/${vCode}`,{
+        status:'consumed'
         }).map(res => {
           return res.json();
       }).catch(err => Observable.empty());
     }
+
+    /**
+      * @param {any} gcCode
+      * @returns
+      *
+      * @memberof CheckoutService
+      */
+      updateGC_status(gcCode) {
+        console.log("UPDATING GIFTCERT - STATUS");
+        return this.http.put(`v1/gc/${gcCode}`,{
+          status:'used'
+          }).map(res => {
+            return res.json();
+        }).catch(err => Observable.empty());
+      }
 
 
   /**return res.json();
@@ -513,6 +544,12 @@ export class CheckoutService {
       case 'payment':
         message = `Error occured. Please review your order and try again.`;
         break;
+      case 'voucher':
+        message = "Please enter a valid coupon.";
+        break;
+      case 'giftcert':
+        message = "Please enter a valid gift certificate";
+        break;
     }
     this.http.loading.next({
       loading: false,
@@ -538,14 +575,6 @@ export class CheckoutService {
       token = order.order_token;
     }
     return token;
-  }
-
-  getvoucher(vCode) {
-        console.log("SEARCHING FOR VOUCHER");
-        return this.http.get(`v1/voucher/${vCode}`).map(res => {
-          const v = res.json();
-          return v;
-       }).catch(err => Observable.empty());
   }
 
   /**

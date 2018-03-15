@@ -4,7 +4,11 @@ import { UserActions } from './../../user/actions/user.actions';
 import { UserService } from './../../user/services/user.service';
 import { CheckoutService } from './../../core/services/checkout.service';
 import { getAuthStatus } from '../../auth/reducers/selectors';
+import { getSortSettings } from './../../home/reducers/selectors';
+import { ProductService } from '../../core/services/product.service';
+import { ProductActions } from '../../product/actions/product-actions';
 import { AppState } from './../../interfaces';
+import { SearchActions } from './../../home/reducers/search.actions';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -22,20 +26,35 @@ export class ConfirmComponent implements OnInit {
   orderKey: string;
   orderDetails: any;
   cartItemArray: Array<number>;
+  fees: Object;
+  sortSettings: any;
 
   constructor(
     private userActions: UserActions,
+    private productService: ProductService,
+    private productActions: ProductActions,
     private userService: UserService,
     private checkoutService: CheckoutService,
     private store: Store<AppState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private searchActions: SearchActions
+
   ) { }
 
   ngOnInit() {
+    //NOTE: TEMPORARY!!! FEES TO BE DECIDED
+    this.fees = {
+      service: 100,
+      delivery: 100,
+    };
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.route.params.map((params: any) => {
       this.orderKey = params['key']
         return this.checkoutService.getOrder(this.orderKey).map(details => {
+          details.subTotal = Number(details.itemTotal);
+          // details.amountTotal = Number(details.total) - Number(details.paymentTotal) - Number(details.discountTotal);
+          details.amountTotal = Number(details.adjustmentTotal);
           this.orderDetails = details;
           console.log(details);
           this.cartItemArray = details['items'].map(item => item.item_id)
@@ -54,6 +73,30 @@ export class ConfirmComponent implements OnInit {
       this.store.dispatch(this.userActions.saveCartItems(list,this.cartItemArray));
       this.saveListState = 2;
     }
+  }
+
+  selectCategory(...categories): void {
+    // if(typeof(index) != 'undefined') {
+    //   this.menuDelay.clicked[index] = true;
+    // }
+    let filters;
+    if(categories[0] == 'all') {
+      this.store.dispatch(this.productActions.getAllProducts(this.sortSettings));
+    } else {
+      filters = {
+        mode: 'category',
+        level: categories[0].level,
+        categoryId: categories[0].id,
+        breadcrumbs: categories.map(cat => { return {id: cat.id, name: cat.name, level: cat.level}}).reverse()
+      }
+      this.store.dispatch(this.productActions.getItemsByCategory(filters, this.sortSettings));
+    }
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: filters ? [filters]: [],
+      categoryIds: []
+    }));
+    this.router.navigateByUrl('/');
+    window.scrollTo(0, 0);
   }
 
 }

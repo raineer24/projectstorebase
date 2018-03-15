@@ -1,3 +1,9 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/user','lists']">Lists</a></li>
+    <li class="breadcrumb-item text-primary" aria-current="page">List - {{list.name}}</li>
+  </ol>
+</nav>
 <div class="form-inline">
   <div class="form-group valign-top">
     <label for="usr" class="valign-top">List:</label>
@@ -19,8 +25,8 @@
     <div>
       <div class="row">
         <li class="col-xs-2">
-          <div class="">
-            <img class="img-responsive" [src]="getItemImageUrl(item.imageKey)">
+          <div class="item-img-container">
+            <img class="img-responsive item-img" [src]="getItemImageUrl(item.imageKey)">
           </div>
         </li>
         <li class="col-xs-6">
@@ -28,9 +34,9 @@
           <p class="product-name">P {{item.price | number:'1.2'}}</p>
           <p>
             <small>
-              <a href="javascript:void(0)" class="text-danger" (click)="addToCart(item)">Add to Cart</a>
+              <a href="javascript:void(0)" class="text-primary" (click)="addToCart(item)">Add to Cart</a>
               &nbsp;|&nbsp;
-              <a href="javascript:void(0)" class="text-danger" (click)="removeItem(item, i)">Remove from List</a>
+              <a href="javascript:void(0)" class="text-primary" (click)="removeItem(item, i)">Remove from List</a>
             </small>
           </p>
         </li>

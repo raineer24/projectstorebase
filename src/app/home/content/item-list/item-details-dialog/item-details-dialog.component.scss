@@ -1,20 +1,27 @@
 .dialog-header {
-  float: right;
-  span {
-    font-weight: bold;
-  }
   .closeModal {
-    // color: red;
-  }
-  .glyphicon-remove {
-    font-size: 24px;
+    position: absolute;
+    top: 25px;
+    right: 15px;
+    color: #666;
     font-size: 20px;
+  }
+  .breadcrumb {
+    a {
+      color: #666;
+      text-transform: capitalize;
+      cursor: pointer;
+    }
   }
 }
 
 .item-details {
   .item-images {
-    // float: left;
+    text-align: center;
+    img {
+      display: inline-block;
+      max-height: 350px;
+    }
   }
   .item-image-thumbnails {
     // float: left;
@@ -97,11 +104,6 @@
 //   background: transparent;
 // }
 
-.suggested-items {
-  margin-top: 10px;
-  border-top: 1px solid #000;
-}
-
 .quantity-in-cart {
   margin: 0px !important;
   width: 12em;
@@ -152,20 +154,6 @@
   // }
 }
 
-.addtocart {
-  padding: 0;
-  width: 36%;
-}
-
-
-// .btn {
-//   border-radius: 0px;
-// }
-//
-// .btn-danger {
-//   // background: #ff5847;
-//   width: 100%;
-// }
 
 input[value="1"] {
   margin: 0 auto;
@@ -175,43 +163,6 @@ input[value="1"] {
   list-style: none;
 }
 
-.caption h4 {
-  margin: 0;
-}
-
-.caption p {
-  margin: 0;
-}
-
-.caption .price {
-  font-weight: bold;
-}
-
-.orange {
-  background-color: #ff5848;
-  width: 100%;
-  border: none;
-}
-
-.carousel {
-  overflow: hidden;
-}
-
-.carousel-inner {
-  width: 89%;
-  float: left;
-}
-
-.carousel nav {
-  float: right;
-  position: relative;
-  overflow: hidden;
-  width: 11%;
-}
-
-s {
-  color: red;
-}
 
 input[type='number'] {
   -moz-appearance: textfield;
@@ -225,7 +176,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* dropdown */
+/* LIST DROPDOWN */
 ul.list-dropdown {
   width:  200px;
   background-color: #fff;
@@ -235,7 +186,7 @@ ul.list-dropdown {
 
   .list-dropdown-item {
     padding: 2px 5px;
-    max-width: 180px;
+    // max-width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -244,5 +195,109 @@ ul.list-dropdown {
   .user-list {
     max-height: 300px;
     overflow-y: scroll;
+  }
+}
+
+.checkbox label:after,
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+
+.newList {
+  // width: 176px;
+}
+
+.suggested-items {
+  h5 {
+    color: #666;
+    width: 1000px;
+    margin: 10px auto;
+  }
+  section {
+    overflow-y: scroll;
+
+    ul {
+      padding: 0;
+      height: 284px;
+      // width: 2000px;
+      width: 1000px;
+      margin: 0 auto;
+
+      li.product-base {
+        width: 255px;
+        width: 200px;
+        width: 14em;
+        width: 11.6em;
+        width: 12em;
+        height:100%;
+        text-align: center;
+        position: relative;
+        vertical-align: top;
+        overflow: hidden;
+        display: inline-block;
+        background: #ffffff;
+        margin: 0 10px;
+      }
+
+      @media screen and (max-width: 400px) {
+        li.product-base {
+          width: 24.5em;
+        }
+      }
+    }
   }
 }

@@ -10,6 +10,7 @@ export class ReviewOrderComponent implements OnInit {
   @Input() shipAddress: any = {};
   @Input() billAddress: any = {};
   @Input() orderTotal: any = {};
+  @Input() cartTotal: any = {};
   @Input() amountDue: any = {};
   @Input() cartItems: CartItem[];
   @Input() deliveryDate: any = {};
@@ -17,11 +18,14 @@ export class ReviewOrderComponent implements OnInit {
   @Input() discount: number;
   serviceFee: number = 100;
   deliveryFee: number = 100;
+  grandTotal: number = 0;
   timeSlotLabels: Array<string> = ['8:00AM','11:00AM','2:00PM','5:00PM','8:00PM'];
 
   constructor() { }
 
   ngOnInit() {
+    //this.grandTotal = this.orderTotal + this.serviceFee + this.deliveryFee - this.discount;
+    //this.cartTotal = this.orderTotal - this.gcAmount;
   }
 
   getTimeSlotLabel(index: number): string {

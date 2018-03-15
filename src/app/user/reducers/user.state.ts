@@ -1,4 +1,4 @@
-import { Map, Record, List } from 'immutable';
+import { Map, Record, List, fromJS } from 'immutable';
 import { User } from '../../core/models/user';
 import { Order } from '../../core/models/order';
 

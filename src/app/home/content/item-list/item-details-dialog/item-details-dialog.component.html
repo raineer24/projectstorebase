@@ -1,12 +1,20 @@
-<div>
+<div *ngIf="item">
   <div class="dialog-header">
+    <div class="row">
+      <ol class="breadcrumb small">
+        <li>&nbsp;</li>
+        <li ><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
+        <li *ngIf="itemCategories[1]"><a (click)=selectCategory(itemCategories[1],itemCategories[0])>{{itemCategories[1].name}}</a></li>
+        <li *ngIf="itemCategories[2]"><a (click)=selectCategory(itemCategories[2],itemCategories[1],itemCategories[0])>{{itemCategories[2].name}}</a></li>
+      </ol>
+    </div>
     <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span class="glyphicon glyphicon-remove"></span></a>
   </div>
   <div class="item-details row">
     <!-- <div class="lighter">
         <p-lightbox class="col-sm-6" [images]="images"></p-lightbox>
     </div> -->
-    <div class="item-image-thumbnails col-md-1 col-xs-5">
+    <div class="item-image-thumbnails col-md-1 col-xs-3">
       <img [src]="getItemImageUrl(item.imageKey)" (error)="onImageError()" />
     </div>
     <div class="item-images col-md-4">
@@ -14,6 +22,7 @@
     </div>
     <!-- INSERT IMAGES HERE -->
     <div class="item-info col-md-6">
+
       <div class="row item-name">
         <p class="title">{{item.name}}</p>
         <p>{{item.brandName}}</p>
@@ -44,42 +53,49 @@
           <label>&nbsp;</label>
         </div>
         <div class="col-md-10 quantity-dialog">
-            <div class="col-md-6">
-              <div *ngIf="itemQuantity != 0; else addCart" class="input-group btn-block">
-                <!-- <label for="bit">Quantity in cart</label> -->
-                  <!-- <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button> -->
+          <div class="col-md-6">
+            <div *ngIf="itemQuantity != 0; else addCart" class="input-group btn-block">
+              <!-- <label for="bit">Quantity in cart</label> -->
+                <!-- <button title="Remove 1" type="button" class="quantity-in-cart-btn btn btn-minus" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button> -->
 
-                  <span class="input-group-btn">
-                    <button title="Remove 1" type="button" class="btn btn-minus btn-default" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
-                  </span>
-                  <input type="number" class="form-control text-center"
-                    [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
-                    [value]="itemQuantity" [formControl]="quantityControl"
-                    (blur)="checkIfValid($event)" (keypress)="keyPress($event)" />
-                  <span class="input-group-btn"><button title="Add more of this item" type="button" class="btn btn-success quantity-in-cart-btn" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
+                <span class="input-group-btn">
+                  <button title="Remove 1" type="button" class="btn btn-minus btn-default" data-type="minus" data-field="" (click)="decrementQuantity()" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button>
+                </span>
+                <input type="number" class="form-control text-center"
+                  [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
+                  [value]="itemQuantity" [formControl]="quantityControl"
+                  (blur)="checkIfValid($event)" (keypress)="keyPress($event)" />
+                <span class="input-group-btn"><button title="Add more of this item" type="button" class="btn btn-success quantity-in-cart-btn" data-type="plus" data-field="" (click)="incrementQuantity()" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
 
-                  <!-- <input class="form-control text-center" type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl" /> -->
-                  <!-- <span class="input-group-btn"><button title="Add more of this item" class="btn btn-default" type="button"(click)="incrementQuantity($event)" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span> -->
+                <!-- <input class="form-control text-center" type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="itemQuantity" [formControl]="quantityControl" /> -->
+                <!-- <span class="input-group-btn"><button title="Add more of this item" class="btn btn-default" type="button"(click)="incrementQuantity($event)" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span> -->
 
-              </div>
-              <ng-template #addCart>
-                <button title="Add 1 item" class="quantity-in-cart-add btn btn-block btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
-              </ng-template>
             </div>
-            <div class="col-md-6">
-            <!-- START: ADD TO MY LIST-->
+            <ng-template #addCart>
+              <button title="Add 1 item" class="quantity-in-cart-add btn btn-block btn-success" (click)="addToCart()"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
+            </ng-template>
+          </div>
+          <!-- START: ADD TO MY LIST-->
+          <div class="col-md-6">
             <ng-container *ngIf="isAuthenticated; else notAuth">
               <div class="btn-group btn-select-item" dropdown [autoClose]="false">
                 <button dropdownToggle type="button" class="quantity-wish-list btn btn-primary">
                   <i class="glyphicon glyphicon-edit"></i>Add to my list
                 </button>
+
                 <ul *dropdownMenu class="dropdown-menu list-dropdown" role="menu">
                   <div class="user-list">
                     <ng-container *ngFor="let userList of userLists; let i = index">
                       <li role="menuitem">
                         <div class="list-dropdown-item" title="{{userList.name}}" (click)="selectList(i, userList.id)">
-                          <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
-                          <span >&nbsp;{{userList.name}}</span>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
+                              <span class="cr"><i class="cr-icon fa fa-check"></i></span>&nbsp;<strong>{{userList.name}}</strong>
+                            </label>
+                          </div>
+                          <!-- <input type="checkbox" class="input-group-sm" name="checkboxState{{i}}" [(ngModel)]="listState[userList.id]">
+                          <span >&nbsp;{{userList.name}}</span> -->
                         </div>
                       </li>
                     </ng-container>
@@ -95,7 +111,10 @@
                   <li role="menuitem" class="list-dropdown-item">
                     <div>
                       <ng-container *ngIf="!isCreateList; else createList">
-                        <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span>
+                        <!-- <span (click)="toggleCreateNewList()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new list</span> -->
+                        <div class="input-group">
+                           <span class="input-group-btn"><button class="btn btn-primary btn-block newList" type="button" (click)="toggleCreateNewList()"><i class="glyphicon glyphicon-edit"></i> Create new list</button></span>
+                        </div>
                       </ng-container>
                       <ng-template #createList>
                         <div class="input-group">
@@ -129,12 +148,28 @@
                 </ul>
               </div>
             </ng-template>
-            <!-- END: ADD TO MY LIST-->
+          </div>
+          <!-- END: ADD TO MY LIST-->
         </div>
         <!-- </p> -->
       </div>
     </div> <!-- div.item-info -->
   </div>
+  <!-- START: RECOMMENDED LIST -->
+  <hr>
+  <div class="row suggested-items">
+    <h5>You might also be interested in these items</h5>
+    <section class="col-xs-12">
+      <ul class="">
+        <li *ngFor="let suggested of suggestedItems" class="product-base" itemscope
+          itemtype="https://schema.org/Product">
+          <app-item-list-entry [item]="suggested" [cartItem]="getCartItem(suggested.id)" [isClickable]="false"></app-item-list-entry>
+          <!--span class="product-zoom glyphicon glyphicon-search"></span-->
+        </li>
+      </ul>
+    </section>
+  </div>
+  <!-- END: RECOMMENDED LIST -->
 </div>
       <!-- <div>
         When this item is not available

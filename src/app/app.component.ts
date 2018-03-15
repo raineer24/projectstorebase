@@ -32,7 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .filter(e => e instanceof NavigationEnd)
       .subscribe((e: NavigationEnd) => {
         this.currentUrl = e.url;
-        console.log(this.currentUrl +" "+ this.isHomeRoute())
         this.findCurrentStep(this.currentUrl);
         window.scrollTo(0, 0);
       });

@@ -66,7 +66,7 @@ export class ListDetailComponent implements OnInit {
     if (key) {
       url = environment.IMAGE_REPO + key + '.jpg';
     } else {
-      url = 'assets/omg-01.png';
+      url = 'assets/omg-04.png';
     }
     return url;
   }
@@ -79,8 +79,9 @@ export class ListDetailComponent implements OnInit {
   }
 
   addAllToCart(){
+    console.log('Add All to Cart!!');
     for(let i = 0, delay = 0, l = this.items.length; i < l; i++ ) {
-      delay = i * 100;
+      delay = i * 250;
       if(!this.cartItems.find(cartItem => cartItem.item_id === this.items[i].id)) {
         setTimeout(() => {
           this.store.dispatch(this.checkoutActions.addItemsToCart(this.items[i]));

@@ -24,6 +24,7 @@ export class ItemListComponent implements OnInit {
   @Input() toggleLayout;
   @Input() cartItems;
   @Input() sortSettings;
+  @Input() categories;
   @Input() filterSettings: Array<any> = [];
   @ViewChild('itemDetailsModal') itemDetailsModal;
   selectedItem$: Observable<any>;
@@ -51,7 +52,6 @@ export class ItemListComponent implements OnInit {
       .subscribe(itemId => {
         if(itemId) {
            this.productService.getProduct(itemId.toString()).subscribe(item => {
-             console.log(this.cartItems)
             this.store.dispatch(this.actions.addSelectedItem(item[0]));
           })
         }
@@ -134,7 +134,7 @@ export class ItemListComponent implements OnInit {
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight
+    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 225)
     && this.items.length % this.itemsPerPage == 0) {
         this.autoLoad();
     }

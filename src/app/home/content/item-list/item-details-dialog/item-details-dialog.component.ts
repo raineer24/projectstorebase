@@ -5,8 +5,10 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AppState } from './../../../../interfaces';
 import { environment } from './../../../../../environments/environment';
+import { SearchActions } from './../../../reducers/search.actions';
 import { CartItem } from './../../../../core/models/cart_item';
 import { Item } from './../../../../core/models/item';
+import { ProductService } from './../../../../core/services/product.service';
 import { ProductActions } from './../../../../product/actions/product-actions';
 import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
 import { UserActions } from './../../../../user/actions/user.actions';
@@ -19,12 +21,14 @@ import { UserService } from './../../../../user/services/user.service';
   styleUrls: ["./item-details-dialog.component.scss"]
 })
 export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
-  @Input() item: Item;
+  @Input() item: any;
+  @Input() categories: any;
   @Input() cartItems: CartItem[];
   @Input() isAuthenticated: boolean;
   @Input() userLists: any;
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
   @Output() onClose: EventEmitter<any> = new EventEmitter();
+  suggestedItems: Array<Object>;
   itemQuantity: number = 0;
   quantityControl = new FormControl();
   saveAmount: any;
@@ -34,19 +38,23 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   includedLists: Array<any> = [];
   listState: Array<any> = [];
   inputNewList = new FormControl();
+  itemCategories: Array<any> = [null,null,null];
   private imageRetries: number = 0;
   private componentDestroyed: Subject<any> = new Subject();
 
   constructor(
+    private productService: ProductService,
     private productActions: ProductActions,
     private checkoutActions: CheckoutActions,
+    private searchActions: SearchActions,
     private userActions: UserActions,
     private userService: UserService,
     private store: Store<AppState>
   ) {}
 
   ngOnInit() {
-    const cartItem = this.getCartItem();
+
+    const cartItem = this.getCartItem(this.item.id);
     if (typeof cartItem != "undefined") {
       this.itemQuantity = cartItem.quantity;
     }
@@ -55,7 +63,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         //do nothing
       } else {
         this.itemQuantity = value;
-        let cartItem = this.getCartItem();
+        let cartItem = this.getCartItem(this.item.id);
         cartItem.quantity = value;
         this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));
       }
@@ -67,11 +75,10 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       })
       .takeUntil(this.componentDestroyed)
       .subscribe();
-    this.userService
-      .getListsOfItem(this.item.id)
+
+    this.userService.getListsOfItem(this.item.id)
       .takeUntil(this.componentDestroyed)
       .subscribe(res => {
-
         this.includedLists = res.map(x => {
           return {
             list_id: x.list_id,
@@ -80,13 +87,45 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         });
         this.setListCheckbox();
       });
+
+    this.productService.getSuggestedItems(this.item.id)
+      .takeUntil(this.componentDestroyed)
+      .subscribe(res => {
+        this.suggestedItems = res;
+      });
+    this.initBreadCrumbs();
   }
 
   ngOnChanges() {
     if (this.cartItems.length) {
-      const cartItem = this.getCartItem();
+      const cartItem = this.getCartItem(this.item.id);
       if(cartItem) {
         this.itemQuantity = cartItem.quantity;
+      }
+    }
+    if (!this.itemCategories[0]) {
+      this.initBreadCrumbs();
+    }
+  }
+
+  ngOnDestroy() {
+    this.onCloseModalEmit.emit();
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
+  }
+
+  initBreadCrumbs(): void {
+    if(this.categories.length && this.item) {
+      let index1, index2, index3;
+      index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
+      this.itemCategories[0] = this.categories[index1];
+      if (this.item.category2) {
+        index2 = this.categories[index1].subCategories.findIndex(cat => cat.id == this.item.category2);
+        this.itemCategories[1] = index2 >= 0 ? this.categories[index1].subCategories[index2]: null;
+      }
+      if (this.item.category3) {
+        index3 = this.categories[index1].subCategories[index2].subCategories.findIndex(cat => cat.id == this.item.category3);
+        this.itemCategories[2] = index3 >= 0 ? this.categories[index1].subCategories[index2].subCategories[index3]: null;
       }
     }
   }
@@ -136,8 +175,8 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCartItem() {
-    return this.cartItems.find(cartItem => cartItem.item_id === this.item.id);
+  getCartItem(id: number) {
+    return this.cartItems.find(cartItem => cartItem.item_id === id);
   }
 
   toggleCreateNewList(): void {
@@ -207,12 +246,6 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.onCloseModalEmit.emit();
-    this.componentDestroyed.next();
-    this.componentDestroyed.unsubscribe();
-  }
-
   keyPress(event: any) {
     const pattern = /[0-9]/;
     const inputChar = String.fromCharCode(event.charCode);
@@ -235,4 +268,26 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       this.quantityControl.setValue(this.MAX_VALUE)
     }
   }
+
+  selectCategory(...categories): void {
+    let filters;
+    if(categories[0] == 'all') {
+      this.store.dispatch(this.productActions.getAllProducts());
+    } else {
+      filters = {
+        mode: 'category',
+        level: categories[0].level,
+        categoryId: categories[0].id,
+        breadcrumbs: categories.map(cat => { return {id: cat.id, name: cat.name, level: cat.level}}).reverse()
+      }
+      this.store.dispatch(this.productActions.getItemsByCategory(filters));
+    }
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: filters ? [filters]: [],
+      categoryIds: []
+    }));
+    this.onCloseModal()
+    window.scrollTo(0, 0);
+  }
+
 }
