@@ -219,6 +219,8 @@ h4 {
   width: 280px;
 }
 
+// NOTE: -- CUSTOM CHECKBOX AND RADIO - START
+// source: https://bootsnipp.com/snippets/featured/animated-radios-amp-checkboxes-nojs
 .checkbox label:after,
 .radio label:after {
     content: '';
@@ -277,6 +279,11 @@ h4 {
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
 }
+
+.checkbox label img, .radio label img {
+  height: 22px;
+}
+// -- CUSTOM CHECKBOX AND RADIO - END
 
 .modalshake {
 			-webkit-animation: kf_shake 0.4s 1 linear;
