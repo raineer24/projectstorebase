@@ -1,3 +1,28 @@
+
+// :host {
+//   background: #ff5847;
+
+//   color: #fff;
+//   position: fixed;
+//   left: auto;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   width: 20%;
+//   min-width: 197px;
+//   z-index: 9999;
+//   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+// }
+
+// ul {
+//   font-size: 18px;
+//   line-height: 3;
+//   font-weight: 400;
+//   padding-top: 50px;
+//   list-style: none;
+// }
+
+/** Comment this part ^^ **/
 .fa {
   font-size: 2rem;
 }
@@ -32,5 +57,19 @@
      color: #fff;
      font-size: 20px;
    }
+   
 
 }
+  @media screen and (max-width: 414px) {
+    .omglogo {
+      width: 18%;
+    }
+    .cart {
+      margin-right: 9px;
+    }
+    .side-container {
+      background-color: orange;
+    }
+
+  }
+

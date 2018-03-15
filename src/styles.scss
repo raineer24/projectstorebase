@@ -95,6 +95,10 @@ main[_ngcontent-c0] {
 }
 
 @media (min-width: 768px) {
+  [ng-tns-c1-0] {
+    background-color: orange;
+  }
+
   .navbar-nav>li>a {
     padding-top: 10px !important;
     padding-bottom: 10px !important;

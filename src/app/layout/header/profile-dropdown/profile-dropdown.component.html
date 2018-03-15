@@ -1,16 +1,19 @@
+<sidebar-js>
+ <div class="side-container">
+  <ul>
+    <li>
+      <a href="#" [routerLink]="['/auth', 'login']">Sign In</a>
+    </li>
+    <li>
+      <a href="#" [routerLink]="['/auth']">REgister</a>
+    </li>
+  </ul>
+ </div>
+</sidebar-js>
+
 <div class="rightsign collapse navbar-collapse cl-effect-13" id="top-menu">
 <ul class="nav navbar-nav navbar-right">
-  <!-- <li class="dropdown" dropdown *ngIf="!isAuthenticated">
-    <a class="dropdown-toggle" dropdownToggle>
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <span class="caret"></span>
-    </a>
 
-    <ul class="" *dropdownMenu>
-      <li><a [routerLink]="['/auth']">Sign up</a></li>
-      <li><a [routerLink]="['/auth', 'login']">Login</a></li>
-    </ul>
-  </li> -->
   <ul class="" *dropdownMenu>
     <li>
       <a [routerLink]="['/auth']">Sign up</a>
