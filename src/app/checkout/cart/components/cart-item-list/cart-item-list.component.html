@@ -1,3 +1,3 @@
 <div *ngFor="let item of cartItems$ | async; trackBy: trackByFn">
-  <app-cart-item [cartItem]="item"></app-cart-item>
+  <app-cart-item [cartItem]="item" [isCartSummary]="isCartSummary"></app-cart-item>
 </div>
