@@ -78,6 +78,7 @@ export class PaymentComponent implements OnInit {
   forCoupon: any;
   voucherIcon: string;
   checkedGC: boolean = false;
+  checkedCash: boolean = true;
   private componentDestroyed: Subject<any> = new Subject();
 
 
