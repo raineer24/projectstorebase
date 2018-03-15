@@ -131,4 +131,7 @@ export class ListDetailComponent implements OnInit {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
   }
+  onImageError(e: any): void {
+    e.target.src = "assets/omg-03.png";
+  }
 }
