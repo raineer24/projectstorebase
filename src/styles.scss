@@ -196,13 +196,6 @@ div.modal-dialog {
   width: 50%;
 }
 
-<<<<<<< HEAD
-// ADMIN STYLES
-.admin-body {
-  padding: 0;
-  margin: 0;
-  background-color: #fff;
-=======
 
 @media screen and (max-width: 767px) {
   body {
@@ -249,5 +242,11 @@ typeahead-container ul.dropdown-menu {
   li a, li a.active {
     color: #000;
   }
->>>>>>> develop
+}
+
+// ADMIN STYLES
+.admin-body {
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
 }
