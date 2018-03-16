@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit {
     private searchActions: SearchActions,
     private router: Router,
     private cd: ChangeDetectorRef
-    private renderer: Renderer
+   
   ) {
     this.initAutoSuggest();
   }
@@ -93,10 +93,8 @@ export class HeaderComponent implements OnInit {
   }
   toggle() {
     this.shouldShow = !this.shouldShow;
-    this.renderer.invokeElementMethod(this.inputEl.nativeElement.focus());
-    if (this.show) {
-      //return this.show = false;
-    }
+   this.inputEl.nativeElement.focus()
+    setTimeout(() => this.inputEl.nativeElement = '', 300);
   }
   toggleMenu() {
     // 1-line if statement that toggles the value:
@@ -288,5 +286,7 @@ export class HeaderComponent implements OnInit {
   onImageError(e: any): void {
     e.target.src = "assets/omg-03.png";
   }
-
+  focusInput() {
+    
+  }
 }
