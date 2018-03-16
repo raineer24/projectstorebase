@@ -1,52 +1,62 @@
 <div class="rightsign collapse navbar-collapse cl-effect-13" id="bs-example-navbar-collapse-1">
-<ul class="nav navbar-nav navbar-right">
-  <!-- <li class="dropdown" dropdown *ngIf="!isAuthenticated">
-    <a class="dropdown-toggle" dropdownToggle>
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <span class="caret"></span>
-    </a>
+  <ul class="nav navbar-nav navbar-right">
+    <!-- <li class="dropdown" dropdown *ngIf="!isAuthenticated">
+      <a class="dropdown-toggle" dropdownToggle>
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span class="caret"></span>
+      </a>
 
-    <ul class="" *dropdownMenu>
-      <li><a [routerLink]="['/auth']">Sign up</a></li>
-      <li><a [routerLink]="['/auth', 'login']">Login</a></li>
-    </ul>
-  </li> -->
-  <ul class="" *dropdownMenu>
-    <li>
-      <a [routerLink]="['/auth']">Sign up</a>
-    </li>
-    <li>
-      <a [routerLink]="['/auth', 'login']">Login</a>
+      <ul class="" *dropdownMenu>
+        <li><a [routerLink]="['/auth']">Sign up</a></li>
+        <li><a [routerLink]="['/auth', 'login']">Login</a></li>
+      </ul>
+    </li> -->
+    <ng-container *ngIf="!isAuthenticated; else elseBlock">
+      <li><a [routerLink]="['/auth']">Register</a></li>
+      <li><a [routerLink]="['/auth', 'login']">Sign in</a></li>
+    </ng-container>
+    <ng-template #elseBlock>
+      <li><a routerLink="/user/lists"><i class="glyphicon glyphicon-list"></i> My List</a></li>
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle" dropdownToggle>
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu user" *dropdownMenu>
+          <!-- <li role="separator" class="divider"></li> -->
+          <li><a routerLink="/user">My Profile</a></li>
+          <li><a routerLink="/user/orders">Orders</a></li>
+          <!-- <li><a routerLink="/user/addresses">Saved Addresses</a></li> -->
+          <li role="separator" class="divider"></li>
+          <li><a (click)="logout()" href="">Logout</a></li>
+        </ul>
+      </li>
+    </ng-template>
+    <li class="cart hidden-xs" dropdown #cartDropdown="bs-dropdown" [autoClose]="false" (onShown)="showCartPreview()" (onHidden)="hideCartPreview()">
+      <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <span class="caret"></span>
+        <span class="badge badge-danger">{{totalCartItems}}</span>
+        ₱{{totalCartValue | number : '1.2-2'}}
+      </a>
+      <ul class="dropdown-menu cart-preview" *dropdownMenu>
+        <li>
+          <div class="bg-primary">
+            <button type="button" class="btn btn-block btn-primary" [routerLink]="['checkout','cart']" (click)="cartDropdown.hide()">Checkout Now</button>
+          </div>
+          <div class="col-md-12 cart-list" (click)="cartDropdown.show()">
+            <app-cart-item-list [isCartSummary]="true"></app-cart-item-list>
+            <div *ngIf="totalCartValue <= 0" class="empty text-center">
+              Your Shopping Cart is empty
+            </div>
+          </div>
+          <div class="col-md-12 subtotal">
+            <h4>Subtotal: <span class="pull-right">₱ {{totalCartValue | number : '1.2-2'}}</span></h4>
+          </div>
+        </li>
+      </ul>
     </li>
   </ul>
-  <li *ngIf="!isAuthenticated"><a [routerLink]="['/auth']">Register</a></li>
-  <li *ngIf="!isAuthenticated"><a [routerLink]="['/auth', 'login']">Sign in</a></li>
 
-  <li *ngIf="isAuthenticated"><a routerLink="/user/lists"><i class="glyphicon glyphicon-list"></i> My List</a></li>
-  <li class="dropdown" dropdown *ngIf="isAuthenticated">
-    <a class="dropdown-toggle" dropdownToggle>
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" *dropdownMenu>
-      <!-- <li role="separator" class="divider"></li> -->
-      <li><a routerLink="/user">My Profile</a></li>
-      <li><a routerLink="/user/orders">Orders</a></li>
-      <!-- <li><a routerLink="/user/addresses">Saved Addresses</a></li> -->
-      <li role="separator" class="divider"></li>
-      <li><a (click)="logout()" href="">Logout</a></li>
-    </ul>
-  </li>
-
-  <li class="cart hidden-xs" [routerLink]="['checkout','cart']">
-    <a>
-      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-      <span class="badge badge-danger">{{totalCartItems}}</span>
-      {{totalCartValue | number : '1.2-2'}}
-    </a>
-  </li>
-</ul>
-    
 
 </div>
-

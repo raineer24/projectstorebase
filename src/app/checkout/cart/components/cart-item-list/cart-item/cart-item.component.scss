@@ -135,9 +135,25 @@
   }
 }
 
+.cart-summary {
+  img {
+    max-height: 45px;
+  }
+  li {
+    line-height: 50px;
+  }
+  input {
+    float: none;
+    height: 22px;
+    padding: 2px;
+  }
+  .item-name {
+    line-height: normal;
+    padding: 5px
+  }
+}
+
 input {
-	width: 40%;
-	border: none;
 	background: transparent;
 	text-align: center;
 }
