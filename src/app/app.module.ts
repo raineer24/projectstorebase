@@ -14,6 +14,7 @@ import { UserModule } from "./user/index";
 import { HomeModule } from "./home/index";
 import { LayoutModule } from "./layout/index";
 import { SellerModule } from "./seller/index";
+import { AdminModule } from "./admin/admin.module";
 import { CoreModule } from "./core/index";
 import { StoreModule } from "@ngrx/store";
 import { reducer } from "./app.reducers";
@@ -43,7 +44,7 @@ import { ModalModule } from "angular-custom-modal";
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
-    CheckoutFooterComponent
+    CheckoutFooterComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -54,6 +55,7 @@ import { ModalModule } from "angular-custom-modal";
     HomeModule,
     LayoutModule,
     CoreModule,
+    AdminModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension({
       maxAge: 10
