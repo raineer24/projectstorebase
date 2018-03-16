@@ -1,7 +1,5 @@
-
 // :host {
 //   background: #ff5847;
-
 //   color: #fff;
 //   position: fixed;
 //   left: auto;
@@ -13,7 +11,6 @@
 //   z-index: 9999;
 //   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 // }
-
 // ul {
 //   font-size: 18px;
 //   line-height: 3;
@@ -21,30 +18,36 @@
 //   padding-top: 50px;
 //   list-style: none;
 // }
-
 /** Comment this part ^^ **/
+
 .fa {
   font-size: 2rem;
 }
+
 .navbar-nav {
   margin-top: 10px;
 }
-.navbar-nav > li > a {
+
+.navbar-nav>li>a {
   min-height: 0px;
   letter-spacing: 0.5px;
   font-size: 14px;
 }
+
 .divider {
   top: 10px;
 }
 
-.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+.nav .open>a,
+.nav .open>a:focus,
+.nav .open>a:hover {
   background-color: transparent;
 }
 
 .cart {
   cursor: pointer;
 }
+
 .dropdown-menu {
   min-width: 120px;
   .divider {
@@ -53,30 +56,36 @@
 }
 
 @media screen and (max-width: 767px) {
-   .navbar-nav>li>a {
-     color: #fff;
-     font-size: 20px;
-   }
-   .side-container ul {
-     list-style: none;
-     padding-left: 1em;
-   }
-   .side-container ul li {
-     padding: .8em .5em;
-   }
-
+  .navbar-nav>li>a {
+    color: #fff;
+    font-size: 20px;
+  }
+  .side-container section ul {
+    list-style: none;
+    padding-left: 1em;
+    margin-bottom: 0;
+  }
+  .side-container section ul li {
+    padding: .8em .5em;
+  }
+  .side-container section {
+    border-bottom: 1px solid #ea0000;
+  }
+  sidebarjs-background {
+    background: transparent;
+  }
 
 }
-  @media screen and (max-width: 414px) {
-    .omglogo {
-      width: 18%;
-    }
-    .cart {
-      margin-right: 9px;
-    }
-    .side-container {
-      background-color: orange;
-    }
 
+@media screen and (max-width: 414px) {
+  .omglogo {
+    width: 18%;
   }
+  .cart {
+    margin-right: 9px;
+  }
+  .side-container section {
+    background-color: #ff5847;
+  }
+}
 
