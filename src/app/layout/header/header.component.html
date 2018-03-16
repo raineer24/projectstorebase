@@ -114,13 +114,8 @@
   </a>
 </div>
 
-          
-    
-    <!-- <button (click)="toggleMenu()" class="hamburger"  [ngClass]="{show: shouldShow, hide: !shouldShow}">
-      <span>toggle menu</span>
-    </button> -->
 <div class="side">
-  <div sidebarjsOpen >
+  <div sidebarjsOpen  [ngClass]="{show: shouldShow, hide: !shouldShow}">
     <input type="checkbox" id="toggle-menu" class="toggle-menu" name="">
     <label for="toggle-menu">
       <span class="menu-bar"></span>
@@ -132,13 +127,6 @@
 </div>
     
 
-      
-        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-menu" style="float: left">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> -->
    
     <div class="input-group col-xs-9">
       <input [(ngModel)]="asyncSelected"
@@ -149,8 +137,7 @@
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-      <!-- <app-profile-dropdown [@slideInOut]="menuState"  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown> -->
-        <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async"
+          <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async"
           [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
 
 <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-menu" style="background: none;border: none;margin: 0 3px 0 0;padding-left: 12px;border-left: 1px solid #eee;height: 40px;font-size:130%;color:#888;">
@@ -171,7 +158,7 @@
 
 </div> -->
 <span [hidden]="shouldShow">
-      <button type="button" (click)="toggle()" class="btn btn-danger pull-right">
+      <button type="button" (click)="toggle()" class="btn btn-danger pull-right" >
         <i class="glyphicon glyphicon glyphicon-remove"></i>
       </button>
     </span>
@@ -180,15 +167,15 @@
   <form ngNoForm >
     
     <span [hidden]="!shouldShow">
-      <button type="button" (click)="toggle()" class="btn btn-danger pull-right">
+      <button type="button" (click)="toggle()" class="btn btn-danger pull-right" >
         <i class="glyphicon glyphicon glyphicon-search"></i>
       </button>
     </span>
-    <input *ngIf="!shouldShow" type="search" [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
+    <input #input *ngIf="!shouldShow" type="search" [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
       (typeaheadNoResults)="changeTypeaheadNoResults($event)" (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10"
       [typeaheadWaitMs]="300" [typeaheadMinLength]="2" typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate"
       (keyup.enter)="searchKeyword()" class="form-control" placeholder="Search for..." class="form-control" 
-      name="q" style="width: 80%;">
+      name="q" style="width: 84%;">
   </form>
 </ng-container>
 </div>

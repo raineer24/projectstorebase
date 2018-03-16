@@ -4,7 +4,7 @@ import { getTaxonomies } from './../../product/reducers/selectors';
 import { getTotalCartValue, getTotalCartItems } from './../../checkout/reducers/selectors';
 import { getSortSettings } from './../../home/reducers/selectors';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
-  ViewChild, ViewChildren, QueryList, Input } from '@angular/core';
+  ViewChild, ViewChildren, QueryList, Input, AfterViewChecked, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
@@ -24,20 +24,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('slideInOut', [
-      state('in', style({
-        transform: 'translate3d(0, 0, 0)'
-      })),
-      state('out', style({
-        transform: 'translate3d(100%, 0, 0)'
-      })),
-      transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out'))
-    ]),
-  ]
-})
-export class HeaderComponent implements OnInit {
+  })
+export class HeaderComponent implements OnInit, AfterViewChecked {
   public shouldShow =true;
   mobile: boolean = false;
   @Input() currentStep: string;
@@ -63,6 +51,7 @@ export class HeaderComponent implements OnInit {
   menuState: string = 'out';
   isopen: false
   display: boolean = true;
+  @ViewChild('input') input: ElementRef;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -77,6 +66,12 @@ export class HeaderComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) {
     this.initAutoSuggest();
+  }
+  ngAfterViewChecked() {
+    if (!this.shouldShow) {
+     console.log("viewed");
+      this.input.nativeElement.focus();
+    }
   }
 
   ngOnInit() {
@@ -102,14 +97,12 @@ export class HeaderComponent implements OnInit {
   }
   toggle() {
     this.shouldShow = !this.shouldShow;
+    console.log('clicked!');
     if (this.show) {
       //return this.show = false;
     }
   }
-  toggleMenu() {
-    // 1-line if statement that toggles the value:
-    this.menuState = this.menuState === 'out' ? 'in' : 'out';
-  }
+  
 
   selectCategory(...categories): void {
     // if(typeof(index) != 'undefined') {
