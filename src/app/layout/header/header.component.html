@@ -73,21 +73,21 @@
               <div class="catbox">{{keyword.name}}</div>
             </ng-template>
           </ng-template>
-          <input [(ngModel)]="asyncSelected"
+          <input #searchbox [(ngModel)]="asyncSelected"
               [typeahead]="dataSource"
               (typeaheadLoading)="changeTypeaheadLoading($event)"
               (typeaheadNoResults)="changeTypeaheadNoResults($event)"
-              (typeaheadOnSelect)="typeaheadOnSelect($event)"
               [typeaheadOptionsLimit]="10"
               [typeaheadWaitMs]="300"
+              (typeaheadOnSelect)="typeaheadOnSelect($event)"
               [typeaheadMinLength]="2"
               typeaheadGroupField="group"
               [typeaheadItemTemplate]="searchTemplate"
-              (keyup.enter)="searchKeyword()"
+              (keyup.enter)="typeaheadOnSelect($event)"
               class="form-control"
               placeholder="Search for...">
           <!-- NOTE: REGULAR SEARCH -->
-          <!-- <input [(ngModel)]="asyncSelected"
+          <!-- <input [(ngModel)]="asyncSelected
               class="form-control"
               (keyup.enter)="searchKeyword()"
               placeholder="Search for a product or category"> -->
