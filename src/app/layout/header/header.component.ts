@@ -64,6 +64,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     private searchActions: SearchActions,
     private router: Router,
     private cd: ChangeDetectorRef
+   
   ) {
     this.initAutoSuggest();
   }
@@ -289,5 +290,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   onImageError(e: any): void {
     e.target.src = "assets/omg-03.png";
   }
-
+  focusInput() {
+    
+  }
 }
