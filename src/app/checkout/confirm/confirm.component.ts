@@ -23,9 +23,14 @@ export class ConfirmComponent implements OnInit {
   saveListState: number = 0;
   inputNewList: string;
   isAuthenticated$: Observable<boolean>;
+  timeSlotOrder$: Subscription;
+  timeSlot$: Subscription;
   orderKey: string;
   orderDetails: any;
+  timeSlot: any;
+  deliveryDate: any;
   cartItemArray: Array<number>;
+  merridian: string;
   fees: Object;
   sortSettings: any;
 
@@ -56,9 +61,41 @@ export class ConfirmComponent implements OnInit {
           // details.amountTotal = Number(details.total) - Number(details.paymentTotal) - Number(details.discountTotal);
           details.amountTotal = Number(details.adjustmentTotal);
           this.orderDetails = details;
-          console.log(details);
+          console.log(details.id);
+          this.showTimeSlotOrder(details.id);
           this.cartItemArray = details['items'].map(item => item.item_id)
           return details;
+        }).subscribe();
+    }).subscribe();
+  }
+
+  showTimeSlotOrder(orderId){
+    let tsID = 0;
+    let timerange = 0;
+    this.timeSlot = 0;
+    this.timeSlotOrder$ = this.userService.getTimeSlotOrder(orderId).map( timeslot => {
+        this.deliveryDate = timeslot.datetime;
+        tsID = timeslot.timeslot_id;
+        console.log(tsID);
+        this.timeSlot$ = this.userService.getTimeslot(tsID).map( time => {
+          timerange = time.range;
+          console.log(timerange);
+          //Sets time as AM/PM
+          if(tsID > 2){
+            this.merridian = 'PM';
+          } else {  this.merridian = 'AM'; }
+          //Convert military time to standard time - 13:00 becomes 1:00
+          if(tsID == 2){
+            this.timeSlot = '11:00';
+          } else if(tsID == 3){
+            this.timeSlot = '2:00';
+          } else if(tsID == 4){
+            this.timeSlot = '5:00';
+          } else if (tsID == 5 || tsID == 1){
+            this.timeSlot = '8:00';
+          }
+          console.log(this.timeSlot);
+          return this.timeSlot;
         }).subscribe();
     }).subscribe();
   }

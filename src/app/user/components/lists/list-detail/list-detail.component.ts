@@ -81,7 +81,7 @@ export class ListDetailComponent implements OnInit {
   addAllToCart(){
     console.log('Add All to Cart!!');
     for(let i = 0, delay = 0, l = this.items.length; i < l; i++ ) {
-      delay = i * 250;
+      delay = i * 100;
       if(!this.cartItems.find(cartItem => cartItem.item_id === this.items[i].id)) {
         setTimeout(() => {
           this.store.dispatch(this.checkoutActions.addItemsToCart(this.items[i]));
@@ -130,5 +130,8 @@ export class ListDetailComponent implements OnInit {
   ngOnDestroy() {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
+  }
+  onImageError(e: any): void {
+    e.target.src = "assets/omg-03.png";
   }
 }

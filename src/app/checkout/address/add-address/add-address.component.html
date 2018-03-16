@@ -73,11 +73,11 @@
   </div>
   <div class="row">
     <div class="col-sm-12 bg-info form-group">
-      <input type="checkbox" #billAddress formControlName="isBilling">
-      <label>Bill to a different address</label>
+      <input class="check-billing" type="checkbox" formControlName="isBilling" [(ngModel)]="checkBilling">
+      <label class="check-billing" (click)="checkBilling=!checkBilling">Bill to a different address</label>
     </div>
   </div>
-  <ng-container *ngIf="billAddress.checked">
+  <ng-container *ngIf="checkBilling">
     <div class="row">
       <div class="col-sm-12 form-group">
         <label for="billingAddress01">Address 1</label>

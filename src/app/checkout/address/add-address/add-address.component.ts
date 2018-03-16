@@ -23,6 +23,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean;
   shipAddress$: Observable<any>;
   billAddress$: Observable<any>;
+  checkBilling: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
   constructor(

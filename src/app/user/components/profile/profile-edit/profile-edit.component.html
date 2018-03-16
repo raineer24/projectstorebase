@@ -1,8 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/user','profile']" (click)="onCancelClick()">Profile</a></li>
+    <li class="breadcrumb-item text-primary" aria-current="page">Edit</li>
+  </ol>
+</nav>
+
 <form class="form-horizontal" [formGroup]="profileEditForm" (ngSubmit)="onSubmit()">
   <fieldset>
     <div class="form-group">
-      <label class="col-md-2 control-label" for="email">Email</label>
-      <div class="col-md-3">
+      <label class="col-md-3 control-label" for="email">Email</label>
+      <div class="col-md-6">
         <input id="email" name="email" formControlName="email" class="form-control input-md" required="" type="text">
       </div>
       <div *ngIf="profileEditForm.get('email').errors && profileEditForm.get('email').touched">
@@ -10,8 +17,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-md-2 control-label" for="lastName">Last Name</label>
-      <div class="col-md-3">
+      <label class="col-md-3 control-label" for="lastName">Last Name</label>
+      <div class="col-md-6">
         <input id="lastName" name="lastName" formControlName="lastName" class="form-control input-md" required="" type="text">
       </div>
       <div *ngIf="profileEditForm.get('lastName').errors && profileEditForm.get('lastName').touched">
@@ -19,8 +26,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-md-2 control-label" for="firstName">First Name</label>
-      <div class="col-md-3">
+      <label class="col-md-3 control-label" for="firstName">First Name</label>
+      <div class="col-md-6">
         <input id="firstName" name="firstName" formControlName="firstName" class="form-control input-md" required="" type="text">
       </div>
       <div *ngIf="profileEditForm.get('firstName').errors && profileEditForm.get('firstName').touched">
@@ -240,8 +247,8 @@
      </div>     -->
     <!-- Multiple Radios (inline) -->
     <div class="form-group">
-      <label class="col-md-2 control-label" for="gender">Gender</label>
-      <div class="col-md-3">
+      <label class="col-md-3 control-label" for="gender">Gender</label>
+      <div class="col-md-6">
         <label class="radio-inline" for="male">
           <input type="radio" name="gender" id="male" value="M" formControlName="gender">
           Male
@@ -266,8 +273,8 @@
     <!-- Text input-->
     <div class="form-group">
       <div class="form-inline">
-        <label class="col-md-2 control-label" for="mobileNumber">Mobile Number</label>
-        <div class="col-md-3">
+        <label class="col-md-3 control-label" for="mobileNumber">Mobile Number</label>
+        <div class="col-md-6">
           <select name="prefix" formControlName="prefix" class="form-control">
             <option value="+63">+63</option>
           </select>
@@ -281,8 +288,8 @@
     </div>
     <!-- Button (Double) -->
     <div class="form-group">
-      <label class="col-md-2 control-label" for="save"></label>
-      <div class="col-md-3">
+      <label class="col-md-3 control-label" for="save"></label>
+      <div class="col-md-6">
         <button id="save" name="save" class="btn btn-success">Save Changes</button>
         <button id="cancel" name="cancel" class="btn btn-danger" type="button" (click)="onCancelClick()">Cancel</button>
       </div>
