@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProfileDropdownComponent } from './header/profile-dropdown/profile-dropdown.component';
+// import { CartItemListComponent } from './../checkout/cart/components/cart-item-list/cart-item-list.component';
+// import { CartItemComponent } from './../checkout/cart//components/cart-item-list/cart-item/cart-item.component';
 
 // Modules
 import { SharedModule } from '../shared/index';
 import { RouterModule } from '@angular/router';
-
+import { CartModule } from './../checkout/cart/cart.module';
 
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
@@ -27,13 +29,17 @@ import { SidebarJSModule } from 'ng-sidebarjs';
   ],
   exports: [
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
+    // CartItemListComponent,
+    // CartItemComponent
   ],
   imports: [
     SharedModule,
     RouterModule,
     TypeaheadModule,
-    SidebarJSModule.forRoot()
+    SidebarJSModule.forRoot(),
+    CartModule,
+    TypeaheadModule
   ]
 })
 export class LayoutModule {}

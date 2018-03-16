@@ -25,6 +25,10 @@ export const routes: Routes = [
   {
     path: 'seller',
     loadChildren: './seller/index#SellerModule'
+  },
+  {
+    path: 'admin',
+    loadChildren: './admin/admin.module#AdminModule'
   }
 
 ];
