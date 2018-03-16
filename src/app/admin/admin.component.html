@@ -11,16 +11,16 @@
     </div>
     <div class="sidebar">
       <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="/admin">Orders</a></li>
-        <li><a href="/admin">Menu 2</a></li>
-        <li><a href="/admin">Menu 3</a></li>
-        <li><a href="/admin">Others</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/admin/orders']" >Orders</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/admin/users']" >Users</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/admin/menu3']">Menu 3</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/admin/others']">Others</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="container">
-    <app-orders></app-orders>
+    <router-outlet></router-outlet>
     <footer></footer>
   </div>
 </div>

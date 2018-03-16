@@ -83,7 +83,9 @@ export class HeaderComponent implements OnInit {
   ngOnDestroy() {
     this.catSubs.unsubscribe();
     this.sortSubs.unsubscribe();
-    this.subscription.unsubscribe();
+    if(this.subscription != undefined){
+      this.subscription.unsubscribe();
+    }
   }
 
   selectCategory(...categories): void {

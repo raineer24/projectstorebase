@@ -28,4 +28,17 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @returns {Observable<user[]>}
+   *
+   * @memberof AdminService
+   */
+  getUsers(): Observable<any> {
+    return this.http.get(`v1/user/`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
 }
