@@ -72,8 +72,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   }
   ngAfterViewChecked() {
     if (!this.shouldShow) {
-     console.log("viewed");
-      this.input.nativeElement.focus();
+       this.input.nativeElement.focus();
     }
   }
 
@@ -100,10 +99,7 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
   }
   toggle() {
     this.shouldShow = !this.shouldShow;
-    console.log('clicked!');
-    if (this.show) {
-      //return this.show = false;
-    }
+   
   }
   
 
