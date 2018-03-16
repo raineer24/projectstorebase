@@ -3,6 +3,7 @@ git stash
 git checkout develop
 git pull origin develop
 git checkout deploy-develop
+git merge develop
 npm run build--prod
 git add dist/* -f
 git add -u
