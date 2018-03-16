@@ -73,21 +73,21 @@
               <div class="catbox">{{keyword.name}}</div>
             </ng-template>
           </ng-template>
-          <input [(ngModel)]="asyncSelected"
+          <input #searchbox [(ngModel)]="asyncSelected"
               [typeahead]="dataSource"
               (typeaheadLoading)="changeTypeaheadLoading($event)"
               (typeaheadNoResults)="changeTypeaheadNoResults($event)"
-              (typeaheadOnSelect)="typeaheadOnSelect($event)"
               [typeaheadOptionsLimit]="10"
               [typeaheadWaitMs]="300"
+              (typeaheadOnSelect)="typeaheadOnSelect($event)"
               [typeaheadMinLength]="2"
               typeaheadGroupField="group"
               [typeaheadItemTemplate]="searchTemplate"
-              (keyup.enter)="searchKeyword()"
+              (keyup.enter)="typeaheadOnSelect($event)"
               class="form-control"
               placeholder="Search for...">
           <!-- NOTE: REGULAR SEARCH -->
-          <!-- <input [(ngModel)]="asyncSelected"
+          <!-- <input [(ngModel)]="asyncSelected
               class="form-control"
               (keyup.enter)="searchKeyword()"
               placeholder="Search for a product or category"> -->
@@ -106,11 +106,8 @@
     </div>
   </div>
 
-
-      <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'"  class="mobile">
-
-
-
+  <!-- MOBILE HEADER: START -->
+  <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'"  class="mobile">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
@@ -122,35 +119,32 @@
           <img src="assets/omg-logo-01.png" />
         </a>
     </div>
-
-
     <div class="input-group col-xs-9">
       <input [(ngModel)]="asyncSelected"
-          class="form-control"
-          (keyup.enter)="searchKeyword()"
-          placeholder="Search for a product or category">
+        class="form-control"
+        (keyup.enter)="searchKeyword()"
+        placeholder="Search for a product or category">
       <span class="input-group-btn">
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-      <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
-<div class="numbers">
-  <p>
-    <a href="">
-      <i class="glyphicon glyphicon-search"></i>
-    </a>
-
-  </p>
-  <p class="cart" [routerLink]="['checkout','cart']">
-    <a>
-      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-      <!-- <span class="badge badge-danger">{{totalCartItems}}</span>
-      {{totalCartValue}} -->
-    </a>
-  </p>
-</div>
+    <app-profile-dropdown  [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+    <div class="numbers">
+      <p>
+        <a href="">
+          <i class="glyphicon glyphicon-search"></i>
+        </a>
+      </p>
+      <p class="cart" [routerLink]="['checkout','cart']">
+        <a>
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+          <!-- <span class="badge badge-danger">{{totalCartItems}}</span>
+          {{totalCartValue}} -->
+        </a>
+      </p>
     </div>
-
+  </div>
+  <!-- MOBILE HEADER: END -->
 <!--
   <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
     <div class="container">

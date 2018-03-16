@@ -4,7 +4,7 @@ import { AppState } from './../../../../interfaces';
 import { Store } from '@ngrx/store';
 import { CartItem } from './../../../../core/models/cart_item';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-cart-item-list',
@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cart-item-list.component.scss']
 })
 export class CartItemListComponent implements OnInit {
-
+  @Input() isCartSummary: boolean = false;
   cartItems$: Observable<CartItem[]>;
 
   constructor(private store: Store<AppState>, private actions: CheckoutActions) {
