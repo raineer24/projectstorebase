@@ -26,7 +26,7 @@
       <div class="row">
         <li class="col-xs-2">
           <div class="item-img-container">
-            <img class="img-responsive item-img" [src]="getItemImageUrl(item.imageKey)">
+            <img class="img-responsive item-img" [src]="getItemImageUrl(item.imageKey)" (error)="onImageError($event)">
           </div>
         </li>
         <li class="col-xs-6">

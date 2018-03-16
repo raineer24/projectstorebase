@@ -40,32 +40,14 @@
       <h1>Payment</h1>
       <h4>Select mode of payment</h4>
       <p class="small sub-text">If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
-      <div class="">
-        <div #group1>
-          <ng-container *ngIf="totalAmount > 100; else secondCash">
-            <div class="checkbox">
-              <label>
-                <input #cod type="checkbox" value="" checked>
-                <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
-              </label>
-            </div>
-          </ng-container>
-          <ng-template #secondCash>
-              <div #group1>
-                <div class="checkbox">
-                  <label>
-                    <input #cod type="checkbox" value="" checked disabled>
-                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with cash
-                  </label>
-                </div>
-              </div>
-          </ng-template>
-        </div>
-        <!-- <div #group2 class="creditcard">
-          <div class="checkbox">
+      <div>
+        <div #group1 class="creditcard">
+          <!-- NOTE: TEMPORARILY DISABLED -->
+          <div class="checkbox disabled">
             <label>
-              <input #cc type="checkbox" value="" [(ngModel)]="checkedCC">
-              <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Card
+              <input disabled #cc type="checkbox" value="" [(ngModel)]="checkedCC" (ngModelChange)="checkedPP=false;checkedCash=false;">
+              <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Credit/Debit Card
+              <img src="/assets/cc.png">
             </label>
           </div>
           <div class="row ccOptions" *ngIf="checkedCC">
@@ -83,14 +65,18 @@
             <div class="col-md-1"></div>
           </div>
         </div>
-        <div #group3 class="paypal">
-          <div class="checkbox">
+        <!-- NOTE: TEMPORARILY DISABLED -->
+        <div #group2 class="paypal">
+          <div class="checkbox disabled">
             <label>
-              <input #cc type="checkbox" value="" [(ngModel)]="checkedPP" disabled>
-              <span class="cr"><i class="cr-icon fa fa-check"></i></span><i class="fa fa-cc-paypal" style="font-size:48px;color:blue"></i>
+              <input disabled #pp type="checkbox" value="" [(ngModel)]="checkedPP" (ngModelChange)="checkedCC=false;checkedCash=false;">
+              <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with PayPal
+              <!-- <i class="fa fa-cc-paypal" style="font-size:48px;color:blue"></i> -->
+              <img src="/assets/paypal.png">
             </label>
           </div>
           <div class="row paypal" *ngIf="checkedPP">
+            <div class="col-md-1"></div>
             <div class="col-md-8">
               <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                 <input type="hidden" name="cmd" value="_xclick">
@@ -106,14 +92,28 @@
                 </div>
               </form>
             </div>
+            <div class="col-md-1"></div>
           </div>
-        </div> -->
+        </div>
+        <div #group3>
+          <div class="checkbox">
+            <label>
+              <ng-container *ngIf="totalAmount > 100; else secondCash">
+                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked >
+              </ng-container>
+              <ng-template #secondCash>
+                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked disabled>
+              </ng-template>
+              <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Cash
+            </label>
+          </div>
+        </div>
         <ng-container *ngIf="totalAmountDue > 0">
           <div #group4 class="GiftCert">
               <div class="checkbox">
                 <label>
                   <input #gc type="checkbox" [(ngModel)]="checkedGC" >
-                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with GCs
+                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Gift Certificate(s)
                 </label>
               </div>
           <div class="row" *ngIf="checkedGC">
@@ -197,17 +197,17 @@
     <div class="col-md-2"></div>
 
     <div class="col-md-4">
-      <div class="row place-order">
-        <div class="col-md-12">
-        <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
-          <div class="button-group pull-right">
-              <!-- <button class="btn btn-danger" (click)="goBack()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Previous</button> -->
-          </div>
-        </div>
-      </div>
       <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async" [cartTotal]="cartTotal$ | async"
         [orderTotal]="orderTotal$ | async" [discount]="tempDiscount$ | async" [amountDue]="totalAmountDue$ | async" [cartItems]="cartItems$ | async"
         [deliveryDate]="deliveryDate$ | async"></app-review-order>
+        <div class="row place-order">
+          <div class="col-md-12">
+          <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
+            <div class="button-group pull-right">
+                <!-- <button class="btn btn-danger" (click)="goBack()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Previous</button> -->
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </div>
