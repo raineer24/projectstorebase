@@ -1,15 +1,20 @@
-<div class="default">
-  <section>
-    <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
-    <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
-    <!-- <app-loading-indicator></app-loading-indicator> -->
-    <app-notification></app-notification>
+<ng-container *ngIf="!isAdminRoute()">
+  <div class="default">
+    <section>
+      <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
+      <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
+      <!-- <app-loading-indicator></app-loading-indicator> -->
+      <app-notification></app-notification>
 
-    <main class="body container">
-      <router-outlet></router-outlet>
-    </main>
+      <main class="body container">
+        <router-outlet></router-outlet>
+      </main>
 
-    <!-- <app-checkout-footer *ngIf="currentUrl && isHomeRoute()"></app-checkout-footer> -->
-    <app-footer></app-footer>
-  </section>
-</div>
+      <!-- <app-checkout-footer *ngIf="currentUrl && isHomeRoute()"></app-checkout-footer> -->
+      <app-footer></app-footer>
+    </section>
+  </div>
+</ng-container>
+<ng-container *ngIf="isAdminRoute()">
+  <app-admin></app-admin>
+</ng-container>
