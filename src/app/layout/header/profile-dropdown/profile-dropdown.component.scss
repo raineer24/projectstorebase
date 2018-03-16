@@ -19,8 +19,36 @@
 
 .cart {
   cursor: pointer;
+
+  ul.cart-preview {
+    background-color: #fff;
+    cursor: auto;
+    padding: 0;
+    top: 105%;
+
+     li {
+      width: 460px;
+      height: 400px;
+
+      .cart-list {
+        overflow: scroll;
+        height: 320px;
+        border-color: #444;
+        border-width: 1px 0;
+        border-style: solid;
+      }
+      .subtotal {
+        border-top: 5px solid #ccc;
+      }
+
+      .empty {
+        padding: 50px 0;
+      }
+    }
+  }
 }
-.dropdown-menu {
+
+.user {
   min-width: 120px;
   .divider {
     margin: 5px 0;
