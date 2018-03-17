@@ -11,6 +11,7 @@ import { AdminService } from './../services/admin.service';
 export class UsersComponent implements OnInit {
   users: any;
   usersSub: Subscription;
+  usermail: string;
 
   constructor(
     private adminService: AdminService
@@ -20,6 +21,7 @@ export class UsersComponent implements OnInit {
     //NOTE: dummy ID
     this.usersSub = this.adminService.getUsers().subscribe(user => {
       this.users = user
+      this.usermail = this.users.username;
     })
 
   }

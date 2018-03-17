@@ -14,13 +14,14 @@
       <tr *ngFor="let user of users; let i = index">
         <td>{{user.id}}</td>
         <td class="text-uppercase">{{user.username}}</td>
-        <td class="text-uppercase">{{user.name}}</td>
+        <td class="text-uppercase">{{user.firstName}} {{user.lastName}}</td>
         <td class="text-uppercase">{{user.role_id}}</td>
         <td class="text-uppercase">{{user.status}}</td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm">PRINT</button>
-            <button type="button" class="btn btn-default btn-sm">EDIT</button>
+            <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/users-edit']">EDIT</button>
+            <button type="button" class="btn btn-default btn-sm">DISABLE</button>
             <button type="button" class="btn btn-default btn-sm">RESET PASSWORD</button>
           </div>
         </td>
