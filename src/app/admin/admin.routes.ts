@@ -7,8 +7,8 @@ export const AdminRoutes = [
     path: '',
     component: AdminComponent,
     children: [
-      // { path: '', redirectTo: 'orders'}
-      { path: 'orders', component: OrdersComponent }
+     // { path: '', redirectTo: 'orders', pathMatch: 'full'},
+     { path: 'orders', component: OrdersComponent }
     ]
   }
 ];
