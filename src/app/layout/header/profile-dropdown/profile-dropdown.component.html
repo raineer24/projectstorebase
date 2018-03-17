@@ -44,7 +44,7 @@
           <div class="bg-primary">
             <button type="button" class="btn btn-block btn-primary" [routerLink]="['checkout','cart']" (click)="cartDropdown.hide()">Checkout Now</button>
           </div>
-          <div class="col-md-12 cart-list" (click)="cartDropdown.show()">
+          <div class="col-md-12 cart-list">
             <app-cart-item-list [isCartSummary]="true"></app-cart-item-list>
             <div *ngIf="totalCartValue <= 0" class="empty text-center">
               Your Shopping Cart is empty
