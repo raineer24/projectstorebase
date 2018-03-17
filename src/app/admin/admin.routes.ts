@@ -9,8 +9,8 @@ export const AdminRoutes = [
     component: AdminComponent,
     children: [
       // { path: '', redirectTo: 'orders'}
-      { path: 'orders', component: OrdersComponent },
-      { path: 'users', component: UsersComponent }
+      { path: 'orders', component: OrdersComponent},
+      { path: 'users', component: UsersComponent}
     ]
   }
 ];
