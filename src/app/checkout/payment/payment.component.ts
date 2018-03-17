@@ -79,6 +79,8 @@ export class PaymentComponent implements OnInit {
   voucherIcon: string;
   checkedGC: boolean = false;
   checkedCash: boolean = true;
+  checkedPP: boolean = false;
+  checkedCC: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
 
