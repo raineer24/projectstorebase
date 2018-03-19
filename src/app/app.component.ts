@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   name: string;
   show: boolean;
   errorMessage:string;
-  private password = 'OmgLogin18';
+  private password = 'OmgLogin18!';
   constructor(
     private router: Router,
     private authService: AuthService,
