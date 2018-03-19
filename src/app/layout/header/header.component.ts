@@ -4,7 +4,7 @@ import { getTaxonomies } from './../../product/reducers/selectors';
 import { getTotalCartValue, getTotalCartItems } from './../../checkout/reducers/selectors';
 import { getSortSettings } from './../../home/reducers/selectors';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
-  ViewChild, ViewChildren, QueryList, Input, ElementRef } from '@angular/core';
+  ViewChild, ViewChildren, QueryList, Input, AfterViewChecked, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
@@ -17,15 +17,15 @@ import { Item } from '../../core/models/item';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { Subscription } from "rxjs";
 import { environment } from '../../../environments/environment';
-
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class HeaderComponent implements OnInit {
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  })
+export class HeaderComponent implements OnInit, AfterViewChecked {
   public shouldShow =true;
   mobile: boolean = false;
   @Input() currentStep: string;
@@ -49,6 +49,10 @@ export class HeaderComponent implements OnInit {
   sortSubs: Subscription;
   show: boolean = false;
   catSubs: Subscription;
+  menuState: string = 'out';
+  isopen: false
+  display: boolean = true;
+  @ViewChild('input') input: ElementRef;
   inputString: string;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
@@ -62,8 +66,14 @@ export class HeaderComponent implements OnInit {
     private searchActions: SearchActions,
     private router: Router,
     private cd: ChangeDetectorRef
+   
   ) {
     this.initAutoSuggest();
+  }
+  ngAfterViewChecked() {
+    if (!this.shouldShow) {
+       this.input.nativeElement.focus();
+    }
   }
 
   ngOnInit() {
@@ -91,10 +101,9 @@ export class HeaderComponent implements OnInit {
   }
   toggle() {
     this.shouldShow = !this.shouldShow;
-    if (this.show) {
-      //return this.show = false;
-    }
+   
   }
+  
 
   selectCategory(...categories): void {
     // if(typeof(index) != 'undefined') {
@@ -290,5 +299,7 @@ export class HeaderComponent implements OnInit {
   onImageError(e: any): void {
     e.target.src = "assets/omg-03.png";
   }
-
+  focusInput() {
+    
+  }
 }

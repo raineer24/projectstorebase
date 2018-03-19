@@ -8,7 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./profile-dropdown.component.scss']
 })
 export class ProfileDropdownComponent implements OnInit {
-  mobile: boolean = false;
+  mobile: boolean;
   @Input() isAuthenticated: boolean;
   @Input() totalCartItems: number;
   @Input() totalCartValue: number;
