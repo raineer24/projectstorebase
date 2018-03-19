@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class UsersEditComponent implements OnInit, OnDestroy {
   // @Output() onCancelClickEmit: EventEmitter<string> = new EventEmitter();
-  // profileEditForm: FormGroup;
+  profileEditForm: FormGroup;
   // profileEditSubs: Subscription;
   @Input() email: string;
   userData: {
