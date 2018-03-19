@@ -4,7 +4,7 @@ import { AppState } from './../../../../../interfaces';
 import { Store } from '@ngrx/store';
 import { environment } from './../../../../../../environments/environment';
 import { CartItem } from './../../../../../core/models/cart_item';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 
@@ -46,6 +46,12 @@ export class CartItemComponent implements OnInit {
           this.store.dispatch(this.checkoutActions.updateCartItem(this.cartItem));
         }
       })
+  }
+
+  ngOnChanges() {
+    if (typeof this.cartItem != "undefined") {
+      this.quantity = this.cartItem.quantity;
+    }
   }
 
   getItemImageUrl(key) {
