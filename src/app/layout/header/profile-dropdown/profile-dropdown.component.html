@@ -85,7 +85,7 @@
       </li>
     </ng-template>
     <li class="cart hidden-xs" dropdown #cartDropdown="bs-dropdown" [autoClose]="false" (onShown)="showCartPreview()" (onHidden)="hideCartPreview()">
-      <a dropdownToggle class="dropdown-toggle" data-toggle="dropdown">
+      <a dropdownToggle class="dropdown-toggle">
         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
         <span class="caret"></span>
         <span class="badge badge-danger">{{totalCartItems}}</span>
@@ -96,7 +96,7 @@
           <div class="bg-primary">
             <button type="button" class="btn btn-block btn-primary" [routerLink]="['checkout','cart']" (click)="cartDropdown.hide()">Checkout Now</button>
           </div>
-          <div class="col-md-12 cart-list" (click)="cartDropdown.show()">
+          <div class="col-md-12 cart-list">
             <app-cart-item-list [isCartSummary]="true"></app-cart-item-list>
             <div *ngIf="totalCartValue <= 0" class="empty text-center">
               Your Shopping Cart is empty

@@ -1,21 +1,40 @@
-<ng-container *ngIf="!isAdminRoute()">
-  <div class="default">
-    <section>
-      <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
-      <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
-      <!-- <app-loading-indicator></app-loading-indicator> -->
-      <app-notification></app-notification>
+<div *ngIf="!show" class="col-sm-3 col-xs-12">
+  <div class="panel panel-default text-center">
+    <div class="panel-heading">
+      <h1>Demo App</h1>
+    </div>
+    <div class="panel-body">
+      <div>
+        <input type="password" [(ngModel)]="name" #ctrl="ngModel" required>
 
-      <main class="body container">
-        <router-outlet></router-outlet>
-      </main>
-
-      <!-- <app-checkout-footer *ngIf="currentUrl && isHomeRoute()"></app-checkout-footer> -->
-      <app-footer></app-footer>
-    </section>
+      </div>
+    </div>
+    <div class="panel-footer plan">
+      <div class="alert alert-danger" [hidden]="!errorMessage">Wrong Password. Please try again!</div>
+      <button class="btn btn-lg" (click)="setValue()">Enter</button>
+    </div>
   </div>
-</ng-container>
-<ng-container *ngIf="isAdminRoute()">
-  <app-notification></app-notification>
-  <router-outlet></router-outlet>
-</ng-container>
+</div>
+<div class="default" *ngIf="show">
+  <ng-container *ngIf="!isAdminRoute()">
+    <div class="default">
+      <section>
+        <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
+        <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
+        <!-- <app-loading-indicator></app-loading-indicator> -->
+        <app-notification></app-notification>
+
+        <main class="body container">
+          <router-outlet></router-outlet>
+        </main>
+
+        <!-- <app-checkout-footer *ngIf="currentUrl && isHomeRoute()"></app-checkout-footer> -->
+        <app-footer></app-footer>
+      </section>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isAdminRoute()">
+    <app-notification></app-notification>
+    <router-outlet></router-outlet>
+  </ng-container>
+</div>
