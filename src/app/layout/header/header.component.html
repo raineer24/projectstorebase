@@ -89,67 +89,38 @@
 
   <!-- MOBILE HEADER: START -->
   <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'" class="mobile">
-    <div class="omglogo" [ngClass]="{show: shouldShow, hide: !shouldShow}">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div class="omglogo">
       <a routerLink="/">
         <img src="assets/omg-logo-01.png" />
       </a>
     </div>
-
-    <div class="side">
-      <div sidebarjsOpen [ngClass]="{show: shouldShow, hide: !shouldShow}">
-        <input type="checkbox" id="toggle-menu" class="toggle-menu" name="">
-        <label for="toggle-menu">
-          <span class="menu-bar"></span>
-          <span class="menu-bar"></span>
-          <span class="menu-bar"></span>
-        </label>
-
-      </div>
-    </div>
-
-
-
     <div class="input-group col-xs-9">
-      <input [(ngModel)]="asyncSelected" #myInput class="form-control" (keyup.enter)="searchKeyword()" placeholder="Search for a product or category">
+      <input [(ngModel)]="asyncSelected" class="form-control" (keyup.enter)="searchKeyword()" placeholder="Search for a product or category">
       <span class="input-group-btn">
         <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
       </span>
     </div>
-
     <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
-
-
-    <span [hidden]="shouldShow">
-      <button type="button" (click)="toggle()" class="btn btn-danger pull-right">
-        <i class="glyphicon glyphicon glyphicon-remove"></i>
-      </button>
-    </span>
-    <div>
-      <ng-container>
-        <form ngNoForm>
-
-          <span [hidden]="!shouldShow">
-            <button type="button" (click)="toggle()" class="btn btn-danger pull-right">
-              <i class="glyphicon glyphicon glyphicon-search"></i>
-            </button>
-          </span>
-          <input #input *ngIf="!shouldShow" type="search" [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
-            (typeaheadNoResults)="changeTypeaheadNoResults($event)" (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionsLimit]="10"
-            [typeaheadWaitMs]="300" [typeaheadMinLength]="2" typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate"
-            (keyup.enter)="searchKeyword()" class="form-control" placeholder="Search for..." class="form-control" name="q"
-            style="width: 84%;">
-        </form>
-      </ng-container>
+    <div class="numbers">
+      <p>
+        <a href="">
+          <i class="glyphicon glyphicon-search"></i>
+        </a>
+      </p>
+      <p class="cart" [routerLink]="['checkout','cart']">
+        <a>
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+          <!-- <span class="badge badge-danger">{{totalCartItems}}</span>
+          {{totalCartValue}} -->
+        </a>
+      </p>
     </div>
-    <div class="cart pull-right" [ngClass]="{show: shouldShow, hide: !shouldShow}" [routerLink]="['checkout','cart']">
-      <button class="btn btn-danger">
-        <i class="glyphicon glyphicon-shopping-cart"></i>
-      </button>
-
-
-    </div>
-
-
   </div>
   <!-- MOBILE HEADER: END -->
   <!--

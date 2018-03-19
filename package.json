@@ -39,7 +39,6 @@
     "immutable": "^3.8.1",
     "live-server": "^1.2.0",
     "moment": "^2.20.1",
-    "ng-sidebarjs": "^1.1.0",
     "ngx-bootstrap": "^1.7.1",
     "primeng": "^4.3.0-rc.1",
     "puppeteer": "^1.1.1",
