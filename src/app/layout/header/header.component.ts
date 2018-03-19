@@ -26,6 +26,7 @@ import { environment } from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  public shouldShow =true;
   mobile: boolean = false;
   @Input() currentStep: string;
   @Input() isHomeRoute: boolean;
@@ -46,6 +47,7 @@ export class HeaderComponent implements OnInit {
   searchData: Object = {};
   sortSettings: any;
   sortSubs: Subscription;
+  show: boolean = false;
   catSubs: Subscription;
   inputString: string;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
@@ -84,6 +86,12 @@ export class HeaderComponent implements OnInit {
     this.catSubs.unsubscribe();
     this.sortSubs.unsubscribe();
     this.subscription.unsubscribe();
+  }
+  toggle() {
+    this.shouldShow = !this.shouldShow;
+    if (this.show) {
+      //return this.show = false;
+    }
   }
 
   selectCategory(...categories): void {

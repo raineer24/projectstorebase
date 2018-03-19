@@ -129,6 +129,9 @@ fieldset {
   text-align: left;
   padding: 20px;
 }
+ div.fb-login-button[data-width="thinnest"] {
+   width: 326px;
+ }
 
 .login-link {
   text-decoration: none;
@@ -181,6 +184,8 @@ a {
       margin-right: 15px;
       margin-bottom: 0;
   }
+ 
+
 }
 
 @media (min-width: 360px) {

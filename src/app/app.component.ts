@@ -19,7 +19,10 @@ export class AppComponent implements OnInit, OnDestroy {
   currentStep: string;
   checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment', '/checkout/confirm'];
   homeUrls = ['/', '/item']
-
+  name: string;
+  show: boolean;
+  errorMessage:string;
+  private password = 'OmgLogin18!';
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -35,6 +38,14 @@ export class AppComponent implements OnInit, OnDestroy {
         this.findCurrentStep(this.currentUrl);
         window.scrollTo(0, 0);
       });
+    
+  }
+  setValue() {
+    if (this.name == this.password) {
+      this.show = true;
+    }
+    (!this.name == !this.password) 
+    this.errorMessage = this.name;
   }
 
   ngOnInit() {
