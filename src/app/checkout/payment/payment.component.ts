@@ -74,9 +74,13 @@ export class PaymentComponent implements OnInit {
   forGC: any;
   bCouponEntered: boolean = false;
   gcList: any;
+  voucherCode: any;
   forCoupon: any;
   voucherIcon: string;
   checkedGC: boolean = false;
+  checkedCash: boolean = true;
+  checkedPP: boolean = false;
+  checkedCC: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -115,14 +119,12 @@ export class PaymentComponent implements OnInit {
         if(this.gcList.length) {
           this.gcQuantity = this.gcList.length;
           this.checkedGC = true;
-          console.log(this.gcQuantity);
-          console.log(typeof(this.gcQuantity));
         }
         this.initForm();
     });
 
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
-      this.totalAmount = val + this.deliveryFee + this.serviceFee - this.totalDiscount;
+      this.totalAmount = val - this.totalDiscount;
       this.totalPaidAmount = 0.00;
     });
     this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
@@ -138,7 +140,6 @@ export class PaymentComponent implements OnInit {
   }
 
   initForm() {
-    console.log(this.gcList);
     const gcCode = '';
     this.gcForm = this.fb.group({
   	  'gc-code': [gcCode ] }
@@ -163,6 +164,7 @@ export class PaymentComponent implements OnInit {
         } else {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
+            this.voucherCode = Number(code.value);
             this.discount = Number(data.discount);
             this.totalAmountDue = this.totalAmount -Number(data.discount);
             this.forCoupon = {
@@ -183,7 +185,6 @@ export class PaymentComponent implements OnInit {
   addGiftCert(code){
     let tempList = [];
     let amountPaid = 0;
-    console.log(code.value);
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
         if(data.message != null) {
@@ -230,7 +231,6 @@ export class PaymentComponent implements OnInit {
   gcCount(){
     this.usableGCcount = Math.floor(this.totalAmount / 100);
     this.usableGCcount = this.usableGCcount - this.gcQuantity;
-    console.log('usable GCs - '+this.usableGCcount);
   }
 
   goBack(){
@@ -243,26 +243,27 @@ export class PaymentComponent implements OnInit {
 
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
-    let grandTotal = this.totalAmount + this.serviceFee + this.deliveryFee;
+    let grandTotal = this.totalAmount;
     let params: any = {};
-    console.log(this.totalPaidAmount);
     params = {
       id: this.orderId,
       specialInstructions: this.instructionsText,
       paymentTotal: this.paymentHolder,
       discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
-
       total: grandTotal,
       status: 'payment'
     }
 
     this.checkoutService.updateOrderPayment(params
-    ).subscribe(res => {
+    ).mergeMap(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
+        return this.checkoutService.updateVoucherStatus(this.voucherCode);
       }
-    });
+
+    }).subscribe();
+
   }
 
   ngOnDestroy() {

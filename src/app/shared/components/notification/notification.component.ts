@@ -24,6 +24,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loading = { hasError: false }
   }
 
   ngOnDestroy() {

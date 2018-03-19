@@ -20,6 +20,7 @@ export class CartItemComponent implements OnInit {
   amount: number;
   quantityControl = new FormControl();
   @Input() cartItem: CartItem;
+  @Input() isCartSummary: boolean = false;
   MIN_VALUE: number = 1;
   MAX_VALUE: number = 9999;
   private imageRetries: number = 0;
@@ -69,6 +70,10 @@ export class CartItemComponent implements OnInit {
       }
     }
     return url;
+  }
+
+  onImageError():void {
+    this.imageRetries++;
   }
 
   // Change this method once angular releases RC4

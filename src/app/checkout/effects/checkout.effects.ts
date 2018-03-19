@@ -25,7 +25,7 @@ export class CheckoutEffects {
   @Effect()
     AddItemsToCart$ = this.actions$
     .ofType(CheckoutActions.ADD_ITEMS_TO_CART)
-    .switchMap((action: Action) => {
+    .mergeMap((action: Action) => {
       return this.checkoutService.createNewCartItem(action.payload);
     })
     .map((cartItem: CartItem) => this.actions.addToCartSuccess(cartItem));

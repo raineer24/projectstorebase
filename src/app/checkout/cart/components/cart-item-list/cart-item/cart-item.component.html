@@ -1,14 +1,14 @@
 <ul class="list-inline">
   <div class="panel">
+    <ng-container *ngIf="!isCartSummary; else elseBlock">
       <div class="row row-cart">
-
         <li class="col-md-2 col-sm-2 col-xs-4">
-          <img class="item-image-thumbnails img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)">
+          <img class="item-image-thumbnails img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)" (error)="onImageError()">
         </li>
 
         <li class="col-md-4 col-sm-4">
           <p class="product-name">{{cartItem.item.name}}</p>
-          <p>P {{cartItem.price | number:'1.2'}}</p>
+          <p>₱ {{cartItem.price | number:'1.2'}}</p>
         </li>
         <!-- <li class="col-md-2 col-sm-2">
           <p>P {{cartItem.price | number:'1.2'}}</p>
@@ -26,11 +26,44 @@
           </div>
         </li>
         <li class="col-md-2 col-sm-2">
-          P {{cartItem.total | number:'1.2'}}
+          ₱ {{cartItem.total | number:'1.2'}}
         </li>
         <li class="col-md-1 col-sm-1">
           <button type="button" class="btn btn-default item-delete" (click)="removeCartItem()"><span class="glyphicon glyphicon-trash"></span></button>
         </li>
       </div>
+    </ng-container>
+    <ng-template #elseBlock>
+      <div class="row row-cart cart-summary">
+        <li class="col-xs-2">
+          <img class="item-image-thumbnails img-responsive" [src]="getItemImageUrl(cartItem.item.imageKey)" (error)="onImageError()">
+        </li>
+        <li class="col-xs-4 small item-name">
+          <span>{{cartItem.item.name}}<br>
+          ₱ {{cartItem.price | number:'1.2'}}</span>
+        </li>
+        <li class="col-xs-3">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-xs" (click)="decrementQuantity()" [disabled]="quantity == MIN_VALUE">
+                <span class="glyphicon glyphicon-minus"> </span>
+              </button>
+            </span>
+            <input type="number" class="text-center form-control"
+              [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
+              [value]="quantity" [formControl]="quantityControl"
+              (blur)='checkIfValid($event)' (keypress)='keyPress($event)'/>
+             <span class="input-group-btn">
+               <button type="button" class="btn btn-success btn-xs"  (click)="incrementQuantity()" [disabled]="quantity == MAX_VALUE">
+                 <span class="glyphicon glyphicon-plus"></span>
+               </button>
+             </span>
+          </div>
+        </li>
+        <li class="col-xs-3 small text-right">
+          ₱ {{cartItem.total | number:'1.2'}}
+        </li>
+      </div>
+    </ng-template>
   </div>
 </ul>

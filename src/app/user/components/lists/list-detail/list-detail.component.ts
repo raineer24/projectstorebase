@@ -86,12 +86,10 @@ export class ListDetailComponent implements OnInit {
         setTimeout(() => {
           this.store.dispatch(this.checkoutActions.addItemsToCart(this.items[i]));
         }, delay)
-        console.log('Added!');
       } else {
         setTimeout(() => {
           this.userService.showMessage('item_exist',this.items[i].name);
         }, delay)
-        console.log('Not added!');
       }
     }
   }
@@ -132,5 +130,8 @@ export class ListDetailComponent implements OnInit {
   ngOnDestroy() {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
+  }
+  onImageError(e: any): void {
+    e.target.src = "assets/omg-03.png";
   }
 }

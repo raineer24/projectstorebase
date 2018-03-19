@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   name: string;
   show: boolean;
   errorMessage:string;
-  private password = 'omg';
+  private password = 'OmgLogin18';
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -67,6 +67,17 @@ export class AppComponent implements OnInit, OnDestroy {
     if (index >= 0) {
       return true;
     } else if (this.currentUrl.indexOf('/item/') >= 0){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isAdminRoute() {
+    if (!this.currentUrl) {
+      return false;
+    }
+    if (this.currentUrl.indexOf('/admin') >= 0) {
       return true;
     } else {
       return false;
