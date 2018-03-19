@@ -18,8 +18,8 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     //NOTE: dummy ID
-    const sellerId = 1;
-    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => this.orders)
+    const sellerId = 0;
+    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(orders => this.orders = orders)
   }
 
   ngOnDestroy() {
