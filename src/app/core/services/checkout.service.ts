@@ -47,7 +47,7 @@ export class CheckoutService {
     const userId = user ? user.id: 0;
     return this.http.post(`v1/orderItem`,
         {
-          "user_id": userId,
+          "useraccount_id": userId,
           "item_id": item.id,
           "quantity": 1,
           "orderkey": this.getOrderKey()
@@ -257,7 +257,7 @@ export class CheckoutService {
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? user.id: 0;
     return this.http.put(`v1/orderItem/${cartItem.id}`, {
-        "user_id": userId,
+        "useraccount_id": userId,
         "item_id": cartItem.item.id,
         "quantity": cartItem.quantity,
         "orderkey": this.getOrderKey()
