@@ -18,12 +18,25 @@ export class AdminService {
   /**
    *
    *
-   * @returns {Observable<Order[]>}
+   * @returns {Observable<any[]>}
    *
    * @memberof AdminService
    */
-  getSellerOrders(id: number): Observable<any> {
-    return this.http.get(`v1/seller/account/order/${id}`)
+  getSellerOrders(seller_id: number): Observable<any> {
+    return this.http.get(`v1/ordersellers?sellerId=${seller_id}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getSellerOrder(orderseller_id: number): Observable<any> {
+    return this.http.get(`v1/ordersellers/${orderseller_id}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

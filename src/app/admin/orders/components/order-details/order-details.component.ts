@@ -14,21 +14,24 @@ import { UserActions } from '../../../../user/actions/user.actions';
 })
 export class OrderDetailsComponent implements OnInit {
   routeSubscription$: Subscription;
-  order: any;
+  orderSeller: any;
   orderItems: Array<any> = [];
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private adminService: AdminService
   ) { }
 
   ngOnInit() {
     this.routeSubscription$ = this.route.params.subscribe(
       (params: any) => {
 
-        const orderId =  params['id'];
+        const orderSellerId =  params['id'];
         //NOTE: retrieve orderseller, order, orderItems
 
-
+        this.adminService.getSellerOrder(orderSellerId).map(orderSeller => {
+          this.orderSeller = orderSeller;
+        }).subscribe();
         // this.store.select(getUserOrders).subscribe(orders => {
         //   this.order = orders.find(order => order.orderkey == orderKey);
         //     if(this.order) {
