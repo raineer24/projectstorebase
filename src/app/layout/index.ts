@@ -12,9 +12,7 @@ import { SharedModule } from '../shared/index';
 import { RouterModule } from '@angular/router';
 import { CartModule } from './../checkout/cart/cart.module';
 
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-
-import { SidebarJSModule } from 'ng-sidebarjs';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 
 @NgModule({
   declarations: [
@@ -36,8 +34,6 @@ import { SidebarJSModule } from 'ng-sidebarjs';
   imports: [
     SharedModule,
     RouterModule,
-    TypeaheadModule,
-    SidebarJSModule.forRoot(),
     CartModule,
     TypeaheadModule
   ]
