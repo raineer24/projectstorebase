@@ -160,12 +160,12 @@
       <div class="col-md-6">
         <div class="input-group">
           <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
-          <input #coupon type="number" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
-          <ng-container *ngIf="!bCouponEntered; else removeCoupon">
-            <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher(coupon)">Apply</button></span>
+          <input [(ngModel)]="couponCode" type="number" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
+          <ng-container *ngIf="couponCode; else removeCoupon">
+            <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply</button></span>
           </ng-container>
           <ng-template #removeCoupon>
-              <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="removeVoucher(coupon)">Remove</button></span>
+              <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="removeVoucher()">Void</button></span>
           </ng-template>
         </div>
       </div>

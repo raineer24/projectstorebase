@@ -27,7 +27,6 @@ export class PaymentComponent implements OnInit {
   @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
   @ViewChild('gCode') gCode:ElementRef;
   @ViewChild('addGC') addGC: ElementRef;
-  @ViewChild('coupon') coupon:ElementRef;
   @ViewChild('appCoupon') appCoupon:ElementRef;
   @ViewChild('gc') gc:ElementRef;
   @Input() discount: number = 0;
@@ -77,6 +76,7 @@ export class PaymentComponent implements OnInit {
   voucherCode: any;
   forCoupon: any;
   voucherIcon: string;
+  couponCode: string;
   checkedGC: boolean = false;
   checkedCash: boolean = true;
   checkedPP: boolean = false;
@@ -109,7 +109,7 @@ export class PaymentComponent implements OnInit {
   setDefault() {
     this.gErrMsg = '';
     this.voucherIcon = 'glyphicon glyphicon-tag text-default';
-    this.coupon.nativeElement.value = '';
+    this.couponCode = '';
   }
 
 
@@ -168,7 +168,7 @@ export class PaymentComponent implements OnInit {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
             this.hasErr = false;
-            this.coupon.nativeElement.value = code.value;
+            // this.coupon.nativeElement.value = code.value;
         }
       } else {
         this.hasErr = true;
@@ -177,10 +177,9 @@ export class PaymentComponent implements OnInit {
 
   }
 
-  applyVoucher(code){
-    if(!this.hasErr){
-      this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
-        this.voucherCode = Number(code.value);
+  applyVoucher(){
+    if(!this.hasErr && this.couponCode){
+      this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         this.discount = Number(data.discount);
 
         this.totalAmountDue = this.totalAmount - Number(data.discount);
@@ -189,15 +188,15 @@ export class PaymentComponent implements OnInit {
         };
         this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
 
-        this.coupon.nativeElement.value = this.voucherCode;
+        // this.couponCode = this.voucherCode;
       });
       this.bCouponEntered = true;
     }
     return this.totalAmountDue;
   }
 
-  removeVoucher(code){
-    this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
+  removeVoucher(){
+    this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
       this.store.dispatch(this.checkoutAction.removeCoupon());
       this.bCouponEntered = false;
       this.setDefault();
