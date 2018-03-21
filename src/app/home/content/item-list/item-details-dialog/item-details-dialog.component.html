@@ -1,7 +1,7 @@
 <div *ngIf="item">
   <div class="dialog-header">
     <div class="row">
-      <ol class="breadcrumb small">
+      <ol *ngIf="itemCategories[0]" class="breadcrumb small">
         <li>&nbsp;</li>
         <li ><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
         <li *ngIf="itemCategories[1]"><a (click)=selectCategory(itemCategories[1],itemCategories[0])>{{itemCategories[1].name}}</a></li>
