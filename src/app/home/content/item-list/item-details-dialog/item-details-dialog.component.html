@@ -160,13 +160,23 @@
   <div class="row suggested-items">
     <h5>You might also be interested in these items</h5>
     <section class="col-xs-12">
-      <ul class="">
-        <li *ngFor="let suggested of suggestedItems" class="product-base" itemscope
-          itemtype="https://schema.org/Product">
-          <app-item-list-entry [item]="suggested" [cartItem]="getCartItem(suggested.id)" [isClickable]="false"></app-item-list-entry>
-          <!--span class="product-zoom glyphicon glyphicon-search"></span-->
-        </li>
-      </ul>
+      <div class="slider-container">
+        <div class="back" (click)="sliderBack()" [ngClass]="{'disabled': sliderState == 'set1'}">
+          <i class="glyphicon glyphicon-chevron-left"></i>
+        </div>
+        <div class="slider">
+          <ul [@slider]="sliderState">
+            <li *ngFor="let suggested of suggestedItems" class="product-base" itemscope
+              itemtype="https://schema.org/Product">
+              <app-item-list-entry [item]="suggested" [cartItem]="getCartItem(suggested.id)" [isClickable]="false"></app-item-list-entry>
+              <!--span class="product-zoom glyphicon glyphicon-search"></span-->
+            </li>
+          </ul>
+        </div>
+        <div class="next" (click)="sliderNext()" [ngClass]="{'disabled': sliderState == 'set3'}">
+          <i class="glyphicon glyphicon-chevron-right"></i>
+        </div>
+      </div>
     </section>
   </div>
   <!-- END: RECOMMENDED LIST -->

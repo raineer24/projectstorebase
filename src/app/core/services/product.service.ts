@@ -129,7 +129,7 @@ export class ProductService {
    * @memberof ProductService
    */
   getSuggestedItems(id: number): any {
-    return this.http.get(`v1/item/${id}/suggestions`)
+    return this.http.get(`v1/item/${id}/suggestions?limit=15`)
     .map(res => res.json())
     .catch(err => Observable.empty());
   }
