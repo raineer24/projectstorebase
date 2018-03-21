@@ -67,19 +67,19 @@
       </div>
     </h5>
   </div>
-  <div class="col-md-12">
-    <h4>Grand Total
-      <div class="pull-right">
-        <strong><span class="text-primary">₱ {{orderTotal | number:'1.2-2'}}</span></strong>
-      </div>
-    </h4>
-  </div>
   <div class="col-md-12" *ngIf="discount > 0">
     <h5>Discounts
       <div class="pull-right">
         <strong><span class="text-success"> - ₱ {{discount | number:'1.2-2'}}</span></strong>
       </div>
     </h5>
+  </div>
+  <div class="col-md-12">
+    <h4>Grand Total
+      <div class="pull-right">
+        <strong><span class="text-primary">₱ {{orderTotal | number:'1.2-2'}}</span></strong>
+      </div>
+    </h4>
   </div>
   <div class="col-md-12" *ngIf="gcAmount > 0">
     <h5>Credits
