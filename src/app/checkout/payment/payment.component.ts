@@ -164,14 +164,6 @@ export class PaymentComponent implements OnInit {
         } else {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
-            this.voucherCode = Number(code.value);
-            this.discount = Number(data.discount);
-            this.totalAmountDue = this.totalAmount -Number(data.discount);
-            this.forCoupon = {
-              value: Number(data.discount)
-            };
-            this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
-            this.bCouponEntered = true;
         }
       } else {
         this.store.dispatch(this.checkoutAction.removeCoupon());
@@ -180,6 +172,20 @@ export class PaymentComponent implements OnInit {
       }
     });
     return this.totalPaidAmount;
+  }
+
+  applyVoucher(code){
+    this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
+      this.voucherCode = Number(code.value);
+      this.discount = Number(data.discount);
+
+      this.totalAmountDue = this.totalAmount - Number(data.discount);
+      this.forCoupon = {
+        value: Number(data.discount)
+      };
+      this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
+      this.bCouponEntered = true;
+    });
   }
 
   addGiftCert(code){
