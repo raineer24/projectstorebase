@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Components
 import { AppComponent } from "./app.component";
@@ -50,6 +51,7 @@ import { ModalModule } from "angular-custom-modal";
     RouterModule.forRoot(routes),
     StoreModule.provideStore(reducer),
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     HomeModule,
