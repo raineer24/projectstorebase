@@ -124,6 +124,15 @@ export class PaymentComponent implements OnInit {
         this.initForm();
     });
 
+    if(this.gcList.length < 1)
+    {
+      this.gcList = localStorage.getItem('giftcert');
+      this.gcQuantity = this.gcList.length;
+      this.checkedGC = true;
+      console.log(this.gcList);
+      this.initForm();
+    }
+
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmount = val - this.totalDiscount;
       this.totalPaidAmount = 0.00;
@@ -137,7 +146,7 @@ export class PaymentComponent implements OnInit {
     this.tempDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalDiscount = val;
     });
-
+    return this.gcList;
   }
 
   initForm() {
@@ -228,7 +237,7 @@ export class PaymentComponent implements OnInit {
           tempList.push({
             code: code.value,
             value: data.amount
-          });
+          });;
           this.updateGCStatus(code.value);
           amountPaid = Number(data.amount);
           // this.totalAmountDue = this.totalAmountDue - this.totalPaidAmount;

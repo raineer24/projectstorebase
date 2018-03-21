@@ -177,6 +177,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _totalAmountPaid = state.totalAmountPaid + payload.value;
         _totalAmountDue = state.grandTotal - _totalAmountPaid;
         _giftCerts = state.giftCerts.push(payload.gCerts);
+        localStorage.setItem('giftcert',JSON.stringify(_giftCerts));
         return state.merge({
           totalAmountPaid: _totalAmountPaid,
           totalAmountDue: _totalAmountDue,

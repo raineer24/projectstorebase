@@ -203,15 +203,17 @@
     <div class="col-md-2"></div>
 
     <div class="col-md-4">
-      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async" [cartTotal]="cartTotal$ | async"
+        <div class="row place-order">
+        <div class="col-md-12">
+            <button class="btn btn-block btn-default" (click)="goBack()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span>Back</button>
+          </div>
+        </div>  
+          <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async" [cartTotal]="cartTotal$ | async"
         [orderTotal]="orderTotal$ | async" [discount]="tempDiscount$ | async" [amountDue]="totalAmountDue$ | async" [cartItems]="cartItems$ | async"
         [deliveryDate]="deliveryDate$ | async"></app-review-order>
         <div class="row place-order">
           <div class="col-md-12">
           <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
-            <div class="button-group pull-right">
-                <button class="btn btn-danger" (click)="goBack()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span>Back</button>
-            </div>
           </div>
         </div>
     </div>
