@@ -44,6 +44,19 @@ export class AdminService {
   /**
    *
    *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getOrderItems(order_id: number): Observable<any> {
+    return this.http.get(`v1/orderItem?limit=1000&orderId=${order_id}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @returns {Observable<user[]>}
    *
    * @memberof AdminService

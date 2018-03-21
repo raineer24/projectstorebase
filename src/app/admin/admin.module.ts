@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ButtonsModule } from "ngx-bootstrap";
 
 import { AdminRoutes as routes } from './admin.routes';
 import { AdminComponent } from './admin.component';
@@ -22,7 +24,9 @@ import { SharedModule } from '../shared/index';
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ButtonsModule.forRoot()
   ],
   exports: [
     AdminComponent

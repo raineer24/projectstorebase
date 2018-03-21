@@ -6,6 +6,7 @@ import { environment } from '../../../../../environments/environment';
 import { AdminService } from '../../../services/admin.service';
 import { UserService } from '../../../../user/services/user.service';
 import { UserActions } from '../../../../user/actions/user.actions';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-order-details',
@@ -16,6 +17,7 @@ export class OrderDetailsComponent implements OnInit {
   routeSubscription$: Subscription;
   orderSeller: any;
   orderItems: Array<any> = [];
+  orderItemStatus: Array<any> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -27,30 +29,18 @@ export class OrderDetailsComponent implements OnInit {
       (params: any) => {
 
         const orderSellerId =  params['id'];
-        //NOTE: retrieve orderseller, order, orderItems
-
-        this.adminService.getSellerOrder(orderSellerId).map(orderSeller => {
+        this.adminService.getSellerOrder(orderSellerId).mergeMap(orderSeller => {
           this.orderSeller = orderSeller;
+          return this.adminService.getOrderItems(orderSeller.order_id).map(orderItems => {
+          // NOTE: TEMPORARY ORDER ID 0
+          // return this.adminService.getOrderItems(0).map(orderItems => {
+            this.orderItems = orderItems
+            orderItems.forEach(x => {
+              this.orderItemStatus[x.orderItem_id] = x.processed;
+            })
+            return orderItems;
+          })
         }).subscribe();
-        // this.store.select(getUserOrders).subscribe(orders => {
-        //   this.order = orders.find(order => order.orderkey == orderKey);
-        //     if(this.order) {
-        //       console.log(this.order.id);
-        //       this.order.discountTotal = Number(this.order.discountTotal);
-        //       this.order.paymentTotal = Number(this.order.paymentTotal);
-        //       this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
-        //       console.log(this.order.grandTotal);
-        //       this.timeslotSubscription$ = this.userService.getTimeSlotOrder(this.order.id).subscribe( timeslot => {
-        //           this.tSlot = timeslot;
-        //       });
-        //   }
-        // })
-        //
-        // this.orderSubscription$ = this.userService
-        //   .getOrderDetail(orderKey)
-        //   .subscribe(orderItems => {
-        //     this.orderItems = orderItems;
-        //   });
      }
     );
   }

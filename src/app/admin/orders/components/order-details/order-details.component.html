@@ -1,39 +1,37 @@
+<div *ngIf="orderSeller">
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a [routerLink]="['/admin','orders']">Orders</a></li>
     <li class="breadcrumb-item text-primary" aria-current="page">Order Details - #{{orderSeller.orderNumber}}</li>
   </ol>
 </nav>
-<div class="panel panel-default">
-  <div class="panel-body">
-    <div class='row' *ngFor="let item of orderItems">
-      <br>
-      <div class="col-md-2">
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody class="item-list">
+    <tr *ngFor="let item of orderItems; let i = index;">
+      <td>
         <div class="item-img-container">
           <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
         </div>
-      </div>
-
-      <div class="col-md-3">
-        <h5 class="ptitle">
-          <a [routerLink]="['/item',item.id, item.slug]">
-            <span class="text-primary">{{item.name}}</span>
-          </a>
-        </h5>
-      </div>
-
-      <div class="col-md-3">
-        <h5 class="strong">
-          {{item.total}}
-        </h5>
-        <small>
-          Price: ₱ {{item.price | number:'1.2-2'}}<br/>
-          Quantity: {{item.quantity}}
-        </small>
-      </div>
-
-      <div class="col-md-4">
-      </div>
-    </div>
-  </div>
+        <div class="item-name">
+          {{item.name}}<br>Price: ₱ {{item.price | number:'1.2-2'}}
+        </div>
+      </td>
+      <td class="text-uppercase">{{item.quantity}}</td>
+      <td>
+        <div>
+          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="1">Confirm</label>
+          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="2">Unavailable</label>
+        </div>
+        <!-- <pre>{{orderItemStatus[item.orderItem_id]}}</pre> -->
+      </td>
+    </tr>
+  </tbody>
+</table>
 </div>
