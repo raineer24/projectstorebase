@@ -112,7 +112,6 @@ export class PaymentComponent implements OnInit {
     this.couponCode = '';
   }
 
-
   ngOnInit() {
     this.gcList = [];
     this.store.select(getGiftCerts).takeUntil(this.componentDestroyed).subscribe(gc => {
@@ -149,9 +148,9 @@ export class PaymentComponent implements OnInit {
   }
 
 //new voucher validation
-  checkVoucher(code){
-    this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
-      if(code.value.length > 3) {
+  checkVoucher(){
+    if(this.couponCode.length > 4) {
+      this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         // if(this.bCouponEntered){
         //   this.store.dispatch(this.checkoutAction.removeCoupon());
         //   this.bCouponEntered = false;
@@ -170,15 +169,16 @@ export class PaymentComponent implements OnInit {
             this.hasErr = false;
             // this.coupon.nativeElement.value = code.value;
         }
-      } else {
-        this.hasErr = true;
-      }
-    });
+      });
+    } else {
+      this.hasErr = true;
+    }
 
   }
 
   applyVoucher(){
     if(!this.hasErr && this.couponCode){
+      let c = this.couponCode;
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         this.discount = Number(data.discount);
 
@@ -191,6 +191,7 @@ export class PaymentComponent implements OnInit {
         // this.couponCode = this.voucherCode;
       });
       this.bCouponEntered = true;
+      this.couponCode = c;
     }
     return this.totalAmountDue;
   }
