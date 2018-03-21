@@ -77,6 +77,7 @@ export class PaymentComponent implements OnInit {
   forCoupon: any;
   voucherIcon: string;
   couponCode: string;
+  inputTxt: string;
   checkedGC: boolean = false;
   checkedCash: boolean = true;
   checkedPP: boolean = false;
@@ -191,7 +192,7 @@ export class PaymentComponent implements OnInit {
         // this.couponCode = this.voucherCode;
       });
       this.bCouponEntered = true;
-      this.couponCode = c;
+      this.inputTxt = c;
     }
     return this.totalAmountDue;
   }
