@@ -168,7 +168,7 @@
           <ul [@slider]="sliderState">
             <li *ngFor="let suggested of suggestedItems" class="product-base" itemscope
               itemtype="https://schema.org/Product">
-              <app-item-list-entry [item]="suggested" [cartItem]="getCartItem(suggested.id)" [isClickable]="false"></app-item-list-entry>
+              <app-item-list-entry [item]="suggested" [cartItem]="getCartItem(suggested.id)" (onOpenModalEmit)="openSuggestedItem($event)"></app-item-list-entry>
               <!--span class="product-zoom glyphicon glyphicon-search"></span-->
             </li>
           </ul>

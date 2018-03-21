@@ -31,6 +31,9 @@ import { UserService } from './../../../../user/services/user.service';
       state('set3', style({
         'margin-left': '-2000px'
       })),
+      state('reset', style({
+        'margin-left': '0px'
+      })),
       transition('set1 => set2', animate('400ms ease-in-out')),
       transition('set2 => set3', animate('400ms ease-in-out')),
       transition('set3 => set2', animate('400ms ease-in-out')),
@@ -107,11 +110,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.setListCheckbox();
       });
 
-    this.productService.getSuggestedItems(this.item.id)
-      .takeUntil(this.componentDestroyed)
-      .subscribe(res => {
-        this.suggestedItems = res;
-      });
+    this.initSuggestedItems();
     this.initBreadCrumbs();
   }
 
@@ -147,6 +146,14 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.itemCategories[2] = index3 >= 0 ? this.categories[index1].subCategories[index2].subCategories[index3]: null;
       }
     }
+  }
+
+  initSuggestedItems(): void {
+    this.productService.getSuggestedItems(this.item.id)
+      .takeUntil(this.componentDestroyed)
+      .subscribe(res => {
+        this.suggestedItems = res;
+      });
   }
 
   hideSavings(dp, p) {
@@ -309,8 +316,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0);
   }
 
-  sliderBack() {
-    console.log("BACK!")
+  sliderBack(): void {
     switch(this.sliderState) {
     case 'set1':
       break;
@@ -323,8 +329,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  sliderNext() {
-    console.log("NEXT!")
+  sliderNext(): void {
     switch(this.sliderState) {
     case 'set1':
       this.sliderState = "set2";
@@ -335,5 +340,15 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     case 'set3':
       break;
     }
+  }
+
+  openSuggestedItem(item: Item): void {
+    const slug = `/item/${item.id}/${item.slug}`;
+    window.history.pushState('item-slug', 'Title', slug);
+    this.store.dispatch(this.productActions.addSelectedItem(item));
+    this.imageRetries = 0;
+    this.initSuggestedItems();
+    this.sliderState = 'reset';
+    this.sliderState = 'set1';
   }
 }
