@@ -104,9 +104,9 @@ export class DeliveryOptionsComponent implements OnInit {
     if(i != 0) {
       return false;
     }
-    const range = this.timeSlots[i].range[j].range.split('to');
+    const range = this.timeSlots[i].range[j].range.split(':');
     const today = new Date().getHours();
-    if(today < Number.parseInt(range[0])) {
+    if(today < Number.parseInt(range[0]) - 3) {
       return false;
     } else {
       return true;
