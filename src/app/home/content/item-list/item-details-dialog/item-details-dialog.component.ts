@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, Input, Output, OnChanges, EventEmitter  } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +19,27 @@ import { UserService } from './../../../../user/services/user.service';
 @Component({
   selector: "app-item-details-dialog",
   templateUrl: "./item-details-dialog.component.html",
-  styleUrls: ["./item-details-dialog.component.scss"]
+  styleUrls: ["./item-details-dialog.component.scss"],
+  animations: [
+    trigger('slider', [
+      state('set1', style({
+        'margin-left': '0px'
+      })),
+      state('set2', style({
+        'margin-left': '-1000px'
+      })),
+      state('set3', style({
+        'margin-left': '-2000px'
+      })),
+      state('reset', style({
+        'margin-left': '0px'
+      })),
+      transition('set1 => set2', animate('400ms ease-in-out')),
+      transition('set2 => set3', animate('400ms ease-in-out')),
+      transition('set3 => set2', animate('400ms ease-in-out')),
+      transition('set2 => set1', animate('400ms ease-in-out'))
+    ])
+  ]
 })
 export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   @Input() item: any;
@@ -39,6 +60,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   listState: Array<any> = [];
   inputNewList = new FormControl();
   itemCategories: Array<any> = [null,null,null];
+  sliderState: string = 'set1';
   private imageRetries: number = 0;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -88,11 +110,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.setListCheckbox();
       });
 
-    this.productService.getSuggestedItems(this.item.id)
-      .takeUntil(this.componentDestroyed)
-      .subscribe(res => {
-        this.suggestedItems = res;
-      });
+    this.initSuggestedItems();
     this.initBreadCrumbs();
   }
 
@@ -128,6 +146,14 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.itemCategories[2] = index3 >= 0 ? this.categories[index1].subCategories[index2].subCategories[index3]: null;
       }
     }
+  }
+
+  initSuggestedItems(): void {
+    this.productService.getSuggestedItems(this.item.id)
+      .takeUntil(this.componentDestroyed)
+      .subscribe(res => {
+        this.suggestedItems = res;
+      });
   }
 
   hideSavings(dp, p) {
@@ -290,4 +316,39 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0);
   }
 
+  sliderBack(): void {
+    switch(this.sliderState) {
+    case 'set1':
+      break;
+    case 'set2':
+      this.sliderState = "set1";
+      break;
+    case 'set3':
+      this.sliderState = "set2";
+      break;
+    }
+  }
+
+  sliderNext(): void {
+    switch(this.sliderState) {
+    case 'set1':
+      this.sliderState = "set2";
+      break;
+    case 'set2':
+      this.sliderState = "set3";
+      break;
+    case 'set3':
+      break;
+    }
+  }
+
+  openSuggestedItem(item: Item): void {
+    const slug = `/item/${item.id}/${item.slug}`;
+    window.history.pushState('item-slug', 'Title', slug);
+    this.store.dispatch(this.productActions.addSelectedItem(item));
+    this.imageRetries = 0;
+    this.initSuggestedItems();
+    this.sliderState = 'reset';
+    this.sliderState = 'set1';
+  }
 }
