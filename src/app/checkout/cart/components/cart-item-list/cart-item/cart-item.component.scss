@@ -34,7 +34,6 @@
     	padding: 5px 5px 5px 0;
 			a {
 				font-size: 14px;
-				// font-family: "Whitney-semi-bold";
 				font-weight: 600;
     		color: #535766;
     		margin-right: 6px;
@@ -149,7 +148,8 @@
   }
   .item-name {
     line-height: normal;
-    padding: 5px
+    padding: 5px;
+    font-family:sans-serif;
   }
 }
 
@@ -173,4 +173,8 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.product-name {
+  font-family: Sans-Serif;
 }
