@@ -109,6 +109,7 @@ export class PaymentComponent implements OnInit {
   setDefault() {
     this.gErrMsg = '';
     this.voucherIcon = 'glyphicon glyphicon-tag text-default';
+    this.coupon.nativeElement.value = '';
   }
 
 
@@ -158,33 +159,42 @@ export class PaymentComponent implements OnInit {
         if(data.message != null) {
             // this.gErrMsg = 'Invalid coupon or voucher';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
+            this.hasErr = true;
         } else if (data.status == "used") {
             // this.gErrMsg = 'Coupon or voucher already consumed';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
+            this.hasErr = true;
         } else {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
+            this.hasErr = false;
         }
-      } else {
-        this.store.dispatch(this.checkoutAction.removeCoupon());
-        this.bCouponEntered = false;
-        this.setDefault();
       }
     });
     return this.totalPaidAmount;
   }
 
   applyVoucher(code){
-    this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
-      this.voucherCode = Number(code.value);
-      this.discount = Number(data.discount);
+    if(!this.hasErr){
+      this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
+        this.voucherCode = Number(code.value);
+        this.discount = Number(data.discount);
 
-      this.totalAmountDue = this.totalAmount - Number(data.discount);
-      this.forCoupon = {
-        value: Number(data.discount)
-      };
-      this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
-      this.bCouponEntered = true;
+        this.totalAmountDue = this.totalAmount - Number(data.discount);
+        this.forCoupon = {
+          value: Number(data.discount)
+        };
+        this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
+        this.bCouponEntered = true;
+      });
+    }
+  }
+
+  removeVoucher(code){
+    this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
+      this.store.dispatch(this.checkoutAction.removeCoupon());
+      this.bCouponEntered = false;
+      this.setDefault();
     });
   }
 
