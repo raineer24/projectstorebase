@@ -161,7 +161,7 @@
         <div class="input-group">
           <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
           <input #coupon type="number" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
-          <ng-container *ngIf="bCouponEntered; else removeCoupon">
+          <ng-container *ngIf="!bCouponEntered; else removeCoupon">
             <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher(coupon)">Apply</button></span>
           </ng-container>
           <ng-template #removeCoupon>

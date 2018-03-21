@@ -152,10 +152,10 @@ export class PaymentComponent implements OnInit {
   checkVoucher(code){
     this.discount$ = this.checkoutService.getvoucher(Number(code.value)).subscribe(data => {
       if(code.value.length > 3) {
-        if(this.bCouponEntered){
-          this.store.dispatch(this.checkoutAction.removeCoupon());
-          this.bCouponEntered = false;
-        }
+        // if(this.bCouponEntered){
+        //   this.store.dispatch(this.checkoutAction.removeCoupon());
+        //   this.bCouponEntered = false;
+        // }
         if(data.message != null) {
             // this.gErrMsg = 'Invalid coupon or voucher';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
@@ -168,10 +168,13 @@ export class PaymentComponent implements OnInit {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
             this.hasErr = false;
+            this.coupon.nativeElement.value = code.value;
         }
+      } else {
+        this.hasErr = true;
       }
     });
-    return this.totalPaidAmount;
+
   }
 
   applyVoucher(code){
@@ -185,9 +188,12 @@ export class PaymentComponent implements OnInit {
           value: Number(data.discount)
         };
         this.store.dispatch(this.checkoutAction.applyCoupon(this.forCoupon));
-        this.bCouponEntered = true;
+
+        this.coupon.nativeElement.value = this.voucherCode;
       });
+      this.bCouponEntered = true;
     }
+    return this.totalAmountDue;
   }
 
   removeVoucher(code){
@@ -196,6 +202,7 @@ export class PaymentComponent implements OnInit {
       this.bCouponEntered = false;
       this.setDefault();
     });
+    return this.totalAmountDue;
   }
 
   addGiftCert(code){
