@@ -159,15 +159,14 @@
       <!-- new Voucher entry point-->
       <div class="col-md-6">
         <div class="input-group">
-            <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
-            <ng-container *ngIf="!bCouponEntered; else removeCoupon">
-              <input #couponInput [(ngModel)]="couponCode" type="text" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
-              <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply</button></span>
-            </ng-container>
-            <ng-template #removeCoupon>
-              <input #couponInput type="number" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" [value]="voucherCode" (keyup)="checkVoucher(coupon)" />
-              <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="removeVoucher()">Cancel</button></span>
-            </ng-template>
+          <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
+          <input [(ngModel)]="couponCode" value="inputTxt" type="text" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher()" />
+          <ng-container *ngIf="!bCouponEntered; else removeCoupon">
+            <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply</button></span>
+          </ng-container>
+          <ng-template #removeCoupon>
+              <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="removeVoucher()">Void</button></span>
+          </ng-template>
         </div>
       </div>
       <div class="row">
