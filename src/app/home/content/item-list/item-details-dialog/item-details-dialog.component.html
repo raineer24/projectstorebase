@@ -161,11 +161,11 @@
     <h5>You might also be interested in these items</h5>
     <section class="col-xs-12">
       <div class="slider-container">
-        <div class="back" (click)="sliderBack()" [ngClass]="{'disabled': sliderState == 'set1'}">
+        <div class="back" (click)="sliderBack()" [ngClass]="{'disabled': itemSlider.state == 'set1'}">
           <i class="glyphicon glyphicon-chevron-left"></i>
         </div>
         <div class="slider">
-          <ul [@slider]="sliderState">
+          <ul [ngClass]="itemSlider.class">
             <li *ngFor="let suggested of suggestedItems" class="product-base" itemscope
               itemtype="https://schema.org/Product">
               <app-item-list-entry [item]="suggested" [cartItem]="getCartItem(suggested.id)" (onOpenModalEmit)="openSuggestedItem($event)"></app-item-list-entry>
@@ -173,7 +173,7 @@
             </li>
           </ul>
         </div>
-        <div class="next" (click)="sliderNext()" [ngClass]="{'disabled': sliderState == 'set3'}">
+        <div class="next" (click)="sliderNext()" [ngClass]="{'disabled': itemSlider.state == 'set3'}">
           <i class="glyphicon glyphicon-chevron-right"></i>
         </div>
       </div>
