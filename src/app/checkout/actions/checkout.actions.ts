@@ -100,10 +100,9 @@ export class CheckoutActions {
   }
 
 //remove coupon action
-  removeCoupon(coupon: any): Action {
+  removeCoupon(): Action {
     return {
-      type: CheckoutActions.REMOVE_COUPON,
-      payload: coupon
+      type: CheckoutActions.REMOVE_COUPON
     };
   }
 
