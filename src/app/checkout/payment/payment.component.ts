@@ -27,6 +27,7 @@ export class PaymentComponent implements OnInit {
   @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
   @ViewChild('gCode') gCode:ElementRef;
   @ViewChild('addGC') addGC: ElementRef;
+  @ViewChild('couponInput') couponInput:ElementRef
   @ViewChild('appCoupon') appCoupon:ElementRef;
   @ViewChild('gc') gc:ElementRef;
   @Input() discount: number = 0;
@@ -73,11 +74,11 @@ export class PaymentComponent implements OnInit {
   forGC: any;
   bCouponEntered: boolean = false;
   gcList: any;
+  couponContainer: any;
   voucherCode: any;
   forCoupon: any;
   voucherIcon: string;
   couponCode: string;
-  inputTxt: string;
   checkedGC: boolean = false;
   checkedCash: boolean = true;
   checkedPP: boolean = false;
@@ -114,6 +115,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.couponContainer = localStorage.getItem('coupon');
     this.gcList = [];
     this.store.select(getGiftCerts).takeUntil(this.componentDestroyed).subscribe(gc => {
         this.gcList = gc.map(gcert => gcert[0]);
@@ -146,6 +148,12 @@ export class PaymentComponent implements OnInit {
     this.tempDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalDiscount = val;
     });
+    // if(this.couponContainer != ''){
+    //   console.log(this.couponContainer);
+    //   this.couponCode = this.couponContainer;
+    //   this.hasErr = false;
+    //   this.applyVoucher();
+    // }
     return this.gcList;
   }
 
@@ -177,6 +185,7 @@ export class PaymentComponent implements OnInit {
             // this.gErrMsg = 'Coupon or voucher is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
             this.hasErr = false;
+            this.voucherCode = this.couponCode;
             // this.coupon.nativeElement.value = code.value;
         }
       });
@@ -188,7 +197,7 @@ export class PaymentComponent implements OnInit {
 
   applyVoucher(){
     if(!this.hasErr && this.couponCode){
-      let c = this.couponCode;
+
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         this.discount = Number(data.discount);
 
@@ -201,18 +210,22 @@ export class PaymentComponent implements OnInit {
         // this.couponCode = this.voucherCode;
       });
       this.bCouponEntered = true;
-      this.inputTxt = c;
+      this.couponInput.nativeElement.value = this.voucherCode;
     }
-    return this.totalAmountDue;
   }
 
   removeVoucher(){
-    this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
-      this.store.dispatch(this.checkoutAction.removeCoupon());
+    this.discount$ = this.checkoutService.getvoucher(Number(this.voucherCode)).subscribe(data => {
+      this.totalAmountDue = this.totalAmount + Number(data.discount);
+      console.log(this.totalAmountDue);
+      this.forCoupon = {
+        value: Number(data.discount)
+      };
+      this.store.dispatch(this.checkoutAction.removeCoupon(this.forCoupon));
       this.bCouponEntered = false;
-      this.setDefault();
+
     });
-    return this.totalAmountDue;
+    this.setDefault();
   }
 
   addGiftCert(code){
@@ -302,6 +315,7 @@ export class PaymentComponent implements OnInit {
   ngOnDestroy() {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
+    localStorage.setItem('giftcert','');
   }
 
 }

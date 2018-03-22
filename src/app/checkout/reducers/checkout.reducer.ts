@@ -163,13 +163,15 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
       //case REMOVE COUPON when input changed
       case CheckoutActions.REMOVE_COUPON:
         _totalDiscount = 0;
-        _totalAmountDue = state.grandTotal;
+        _grandTotal = state.totalCartValue + _serviceFee + _deliveryFee;
+        _totalAmountDue = _grandTotal - state.totalAmountPaid ;
         // _totalAmountDue = payload.amtDue;
         // _totalCartValue = _totalCartValue - _totalDiscount;
         // console.log(_totalCartValue);
         return state.merge({
           totalDiscount: _totalDiscount,
-          totalAmountDue: _totalAmountDue
+          totalAmountDue: _totalAmountDue,
+          grandTotal: _grandTotal
         }) as CheckoutState;
 
       //case APPLY GC
