@@ -348,6 +348,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     this.store.dispatch(this.productActions.addSelectedItem(item));
     this.imageRetries = 0;
     this.initSuggestedItems();
+    this.initBreadCrumbs();
     this.sliderState = 'reset';
     this.sliderState = 'set1';
   }
