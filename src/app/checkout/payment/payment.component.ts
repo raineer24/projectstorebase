@@ -127,7 +127,7 @@ export class PaymentComponent implements OnInit {
     if(this.gcList.length < 1)
     {
       this.gcList = localStorage.getItem('giftcert');
-      this.gcQuantity = this.gcList.length;
+      this.gcQuantity = this.gcList ? this.gcList.length : 0;
       this.checkedGC = true;
       console.log(this.gcList);
       this.initForm();
