@@ -348,3 +348,56 @@ ul.list-dropdown {
     }
   }
 }
+
+
+.set1ToSet2 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set1-to-set2;
+  animation-name: slide-set1-to-set2;
+}
+@keyframes slide-set1-to-set2 {
+  0% { margin-left: 0; }
+  100% {margin-left: -1000px;}
+}
+
+.set2ToSet3 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set2-to-set3;
+  animation-name: slide-set2-to-set3;
+}
+@keyframes slide-set2-to-set3 {
+  0% { margin-left: -1000px; }
+  100% {margin-left: -2000px;}
+}
+
+.set3ToSet2 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set3-to-set2;
+  animation-name: slide-set3-to-set2;
+}
+@keyframes slide-set3-to-set2 {
+  0% { margin-left: -2000px; }
+  100% {margin-left: -1000px;}
+}
+
+.set2ToSet1 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set2-to-set1;
+  animation-name: slide-set2-to-set1;
+}
+@keyframes slide-set2-to-set1 {
+  0% { margin-left: -1000px; }
+  100% {margin-left: 0px;}
+}

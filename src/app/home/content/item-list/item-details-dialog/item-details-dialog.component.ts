@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, Input, Output, OnChanges, EventEmitter  } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
 import { AppState } from './../../../../interfaces';
 import { environment } from './../../../../../environments/environment';
 import { SearchActions } from './../../../reducers/search.actions';
@@ -11,6 +11,7 @@ import { CartItem } from './../../../../core/models/cart_item';
 import { Item } from './../../../../core/models/item';
 import { ProductService } from './../../../../core/services/product.service';
 import { ProductActions } from './../../../../product/actions/product-actions';
+import { getSelectedItem } from './../../../../product/reducers/selectors';
 import { CheckoutActions } from './../../../../checkout/actions/checkout.actions';
 import { UserActions } from './../../../../user/actions/user.actions';
 import { UserService } from './../../../../user/services/user.service';
@@ -19,27 +20,7 @@ import { UserService } from './../../../../user/services/user.service';
 @Component({
   selector: "app-item-details-dialog",
   templateUrl: "./item-details-dialog.component.html",
-  styleUrls: ["./item-details-dialog.component.scss"],
-  animations: [
-    trigger('slider', [
-      state('set1', style({
-        'margin-left': '0px'
-      })),
-      state('set2', style({
-        'margin-left': '-1000px'
-      })),
-      state('set3', style({
-        'margin-left': '-2000px'
-      })),
-      state('reset', style({
-        'margin-left': '0px'
-      })),
-      transition('set1 => set2', animate('400ms ease-in-out')),
-      transition('set2 => set3', animate('400ms ease-in-out')),
-      transition('set3 => set2', animate('400ms ease-in-out')),
-      transition('set2 => set1', animate('400ms ease-in-out'))
-    ])
-  ]
+  styleUrls: ["./item-details-dialog.component.scss"]
 })
 export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   @Input() item: any;
@@ -60,7 +41,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   listState: Array<any> = [];
   inputNewList = new FormControl();
   itemCategories: Array<any> = [null,null,null];
-  sliderState: string = 'set1';
+  itemSlider = { state: 'set1', class: '' };
   private imageRetries: number = 0;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -112,6 +93,13 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
 
     this.initSuggestedItems();
     this.initBreadCrumbs();
+    //
+    // this.store.select(getSelectedItem)
+    //   .distinctUntilChanged(item => item)
+    //   .takeUntil(this.componentDestroyed).subscribe(item => {
+    //     console.log(item)
+    //     this.initBreadCrumbs();
+    // })
   }
 
   ngOnChanges() {
@@ -121,9 +109,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
         this.itemQuantity = cartItem.quantity;
       }
     }
-    if (!this.itemCategories[0]) {
-      this.initBreadCrumbs();
-    }
+    this.initBreadCrumbs();
   }
 
   ngOnDestroy() {
@@ -133,6 +119,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   }
 
   initBreadCrumbs(): void {
+    this.itemCategories = [null,null,null];
     if(this.categories.length && this.item) {
       let index1, index2, index3;
       index1 = this.categories.findIndex(cat => cat.id == this.item.category1);
@@ -317,25 +304,25 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   }
 
   sliderBack(): void {
-    switch(this.sliderState) {
+    switch(this.itemSlider.state) {
     case 'set1':
       break;
     case 'set2':
-      this.sliderState = "set1";
+      this.itemSlider = { state: 'set1', class: 'set2ToSet1' };
       break;
     case 'set3':
-      this.sliderState = "set2";
+      this.itemSlider = { state: 'set2', class: 'set3ToSet2' };
       break;
     }
   }
 
   sliderNext(): void {
-    switch(this.sliderState) {
+    switch(this.itemSlider.state) {
     case 'set1':
-      this.sliderState = "set2";
+      this.itemSlider = { state: 'set2', class: 'set1ToSet2' };
       break;
     case 'set2':
-      this.sliderState = "set3";
+      this.itemSlider = { state: 'set3', class: 'set2ToSet3' };
       break;
     case 'set3':
       break;
@@ -347,9 +334,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     window.history.pushState('item-slug', 'Title', slug);
     this.store.dispatch(this.productActions.addSelectedItem(item));
     this.imageRetries = 0;
+    this.itemSlider = { state: 'set1', class: '' };
     this.initSuggestedItems();
-    this.initBreadCrumbs();
-    this.sliderState = 'reset';
-    this.sliderState = 'set1';
   }
 }
