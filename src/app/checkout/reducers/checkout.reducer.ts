@@ -28,18 +28,29 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _totalCartValue = _totalCartValue - _totalDiscount;
         } else {
           _totalCartValue = 0;
+          localStorage.setItem('confirmationPayment','');
         }
 
         if(payload.totalDiscount != null){
             _totalDiscount = parseFloat(payload.totalDiscount);
-        } else {
+        } else if(localStorage.getItem('discount')!= '') {
+            _totalDiscount = Number(localStorage.getItem('discount'));
+        }
+        else {
             _totalDiscount = 0;
         }
 
         if(payload.totalAmtPaid != null) {
           _totalAmountPaid = parseFloat(payload.totalAmtPaid);
+
+
         } else {
-          _totalAmountPaid = 0;
+          console.log(_totalAmountPaid);
+          console.log(localStorage.getItem('payment'));
+          if(localStorage.getItem('payment') != '')
+           {
+             _totalAmountPaid = Number(localStorage.getItem('payment'));
+           } else { _totalAmountPaid = state.totalAmountPaid; }
         }
 
         _ship_address = payload.shippingAddress01;
@@ -111,6 +122,14 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _totalAmountDue = _grandTotal - _totalAmountPaid ;
         }
 
+        if(_totalCartValue == 0)
+        {
+          localStorage.setItem('payment','');
+          localStorage.setItem('giftcert','');
+          localStorage.setItem('voucher','');
+          localStorage.setItem('discount','');
+        }
+
         return state.merge({
           cartItemIds: _cartItemIds,
           cartItemEntities: _cartItemEntities,
@@ -163,13 +182,17 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
       //case REMOVE COUPON when input changed
       case CheckoutActions.REMOVE_COUPON:
         _totalDiscount = 0;
-        _totalAmountDue = state.grandTotal;
+        _grandTotal = state.totalCartValue + _serviceFee + _deliveryFee;
+        _totalAmountDue = _grandTotal - state.totalAmountPaid ;
+        // console.log(_grandTotal);
+        // console.log(_totalAmountDue);
         // _totalAmountDue = payload.amtDue;
         // _totalCartValue = _totalCartValue - _totalDiscount;
         // console.log(_totalCartValue);
         return state.merge({
           totalDiscount: _totalDiscount,
-          totalAmountDue: _totalAmountDue
+          totalAmountDue: _totalAmountDue,
+          grandTotal: _grandTotal
         }) as CheckoutState;
 
       //case APPLY GC
@@ -177,7 +200,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _totalAmountPaid = state.totalAmountPaid + payload.value;
         _totalAmountDue = state.grandTotal - _totalAmountPaid;
         _giftCerts = state.giftCerts.push(payload.gCerts);
-        localStorage.setItem('giftcert',JSON.stringify(_giftCerts));
+        localStorage.setItem('payment',JSON.stringify(_totalAmountPaid));
+        localStorage.setItem('confirmationPayment',JSON.stringify(_totalAmountPaid));
         return state.merge({
           totalAmountPaid: _totalAmountPaid,
           totalAmountDue: _totalAmountDue,
