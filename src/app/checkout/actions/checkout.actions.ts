@@ -101,9 +101,7 @@ export class CheckoutActions {
 
 //remove coupon action
   removeCoupon(): Action {
-    return {
-      type: CheckoutActions.REMOVE_COUPON
-    };
+    return { type: CheckoutActions.REMOVE_COUPON };
   }
 
   placeOrder(): Action {
