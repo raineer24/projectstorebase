@@ -1,0 +1,22 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/admin/orders']" (click)="onCancelClick()">Orders</a></li>
+    <li class="breadcrumb-item text-primary" aria-current="page">View</li>
+  </ol>
+</nav>
+
+<div class="viewOrder">
+
+    <div class="formGroup">
+        <div>Customer Name: {{orderData.firstname}} {{orderData.lastname}}</div>
+        <div>Customer Address:{{orderData.shippingAddress01}}, {{orderData.city}}, {{orderData.country}}, {{orderData.postalcode}}</div>
+          <div class="list-item-group">
+            <ul class="">
+                <li *ngFor="let item of itemList" class="list-group-item d-flex justify-content-between align-items-center">{{item.name}}
+                  <span class="badge">{{item.quantity}}</span><span class="badge">P {{item.price | number:'1.2-2'}}</span>
+                </li>
+              </ul>
+          </div>
+          <div>Order Total: {{orderData.total | number:'1.2-2'}}</div>
+    </div>
+</div>
