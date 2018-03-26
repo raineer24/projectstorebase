@@ -437,6 +437,9 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
   input {
     outline: none;
   }
+  .navbar-nav > li > a {
+    color: #ffffff !important;
+  }
 
   // input[type=search] {
   //   -webkit-appearance: textfield;
