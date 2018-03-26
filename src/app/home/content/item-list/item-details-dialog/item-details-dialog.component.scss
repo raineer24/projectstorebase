@@ -268,14 +268,61 @@ ul.list-dropdown {
     margin: 10px auto;
   }
   section {
-    overflow-y: hidden;;
+    overflow-y: hidden;
+
+    div.slider-container {
+      padding-top: 2px;
+      margin: 0 auto;
+      width: 1110px;
+
+      div.back, div.next {
+        background-color: #eee;
+        width: 50px;
+        height: 284px;
+        display: inline-block;
+        margin-bottom: 10px;
+        text-align: center;
+        vertical-align: top;
+        line-height: 284px;
+        &:hover {
+          background-color: #aaa;
+          cursor: pointer;
+        }
+
+        i {
+          color: #222;
+          font-size: 40px;
+        }
+      }
+
+      div.disabled {
+        &:hover {
+          background-color: #eee;
+          cursor: default;
+        }
+        i {
+          color: #666;
+        }
+      }
+
+      div.back {
+        border-radius: 20px 0px 0px 20px;
+      }
+      div.next {
+        border-radius: 0px 20px 20px 0px;
+      }
+
+      div.slider {
+        width: 1000px;
+        overflow: hidden;
+        display: inline-block;
+      }
+    }
 
     ul {
       padding: 0;
       height: 284px;
-      // width: 2000px;
-      width: 1000px;
-      margin: 0 auto;
+      width: 3000px;
 
       li.product-base {
         width: 255px;
@@ -300,4 +347,57 @@ ul.list-dropdown {
       }
     }
   }
+}
+
+
+.set1ToSet2 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set1-to-set2;
+  animation-name: slide-set1-to-set2;
+}
+@keyframes slide-set1-to-set2 {
+  0% { margin-left: 0; }
+  100% {margin-left: -1000px;}
+}
+
+.set2ToSet3 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set2-to-set3;
+  animation-name: slide-set2-to-set3;
+}
+@keyframes slide-set2-to-set3 {
+  0% { margin-left: -1000px; }
+  100% {margin-left: -2000px;}
+}
+
+.set3ToSet2 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set3-to-set2;
+  animation-name: slide-set3-to-set2;
+}
+@keyframes slide-set3-to-set2 {
+  0% { margin-left: -2000px; }
+  100% {margin-left: -1000px;}
+}
+
+.set2ToSet1 {
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-name: slide-set2-to-set1;
+  animation-name: slide-set2-to-set1;
+}
+@keyframes slide-set2-to-set1 {
+  0% { margin-left: -1000px; }
+  100% {margin-left: 0px;}
 }

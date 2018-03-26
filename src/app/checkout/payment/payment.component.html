@@ -123,7 +123,7 @@
                 <span class="input-group-btn"><button type="button" class="btn btn-default" disabled>{{gcQuantity}}
                 </button></span>
                 <input #gCode type="number" class="form-control no-spin" id="gc-code" name="gc-code" placeholder="Enter a valid gift certificate code" />
-                <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="addGiftCert(gCode)">Add</button></span>
+                <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="addGiftCertFilter(gCode)">Add</button></span>
               </div>
               <div class="list-group gc-group">
                 <ul class="list-group">
@@ -154,13 +154,21 @@
 
       <div>
         <h4>Vouchers / Coupons</h4>
-        <p class="small sub-text">Limited to use of 1 coupon per acheckout. Coupon is subject to Terms and Conditions.</p>
+        <p class="small sub-text">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
       </div>
       <!-- new Voucher entry point-->
       <div class="col-md-6">
         <div class="input-group">
-          <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
-          <input #coupon type="number" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher(coupon)" />
+            <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
+            <ng-container *ngIf="!bCouponEntered; else removeCoupon">
+              <input #couponInput [(ngModel)]="couponCode" type="text" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher()" />
+
+              <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply</button></span>
+            </ng-container>
+            <ng-template #removeCoupon>
+                <input #couponInput type="number" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" [value]="voucherCode" (keyup)="checkVoucher()" />
+                <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="removeVoucher()">Cancel</button></span>
+              </ng-template>
         </div>
       </div>
       <div class="row">
@@ -197,15 +205,17 @@
     <div class="col-md-2"></div>
 
     <div class="col-md-4">
-      <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async" [cartTotal]="cartTotal$ | async"
+        <div class="row place-order">
+        <div class="col-md-12">
+            <button class="btn btn-block btn-default" (click)="goBack()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span>Back</button>
+          </div>
+        </div>
+          <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async" [cartTotal]="cartTotal$ | async"
         [orderTotal]="orderTotal$ | async" [discount]="tempDiscount$ | async" [amountDue]="totalAmountDue$ | async" [cartItems]="cartItems$ | async"
         [deliveryDate]="deliveryDate$ | async"></app-review-order>
         <div class="row place-order">
           <div class="col-md-12">
           <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
-            <div class="button-group pull-right">
-                <!-- <button class="btn btn-danger" (click)="goBack()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Previous</button> -->
-            </div>
           </div>
         </div>
     </div>

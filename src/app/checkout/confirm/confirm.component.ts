@@ -53,6 +53,7 @@ export class ConfirmComponent implements OnInit {
       service: 100,
       delivery: 100,
     };
+    let paidAmount = 0;
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.route.params.map((params: any) => {
       this.orderKey = params['key']
@@ -60,6 +61,8 @@ export class ConfirmComponent implements OnInit {
           details.subTotal = Number(details.itemTotal);
           // details.amountTotal = Number(details.total) - Number(details.paymentTotal) - Number(details.discountTotal);
           details.amountTotal = Number(details.adjustmentTotal);
+          paidAmount = Number(localStorage.getItem('confirmationPayment'));
+          details.paymentTotal = paidAmount;
           this.orderDetails = details;
           console.log(details.id);
           this.showTimeSlotOrder(details.id);
@@ -67,6 +70,7 @@ export class ConfirmComponent implements OnInit {
           return details;
         }).subscribe();
     }).subscribe();
+    localStorage.setItem('payment','');
   }
 
   showTimeSlotOrder(orderId){

@@ -3,14 +3,18 @@
   <img itemprop="image" class="product-thumb" alt="{{item.name}}" [src]="getItemImageUrl(item.imageKey)" (load)="onImageLoaded()"
     (error)="onImageError()">
   <div class="product-productMetaInfo">
+
     <div itemprop="name" class="product-brand">{{ item.name }}</div>
     <!-- <h2 class="product-product">{{ item.brandName }}</h2> -->
     <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
       <span>
         <!-- Discounted price -->
-
-        <span itemprop="price" class="product-discountedPrice">P {{ item.price | number:'1.2-2'}}</span>
-
+        <ng-container *ngIf="item.price != ' -'; else itemprop2">
+          <span itemprop="price" class="product-discountedPrice">P {{ item.price | number:'1.2-2'}}</span>
+        </ng-container>
+        <ng-template #itemprop2>
+            <span itemprop="price" class="product-discountedPrice">P 0.00</span>
+        </ng-template>
         <!-- Original price -->
         <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
       </span>

@@ -101,7 +101,7 @@ export class ItemListEntryComponent implements OnInit, OnChanges {
   selectItem() {
     if(this.isClickable) {
       this.onOpenModalEmit.emit(this.item);
-    }
+    } 
   }
 
   incrementQuantity(e) {
