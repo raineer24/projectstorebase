@@ -85,17 +85,18 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
               this.loginSubs = this.authService.register(body).subscribe(data => {
                 const error = data.error;
                 if(!error) {
-                  this.router.navigate(['user/profile']);
+                  // this.router.navigate(['user/profile']);
                 }
               })
           } else {
-            this.router.navigate(['user/profile']);
+
+            // this.router.navigate(['user/profile']);
           }
-          //this.store.select(getAuthStatus).subscribe(
-          //  data => {
-          //    if (data === true) { this.router.navigate([this.returnUrl]); }
-          //  }
-          //);
+          this.store.select(getAuthStatus).subscribe(
+           data => {
+             if (data === true) { this.router.navigate([this.returnUrl]); }
+           }
+          );
         });
       });
     });

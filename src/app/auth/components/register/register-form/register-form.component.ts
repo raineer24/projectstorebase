@@ -32,6 +32,7 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   initForm() {
@@ -70,15 +71,14 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       this.registerSubs = this.authService.register(data).subscribe(data => {
         const error = data.error;
         if (error) {
-
         } else {
-          this.router.navigate(['user/profile']);
-          // this.store.select(getAuthStatus).subscribe(
-          //   data => {
-          //     if (data === true) { this.router.navigate([this.returnUrl]); }
-          //   }
-          // );
+          // this.router.navigate(['user/profile']);
         }
+        this.store.select(getAuthStatus).subscribe(
+          data => {
+            if (data === true) { this.router.navigate([this.returnUrl]); }
+          }
+        );
       });
     } else {
       keys.forEach(val => {
