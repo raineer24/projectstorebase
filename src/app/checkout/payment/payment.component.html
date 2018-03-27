@@ -108,6 +108,30 @@
             </label>
           </div>
         </div>
+          <!-- <ng-container *ngIf="isAuthenticated$ | async">
+            <div #group4 class="partnerVoucher">
+                <div class="checkbox">
+                  <label>
+                    <input #gc type="checkbox" [(ngModel)]="checkedPV" >
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Employee Voucher
+                  </label>
+                  <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your payslip.">
+                      <i class="cr-icon">ⓘ</i>
+                  </label>
+                </div>
+            <div class="row" *ngIf="checkedPV">
+              <div class="col-md-1"></div>
+              <div class="col-md-8">
+                <div class="input-group">Remaining Balance:
+                  <span class="input-group-btn"><button type="button" class="btn btn-default" disabled>P {{availableCredit | number:'1.2-2'}}
+                  </button></span>
+
+                </div>
+            </div>
+          </div>
+        </div>
+        </ng-container> -->
+
         <ng-container *ngIf="totalAmountDue > 0">
           <div #group4 class="GiftCert">
               <div class="checkbox">
@@ -159,7 +183,7 @@
       <!-- new Voucher entry point-->
       <div class="col-md-6">
         <div class="input-group">
-            <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i> {{gErrMsg}}</button></span>
+            <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i></button></span>
             <ng-container *ngIf="!bCouponEntered; else removeCoupon">
               <input #couponInput [(ngModel)]="couponCode" type="text" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher()" />
 

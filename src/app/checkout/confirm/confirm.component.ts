@@ -63,14 +63,17 @@ export class ConfirmComponent implements OnInit {
           details.amountTotal = Number(details.adjustmentTotal);
           paidAmount = Number(localStorage.getItem('confirmationPayment'));
           details.paymentTotal = paidAmount;
+          details.discount = Number(localStorage.getItem('discount'));
           this.orderDetails = details;
-          console.log(details.id);
           this.showTimeSlotOrder(details.id);
           this.cartItemArray = details['items'].map(item => item.item_id)
           return details;
         }).subscribe();
     }).subscribe();
-    localStorage.setItem('payment','');
+    // localStorage.removeItem('confirmationPayment');
+    localStorage.removeItem('payment');
+    // localStorage.removeItem('discount');
+    // localStorage.removeItem('voucher');
   }
 
   showTimeSlotOrder(orderId){
@@ -80,10 +83,8 @@ export class ConfirmComponent implements OnInit {
     this.timeSlotOrder$ = this.userService.getTimeSlotOrder(orderId).map( timeslot => {
         this.deliveryDate = timeslot.datetime;
         tsID = timeslot.timeslot_id;
-        console.log(tsID);
         this.timeSlot$ = this.userService.getTimeslot(tsID).map( time => {
           timerange = time.range;
-          console.log(timerange);
           //Sets time as AM/PM
           if(tsID > 2){
             this.merridian = 'PM';
@@ -98,7 +99,6 @@ export class ConfirmComponent implements OnInit {
           } else if (tsID == 5 || tsID == 1){
             this.timeSlot = '8:00';
           }
-          console.log(this.timeSlot);
           return this.timeSlot;
         }).subscribe();
     }).subscribe();
