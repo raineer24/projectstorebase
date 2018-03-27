@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { environment } from '../../../../../environments/environment';
 import { AdminService } from '../../../services/admin.service';
+import { CheckoutService } from '../../../../core/services/checkout.service';
 import { UserService } from '../../../../user/services/user.service';
 import { UserActions } from '../../../../user/actions/user.actions';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -18,10 +19,13 @@ export class OrderDetailsComponent implements OnInit {
   orderSeller: any;
   orderItems: Array<any> = [];
   orderItemStatus: Array<any> = [];
+  MIN_VALUE = 1;
+  MAX_VALUE = 9999;
 
   constructor(
     private route: ActivatedRoute,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private checkoutService: CheckoutService
   ) { }
 
   ngOnInit() {
@@ -53,6 +57,32 @@ export class OrderDetailsComponent implements OnInit {
       url = environment.IMAGE_REPO + key + ".jpg";
     }
     return url;
+  }
+
+  incrementQuantity(index: number): void {
+    if (this.orderItems[index].quantity < this.MAX_VALUE) {
+      this.orderItems[index].quantity++;
+    }
+  }
+
+  decrementQuantity(index: number): void {
+    if (this.orderItems[index].quantity > this.MIN_VALUE) {
+      this.orderItems[index].quantity--;
+    }
+  }
+
+  confirm(orderItem: any): void {
+    orderItem.status = "confirmed";
+    this.adminService.updateOrderItem(orderItem).subscribe();
+  }
+
+  unavailable(orderItem: any): void {
+    orderItem.status = "unavailable";
+    this.adminService.updateOrderItem(orderItem).subscribe();
+  }
+
+  finalize() {
+
   }
 
 }

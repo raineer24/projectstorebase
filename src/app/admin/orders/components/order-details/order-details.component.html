@@ -10,6 +10,7 @@
     <tr>
       <th>Item</th>
       <th>Quantity</th>
+      <th>Total</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -23,7 +24,27 @@
           {{item.name}}<br>Price: ₱ {{item.price | number:'1.2-2'}}
         </div>
       </td>
-      <td class="text-uppercase">{{item.quantity}}</td>
+      <td class="text-uppercase">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.quantity == MIN_VALUE">
+              <span class="glyphicon glyphicon-minus"> </span>
+            </button>
+          </span>
+          <input type="number" class="text-center form-control" [value]="item.quantity" disabled/>
+            <!-- [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
+            [value]="quantity" [formControl]="quantityControl"
+            (blur)='checkIfValid($event)' (keypress)='keyPress($event)' -->
+           <span class="input-group-btn">
+             <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.quantity == MAX_VALUE">
+               <span class="glyphicon glyphicon-plus"></span>
+             </button>
+           </span>
+        </div>
+      </td>
+      <td class="text-right">
+        ₱ {{(item.price * item.quantity) | number:'1.2-2'}}
+      </td>
       <td>
         <div>
           <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="1">Confirm</label>

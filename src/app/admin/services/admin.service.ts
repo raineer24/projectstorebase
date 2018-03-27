@@ -57,6 +57,24 @@ export class AdminService {
   /**
    *
    *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateOrderItem(orderItem: any): Observable<any>  {
+    return this.http.put(`v1/orderItem/${orderItem.id}`, {
+        "quantity": orderItem.quantity,
+        "status": orderItem.status
+      }
+    ).map((res) => {
+      return orderItem;
+    }).catch(err => Observable.empty());
+  }
+
+
+  /**
+   *
+   *
    * @returns {Observable<user[]>}
    *
    * @memberof AdminService
