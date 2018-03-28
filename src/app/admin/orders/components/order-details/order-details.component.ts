@@ -19,6 +19,11 @@ export class OrderDetailsComponent implements OnInit {
   orderSeller: any;
   orderItems: Array<any> = [];
   orderItemStatus: Array<any> = [];
+  itemsQuantity: number = 0;
+  itemsTotal: number = 0;
+  itemsConfirmed: number = 0;
+  itemsUnavailable: number = 0;
+
   MIN_VALUE = 1;
   MAX_VALUE = 9999;
 
@@ -39,8 +44,8 @@ export class OrderDetailsComponent implements OnInit {
           // NOTE: TEMPORARY ORDER ID 0
           // return this.adminService.getOrderItems(0).map(orderItems => {
             this.orderItems = orderItems
-            orderItems.forEach(x => {
-              this.orderItemStatus[x.orderItem_id] = x.processed;
+            orderItems.forEach(item => {
+              this.orderItemStatus[item.orderItem_id] = item.processed;
             })
             return orderItems;
           })
@@ -73,16 +78,41 @@ export class OrderDetailsComponent implements OnInit {
 
   confirm(orderItem: any): void {
     orderItem.status = "confirmed";
-    this.adminService.updateOrderItem(orderItem).subscribe();
+    this.recalculate();
   }
 
   unavailable(orderItem: any): void {
     orderItem.status = "unavailable";
-    this.adminService.updateOrderItem(orderItem).subscribe();
+    this.recalculate();
+  }
+
+  reset(orderItem: any): void {
+    this.orderItemStatus[orderItem.orderItem_id] = 0;
+    orderItem.status = null;
+    this.recalculate();
   }
 
   finalize() {
 
+  }
+
+  recalculate() {
+    this.itemsConfirmed = 0;
+    this.itemsUnavailable = 0;
+    this.itemsQuantity = 0;
+    this.itemsTotal = 0;
+    this.orderItems.forEach(item => {
+      switch(item.status){
+        case 'confirmed':
+          this.itemsConfirmed++;
+          this.itemsQuantity += Number(item.quantity);
+          this.itemsTotal += Number(item.quantity) * Number(item.price);
+        break;
+        case 'unavailable':
+          this.itemsUnavailable++;
+        break;
+      }
+    });
   }
 
 }
