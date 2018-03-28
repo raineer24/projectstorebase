@@ -40,6 +40,11 @@
   padding-right: 0;
 }
 
+.unavailable {
+  color: red;
+  text-decoration: line-through;
+}
+
 input[type='number'] {
     -moz-appearance:textfield;
 }

@@ -80,11 +80,14 @@ export class OrderDetailsComponent implements OnInit {
   confirm(orderItem: any): void {
     orderItem.status = "confirmed";
     this.recalculate();
+    this.adminService.updateOrderItem(orderItem).subscribe();
   }
 
   unavailable(orderItem: any): void {
+    orderItem.finalQuantity = 0;
     orderItem.status = "unavailable";
     this.recalculate();
+    this.adminService.updateOrderItem(orderItem).subscribe();
   }
 
   reset(orderItem: any): void {
