@@ -7,16 +7,16 @@
 </nav>
 <div class="panel panel-default">
   <div class="panel-body">
-    <div class="col-md-4">
+    <div class="col-md-4 padding-left-0">
       Item(s) Processed: {{itemsConfirmed + itemsUnavailable}} / {{orderItems.length}}<br>
       Confirmed Item(s): {{itemsConfirmed}}<br>
       Unavailable Item(s): {{itemsUnavailable}}<br>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 padding-left-0">
       Item(s) Quantity: {{itemsQuantity}}<br>
       Item(s) Sub-total: ₱ {{itemsTotal | number:'1.2-2'}} <br>
     </div>
-    <div class="col-md-4 text-right">
+    <div class="col-md-4 padding-right-0 text-right">
       <button type="button" class="btn btn-danger btn-lg" [disabled]="itemsConfirmed + itemsUnavailable != orderItems.length">FINALIZE ORDER</button>
     </div>
   </div>
@@ -43,23 +43,23 @@
       <td class="text-uppercase">
         <div class="input-group">
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.quantity == MIN_VALUE || item.status != null">
+            <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.finalQuantity == MIN_VALUE || item.status != null">
               <span class="glyphicon glyphicon-minus"> </span>
             </button>
           </span>
-          <input type="number" class="text-center form-control" [value]="item.quantity" disabled/>
+          <input type="number" class="text-center form-control" [value]="item.finalQuantity" disabled/>
             <!-- [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
             [value]="quantity" [formControl]="quantityControl"
             (blur)='checkIfValid($event)' (keypress)='keyPress($event)' -->
            <span class="input-group-btn">
-             <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.quantity == MAX_VALUE || item.status != null">
+             <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.finalQuantity == MAX_VALUE || item.status != null">
                <span class="glyphicon glyphicon-plus"></span>
              </button>
            </span>
         </div>
       </td>
       <td class="text-right">
-        ₱ {{(item.price * item.quantity) | number:'1.2-2'}}
+        ₱ {{(item.price * item.finalQuantity) | number:'1.2-2'}}
       </td>
       <td>
         <div>

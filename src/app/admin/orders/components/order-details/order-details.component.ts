@@ -44,8 +44,9 @@ export class OrderDetailsComponent implements OnInit {
           // NOTE: TEMPORARY ORDER ID 0
           // return this.adminService.getOrderItems(0).map(orderItems => {
             this.orderItems = orderItems
-            orderItems.forEach(item => {
+            orderItems.forEach((item, index) => {
               this.orderItemStatus[item.orderItem_id] = item.processed;
+              item.finalQuantity = item.quantity;
             })
             return orderItems;
           })
@@ -65,14 +66,14 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   incrementQuantity(index: number): void {
-    if (this.orderItems[index].quantity < this.MAX_VALUE) {
-      this.orderItems[index].quantity++;
+    if (this.orderItems[index].finalQuantity < this.MAX_VALUE) {
+      this.orderItems[index].finalQuantity++;
     }
   }
 
   decrementQuantity(index: number): void {
-    if (this.orderItems[index].quantity > this.MIN_VALUE) {
-      this.orderItems[index].quantity--;
+    if (this.orderItems[index].finalQuantity > this.MIN_VALUE) {
+      this.orderItems[index].finalQuantity--;
     }
   }
 
@@ -89,6 +90,7 @@ export class OrderDetailsComponent implements OnInit {
   reset(orderItem: any): void {
     this.orderItemStatus[orderItem.orderItem_id] = 0;
     orderItem.status = null;
+    orderItem.finalQuantity = orderItem.quantity;
     this.recalculate();
   }
 
@@ -105,8 +107,8 @@ export class OrderDetailsComponent implements OnInit {
       switch(item.status){
         case 'confirmed':
           this.itemsConfirmed++;
-          this.itemsQuantity += Number(item.quantity);
-          this.itemsTotal += Number(item.quantity) * Number(item.price);
+          this.itemsQuantity += Number(item.finalQuantity);
+          this.itemsTotal += Number(item.finalQuantity) * Number(item.price);
         break;
         case 'unavailable':
           this.itemsUnavailable++;
