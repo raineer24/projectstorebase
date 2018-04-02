@@ -17,7 +17,7 @@
       Item(s) Sub-total: ₱ {{itemsTotal | number:'1.2-2'}} <br>
     </div>
     <div class="col-md-4 padding-right-0 text-right">
-      <button type="button" class="btn btn-danger btn-lg" [disabled]="itemsConfirmed + itemsUnavailable != orderItems.length">FINALIZE ORDER</button>
+      <button type="button" class="btn btn-danger btn-lg" [disabled]="itemsConfirmed + itemsUnavailable != orderItems.length" (click)="finalize()">FINALIZE ORDER</button>
     </div>
   </div>
 </div>
@@ -25,7 +25,7 @@
   <thead>
     <tr>
       <th>Item</th>
-      <th>Quantity</th>
+      <th>Final Quantity</th>
       <th>Total</th>
       <th>Actions</th>
     </tr>
@@ -37,7 +37,7 @@
           <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
         </div>
         <div class="item-name">
-          <span [ngClass]="{'unavailable': item.status == 'unavailable'}">{{item.name}}<br>Price: ₱ {{item.price | number:'1.2-2'}}</span>
+          <span [ngClass]="{'unavailable': item.status == 'unavailable'}">{{item.name}}<br>Price: ₱ {{item.price | number:'1.2-2'}}<br>Quantity: {{item.quantity}}</span>
         </div>
       </td>
       <td class="text-uppercase">

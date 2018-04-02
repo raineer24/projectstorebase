@@ -63,14 +63,30 @@ export class AdminService {
    */
   updateOrderItem(orderItem: any): Observable<any>  {
     return this.http.put(`v1/orderItem/${orderItem.id}`, {
-        "quantity": orderItem.quantity,
+        "quantity": orderItem.finalQuantity,
         "status": orderItem.status
       }
     ).map((res) => {
-      return orderItem;
+      return res.json();
     }).catch(err => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  finalizeOrder(order: any): Observable<any>  {
+    return this.http.put(`v1/order/${order.key}`, {
+        "finalQuantity": order.finalQuantity,
+        "finalTotal": order.finalTotal
+      }
+    ).map((res) => {
+      return res.json();
+    }).catch(err => Observable.empty());
+  }
 
   /**
    *

@@ -45,8 +45,8 @@ export class OrderDetailsComponent implements OnInit {
           // return this.adminService.getOrderItems(0).map(orderItems => {
             this.orderItems = orderItems
             orderItems.forEach((item, index) => {
-              this.orderItemStatus[item.orderItem_id] = item.processed;
-              item.finalQuantity = item.quantity;
+              this.orderItemStatus[item.orderItem_id] = item.status;
+              item.finalQuantity = item.finalQuantity ? item.finalQuantity: item.quantity;
             })
             return orderItems;
           })
@@ -98,7 +98,9 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   finalize() {
-
+    this.orderSeller.finalTotal = this.itemsTotal;
+    this.orderSeller.finalQuantity = this.itemsQuantity;
+    this.adminService.finalizeOrder(this.orderSeller).subscribe();
   }
 
   recalculate() {
