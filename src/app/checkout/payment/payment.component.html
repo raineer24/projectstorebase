@@ -108,29 +108,35 @@
             </label>
           </div>
         </div>
-          <!-- <ng-container *ngIf="isAuthenticated$ | async">
+          <ng-container *ngIf="isAuthenticated$ | async">
             <div #group4 class="partnerVoucher">
                 <div class="checkbox">
                   <label>
                     <input #gc type="checkbox" [(ngModel)]="checkedPV" >
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Employee Voucher
                   </label>
-                  <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your payslip.">
-                      <i class="cr-icon">ⓘ</i>
-                  </label>
+                  <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P 8,000.">
+                      <i class="glyphicon glyphicon-question-sign"></i>
+                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableCredit | number:'1.2-2'}}</span></button>
                 </div>
             <div class="row" *ngIf="checkedPV">
-              <div class="col-md-1"></div>
+              <div class="col-md-1">
+                <!-- <label>Enter your company email address:</label> -->
+              </div>
               <div class="col-md-8">
-                <div class="input-group">Remaining Balance:
-                  <span class="input-group-btn"><button type="button" class="btn btn-default" disabled>P {{availableCredit | number:'1.2-2'}}
-                  </button></span>
+                <div class="input-group">
+                    <div class="input-group input-group-sg">
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                      </span>
+                      <input class="emailaddr" type="text" class="form-control no-spin" placeholder="Your work email address"><span class="input-group-btn"><button class="btn btn-primary" type="button">Enter</button></span>
+                    </div>
 
                 </div>
             </div>
           </div>
         </div>
-        </ng-container> -->
+        </ng-container>
 
         <ng-container *ngIf="totalAmountDue > 0">
           <div #group4 class="GiftCert">
@@ -199,22 +205,6 @@
         <div class="col-md-12">
         </div>
       </div>
-    <!-- </ng-container> -->
-    <!-- <ng-template #errInput>
-      <div class="row has-error has-feedback">
-        <div class="col-md-9">
-          <div class="input-group">
-            <input #coupon placeholder="Coupon code" class="form-control input-sm">
-            <span class="input-group-btn">
-              <button #appCoupon class="btn btn-primary" (click)="applyCoupon(coupon)">Add</button>
-            </span>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
-        </div>
-      </div>
-    </ng-template> -->
       <div>
         <h4>Special instructions</h4>
       </div>
