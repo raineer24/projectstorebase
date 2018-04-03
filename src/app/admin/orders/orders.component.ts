@@ -22,7 +22,7 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     //NOTE: dummy ID
-    const sellerId = 1;
+    const sellerId = 0;
     this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
       this.orders = order;
       if(localStorage.getItem('order') != ''){

@@ -43,13 +43,13 @@
       <td class="text-uppercase">
         <div class="input-group">
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.finalQuantity == MIN_VALUE || item.status != null">
+            <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.finalQuantity == MIN_VALUE || item.status != 'ordered'">
               <span class="glyphicon glyphicon-minus"> </span>
             </button>
           </span>
           <input type="number" class="text-center form-control" [value]="item.finalQuantity" disabled/>
            <span class="input-group-btn">
-             <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.finalQuantity == MAX_VALUE || item.status != null">
+             <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.finalQuantity == MAX_VALUE || item.status != 'ordered'">
                <span class="glyphicon glyphicon-plus"></span>
              </button>
            </span>
@@ -60,8 +60,8 @@
       </td>
       <td>
         <div>
-          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="1" (click)="confirm(item)">Confirm</label>
-          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="2" (click)="unavailable(item)">Unavailable</label>
+          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="confirmed" (click)="confirm(item)">Confirm</label>
+          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="unavailable" (click)="unavailable(item)">Unavailable</label>
           <label class="btn btn-lg btn-default" (click)="reset(item)">Reset</label>
         </div>
         <!-- <pre>{{orderItemStatus[item.orderItem_id]}}</pre> -->

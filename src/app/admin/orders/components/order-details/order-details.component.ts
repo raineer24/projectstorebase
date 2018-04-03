@@ -44,8 +44,18 @@ export class OrderDetailsComponent implements OnInit {
           // return this.adminService.getOrderItems(0).map(orderItems => {
             this.orderItems = orderItems
             orderItems.forEach((item, index) => {
+              item.finalQuantity = item.finalQuantity ? Number(item.finalQuantity): Number(item.quantity);
               this.orderItemStatus[item.orderItem_id] = item.status;
-              item.finalQuantity = item.finalQuantity ? item.finalQuantity: item.quantity;
+              switch(item.status){
+                case 'confirmed':
+                  this.itemsConfirmed++;
+                  this.itemsQuantity += Number(item.finalQuantity);
+                  this.itemsTotal += Number(item.finalQuantity) * Number(item.price);
+                break;
+                case 'unavailable':
+                  this.itemsUnavailable++;
+                break;
+              }
             })
             return orderItems;
           })
