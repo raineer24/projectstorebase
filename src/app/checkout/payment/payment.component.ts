@@ -24,14 +24,9 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class PaymentComponent implements OnInit {
   gcForm: FormGroup;
-  @ViewChild('giftcertDetailsModal') giftcertDetailsModal;
   @ViewChild('gCode') gCode:ElementRef;
-  @ViewChild('addGC') addGC: ElementRef;
-  @ViewChild('couponInput') couponInput:ElementRef
-  @ViewChild('appCoupon') appCoupon:ElementRef;
   @ViewChild('gc') gc:ElementRef;
   @Input() discount: number = 0;
-  gcSelected: boolean = false;
   isShowErrMsg: boolean = false;
   customClass: string = "customClass";
   totalCartValue$: Observable<number>;
@@ -84,6 +79,7 @@ export class PaymentComponent implements OnInit {
   checkedCash: boolean = true;
   checkedPP: boolean = false;
   checkedCC: boolean = false;
+  availableCredit: number = 8000;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -116,7 +112,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.couponContainer = localStorage.getItem('coupon');
+    this.voucherIcon = 'glyphicon glyphicon-tag text-default';
     this.gcList = [];
     if(localStorage.getItem('giftcert') == ''){
       this.store.select(getGiftCerts).takeUntil(this.componentDestroyed).subscribe(gc => {
@@ -134,14 +130,6 @@ export class PaymentComponent implements OnInit {
         this.totalAmountPaid$ = this.store.select(getTotalAmtPaid);
         // let storedData = JSON.parse(localStorage.getItem('giftcert'));
         this.gcList = JSON.parse(localStorage.getItem('giftcert'));
-        console.log(this.gcList);
-        let amountPaid = 0;
-        // for (var i=0; i < storedData.length; i++){
-        //   this.gcList.push({
-        //     code: storedData[i][0].code,
-        //     value: storedData[i][0].value
-        //   });
-          // amountPaid = amountPaid + Number(storedData[i][0].value);
           this.gcQuantity = this.gcList.length;
           this.checkedGC = true;
 
@@ -159,18 +147,12 @@ export class PaymentComponent implements OnInit {
     });
     this.tempDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalDiscount = val;
-      if(localStorage.getItem('discount') != ''){
+      if(localStorage.getItem('discount') != '' && localStorage.getItem('discount') != '0'){
         this.discount = Number(localStorage.getItem('discount'));
         this.voucherCode = localStorage.getItem('voucher');
         this.bCouponEntered = true;
       }
     });
-    // if(this.couponContainer != ''){
-    //   console.log(this.couponContainer);
-    //   this.couponCode = this.couponContainer;
-    //   this.hasErr = false;
-    //   this.applyVoucher();
-    // }
     return this.gcList;
   }
 
@@ -184,7 +166,7 @@ export class PaymentComponent implements OnInit {
 
 //new voucher validation
   checkVoucher(){
-    if(this.couponCode.length > 4) {
+    if(this.couponCode.length > 2) {
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         // if(this.bCouponEntered){
         //   this.store.dispatch(this.checkoutAction.removeCoupon());
@@ -194,21 +176,23 @@ export class PaymentComponent implements OnInit {
             // this.gErrMsg = 'Invalid coupon or voucher';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
             this.hasErr = true;
+            this.checkoutService.showErrorMsg('voucher');
         } else if (data.status == "used") {
             // this.gErrMsg = 'Coupon or voucher already consumed';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
             this.hasErr = true;
+            this.checkoutService.showErrorMsg('voucher');
         } else {
-            // this.gErrMsg = 'Coupon or voucher is valid!';
+            // this.gErrMsg = 'Coupon is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
             this.hasErr = false;
             this.voucherCode = this.couponCode;
             this.updateCoupon = this.voucherCode;
-            // this.coupon.nativeElement.value = code.value;
         }
       });
     } else {
-      this.hasErr = true;
+      this.voucherIcon = 'glyphicon glyphicon-tag text-default';
+      this.hasErr = false;
     }
 
   }
@@ -235,14 +219,12 @@ export class PaymentComponent implements OnInit {
 
   removeVoucher(){
     this.discount$ = this.checkoutService.getvoucher(Number(this.voucherCode)).subscribe(data => {
-      // this.totalAmountDue = this.totalAmount + Number(data.discount);
-      // console.log(this.totalAmountDue);
       this.store.dispatch(this.checkoutAction.removeCoupon());
       this.bCouponEntered = false;
 
     });
     localStorage.setItem('voucher','');
-    localStorage.setItem('discount','');
+    localStorage.setItem('discount','0');
     this.setDefault();
   }
 
@@ -262,7 +244,6 @@ export class PaymentComponent implements OnInit {
 
   addGiftCert(code){
     let tempList = [];
-    console.log(this.gcQuantity);
     let amountPaid = 0;
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {

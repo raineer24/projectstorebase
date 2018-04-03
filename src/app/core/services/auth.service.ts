@@ -103,6 +103,25 @@ export class AuthService {
    *
    * @memberof AuthService
    */
+  checkPartnerBuyer(id): Observable<any>{
+    return this.http.get(
+      `v1/user/account/partnerbuyeruser/${id}`)
+      .map((res: Response) => {
+      let data = res.json();
+      if (data.message == 'Found'){
+        return true;
+      } else { return false; }
+    } );
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
   register(data): Observable<any> {
     return this.http.post(
       'v1/user/account/save', data
