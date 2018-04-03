@@ -35,11 +35,47 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrder(orderseller_id: number): Observable<any> {
-    return this.http.get(`v1/ordersellers/${orderseller_id}`)
+   getSellerOrder(orderseller_id: number): Observable<any> {
+     return this.http.get(`v1/ordersellers/${orderseller_id}`)
+       .map((res: Response) => res.json())
+       .catch(res => Observable.empty());
+   }
+
+  /**
+   *
+   *
+   * @param {any} orderNumber
+   * @returns
+   *
+   * @memberof AdminService
+   */
+  getOrder(orderKey) {
+    return this.http.get(`v1/order?orderkey=${orderKey}`)
+      .map(res => res.json())
+      .flatMap((order: any) => {
+        return this.http.get(`v1/orderItem?limit=5000&key=${orderKey}`)
+          .map(res => {
+            order.items = res.json()
+            return order;
+          })
+      })
+      .catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} orderNumber
+   * @returns {Observable<Order>}
+   *
+   * @memberof AdminService
+   */
+  getOrderDetail(orderkey): Observable<any> {
+    return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
+
 
   /**
    *

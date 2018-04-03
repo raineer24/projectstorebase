@@ -45,8 +45,6 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
 
         } else {
-          console.log(_totalAmountPaid);
-          console.log(localStorage.getItem('payment'));
           if(localStorage.getItem('payment') != '')
            {
              _totalAmountPaid = Number(localStorage.getItem('payment'));
@@ -171,8 +169,6 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _totalDiscount = payload.value;
         _grandTotal = state.totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
         _totalAmountDue = _grandTotal - state.totalAmountPaid;
-        // _totalCartValue = _totalCartValue - _totalDiscount;
-        // console.log(_totalCartValue);
         return state.merge({
           totalDiscount: _totalDiscount,
           grandTotal: _grandTotal,
@@ -184,11 +180,6 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _totalDiscount = 0;
         _grandTotal = state.totalCartValue + _serviceFee + _deliveryFee;
         _totalAmountDue = _grandTotal - state.totalAmountPaid ;
-        // console.log(_grandTotal);
-        // console.log(_totalAmountDue);
-        // _totalAmountDue = payload.amtDue;
-        // _totalCartValue = _totalCartValue - _totalDiscount;
-        // console.log(_totalCartValue);
         return state.merge({
           totalDiscount: _totalDiscount,
           totalAmountDue: _totalAmountDue,

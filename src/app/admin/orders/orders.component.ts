@@ -11,6 +11,10 @@ import { AdminService } from './../services/admin.service';
 export class OrdersComponent implements OnInit {
   orders: any;
   ordersSub: Subscription;
+  orderSub: Subscription;
+  orderIndex$: any;
+  orderItems: any;
+  itemList: any;
 
   constructor(
     private adminService: AdminService
@@ -18,12 +22,36 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     //NOTE: dummy ID
-    const sellerId = 0;
-    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(orders => this.orders = orders)
+    const sellerId = 1;
+    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
+      this.orders = order;
+      if(localStorage.getItem('order') != ''){
+        localStorage.removeItem('order');
+        localStorage.removeItem('orderedItems');
+      }
+    } )
+  }
+
+  getOrder(index)
+  {
+    localStorage.setItem('order',JSON.stringify(this.orders[index]));
+    this.orderSub = this.adminService.getOrderDetail(this.orders[index].orderkey).subscribe(orderItems =>
+    {
+      this.orderItems = orderItems;
+      this.getOrderItems(this.orderItems);
+    })
+
+
+  }
+
+  getOrderItems(orderedItems){
+    this.itemList = orderedItems;
+    localStorage.setItem('orderedList',JSON.stringify(this.itemList));
   }
 
   ngOnDestroy() {
-    this.ordersSub.unsubscribe();
+    // this.ordersSub.unsubscribe();
+    // localStorage.removeItem('order');
   }
 
 }

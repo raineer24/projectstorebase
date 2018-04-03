@@ -8,6 +8,7 @@
     <thead>
       <tr>
         <th>Order Number</th>
+        <th>Customer</th>
         <th>Status</th>
         <th>Actions</th>
       </tr>
@@ -15,10 +16,11 @@
     <tbody>
       <tr *ngFor="let order of orders; let i = index">
         <td>{{order.orderNumber}}</td>
+        <td>{{order.firstname}} {{order.lastname}}</td>
         <td class="text-uppercase">{{order.status}}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm">PRINT</button>
+            <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/view-order']" (click)="getOrder(i)">PRINT</button>
             <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/orders/edit',order.id]">EDIT VALUE</button>
             <button type="button" class="btn btn-default btn-sm">FORWARD TO DELIVERY</button>
             <button type="button" class="btn btn-default btn-sm">CANCEL ORDER</button>
@@ -27,4 +29,5 @@
       </tr>
     </tbody>
   </table>
+    <!-- <div style="display: none;"><app-view-order [orderedItems] = "orderSub | async"></app-view-order></div> -->
 </div>

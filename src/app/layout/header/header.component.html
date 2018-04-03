@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top topbar">
-  <div class="container">
+  <div class="container hidden-xs">
     <!-- <div class="row nav-menu-top hidden-xs">
       <ul class="nav navbar-nav navbar-left">
         <li class="active"><a routerLink="/">OMG Philippines</a></li>
@@ -11,7 +11,7 @@
         <li><a routerLink="/">Contact Us</a></li>
       </ul>
     </div> -->
-    <div [ngClass]="mobile ? 'hidden-xs' : 'not-hide'" class="row nav-menu-mid ">
+    <div [ngClass]="" class="row nav-menu-mid">
       <div class="col-md-1 col-sm-1 hidden-xs">
         <a routerLink="/" (click)="selectCategory('all')" class="navbar-brand">
           <img src="assets/omg-logo-01.png" />
@@ -36,8 +36,6 @@
                         <a (click)="selectCategory(category3, category2, category);" href="#">{{ category3.name }}</a>
                       </li>
                     </ul>
-
-
                   </li>
                 </ul>
               </li>
@@ -45,7 +43,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-5 col-sm-5 col-xs-12">
+      <div class="col-md-5 col-sm-5 col-xs-12 hidden-xs">
         <div class="input-group">
           <!-- NOTE: AUTOSUGGEST SEARCH -->
           <ng-template #searchTemplate let-keyword="item" let-index="index">
@@ -87,8 +85,61 @@
     </div>
   </div>
 
+  <!-- Mobile -->
+  <div class="container-fluid">
+    <div class="hidden-sm hidden-md hidden-lg hidden-xl mobile-header navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a routerLink="/" (click)="selectCategory('all')" class="navbar-brand">
+        <img src="assets/omg-logo-01.png" />
+      </a>
+    </div>
+    <div class="hidden-sm hidden-md hidden-lg hidden-xl collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="hidden-sm hidden-md hidden-lg hidden-xl nav navbar-nav">
+        <li><a [routerLink]="['/auth']">Register</a></li>
+        <li><a [routerLink]="['/auth', 'login']">Sign in</a></li>
+      </ul>
+    </div>
+    <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+      <div class="input-group">
+        <!-- NOTE: AUTOSUGGEST SEARCH -->
+        <ng-template #searchTemplate let-keyword="item" let-index="index">
+          <div class="result-box" *ngIf="keyword.price; else categories">
+            <div class="imgbox">
+              <img class="product-thumb imgitems img-responsive" itemprop="image" alt="{{keyword.name}}" (error)="onImageError($event)"
+                [src]="getItemImageUrl(keyword.imageKey)">
+            </div>
+            <div class="itemdetailsbox small">
+              <p>{{keyword.name}}</p>
+              <p>₱ {{keyword.price | number:'1.2-2'}}</div>
+          </div>
+          <ng-template #categories>
+            <div class="catbox">{{keyword.name}}</div>
+          </ng-template>
+        </ng-template>
+        <input #searchbox [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
+          (typeaheadNoResults)="changeTypeaheadNoResults($event)" [typeaheadOptionsLimit]="10" [typeaheadWaitMs]="300" (typeaheadOnSelect)="typeaheadOnSelect($event)"
+          [typeaheadMinLength]="2" typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate" (keyup.enter)="typeaheadOnSelect($event)"
+          class="form-control" placeholder="Search for...">
+        <!-- NOTE: REGULAR SEARCH -->
+        <!-- <input [(ngModel)]="asyncSelected
+            class="form-control"
+            (keyup.enter)="searchKeyword()"
+            placeholder="Search for a product or category"> -->
+        <span class="input-group-btn">
+          <button class="btn btn-secondary btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
+        </span>
+
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE HEADER: START -->
-  <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'" class="mobile">
+  <!-- <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'" class="mobile">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
@@ -116,12 +167,12 @@
       <p class="cart" [routerLink]="['checkout','cart']">
         <a>
           <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-          <!-- <span class="badge badge-danger">{{totalCartItems}}</span>
-          {{totalCartValue}} -->
+          <span class="badge badge-danger">{{totalCartItems}}</span>
+          {{totalCartValue}}
         </a>
       </p>
     </div>
-  </div>
+  </div> -->
   <!-- MOBILE HEADER: END -->
   <!--
   <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
