@@ -36,7 +36,6 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit() {
     this.routeSubscription$ = this.route.params.subscribe(
       (params: any) => {
-
         const orderSellerId =  params['id'];
         this.adminService.getSellerOrder(orderSellerId).mergeMap(orderSeller => {
           this.orderSeller = orderSeller;

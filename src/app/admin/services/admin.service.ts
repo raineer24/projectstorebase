@@ -78,8 +78,8 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  finalizeOrder(order: any): Observable<any>  {
-    return this.http.put(`v1/order/${order.key}`, {
+  finalizeOrder(order: any): Observable<any> {
+    return this.http.put(`v1/order/${order.order_id}/seller`, {
         "finalQuantity": order.finalQuantity,
         "finalTotal": order.finalTotal
       }
