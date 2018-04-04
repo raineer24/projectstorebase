@@ -37,6 +37,10 @@ export class ViewOrderComponent implements OnInit {
     }
   }
 
+  onCancelClick(){
+    window.history.back();
+  }
+
   ngOnDestroy() {
     // this.ordersSub.unsubscribe();
   }
