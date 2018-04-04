@@ -63,7 +63,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country','prefix'];
     let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
     let hasError = false;
-
+    console.log(values);
     requiredFields.forEach(val => {
       const ctrl = this.addressForm.controls[val];
       if (!ctrl.valid) {
