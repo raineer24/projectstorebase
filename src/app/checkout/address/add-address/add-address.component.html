@@ -1,20 +1,23 @@
 <form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()" #formAddress="ngForm">
   <div class="row">
     <div class="col-sm-6 form-group">
-      <label for="firstname">First name</label><i>*</i>
-      <input type="text" id="firstname" formControlName="firstname" class="form-control" placeholder="First Name" required >
+      <label for="firstname">First name</label>
+      <i>*</i>
+      <input type="text" id="firstname" formControlName="firstname" class="form-control" placeholder="First Name" required>
     </div>
     <div class="col-sm-6 form-group">
-      <label for="lastname">Last name</label><i>*</i>
-      <input type="text" id="lastname" formControlName="lastname" class="form-control" placeholder="Last Name" required >
+      <label for="lastname">Last name</label>
+      <i>*</i>
+      <input type="text" id="lastname" formControlName="lastname" class="form-control" placeholder="Last Name" required>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6 form-group">
-      <label for="email">Email</label><i>*</i>
-        <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required >
+      <label for="email">Email</label>
+      <i>*</i>
+      <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required>
     </div>
-    <div class="col-sm-4 form-group">
+    <!-- <div class="col-sm-4 form-group">
       <label for="phone">Mobile Number</label><i>*</i>
       <div class="form-inline">
           <select name="prefix" formControlName="prefix" class="form-control">
@@ -22,38 +25,76 @@
           </select>
           <input id="phone" name="phone" formControlName="phone" class="form-control input-md" required placeholder="9271234567" type="text">
       </div>
-      <!-- <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required> -->
-    </div>
+      
+    </div> -->
+<div class="col-sm-4 form-group">
+  <label for="phone">Mobile Number</label>
+  <i>*</i>
+
+
+
+
+
+  <div class="input-group phone-input">
+    <span class="input-group-btn">
+      <button name="prefix" formControlName="prefix" type="button" class="btn form-control" data-toggle="dropdown" aria-expanded="false">
+        <span class="type-text">+63</span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a class="changeType" href="javascript:;" data-type-value="phone">+63</a>
+        </li>
+
+      </ul>
+    </span>
+
+    <input type="text" id="phone" formControlName="phone" class="form-control" placeholder="09271234567" required/>
+  </div>
+
+
+
+
+</div>
+
+
     <div class="col-sm-2 form-group">
       <label for="landline">Landline No.</label>
-      <input type="text" id="landline" formControlName="landline" class="form-control"  placeholder="3452124" required>
+      <input type="text" id="landline" formControlName="landline" class="form-control" placeholder="3452124" required>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
-      <label for="shippingAddress01">Address 1</label><i>*</i>
-      <input type="text" id="address1" formControlName="shippingAddress01" class="form-control" placeholder="Street Address, P.O. Box" required>
+      <label for="shippingAddress01">Address 1</label>
+      <i>*</i>
+      <input type="text" id="address1" formControlName="shippingAddress01" class="form-control" placeholder="Street Address, P.O. Box"
+        required>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 form-group">
       <label for="shippingAddress02">Address 2</label>
-      <input type="text" id="address2" formControlName="shippingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
+      <input type="text" id="address2" formControlName="shippingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc."
+        optional>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-5 form-group">
-      <label for="city">City/Municipality</label><i>*</i>
-      <input type="text" id="city" formControlName="city" class="form-control" placeholder="City/Municipality" required >
+      <label for="city">City/Municipality</label>
+      <i>*</i>
+      <input type="text" id="city" formControlName="city" class="form-control" placeholder="City/Municipality" required>
     </div>
     <div class="col-sm-2 form-group">
-      <label for="postalcode">Zip Code</label><i>*</i>
-      <input type="text" id="zipcode" formControlName="postalcode" class="form-control" placeholder="Zip Code" required >
+      <label for="postalcode">Zip Code</label>
+      <i>*</i>
+      <input type="text" id="zipcode" formControlName="postalcode" class="form-control" placeholder="Zip Code" required>
     </div>
     <div class="col-sm-5 form-group">
-      <label for="country">Country</label><i>*</i>
+      <label for="country">Country</label>
+      <i>*</i>
       <select class="form-control" id="country" formControlName="country">
-        <option value="Philippines">Philippines</option><i>*</i>
+        <option value="Philippines">Philippines</option>
+        <i>*</i>
         <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
       </select>
     </div>
@@ -67,7 +108,8 @@
   <div class="row">
     <div class="col-sm-12">
       <p>
-        <span class="note"><b>*</b>&nbsp;(required)</span>
+        <span class="note">
+          <b>*</b>&nbsp;(required)</span>
       </p>
     </div>
   </div>
@@ -87,7 +129,8 @@
     <div class="row">
       <div class="col-sm-12 form-group">
         <label for="billingAddress02">Address 2</label>
-        <input type="text" formControlName="billingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
+        <input type="text" formControlName="billingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc."
+          optional>
       </div>
     </div>
     <div class="row">
@@ -110,7 +153,10 @@
   </ng-container>
   <div class="row pull-right">
     <div class="col-sm-12">
-      <button class="btn btn-danger">Next <span class="glyphicon glyphicon glyphicon-chevron-right"></span></button>
+      <button class="btn btn-danger">Next
+        <span class="glyphicon glyphicon glyphicon-chevron-right"></span>
+      </button>
     </div>
   </div>
 </form>
+
