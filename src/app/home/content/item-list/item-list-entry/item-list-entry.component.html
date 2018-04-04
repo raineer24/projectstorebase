@@ -1,6 +1,67 @@
-<div class="product-tile">
-  <p> Product id: {{ product.id }} </p>
-  <!-- <p> Product Name : {{ product.name }} </p> -->
-  <p> Product Price : {{ product.price }} </p>
-  <!-- <img [src]="getProductImageUrl(product.master.images[0]?.large_url)"> -->
-</div>
+<div class="product-thumbShim"></div>
+<a itemprop="url" (click)="selectItem()">
+  <img itemprop="image" class="product-thumb" alt="{{item.name}}" [src]="getItemImageUrl(item.imageKey)" (load)="onImageLoaded()"
+    (error)="onImageError()">
+  <div class="product-productMetaInfo">
+
+    <div itemprop="name" class="product-brand">{{ item.name }}</div>
+    <!-- <h2 class="product-product">{{ item.brandName }}</h2> -->
+    <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="product-price">
+      <span>
+        <!-- Discounted price -->
+        <ng-container *ngIf="item.price != ' -'; else itemprop2">
+          <span itemprop="price" class="product-discountedPrice">P {{ item.price | number:'1.2-2'}}</span>
+        </ng-container>
+        <ng-template #itemprop2>
+            <span itemprop="price" class="product-discountedPrice">P 0.00</span>
+        </ng-template>
+        <!-- Original price -->
+        <!--<span class="product-strike"> react-text: 485 Rs.  /react-text  react-text: 486 1699 /react-text </span>-->
+      </span>
+      <!--Percentage off -->
+      <!--<span class="product-discountPercentage">(40% OFF)</span>-->
+    </div>
+    <!-- <span class="product-zoom glyphicon glyphicon-search"></span> -->
+    <!-- Product Size -->
+    <!--<div class="product-sizes">Sizes: S, M, L, XL, XXL</div>-->
+    <ng-container *ngIf="cartItem || itemQuantity != 0; else addCart">
+      <div class="row">
+        <!-- <div class="col-md-4">
+          <button title="Add to my list" class="btn btn-default" type="button"(click)="incrementQuantity($event)" [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-list"></span></button>
+        </div> -->
+        <div class="col-md-12 quantity-in-cart">
+          <div class="input-group btn-block" (click)="inputQuantity($event)">
+            <!-- <button title="Remove 1" data-type="minus" data-field="" type="button" class="quantity-in-cart-btn btn-left btn btn-number"
+              (click)="decrementQuantity($event)"
+              [disabled]="itemQuantity == MIN_VALUE">
+              <span class="glyphicon glyphicon-minus"> </span>
+            </button>
+            <input type="number" class="text-center"
+              [min]="MIN_VALUE" [max]="MAX_VALUE"
+              [value]="itemQuantity" [formControl]="quantityControl" />
+            <button title="Add more of this item" data-type="plus" data-field="" type="button" class="btn btn-success btn-number btn-right"
+              (click)="incrementQuantity($event)"
+              [disabled]="itemQuantity == MAX_VALUE">
+              <span class="glyphicon glyphicon-plus"> </span>
+            </button> -->
+
+            <!-- <div class="input-group"> -->
+              <span class="input-group-btn"><button title="Remove 1" data-type="minus" data-field="" type="button" class="btn-left btn btn-default" (click)="decrementQuantity($event)" [disabled]="itemQuantity == MIN_VALUE"><span class="glyphicon glyphicon-minus"></span></button></span>
+              <input type="number" class="form-control text-center"
+                [min]="MIN_VALUE" [max]="MAX_VALUE" step="1"
+                [value]="itemQuantity" [formControl]="quantityControl"
+                (blur)="checkIfValid($event)" (keypress)="keyPress($event)" />
+              <span class="input-group-btn"><button title="Add more of this item" class="btn btn-success" type="button"(click)="incrementQuantity($event)"
+              [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
+            <!-- </div> -->
+
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #addCart>
+      <!-- <button title="Add 1 item" class="btn-add-cart btn-block" (click)="addToCart($event)"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button> -->
+      <button title="Add 1 item" class="btn btn-default btn-block" (click)="addToCart($event)"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
+    </ng-template>
+  </div>
+</a>

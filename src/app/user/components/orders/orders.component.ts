@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../interfaces';
 import { UserActions } from '../../actions/user.actions';
 import { Observable } from 'rxjs/Observable';
-import { Order } from '../../../core/models/order';
+// import { Order } from '../../../core/models/order';
 import { getUserOrders } from '../../reducers/selector';
 
 @Component({
@@ -12,7 +12,7 @@ import { getUserOrders } from '../../reducers/selector';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-  orders$: Observable<Order[]>;
+  orders$: Observable<any[]>;
 
   constructor(
     private store: Store<AppState>,

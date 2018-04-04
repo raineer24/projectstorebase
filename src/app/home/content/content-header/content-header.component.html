@@ -1,24 +1,82 @@
-<div class="content">
-  <div itemprop="name" class="queried-for">
-    <h4 title="men casual shirts" class="q">Displaying available products</h4>
-    <span>&nbsp;</span>
+<div class="row">
+  <div class="col-md-12 nopadding top-add hidden-xs">
+      <div class="carousel fade-carousel slide carousel-fade" data-ride="carousel" data-interval="5000" id="bs-carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#bs-carousel" data-slide-to="1"></li>
+            <li data-target="#bs-carousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item slides active carousel-item">
+                <div class="slide-1">
+                    <img src="../assets/main-01.jpg" style="width:100%; height: 100%" />
+                    <div class="overlay"></div>
+                </div>
+            </div>
+            <div class="item slides carousel-item">
+                <div class="slide-2">
+                  <img src="../assets/main-01.jpg" style="width:100%; height: 100%" />
+                    <div class="overlay"></div>
+                </div>
+            </div>
+            <div class="item slides carousel-item">
+                <div class="slide-3">
+                  <img src="../assets/main-01.jpg" style="width:100%; height: 100%" />
+                    <div class="overlay"></div>
+                </div>
+            </div>
+            <!-- <div class="hero">
+               <h1>We are amazing</h1>
+               <h3>Get start your next awesome project</h3>
+              <button class="btn btn-hero btn-lg" role="button">See all features</button>
+            </div> -->
+        </div>
+      </div>
   </div>
-
-  <div class="options">
-    <ul class="img-size">
-      <label>View:</label>
-      <li (click)="toggleView('COMPACT')" [ngClass]="{'big': true, 'selected': isBigSelected()}"></li>
-      <li (click)="toggleView('COZY')" [ngClass]="{'small': true, 'selected': isSmallSelected()}"></li>
-    </ul>
-    <ul class="sort">
-      <label>Sort:</label>
-      <li data-sortkey=":popularity">Popular</li>
-      <li data-sortkey=":new">New</li>
-      <li data-sortkey=":discount">Discount</li>
-      <label>Price:
-        <li data-sortkey=":low">Low</li>
-        <li data-sortkey=":high">High</li>
-      </label>
-    </ul>
+</div>
+<div class="row sub-banner hidden-xs">
+  <div class="col-md-4 nopadding">
+    <img src="../assets/sub-01.jpg" style="width:100%" />
+  </div>
+  <div class="col-md-4 nopadding">
+    <img src="../assets/sub-02.jpg" style="width:100%" />
+  </div>
+  <div class="col-md-4 nopadding">
+    <img src="../assets/sub-03.jpg" style="width:100%" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <ol class="breadcrumb">
+      <li *ngFor="let breadcrumb of breadcrumbs; let i = index;">
+        <a *ngIf="i != breadcrumbs.length - 1; else elseBlock" href="#" class="breadcrumb-item" (click)="selectBreadcrumb(breadcrumb)">
+          <span>{{breadcrumb}}</span>
+        </a>
+        <ng-template #elseBlock>
+          <b class="breadcrumb-item text-danger">{{breadcrumb}}</b>
+        </ng-template>
+      </li>
+    </ol>
+  </div>
+  <div class="col-md-4 text-right">
+    <div class="content">
+      <div class="options small">
+        <!-- <ul class="img-size">
+          <label>View:</label>
+          <li (click)="toggleView('COMPACT')" [ngClass]="{'big': true, 'selected': isBigSelected()}"></li>
+          <li (click)="toggleView('COZY')" [ngClass]="{'small': true, 'selected': isSmallSelected()}"></li>
+        </ul> -->
+        <ul class="sort">
+          <label>Sort - </label>
+          <!-- <li data-sortkey=":popularity">Popular</li>
+          <li data-sortkey=":new">New</li>
+          <li data-sortkey=":discount">Discount</li> -->
+          <label>Price:
+            <li data-sortkey=":low" (click)="sortItems('low-price')">Low</li>
+            <li data-sortkey=":high" (click)="sortItems('high-price')">High</li>
+          </label>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

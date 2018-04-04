@@ -1,41 +1,237 @@
-<div class="payment-section">
-	<div class="left">
-		<div class="payment-header">
-			<span class="lbl">Choose Payment Mode</span>
-			<span class="amt you-pay">
-				<span class="amt">You Pay</span>
-				<span class="you-pay">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-			</span>
-		</div>
-		<div class="pay-body">
-			<app-payment-modes-list [orderNumber]="orderNumber$ | async" [paymentAmount]="totalCartValue$ | async"></app-payment-modes-list>
-		</div>
-	</div>
-	<div class="right">
-		<div class="mini-bag-summary">
-			<div class="lbl">ORDER SUMMARY</div>
-			<div class="items">{{totalCartItems$ | async}} ITEMS</div>
-			<div class="order-total">
-				<span>Order Total</span>
-				<span class="value">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-			</div>
-			<div class="shipping">
-				<span>Delivery</span>
-				<span class="shipping-fee c-green">FREE</span>
-			</div>
-		</div>
-		<div class="pay-lbl-total">
-			<span class="pay-lbl">Total Payable</span>
-			<span class="pay-total">${{totalCartValue$ | async | number:'1.2-2'}}</span>
-		</div>
-		<div class="address-summary">
-			<div class="address-lbl">DELIVER TO</div>
-			<div class="name">{{(address$ | async).full_name}}</div>
-			<div class="add-info">{{(address$ | async).address1}}</div>
-			<div class="add-info">{{(address$ | async).address2}}</div>
-			<div class="add-info">{{(address$ | async).city}} - {{(address$ | async).zipcode}}</div>
-			<!--<div class="add-info">Maharashtra</div>-->
-			<div class="add-info">Mobile: {{(address$ | async).phone}}</div>
-		</div>
-	</div>
+<!-- <form [formGroup]="gcForm" novalidate="">
+  <div #gModal class="modal fade form-group" id="gcModal" tabindex="-1" role="dialog" aria-labelledby="gcModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog form-group" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <label style="font-size: 0.80em">You can use upto <b style="font-size: 0.95em">{{usableGCcount}}</b> GCs. </label>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+
+          <ng-container *ngIf="errMsg == null; else errInput">
+            <div class="modal-body">
+              <input #gCode type="number" class="no-spin form-control" formControlName="gc-code" id="gc-code" name="gc-code" placeholder="Enter code...">
+            </div>
+            <div class="modal-footer">
+              <button #addGC type="button" class="btn btn-primary" (click)="addGiftCert(gCode)" [disabled]="usableGCcount == 0" >Add</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+            </div>
+          </ng-container>
+          <ng-template #errInput>
+            <div class=" modal-body has-error has-feedback">
+                <input #gCode type="number" class="no-spin form-control" formControlName="gc-code" id="gc-code" name="gc-code"  placeholder="Enter a valid code....">
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+            </div>
+            <div class="modal-footer">
+              <button #addGC type="button" class="btn btn-primary" (click)="addGiftCert(gCode)" [disabled]="usableGCcount == 0" >Add</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+            </div>
+          </ng-template>
+
+      </div>
+    </div>
+  </div>
+</form> -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 main-panel">
+      <h1>Payment</h1>
+      <h4>Select mode of payment</h4>
+      <p class="small sub-text">If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
+      <div>
+        <div #group1 class="creditcard">
+          <!-- NOTE: TEMPORARILY DISABLED -->
+          <div class="checkbox disabled">
+            <label>
+              <input disabled #cc type="checkbox" value="" [(ngModel)]="checkedCC" (ngModelChange)="checkedPP=false;checkedCash=false;">
+              <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Credit/Debit Card
+              <img src="/assets/cc.png">
+            </label>
+          </div>
+          <div class="row ccOptions" *ngIf="checkedCC">
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <i class="cr-icon fa fa-cc-visa" style="font-size:36px"></i>
+                <i class="cr-icon fa fa-cc-mastercard" style="font-size:36px"></i>
+                <i class="cr-icon fa fa-cc-amex" style="font-size:36px"></i>
+                <i class="cr-icon fa fa-cc-diners-club" style="font-size:36px"></i>
+                <i class="cr-icon fa fa-cc-discover" style="font-size:36px"></i>
+                <i class="cr-icon fa fa-cc-jcb" style="font-size:36px"></i>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+        </div>
+        <!-- NOTE: TEMPORARILY DISABLED -->
+        <div #group2 class="paypal">
+          <div class="checkbox disabled">
+            <label>
+              <input disabled #pp type="checkbox" value="" [(ngModel)]="checkedPP" (ngModelChange)="checkedCC=false;checkedCash=false;">
+              <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with PayPal
+              <!-- <i class="fa fa-cc-paypal" style="font-size:48px;color:blue"></i> -->
+              <img src="/assets/paypal.png">
+            </label>
+          </div>
+          <div class="row paypal" *ngIf="checkedPP">
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
+              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_xclick">
+                <input type="hidden" name="business" value="Email">
+                <input type="hidden" name="lc" value="P">
+                <input type="hidden" name="button_subtype" value="services">
+                <input type="hidden" name="no_note" value="0">
+                <input type="hidden" name="currency_code" value="PHP">
+                <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
+                <div>
+                  <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+                  <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+                </div>
+              </form>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+        </div>
+        <div #group3>
+          <div class="checkbox">
+            <label>
+              <ng-container *ngIf="totalAmount > 100; else secondCash">
+                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked >
+              </ng-container>
+              <ng-template #secondCash>
+                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked disabled>
+              </ng-template>
+              <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Cash
+            </label>
+          </div>
+        </div>
+          <ng-container *ngIf="isAuthenticated$ | async">
+            <div #group4 class="partnerVoucher">
+                <div class="checkbox">
+                  <label>
+                    <input #gc type="checkbox" [(ngModel)]="checkedPV" >
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Employee Voucher
+                  </label>
+                  <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P 8,000.">
+                      <i class="glyphicon glyphicon-question-sign"></i>
+                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableCredit | number:'1.2-2'}}</span></button>
+                </div>
+            <div class="row" *ngIf="checkedPV">
+              <div class="col-md-1">
+                <!-- <label>Enter your company email address:</label> -->
+              </div>
+              <div class="col-md-8">
+                <div class="input-group">
+                    <div class="input-group input-group-sg">
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                      </span>
+                      <input class="emailaddr" type="text" class="form-control no-spin" placeholder="Your work email address"><span class="input-group-btn"><button class="btn btn-primary" type="button">Enter</button></span>
+                    </div>
+
+                </div>
+            </div>
+          </div>
+        </div>
+        </ng-container>
+
+        <ng-container *ngIf="totalAmountDue > 0">
+          <div #group4 class="GiftCert">
+              <div class="checkbox">
+                <label>
+                  <input #gc type="checkbox" [(ngModel)]="checkedGC" >
+                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Gift Certificate(s)
+                </label>
+              </div>
+          <div class="row" *ngIf="checkedGC">
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <span class="input-group-btn"><button type="button" class="btn btn-default" disabled>{{gcQuantity}}
+                </button></span>
+                <input #gCode type="number" class="form-control no-spin" id="gc-code" name="gc-code" placeholder="Enter a valid gift certificate code" />
+                <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="addGiftCertFilter(gCode)">Add</button></span>
+              </div>
+              <div class="list-group gc-group">
+                <ul class="list-group">
+                    <li *ngFor="let gc of gcList" class="list-group-item d-flex justify-content-between align-items-center">{{gc.code}}
+                      <span class="badge badge-primary badge-pill">{{gc.value}}</span>
+                    </li>
+                  </ul>
+              </div>
+          </div>
+        </div>
+          </div>
+        </ng-container>
+        <!-- <ng-template #secondGC>
+            <div #group2>
+                <div class="form-group indent-container">
+                    <p>If your Order Total reaches P100 you can also pay using Gift Certificates.</p>
+                </div>
+            </div>
+        </ng-template> -->
+        <!-- <accordion-group is-disabled="true">
+          <div accordion-heading>Credit Card
+            <i class="pull-left float-xs-right glyphicon" [ngClass]="{'glyphicon-credit-card': !groupval?.isOpen}"></i>
+          </div>
+          <i class="pull-right float-xs-right glyphicon" [ngClass]="{'glyphicon-chevron-down': groupval?.isOpen, 'glyphicon-chevron-up': !groupval?.isOpen}"></i>
+          <p>Instructions</p>
+        </accordion-group> -->
+      </div>
+
+      <div>
+        <h4>Vouchers / Coupons</h4>
+        <p class="small sub-text">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
+      </div>
+      <!-- new Voucher entry point-->
+      <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i></button></span>
+            <ng-container *ngIf="!bCouponEntered; else removeCoupon">
+              <input #couponInput [(ngModel)]="couponCode" type="text" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher()" />
+
+              <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply</button></span>
+            </ng-container>
+            <ng-template #removeCoupon>
+                <input #couponInput type="number" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" [value]="voucherCode" (keyup)="checkVoucher()" />
+                <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="removeVoucher()">Cancel</button></span>
+              </ng-template>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+      </div>
+      <div>
+        <h4>Special instructions</h4>
+      </div>
+      <div>
+        <div>
+          <textarea [(ngModel)]="instructionsText" class="form-control si" cols="50" rows="4" placeholder="Please tell us nearby landmarks, delivery notes, amount of cash, etc..."></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-2"></div>
+
+    <div class="col-md-4">
+        <div class="row place-order">
+        <div class="col-md-12">
+            <button class="btn btn-block btn-default" (click)="goBack()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span>Back</button>
+          </div>
+        </div>
+          <app-review-order [shipAddress]="shipAddress$ | async" [billAddress]="billAddress$ | async" [gcAmount]="totalAmountPaid$ | async" [cartTotal]="cartTotal$ | async"
+        [orderTotal]="orderTotal$ | async" [discount]="tempDiscount$ | async" [amountDue]="totalAmountDue$ | async" [cartItems]="cartItems$ | async"
+        [deliveryDate]="deliveryDate$ | async"></app-review-order>
+        <div class="row place-order">
+          <div class="col-md-12">
+          <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
+          </div>
+        </div>
+    </div>
+  </div>
 </div>

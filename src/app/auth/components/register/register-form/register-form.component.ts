@@ -32,6 +32,7 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   initForm() {
@@ -42,13 +43,14 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     const gender = '';
 
     this.signUpForm = this.fb.group({
-	  'email': [email, Validators.compose([Validators.required, Validators.email]) ],
+     'email': [email, Validators.compose([Validators.required, Validators.email]) ],
       'password': [password, Validators.compose([Validators.required, Validators.minLength(6)]) ],
       'password_confirmation': [password_confirmation, Validators.compose([Validators.required, Validators.minLength(6)]) ],
       'mobile': [mobile, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')]) ],
-      'gender': [gender, Validators.required]
-    }, {validator: this.matchingPasswords('password', 'password_confirmation')}
-  	);
+      'gender': [gender, Validators.required],
+      'prefix': ['+63', Validators.required]
+
+    }, {validator: this.matchingPasswords('password', 'password_confirmation')});
   }
 
   onSubmit() {
@@ -60,7 +62,7 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       'email': values.email,
       'password': values.password,
       'uiid': '',
-      'mobileNumber' : values.mobile,
+      'mobileNumber' : values.prefix+" "+values.mobile,
       'gender': values.gender,
       'lastName': values.last_name || '',
       'firstName': values.first_name || ''
@@ -69,15 +71,14 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       this.registerSubs = this.authService.register(data).subscribe(data => {
         const error = data.error;
         if (error) {
-
         } else {
-          this.router.navigate(['user/profile']);
-          // this.store.select(getAuthStatus).subscribe(
-          //   data => {
-          //     if (data === true) { this.router.navigate([this.returnUrl]); }
-          //   }
-          // );
+          // this.router.navigate(['user/profile']);
         }
+        this.store.select(getAuthStatus).subscribe(
+          data => {
+            if (data === true) { this.router.navigate([this.returnUrl]); }
+          }
+        );
       });
     } else {
       keys.forEach(val => {

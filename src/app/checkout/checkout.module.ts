@@ -8,22 +8,26 @@ import { CartModule } from './cart/cart.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-
+import { LayoutModule } from "../layout/index";
+import { FormsModule } from '@angular/forms';
 import { CheckoutRoutes as routes } from './checkout.routes';
+
+import { HeaderComponent } from "../layout/header/header.component";
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    EffectsModule.run(CheckoutEffects),
+    // EffectsModule.run(CheckoutEffects),
     CartModule,
     AddressModule,
-    PaymentModule
+    PaymentModule,
+    LayoutModule,
+    FormsModule
   ],
-  declarations: [],
-  providers: [
-    CheckoutActions
-  ]
+  exports: [HeaderComponent],
+  declarations: [ConfirmComponent],
+  providers: [CheckoutActions]
 })
-export class CheckoutModule { }
+export class CheckoutModule {}

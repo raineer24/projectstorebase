@@ -1,18 +1,22 @@
 import { Router } from '@angular/router';
 import { SearchActions } from './../../home/reducers/search.actions';
 import { getTaxonomies } from './../../product/reducers/selectors';
-import { getTotalCartItems } from './../../checkout/reducers/selectors';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { getTotalCartValue, getTotalCartItems } from './../../checkout/reducers/selectors';
+import { getSortSettings } from './../../home/reducers/selectors';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
+  ViewChild, ViewChildren, QueryList, Input, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../interfaces';
 import { getAuthStatus } from '../../auth/reducers/selectors';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { AuthService } from '../../core/services/auth.service';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { ProductService } from '../../core/services/product.service';
 import { ProductActions } from '../../product/actions/product-actions';
 import { Item } from '../../core/models/item';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { Subscription } from "rxjs";
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -22,22 +26,32 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  public shouldShow =true;
+  mobile: boolean = false;
+  @Input() currentStep: string;
+  @Input() isHomeRoute: boolean;
+  @ViewChild('searchbox') searchInput:ElementRef;
+  categories: Array<any>;
   selectedItem: Item;
   isAuthenticated: Observable<boolean>;
   totalCartItems: Observable<number>;
+  totalCartValue: Observable<number>;
   categories$: Observable<any>;
+  timer: Observable<any>;
+  subscription: Subscription;
   asyncSelected: string;
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
+  bShowProgress: boolean;
   dataSource: Observable<any>;
   searchData: Object = {};
-  catList: Object = {};
-  mergedList: Object = {};
-  copycatList: Array<any> = [];
-  copyitemList: Array<any> = [];
-  itemList: Object = {};
-  catArr: Array<any> = [];
-  @ViewChild('itemDetailsModal') itemDetailsModal;
+  sortSettings: any;
+  sortSubs: Subscription;
+  show: boolean = false;
+  catSubs: Subscription;
+  inputString: string;
+  // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
+  // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
   constructor(
     private store: Store<AppState>,
@@ -49,15 +63,132 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private cd: ChangeDetectorRef
   ) {
+    this.initAutoSuggest();
+  }
 
+  ngOnInit() {
+    // this.store.dispatch(this.authActions.authorize());
+    this.bShowProgress = false;
+    this.isAuthenticated = this.store.select(getAuthStatus);
+    this.totalCartItems = this.store.select(getTotalCartItems);
+    this.totalCartValue = this.store.select(getTotalCartValue);
     this.categories$ = this.store.select(getTaxonomies);
-    this.categories$.subscribe(data => {
-          this.catList = { categories: data };
-          for(var i=0, len = data.length; i < len; i++){
-            this.copycatList[i] = data[i];
-          }
-          console.log(this.catList);
-        });
+    this.sortSubs = this.store.select(getSortSettings).subscribe(sort => {
+      this.sortSettings = sort;
+    });
+    this.catSubs = this.categories$.subscribe(data => {
+      // flatten level 1 and 2 categories
+      this.categories = data.concat([].concat.apply([], data.map(cat => cat.subCategories)));
+    });
+  }
+
+  ngOnDestroy() {
+    this.catSubs.unsubscribe();
+    this.sortSubs.unsubscribe();
+    if(this.subscription != undefined){
+      this.subscription.unsubscribe();
+    }
+  }
+  toggle() {
+    this.shouldShow = !this.shouldShow;
+    if (this.show) {
+      //return this.show = false;
+    }
+  }
+
+  selectCategory(...categories): void {
+    // if(typeof(index) != 'undefined') {
+    //   this.menuDelay.clicked[index] = true;
+    // }
+    let filters;
+    if(categories[0] == 'all') {
+      this.store.dispatch(this.productActions.getAllProducts(this.sortSettings));
+    } else {
+      filters = {
+        mode: 'category',
+        level: categories[0].level,
+        categoryId: categories[0].id,
+        breadcrumbs: categories.map(cat => { return {id: cat.id, name: cat.name, level: cat.level}}).reverse()
+      }
+      this.store.dispatch(this.productActions.getItemsByCategory(filters, this.sortSettings));
+    }
+    this.store.dispatch(this.searchActions.setFilter({
+      filters: filters ? [filters]: [],
+      categoryIds: []
+    }));
+    this.router.navigateByUrl('/');
+    window.scrollTo(0, 0);
+  }
+
+  searchKeyword(): void {
+    if(this.asyncSelected && this.asyncSelected.length > 1){
+      this.bShowProgress = true;
+      this.setProgressDisplayTimer();
+      const filters = {
+        mode: 'search',
+        keyword: this.asyncSelected
+      };
+      this.store.dispatch(this.searchActions.setFilter({
+        filters: [filters],
+        categoryIds: []
+      }));
+      this.store.dispatch(this.productActions.getItemsByKeyword(filters, this.sortSettings));
+      this.router.navigateByUrl('/');
+      window.scrollTo(0, 0);
+    }
+    setTimeout(() => this.inputString = '', 300);
+  }
+
+  onMenuToggle(): void{
+    this.cd.markForCheck();
+  }
+
+  //  NOTE: MEGA MENU DELAY CODE - START
+  /*
+  onMenuOver(e: any, index: number): void{
+    e.stopPropagation();
+    if(!this.menuDelay.clicked[index]) {
+      const dpmenu = this.dpmenus.toArray()[index];
+      const prev = this.dpmenus.find(data => data.isOpen);
+      if(!prev) {
+        this.menuDelay.show[index] = setTimeout(() => {
+          dpmenu.show();
+        }, 200)
+      } else {
+        clearTimeout(this.menuDelay.hide[index]);
+        prev.hide();
+        dpmenu.show();
+      }
+    }
+  }
+
+  onMenuLeave(e: any, index: number): void{
+    e.stopPropagation();
+    const dpmenu = this.dpmenus.toArray()[index];
+    clearTimeout(this.menuDelay.show[index]);
+    this.menuDelay.hide[index] = setTimeout(() => {
+      dpmenu.hide();
+    }, 50);
+    this.menuDelay.clicked[index] = false;
+  }
+
+  onSubMenuOver(e: any, index: number): void{
+    e.stopPropagation();
+    clearTimeout(this.menuDelay.hide[index]);
+  }
+
+  onSubMenuLeave(e: any, index: number): void{
+    e.stopPropagation();
+    const dpmenu = this.dpmenus.toArray()[index];
+    this.menuDelay.hide[index] = setTimeout(() => {
+      dpmenu.hide();
+    }, 50);
+  }
+  */
+  //  NOTE: MEGA MENU DELAY CODE - END
+
+  // NOTE: AUTO SUGGEST CODE - START
+  initAutoSuggest(): void {
     this.dataSource = Observable.create((observer: any) => {
       // Runs on every searchBar
       if(this.asyncSelected && this.asyncSelected.length > 1) {
@@ -66,82 +197,25 @@ export class HeaderComponent implements OnInit {
     }).mergeMap((token: string) => this.productService.getAutoSuggestItems(token)
         .map(data => {
           this.searchData = { items: data };
-          console.log(this.searchData);
+          // console.log(this.searchData);
           //this.itemList = data.list;
-          this.copyitemList = data.list;
-          //this.mergedList = Object.assign(this.itemList,this.catList);
-          //console.log(JSON.stringify(this.mergedList));
-          for(var i=0, len=this.copyitemList.length; i < len; i++){
-             this.copyitemList.push(this.copycatList[i]);
+          let dataItems = data.list;
+          let dataCategories = data.categories;
+          let mergedData = [], itemctr = 0, i = 0;
+
+          for(let key in dataItems) {
+            mergedData[itemctr++] = Object.assign({group:'ITEMS'}, dataItems[key]);
           }
-
-          var group_to_values = this.copyitemList.reduce(function (obj, item) {
-              if(item.brandName !== undefined){
-                 obj[item.name] = 'items';
-              }else{
-                 obj[item.name] = 'categories';
-              }
-              return obj;
-          }, {});
-
-          var groups = Object.keys(group_to_values).map(function (key) {
-              return {group: group_to_values[key], name:key };
-          });
-
-          for (var i = 0, len = groups.length; i < len; i++) {
-            groups[i]["id"] = this.copyitemList[i].id;
-            if(groups[i].group === 'items') {
-              groups[i]["price"] = this.copyitemList[i].displayPrice;
+          for(let key in dataCategories) {
+            mergedData[itemctr++] = Object.assign({group:'CATEGORIES'}, dataCategories[key]);
+            if(++i >= 5) {
+              break;
             }
-
-            //console.log(groups[i]);
           }
-
-          return groups;
-
+          return mergedData;
         })
     )
-
   }
-
-  ngOnInit() {
-    // this.store.dispatch(this.authActions.authorize());
-    this.isAuthenticated = this.store.select(getAuthStatus);
-    this.totalCartItems = this.store.select(getTotalCartItems);
-    this.categories$ = this.store.select(getTaxonomies);
-  }
-
-  selectAll() {
-    this.router.navigateByUrl('/');
-    this.store.dispatch(this.productActions.getAllProducts())
-  }
-
-  selectCategory(category) {
-    this.router.navigateByUrl('/');
-    // this.store.dispatch(this.searchActions.addFilter(category));
-    this.store.dispatch(this.productActions.getItemsByCategory(category))
-  }
-
-  onMenuToggle(){
-    this.cd.markForCheck();
-  }
-
-  // autoComplete(event){
-  //   const text = event.target.value;
-  //   if(text.length > 1) {
-  //     console.log(event.target.value);
-  //   }
-  // }
-  //
-  // getStatesAsObservable(token: string): Observable<any> {
-  //   let query = new RegExp(token, 'ig');
-  //
-  //   return Observable.of(
-  //     this.statesComplex.filter((state: any) => {
-  //       return query.test(state.name);
-  //     })
-  //   );
-  // }
 
   changeTypeaheadLoading(e: boolean): void {
     this.typeaheadLoading = e;
@@ -151,19 +225,70 @@ export class HeaderComponent implements OnInit {
     this.typeaheadNoResults = e;
   }
 
-  typeaheadOnSelect(e: TypeaheadMatch): void {
-    this.router.navigateByUrl(`/item/item-details/${e.item.id}`);
-    //this.router.navigate(['user/profile']);
+  typeaheadOnSelect(e): void {
+    if(e.key)
+    {
+      this.inputString = this.asyncSelected;
+      this.searchKeyword();
+    }
+    if(!this.inputString){
+      if(e.item.group.toUpperCase() == 'ITEMS') {
+        this.asyncSelected = e.item.name;
+        if(this.isHomeRoute) {
+          const slug = `/item/${e.item.id}/${e.item.slug}`;
+          window.history.pushState('item-slug', 'Title', slug);
+          this.store.dispatch(this.productActions.addSelectedItem(e.item));
+        } else {
+          this.router.navigateByUrl(`/item/${e.item.id}/${e.item.slug}`);
+        }
+      } else {
+        this.asyncSelected = e.item.name.replace(/\b\w/g, l => l.toUpperCase());
+        let category1, category2;
+        switch(e.item.level) {
+          case "1":
+            this.selectCategory(e.item)
+            break;
+          case "2": // selectCategory(level2, level1)
+            category1 = this.categories.find(cat => cat.id == e.item.category_id);
+            this.selectCategory(e.item, category1);
+            break;
+          case "3": // selectCategory(level3, level2, level1)
+            category2 = this.categories.find(cat => cat.id == e.item.category_id);
+            category1 = this.categories.find(cat => cat.id == category2.category_id);
+            this.selectCategory(e.item, category2, category1);
+            break;
+          }
+        }
+      }
+      else { this.asyncSelected = this.inputString; }
+    }
+  // NOTE: AUTO SUGGEST CODE - END
+
+  setProgressDisplayTimer(): void {
+    this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds
+      this.subscription = this.timer.subscribe(() => {
+      // set showloader to false to hide loading div from view after 5 seconds
+      this.bShowProgress = false;
+    });
   }
 
-  searchKeyword(): void {
-    this.router.navigateByUrl('/');
-    this.store.dispatch(this.productActions.getItemsBySearchSuccess(this.searchData))
-  }
   selectItem(item: Item) {
     this.selectedItem = item;
     this.store.dispatch(this.productActions.addSelectedItem(item));
-    this.itemDetailsModal.open();
+  }
+
+  getItemImageUrl(key) {
+    let url = "";
+    if (!key) {
+      url = "assets/omg-03.png";
+    } else {
+      url = environment.IMAGE_REPO + key + ".jpg";
+    }
+    return url;
+  }
+
+  onImageError(e: any): void {
+    e.target.src = "assets/omg-03.png";
   }
 
 }

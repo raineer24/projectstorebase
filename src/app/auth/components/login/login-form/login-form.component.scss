@@ -4,7 +4,7 @@
   margin-bottom: 20px;
   background-color: #fff;
   border: none;
-  border-radius: 0;
+  border-radius: 5px;
   box-shadow: 0 2px 15px rgba(0,0,0,.1);
   .panel-heading {
     padding: 30px 0 0;
@@ -114,14 +114,13 @@ fieldset {
 }
 
 .login-login-button {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  padding: 15px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  padding: 10px;
   display: block;
   width: 100%;
   border: 0;
-  text-transform: uppercase;
   border-radius: 3px;
 }
 
@@ -173,6 +172,7 @@ a {
 .login-button-container {
   margin-top: 10px;
   margin-bottom: 40px;
+  height: 40px;
 }
 
 @media (min-width: 360px) {

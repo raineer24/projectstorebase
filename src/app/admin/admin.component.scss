@@ -1,0 +1,26 @@
+.admin {
+  background-color: #444;
+}
+
+.navbar-nav {
+  float: right;
+}
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  width: 250px;
+  padding: 10px;
+}
+
+.container {
+  margin-left: 250px;
+  background-color: #fff;
+  min-height: calc(100vh - 50px);
+  width: calc(100vw - 250px);
+
+  .footer {
+    min-height: 56px;
+  }
+}

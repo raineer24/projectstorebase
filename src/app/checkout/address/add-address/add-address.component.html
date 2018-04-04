@@ -1,87 +1,116 @@
-<form *ngIf="!isAuthenticated" class="form" [formGroup]="emailForm">
-  <div class="email">
-    <label>
-      Email
-      <span class="required">*</span>
-    </label>
-    <input type="tel" class="full-width" formControlName="email">
-    <p *ngIf="emailForm.get('email').hasError('required') && emailForm.get('email').touched" class="value-err show">This is a mandatory field</p>
-  </div>
-</form>
-
-<form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()">
-  <input type="hidden" formControlName="country_id">
-  <div class="pincode">
-    <label>
-      Pin Code
-      <span class="required">*</span>
-    </label>
-    <input type="tel" class="half-width readonly" readonly formControlName="zipcode">
-    <p *ngIf="addressForm.get('zipcode').hasError('required') && addressForm.get('zipcode').touched" class="value-err show">This is a mandatory field</p>
-  </div>
-  <div class="locality">
-    <label>
-      Locality / Town
-      <span class="required">*</span>
-    </label>
-    <input type="text" class="full-width" formControlName="address2">
-    <p *ngIf="addressForm.get('address2').hasError('required') && addressForm.get('address2').touched" class="value-err show">This is a mandatory field</p>
-  </div>
-  <div>
-    <div class="city">
-      <label>
-        City / District
-        <span class="required">*</span>
-      </label>
-      <input type="text" class="half-width" formControlName="city">
-      <p *ngIf="addressForm.get('city').hasError('required') &&  addressForm.get('city').touched" class="value-err show">This is a mandatory field</p>
+<form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()" #formAddress="ngForm">
+  <div class="row">
+    <div class="col-sm-6 form-group">
+      <label for="firstname">First name</label><i>*</i>
+      <input type="text" id="firstname" formControlName="firstname" class="form-control" placeholder="First Name" required >
     </div>
-    <div class="state">
-      <label>
-        State
-        <span class="required">*</span>
-      </label>
-      <input type="text" class="half-width readonly" readonly formControlName="state_id">
+    <div class="col-sm-6 form-group">
+      <label for="lastname">Last name</label><i>*</i>
+      <input type="text" id="lastname" formControlName="lastname" class="form-control" placeholder="Last Name" required >
     </div>
   </div>
-  <div>
-    <div class="first-name">
-      <label>
-        First Name
-        <span class="required">*</span>
-      </label>
-      <input type="text" class="half-width" formControlName="firstname">
-      <p *ngIf="addressForm.get('firstname').hasError('required') &&  addressForm.get('firstname').touched" class="value-err show">This is a mandatory field</p>
+  <div class="row">
+    <div class="col-sm-6 form-group">
+      <label for="email">Email</label><i>*</i>
+        <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required >
     </div>
-    <div class="last-name">
-      <label>
-        Last Name
-        <span class="required">*</span>
-      </label>
-      <input type="text" class="half-width" formControlName="lastname">
-      <p *ngIf="addressForm.get('lastname').hasError('required') &&  addressForm.get('lastname').touched" class="value-err show">This is a mandatory field</p>
+    <div class="col-sm-4 form-group">
+      <label for="phone">Mobile Number</label><i>*</i>
+      <div class="form-inline">
+          <select name="prefix" formControlName="prefix" class="form-control">
+            <option value="+63">+63</option>
+          </select>
+          <input id="phone" name="phone" formControlName="phone" class="form-control input-md" required placeholder="9271234567" type="text">
+      </div>
+      <!-- <input type="text" id="phone" formControlName="phone" class="form-control"  placeholder="09271234567" required> -->
+    </div>
+    <div class="col-sm-2 form-group">
+      <label for="landline">Landline No.</label>
+      <input type="text" id="landline" formControlName="landline" class="form-control"  placeholder="3452124" required>
     </div>
   </div>
-  <div class="address">
-    <label>
-      Address
-      <span class="required">*</span>
-    </label>
-    <textarea type="text" class="full-width" formControlName="address1"></textarea>
-    <p *ngIf="addressForm.get('address1').hasError('required') &&  addressForm.get('address1').touched" class="value-err show">This is a mandatory field</p>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <label for="shippingAddress01">Address 1</label><i>*</i>
+      <input type="text" id="address1" formControlName="shippingAddress01" class="form-control" placeholder="Street Address, P.O. Box" required>
+    </div>
   </div>
-  <div class="mobile">
-    <label>
-      Mobile No
-      <span class="required">*</span>
-    </label>
-    <input type="tel" class="half-width" formControlName="phone">
-    <p *ngIf="addressForm.get('phone').hasError('required') &&  addressForm.get('phone').touched" class="value-err show">This is a mandatory field</p>
+  <div class="row">
+    <div class="col-sm-12 form-group">
+      <label for="shippingAddress02">Address 2</label>
+      <input type="text" id="address2" formControlName="shippingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
+    </div>
   </div>
-  <div *ngIf="isAuthenticated" class="save-button">
-    <button [disabled]="!addressForm.valid">SAVE</button>
+  <div class="row">
+    <div class="col-sm-5 form-group">
+      <label for="city">City/Municipality</label><i>*</i>
+      <input type="text" id="city" formControlName="city" class="form-control" placeholder="City/Municipality" required >
+    </div>
+    <div class="col-sm-2 form-group">
+      <label for="postalcode">Zip Code</label><i>*</i>
+      <input type="text" id="zipcode" formControlName="postalcode" class="form-control" placeholder="Zip Code" required >
+    </div>
+    <div class="col-sm-5 form-group">
+      <label for="country">Country</label><i>*</i>
+      <select class="form-control" id="country" formControlName="country">
+        <option value="Philippines">Philippines</option><i>*</i>
+        <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
+      </select>
+    </div>
   </div>
-  <div *ngIf="!isAuthenticated" class="save-button">
-    <button [disabled]="!addressForm.valid && !emailForm.valid">SAVE</button>
+  <!-- <div class="row">
+    <div class="col-sm-8 form-group">
+      <label for="specialInstructions">Special Instructions</label>
+      <textarea formControlName="specialInstructions" class="form-control" rows="4" placeholder="Landmarks, Delivery notes, etc"></textarea>
+    </div>
+  </div> -->
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+        <span class="note"><b>*</b>&nbsp;(required)</span>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 bg-info form-group">
+      <input class="check-billing" type="checkbox" formControlName="isBilling" [(ngModel)]="checkBilling">
+      <label class="check-billing" (click)="checkBilling=!checkBilling">Bill to a different address</label>
+    </div>
+  </div>
+  <ng-container *ngIf="checkBilling">
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label for="billingAddress01">Address 1</label>
+        <input type="text" formControlName="billingAddress01" class="form-control" placeholder="Street Address, P.O. Box" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 form-group">
+        <label for="billingAddress02">Address 2</label>
+        <input type="text" formControlName="billingAddress02" class="form-control" placeholder="Apartment, suite, unit, building, floor, etc." optional>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 form-group">
+        <label for="billCity">City/Municipality</label>
+        <input type="text" formControlName="billCity" class="form-control" placeholder="City/Municipality" required>
+      </div>
+      <div class="col-sm-2 form-group">
+        <label for="billPostalcode">Zip Code</label>
+        <input type="text" formControlName="billPostalcode" class="form-control" placeholder="Zip Code" required>
+      </div>
+      <div class="col-sm-5 form-group">
+        <label for="billCountry">Country</label>
+        <select class="form-control" formControlName="billCountry">
+          <option value="Philippines">Philippines</option>
+          <!-- <option *ngFor="let choice of countr">{{ctry}}</option> -->
+        </select>
+      </div>
+    </div>
+  </ng-container>
+  <div class="row pull-right">
+    <div class="col-sm-12">
+      <button class="btn btn-danger">Next <span class="glyphicon glyphicon glyphicon-chevron-right"></span></button>
+    </div>
   </div>
 </form>

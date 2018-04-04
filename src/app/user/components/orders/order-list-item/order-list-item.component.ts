@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Order } from '../../../../core/models/order';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
@@ -8,7 +7,8 @@ import { environment } from '../../../../../environments/environment';
   styleUrls: ['./order-list-item.component.scss']
 })
 export class OrderListItemComponent implements OnInit {
-  @Input() order: Order;
+  @Input() order: any;
+  @Input() tSlot: any;
 
   constructor() { }
 

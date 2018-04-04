@@ -1,0 +1,26 @@
+<div class="admin bg-dark">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/admin">OMG! Dashboard</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/admin">Messages</a></li>
+        <li><a href="/admin">Logout</a></li>
+      </ul>
+    </div>
+    <div class="sidebar">
+      <ul class="nav nav-pills nav-stacked">
+        <li routerLinkActive="active"><a [routerLink]="['/admin/orders']" >Orders</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/admin/users']" >Users</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/admin/menu3']">Menu 3</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/admin/others']">Others</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <router-outlet></router-outlet>
+    <footer></footer>
+  </div>
+</div>

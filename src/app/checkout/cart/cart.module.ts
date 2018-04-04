@@ -8,8 +8,9 @@ import { CartItemListComponent } from './components/cart-item-list/cart-item-lis
 import { CartItemComponent } from './components/cart-item-list/cart-item/cart-item.component';
 import { OrderTotalSummaryComponent } from './components/order-total-summary/order-total-summary.component';
 import { EmptyCartComponent } from './components/empty-cart/empty-cart.component';
-import { FormsModule } from "@angular/forms";
-import { SpinnerModule } from "primeng/primeng";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+// import { HeaderComponent } from "../../layout/header/header.component";
+// import { LayoutModule } from "../../layout/index";
 
 @NgModule({
   declarations: [
@@ -19,13 +20,18 @@ import { SpinnerModule } from "primeng/primeng";
     OrderTotalSummaryComponent,
     EmptyCartComponent
   ],
-  exports: [],
+  exports: [
+    // HeaderComponent,
+    CartItemListComponent,
+    CartItemComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     //BrowserModule,
-    SpinnerModule
+    // LayoutModule
   ],
   providers: []
 })

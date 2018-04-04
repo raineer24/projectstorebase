@@ -1,28 +1,56 @@
-<div class="del-lbl">
-  DELIVERY SPEED
-</div>
-<div class="del-options">
-  <div class="option">
-    <div class="option-name">
-      Standard delivery
-    </div>
-    <div class="option-rate">
-      Free delivery
+<br />
+<div class="calendar btn-group">
+  <div class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2"></div>
+    <div *ngFor="let timeslot of timeSlots" class="col-xs-1 col-md-1">
+      {{timeslot.date | date:'MMM dd'}}
     </div>
   </div>
-</div>
-<div class="mini-bag-summary">
-  <div class="items">{{totalCartItems$ | async}} ITEMS</div>
-  <div class="order-total">
-    <span>Order Total</span>
-    <span class="value">${{totalCartValue$ | async | number:'1.2-2'}}</span>
+  <div *ngFor="let slot of timeSlotRows; let i = index;" class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2">{{timeSlotLabels[i]}}</div>
+    <div *ngFor="let timeslots of timeSlots; let j = index" class="col-xs-1 col-md-1 ">
+      <ng-container *ngIf="isPastTime(j,i); else elseBlock1">
+        <label [ngClass]="['btn-warning','btn','btn-block']"
+          (click)="selectSlot($event)" #radioButtons disabled
+          [(ngModel)]="selectedTimeSlot" [btnRadio]="[j,i]">
+          <span class="hidden-xs hidden-sm">Closed</span>
+          <span class="hidden-md hidden-lg hidden-xl glyphicon glyphicon-ban-circle"></span>
+        </label>
+      </ng-container>
+      <ng-template #elseBlock1>
+        <ng-container *ngIf="selectedTimeSlot[0] == j && selectedTimeSlot[1] == i; else elseBlock2">
+          <label [ngClass]="['btn-success-selected','btn','btn-block']"
+            (click)="selectSlot($event)" #radioButtons
+            [(ngModel)]="selectedTimeSlot" [btnRadio]="[j,i]"><span class="glyphicon glyphicon-ok"></span></label>
+        </ng-container>
+      </ng-template >
+      <ng-template #elseBlock2>
+        <ng-container *ngIf="timeslots.range[i].booked < timeslots.range[i].max; else elseBlock3">
+          <label [ngClass]="['btn-default','btn','btn-block']"
+            (click)="selectSlot($event)" #radioButtons
+            [(ngModel)]="selectedTimeSlot" [btnRadio]="[j,i]">
+            <span class="hidden-xs hidden-sm">Open</span>
+            <span class="hidden-md hidden-lg hidden-xl glyphicon glyphicon-plus-sign"></span>
+          </label>
+        </ng-container>
+      </ng-template >
+      <ng-template #elseBlock3>
+        <label [ngClass]="['btn-danger','btn','btn-block']"
+          (click)="selectSlot($event)" #radioButtons disabled
+          [(ngModel)]="selectedTimeSlot" [btnRadio]="[j,i]">
+          <span class="hidden-xs hidden-sm">FULL</span>
+          <span class="hidden-md hidden-lg hidden-xl glyphicon glyphicon-remove-circle"></span>
+        </label>
+      </ng-template >
+    </div>
   </div>
-  <div class="shipping">
-    <span>Delivery</span>
-    <span class="shipping-fee c-green">FREE</span>
-  </div>
 </div>
-<div class="pay-lbl-total">
-  <span class="pay-lbl">Total Payable</span>
-  <span class="pay-total">${{totalCartValue$ | async | number:'1.2-2'}}</span>
+<div class="row">
+  <div class="col-md-12">
+    <div class="input-btn-group nav-but-grp pull-right">
+      <span *ngIf="isShowErrMsg" class="text-danger">Please select a delivery time slot!</span>
+      <button class="btn btn-danger" (click)="onBackBtn()"><span class="glyphicon glyphicon glyphicon-chevron-left"></span> Previous</button>
+      <button class="btn btn-danger" (click)="checkoutToPayment()"><span class="glyphicon glyphicon-barcode"></span>&nbsp; Proceed to payment</button>
+    </div>
+  </div>
 </div>

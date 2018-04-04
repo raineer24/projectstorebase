@@ -6,6 +6,7 @@ import { HttpService } from './http';
 import { AppState } from '../../interfaces';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../auth/actions/auth.actions';
+import { UserActions } from '../../user/actions/user.actions';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
   constructor(
     private http: HttpService,
     private actions: AuthActions,
+    private userActions: UserActions,
     private store: Store<AppState>
   ) {
 
@@ -101,24 +103,55 @@ export class AuthService {
    *
    * @memberof AuthService
    */
+  checkPartnerBuyer(id): Observable<any>{
+    return this.http.get(
+      `v1/user/account/partnerbuyeruser/${id}`)
+      .map((res: Response) => {
+      let data = res.json();
+      if (data.message == 'Found'){
+        return true;
+      } else { return false; }
+    } );
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
   register(data): Observable<any> {
     return this.http.post(
       'v1/user/account/save', data
     ).map((res: Response) => {
-      data = res.json();
-      if (data.message == 'Saved') {
+      let response = res.json();
+      console.log(data)
+      if (response.message == 'Saved') {
         // Setting token after login
-        this.setTokenInLocalStorage(res.json());
+        const d = Date.now();
+        this.setTokenInLocalStorage({
+          id: response.id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          mobileNumber: data.mobileNumber,
+          gender: data.gender,
+          dataCreated: d,
+          dateUpdated: d,
+          dateAuthorized: d,
+          dateTime: d
+        });
         this.store.dispatch(this.actions.loginSuccess());
       } else {
-        data.error = true;
+        response.error = true;
         this.http.loading.next({
           loading: false,
           hasError: true,
           hasMsg: 'Email already in use'
         });
       }
-      return data;
+      return response;
     });
     // catch should be handled here with the http observable
     // so that only the inner obs dies and not the effect Observable
@@ -139,7 +172,7 @@ export class AuthService {
       `v1/user/account/${ id }/save`, data
     ).map((res: Response) => {
       let result = res.json();
-      if (result.message == 'Updated') {
+      if (result.message.indexOf('Updated') >= 0) {
         let storedData = JSON.parse(localStorage.getItem('user'));
         data.message = result.message;
         for(let key in data) {
@@ -148,8 +181,12 @@ export class AuthService {
           }
         }
         this.setTokenInLocalStorage(storedData);
+        this.http.loading.next({
+          loading: false,
+          success: true,
+          message: `Profile was successfully saved.`
+        });
       } else {
-        result.error = true;
         // this.http.loading.next({
         //   loading: false,
         //   hasError: true,
@@ -220,14 +257,17 @@ export class AuthService {
    * @memberof AuthService
    */
   logout() {
-    return this.http.get('spree/logout.json')
-      .map((res: Response) => {
-        // Setting token after login
-        localStorage.removeItem('user');
-        this.store.dispatch(this.actions.logoutSuccess());
-        return res.json();
-      })
-      .catch(err => Observable.empty());
+    // return this.http.get('spree/logout.json')
+    // .map((res: Response) => {
+    //   // Setting token after login
+    //   localStorage.removeItem('user');
+    //   this.store.dispatch(this.actions.logoutSuccess());
+    //   return res.json();
+    // })
+    // .catch(err => Observable.empty());
+    localStorage.removeItem('user');
+    this.store.dispatch(this.actions.logoutSuccess());
+    return Observable.empty();
   }
 
   /**
@@ -242,4 +282,31 @@ export class AuthService {
     const jsonData = JSON.stringify(user_data);
     localStorage.setItem('user', jsonData);
   }
+
+
+  /**
+   *
+   *
+   *
+   * @param void
+   *
+   * @memberof AuthService
+   */
+  checkSessionPersistence(): void {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user) {
+      const d = Date.now();
+      const elapsedTime = d - user.dateAuthorized;
+      if(elapsedTime < 1800000) { //30 minutes
+        this.store.dispatch(this.actions.loginSuccess());
+        this.store.dispatch(this.userActions.getUserLists());
+        user.dateAuthorized = d;
+        this.setTokenInLocalStorage(user)
+      } else {
+        localStorage.removeItem('user');
+      }
+    }
+
+  }
+
 }

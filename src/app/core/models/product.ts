@@ -14,11 +14,12 @@ export class Product {
   name: string;
   description: string;
   price: string;
-  display_price: string;
+  displayPrice: string;
   available_on: string;
   slug: string;
   // meta_title: string;             // meta title is present in schema but it is not returned by the spree Api.
   meta_description: string;
+  imageKey: string;
   meta_keywords: string;
   shipping_category_id: number;
   taxon_ids: number[];

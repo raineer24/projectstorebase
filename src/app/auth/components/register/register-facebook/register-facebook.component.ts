@@ -31,14 +31,14 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
       let js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return; }
       js = d.createElement(s); js.id = id;
-      js.src = '//connect.facebook.net/en_US/sdk.js';
+      js.src = environment.FACEBOOK_SRC;
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
     window.fbAsyncInit = () => {
       console.log('fbasyncinit');
       FB.init({
-        appId            : '1858414594186264',
+        appId            : environment.FACEBOOK_APP_ID,
         autoLogAppEvents : true,
         xfbml            : true,
         version          : 'v2.10'
@@ -85,17 +85,18 @@ export class RegisterFacebookComponent implements OnInit, OnDestroy {
               this.loginSubs = this.authService.register(body).subscribe(data => {
                 const error = data.error;
                 if(!error) {
-                  this.router.navigate(['user/profile']);
+                  // this.router.navigate(['user/profile']);
                 }
               })
           } else {
-            this.router.navigate(['user/profile']);
+
+            // this.router.navigate(['user/profile']);
           }
-          //this.store.select(getAuthStatus).subscribe(
-          //  data => {
-          //    if (data === true) { this.router.navigate([this.returnUrl]); }
-          //  }
-          //);
+          this.store.select(getAuthStatus).subscribe(
+           data => {
+             if (data === true) { this.router.navigate([this.returnUrl]); }
+           }
+          );
         });
       });
     });

@@ -11,21 +11,52 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
     let _cartItems, _cartItemEntities, _cartItemIds,
         _cartItem, _cartItemEntity, _cartItemId,
-        _totalCartItems = 0, _totalCartValue,
-        _ship_address, _bill_address,
-        _orderState;
+        _totalCartItems = 0, _totalCartValue, _totalDiscount = 0, _totalAmountPaid = 0, _totalAmountDue = 0,
+        _ship_address, _bill_address, _giftCerts, _deliveryFee = 100, _serviceFee = 100, _grandTotal = 0,
+        _orderStatus, _orderId, _deliveryDate;
 
     switch (type) {
 
       case CheckoutActions.FETCH_CURRENT_ORDER_SUCCESS:
-        const _orderNumber = payload.number;
-        _cartItems = payload.line_items;
+        _orderId = payload.id;
+        _cartItems = payload.cartItems;
         _cartItemIds = _cartItems.map(cartItem => cartItem.id);
-        _totalCartItems = payload.total_quantity;
-        _totalCartValue = parseFloat(payload.total);
-        _ship_address = payload.ship_address;
-        _bill_address = payload.bill_address;
-        _orderState = payload.state;
+        _totalCartItems = Number(payload.totalQuantity);
+        _totalCartValue = parseFloat(payload.itemTotal);
+
+        if(_totalCartValue > 0){
+          _totalCartValue = _totalCartValue - _totalDiscount;
+        } else {
+          _totalCartValue = 0;
+          localStorage.setItem('confirmationPayment','');
+        }
+
+        if(payload.totalDiscount != null){
+            _totalDiscount = parseFloat(payload.totalDiscount);
+        } else if(localStorage.getItem('discount')!= '') {
+            _totalDiscount = Number(localStorage.getItem('discount'));
+        }
+        else {
+            _totalDiscount = 0;
+        }
+
+        if(payload.totalAmtPaid != null) {
+          _totalAmountPaid = parseFloat(payload.totalAmtPaid);
+
+
+        } else {
+          if(localStorage.getItem('payment') != '')
+           {
+             _totalAmountPaid = Number(localStorage.getItem('payment'));
+           } else { _totalAmountPaid = state.totalAmountPaid; }
+        }
+
+        _ship_address = payload.shippingAddress01;
+        _bill_address = payload.billingAddress01;
+        _orderStatus = payload.status;
+        _deliveryDate = payload.deliveryDate;
+        _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+        _totalAmountDue = _grandTotal - _totalAmountPaid;
 
         _cartItemEntities = _cartItems.reduce((cartItems: { [id: number]: CartItem }, cartItem: CartItem) => {
           return Object.assign(cartItems, {
@@ -34,14 +65,20 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }, { });
 
         return state.merge({
-          orderNumber: _orderNumber,
-          orderState: _orderState,
+          orderId: _orderId,
+          orderStatus: _orderStatus,
           cartItemIds: _cartItemIds,
           cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
+          totalDiscount: _totalDiscount,
+          totalAmountPaid: _totalAmountPaid,
+          totalAmountDue: _totalAmountDue,
+          grandTotal: _grandTotal,
           shipAddress: _ship_address,
-          billAddress: _bill_address
+          billAddress: _bill_address,
+          deliveryDate: _deliveryDate,
+          // giftCerts: _giftCerts
         }) as CheckoutState;
 
       case CheckoutActions.ADD_TO_CART_SUCCESS:
@@ -49,20 +86,25 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _cartItemId = _cartItem.id;
 
         // return the same state if the item is already included.
-        if (state.cartItemIds.includes(_cartItemId)) {
+        if (state.cartItemIds.includes(_cartItemId) || !_cartItem.id) {
           return state;
         }
 
         _totalCartItems = state.totalCartItems + _cartItem.quantity;
         _totalCartValue = state.totalCartValue + parseFloat(_cartItem.total);
+        _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
         _cartItemEntity = { [_cartItemId]: _cartItem };
         _cartItemIds = state.cartItemIds.push(_cartItemId);
+        _totalAmountDue = _grandTotal - _totalAmountPaid;
 
         return state.merge({
           cartItemIds: _cartItemIds,
           cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
           totalCartItems: _totalCartItems,
-          totalCartValue: _totalCartValue
+          totalCartValue: _totalCartValue,
+          grandTotal: _grandTotal,
+          totalAmountDue: _totalAmountDue,
+          // giftCerts: _giftCerts
         }) as CheckoutState;
 
       case CheckoutActions.REMOVE_CART_ITEM_SUCCESS:
@@ -74,41 +116,123 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _cartItemEntities = state.cartItemEntities.delete(_cartItemId);
           _totalCartItems = state.totalCartItems - _cartItem.quantity;
           _totalCartValue = state.totalCartValue - parseFloat(_cartItem.total);
+          _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+          _totalAmountDue = _grandTotal - _totalAmountPaid ;
+        }
+
+        if(_totalCartValue == 0)
+        {
+          localStorage.setItem('payment','');
+          localStorage.setItem('giftcert','');
+          localStorage.setItem('voucher','');
+          localStorage.setItem('discount','');
         }
 
         return state.merge({
           cartItemIds: _cartItemIds,
           cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
-          totalCartValue: _totalCartValue
+          totalCartValue: _totalCartValue,
+          totalAmountDue: _totalAmountDue,
+          totalDiscount: _totalDiscount,
+          // giftCerts:_giftCerts
         }) as CheckoutState;
 
-      case CheckoutActions.CHANGE_CART_ITEM_QUANTITY:
+      case CheckoutActions.UPDATE_CART_ITEM_SUCCESS:
         const quantity = payload.quantity;
         _cartItemId = payload.cartItemId;
         _cartItemEntities = state.cartItemEntities;
-        _cartItemEntities[_cartItemId][quantity] = quantity;
+        _cartItem = _cartItemEntities.get(_cartItemId.toString()).toJS();
+
+        const quantityDifference = quantity - _cartItem['quantity'];
+        const total = _cartItem['price'] * quantityDifference;
+
+        _cartItem['quantity'] = quantity;
+        _cartItem['total'] = _cartItem['price'] * quantity;
+        _cartItemEntity = { [_cartItemId]: _cartItem }
+        _totalCartItems = state.totalCartItems + quantityDifference;
+        _totalCartValue = state.totalCartValue + total;
+        _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+        _totalAmountDue = _grandTotal - _totalAmountPaid;
 
         return state.merge({
-          cartItemEntities: _cartItemEntities
+          cartItemEntities: state.cartItemEntities.merge(_cartItemEntity),
+          totalCartItems: _totalCartItems,
+          totalCartValue: _totalCartValue,
+          grandTotal: _grandTotal,
+          totalAmountDue: _totalAmountDue,
+          // giftCerts: _giftCerts
         }) as CheckoutState;
+
+      //case APPLY COUPON
+      case CheckoutActions.APPLY_COUPON:
+        _totalDiscount = payload.value;
+        _grandTotal = state.totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+        _totalAmountDue = _grandTotal - state.totalAmountPaid;
+        return state.merge({
+          totalDiscount: _totalDiscount,
+          grandTotal: _grandTotal,
+          totalAmountDue: _totalAmountDue
+        }) as CheckoutState;
+
+      //case REMOVE COUPON when input changed
+      case CheckoutActions.REMOVE_COUPON:
+        _totalDiscount = 0;
+        _grandTotal = state.totalCartValue + _serviceFee + _deliveryFee;
+        _totalAmountDue = _grandTotal - state.totalAmountPaid ;
+        return state.merge({
+          totalDiscount: _totalDiscount,
+          totalAmountDue: _totalAmountDue,
+          grandTotal: _grandTotal
+        }) as CheckoutState;
+
+      //case APPLY GC
+      case CheckoutActions.APPLY_GC:
+        _totalAmountPaid = state.totalAmountPaid + payload.value;
+        _totalAmountDue = state.grandTotal - _totalAmountPaid;
+        _giftCerts = state.giftCerts.push(payload.gCerts);
+        localStorage.setItem('payment',JSON.stringify(_totalAmountPaid));
+        localStorage.setItem('confirmationPayment',JSON.stringify(_totalAmountPaid));
+        return state.merge({
+          totalAmountPaid: _totalAmountPaid,
+          totalAmountDue: _totalAmountDue,
+          giftCerts: _giftCerts
+      }) as CheckoutState;
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
 
       case CheckoutActions.CHANGE_ORDER_STATE_SUCCESS:
-        _orderState = payload.state;
+        _orderStatus = payload.status;
 
         return state.merge({
-          orderState: _orderState
+          orderStatus: _orderStatus
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_ORDER_SUCCESS:
-        _ship_address = payload.ship_address;
-        _bill_address = payload.bill_address;
+        _orderStatus = payload.status;
 
         return state.merge({
+          orderStatus: _orderStatus
+        }) as CheckoutState;
+
+      case CheckoutActions.UPDATE_ADDRESS_SUCCESS:
+        _orderStatus = payload.status;
+        _ship_address = payload.shippingAddress;
+        _bill_address = payload.billingAddress;
+
+        return state.merge({
+          orderStatus: _orderStatus,
           shipAddress: _ship_address,
           billAddress: _bill_address
+        }) as CheckoutState;
+
+      case CheckoutActions.UPDATE_DELIVERY_OPTIONS_SUCCESS:
+        _orderStatus = payload.status;
+        _deliveryDate = payload.date;
+
+        return state.merge({
+          orderStatus: _orderStatus,
+          deliveryDate: _deliveryDate
         }) as CheckoutState;
 
       case CheckoutActions.ORDER_COMPLETE_SUCCESS:

@@ -11,20 +11,20 @@ import { Taxon } from './../../core/models/taxon';
 import { Product } from './../../core/models/product';
 import { Item } from './../../core/models/item';
 import { Category } from './../../core/models/category';
-import { Map, Record, List } from 'immutable';
+import { Map, Record, List, fromJS } from 'immutable';
 
 export interface ProductState extends Map<string, any> {
   productIds: List<number>;
   productEntities: Map<number, Item>;
   selectedProductId: number;
-  selectedProduct: Item;
+  selectedProduct: any;
   categories: List<Category>;
 }
 
 export const ProductStateRecord = Record({
   productIds: List([]),
   productEntities: Map({}),
-  selectedProductId: null,
-  selectedProduct: Map({}),
+  selectedProductId: Map({}),
+  selectedProduct: fromJS({}),
   categories: List([])
 });

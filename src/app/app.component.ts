@@ -3,8 +3,10 @@ import { AppState } from './interfaces';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { CheckoutService } from './core/services/checkout.service';
+import { AuthService } from './core/services/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { ProductActions } from './product/actions/product-actions';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +17,18 @@ export class AppComponent implements OnInit, OnDestroy {
   orderSub$: Subscription;
   currentUrl: string;
   currentStep: string;
-  checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment'];
-
+  checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment', '/checkout/confirm'];
+  homeUrls = ['/', '/item']
+  name: string;
+  show: boolean;
+  errorMessage:string;
+  private password = 'OmgLogin18!';
   constructor(
     private router: Router,
+    private authService: AuthService,
     private checkoutService: CheckoutService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private actions: ProductActions
     ) {
     router
       .events
@@ -30,22 +38,46 @@ export class AppComponent implements OnInit, OnDestroy {
         this.findCurrentStep(this.currentUrl);
         window.scrollTo(0, 0);
       });
+    
+  }
+  setValue() {
+    if (this.name == this.password) {
+      this.show = true;
+    }
+    (!this.name == !this.password) 
+    this.errorMessage = this.name;
   }
 
   ngOnInit() {
-    this.store.select(getAuthStatus).
-      subscribe(() => {
+    this.authService.checkSessionPersistence();
+    this.store.select(getAuthStatus)
+    .subscribe(() => {
         this.orderSub$ = this.checkoutService.fetchCurrentOrder()
           .subscribe();
       });
+    this.store.dispatch(this.actions.getAllProducts());
+    this.store.dispatch(this.actions.getAllTaxonomies());
   }
 
-  isCheckoutRoute() {
+  isHomeRoute() {
     if (!this.currentUrl) {
       return false;
     }
-    const index = this.checkoutUrls.indexOf(this.currentUrl);
+    const index = this.homeUrls.indexOf(this.currentUrl);
     if (index >= 0) {
+      return true;
+    } else if (this.currentUrl.indexOf('/item/') >= 0){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isAdminRoute() {
+    if (!this.currentUrl) {
+      return false;
+    }
+    if (this.currentUrl.indexOf('/admin') >= 0) {
       return true;
     } else {
       return false;

@@ -21,7 +21,7 @@ export class ProductEffects {
   @Effect()
     GetAllProducts$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ALL_PRODUCTS)
-    .switchMap((action: Action) => this.productService.getProducts())
+    .switchMap((action: Action) => this.productService.getProducts({},action.payload.options))
     .map((data: any) => this.productActions.getAllProductsSuccess({items: data}));
 
   @Effect()
@@ -30,16 +30,16 @@ export class ProductEffects {
     .switchMap((action: Action) => this.productService.getCategories())
     .map((data: any) => this.productActions.getAllTaxonomiesSuccess({categories: data}));
 
-  // @Effect()
-  // GetItemsBySearch$: Observable<Action> = this.actions$
-  //   .ofType(ProductActions.GET_ITEMS_BY_SEARCH)
-  //   .switchMap((action: Action) => this.productService.getItemsBySearch(action.payload))
-  //   .map((data: any) => this.productActions.getItemsBySearchSuccess(data));
+  @Effect()
+  GetItemsByKeyword$: Observable<Action> = this.actions$
+    .ofType(ProductActions.GET_ITEMS_BY_KEYWORD)
+    .switchMap((action: Action) => this.productService.getProducts(action.payload.params, action.payload.options))
+    .map((data: any) => this.productActions.getItemsByKeywordSuccess({items: data}));
 
   @Effect()
     GetItemsByCategory$: Observable<Action> = this.actions$
     .ofType(ProductActions.GET_ITEMS_BY_CATEGORY)
-    .switchMap((action: Action) => this.productService.getItemsByCategory(action.payload.id, action.payload.level))
+    .switchMap((action: Action) => this.productService.getProducts(action.payload.params, action.payload.options))
     .map((data: any) => this.productActions.getItemsByCategorySuccess({items: data}));
 
   // @Effect()

@@ -1,15 +1,3 @@
-<div *ngFor="let item of cartItems$ | async">
-  <app-cart-item [cartItem]="item"></app-cart-item>
+<div *ngFor="let item of cartItems$ | async; trackBy: trackByFn">
+  <app-cart-item [cartItem]="item" [isCartSummary]="isCartSummary"></app-cart-item>
 </div>
-<!-- <div class="row">
-  <div class="text-center">
-    <div class="col-xs-9">
-      <h6 class="text-right">Added items?</h6>
-    </div>
-    <div class="col-xs-3">
-      <button type="button" class="btn btn-default btn-sm btn-block">
-        Update cart
-      </button>
-    </div>
-  </div>
-</div> -->

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { getTotalCartValue, getOrderState, getTotalCartItems } from './../reducers/selectors';
+import { getTotalCartValue, getOrderState, getTotalCartItems, getTotalAmtDue, getTotalDiscount } from './../reducers/selectors';
 import { Observable } from 'rxjs/Observable';
 import { CheckoutService } from './../../core/services/checkout.service';
 import { CheckoutActions } from './../actions/checkout.actions';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { LineItem } from './../../core/models/line_item';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { getProducts, getTaxonomies } from "./../../product/reducers/selectors";
+import { getAuthStatus } from '../../auth/reducers/selectors';
 
 @Component({
   selector: 'app-cart',
@@ -17,10 +18,16 @@ import { getProducts, getTaxonomies } from "./../../product/reducers/selectors";
 export class CartComponent implements OnInit {
   totalCartValue$: Observable<number>;
   totalCartItems$: Observable<number>;
+  totalAmtDue$: Observable<number>;
+  totalDiscount$: Observable<number>;
+  isAuthenticated$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
     this.totalCartValue$ = this.store.select(getTotalCartValue);
     this.totalCartItems$ = this.store.select(getTotalCartItems);
+    this.totalAmtDue$ = this.store.select(getTotalAmtDue);
+    // this.totalDiscount$ = this.store.select(getTotalDiscount);
+    this.isAuthenticated$ = this.store.select(getAuthStatus);
   }
 
   ngOnInit() {

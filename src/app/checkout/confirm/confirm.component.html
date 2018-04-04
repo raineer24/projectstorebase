@@ -1,0 +1,58 @@
+<div>
+  <h1>Congratulations!</h1>
+  <ng-container *ngIf="orderDetails">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="small">Your Order Number is: <b>{{orderDetails.number}}</b> Please keep a record of this. An email notification has also been sent to your email address.
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Summary of Order <b>#{{orderDetails.number}}</b>, {{orderDetails.totalQuantity}} items ordered. This will be delivered to you on <b>{{deliveryDate | date:'fullDate'}}</b> at <b>{{timeSlot}} {{merridian}}</b>. </div>
+      <div class="panel-body">
+        <div class="row orderlist small">
+          <div *ngFor="let item of orderDetails.items">
+            <p class="col-xs-10">
+              {{item.name}} <i class="small">(Quantity: {{item.quantity}})</i>
+            </p>
+            <p class="col-xs-2 text-right">₱ {{(item.price * item.quantity) | number:'1.2-2'}}</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row small">
+          <div class="col-xs-12"><strong>Special instructions:</strong> {{orderDetails.specialInstructions ? orderDetails.specialInstructions : 'None'}}</div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Subtotal</h5></div>
+          <div class="col-xs-2 text-right text-primary"><h5>₱ {{orderDetails.subTotal | number:'1.2-2'}}</h5></div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Fees</h5></div>
+          <div class="col-xs-2 text-right text-primary"><h5>₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}</h5></div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Discount</h5></div>
+          <div class="col-xs-2 text-right"><h5 class="text-success">- ₱ {{orderDetails.discountTotal | number:'1.2-2'}}</h5></div>
+        </div>
+        <div class="row small">
+          <div class="col-xs-10 text-right"><h5>Credits</h5></div>
+          <div class="col-xs-2 text-right text-success"><h5 class="text-success">- ₱ {{orderDetails.paymentTotal | number:'1.2-2'}}</h5></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-10 text-right"><h4>Total</h4></div>
+          <div class="col-xs-2 text-right"><h4 class="text-primary">₱ {{orderDetails.amountTotal | number:'1.2-2'}}</h4></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="form-inline">
+    <button class="btn btn-danger" (click)="selectCategory('all')">Continue Shopping</button>
+    <!-- <button *ngIf="saveListState == 0" [routerLink]="['/']" class="btn btn-default" (click)="saveListState = 1">Save items to List</button> -->
+    <button *ngIf="saveListState == 0 && isAuthenticated$ | async" class="btn btn-default" (click)="saveListState = 1">Save items to List</button>
+    <div *ngIf="saveListState == 1" class="input-group">
+      <input type="text" class="form-control" placeholder="List Name" [(ngModel)]="inputNewList">
+      <div class="input-group-btn">
+        <button class="btn btn-danger" type="button" (click)="createNewList()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

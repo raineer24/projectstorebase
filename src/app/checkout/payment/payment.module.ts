@@ -9,6 +9,8 @@ import { PaymentModeComponent } from './payment-modes-list/payment-mode/payment-
 import { CreditCardComponent } from './payment-modes-list/credit-card/credit-card.component';
 import { NetBankingComponent } from './payment-modes-list/net-banking/net-banking.component';
 import { CashOnDeliveryComponent } from './payment-modes-list/cash-on-delivery/cash-on-delivery.component';
+import { CollapseModule, AccordionModule } from "ngx-bootstrap";
+import { ReviewOrderComponent } from './review-order/review-order.component';
 
 @NgModule({
   declarations: [
@@ -17,17 +19,18 @@ import { CashOnDeliveryComponent } from './payment-modes-list/cash-on-delivery/c
     PaymentModeComponent,
     CreditCardComponent,
     NetBankingComponent,
-    CashOnDeliveryComponent
+    CashOnDeliveryComponent,
+    ReviewOrderComponent
   ],
   exports: [],
   imports: [
     RouterModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CollapseModule.forRoot(),
+    AccordionModule.forRoot()
   ],
-  providers: [
-    PaymentService
-  ]
+  providers: [PaymentService]
 })
-export class PaymentModule { }
+export class PaymentModule {}

@@ -5,19 +5,23 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-content',
   template: `
-    <app-item-list [(toggleLayout)]='toggleLayout'
-      [items]='products'
-      [taxonIds]="taxonIds"
-      [cartItems]="cartItemsArr">
+    <app-content-header [filterSettings]="filters" [sortSettings]="sorting"></app-content-header>
+    <app-item-list [(toggleLayout)]="toggleLayout"
+      [items]="items"
+      [categories]="categories"
+      [cartItems]="cartItemsArr"
+      [sortSettings]="sorting"
+      [filterSettings]="filters" >
     </app-item-list>
   `,
 //   styleUrls: ['./content-header.component.scss']
 })
 export class ContentComponent implements OnInit {
-  // @Input() products: Product[];
-  @Input() products: Item[];
+  @Input() items: Item[];
+  @Input() categories: any;
   @Input() cartItemsArr: Item[];
-  @Input() taxonIds;
+  @Input() filters: any;
+  @Input() sorting: any;
   toggleLayout = {size: 'COZY'};
 
   constructor() { }

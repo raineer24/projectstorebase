@@ -10,11 +10,11 @@
     padding-top: 2px;
 		color: #ea6c6c;
 	}
-	.pincode, 
-	.locality, 
-	.city, 
-	.state, 
-	.first-name, 
+	.pincode,
+	.locality,
+	.city,
+	.state,
+	.first-name,
 	.last-name,
 	.address,
 	.mobile,
@@ -86,9 +86,41 @@
 			height: 48px;
 			background: #0bc6a0;
 			font-weight: 600;
-			font-family: "Whitney-semi-bold";
 			box-shadow: none;
 			border: none;
 		}
 	}
+	input.ng-invalid.ng-touched {
+	  border: 1px solid red;
+	}
+	select.ng-invalid.ng-touched {
+	  border: 1px solid red;
+	}
+	textarea {
+		resize: vertical; min-height: 80px;
+	}
 }
+
+.note {
+  color: #898989;
+  font-style: italic;
+}
+
+.check-billing {
+	cursor: pointer;
+}
+
+// .form input {
+//   margin: 0 .25rem;
+//   min-width: 125px;
+//   border: 1px solid #eee;
+//   border-left: 3px solid;
+//   border-radius: 5px;
+//   transition: border-color .5s ease-out;
+// }
+// .form input:required {
+//   border-left-color: palegreen;
+// }
+// .form input:invalid {
+//   border-left-color: salmon;
+// }

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Item } from './../models/item';
 import { CartItem } from './../models/cart_item';
+import { Order } from './../models/order';
 import { AppState } from './../../interfaces';
 import { Store } from '@ngrx/store';
 import { HttpService } from './http';
@@ -26,8 +27,8 @@ export class CheckoutService {
     private actions: CheckoutActions,
     private store: Store<AppState>,
   ) {
-      this.store.select(getOrderNumber)
-        .subscribe(number => this.orderNumber = number);
+      // this.store.select(getOrderNumber)
+        // .subscribe(number => this.orderNumber = number);
     }
 
 //  Change below methods once angular releases RC4, so that this methods can be called from effects
@@ -42,30 +43,101 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   createNewCartItem(item: Item) {
-    // return this.http.post(
-    //   `spree/api/v1/orders/${this.orderNumber}/line_items?order_token=${this.getOrderToken()}`,
-    //   {
-    //     line_item: {
-    //       variant_id: variant_id,
-    //       quantity: 1
-    //     }
-    //   }
-    // ).map(res => {
-    //   const lineItem: CartItem =  res.json();
-    //   return lineItem;
-    // }).catch(err => Observable.empty());
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
+    return this.http.post(`v1/orderItem`,
+        {
+          "user_id": userId,
+          "item_id": item.id,
+          "quantity": 1,
+          "orderkey": this.getOrderKey()
+        }
+      ).map(res => {
+          const data = res.json();
+          let returnData;
+          if(data.message == 'Saved') {
+            returnData = {
+             "id": data.id,
+             "quantity": 1,
+             "price": Number(item.price),
+             "total": Number(item.price),
+             "item_id": item.id,
+             "item": item
+           }
+            this.http.loading.next({
+              loading: false,
+              success: true,
+              message: `${item.name} added to cart.`
+            });
+          } else {
+            returnData = new CartItem;
+            this.http.loading.next({
+              loading: false,
+              error: true,
+              message: `${item.name} already in cart.`
+            });
+          }
+         return returnData;
+      }).catch(err => Observable.empty());
+  }
 
+ /**
+  *
+  *
+  * @returns
+  *
+  * @memberof CheckoutService
+  */
+  fetchCurrentOrder() {
+    const orderStorage = this.getOrderInLocalStorage();
+    const orderkey = orderStorage != null ? orderStorage.order_token: null;
+    if(orderkey) { console.log("CURRENT ORDER KEY")
+      return this.http.get(`v1/order?orderkey=${orderkey}`
+      // ).map(res => res.json()
+      ).mergeMap(res => {
+        let order:any = {};
+        order = res.json();
+        if(order.id) { console.log("FETCH CURRENT ORDER")
+          return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`
+          ).mergeMap(res2 => {
+            let cart_items = [], total = 0, total_quantity = 0, discount = 0,
+                              amtDue = 0, amtPaid = 0;
+            const data = res2.json();
+            for (let datum of data) {
+              cart_items.push(this.formatCartItem(datum));
+              total += Number(datum.price) * datum.quantity;
+              total_quantity += Number(datum.quantity);
+              discount = Number(datum.discount);
+              amtDue = Number(datum.totalAmtDue);
+              amtPaid = Number(datum.totalAmtPaid);
 
-     const dummy = [{
-      id: Math.random(),
-      quantity: 1,
-      price: Number(item.price),
-      total: Number(item.price),
-      item_id: item.id,
-      item: item
-    }]
+            }
+            order.cartItems =  cart_items;
+            order.totalQuantity = total_quantity.toString();
+            order.itemTotal = total.toString();
+            order.discount = discount.toString();
+            order.adjustmentTotal= amtDue.toString();
+            order.paymentTotal = amtPaid.toString();
+            order.shippingAddress01 = orderStorage.shipping_address;
+            order.billingAddress01 = orderStorage.billing_address;
 
-    return dummy;
+            return this.http.get(`v1/timeslotorder/${order.id}`
+            ).map(res3 => {
+              const date = res3.json();
+              order.deliveryDate = {
+                date: date.date,
+                timeslotId: date.timeslot_id
+              }
+              return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+            })
+          })
+        } else { console.log("CREATE NEW ORDER")
+          return this.createNewOrder();
+        }
+      })
+    } else { console.log("NEW ORDER KEY")
+      return this.createNewOrder();
+    }
   }
 
   /**
@@ -75,20 +147,37 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  fetchCurrentOrder() {
-    return this.http.get(
-      'spree/api/v1/orders/current'
-    ).map(res => {
-      const order = res.json();
-      if (order) {
-        const token = order.token;
-        this.setOrderTokenInLocalStorage({order_token: token});
-        return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-      } else {
-        this.createEmptyOrder()
-          .subscribe();
-      }
-    }).catch(err => Observable.empty());
+  createNewOrder() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
+    return this.http.get(`v1/orderkey`
+    ).map(res => res.json()
+    ).mergeMap(data => {
+      const orderkey = data.orderkey;
+      this.setOrderTokenInLocalStorage({
+        order_token: orderkey,
+        shipping_address: '',
+        billing_address: ''
+      });
+      return this.http.post('v1/order', {
+          orderkey: orderkey,
+          status: 'cart',
+          useraccount_id: userId
+        }).map(orderId => {
+          let order:any = {};
+          order.id = orderId.json()['id'];
+          order.number = "0";
+          order.orderkey = orderkey;
+          order.cartItems =  [];
+          order.totalQuantity = "0";
+          order.itemTotal = "0";
+          order.shippingAddress01 = '';
+          order.billingAddress01 = '';
+          order.deliveryDate = '';
+          order.status = 'cart';
+          return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+        })
+    });
   }
 
   /**
@@ -99,15 +188,18 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  getOrder(orderNumber) {
-    return this.http.get(
-      `spree/api/v1/orders/${orderNumber}.json`
-    ).map(res => {
-      const order = res.json();
-      return order;
-    }).catch(err => Observable.empty());
+  getOrder(orderKey) {
+    return this.http.get(`v1/order?orderkey=${orderKey}`)
+      .map(res => res.json())
+      .flatMap((order: any) => {
+        return this.http.get(`v1/orderItem?limit=5000&key=${orderKey}`)
+          .map(res => {
+            order.items = res.json()
+            return order;
+          })
+      })
+      .catch(err => Observable.empty());
   }
-
 
   /**
    *
@@ -142,13 +234,101 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
   deleteCartItem(cartItem: CartItem) {
-    return this.http.delete(`spree/api/v1/orders/${this.orderNumber}/line_items/${cartItem.id}?order_token=${this.getOrderToken()}`)
-      .map(() => {
+    return this.http.delete(`v1/orderItem/${cartItem.id}`)
+      .map(res => {
+        this.http.loading.next({
+          loading: false,
+          info: true,
+          message: `${cartItem.item.name} removed from cart.`
+        });
         this.store.dispatch(this.actions.removeCartItemSuccess(cartItem));
       }).catch(err => Observable.empty());
   }
 
   /**
+   *
+   *
+   * @param {CartItem} cartItem
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  updateCartItem(cartItem: CartItem) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
+    return this.http.put(`v1/orderItem/${cartItem.id}`, {
+        "user_id": userId,
+        "item_id": cartItem.item.id,
+        "quantity": cartItem.quantity,
+        "orderkey": this.getOrderKey()
+      }
+    ).map((res) => {
+      return cartItem;
+    }).catch(err => Observable.empty());
+  }
+
+  /**
+    * @param {any} gcCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    getGC(gcCode) {
+      console.log("SEARCHING FOR GIFTCERT");
+      console.log(gcCode);
+      return this.http.get(`v1/gc/${gcCode}`).map(res => {
+        const gc = res.json();
+        console.log(gc);
+        return gc;
+     }).catch(err => Observable.empty());
+    }
+
+  /**
+    * @param {any} vCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    getvoucher(vCode) {
+          console.log("SEARCHING FOR VOUCHER");
+          return this.http.get(`v1/voucher/${vCode}`).map(res => {
+            const v = res.json();
+            return v;
+         }).catch(err => Observable.empty());
+    }
+
+  /**
+    * @param {any} vCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+    updateVoucherStatus(vCode) {
+      console.log("UPDATING VOUCHER - STATUS " + vCode);
+      return this.http.put(`v1/voucher/${vCode}`,{
+        status:'consumed'
+        }).map(res => {
+          return res.json();
+      }).catch(err => Observable.empty());
+    }
+
+    /**
+      * @param {any} gcCode
+      * @returns
+      *
+      * @memberof CheckoutService
+      */
+      updateGC_status(gcCode) {
+        console.log("UPDATING GIFTCERT - STATUS");
+        return this.http.put(`v1/gc/${gcCode}`,{
+          status:'used'
+          }).map(res => {
+            return res.json();
+        }).catch(err => Observable.empty());
+      }
+
+
+  /**return res.json();
    *
    *
    * @returns
@@ -157,7 +337,7 @@ export class CheckoutService {
    */
   changeOrderState() {
     return this.http.put(
-      `spree/api/v1/checkouts/${this.orderNumber}/next.json?order_token=${this.getOrderToken()}`,
+      `spree/api/v1/checkouts/${this.orderNumber}/next.json?order_token=${this.getOrderKey()}`,
       {}
     ).map((res) => {
       const order = res.json();
@@ -173,14 +353,131 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
-  updateOrder(params) {
-    return this.http.put(
-      `spree/api/v1/checkouts/${this.orderNumber}.json?order_token=${this.getOrderToken()}`,
-      params
-    ).map((res) => {
+  updateOrder(params: any) {
+    const orderkey = this.getOrderKey();
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
+    params['useraccount_id'] = userId;
+    return this.http.put(`v1/order/${orderkey}`,params)
+    .map((res) => {
       const order = res.json();
-      this.store.dispatch(this.actions.updateOrderSuccess(order));
+      switch (params.status) {
+        case 'cart': console.log("UPDATE CART")
+          this.store.dispatch(this.actions.updateOrderSuccess({status: 'address'}));
+          break;
+        case 'address': console.log("UPDATE ADDRESS")
+          const address = {
+            'shippingAddress': {
+              'firstname': params.firstname,
+              'lastname': params.lastname,
+              'phone': params.phone,
+              'shippingAddress01': params.shippingAddress01,
+              'shippingAddress02': params.shippingAddress02,
+              'email': params.email,
+              'city': params.city,
+              'postalcode': params.postalcode,
+              'country': params.country,
+              'specialInstructions': params.specialInstructions
+            },
+            'billingAddress': {
+              'billCity': params.billCity,
+              'billCountry': params.billCountry,
+              'billingAddress01': params.billingAddress01,
+              'billingAddress02': params.billingAddress02,
+              'billPostalcode': params.billPostalcode
+            },
+            'status': 'delivery'
+          }
+          this.setOrderTokenInLocalStorage(
+            {
+              order_token: orderkey,
+              shipping_address: address.shippingAddress,
+              billing_address: address.billingAddress
+            }
+          )
+          this.store.dispatch(this.actions.updateOrderAddressSuccess(address));
+          break;
+        case 'delivery': console.log("UPDATE DELIVERY")
+          break;
+        // case 'payment':
+        //   break;
+        // case: 'confirm':
+        //   break;
+      }
+
     }).catch(err => Observable.empty());
+  }
+
+  updateOrderPayment(params: any) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user.id: 0;
+    params['useraccount_id']= userId;
+    params['orderkey'] = this.getOrderKey();
+    return this.http.put(`v1/order/${params.id}/payment`, params)
+    .map(res => {
+      const response = res.json();
+      if(response.message.indexOf('Processed') >= 0) {
+        this.store.dispatch(this.actions.orderCompleteSuccess());
+        this.createNewOrder().subscribe();
+      } else {
+        this.showErrorMsg('payment');
+      }
+      return response;
+    })
+  }
+
+  getAllTimeSlot() {
+    return this.http.get(`v1/timeslotorder`
+    ).map((res) => {
+      return res.json();
+    })
+  }
+
+  getTimeSlotOrder(id: number) {
+    return this.http.get(`v1/timeslotorder/${id}`
+    ).map((res) => {
+      return res.json();
+    })
+  }
+
+  setTimeSlotOrder(params) {
+    return this.http.post(`v1/timeslotorder`, params
+    ).map((res) => {
+      const response = res.json();
+      if(response.message == 'Slot is full') {
+        this.showErrorMsg('timeslot');
+      } else {
+        const date = {
+          'status': 'payment',
+          'date': {
+            'date': params.date,
+            'timeslotId': params.timeslot_id
+          }
+        }
+        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
+      }
+      return response;
+    })
+  }
+
+  updateTimeSlotOrder(params) {
+    return this.http.put(`v1/timeslotorder/${params.order_id}`, params
+    ).map((res) => {
+      const response = res.json();
+      if(response.message == 'Slot is full') {
+        this.showErrorMsg('timeslot');
+      } else {
+        const date = {
+          'status': 'payment',
+          'date': {
+            'date': params.date,
+            'timeslotId': params.timeslot_id
+          }
+        }
+        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
+      }
+      return response;
+    })
   }
 
   /**
@@ -192,7 +489,7 @@ export class CheckoutService {
    */
   availablePaymentMethods() {
     return this.http.get(
-      `spree/api/v1/orders/${this.orderNumber}/payments/new?order_token=${this.getOrderToken()}`
+      `spree/api/v1/orders/${this.orderNumber}/payments/new?order_token=${this.getOrderKey()}`
     ).map((res) => {
       const payments = res.json();
       return payments;
@@ -210,7 +507,7 @@ export class CheckoutService {
    */
   createNewPayment(paymentModeId, paymentAmount) {
     return this.http.post(
-      `spree/api/v1/orders/${this.orderNumber}/payments?order_token=${this.getOrderToken()}`,
+      `spree/api/v1/orders/${this.orderNumber}/payments?order_token=${this.getOrderKey()}`,
       {
         payment: {
           payment_method_id: paymentModeId,
@@ -226,14 +523,57 @@ export class CheckoutService {
   /**
    *
    *
-   * @private
+   * @param string
+   * @returns void
+   *
+   * @memberof CheckoutService
+   */
+
+  showErrorMsg(mode: string): void {
+    let message = '';
+    switch (mode) {
+      case 'address':
+        message = `Please enter required information.`;
+        break;
+      case 'delivery':
+        message = `Please select a delivery time slot.`;
+        break;
+      case 'timeslot':
+        message = `Slot is already full. Please select another slot.`;
+        break;
+      case 'payment':
+        message = `Error occured. Please review your order and try again.`;
+        break;
+      case 'voucher':
+        message = "Please enter a valid coupon.";
+        break;
+      case 'giftcert':
+        message = "Please enter a valid gift certificate";
+        break;
+    }
+    this.http.loading.next({
+      loading: false,
+      hasError: true,
+      hasMsg: message,
+      reset: 4500
+    });
+   }
+
+
+  /**
+   *
+   *
+   *
    * @returns
    *
    * @memberof CheckoutService
    */
-  private getOrderToken() {
+  getOrderKey() {
     const order = JSON.parse(localStorage.getItem('order'));
-    const token = order.order_token;
+    let token = null;
+    if(order) {
+      token = order.order_token;
+    }
     return token;
   }
 
@@ -249,4 +589,87 @@ export class CheckoutService {
     const jsonData = JSON.stringify(token);
     localStorage.setItem('order', jsonData);
   }
+
+  /**
+   *
+   *
+   * @private
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  private getOrderInLocalStorage() {
+    const order = JSON.parse(localStorage.getItem('order'));
+    return order;
+  }
+
+  /**
+   *
+   *
+   * @private
+   * @param {any} token
+   *
+   * @memberof CheckoutService
+   */
+  private setOrderInLocalStorage(params): void {
+    const keys = Object.keys(params)
+    keys.forEach(val => {
+      // order[val]
+    });
+  }
+
+  /**
+   *
+   *
+   * @private
+   * @param {any} []
+   * @returns cartItem
+   *
+   * @memberof CheckoutService
+   */
+  private formatCartItem(datum): any {
+    return {
+      "id": datum.orderItem_id,
+      "quantity": Number(datum.quantity),
+      "price": Number(datum.price),
+      "total": (Number(datum.price) * datum.quantity),
+      "item_id": datum.item_id,
+      "item": {
+        "id": datum.item_id,
+        "code": datum.code,
+        "name": datum.name,
+        "brandName": datum.brandName,
+        "price": datum.price,
+        "displayPrice": datum.displayPrice,
+        "hasVat": datum.hasVat,
+        "isSenior": datum.isSenior,
+        "weighted": datum.weighted,
+        "packaging": datum.packaging,
+        "packageMeasurement": datum.packageMeasurement,
+        "sizing": datum.sizing,
+        "packageMinimum": datum.packageMinumum,
+        "packageIntervals": datum.packageIntervals,
+        "availableOn": datum.availableOn,
+        "imageKey": datum.imageKey,
+        "slug": datum.slug,
+        "enabled": datum.enabled,
+        "sellerAccount_id": datum.sellerAccount_id,
+        "dateCreated": datum.dateCreated,
+        "dateUpdated": datum.dateUpdate
+      }
+    }
+
+  }
+  // /**
+  //  *
+  //  *
+  //  * @private
+  //  * @returns
+  //  *
+  //  * @memberof CheckoutService
+  //  */
+  // private getGCfromLocalStorage() {
+  //   const gc = JSON.parse(localStorage.getGC('code'));
+  //   return gc;
+  // }
 }

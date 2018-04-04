@@ -1,18 +1,30 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item text-primary" aria-current="page">Profile</li>
+  </ol>
+</nav>
+
 <div class="form-horizontal">
 
 	<div class="form-group">
-	  <label class="col-md-4 control-label" for="textinput">Email</label>
-		<div class="col-md-4">{{ userData.email }}</div>
+	  <label class="col-md-3 control-label" for="textinput">Email</label>
+		<div class="col-md-9">
+			<p class="form-control-static">{{ userData.email }}</p>
+		</div>
 	</div>
 
 	<div class="form-group">
-			<label class="col-md-4 control-label" for="textinput">Last Name</label>
-			<div class="col-md-4">{{ userData.lastName }}</div>
+			<label class="col-md-3 control-label" for="textinput">Last Name</label>
+			<div class="col-md-9">
+				<p class="form-control-static">{{ userData.lastName }}</p>
+			</div>
 	</div>
 
 	<div class="form-group">
-			<label class="col-md-4 control-label" for="textinput">First Name</label>
-			<div class="col-md-4">{{ userData.firstName }}</div>
+			<label class="col-md-3 control-label" for="textinput">First Name</label>
+			<div class="col-md-9">
+				<p class="form-control-static">{{ userData.firstName }}</p>
+			</div>
 	</div>
 	<!-- <div class="form-group">
       <label for="birthDate" class="col-md-4 control-label">Date of Birth</label>
@@ -27,18 +39,22 @@
       </div>
    </div> -->
 	<div class="form-group">
-			<label class="col-md-4 control-label" for="textinput">Gender</label>
-			<div class="col-md-4">{{ userData.gender == 'M' ? 'Male': 'Female'}}</div>
+			<label class="col-md-3 control-label" for="textinput">Gender</label>
+			<div class="col-md-9">
+				<p class="form-control-static">{{ userData.gender == 'M' ? 'Male': 'Female'}}</p>
+			</div>
 	</div>
 
 	<div class="form-group">
-			<label class="col-md-4 control-label" for="textinput">Mobile Number</label>
-			<div class="col-md-4">{{ userData.mobileNumber }}</div>
+			<label class="col-md-3 control-label" for="textinput">Mobile Number</label>
+			<div class="col-md-9">
+				<p class="form-control-static">{{ userData.mobileNumber }}</p>
+			</div>
 	</div>
 
 	<div class="form-group">
-	  <label class="col-md-4 control-label"></label>
-	  <div class="col-md-8">
+	  <label class="col-md-3 control-label"></label>
+	  <div class="col-md-9">
 	    <button id="Update" name="update-btn" type="button" class="btn btn-success" (click)="onUpdateClick()">Update Profile</button>
 	  </div>
 	</div>

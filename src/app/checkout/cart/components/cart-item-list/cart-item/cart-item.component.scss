@@ -1,3 +1,6 @@
+.item-delete {
+  border: 0px;
+}
 .prod-item {
 	background: #fff;
 	border: 1px solid #eaeaec;
@@ -31,7 +34,6 @@
     	padding: 5px 5px 5px 0;
 			a {
 				font-size: 14px;
-				font-family: "Whitney-semi-bold";
 				font-weight: 600;
     		color: #535766;
     		margin-right: 6px;
@@ -44,7 +46,7 @@
 			vertical-align: top;
 			font-weight: 600;
 			font-size: 14px;
-			font-family: "Whitney-semi-bold";
+			// font-family: "Whitney-semi-bold";
     	color: #535766;
 			margin-left: 20px;
 		}
@@ -87,7 +89,7 @@
 			padding-left: 0;
 			color: #696e79;
 			.delete-item, .move-item {
-				font-family: "Whitney-semi-bold";
+				// font-family: "Whitney-semi-bold";
 				margin: 0 15px 0 0;
 				cursor: pointer;
 			}
@@ -96,4 +98,83 @@
 			}
 		}
 	}
+}
+.panel {
+	background-color: transparent;
+	box-shadow: none;
+	font-family: helvetica neue;
+  margin-bottom: 0px;
+}
+.panel .btn-danger {
+	// background: #ff5848;
+	border-color: transparent;
+
+}
+.list-inline {
+  margin: 0px;
+}
+.list-inline .glyphicon {
+	// font-size: 14px;
+  // color: #ffffff;
+  // padding: 4px;
+  // left: -1px;
+}
+.row-cart {
+  margin-bottom: 5px;
+
+  li:first-child {
+    text-align: center;
+  }
+  img {
+    max-height: 60px;
+    display: inline-block;
+  }
+  input {
+    border: 1px solid #b5beef;
+  }
+}
+
+.cart-summary {
+  img {
+    max-height: 45px;
+  }
+  li {
+    line-height: 50px;
+  }
+  input {
+    float: none;
+    height: 22px;
+    padding: 2px;
+  }
+  .item-name {
+    line-height: normal;
+    padding: 5px;
+    font-family:sans-serif;
+  }
+}
+
+input {
+	background: transparent;
+	text-align: center;
+}
+.cart-btns {
+  // background: transparent;
+  // background: #ff5848;
+  border-radius: 0;
+}
+.cart-add {
+
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.product-name {
+  font-family: Sans-Serif;
 }

@@ -1,38 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../node_modules/primeng/resources/themes/omega/theme.css';
-
-
-
-
 
 @font-face {
-    font-family: "Whitney-semi-bold";
-    src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
+  // font-family: "Whitney-semi-bold";
+  // src: url("assets/WhitneyHTF-SemiBold.woff") format("woff")
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
 @font-face {
-    font-family: "Whitney";
-    src: url("assets/WhitneyHTF-Book.woff") format("woff")
+  // font-family: "Whitney";
+  // src: url("assets/WhitneyHTF-Book.woff") format("woff")
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 // bootstrap fonts
 $icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap/";
-
 @import "app/shared/scss/themes";
 @import "app/shared/scss/custom_bootstrap";
-@import url('../node_modules/font-awesome/css/font-awesome.min.css');
-
 body {
   font-size: 15px;
   line-height: 1.5;
-  color: #697071;
-  background-color: #fff;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #ff005d;
+  padding-top: 120px;
+  padding-top: 78px;
+}
+
+section {
+  background: #ffffff;
 }
 
 .col-centered {
   float: none;
   margin: 0 auto;
+  opacity: 0.9;
 }
 
 .row-base {
@@ -62,17 +63,39 @@ body {
   border-bottom: 0px;
   min-height: 40px !important;
 }
+
 main[_ngcontent-c0] {
-    padding: 0px !important;
-    background: #f7f7f7;
+  padding: 0px !important;
 }
 
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+.nav .open>a,
+.nav .open>a:hover {
+  color: #ff005d;
+}
+
+.nav .open>a:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
+  background: #ff005d;
+  color: #ffffff;
 }
+
+.nav>li>a:hover,
+.nav>li>a:focus {
+  color: #ff005d;
+}
+
+.navbar-right>li>a {
+  color: #ff005d;
+}
+@media screen and (max-width: 900px) {
+  .navbar-nav>li>a {
+    font-size: 12px;
+  }
+}
+
 @media (min-width: 768px) {
-  .navbar-nav > li > a {
+  .navbar-nav>li>a {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
   }
@@ -81,25 +104,31 @@ main[_ngcontent-c0] {
 html {
   overflow-y: scroll;
 }
+
 .ui-spinner {
   width: 28%;
 }
 
 .ui-inputtext {
-  width:  100%;
+  width: 100%;
 }
+
 .ui-spinner-input {
   border: none;
 }
-.ui-spinner >.ui-spinner-input {
+
+.ui-spinner>.ui-spinner-input {
   //width: 30%;
   //background: orange;
 }
+
 div.modal-dialog {
   top: 40%;
+  height: 46%;
 }
+
 .drop1 {
- border: 1px solid #ccc !important;
+  border: 1px solid #ccc !important;
 }
 
 .dropdown-toggle {
@@ -109,26 +138,115 @@ div.modal-dialog {
   background: transparent;
   font-size: 1.2em;
 }
+
 .btn-group.open .dropdown-toggle {
   box-shadow: none;
 }
+
 .caret {
   position: absolute;
   right: 22px;
   bottom: 9px;
+  right: 5px;
+  bottom: 18px;
 }
 
 .caret1 {
   right: 11px;
   bottom: 13px;
 }
+
 .btn-select-item {
   width: 40%;
 }
+
+.undefined {
+  width: 100px;
+}
+
+.undefined a img {
+  width: 100%;
+  float: left;
+}
+
 .lighter {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
   float: left;
+}
+
+.customClass {
+  position: relative;
+}
+
+.customClass .accordion-toggle:before {
+  font-family: FontAwesome;
+  float: left;
+  content: "\f06b";
+  font-size: 22px;
+}
+
+.customClass .db .accordion-toggle:before {
+  content: "\f09d";
+}
+
+.panel-group {
+  width: 50%;
+}
+
+
+@media screen and (max-width: 767px) {
+  body {
+    // padding-top: 0;
+  }
+ .navbar-nav > li > a {
+   font-size: 12px;
+ }
+
+
+  .navbar-default .navbar-collapse,
+  .navbar-default .navbar-form {
+    border-color: #e7e7e7;
+    background: #ff5847;
+    position: absolute;
+    width: 92%;
+    z-index: 999;
+    top: 58px;
+    left: 15px;
+  }
+  .navbar-nav li {
+    text-align: center;
+  }
+  .navbar-default .navbar-toggle:hover,
+  .navbar-default .navbar-toggle:focus {
+    background-color: transparent;
+  }
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+
+       padding: 3px 10px;
+    margin-top: 0;
+
+
+  }
+  .navbar-default .navbar-toggle .icon-bar {
+    background: #ff5847;
+  }
+}
+
+typeahead-container ul.dropdown-menu {
+  background-color: #fff;
+
+  li a, li a.active {
+    color: #000;
+  }
+}
+
+// ADMIN STYLES
+.admin-body {
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
 }

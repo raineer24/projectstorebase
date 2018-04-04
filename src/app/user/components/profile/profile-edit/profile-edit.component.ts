@@ -40,20 +40,15 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.userData = JSON.parse(localStorage.getItem('user'));
+    const mobileNumber = this.userData.mobileNumber ? this.userData.mobileNumber.split(" "): ['+63',''];
     this.profileEditForm = this.fb.group({
       'email': [this.userData.email, Validators.compose([Validators.required, Validators.email]) ],
       'lastName': [this.userData.lastName, Validators.required],
       'firstName': [this.userData.firstName, Validators.required],
-      'gender': [this.userData.gender,Validators.required],
-      'mobileNumber': [this.userData.mobileNumber, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ]
+      'gender': [this.userData.gender, Validators.required],
+      'mobileNumber': [mobileNumber[1], Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ],
+      'prefix': [mobileNumber[0], Validators.required]
     });
-    // this.profileEditForm = this.fb.group({
-    //   'email': [this.userData.email, Validators.compose([Validators.required, Validators.email]) ],
-    //   'lastName': ["Julio", Validators.required],
-    //   'firstName': ["Mark", Validators.required],
-    //   'gender': ["male", Validators.required],
-    //   'mobileNumber': ["1234567890", Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ]
-    // });
   }
 
   onCancelClick() {
@@ -67,23 +62,21 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       'lastName': values.lastName,
       'firstName': values.firstName,
       'gender': values.gender,
-      'mobileNumber': values.mobileNumber
+      'mobileNumber': values.prefix+" "+values.mobileNumber
     }
 
     const keys = Object.keys(values);
 
     if (this.profileEditForm.valid) {
-      this.profileEditSubs = this.authService.update(this.userData.id, data).subscribe(data => {
-        const error = data.error;
-        if (error) {
-
-        } else {
-          console.log("UPDATED!");
+      this.profileEditSubs = this.authService.update(this.userData.id, data).subscribe(res => {
+        if (res.message == 'Updated') {
         }
       });
     } else {
       keys.forEach(val => {
         const ctrl = this.profileEditForm.controls[val];
+        console.log(ctrl
+        )
         if (!ctrl.valid) {
           this.pushErrorFor(val, null);
           ctrl.markAsTouched();
