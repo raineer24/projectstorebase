@@ -17,16 +17,7 @@
       <i>*</i>
       <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required>
     </div>
-    <!-- <div class="col-sm-4 form-group">
-      <label for="phone">Mobile Number</label><i>*</i>
-      <div class="form-inline">
-          <select name="prefix" formControlName="prefix" class="form-control">
-            <option value="+63">+63</option>
-          </select>
-          <input id="phone" name="phone" formControlName="phone" class="form-control input-md" required placeholder="9271234567" type="text">
-      </div>
-      
-    </div> -->
+  
 <div class="col-sm-4 form-group">
   <label for="phone">Mobile Number</label>
   <i>*</i>
@@ -42,7 +33,7 @@
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li *ngFor="let c of prefix" (click)="_selectedVal = c">
+        <li *ngFor="let c of prefix" (click)="_selectedVal = c" (selected)="selected($event)">
           <a class="changeType" >{{c}}</a>
         </li>
        
