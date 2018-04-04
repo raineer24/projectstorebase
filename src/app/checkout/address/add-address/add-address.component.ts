@@ -25,7 +25,8 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   billAddress$: Observable<any>;
   checkBilling: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
-
+  prefix: any[] = ['+63', '+62', '+61'];
+  
   constructor(
     private fb: FormBuilder,
     private authActions: AuthActions,

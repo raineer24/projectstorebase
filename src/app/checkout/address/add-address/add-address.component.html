@@ -38,19 +38,14 @@
   <div class="input-group phone-input">
     <span class="input-group-btn">
       <button name="prefix" ngDefaultControl formControlName="prefix" type="button" class="btn md-input form-control" data-toggle="dropdown" aria-expanded="false">
-        <span class="type-text">+63</span>
+        <span class="type-text">{{_selectedVal || "Area Code"}}</span>
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li>
-          <a class="changeType" >+63</a>
+        <li *ngFor="let c of prefix" (click)="_selectedVal = c">
+          <a class="changeType" >{{c}}</a>
         </li>
-        <li>
-          <a class="changeType" >+62</a>
-        </li>
-        <li>
-          <a class="changeType" >+61</a>
-        </li>
+       
       </ul>
     </span>
 
