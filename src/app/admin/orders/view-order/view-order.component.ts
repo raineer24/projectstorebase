@@ -18,6 +18,10 @@ export class ViewOrderComponent implements OnInit {
     'email': string,
     'lastName': string,
     'firstName': string,
+    'shippingAddress01': string,
+    'city':string,
+    'country': string,
+    'postalcode':string
     'orderTotal': string
   };
   itemList:any;
