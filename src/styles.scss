@@ -167,6 +167,17 @@ div.modal-dialog {
   padding-right: 21px;
 
 }
+ .phone-input .dropdown-menu>li>a:hover {
+  background-color: transparent;
+ }
+
+
+
+
+.phone-input .dropdown-menu {
+  min-width: 67px;
+
+}
 
 .btn-select-item {
   width: 40%;

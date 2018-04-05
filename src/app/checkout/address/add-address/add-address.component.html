@@ -29,15 +29,16 @@
   <div class="input-group phone-input">
     <span class="input-group-btn">
       <button name="prefix" ngDefaultControl formControlName="prefix" type="button" class="btn md-input form-control" data-toggle="dropdown" aria-expanded="false">
-        <span class="type-text">{{_selectedVal || "Area Code"}}</span>
+        <span class="type-text">{{_selectedVal || "+63"}}</span>
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu">
-        <li *ngFor="let c of prefix" (click)="_selectedVal = c" (selected)="selected($event)">
-          <a class="changeType" >{{c}}</a>
-        </li>
-       
-      </ul>
+     <ul class="dropdown-menu" role="menu">
+      <li *ngFor="let c of prefix" (click)="_selectedVal = c">
+        <a class="changeType">{{c}}</a>
+      </li>
+
+    </ul>
+
     </span>
 
     <input type="text" id="phone" formControlName="phone" class="form-control" placeholder="09271234567" required/>
