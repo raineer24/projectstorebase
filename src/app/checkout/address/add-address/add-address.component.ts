@@ -25,7 +25,8 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   billAddress$: Observable<any>;
   checkBilling: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
-
+  prefix: any[] = ['+63'];
+  _selectedVal: any[] = ['+63'];
   constructor(
     private fb: FormBuilder,
     private authActions: AuthActions,
@@ -56,14 +57,17 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
   }
 
+
   onSubmit() {
+   
     let values = this.addressForm.value;
     let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country','prefix'];
     let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
     let hasError = false;
-
+    
     requiredFields.forEach(val => {
       const ctrl = this.addressForm.controls[val];
       if (!ctrl.valid) {
@@ -75,7 +79,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     });
 
     if(!hasError) {
-      values.phone = values.prefix +" "+ values.phone;
+      values.phone = this._selectedVal +" "+ values.phone;
       delete values.isBilling;
       delete values.prefix;
       values.status = 'address';
