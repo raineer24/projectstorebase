@@ -35,7 +35,6 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private addrService: AddressService,
     private store: Store<AppState>
   ) {
-
     this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
       this.isAuthenticated = auth;
       this.addressForm = addrService.initAddressForm(auth);
@@ -60,9 +59,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
   }
 
-
   onSubmit() {
-   
     let values = this.addressForm.value;
     let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country','prefix'];
     let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
