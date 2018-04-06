@@ -1,72 +1,72 @@
-<br />
-<div class="panel panel-default">
-
-    <div class="col-md-12">
-      <strong>Subtotal (# item)</strong>
-      <div class="pull-right">
-        <!-- <span>{{totalCartValue | currency:'PHP':true:'1.2'}}</span> -->
-        <span>₱ {{totalCartValue | number:'1.2-2'}}</span>
+<div class="order-total-summary">
+  <br />
+  <div class="panel panel-default">
+      <div class="col-md-12">
+        <strong>Subtotal ({{totalCartItems}} items)</strong>
+        <div class="pull-right">
+          <!-- <span>{{totalCartValue | currency:'PHP':true:'1.2'}}</span> -->
+          <span>₱ {{totalCartValue | number:'1.2-2'}}</span>
+        </div>
+      </div>  
+      <div class="col-md-12">
+        <strong>Service Fee</strong>
+        <div class="pull-right">
+          <span>₱ {{serviceFee | number:'1.2-2'}}</span>
+        </div>
       </div>
-    </div>
-    <div class="col-md-12">
-      <strong>Service Fee</strong>
-      <div class="pull-right">
-        <span>₱ {{serviceFee | number:'1.2-2'}}</span>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <small>Delivery Fee</small>
-      <div class="pull-right">
-        <span>₱ {{deliveryFee | number:'1.2-2'}}</span>
-      </div>
-      <hr>
-    </div>
-    <div class="col-md-12" *ngIf="totalDiscounts > 0">
-      <small>Discounts</small>
-      <div class="pull-right">
-        <span>₱ {{totalDiscounts | number:'1.2-2'}}</span>
-      </div>
-      <hr>
-    </div>
-    <!-- <div class="col-md-12">
-      <p>Get <span>FREE delivery</span> for orders Php 1,500 and above!</p>
-      <hr>
-    </div-->
-    <div class="col-md-12">
-      <strong>Grand Total</strong>
-      <div class="pull-right">
-        <span>₱ {{grandTotal | number:'1.2-2'}}</span>
-      </div>
-      <hr>
-    </div>
-    <!-- <div class="col-md-12">
-        <form class="coupon">
-          <div class="input-group">
-          <input #coupon placeholder="Coupon code" class="form-control input-sm">
-             <span class="input-group-btn">
-             <button #appCoupon class="btn btn-default btn-sm" (click)="applyCoupon(coupon)">Apply</button>
-            </span>
-          </div>
-          <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
-        </form>
-
+      <div class="col-md-12">
+        <small>Delivery Fee</small>
+        <div class="pull-right">
+          <span>₱ {{deliveryFee | number:'1.2-2'}}</span>
+        </div>
         <hr>
-    </div> -->
-    <div class="col-md-12">
-      <strong>Total</strong>
-      <div class="pull-right">
-        <span>₱ {{totalAmtDue | number:'1.2-2'}}</span>
       </div>
-      <p class="small">If everything looks good, click on CHECKOUT NOW to enter your delivery and payment information</p>
+      <div class="col-md-12" *ngIf="totalDiscounts > 0">
+        <small>Discounts</small>
+        <div class="pull-right">
+          <span>₱ {{totalDiscounts | number:'1.2-2'}}</span>
+        </div>
+        <hr>
+      </div>
+      <!-- <div class="col-md-12">
+        <p>Get <span>FREE delivery</span> for orders Php 1,500 and above!</p>
+        <hr>
+      </div-->
+      <div class="col-md-12">
+        <strong>Grand Total</strong>
+        <div class="pull-right">
+          <span>₱ {{grandTotal | number:'1.2-2'}}</span>
+        </div>
+        <hr>
+      </div>
+      <!-- <div class="col-md-12">
+          <form class="coupon">
+            <div class="input-group">
+            <input #coupon placeholder="Coupon code" class="form-control input-sm">
+               <span class="input-group-btn">
+               <button #appCoupon class="btn btn-default btn-sm" (click)="applyCoupon(coupon)">Apply</button>
+              </span>
+            </div>
+            <p class="small">Limited to use of 1 coupon per checkout. Coupon is subject to Terms and Conditions.</p>
+          </form>
+
+          <hr>
+      </div> -->
+      <div class="col-md-12">
+        <strong>Total</strong>
+        <div class="pull-right">
+          <span>₱ {{totalAmtDue | number:'1.2-2'}}</span>
+        </div>
+        <p class="small">If everything looks good, click on CHECKOUT NOW to enter your delivery and payment information</p>
+      </div>
+      &nbsp;
+  </div>
+  <div class="row checkout">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-block btn-primary" (click)="placeOrder()"><span class="glyphicon glyphicon-log-out"></span>Checkout now</button>
     </div>
-    &nbsp;
-</div>
-<div class="row checkout">
-  <div class="col-md-12">
-    <button type="button" class="btn btn-block btn-primary" (click)="placeOrder()"><span class="glyphicon glyphicon-log-out"></span>Checkout now</button>
   </div>
 </div>
-
 <!-- <div class="order-total-summary">
   <div class="coupon-section">
     <span class="text-label">Coupons</span>
