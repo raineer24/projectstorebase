@@ -22,10 +22,11 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   @Input() totalCartItems: number;
   @Input() totalDiscounts: number;
   @Input() totalAmtDue: number;
+  @Input() grandTotal: number;
   @ViewChild('coupon') coupon:ElementRef;
   @ViewChild('appCoupon') appCoupon:ElementRef;
   totalDiscount$: Subscription;
-  grandTotal: number = 0;
+  grandTotalContainer: number = 0;
   forCoupon: any;
   errMsg: string;
   isShowErrMsg: boolean = false;
@@ -39,8 +40,8 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.grandTotal = this.totalCartValue + this.serviceFee + this.deliveryFee - this.totalDiscounts;
-    this.totalAmtDue = this.grandTotal;
+    this.grandTotalContainer = this.totalCartValue + this.serviceFee + this.deliveryFee - this.totalDiscounts;
+    this.totalAmtDue = this.grandTotalContainer;
   }
 
   placeOrder() {
@@ -49,7 +50,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
         'status': 'cart',
         'totalQuantity': this.totalCartItems,
         'itemTotal': this.totalCartValue,
-        'total': this.grandTotal,
+        'total': this.grandTotalContainer,
         'discount':this.totalDiscounts,
         'adjustmentTotal': this.totalAmtDue
         }).do(() => {
