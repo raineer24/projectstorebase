@@ -7,9 +7,9 @@
         <div class="col-md-4 form-group">
           <label for="verify">New Password</label>
           <input type="password" class="form-control" formControlName="password" name="password" required>
-          <!-- <div *ngIf="omgForm.get(password).errors && omgForm.get('password').touched" >
-            <p class="alert alert-danger">{{omgForm.get('password').errors.msg || 'Password must be at least 6 characters'}}/p>
-          </div> -->
+          <div *ngIf="omgForm.get('password').errors && omgForm.get('password').touched" >
+           <p class="alert alert-danger">{{omgForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
+          </div>
          
         </div>
       </div>
@@ -17,7 +17,9 @@
         <div class="col-md-4 form-group">
           <label for="verify">Verify Password</label>
           <input type="password" class="form-control"  formControlName="verify" name="verify">
-
+          <div *ngIf="(omgForm.get('verify').errors || omgForm.hasError('mismatchedPasswords')) && omgForm.get('verify').touched">
+            <p class="alert alert-danger">{{'Password must match'}}</p>
+          </div>
         </div>
       </div>
 

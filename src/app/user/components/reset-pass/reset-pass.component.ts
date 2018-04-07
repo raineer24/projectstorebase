@@ -31,12 +31,24 @@ export class ResetPassComponent {
     this.omgForm = this.frmBuilder.group({
       'password': [password, Validators.compose([Validators.required, Validators.minLength(6)])],
       'verify': [verify, Validators.compose([Validators.required, Validators.minLength(6)])],
-    });
+    }, {Validator: this.matchingPasswords('password', 'verify')});
   }
   onSubmit(){
       const values = this.omgForm.value;
     this.formSubmit = true;
     console.log(values);
+  }
+  matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
+    return(group: FormGroup): {[key: string]: any} => {
+      const password = group.controls[passwordKey];
+      const verify = group.controls[confirmPasswordKey];
+
+      if(password.value !== verify.value) {
+        return {
+            mismatchedPaswords: true
+        };
+      }
+    }
   }
  
 }
