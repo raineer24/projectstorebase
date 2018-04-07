@@ -1,13 +1,15 @@
 <div class="container">
 
   <h1>Reset Password</h1>
-  <form novalidate="" [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+  <form  [formGroup]="omgForm" (ngSubmit)="onSubmit()">
     
       <div class="row">
         <div class="col-md-4 form-group">
           <label for="verify">New Password</label>
           <input type="password" class="form-control" formControlName="password" name="password" required>
-
+          <!-- <div *ngIf="omgForm.get(password).errors && omgForm.get('password').touched" >
+            <p class="alert alert-danger">{{omgForm.get('password').errors.msg || 'Password must be at least 6 characters'}}/p>
+          </div> -->
          
         </div>
       </div>

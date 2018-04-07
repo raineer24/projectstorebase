@@ -1,26 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
+import { Component, Directive, Input, Attribute } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, NG_VALIDATORS, Validator } from '@angular/forms';
+
+
+
+
 @Component({
   selector: 'app-reset-pass',
   templateUrl: './reset-pass.component.html',
   styleUrls: ['./reset-pass.component.scss']
 })
-export class ResetPassComponent implements OnInit {
-  resetForm: FormGroup
-  constructor(
-    private fb: FormBuilder
-  ) { }
+export class ResetPassComponent {
+  omgForm: FormGroup
+  formSubmit = false;
 
-  ngOnInit() {
-    const password = '';
-    const verify = '';
+  constructor(private frmBuilder: FormBuilder) {
 
-    this.resetForm = this.fb.group({
-      'password': [password, Validators.compose([Validators.required, Validators.minLength(6)])],
-      'verify': [verify, Validators.compose([Validators.required, Validators.minLength(6)])]
-    });
   }
 
- 
+  private pushErrorFor(ctrl_name: string, msg: string) {
+    this.omgForm.controls[ctrl_name].setErrors({'msg': msg});
+  }
+  ngOnInit() {
+    this.rForm();
+    
+  }
 
+  rForm() {
+    const password = '';
+    const verify = '';
+    this.omgForm = this.frmBuilder.group({
+      'password': [password, Validators.compose([Validators.required, Validators.minLength(6)])],
+      'verify': [verify, Validators.compose([Validators.required, Validators.minLength(6)])],
+    });
+  }
+  onSubmit(){
+      const values = this.omgForm.value;
+    this.formSubmit = true;
+    console.log(values);
+  }
+ 
 }
+
