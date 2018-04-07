@@ -1,5 +1,6 @@
 import { Component, Directive, Input, Attribute } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NG_VALIDATORS, Validator } from '@angular/forms';
+import { INVALID } from '@angular/forms/src/model';
 
 
 
@@ -12,6 +13,7 @@ import { FormGroup, FormBuilder, Validators, NG_VALIDATORS, Validator } from '@a
 export class ResetPassComponent {
   omgForm: FormGroup
   formSubmit = false;
+  
 
   constructor(private frmBuilder: FormBuilder) {
 
@@ -35,8 +37,24 @@ export class ResetPassComponent {
   }
   onSubmit(){
       const values = this.omgForm.value;
-    this.formSubmit = true;
+    const keys = Object.keys(values);
+  this.formSubmit = true;
     console.log(values);
+    const data = {
+        'password': 'values.password'
+    };
+    if(this.omgForm.valid) {
+      console.log("success!");
+    } else {
+      keys.forEach(val => {
+        const ctrl = this.omgForm.controls[val];
+        if(!ctrl.valid){
+          this.pushErrorFor(val, null);
+          ctrl.markAsTouched();
+          this.formSubmit = false;
+        }
+      });
+    }
   }
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
     return(group: FormGroup): {[key: string]: any} => {

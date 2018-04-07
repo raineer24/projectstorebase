@@ -81,13 +81,13 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
         );
       });
     } else {
-      keys.forEach(val => {
-        const ctrl = this.signUpForm.controls[val];
-        if (!ctrl.valid) {
-          this.pushErrorFor(val, null);
-          ctrl.markAsTouched();
-        };
-      });
+      // keys.forEach(val => {
+      //   const ctrl = this.signUpForm.controls[val];
+      //   if (!ctrl.valid) {
+      //     this.pushErrorFor(val, null);
+      //     ctrl.markAsTouched();
+      //   };
+      // });
     }
   }
 
