@@ -135,6 +135,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalCartValue: _totalCartValue,
           totalAmountDue: _totalAmountDue,
           totalDiscount: _totalDiscount,
+          grandTotal: _grandTotal,
           // giftCerts:_giftCerts
         }) as CheckoutState;
 
