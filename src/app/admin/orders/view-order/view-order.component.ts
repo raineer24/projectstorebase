@@ -18,6 +18,10 @@ export class ViewOrderComponent implements OnInit {
     'email': string,
     'lastName': string,
     'firstName': string,
+    'shippingAddress01': string,
+    'city':string,
+    'country': string,
+    'postalcode':string
     'orderTotal': string
   };
   itemList:any;
@@ -31,6 +35,10 @@ export class ViewOrderComponent implements OnInit {
       this.orderData = JSON.parse(localStorage.getItem('order'));
       this.itemList = JSON.parse(localStorage.getItem('orderedList'));
     }
+  }
+
+  onCancelClick(){
+    window.history.back();
   }
 
   ngOnDestroy() {

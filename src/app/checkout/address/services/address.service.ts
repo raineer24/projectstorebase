@@ -39,7 +39,7 @@ export class AddressService {
         'shippingAddress01': ['', Validators.required],
         'shippingAddress02': '',
         'city': ['', Validators.required],
-        'prefix': ['+63', Validators.required],
+        'prefix': ['', Validators.required],
         'phone': ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(11), Validators.pattern('[0-9]{10}')]) ],
         'landline': '',
         'email': '',
