@@ -7,7 +7,7 @@ import { AppState } from '../../interfaces';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { UserActions } from '../../user/actions/user.actions';
-
+import { Auth } from '../models/user';
 @Injectable()
 export class AuthService {
 
@@ -112,6 +112,9 @@ export class AuthService {
         return true;
       } else { return false; }
     } );
+  }
+  create(user: Auth) {
+    return this.http.post('/api/users', user);
   }
 
   /**

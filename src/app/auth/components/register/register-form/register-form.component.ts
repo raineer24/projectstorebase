@@ -109,3 +109,9 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
   }
 
 }
+export class User {
+  
+  password: 'test';
+  verify: 'test';
+  
+}

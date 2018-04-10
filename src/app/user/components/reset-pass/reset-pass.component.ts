@@ -1,7 +1,7 @@
 import { Component, Directive, Input, Attribute } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NG_VALIDATORS, Validator } from '@angular/forms';
 import { INVALID } from '@angular/forms/src/model';
-
+import { AuthService } from '../../../core/services/auth.service';
 
 
 
@@ -13,9 +13,10 @@ import { INVALID } from '@angular/forms/src/model';
 export class ResetPassComponent {
   omgForm: FormGroup
   formSubmit = false;
-  
-
-  constructor(private frmBuilder: FormBuilder) {
+  model: any = {};
+  loading = false;
+  constructor(private frmBuilder: FormBuilder,
+    private authService: AuthService) {
 
   }
 
@@ -67,6 +68,20 @@ export class ResetPassComponent {
         };
       }
     }
+  }
+  resetPass() {
+    this.loading = true;
+    this.authService.create(this.model)
+      .subscribe(
+      data => {
+        //this.alertService.success('Registration successful', true);
+        console.log("registration successful");
+        //this.router.navigate(['/login']);
+      },
+      error => {
+        //this.alertService.error(error);
+        //this.loading = false;
+      });
   }
  
 }
