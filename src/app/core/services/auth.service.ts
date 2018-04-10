@@ -113,9 +113,12 @@ export class AuthService {
       } else { return false; }
     } );
   }
-  create(user: Auth) {
-    return this.http.post('/api/users', user);
-  }
+  
+
+
+ 
+
+
 
   /**
    *

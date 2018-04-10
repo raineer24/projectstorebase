@@ -45,7 +45,8 @@ export class ResetPassComponent {
         'password': 'values.password'
     };
     if(this.omgForm.valid) {
-      console.log("success!");
+      this.loading = true;
+    
     } else {
       keys.forEach(val => {
         const ctrl = this.omgForm.controls[val];
@@ -69,20 +70,7 @@ export class ResetPassComponent {
       }
     }
   }
-  resetPass() {
-    this.loading = true;
-    this.authService.create(this.model)
-      .subscribe(
-      data => {
-        //this.alertService.success('Registration successful', true);
-        console.log("registration successful");
-        //this.router.navigate(['/login']);
-      },
-      error => {
-        //this.alertService.error(error);
-        //this.loading = false;
-      });
-  }
+ 
  
 }
 
