@@ -11,5 +11,5 @@ git commit -m "Deploy"
 eb deploy
 
 if [ $? -eq 0 ]; then
-  curl -X POST --data-urlencode "payload={\"channel\": \"#team3\", \"username\": \"Bundaberg\", \"text\": \"Successfully deployed to hutcake.com\"}" https://hooks.slack.com/services/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
+  curl -X POST --data-urlencode "payload={\"channel\": \"#team3\", \"username\": \"Bundaberg\", \"text\": \"@here Successfully deployed to hutcake.com\"}" https://hooks.slack.com/services/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
 fi
