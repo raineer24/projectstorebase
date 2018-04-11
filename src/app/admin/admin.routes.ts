@@ -4,6 +4,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 export const AdminRoutes = [
   {
@@ -14,7 +15,8 @@ export const AdminRoutes = [
       { path: 'orders', component: OrdersComponent},
       { path: 'users', component: UsersComponent},
       { path: 'users-edit', component: UsersEditComponent},
-      { path: 'view-order', component: ViewOrderComponent}
+      { path: 'view-order', component: ViewOrderComponent},
+      { path: 'transactions', component: TransactionsComponent }
     ]
   }
 ];

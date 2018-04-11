@@ -9,6 +9,7 @@ import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SharedModule } from '../shared/index';
     OrdersComponent,
     ViewOrderComponent,
     UsersComponent,
-    UsersEditComponent
+    UsersEditComponent,
+    TransactionsComponent
   ],
   imports: [
     CommonModule,
