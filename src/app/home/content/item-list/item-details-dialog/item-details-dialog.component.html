@@ -142,7 +142,7 @@
                     <div class="panel-body">
                       <p>Login to add this item to a list.</p>
                       <hr>
-                      <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']">Login</button>
+                      <button type="button" class="btn btn-danger" [routerLink]="['/auth', 'login']" [queryParams]="{ returnUrl: '/item/' + item.id + '/' + item.slug }">Login</button>
                     </div>
                   </li>
                 </ul>
