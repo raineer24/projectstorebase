@@ -18,6 +18,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   signInForm: FormGroup;
   title = environment.AppName;
   loginSubs: Subscription;
+  checkPartnerBuyer: Subscription;
   returnUrl: string;
 
   constructor(
@@ -50,6 +51,17 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         if (error) {
 
         } else {
+          const user = JSON.parse(localStorage.getItem('user'));
+          this.checkPartnerBuyer = this.authService.checkPartnerBuyer(user.id).subscribe( isFound => {
+            if (isFound)
+            {
+              localStorage.setItem('pbu','1');
+            } else {
+              localStorage.setItem('pbu','0');
+            }
+
+          });
+
           this.store.dispatch(this.userActions.getUserLists());
           this.router.navigate([this.returnUrl])
           //this.router.navigate(['user/profile']);

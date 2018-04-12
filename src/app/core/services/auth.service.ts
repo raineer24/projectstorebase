@@ -266,6 +266,7 @@ export class AuthService {
     // })
     // .catch(err => Observable.empty());
     localStorage.removeItem('user');
+    localStorage.removeItem('pbu');
     this.store.dispatch(this.actions.logoutSuccess());
     return Observable.empty();
   }
