@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-print-transactions',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./print-transactions.component.scss']
 })
 export class PrintTransactionsComponent implements OnInit {
-
+  @Input() display: boolean;
   constructor() { }
 
   ngOnInit() {

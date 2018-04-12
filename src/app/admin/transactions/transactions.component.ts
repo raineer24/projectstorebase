@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class TransactionsComponent implements OnInit {
   transaction: any;
   transactionSub: Subscription;
+  showDialog = false;
   constructor(private adminService: AdminService) { }
 
   ngOnInit() {
