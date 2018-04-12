@@ -19,7 +19,7 @@
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm" (click)="showDialog = !showDialog">PRINT</button>
-            <app-print-transactions [(display)]="showDialog"></app-print-transactions>
+            <app-print-transactions [display]="showDialog" [transaction]="transaction"></app-print-transactions>
 
           </div>
         </td>

@@ -26,7 +26,9 @@ import { PrintTransactionsComponent } from './transactions/print-transactions/pr
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+  
+  
   ],
   exports: [
     AdminComponent
