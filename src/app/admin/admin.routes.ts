@@ -5,7 +5,7 @@ import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
-
+import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 export const AdminRoutes = [
   {
     path: '',
@@ -16,7 +16,8 @@ export const AdminRoutes = [
       { path: 'users', component: UsersComponent},
       { path: 'users-edit', component: UsersEditComponent},
       { path: 'view-order', component: ViewOrderComponent},
-      { path: 'transactions', component: TransactionsComponent }
+      { path: 'transactions', component: TransactionsComponent },
+      { path: 'print-transaction', component: PrintTransactionsComponent }
     ]
   }
 ];
