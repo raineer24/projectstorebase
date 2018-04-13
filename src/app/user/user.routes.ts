@@ -7,11 +7,17 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ListsComponent } from  './components/lists/lists.component';
 import { ListDetailComponent } from  './components/lists/list-detail/list-detail.component';
 import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
+import { CanActivateViaAuthGuard } from './../core/guards/auth.guard';
 
 export const UserRoutes = [
   {
+    path: 'forgotPassword/:userId',
+    component: ResetPassComponent
+  },
+  {
     path: '',
     component: UserComponent,
+    canActivate: [ CanActivateViaAuthGuard ],
     children: [
       { path: '', redirectTo: 'profile' },
       { path: 'overview', component: OverviewComponent },
@@ -21,7 +27,7 @@ export const UserRoutes = [
       { path: 'lists', component: ListsComponent },
       { path: 'lists/detail/:userId/:id', component: ListDetailComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'reset-pass', component: ResetPassComponent }
+      { path: 'resetPassword', component: ResetPassComponent }
     ]
   },
 ];

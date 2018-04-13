@@ -1,23 +1,30 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/user','profile']" (click)="onCancelClick()">Profile</a></li>
+    <li class="breadcrumb-item text-primary" aria-current="page">Reset Password</li>
+  </ol>
+</nav>
+
 <div class="container">
 
-  <h1>Reset Password</h1>
-  <form  [formGroup]="omgForm" (ngSubmit)="onSubmit()" #formDir="ngForm">
-    
+  <h3>Reset Password</h3>
+  <form  [formGroup]="resetForm" (ngSubmit)="onSubmit()" #formDir="ngForm">
+
       <div class="row">
         <div class="col-md-4 form-group">
-         
-          <input type="password" class="form-control" formControlName="password" name="password" required placeholder="New Password"> 
-          <div *ngIf="omgForm.get('password').errors && omgForm.get('password').touched" >
-           <p class="alert alert-danger">{{omgForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
+
+          <input type="password" class="form-control" formControlName="password" name="password" required placeholder="New Password">
+          <div *ngIf="resetForm.get('password').errors && resetForm.get('password').touched" >
+           <p class="alert alert-danger">{{resetForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
           </div>
-         
+
         </div>
       </div>
       <div class="row">
         <div class="col-md-4 form-group">
-         
+
           <input type="password" class="form-control"  formControlName="verify" name="verify" placeholder="Verify Password">
-          <div *ngIf="(omgForm.get('verify').errors || omgForm.hasError('mismatchedPasswords')) && omgForm.get('verify').touched">
+          <div *ngIf="(resetForm.get('verify').errors || resetForm.hasError('mismatchedPasswords')) && resetForm.get('verify').touched">
             <p class="alert alert-danger">{{'Password must match'}}</p>
           </div>
         </div>
@@ -28,8 +35,8 @@
       <button type="submit" class="btn btn-success" >Register</button>
 
       <button type="button" class="btn btn-danger" (click)="formDir.resetForm({})">Reset</button>
-   
+
   </form>
 
-  
+
 </div>
