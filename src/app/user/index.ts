@@ -17,7 +17,7 @@ import { ListsComponent } from  './components/lists/lists.component';
 import { ListDetailComponent } from './components/lists/list-detail/list-detail.component';
 import { ListEntryComponent } from './components/lists/list-entry/list-entry.component';
 import { AddressesComponent } from './components/addresses/addresses.component';
-
+import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
 // services
 // import { UserService } from './services/user.service';
 
@@ -42,7 +42,8 @@ import { SharedModule } from '../shared/index';
     ProfileEditComponent,
     ListsComponent,
     ListDetailComponent,
-    ListEntryComponent
+    ListEntryComponent,
+    ResetPassComponent 
     // pipes
 
   ],

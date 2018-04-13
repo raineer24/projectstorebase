@@ -7,7 +7,7 @@ import { AppState } from '../../interfaces';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { UserActions } from '../../user/actions/user.actions';
-
+import { Auth } from '../models/user';
 @Injectable()
 export class AuthService {
 
@@ -113,6 +113,12 @@ export class AuthService {
       } else { return false; }
     } );
   }
+  
+
+
+ 
+
+
 
   /**
    *
