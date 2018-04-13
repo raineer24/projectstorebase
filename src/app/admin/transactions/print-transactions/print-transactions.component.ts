@@ -1,20 +1,10 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+declare let jsPDF;
 @Component({
   selector: 'app-print-transactions',
   templateUrl: './print-transactions.component.html',
-  styleUrls: ['./print-transactions.component.scss'],
-  animations: [
-    trigger('dialog', [
-      transition('void => *', [
-        style({ transform: 'scale3d(.3, .3, .3)' }),
-        animate(100)
-      ]),
-      transition('* => void', [
-        animate(100, style({ transform: 'scale3d(.0, .0, .0)' }))
-      ])
-    ])
-  ]
+  styleUrls: ['./print-transactions.component.scss']
+
 })
 
 export class PrintTransactionsComponent implements OnInit {
@@ -30,5 +20,21 @@ export class PrintTransactionsComponent implements OnInit {
     this.display = false;
     this.visibleChange.emit(this.display);
     console.log(this.display);
+  }
+  download() {
+    var item = this.transaction;
+     
+    var doc = new jsPDF();
+    var col = ["Details", "Values"];
+    var rows = [];
+
+    for (var key in item) {
+      var temp = [key, item[key]];
+      rows.push(temp);
+    }
+
+    doc.autoTable(col, rows);
+
+    doc.save('Test.pdf');
   }
 }
