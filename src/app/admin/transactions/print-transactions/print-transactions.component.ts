@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 @Component({
   selector: 'app-print-transactions',
@@ -20,12 +20,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 export class PrintTransactionsComponent implements OnInit {
   @Input() display: boolean;
   @Input() transaction: any;
+  @Input() closable = true;
+  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor() { }
 
   ngOnInit() {
   }
   close(){
     this.display = false;
-  
+    this.visibleChange.emit(this.display);
   }
 }

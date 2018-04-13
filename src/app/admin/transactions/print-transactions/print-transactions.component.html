@@ -1,5 +1,9 @@
-<div [@dialog] *ngIf="display" class="dialog">
-  <button class="dialog-x-btn">X</button>
+<div  *ngIf="display" class="dialog">
+  <h1>Print Summary Transactions</h1>
+  <ng-content></ng-content>
+<button  *ngIf="closable" aria-label="Close"  (click)="close()" class="dialog-x-btn">X</button>
+
+
   
     <table class="table table-hover table-striped">
       <thead>
@@ -22,9 +26,11 @@
         </tr>
       </tbody>
     </table>
-   <ng-content></ng-content>
+   
   
-  <button>Print</button>
+  <button>Download Pdf</button>
+<button (click)="close()">Close</button>
+
 
 </div>
-  <button *ngIf="display" class="overlay"></button>
+  <div *ngIf="display" class="overlay" (click)="close()"></div>
