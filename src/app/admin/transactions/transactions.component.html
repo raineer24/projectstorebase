@@ -18,9 +18,9 @@
         <td class="text-uppercase">{{t.action}}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm" (click)="showDialog = !showDialog">PRINT</button>
-            <app-print-transactions [display]="showDialog" [transaction]="transaction">
-              <button (click)="showDialog = !showDialog">clojhse</button>
+            <button type="button" class="btn btn-success btn-sm" (click)="showDialog = !showDialog">PRINT</button>
+            <app-print-transactions (visibleChange)="showDialog = !showDialog" [display]="showDialog" [transaction]="transaction">
+              <!-- <button (click)="showDialog = !showDialog">close</button> -->
             </app-print-transactions>
 
           </div>

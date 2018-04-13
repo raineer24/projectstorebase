@@ -29,5 +29,6 @@ export class PrintTransactionsComponent implements OnInit {
   close(){
     this.display = false;
     this.visibleChange.emit(this.display);
+    console.log(this.display);
   }
 }
