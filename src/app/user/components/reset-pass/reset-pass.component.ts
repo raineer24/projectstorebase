@@ -3,9 +3,10 @@ import { FormGroup, FormBuilder, Validators, NG_VALIDATORS, Validator } from '@a
 import { INVALID } from '@angular/forms/src/model';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { AppState } from '../../../interfaces';
+import { getAuthStatus } from '../../../auth/reducers/selectors';
 import { AuthService } from '../../../core/services/auth.service';
 
 
@@ -15,11 +16,12 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./reset-pass.component.scss']
 })
 export class ResetPassComponent {
-  routeSubscription$: Subscription;
   resetForm: FormGroup
+  isAuthenticated: boolean = false;
   formSubmit = false;
   model: any = {};
   loading = false;
+  private componentDestroyed: Subject<any> = new Subject();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,14 +32,20 @@ export class ResetPassComponent {
   }
 
   ngOnInit() {
-    this.routeSubscription$ = this.route.params.subscribe((params: any) => {
+    this.route.params.takeUntil(this.componentDestroyed).subscribe((params: any) => {
+      params['token'];
+      params['userId'];
+    });
+    this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
+      this.isAuthenticated = auth;
     });
 
     this.initForm();
   }
 
   ngOnDestroy() {
-    this.routeSubscription$.unsubscribe();
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 
   initForm() {
