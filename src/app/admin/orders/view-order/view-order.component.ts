@@ -21,8 +21,9 @@ export class ViewOrderComponent implements OnInit {
     'shippingAddress01': string,
     'city':string,
     'country': string,
-    'postalcode':string
-    'orderTotal': string
+    'postalcode':string,
+    'orderTotal': string,
+    'status': string
   };
   itemList:any;
 
