@@ -10,6 +10,11 @@ export class TransactionsComponent implements OnInit {
   transaction: any;
   transactionSub: Subscription;
   showDialog = false;
+
+  selectedRow: Number;
+  setClickedRow(index) {
+    this.selectedRow = index;
+  }
   constructor(private adminService: AdminService) { }
 
   ngOnInit() {
