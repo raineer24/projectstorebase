@@ -116,7 +116,7 @@ export class PaymentComponent implements OnInit {
     if(localStorage.getItem('pbu') !== null) {
       if(localStorage.getItem('pbu') === '1')
         this.isPBU = true;
-      else 
+      else
         this.isPBU = false;
     }
     this.voucherIcon = 'glyphicon glyphicon-tag text-default';
@@ -323,7 +323,7 @@ export class PaymentComponent implements OnInit {
       discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
       total: grandTotal,
-      status: 'payment'
+      status: 'Pending'
     }
 
     this.checkoutService.updateOrderPayment(params

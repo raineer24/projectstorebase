@@ -454,7 +454,7 @@ export class CheckoutService {
         this.showErrorMsg('timeslot');
       } else {
         const date = {
-          'status': 'payment',
+          'status': 'pending',
           'date': {
             'date': params.date,
             'timeslotId': params.timeslot_id
@@ -474,7 +474,7 @@ export class CheckoutService {
         this.showErrorMsg('timeslot');
       } else {
         const date = {
-          'status': 'payment',
+          'status': 'pending',
           'date': {
             'date': params.date,
             'timeslotId': params.timeslot_id

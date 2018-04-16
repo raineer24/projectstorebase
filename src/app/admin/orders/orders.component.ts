@@ -25,10 +25,11 @@ export class OrdersComponent implements OnInit {
     const sellerId = 0;
     this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
       this.orders = order;
-      if(localStorage.getItem('order') != ''){
-        localStorage.removeItem('order');
-        localStorage.removeItem('orderedItems');
-      }
+      console.log(this.orders);
+      // if(localStorage.getItem('order') != ''){
+      //   localStorage.removeItem('order');
+      //   localStorage.removeItem('orderedItems');
+      // }
     } )
   }
 
