@@ -11,7 +11,7 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
-
+import { ModalModule } from 'angular-custom-modal';
 
 @NgModule({
   declarations: [
@@ -27,6 +27,7 @@ import { PrintTransactionsComponent } from './transactions/print-transactions/pr
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
+    ModalModule
   
   
   ],
