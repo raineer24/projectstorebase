@@ -12,6 +12,8 @@ import { OrderDetailsComponent } from './orders/components/order-details/order-d
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { SharedModule } from '../shared/index';
     ViewOrderComponent,
     UsersComponent,
     UsersEditComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    TransactionsComponent,
+    PrintTransactionsComponent
   ],
   imports: [
     CommonModule,

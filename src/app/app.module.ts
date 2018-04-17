@@ -66,6 +66,7 @@ import { ModalModule } from "angular-custom-modal";
     ModalModule,
     BsDropdownModule,
     SpinnerModule
+   
   ],
   providers: [],
   bootstrap: [AppComponent]

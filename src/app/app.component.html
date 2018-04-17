@@ -1,4 +1,4 @@
-<div *ngIf="!show" class="tmp-welcome">
+<!-- <div *ngIf="!show" class="tmp-welcome">
   <div class="text-center welcome">
     <div class="col-md-3 col-sm-4">&nbsp;</div>
     <div class="col-md-6 col-sm-4">
@@ -7,28 +7,16 @@
           autofocus="autofocus" (keypress)="setValue()">
         <span class="input-group-btn">
           <button class="btn btn-lg btn-success" (click)="setValue()">Alohomora</button>
-          <!-- <button class="btn btn-default" type="button">Go!</button> -->
+         
         </span>
       </div>
     </div>
     <div class="col-md-3 col-sm-4">&nbsp;</div>
 
-    <!--
-    <div class="panel-heading">
-      <h1>Demo App</h1>
-    </div>
-    <div class="panel-body">
-      <div>
-        <input type="password" [(ngModel)]="name" #ctrl="ngModel" required>
-      </div>
-    </div>
-    <div class="panel-footer plan">
-      <div class="alert alert-danger" [hidden]="!errorMessage">Wrong Password. Please try again!</div>
-      <button class="btn btn-lg" (click)="setValue()">Enter</button>
-    </div> -->
+    
   </div>
-</div>
-<div class="default" *ngIf="show">
+</div> -->
+<div class="default">
   <ng-container *ngIf="!isAdminRoute()">
     <div class="default">
       <section>
