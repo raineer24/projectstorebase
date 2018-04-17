@@ -16,3 +16,7 @@ export class User {
   bill_address: [Address];
   ship_address: [Address];
 }
+export class Auth {
+  apassword: string;
+  averify: string;
+}
