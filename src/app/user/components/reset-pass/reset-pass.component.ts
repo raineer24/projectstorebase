@@ -21,6 +21,8 @@ export class ResetPassComponent {
   formSubmit = false;
   model: any = {};
   loading = false;
+  token: string;
+  userId: string;
   private componentDestroyed: Subject<any> = new Subject();
 
   constructor(
@@ -33,11 +35,8 @@ export class ResetPassComponent {
 
   ngOnInit() {
     this.route.params.takeUntil(this.componentDestroyed).subscribe((params: any) => {
-      params['token'];
-      params['userId'];
-    });
-    this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
-      this.isAuthenticated = auth;
+      this.token = params['token'];
+      this.userId = params['userId'];
     });
 
     this.initForm();
@@ -54,7 +53,7 @@ export class ResetPassComponent {
     this.resetForm = this.formBuilder.group({
       'password': [password, Validators.compose([Validators.required, Validators.minLength(6)])],
       'verify': [verify, Validators.compose([Validators.required, Validators.minLength(6)])],
-    }, {Validator: this.matchingPasswords('password', 'verify')});
+    }, { Validator: this.matchingPasswords('password', 'verify') });
   }
 
   onSubmit(){

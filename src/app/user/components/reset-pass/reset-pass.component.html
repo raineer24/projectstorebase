@@ -1,4 +1,4 @@
-<nav aria-label="breadcrumb">
+<nav *ngIf="token" aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a [routerLink]="['/user','profile']" (click)="onCancelClick()">Profile</a></li>
     <li class="breadcrumb-item text-primary" aria-current="page">Reset Password</li>
