@@ -8,10 +8,12 @@ declare let jsPDF;
 })
 
 export class PrintTransactionsComponent implements OnInit {
+  @Input() trans: any;
   @Input() display: boolean;
   @Input() transaction: any;
   @Input() closable = true;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onClosed: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor() { }
 
   ngOnInit() {
@@ -40,5 +42,8 @@ export class PrintTransactionsComponent implements OnInit {
     doc.autoTable(col, rows);
     console.log(col, rows);
     doc.save('invoice.pdf');
+  }
+  private onClose() {
+    this.onClosed.emit(true);
   }
 }

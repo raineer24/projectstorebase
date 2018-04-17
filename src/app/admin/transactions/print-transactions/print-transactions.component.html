@@ -8,26 +8,27 @@
       <tbody>
         <tr>
           <td>Name</td>
-          <td>{{trans.name}}</td>
+          <td></td>
         </tr>
         <tr>
-          <td>Email</td>
-          <td class="text-uppercase">{{trans.email}}</td>
+          <td>Date Created</td>
+          <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>
         </tr>
         <tr>
           <td>City</td>
           <td class="text-uppercase"></td>
         </tr>and
         <tr>
-          <td>Website</td>
-          <td class="text-uppercase">{{trans.website}}</td>
+          <td>Status</td>
+          <td class="text-uppercase">{{t.website}}</td>
         </tr>
         <tr>
-          <td>Phone</td>
-          <td class="text-uppercase">{{trans.phone}}</td>
+          <td>Product Details</td>
+          <td class="text-uppercase">{{t.phone}}</td>
         </tr>
       </tbody>
     </table>
   </div>
-  <button type="submit" (click)="onClose()">Close</button>
+  <button type="submit" (click)="onClose()" class="btn btn-warning">Close</button>
+  <button type="submit" (click)="download()" class="btn btn-success">Export PDF</button>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from './../services/admin.service';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
@@ -9,13 +9,16 @@ import { Subscription } from 'rxjs/Subscription';
 export class TransactionsComponent implements OnInit {
   transaction: any;
   transactionSub: Subscription;
+  private activeTransaction: any;
   showDialog = false;
-
+  @ViewChild('listDetailsModal') listDetailsModal;
   selectedRow: Number;
   setClickedRow(index) {
     this.selectedRow = index;
   }
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService) { 
+    this.activeTransaction = null;
+  }
 
   ngOnInit() {
     this.viewSub();
@@ -27,5 +30,13 @@ export class TransactionsComponent implements OnInit {
     this.transactionSub = this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
     });
+  }
+  private selectTransaction(transactions: any) {
+    if (this.activeTransaction = transactions) {
+      this.listDetailsModal.open()
+    }
+  }
+  private detailClosed() {
+    this.activeTransaction = null;
   }
 }

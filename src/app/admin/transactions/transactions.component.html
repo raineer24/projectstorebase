@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let t of transaction; let i = index"  (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+      <tr *ngFor="let t of transaction; let i = index"  >
         <td>{{t.order_id}}</td>
         <td class="text-uppercase">{{t.id}}</td>
         <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>
@@ -18,7 +18,7 @@
         <td class="text-uppercase">{{t.action}}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-success btn-sm" (click)="showDialog = !showDialog">PRINT</button>
+            <button type="button" class="btn btn-success btn-sm" (click)="selectTransaction()">VIEW</button>
             
 
           </div>
@@ -27,6 +27,6 @@
     </tbody>
   </table>
 </div>
-<app-print-transactions (visibleChange)="showDialog = !showDialog" [display]="showDialog" [transaction]="transaction">
-  <!-- <button (click)="showDialog = !showDialog">close</button> -->
+<app-print-transactions  *ngIf="activeTransaction !== null" [trans]="activeTransaction" (onClosed)="detailClosed()">
+  
 </app-print-transactions>
