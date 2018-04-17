@@ -1,1 +1,33 @@
-<h1>test</h1>
+<div class="dialog">
+  <ng-content></ng-content>
+
+  <button (click)="onClose()" aria-label="Close">X</button>
+  <div>
+    <h1>View Detail Transactions</h1>
+    <table class="table table-hover table-striped">
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td>{{trans.name}}</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td class="text-uppercase">{{trans.email}}</td>
+        </tr>
+        <tr>
+          <td>City</td>
+          <td class="text-uppercase"></td>
+        </tr>and
+        <tr>
+          <td>Website</td>
+          <td class="text-uppercase">{{trans.website}}</td>
+        </tr>
+        <tr>
+          <td>Phone</td>
+          <td class="text-uppercase">{{trans.phone}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" (click)="onClose()">Close</button>
+</div>

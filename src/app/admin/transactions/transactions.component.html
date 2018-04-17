@@ -18,8 +18,8 @@
         <td class="text-uppercase">{{t.action}}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-success btn-sm" (click)="openItemDialog($event)">PRINT</button>
-           
+            <button type="button" class="btn btn-success btn-sm" (click)="showDialog = !showDialog">PRINT</button>
+            
 
           </div>
         </td>
@@ -27,11 +27,6 @@
     </tbody>
   </table>
 </div>
-<modal #UserDetailsModal>
-
-  <ng-template #modalBody>
-    <app-print-transactions [transaction]="transaction">
-      <!-- <button (click)="showDialog = !showDialog">close</button> -->
-    </app-print-transactions>
-  </ng-template>
-</modal>
+<app-print-transactions (visibleChange)="showDialog = !showDialog" [display]="showDialog" [transaction]="transaction">
+  <!-- <button (click)="showDialog = !showDialog">close</button> -->
+</app-print-transactions>

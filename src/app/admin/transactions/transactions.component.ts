@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminService } from './../services/admin.service';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
@@ -10,7 +10,7 @@ export class TransactionsComponent implements OnInit {
   transaction: any;
   transactionSub: Subscription;
   showDialog = false;
-  @ViewChild('UserDetailsModal') UserDetailsModal;
+
   selectedRow: Number;
   setClickedRow(index) {
     this.selectedRow = index;
@@ -20,9 +20,6 @@ export class TransactionsComponent implements OnInit {
   ngOnInit() {
     this.viewSub();
 
-  }
-  openItemDialog() {
-    this.UserDetailsModal.open();
   }
 
 
