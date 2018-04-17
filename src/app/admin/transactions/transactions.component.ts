@@ -7,9 +7,9 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-  transaction: any;
+  transaction: Transaction[];
   transactionSub: Subscription;
-  private activeTransaction: any;
+  private activeTransaction: Transaction;
   showDialog = false;
   @ViewChild('listDetailsModal') listDetailsModal;
   selectedRow: Number;
@@ -27,16 +27,27 @@ export class TransactionsComponent implements OnInit {
 
 
   viewSub() {
-    this.transactionSub = this.adminService.getTransactions().subscribe(transaction => {
+   this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
+      console.log(this.transaction);
     });
   }
-  private selectTransaction(transactions: any) {
-    if (this.activeTransaction = transactions) {
-      this.listDetailsModal.open()
-    }
+  private selectTransaction(transaction: Transaction) {
+    this.activeTransaction = transaction
+    this.listDetailsModal.open()
+   
   }
   private detailClosed() {
     this.activeTransaction = null;
   }
+}
+export class Transaction {
+  
+  name: string;
+ transactionId: number;
+  id: number;
+
+  
+
+
 }

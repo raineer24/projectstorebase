@@ -18,7 +18,7 @@
         <td class="text-uppercase">{{t.action}}</td>
         <td>
           <div class="btn-group">
-            <button type="button" class="btn btn-success btn-sm" (click)="selectTransaction()">VIEW</button>
+            <button type="button" class="btn btn-success btn-sm" (click)="selectTransaction(t)">VIEW</button>
             
 
           </div>
@@ -26,7 +26,15 @@
       </tr>
     </tbody>
   </table>
+    
 </div>
-<app-print-transactions  *ngIf="activeTransaction !== null" [trans]="activeTransaction" (onClosed)="detailClosed()">
+<!-- <app-print-transactions  *ngIf="activeTransaction !== null" [trans]="activeTransaction" (onClosed)="detailClosed()">
   
-</app-print-transactions>
+</app-print-transactions> -->
+<modal #listDetailsModal>
+  <ng-template #modalBody>
+    <app-print-transactions [trans]="activeTransaction">
+    </app-print-transactions>
+  </ng-template>
+
+</modal>
