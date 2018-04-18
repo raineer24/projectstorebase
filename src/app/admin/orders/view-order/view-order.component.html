@@ -8,7 +8,7 @@
 <div class="viewOrder">
 
     <div class="formGroup">
-        <div>Customer Name: {{orderData.firstName}} {{orderData.lastName}}</div>
+        <div>Customer Name: {{orderData.firstname}} {{orderData.lastname}}</div>
         <div>Customer Address:{{orderData.shippingAddress01}}, {{orderData.city}}, {{orderData.country}}, {{orderData.postalcode}}</div>
           <div class="list-item-group">
             <ul class="">
@@ -19,4 +19,5 @@
           </div>
           <div>Order Total: {{orderData.orderTotal | number:'1.2-2'}}</div>
     </div>
+    <div><button class="btn btn-primary"><span class="glyphicon glyphicon-print"></span> Print</button></div>
 </div>

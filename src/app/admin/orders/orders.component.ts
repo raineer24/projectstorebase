@@ -12,6 +12,7 @@ export class OrdersComponent implements OnInit {
   orders: any;
   ordersSub: Subscription;
   orderSub: Subscription;
+  orderItem$: Subscription;
   orderIndex$: any;
   orderItems: any;
   itemList: any;
@@ -69,19 +70,30 @@ export class OrdersComponent implements OnInit {
 
   getOrder(index)
   {
-    localStorage.setItem('order',JSON.stringify(this.orders[index]));
-    this.orderSub = this.adminService.getOrderDetail(this.orders[index].orderkey).subscribe(orderItems =>
+    var order = JSON.parse(localStorage.getItem('sellerorders'));
+    var orderCode = order[index].orderBarcode;
+    console.log(orderCode);
+    this.orderSub = this.adminService.getOrder(orderCode).subscribe(order =>
     {
-      this.orderItems = orderItems;
-      this.getOrderItems(this.orderItems);
+      this.orderItems = order;
+      const jsonData = JSON.stringify(this.orderItems);
+      this.getOrderItems(orderCode);
+      localStorage.setItem('orderseller',jsonData)
+      console.log(this.orderItems);
     })
 
 
   }
 
-  getOrderItems(orderedItems){
-    this.itemList = orderedItems;
-    localStorage.setItem('orderedList',JSON.stringify(this.itemList));
+  getOrderItems(orderCode){
+    this.orderItem$ = this.adminService.getOrderDetail(orderCode).subscribe( items =>
+      {
+        this.itemList = items;
+        console.log(this.itemList);
+        localStorage.setItem('orderedList',JSON.stringify(this.itemList));
+      }
+    )
+
   }
 
   ngOnDestroy() {
