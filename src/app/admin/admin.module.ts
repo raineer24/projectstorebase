@@ -9,7 +9,7 @@ import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
-import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionsComponent, SortPipe } from './transactions/transactions.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
 
@@ -21,7 +21,8 @@ import { ModalModule } from 'angular-custom-modal';
     UsersComponent,
     UsersEditComponent,
     TransactionsComponent,
-    PrintTransactionsComponent
+    PrintTransactionsComponent,
+    SortPipe
   ],
   imports: [
     CommonModule,

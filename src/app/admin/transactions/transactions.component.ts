@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { AdminService } from './../services/admin.service';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
@@ -55,4 +55,21 @@ export class Transaction {
   
 
 
+}
+@Pipe({
+  name: 'sorthwithId'
+})
+export class SortPipe implements PipeTransform {
+  transform(array: any[], field: string): any[] {
+    array.sort((a: any, b: any) => {
+      if (a[field] < b[field]) {
+        return -1;
+      } else if (a[field] > b[field]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return array;
+  }
 }

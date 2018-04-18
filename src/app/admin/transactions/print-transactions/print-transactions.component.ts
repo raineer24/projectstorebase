@@ -11,10 +11,9 @@ declare let jsPDF;
 export class PrintTransactionsComponent implements OnInit {
   @Input() trans: Transaction[];
  
-  //@Input() transaction: any;
   
-  @Output() onClosed: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() onClose: EventEmitter<any> = new EventEmitter();
+  
+
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
   constructor() { }
 

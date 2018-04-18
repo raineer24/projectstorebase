@@ -8,9 +8,9 @@
         <th>Status</th>
         <th>Transaction Type</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let t of transaction; let i = index"  >
+    </thead>  
+    <tbody>       
+      <tr *ngFor="let t of transaction | sorthwithId: 'id'">
         <td>{{t.order_id}}</td>
         <td class="text-uppercase">{{t.id}}</td>
         <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>
