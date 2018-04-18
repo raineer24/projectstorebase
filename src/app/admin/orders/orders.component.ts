@@ -31,9 +31,6 @@ export class OrdersComponent implements OnInit {
       this.orders = order;
       var i: number;
       for(i=0; i < this.orders.length; i++){
-        if(this.orders[i].status === 'pending'){
-          console.log(this.orders[i]);
-        }
         if(this.statusContainer.length == 0){
           this.statusContainer.push(this.orders[i].status);
         } else {
@@ -72,14 +69,12 @@ export class OrdersComponent implements OnInit {
   {
     var order = JSON.parse(localStorage.getItem('sellerorders'));
     var orderCode = order[index].orderBarcode;
-    console.log(orderCode);
     this.orderSub = this.adminService.getOrder(orderCode).subscribe(order =>
     {
       this.orderItems = order;
       const jsonData = JSON.stringify(this.orderItems);
       this.getOrderItems(orderCode);
       localStorage.setItem('orderseller',jsonData)
-      console.log(this.orderItems);
     })
 
 
@@ -89,8 +84,8 @@ export class OrdersComponent implements OnInit {
     this.orderItem$ = this.adminService.getOrderDetail(orderCode).subscribe( items =>
       {
         this.itemList = items;
-        console.log(this.itemList);
         localStorage.setItem('orderedList',JSON.stringify(this.itemList));
+        this.itemList = localStorage.getItem('orderedList');
       }
     )
 

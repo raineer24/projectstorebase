@@ -8,16 +8,19 @@
 <div class="viewOrder">
 
     <div class="formGroup">
-        <div>Customer Name: {{orderData.firstname}} {{orderData.lastname}}</div>
+        <div>Order Number: {{orderData.number}}</div>
+        <div>Customer Name: <span align="right">{{orderData.firstname}} {{orderData.lastname}}</span></div>
         <div>Customer Address:{{orderData.shippingAddress01}}, {{orderData.city}}, {{orderData.country}}, {{orderData.postalcode}}</div>
+        <div>Items
           <div class="list-item-group">
             <ul class="">
                 <li *ngFor="let item of itemList" class="list-group-item d-flex justify-content-between align-items-center">{{item.name}}
-                  <span class="badge">{{item.quantity}}</span><span class="badge">P {{item.price | number:'1.2-2'}}</span>
+                  <span class="badge">Quantity: {{item.quantity}}</span>Price: <span class="badge">P {{item.price | number:'1.2-2'}}</span>
                 </li>
               </ul>
           </div>
-          <div>Order Total: {{orderData.orderTotal | number:'1.2-2'}}</div>
+          <div>Order Total: {{orderData.adjustmentTotal | number:'1.2-2'}}</div>
+        </div>
     </div>
     <div><button class="btn btn-primary"><span class="glyphicon glyphicon-print"></span> Print</button></div>
 </div>
