@@ -113,10 +113,10 @@ export class AuthService {
       } else { return false; }
     } );
   }
-  
 
 
- 
+
+
 
 
 
@@ -237,6 +237,27 @@ export class AuthService {
     // otherwise no further login requests will be fired
     // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
   }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  checkToken(data): Observable<any> {
+    return this.http.post(
+      'v1/user/account/token', data
+    ).map((res: Response) => {
+      return res.json();
+    });
+    // catch should be handled here with the http observable
+    // so that only the inner obs dies and not the effect Observable
+    // otherwise no further login requests will be fired
+    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
+  }
+
   /**
    *
    *

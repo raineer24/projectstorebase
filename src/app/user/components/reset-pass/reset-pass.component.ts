@@ -23,6 +23,7 @@ export class ResetPassComponent {
   loading = false;
   token: string;
   userId: string;
+  isValid: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
   constructor(
@@ -37,6 +38,17 @@ export class ResetPassComponent {
     this.route.params.takeUntil(this.componentDestroyed).subscribe((params: any) => {
       this.token = params['token'];
       this.userId = params['userId'];
+      this.authService.checkToken({
+        useraccount_id: this.userId,
+        token: this.token,
+        type: 'PASSWORD_RESET'
+      }).subscribe(res => {
+        if(res.message == 'VALID') {
+          this.isValid = true;
+        } else {
+          this.isValid = false;
+        }
+      })
     });
 
     this.initForm();
