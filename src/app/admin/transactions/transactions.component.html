@@ -26,15 +26,14 @@
       </tr>
     </tbody>
   </table>
+    <modal #listDetailsModal>
+      <ng-template #modalBody>
+        <app-print-transactions [trans]="activeTransaction" (onCloseModalEmit)="closeItemDialog()" (onClose)="closeItemDialog()">
+        </app-print-transactions>
+      </ng-template>
     
+    </modal>
 </div>
 <!-- <app-print-transactions  *ngIf="activeTransaction !== null" [trans]="activeTransaction" (onClosed)="detailClosed()">
   
 </app-print-transactions> -->
-<modal #listDetailsModal>
-  <ng-template #modalBody>
-    <app-print-transactions [trans]="activeTransaction">
-    </app-print-transactions>
-  </ng-template>
-
-</modal>

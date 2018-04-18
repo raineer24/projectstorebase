@@ -40,7 +40,12 @@ export class TransactionsComponent implements OnInit {
   private detailClosed() {
     this.activeTransaction = null;
   }
+  closeItemDialog() {
+    this.listDetailsModal.close()
+  }
 }
+
+
 export class Transaction {
   
   name: string;

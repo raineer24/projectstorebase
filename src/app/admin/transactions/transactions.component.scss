@@ -14,11 +14,12 @@
   div.modal-dialog {
     //padding: 25px;
     position: absolute;
-    top: 20%;
+    top: 35%;
     left: 50%;
     width: 86%;
     -webkit-transform: translate(-50%, -50%) !important;
     transform: translate(-50%, -50%) !important;
+    height: 65%;
   }
   .modal-content {
     background: #f9f8f8;
