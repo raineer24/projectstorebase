@@ -11,7 +11,7 @@ import { CanActivateViaAuthGuard } from './../core/guards/auth.guard';
 
 export const UserRoutes = [
   {
-    path: 'guestActiviation/:userId/:token',
+    path: 'guestActivation/:userId/:token',
     component: ResetPassComponent
   },
   {

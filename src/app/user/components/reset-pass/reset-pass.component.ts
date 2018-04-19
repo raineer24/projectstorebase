@@ -1,5 +1,5 @@
 import { Component, Directive, Input, Attribute, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, NG_VALIDATORS, Validator } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { INVALID } from '@angular/forms/src/model';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -43,7 +43,7 @@ export class ResetPassComponent {
         token: this.token,
         type: 'PASSWORD_RESET'
       }).subscribe(res => {
-        if(res.message == 'VALID') {
+        if(res.message == 'Valid') {
           this.isValid = true;
         } else {
           this.isValid = false;
@@ -65,7 +65,7 @@ export class ResetPassComponent {
     this.resetForm = this.formBuilder.group({
       'password': [password, Validators.compose([Validators.required, Validators.minLength(6)])],
       'verify': [verify, Validators.compose([Validators.required, Validators.minLength(6)])],
-    }, { Validator: this.matchingPasswords('password', 'verify') });
+    }, { validator: this.matchingPasswords('password', 'verify') });
   }
 
   onSubmit(){
@@ -94,10 +94,9 @@ export class ResetPassComponent {
     return(group: FormGroup): {[key: string]: any} => {
       const password = group.controls[passwordKey];
       const verify = group.controls[confirmPasswordKey];
-
       if(password.value !== verify.value) {
         return {
-            mismatchedPaswords: true
+            mismatchedPasswords: true
         };
       }
     }
