@@ -50,7 +50,8 @@ export class CheckoutService {
           "user_id": userId,
           "item_id": item.id,
           "quantity": 1,
-          "orderkey": this.getOrderKey()
+          "orderkey": this.getOrderKey(),
+          "order_id": this.getOrderId()
         }
       ).map(res => {
           const data = res.json();
@@ -154,18 +155,22 @@ export class CheckoutService {
     ).map(res => res.json()
     ).mergeMap(data => {
       const orderkey = data.orderkey;
-      this.setOrderTokenInLocalStorage({
-        order_token: orderkey,
-        shipping_address: '',
-        billing_address: ''
-      });
+
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart',
           useraccount_id: userId
-        }).map(orderId => {
-          let order:any = {};
-          order.id = orderId.json()['id'];
+        }).map(newOrder => {
+          const orderId = newOrder.json()['id'];
+          this.setOrderTokenInLocalStorage({
+            order_id: orderId,
+            order_token: orderkey,
+            shipping_address: '',
+            billing_address: ''
+          });
+
+          let order: any = {};
+          order.id = orderId;
           order.number = "0";
           order.orderkey = orderkey;
           order.cartItems =  [];
@@ -390,6 +395,7 @@ export class CheckoutService {
           }
           this.setOrderTokenInLocalStorage(
             {
+              order_id: this.getOrderId,
               order_token: orderkey,
               shipping_address: address.shippingAddress,
               billing_address: address.billingAddress
@@ -573,6 +579,23 @@ export class CheckoutService {
     let token = null;
     if(order) {
       token = order.order_token;
+    }
+    return token;
+  }
+
+  /**
+   *
+   *
+   *
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
+  getOrderId() {
+    const order = JSON.parse(localStorage.getItem('order'));
+    let token = 0;
+    if(order) {
+      token = order.order_id;
     }
     return token;
   }

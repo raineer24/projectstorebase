@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AdminService } from './../services/admin.service';
 
 @Component({
-  selector: 'app-orders',
+  selector: 'app-admin-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
@@ -22,8 +22,8 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit() {
     //NOTE: dummy ID
-    const sellerId = 1;
-    this.ordersSub = this.adminService.getSellerOrders(1).subscribe(order => {
+    const sellerId = 0;
+    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
       this.orders = order;
       if(localStorage.getItem('order') != ''){
         localStorage.removeItem('order');

@@ -40,11 +40,13 @@ import { BsDropdownModule } from "ngx-bootstrap";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { ModalModule } from "angular-custom-modal";
 
+
 @NgModule({
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
     CheckoutFooterComponent,
+    
   ],
   imports: [
     RouterModule.forRoot(routes),
