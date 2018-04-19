@@ -1,6 +1,25 @@
 <div>
   <div class="col-md-4"> 
-    <input [(ngModel)]="selected" [typeahead]="states" class="form-control" placeholder="search by ....">
+   
+
+      <div class="input-group phone-input">
+        <span class="input-group-btn">
+          <button  type="button" class="btn md-input form-control" data-toggle="dropdown"
+            aria-expanded="false">
+            <span class="type-text">{{_selectedVal || "Sort by"}}</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li *ngFor="let c of prefix" (click)="_selectedVal = c">
+              <a class="changeType">{{c}}</a>
+            </li>
+      
+          </ul>
+      
+        </span>
+      
+        <input type="text" id="phone" [(ngModel)]="selected" class="form-control"  [typeahead]="transaction" placeholder="Search Transactions" required/>
+      </div>
   </div>
  
   <table class="table table-hover table-striped">

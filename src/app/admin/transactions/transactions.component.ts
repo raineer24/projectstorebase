@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
+  selected: string;
   transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
