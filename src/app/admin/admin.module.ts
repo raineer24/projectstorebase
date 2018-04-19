@@ -12,7 +12,7 @@ import { SharedModule } from '../shared/index';
 import { TransactionsComponent, SortPipe } from './transactions/transactions.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
-
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 @NgModule({
   declarations: [
     AdminComponent,
@@ -28,7 +28,8 @@ import { ModalModule } from 'angular-custom-modal';
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
-    ModalModule
+    ModalModule,
+    TypeaheadModule
   
   
   ],

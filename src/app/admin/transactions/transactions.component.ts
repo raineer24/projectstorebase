@@ -61,6 +61,7 @@ export class Transaction {
 })
 export class SortPipe implements PipeTransform {
   transform(array: any[], field: string): any[] {
+    if (array !== undefined) {
     array.sort((a: any, b: any) => {
       if (a[field] < b[field]) {
         return -1;
@@ -70,6 +71,7 @@ export class SortPipe implements PipeTransform {
         return 0;
       }
     });
+    }
     return array;
   }
 }

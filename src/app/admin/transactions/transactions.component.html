@@ -1,4 +1,8 @@
 <div>
+  <div class="col-md-4"> 
+    <input [(ngModel)]="selected" [typeahead]="states" class="form-control" placeholder="search by ....">
+  </div>
+ 
   <table class="table table-hover table-striped">
     <thead>
       <tr>
@@ -10,7 +14,7 @@
       </tr>
     </thead>  
     <tbody>       
-      <tr *ngFor="let t of transaction | sorthwithId: 'id'">
+      <tr *ngFor="let t of transaction | sorthwithId: 'order_id'">
         <td>{{t.order_id}}</td>
         <td class="text-uppercase">{{t.id}}</td>
         <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>
