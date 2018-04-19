@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TransactionsComponent implements OnInit {
   selected: string;
-  public transaction: Transaction[];
+  public transaction: Transaction[] = [];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
   
@@ -24,7 +24,7 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit() {
     this.viewSub();
-
+   
   }
 
 
@@ -48,8 +48,8 @@ export class TransactionsComponent implements OnInit {
   }
   getTransactionNames() {
    
-    return this.transaction.map((v)=> v.transactionId)
-                
+    return this.transaction.map((v) => v.id)
+         
     
   }
  
@@ -58,10 +58,12 @@ export class TransactionsComponent implements OnInit {
 
 export class Transaction {
   
-  public name: string;
- public transactionId: number;
+
+
   public id: number;
- public dateCreated: string;
+  order_id: number;
+  dateCreated: string;
+    
   
 
 
