@@ -18,7 +18,8 @@
       
         </span>
       
-        <input type="text" id="phone" [(ngModel)]="selected" class="form-control"  [typeahead]="transaction" placeholder="Search Transactions" required/>
+        <input type="text"  [(ngModel)]="selected" class="form-control" [typeahead]="getTransactionNames()" placeholder="Search
+        Transactions" required/>
       </div>
   </div>
  
@@ -33,7 +34,7 @@
       </tr>
     </thead>  
     <tbody>       
-      <tr *ngFor="let t of transaction | sorthwithId: 'order_id'">
+      <tr *ngFor="let t of transaction ">
         <td>{{t.order_id}}</td>
         <td class="text-uppercase">{{t.id}}</td>
         <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>

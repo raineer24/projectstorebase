@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
 import { AdminService } from './../services/admin.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -8,10 +9,10 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class TransactionsComponent implements OnInit {
   selected: string;
-  transaction: Transaction[];
+  private transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
-  showDialog = false;
+  
   @ViewChild('listDetailsModal') listDetailsModal;
   selectedRow: Number;
   setClickedRow(index) {
@@ -44,15 +45,20 @@ export class TransactionsComponent implements OnInit {
   closeItemDialog() {
     this.listDetailsModal.close()
   }
+  getTransactionNames() {
+    return this.transaction.map(v=> v.transactionId)
+                
+    
+  }
 }
 
 
 export class Transaction {
   
-  name: string;
- transactionId: number;
-  id: number;
-
+  public name: string;
+ public transactionId: number;
+  public id: number;
+ public dateCreated: string;
   
 
 
