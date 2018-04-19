@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TransactionsComponent implements OnInit {
   selected: string;
-  private transaction: Transaction[];
+  public transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
   
@@ -32,6 +32,7 @@ export class TransactionsComponent implements OnInit {
    this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
       console.log(this.transaction);
+  
     });
   }
   private selectTransaction(transaction: Transaction) {
@@ -46,10 +47,12 @@ export class TransactionsComponent implements OnInit {
     this.listDetailsModal.close()
   }
   getTransactionNames() {
-    return this.transaction.map(v=> v.transactionId)
+   
+    return this.transaction.map((v)=> v.transactionId)
                 
     
   }
+ 
 }
 
 

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../../core/services/http';
 import { AppState } from '../../interfaces';
+import { Transaction } from '../transactions/transactions.component';
 
 
 
@@ -31,15 +32,18 @@ export class AdminService {
   /**
    *
    *
-   * @returns {Observable<transactions[]>}
+   * @returns {Observable<Transaction[]>}
    *
    * @memberof AdminService
    */
-  getTransactions(): Observable<any> {
+  getTransactions(): Observable<Transaction[]> {
     return this.http.get(`v1/transactions`)
       .map((res: Response) => res.json())
+      
       .catch(res => Observable.empty());
+      
   }
+
 
   /**
    *
