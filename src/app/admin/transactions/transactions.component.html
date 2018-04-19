@@ -1,4 +1,28 @@
 <div>
+  <div class="col-md-4"> 
+   
+
+      <div class="input-group phone-input">
+        <span class="input-group-btn">
+          <button  type="button" class="btn md-input form-control" data-toggle="dropdown"
+            aria-expanded="false">
+            <span class="type-text">{{_selectedVal || "Sort by"}}</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li *ngFor="let c of prefix" (click)="_selectedVal = c">
+              <a class="changeType">{{c}}</a>
+            </li>
+      
+          </ul>
+      
+        </span>
+      
+        <input type="text"  [(ngModel)]="selected" class="form-control" [typeahead]="getTransactionNames()" placeholder="Search
+        Transactions" required/>
+      </div>
+  </div>
+ 
   <table class="table table-hover table-striped">
     <thead>
       <tr>
@@ -8,9 +32,9 @@
         <th>Status</th>
         <th>Transaction Type</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let t of transaction; let i = index"  >
+    </thead>  
+    <tbody>       
+      <tr *ngFor="let t of transaction ">
         <td>{{t.order_id}}</td>
         <td class="text-uppercase">{{t.id}}</td>
         <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>
@@ -26,15 +50,14 @@
       </tr>
     </tbody>
   </table>
+    <modal #listDetailsModal>
+      <ng-template #modalBody>
+        <app-print-transactions [trans]="activeTransaction" (onCloseModalEmit)="closeItemDialog()" (onClose)="closeItemDialog()">
+        </app-print-transactions>
+      </ng-template>
     
+    </modal>
 </div>
 <!-- <app-print-transactions  *ngIf="activeTransaction !== null" [trans]="activeTransaction" (onClosed)="detailClosed()">
   
 </app-print-transactions> -->
-<modal #listDetailsModal>
-  <ng-template #modalBody>
-    <app-print-transactions [trans]="activeTransaction">
-    </app-print-transactions>
-  </ng-template>
-
-</modal>

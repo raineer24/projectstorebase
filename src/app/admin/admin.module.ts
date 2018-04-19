@@ -12,10 +12,10 @@ import { OrderDetailsComponent } from './orders/components/order-details/order-d
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
-import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionsComponent, SortPipe } from './transactions/transactions.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
-
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 @NgModule({
   declarations: [
     AdminComponent,
@@ -25,7 +25,8 @@ import { ModalModule } from 'angular-custom-modal';
     UsersEditComponent,
     OrderDetailsComponent,
     TransactionsComponent,
-    PrintTransactionsComponent
+    PrintTransactionsComponent,
+    SortPipe
   ],
   imports: [
     CommonModule,
@@ -33,7 +34,8 @@ import { ModalModule } from 'angular-custom-modal';
     SharedModule,
     FormsModule,
     ButtonsModule.forRoot(),
-    ModalModule
+    ModalModule,
+    TypeaheadModule
   
   
   ],

@@ -11,9 +11,10 @@ declare let jsPDF;
 export class PrintTransactionsComponent implements OnInit {
   @Input() trans: Transaction[];
  
-  //@Input() transaction: any;
   
-  @Output() onClosed: EventEmitter<boolean> = new EventEmitter<boolean>();
+  
+
+  @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
@@ -39,7 +40,10 @@ export class PrintTransactionsComponent implements OnInit {
     console.log(col, rows);
     doc.save('invoice.pdf');
   }
-  private onClose() {
-    this.onClosed.emit(true);
+  // private onClose() {
+  //   this.onClosed.emit(true);
+  // }
+  onCloseModal() {
+    this.onCloseModalEmit.emit();
   }
 }
