@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Transaction } from './../transactions.component';
 declare let jsPDF;
 @Component({
   selector: 'app-print-transactions',
@@ -8,21 +9,18 @@ declare let jsPDF;
 })
 
 export class PrintTransactionsComponent implements OnInit {
-  @Input() display: boolean;
-  @Input() transaction: any;
-  @Input() closable = true;
-  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() trans: Transaction[];
+ 
+  //@Input() transaction: any;
+  
+  @Output() onClosed: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor() { }
 
   ngOnInit() {
   }
-  close(){
-    this.display = false;
-    this.visibleChange.emit(this.display);
-    console.log(this.display);
-  }
+ 
   download() {
-    var item = this.transaction;
+    var item = this.trans;
     console.log(item);
     var doc = new jsPDF();
     var col = ["Details", "Values"];
@@ -40,5 +38,8 @@ export class PrintTransactionsComponent implements OnInit {
     doc.autoTable(col, rows);
     console.log(col, rows);
     doc.save('invoice.pdf');
+  }
+  private onClose() {
+    this.onClosed.emit(true);
   }
 }

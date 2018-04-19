@@ -1,36 +1,34 @@
-<div  *ngIf="display" class="dialog">
-  <h1>Print Summary Transactions</h1>
+<div class="dialog">
   <ng-content></ng-content>
-<button  *ngIf="closable" aria-label="Close"  (click)="close()" class="dialog-x-btn">X</button>
 
-
-  
+  <button (click)="onClose()" aria-label="Close">X</button>
+  <div>
+    <h1>View Detail Transactions</h1>
     <table class="table table-hover table-striped">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Transaction ID</th>
-          <th>Date Created</th>
-          <th>Status</th>
-          <th>Transaction Type</th>
-        </tr>
-      </thead>
       <tbody>
-        <tr *ngFor="let t of transaction; let i = index">
-          <td>{{t.order_id}}</td>
-          <td class="text-uppercase">{{t.id}}</td>
-          <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>
+        <tr>
+          <td>Name</td>
+          <td>{{trans.id}}</td>
+        </tr>
+        <tr>
+          <td>Date Created</td>
+          <td class="text-uppercase">{{trans.action}}</td>
+        </tr>
+        <tr>
+          <td>City</td>
           <td class="text-uppercase"></td>
-          <td class="text-uppercase">{{t.action}}</td>
-    
+        </tr>and
+        <tr>
+          <td>Status</td>
+          <td class="text-uppercase"></td>
+        </tr>
+        <tr>
+          <td>Product Details</td>
+          <td class="text-uppercase"></td>
         </tr>
       </tbody>
     </table>
-   
-  
-  <button class="btn btn-success" (click)="download()">Download Pdf</button>
-<button (click)="close()" class="btn btn-danger ">Close</button>
-
-
+  </div>
+  <button type="submit" (click)="onClose()" class="btn btn-warning">Close</button>
+  <button type="submit" (click)="download()" class="btn btn-success">Export PDF</button>
 </div>
-  <div *ngIf="display" class="overlay" (click)="close()"></div>
