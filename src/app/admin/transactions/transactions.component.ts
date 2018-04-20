@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TransactionsComponent implements OnInit {
   selected: string;
-  public transaction: Transaction[] = [];
+  private transaction: Transaction[] = [];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
   
@@ -51,6 +51,13 @@ export class TransactionsComponent implements OnInit {
     return this.transaction.map((v) => v.id)
          
     
+  }
+  public getCitiesAsObservable(token: string): Observable<any> {
+    return Observable.of(
+      this.transaction.filter((v: any) => {
+        return Transaction.name.startsWith(token) || Transaction.country.startsWith(token);
+      })
+    );
   }
  
 }

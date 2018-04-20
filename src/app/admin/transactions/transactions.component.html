@@ -6,7 +6,7 @@
         <span class="input-group-btn">
           <button  type="button" class="btn md-input form-control" data-toggle="dropdown"
             aria-expanded="false">
-            <span class="type-text">{{_selectedVal || "Sort by"}}</span>
+            <span class="type-text">{{_selectedVal || "Filter orders"}}</span>
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
@@ -19,7 +19,7 @@
         </span>
       
         <input type="text"  [(ngModel)]="selected" class="form-control" [typeahead]="getTransactionNames()" placeholder="Search
-        Transactions" required/>
+        Orders" required/>
       </div>
   </div>
  
