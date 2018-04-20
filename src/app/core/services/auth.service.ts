@@ -206,7 +206,41 @@ export class AuthService {
     // otherwise no further login requests will be fired
     // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
   }
-
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  changePassword(id, data): Observable<any> {
+    return this.http.put(
+      `v1/user/account/${ id }/save`, data
+    ).map((res: Response) => {
+      let result = res.json();
+      if (result.message.indexOf('Updated') >= 0) {
+        let storedData = JSON.parse(localStorage.getItem('user'));
+        data.message = result.message;
+        this.http.loading.next({
+          loading: false,
+          success: true,
+          message: `Profile was successfully saved.`
+        });
+      } else {
+        // this.http.loading.next({
+        //   loading: false,
+        //   hasError: true,
+        //   hasMsg: 'Please enter valid Credentials'
+        // });
+      }
+      return result;
+    });
+    // catch should be handled here with the http observable
+    // so that only the inner obs dies and not the effect Observable
+    // otherwise no further login requests will be fired
+    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
+  }
   /**
    *
    *

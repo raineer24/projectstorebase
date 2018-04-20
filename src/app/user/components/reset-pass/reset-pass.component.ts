@@ -20,7 +20,6 @@ export class ResetPassComponent {
   isAuthenticated: boolean = false;
   formSubmit = false;
   model: any = {};
-  loading = false;
   token: string;
   userId: string;
   isValid: boolean = false;
@@ -77,7 +76,9 @@ export class ResetPassComponent {
       'password': 'values.password'
     };
     if(this.resetForm.valid) {
-      this.loading = true;
+      // this.authService.changePassword().takeUntil(this.componentDestroyed).subscribe(()=> {
+      //   this.router.navigate('/');
+      // })
     } else {
       keys.forEach(val => {
         const ctrl = this.resetForm.controls[val];
