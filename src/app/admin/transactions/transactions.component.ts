@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 export class TransactionsComponent implements OnInit {
   
   
-
+  selectedAll: any;
   public transaction: Transaction[] = [];
   //public transaction: Transaction[];
   transactionSub: Subscription;
@@ -56,8 +56,14 @@ export class TransactionsComponent implements OnInit {
          
     
   }
-  checkAll(ev) {
-    this.transaction.forEach(x => x.checked = ev.target.checked)
+  // checkAll(ev) {
+  //   this.transaction.forEach(x => x.checked = ev.target.checked)
+  // }
+  checkAll() {
+    for (var i = 0; i < this.transaction.length; i++) {
+      this.transaction[i].checked = this.selectedAll;
+      console.log('checked all');
+    }
   }
   // public getCitiesAsObservable(token: string): Observable<any> {
   //   return Observable.of(
