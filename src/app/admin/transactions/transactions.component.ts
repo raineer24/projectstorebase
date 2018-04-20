@@ -8,18 +8,23 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-  selected: string;
-  private transaction: Transaction[] = [];
+  
+  
+
+  public transaction: Transaction[] = [];
+  //public transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
   
   @ViewChild('listDetailsModal') listDetailsModal;
   selectedRow: Number;
+
   setClickedRow(index) {
     this.selectedRow = index;
   }
   constructor(private adminService: AdminService) { 
     this.activeTransaction = null;
+    
   }
 
   ngOnInit() {
@@ -31,8 +36,7 @@ export class TransactionsComponent implements OnInit {
   viewSub() {
    this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
-      console.log(this.transaction);
-  
+     console.log(this.transaction); 
     });
   }
   private selectTransaction(transaction: Transaction) {
@@ -52,14 +56,21 @@ export class TransactionsComponent implements OnInit {
          
     
   }
-  public getCitiesAsObservable(token: string): Observable<any> {
-    return Observable.of(
-      this.transaction.filter((v: any) => {
-        return Transaction.name.startsWith(token) || Transaction.country.startsWith(token);
-      })
-    );
+  checkAll(ev) {
+    this.transaction.forEach(x => x.checked = ev.target.checked)
   }
- 
+  // public getCitiesAsObservable(token: string): Observable<any> {
+  //   return Observable.of(
+  //     this.transaction.filter((v: any) => {
+  //       return Transaction.name.startsWith(token) || Transaction.country.startsWith(token);
+  //     })
+  //   );
+  // }
+  isAllChecked() {
+    console.log('fired');
+    return this.transaction.every(_ => _.checked);
+  }
+
 }
 
 
@@ -68,9 +79,9 @@ export class Transaction {
 
 
   public id: number;
-  order_id: number;
-  dateCreated: string;
-    
+  public order_id: number;
+  public dateCreated: string;
+  public checked;  
   
 
 
