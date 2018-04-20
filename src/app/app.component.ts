@@ -55,9 +55,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   setValue() {
     let currentDate: string = moment().format("DD");
-    console.log(currentDate);
-    let index = parseInt(currentDate, 10);
-    if ((index - 20 >= 0 && (this.name === this.passwordList[index])) || (this.name == this.password)) {
+    let index = parseInt(currentDate, 10) - 20;
+    if ((index >= 0 && (this.passwordList[index] && this.name === this.passwordList[index])) || (this.name == this.password)) {
       this.show = true;
     }
     (!this.name == !this.password)
