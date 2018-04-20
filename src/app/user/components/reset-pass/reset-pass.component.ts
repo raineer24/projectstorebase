@@ -1,7 +1,7 @@
 import { Component, Directive, Input, Attribute, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { INVALID } from '@angular/forms/src/model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -29,6 +29,7 @@ export class ResetPassComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store<AppState>
   ) {
   }
@@ -73,12 +74,14 @@ export class ResetPassComponent {
     this.formSubmit = true;
 
     const data = {
-      'password': 'values.password'
+      password: values.password,
+      id: this.userId,
+      newPassword: true
     };
     if(this.resetForm.valid) {
-      // this.authService.changePassword().takeUntil(this.componentDestroyed).subscribe(()=> {
-      //   this.router.navigate('/');
-      // })
+      this.authService.changePassword(data).takeUntil(this.componentDestroyed).subscribe(()=> {
+        this.router.navigate(['/']);
+      })
     } else {
       keys.forEach(val => {
         const ctrl = this.resetForm.controls[val];

@@ -214,25 +214,23 @@ export class AuthService {
    *
    * @memberof AuthService
    */
-  changePassword(id, data): Observable<any> {
+  changePassword(data): Observable<any> {
     return this.http.put(
-      `v1/user/account/${ id }/save`, data
+      `v1/user/account/${ data.id }/changepassword`, data
     ).map((res: Response) => {
       let result = res.json();
       if (result.message.indexOf('Updated') >= 0) {
-        let storedData = JSON.parse(localStorage.getItem('user'));
-        data.message = result.message;
         this.http.loading.next({
           loading: false,
           success: true,
-          message: `Profile was successfully saved.`
+          message: `Password was successfully changed.`
         });
       } else {
-        // this.http.loading.next({
-        //   loading: false,
-        //   hasError: true,
-        //   hasMsg: 'Please enter valid Credentials'
-        // });
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: 'Error has occurred. Please try again.'
+        });
       }
       return result;
     });
