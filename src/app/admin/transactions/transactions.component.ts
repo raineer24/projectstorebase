@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core
 import { AdminService } from './../services/admin.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+declare let jsPDF;
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -59,11 +60,31 @@ export class TransactionsComponent implements OnInit {
   // checkAll(ev) {
   //   this.transaction.forEach(x => x.checked = ev.target.checked)
   // }
-  checkAll() {
+  selectAll() {
     for (var i = 0; i < this.transaction.length; i++) {
       this.transaction[i].checked = this.selectedAll;
-      console.log('checked all');
+      console.log(this.selectedAll);
     }
+  }
+  download() {
+    var item = this.transaction;
+    console.log(item);
+    var doc = new jsPDF();
+    var col = ["Details", "Values"];
+    var rows = [];
+
+    for (var key in item) {
+      //var temp = [key, item[key]];
+      var temp = [key, JSON.stringify(item[key])];
+      rows.push(temp);
+      var string = doc.output('datauristring');
+
+    }
+
+
+    doc.autoTable(col, rows);
+    console.log(col, rows);
+    doc.save('invoice.pdf');
   }
   // public getCitiesAsObservable(token: string): Observable<any> {
   //   return Observable.of(
@@ -72,11 +93,16 @@ export class TransactionsComponent implements OnInit {
   //     })
   //   );
   // }
-  isAllChecked() {
-    console.log('fired');
-    return this.transaction.every(_ => _.checked);
+  checkIfAllSelected() {
+    this.selectedAll = this.transaction.every(function (item: any) {
+      return item.checked == true
+     
+    });
+    console.log(this.selectedAll);
   }
-
+  getCheckedValues(){
+    return this.transaction.filter(obj => obj.checked);
+  }
 }
 
 
@@ -87,7 +113,7 @@ export class Transaction {
   public id: number;
   public order_id: number;
   public dateCreated: string;
-  public checked;  
+  public checked: false;
   
 
 
