@@ -1,5 +1,5 @@
 <div>
-  <div class="col-md-4"> 
+  <div class="col-md-6"> 
    
 
       <div class="input-group phone-input">
@@ -21,8 +21,11 @@
         <input type="text"  [(ngModel)]="selected" class="form-control" [typeahead]="getTransactionNames()" placeholder="Search
         Orders" required/>
       </div>
+      
   </div>
- 
+ <div class="col-md-6">
+   <button (click)="download()">Export</button>
+ </div>
   <table class="table table-hover table-striped">
     <thead>
       <tr>
