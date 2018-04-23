@@ -22,6 +22,7 @@ export class ResetPassComponent {
   model: any = {};
   token: string;
   userId: string;
+  email: string;
   isValid: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -35,20 +36,24 @@ export class ResetPassComponent {
   }
 
   ngOnInit() {
-    this.route.params.takeUntil(this.componentDestroyed).subscribe((params: any) => {
-      this.token = params['token'];
-      this.userId = params['userId'];
+    this.route.queryParams.takeUntil(this.componentDestroyed).subscribe((params: any) => {
+      this.token = params['token'] || '';
+      this.email = params['email'] || '';
+      this.userId = params['i'] || '';
       this.authService.checkToken({
         useraccount_id: this.userId,
         token: this.token,
         type: 'PASSWORD_RESET'
-      }).subscribe(res => {
+      }).takeUntil(this.componentDestroyed).subscribe(res => {
         if(res.message == 'Valid') {
           this.isValid = true;
         } else {
           this.isValid = false;
         }
       })
+      if(this.token) {
+        this.authService.logout().takeUntil(this.componentDestroyed).subscribe();
+      }
     });
 
     this.initForm();
@@ -73,15 +78,30 @@ export class ResetPassComponent {
     const keys = Object.keys(values);
     this.formSubmit = true;
 
-    const data = {
-      password: values.password,
-      id: this.userId,
-      newPassword: true
-    };
     if(this.resetForm.valid) {
-      this.authService.changePassword(data).takeUntil(this.componentDestroyed).subscribe(()=> {
-        this.router.navigate(['/']);
-      })
+      if(this.token) {
+        this.authService.changePassword({
+          password: values.password,
+          email: this.email,
+          id: this.userId,
+          newPassword: true
+        }).takeUntil(this.componentDestroyed).subscribe((res)=> {
+          if(res.message.indexOf('Updated') >= 0) {
+            this.router.navigate(['/auth/login']);
+          }
+        })
+      } else {
+        const user = JSON.parse(localStorage.getItem('user'));
+        this.authService.update(user.id, {
+          password: values.password,
+          email: user.email,
+          id: user.id,
+          newPassword: true
+        }).takeUntil(this.componentDestroyed).subscribe((res)=> {
+          if(res.message.indexOf('Updated') >= 0) {
+          }
+        })
+      }
     } else {
       keys.forEach(val => {
         const ctrl = this.resetForm.controls[val];
