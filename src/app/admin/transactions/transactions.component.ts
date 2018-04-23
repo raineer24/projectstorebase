@@ -104,6 +104,15 @@ export class TransactionsComponent implements OnInit {
     return this.transaction.filter(obj => obj.checked);
   }
 }
+getCustomers(criteria: CustomerSearchCriteria): Transaction[] {
+  return this.transaction.sort((a, b) => {
+    if (criteria.sortDirection === 'desc') {
+      return a[criteria.sortColumn] < b[criteria.sortColumn];
+    }
+    else {
+      return b[criteria.sortColumn] > a[criteria.sortColumn];
+    }
+  }); 
 
 
 export class Transaction {
@@ -137,3 +146,7 @@ export class SortPipe implements PipeTransform {
     return array;
   }
 }
+  export class CustomerSearchCriteria {
+    sortColumn: string;
+    sortDirection: string;
+  }
