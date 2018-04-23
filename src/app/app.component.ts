@@ -7,6 +7,7 @@ import { AuthService } from './core/services/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ProductActions } from './product/actions/product-actions';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,18 @@ export class AppComponent implements OnInit, OnDestroy {
   show: boolean;
   errorMessage:string;
   private password = 'OmgLogin18!';
+  private passwordList = [
+    'xltfts8u',
+    '2y4f2wkx',
+    'arg9gy5k',
+    'gfro54fr',
+    'qfhk7kix',
+    'krjytvl4',
+    'f8fsdzyy',
+    'yimdjcpa',
+    'o2a7j8z2',
+    '2iaba1no',
+  ];
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -38,13 +51,15 @@ export class AppComponent implements OnInit, OnDestroy {
         this.findCurrentStep(this.currentUrl);
         window.scrollTo(0, 0);
       });
-    
+
   }
   setValue() {
-    if (this.name == this.password) {
+    let currentDate: string = moment().format("DD");
+    let index = parseInt(currentDate, 10) - 20;
+    if ((index >= 0 && (this.passwordList[index] && this.name === this.passwordList[index])) || (this.name == this.password)) {
       this.show = true;
     }
-    (!this.name == !this.password) 
+    (!this.name == !this.password)
     this.errorMessage = this.name;
   }
 
