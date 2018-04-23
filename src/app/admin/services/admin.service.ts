@@ -31,6 +31,19 @@ export class AdminService {
   /**
    *
    *
+   * @returns {Observable<transactions[]>}
+   *
+   * @memberof AdminService
+   */
+  getTransactions(): Observable<any> {
+    return this.http.get(`v1/transactions`)
+      .map((res: Response) => res.json())
+     .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @returns {Observable<any>}
    *
    * @memberof AdminService
@@ -40,6 +53,7 @@ export class AdminService {
        .map((res: Response) => res.json())
        .catch(res => Observable.empty());
    }
+
 
   /**
    *
