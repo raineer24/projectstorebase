@@ -80,6 +80,7 @@ export class PaymentComponent implements OnInit {
   checkedPP: boolean = false;
   checkedCC: boolean = false;
   availableCredit: number = 8000;
+  isPBU: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -112,6 +113,12 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(localStorage.getItem('pbu') !== null) {
+      if(localStorage.getItem('pbu') === '1')
+        this.isPBU = true;
+      else
+        this.isPBU = false;
+    }
     this.voucherIcon = 'glyphicon glyphicon-tag text-default';
     this.gcList = [];
     if(localStorage.getItem('giftcert') == ''){
@@ -316,7 +323,7 @@ export class PaymentComponent implements OnInit {
       discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
       total: grandTotal,
-      status: 'payment'
+      status: 'Pending'
     }
 
     this.checkoutService.updateOrderPayment(params

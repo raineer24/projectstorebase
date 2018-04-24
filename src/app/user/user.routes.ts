@@ -6,7 +6,7 @@ import { OrderDetailComponent } from './components/orders/order-detail/order-det
 import { ProfileComponent } from './components/profile/profile.component';
 import { ListsComponent } from  './components/lists/lists.component';
 import { ListDetailComponent } from  './components/lists/list-detail/list-detail.component';
-
+import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
 
 export const UserRoutes = [
   {
@@ -20,6 +20,8 @@ export const UserRoutes = [
       { path: 'addresses', component: AddressesComponent, redirectTo: 'orders' },
       { path: 'lists', component: ListsComponent },
       { path: 'lists/detail/:userId/:id', component: ListDetailComponent },
-      { path: 'profile', component: ProfileComponent }]
+      { path: 'profile', component: ProfileComponent },
+      { path: 'reset-pass', component: ResetPassComponent }
+    ]
   },
 ];

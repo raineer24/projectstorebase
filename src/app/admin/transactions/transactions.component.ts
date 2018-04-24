@@ -9,41 +9,41 @@ declare let jsPDF;
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-  
-  
+
+
   selectedAll: any;
   public transaction: Transaction[] = [];
   //public transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
-  
+
   @ViewChild('listDetailsModal') listDetailsModal;
   selectedRow: Number;
 
   setClickedRow(index) {
     this.selectedRow = index;
   }
-  constructor(private adminService: AdminService) { 
+  constructor(private adminService: AdminService) {
     this.activeTransaction = null;
-    
+
   }
 
   ngOnInit() {
     this.viewSub();
-   
+
   }
 
 
   viewSub() {
-   this.adminService.getTransactions().subscribe(transaction => {
+    this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
-     console.log(this.transaction); 
+      console.log(this.transaction);
     });
   }
   private selectTransaction(transaction: Transaction) {
     this.activeTransaction = transaction
     this.listDetailsModal.open()
-   
+
   }
   private detailClosed() {
     this.activeTransaction = null;
@@ -52,10 +52,10 @@ export class TransactionsComponent implements OnInit {
     this.listDetailsModal.close()
   }
   getTransactionNames() {
-   
+
     return this.transaction.map((v) => v.id)
-         
-    
+
+
   }
   // checkAll(ev) {
   //   this.transaction.forEach(x => x.checked = ev.target.checked)
@@ -96,25 +96,25 @@ export class TransactionsComponent implements OnInit {
   checkIfAllSelected() {
     this.selectedAll = this.transaction.every(function (item: any) {
       return item.checked == true
-     
+
     });
     console.log(this.selectedAll);
   }
-  getCheckedValues(){
+  getCheckedValues() {
     return this.transaction.filter(obj => obj.checked);
   }
 }
 
 
 export class Transaction {
-  
+
 
 
   public id: number;
   public order_id: number;
   public dateCreated: string;
   public checked: false;
-  
+
 
 
 }
@@ -124,20 +124,16 @@ export class Transaction {
 export class SortPipe implements PipeTransform {
   transform(array: any[], field: string): any[] {
     if (array !== undefined) {
-    array.sort((a: any, b: any) => {
-      if (a[field] < b[field]) {
-        return -1;
-      } else if (a[field] > b[field]) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+      array.sort((a: any, b: any) => {
+        if (a[field] < b[field]) {
+          return -1;
+        } else if (a[field] > b[field]) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     }
     return array;
   }
 }
-  export class CustomerSearchCriteria {
-    sortColumn: string;
-    sortDirection: string;
-  }

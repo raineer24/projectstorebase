@@ -19,12 +19,12 @@ export class AdminService {
   /**
    *
    *
-   * @returns {Observable<Order[]>}
+   * @returns {Observable<any[]>}
    *
    * @memberof AdminService
    */
-  getSellerOrders(id: number): Observable<any> {
-    return this.http.get(`v1/seller/account/order/${id}`)
+  getSellerOrders(seller_id: number): Observable<any> {
+    return this.http.get(`v1/ordersellers?sellerId=${seller_id}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -43,6 +43,20 @@ export class AdminService {
       .catch(res => Observable.empty());
       
   }
+
+
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+   getSellerOrder(orderseller_id: number): Observable<any> {
+     return this.http.get(`v1/ordersellers/${orderseller_id}`)
+       .map((res: Response) => res.json())
+       .catch(res => Observable.empty());
+   }
 
 
   /**
@@ -78,6 +92,55 @@ export class AdminService {
     return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
+  }
+
+
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getOrderItems(order_id: number): Observable<any> {
+    return this.http.get(`v1/orderItem?limit=1000&orderId=${order_id}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateOrderItem(orderItem: any): Observable<any>  {
+    return this.http.put(`v1/orderItem/${orderItem.orderItem_id}`, {
+        "item_id": orderItem.id,
+        "quantity": orderItem.finalQuantity,
+        "status": orderItem.status
+      }
+    ).map((res) => {
+      return res.json();
+    }).catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  finalizeOrder(order: any): Observable<any> {
+    return this.http.put(`v1/order/${order.order_id}/seller`, {
+        "finalTotalQuantity": order.finalQuantity,
+        "finalItemTotal": order.finalTotal
+      }
+    ).map((res) => {
+      return res.json();
+    }).catch(err => Observable.empty());
   }
 
   /**
