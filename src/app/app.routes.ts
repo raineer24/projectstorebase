@@ -11,9 +11,7 @@ export const routes: Routes = [
     loadChildren: './checkout/checkout.module#CheckoutModule' },
   {
     path: 'user',
-    loadChildren: './user/index#UserModule',
-    canActivate: [ CanActivateViaAuthGuard ]
-  },
+    loadChildren: './user/index#UserModule' },
   {
     path: 'item',
     loadChildren: './product/index#ProductModule'

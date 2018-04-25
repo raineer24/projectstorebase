@@ -1,3 +1,4 @@
+import { CanActivateViaAuthGuard } from './../core/guards/auth.guard';
 import { OverviewComponent } from './components/overview/overview.component';
 import { UserComponent } from './user.component';
 import { OrdersComponent } from './components/orders/orders.component';
@@ -7,11 +8,25 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ListsComponent } from  './components/lists/lists.component';
 import { ListDetailComponent } from  './components/lists/list-detail/list-detail.component';
 import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 export const UserRoutes = [
   {
+    path: 'guestActivation',
+    component: ResetPassComponent
+  },
+  {
+    path: 'resetPassword',
+    component: ResetPassComponent
+  },
+  {
+    path: 'forgotPassword',
+    component: ForgotPasswordComponent
+  },
+  {
     path: '',
     component: UserComponent,
+    canActivate: [ CanActivateViaAuthGuard ],
     children: [
       { path: '', redirectTo: 'profile' },
       { path: 'overview', component: OverviewComponent },
