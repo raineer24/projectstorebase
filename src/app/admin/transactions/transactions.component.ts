@@ -10,7 +10,7 @@ declare let jsPDF;
 })
 export class TransactionsComponent implements OnInit {
 
-
+  
   selectedAll: any;
   public transaction: Transaction[] = [];
   //public transaction: Transaction[];
@@ -37,7 +37,12 @@ export class TransactionsComponent implements OnInit {
   viewSub() {
     this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
+
+      var myJSON = JSON.stringify(this.transaction);
+      
+      console.log(myJSON);
       console.log(this.transaction);
+      
     });
   }
   private selectTransaction(transaction: Transaction) {
