@@ -3,6 +3,7 @@ import { AdminService } from './../services/admin.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 declare let jsPDF;
+import * as moment from 'moment';
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
@@ -39,26 +40,25 @@ export class TransactionsComponent implements OnInit {
   viewSub() {
     this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
+     let date = this.transaction[0].dateCreated ;
+    
+     console.log(date);
 
-      var myJSON = JSON.stringify(this.transaction);
-      
-      console.log(myJSON);
+
+     //var myJSON = JSON.stringify(this.transaction);
+     //let x = myJSON["dateCreated"];
+      // var myJSON = JSON.stringify(this.transaction);
+      // let x = myJSON["dateCreated"];
+      //localStorage.setItem('orderedList', JSON.stringify(this.transaction));
+     // console.log(myJSON);
+      console.log(this.transaction[0].dateCreated);
       console.log(this.transaction);
+     
+      //console.log(localStorage.getItem('orderedList'));
       
     });
 
-    myObj = {
-      "name": "John",
-      "age": 30,
-      "cars": {
-        "car1": "Ford",
-        "car2": "BMW",
-        "car3": "Fiat"
-      }
-    }
-    x = myObj.cars["car2"];
-
-    console.log(x)
+    
   }
   private selectTransaction(transaction: Transaction) {
     this.activeTransaction = transaction
