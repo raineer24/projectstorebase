@@ -33,6 +33,8 @@ export class TransactionsComponent implements OnInit {
 
   }
 
+  
+
 
   viewSub() {
     this.adminService.getTransactions().subscribe(transaction => {
@@ -44,6 +46,19 @@ export class TransactionsComponent implements OnInit {
       console.log(this.transaction);
       
     });
+
+    myObj = {
+      "name": "John",
+      "age": 30,
+      "cars": {
+        "car1": "Ford",
+        "car2": "BMW",
+        "car3": "Fiat"
+      }
+    }
+    x = myObj.cars["car2"];
+
+    console.log(x)
   }
   private selectTransaction(transaction: Transaction) {
     this.activeTransaction = transaction
