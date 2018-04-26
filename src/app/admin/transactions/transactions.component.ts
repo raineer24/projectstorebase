@@ -70,10 +70,17 @@ export class TransactionsComponent implements OnInit {
     this.listDetailsModal.close()
   }
   getTransactionNames() {
-
-    return this.transaction
-    .filter((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
     
+  
+    var unique = this.transaction;
+    //var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
+    return this.transaction 
+      .filter((v, i, a) => a.indexOf(v) === i); 
+      
+      //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction))
+    //.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
+    //return this.transaction.map((v) => v.id)
+  //.filter((v) => v.id)
     
   }
   // checkAll(ev) {
