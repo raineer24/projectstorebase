@@ -71,7 +71,8 @@ export class TransactionsComponent implements OnInit {
   }
   getTransactionNames() {
 
-    return this.transaction.map((v) => moment(v.dateCreated).format("MMM Do YY"));
+    return this.transaction
+    .filter((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
     
     
   }
