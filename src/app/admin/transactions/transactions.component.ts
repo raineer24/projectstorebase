@@ -75,9 +75,9 @@ export class TransactionsComponent implements OnInit {
     var unique = this.transaction;
     //var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
     return this.transaction 
-      .filter((v, i, a) => a.indexOf(v) === i); 
-      
-      //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction))
+      //.filter((v, i, a) => a.indexOf(v) === i), JSON.stringify(this.transaction); 
+      .filter((v) =>  JSON.stringify(v.dateCreated));
+      //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), JSON.stringify(this.transaction))
     //.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
     //return this.transaction.map((v) => v.id)
   //.filter((v) => v.id)
