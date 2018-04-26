@@ -43,7 +43,7 @@
         <td>
           <input type="checkbox" [(ngModel)]="t.checked" value="{{t.order_id}}">
         </td>
-        <td>{{t.order_id}}</td>
+        <td (input)="getTransactionNames()">{{t.order_id}}</td>
         <td class="text-uppercase">{{t.id}}</td>
 <td class="text-uppercase">{{t.dateCreated | date:'longDate' }}</td>
 

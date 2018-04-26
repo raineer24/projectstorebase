@@ -17,6 +17,9 @@ export class TransactionsComponent implements OnInit {
   //public transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
+  public search: { order_id: string, dateCreated: number } = { order_id: '', dateCreated: null }
+
+  public filtered: Transaction[];
 
   @ViewChild('listDetailsModal') listDetailsModal;
   selectedRow: Number;
@@ -72,14 +75,14 @@ export class TransactionsComponent implements OnInit {
   getTransactionNames() {
     
   
-    var unique = this.transaction;
+    
     //var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
-    return this.transaction 
+    //return this.transaction 
       //.filter((v, i, a) => a.indexOf(v) === i), JSON.stringify(this.transaction); 
-      .filter((v) =>  JSON.stringify(v.dateCreated));
+     // .filter((v) =>  JSON.stringify(v.dateCreated));
       //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), JSON.stringify(this.transaction))
     //.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
-    //return this.transaction.map((v) => v.id)
+    return this.transaction.map((v) => v.id)
   //.filter((v) => v.id)
     
   }
@@ -138,7 +141,7 @@ export class Transaction {
 
   public id: number;
   public order_id: number;
-  public dateCreated: string;
+  public dateCreated: number;
   public checked: false;
 
 
