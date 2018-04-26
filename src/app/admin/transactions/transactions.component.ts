@@ -40,10 +40,7 @@ export class TransactionsComponent implements OnInit {
   viewSub() {
     this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
-     let date = this.transaction[0].dateCreated
-      date = moment().format('MMMM Do YYYY, h:mm:ss a');
-     
-     console.log(date);
+    
 
 
      //var myJSON = JSON.stringify(this.transaction);
@@ -74,9 +71,9 @@ export class TransactionsComponent implements OnInit {
   }
   getTransactionNames() {
 
-    return this.transaction.map((v) => v.dateCreated)
-
-
+    return this.transaction.map((v) => moment(v.dateCreated).format("MMM Do YY"));
+    
+    
   }
   // checkAll(ev) {
   //   this.transaction.forEach(x => x.checked = ev.target.checked)
