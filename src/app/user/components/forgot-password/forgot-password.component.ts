@@ -25,7 +25,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   onSubmit(){
     if(this.forgotPasswordForm.valid) {
-
+      this.authService.requestPasswordReset(this.forgotPasswordForm.controls['email'].value).subscribe();
     } else {
       const ctrl = this.forgotPasswordForm.controls['email'];
       if(!ctrl.valid){
