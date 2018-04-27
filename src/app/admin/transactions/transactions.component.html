@@ -17,7 +17,9 @@
 
       </span>
 
-      <input type="text" [(ngModel)]="selected" class="form-control" [typeahead]="getTransactionNames()" placeholder="Search
+<input type="text" [(ngModel)]="search.order_id" (input)="getTransactionNames()" placeholder="Search
+
+
         Orders" required/>
     </div>
 
@@ -39,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let t of transaction ">
+      <tr *ngFor="let t of filtered ">
         <td>
           <input type="checkbox" [(ngModel)]="t.checked" value="{{t.order_id}}">
         </td>

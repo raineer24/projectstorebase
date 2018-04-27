@@ -13,7 +13,7 @@ export class TransactionsComponent implements OnInit {
 
   
   selectedAll: any;
-  public transaction: Transaction[] = [];
+  public transaction: Transaction[];
   //public transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
@@ -29,12 +29,13 @@ export class TransactionsComponent implements OnInit {
   }
   constructor(private adminService: AdminService) {
     this.activeTransaction = null;
-
+  
   }
 
   ngOnInit() {
     this.viewSub();
-
+    this.filtered = this.transaction;
+    console.log(this.filtered);
   }
 
   
@@ -82,9 +83,20 @@ export class TransactionsComponent implements OnInit {
      // .filter((v) =>  JSON.stringify(v.dateCreated));
       //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), JSON.stringify(this.transaction))
     //.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
-    return this.transaction.map((v) => v.id)
+    // return this.transaction.map((v) => v.id)
   //.filter((v) => v.id)
-    
+    this.filtered = this.transaction.filter((t) => {
+      let state = true;
+      if (this.search.order_id && t.order_id
+        .toLowerCase().indexOf(this.search.order_id.toLowerCase()) === -1) {
+        state = state && false;
+      }
+      if (this.search.dateCreated && t.dateCreated) {
+        /* code */
+      }
+      return state;
+
+    });
   }
   // checkAll(ev) {
   //   this.transaction.forEach(x => x.checked = ev.target.checked)
@@ -140,7 +152,7 @@ export class Transaction {
 
 
   public id: number;
-  public order_id: number;
+  public order_id: string;
   public dateCreated: number;
   public checked: false;
 
