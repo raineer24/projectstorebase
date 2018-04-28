@@ -200,7 +200,39 @@ export class AuthService {
     // otherwise no further login requests will be fired
     // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
   }
-
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  changePassword(data): Observable<any> {
+    return this.http.put(
+      `v1/user/account/${ data.id }/changepassword`, data
+    ).map((res: Response) => {
+      let result = res.json();
+      if (result.message.indexOf('Updated') >= 0) {
+        this.http.loading.next({
+          loading: false,
+          success: true,
+          message: `Password was successfully changed.`
+        });
+      } else {
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: 'Error has occurred. Please try again.'
+        });
+      }
+      return result;
+    });
+    // catch should be handled here with the http observable
+    // so that only the inner obs dies and not the effect Observable
+    // otherwise no further login requests will be fired
+    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
+  }
   /**
    *
    *
@@ -231,6 +263,27 @@ export class AuthService {
     // otherwise no further login requests will be fired
     // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
   }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  checkToken(data): Observable<any> {
+    return this.http.post(
+      'v1/user/account/token', data
+    ).map((res: Response) => {
+      return res.json();
+    });
+    // catch should be handled here with the http observable
+    // so that only the inner obs dies and not the effect Observable
+    // otherwise no further login requests will be fired
+    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
+  }
+
   /**
    *
    *
