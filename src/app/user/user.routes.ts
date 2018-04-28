@@ -36,7 +36,7 @@ export const UserRoutes = [
       { path: 'lists', component: ListsComponent },
       { path: 'lists/detail/:userId/:id', component: ListDetailComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'resetPassword', component: ResetPassComponent }
+      { path: 'passwordReset', component: ResetPassComponent }
     ]
   },
 ];
