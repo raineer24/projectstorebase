@@ -10,10 +10,15 @@ import * as moment from 'moment';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-
+  /**
+ * Multi-filter an array of objects
+ * @param  {Array}  array  : list of elements to apply a multiple criteria filter
+ * @param  {Object} filters: Contains multiple criteria filters by the property names of the objects to filter
+ * @return {Array}
+ */
   
   selectedAll: any;
-  public transaction: Transaction[];
+  public transaction: Transaction[] = [];
   //public transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
@@ -77,14 +82,10 @@ export class TransactionsComponent implements OnInit {
     
   
     
-    //var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
-    //return this.transaction 
-      //.filter((v, i, a) => a.indexOf(v) === i), JSON.stringify(this.transaction); 
-     // .filter((v) =>  JSON.stringify(v.dateCreated));
-      //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), JSON.stringify(this.transaction))
-    //.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
-    // return this.transaction.map((v) => v.id)
-  //.filter((v) => v.id)
+
+    //return this.transaction.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
+  
+
     this.filtered = this.transaction.filter((t) => {
       let state = true;
       if (this.search.order_id && t.order_id
@@ -92,7 +93,12 @@ export class TransactionsComponent implements OnInit {
         state = state && false;
       }
       if (this.search.dateCreated && t.dateCreated) {
-        /* code */
+        for (var i = 0; i < Transaction.length; i++) {
+          if (Transaction[i].dateCreated == "22-02-2016") {
+            this.filtered.push(Transaction[i]);
+            state = state && false;
+          }
+        }
       }
       return state;
 
