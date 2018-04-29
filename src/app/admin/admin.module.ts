@@ -15,7 +15,8 @@ import { SharedModule } from '../shared/index';
 import { TransactionsComponent, SortPipe } from './transactions/transactions.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { DataTableModule } from 'primeng/primeng';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -36,7 +37,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
     FormsModule,
     ButtonsModule.forRoot(),
     ModalModule,
-    TypeaheadModule
+    TypeaheadModule,
+    DataTableModule
   ],
   exports: [
     AdminComponent

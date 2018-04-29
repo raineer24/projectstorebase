@@ -11,7 +11,7 @@ import * as moment from 'moment';
 })
 export class TransactionsComponent implements OnInit {
 
-
+  //result: Transaction[];
   selectedAll: any;
   public transaction: Transaction[];
   //public transaction: Transaction[];
@@ -29,14 +29,14 @@ export class TransactionsComponent implements OnInit {
   }
   constructor(private adminService: AdminService) {
     this.activeTransaction = null;
-
+   
   }
 
   ngOnInit() {
     this.viewSub();
     this.filtered = this.transaction;
-    console.log(this.filtered);
-  }
+    this.transaction.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
+     }
 
 
 
@@ -44,18 +44,21 @@ export class TransactionsComponent implements OnInit {
   viewSub() {
     this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
-
-
-
+      
+      
+      
+      
+     
+      
       //var myJSON = JSON.stringify(this.transaction);
       //let x = myJSON["dateCreated"];
       // var myJSON = JSON.stringify(this.transaction);
       // let x = myJSON["dateCreated"];
       //localStorage.setItem('orderedList', JSON.stringify(this.transaction));
       // console.log(myJSON);
-      console.log(this.transaction[0].dateCreated);
+      console.log(moment(this.transaction[0].dateCreated).format("MMM Do YY"));
       console.log(this.transaction);
-
+      
       //console.log(localStorage.getItem('orderedList'));
 
     });
