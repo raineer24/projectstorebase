@@ -23,10 +23,11 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
     ViewOrderComponent,
     UsersComponent,
     UsersEditComponent,
-    OrderDetailsComponent,
     TransactionsComponent,
+    OrderDetailsComponent,
     PrintTransactionsComponent,
     SortPipe
+
   ],
   imports: [
     CommonModule,
@@ -36,8 +37,6 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
     ButtonsModule.forRoot(),
     ModalModule,
     TypeaheadModule
-  
-  
   ],
   exports: [
     AdminComponent

@@ -36,31 +36,31 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit() {
     this.routeSubscription$ = this.route.params.subscribe(
       (params: any) => {
-        const orderSellerId =  params['id'];
+        const orderSellerId = params['id'];
         this.adminService.getSellerOrder(orderSellerId).mergeMap(orderSeller => {
           this.orderSeller = orderSeller;
           return this.adminService.getOrderItems(orderSeller.order_id).map(orderItems => {
-          // NOTE: TEMPORARY ORDER ID 0
-          // return this.adminService.getOrderItems(0).map(orderItems => {
+            // NOTE: TEMPORARY ORDER ID 0
+            // return this.adminService.getOrderItems(0).map(orderItems => {
             this.orderItems = orderItems
             orderItems.forEach((item, index) => {
-              item.finalQuantity = item.finalQuantity ? Number(item.finalQuantity): Number(item.quantity);
+              item.finalQuantity = item.finalQuantity ? Number(item.finalQuantity) : Number(item.quantity);
               this.orderItemStatus[item.orderItem_id] = item.status;
-              switch(item.status){
+              switch (item.status) {
                 case 'confirmed':
                   this.itemsConfirmed++;
                   this.itemsQuantity += Number(item.finalQuantity);
                   this.itemsTotal += Number(item.finalQuantity) * Number(item.price);
-                break;
+                  break;
                 case 'unavailable':
                   this.itemsUnavailable++;
-                break;
+                  break;
               }
             })
             return orderItems;
           })
         }).subscribe();
-     }
+      }
     );
   }
 
@@ -118,15 +118,15 @@ export class OrderDetailsComponent implements OnInit {
     this.itemsQuantity = 0;
     this.itemsTotal = 0;
     this.orderItems.forEach(item => {
-      switch(item.status){
+      switch (item.status) {
         case 'confirmed':
           this.itemsConfirmed++;
           this.itemsQuantity += Number(item.finalQuantity);
           this.itemsTotal += Number(item.finalQuantity) * Number(item.price);
-        break;
+          break;
         case 'unavailable':
           this.itemsUnavailable++;
-        break;
+          break;
       }
     });
   }
