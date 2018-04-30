@@ -3,15 +3,16 @@
   <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
 
-<p-dataTable [value]="transaction" [loading]="loading" [globalFilter]="gb">
+<p-dataTable [value]="transaction" [loading]="loading" [globalFilter]="gb" >
 
   <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" ></p-column>
   <p-column field="id" header="Transaction Number"></p-column>
   <p-column field="action" header="Status"></p-column>
-   <p-column field="dateCreated" header="Date Created" [sortable]="true">
+   <p-column field="dateCreated" header="Date Created" [sortable]="true" [filter]="true" >
       <ng-template let-col let-transaction="rowData" pTemplate="body">
-          {{format(transaction[col.field])}}
+          {{transaction[col.field] }}
       </ng-template>
     </p-column>
+  
 </p-dataTable>
 

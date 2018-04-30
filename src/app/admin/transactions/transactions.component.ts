@@ -10,7 +10,7 @@ import * as moment from 'moment';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-
+//dateCreated : Transaction[];
   //result: Transaction[];
   selectedAll: any;
   public transaction: Transaction[];
@@ -38,14 +38,25 @@ export class TransactionsComponent implements OnInit {
 
   }
   format(dateCreated) {
+    console.log(dateCreated);
+   // return dateCreated = new Date();
+    //return dateCreated = moment().format("MMM Do YY");
     return moment(dateCreated).format("MMM Do YY");
+    
   }
 
 
 
   viewSub() {
-    this.adminService.getTransactions().subscribe(transaction => {
-      this.transaction = transaction;
+    this.adminService.getTransactions()
+    .map((data: Transaction[]) => {
+      return data.map((transaction: Transaction) => {
+        transaction.dateCreated = moment(transaction.dateCreated).format("MMM Do YYYY");
+        return transaction;
+      })
+    })
+    .subscribe((data: Transaction[])=> {
+      this.transaction = data;
 
 
 
@@ -83,7 +94,7 @@ export class TransactionsComponent implements OnInit {
 
 
     //var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
-    //return this.transaction 
+    //return this.transaction.filter((v) =>  JSON.stringify(v.dateCreated));
     //.filter((v, i, a) => a.indexOf(v) === i), JSON.stringify(this.transaction); 
     // .filter((v) =>  JSON.stringify(v.dateCreated));
     //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), JSON.stringify(this.transaction))
@@ -158,7 +169,7 @@ export class Transaction {
 
   public id: number;
   public order_id: string;
-  //public dateCreated:any = new Date();
+  public dateCreated: number | string;
   public checked: false;
 
 
