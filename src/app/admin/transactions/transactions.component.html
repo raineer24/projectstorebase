@@ -1,12 +1,17 @@
-<h3 class="first">Basic</h3>
-<p-dataTable [value]="transaction" [loading]="loading">
-  <p-column field="order_id" header="Order Id"></p-column>
+<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+  <input #gb type="text" pInputText size="50" placeholder="Search Filter">
+</div>
+
+<p-dataTable [value]="transaction" [loading]="loading" [globalFilter]="gb">
+
+  <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" ></p-column>
   <p-column field="id" header="Transaction Number"></p-column>
-  <p-column field="brand" header="Brand"></p-column>
-  <p-column field="dateCreated" header="Date Created"></p-column>
+  <p-column field="action" header="Status"></p-column>
+   <p-column field="dateCreated" header="Date Created" [sortable]="true">
+      <ng-template let-col let-transaction="rowData" pTemplate="body">
+          {{format(transaction[col.field])}}
+      </ng-template>
+    </p-column>
 </p-dataTable>
 
-<h3>Dynamic Columns</h3>
-<p-dataTable [value]="transactions">
-  <p-column *ngFor="let t of transactions" [field]="transactions.field" [header]="transactions.header"></p-column>
-</p-dataTable>

@@ -35,9 +35,11 @@ export class TransactionsComponent implements OnInit {
   ngOnInit() {
     this.viewSub();
     this.filtered = this.transaction;
-    this.transaction.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
-  }
 
+  }
+  format(dateCreated) {
+    return moment(dateCreated).format("MMM Do YY");
+  }
 
 
 
@@ -56,7 +58,7 @@ export class TransactionsComponent implements OnInit {
       // let x = myJSON["dateCreated"];
       //localStorage.setItem('orderedList', JSON.stringify(this.transaction));
       // console.log(myJSON);
-      console.log(moment(this.transaction[0].dateCreated).format("MMM Do YY"));
+      //console.log(moment(this.transaction[0].dateCreated).format("MMM Do YY"));
       console.log(this.transaction);
 
       //console.log(localStorage.getItem('orderedList'));
@@ -88,18 +90,18 @@ export class TransactionsComponent implements OnInit {
     //.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
     // return this.transaction.map((v) => v.id)
     //.filter((v) => v.id)
-    this.filtered = this.transaction.filter((t) => {
-      let state = true;
-      if (this.search.order_id && t.order_id
-        .toLowerCase().indexOf(this.search.order_id.toLowerCase()) === -1) {
-        state = state && false;
-      }
-      if (this.search.dateCreated && t.dateCreated) {
-        /* code */
-      }
-      return state;
+    // this.filtered = this.transaction.filter((t) => {
+    //   let state = true;
+    //   if (this.search.order_id && t.order_id
+    //     .toLowerCase().indexOf(this.search.order_id.toLowerCase()) === -1) {
+    //     state = state && false;
+    //   }
+    //   if (this.search.dateCreated && t.dateCreated) {
+    //     /* code */
+    //   }
+    //   return state;
 
-    });
+    // });
   }
   // checkAll(ev) {
   //   this.transaction.forEach(x => x.checked = ev.target.checked)
@@ -156,7 +158,7 @@ export class Transaction {
 
   public id: number;
   public order_id: string;
-  public dateCreated: number;
+  //public dateCreated:any = new Date();
   public checked: false;
 
 
