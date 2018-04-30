@@ -10,15 +10,10 @@ import * as moment from 'moment';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-  /**
- * Multi-filter an array of objects
- * @param  {Array}  array  : list of elements to apply a multiple criteria filter
- * @param  {Object} filters: Contains multiple criteria filters by the property names of the objects to filter
- * @return {Array}
- */
-  
+
+  //result: Transaction[];
   selectedAll: any;
-  public transaction: Transaction[] = [];
+  public transaction: Transaction[];
   //public transaction: Transaction[];
   transactionSub: Subscription;
   private activeTransaction: Transaction;
@@ -34,38 +29,41 @@ export class TransactionsComponent implements OnInit {
   }
   constructor(private adminService: AdminService) {
     this.activeTransaction = null;
-  
+
   }
 
   ngOnInit() {
     this.viewSub();
     this.filtered = this.transaction;
-    console.log(this.filtered);
+    this.transaction.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
   }
 
-  
+
 
 
   viewSub() {
     this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
-    
 
 
-     //var myJSON = JSON.stringify(this.transaction);
-     //let x = myJSON["dateCreated"];
+
+
+
+
+      //var myJSON = JSON.stringify(this.transaction);
+      //let x = myJSON["dateCreated"];
       // var myJSON = JSON.stringify(this.transaction);
       // let x = myJSON["dateCreated"];
       //localStorage.setItem('orderedList', JSON.stringify(this.transaction));
-     // console.log(myJSON);
-      console.log(this.transaction[0].dateCreated);
+      // console.log(myJSON);
+      console.log(moment(this.transaction[0].dateCreated).format("MMM Do YY"));
       console.log(this.transaction);
-     
+
       //console.log(localStorage.getItem('orderedList'));
-      
+
     });
 
-    
+
   }
   private selectTransaction(transaction: Transaction) {
     this.activeTransaction = transaction
@@ -79,13 +77,17 @@ export class TransactionsComponent implements OnInit {
     this.listDetailsModal.close()
   }
   getTransactionNames() {
-    
-  
-    
 
-    //return this.transaction.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
-  
 
+
+    //var unique = myArray.filter((v, i, a) => a.indexOf(v) === i); 
+    //return this.transaction 
+    //.filter((v, i, a) => a.indexOf(v) === i), JSON.stringify(this.transaction); 
+    // .filter((v) =>  JSON.stringify(v.dateCreated));
+    //.filter((v) => moment(v.dateCreated).format("MMM Do YY"), JSON.stringify(this.transaction))
+    //.map((v) => moment(v.dateCreated).format("MMM Do YY"), console.log(this.transaction));
+    // return this.transaction.map((v) => v.id)
+    //.filter((v) => v.id)
     this.filtered = this.transaction.filter((t) => {
       let state = true;
       if (this.search.order_id && t.order_id
@@ -93,12 +95,7 @@ export class TransactionsComponent implements OnInit {
         state = state && false;
       }
       if (this.search.dateCreated && t.dateCreated) {
-        for (var i = 0; i < Transaction.length; i++) {
-          if (Transaction[i].dateCreated == "22-02-2016") {
-            this.filtered.push(Transaction[i]);
-            state = state && false;
-          }
-        }
+        /* code */
       }
       return state;
 

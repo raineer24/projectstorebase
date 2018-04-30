@@ -52,11 +52,11 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-   getSellerOrder(orderseller_id: number): Observable<any> {
-     return this.http.get(`v1/ordersellers/${orderseller_id}`)
-       .map((res: Response) => res.json())
-       .catch(res => Observable.empty());
-   }
+  getSellerOrder(orderseller_id: number): Observable<any> {
+    return this.http.get(`v1/ordersellers/${orderseller_id}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
 
 
   /**
@@ -115,12 +115,12 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  updateOrderItem(orderItem: any): Observable<any>  {
+  updateOrderItem(orderItem: any): Observable<any> {
     return this.http.put(`v1/orderItem/${orderItem.orderItem_id}`, {
-        "item_id": orderItem.id,
-        "quantity": orderItem.finalQuantity,
-        "status": orderItem.status
-      }
+      "item_id": orderItem.id,
+      "quantity": orderItem.finalQuantity,
+      "status": orderItem.status
+    }
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());
@@ -135,9 +135,9 @@ export class AdminService {
    */
   finalizeOrder(order: any): Observable<any> {
     return this.http.put(`v1/order/${order.order_id}/seller`, {
-        "finalTotalQuantity": order.finalQuantity,
-        "finalItemTotal": order.finalTotal
-      }
+      "finalTotalQuantity": order.finalQuantity,
+      "finalItemTotal": order.finalTotal
+    }
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());
@@ -166,14 +166,14 @@ export class AdminService {
    */
   update(id, data): Observable<any> {
     return this.http.put(
-      `v1/user/account/${ id }/save`, data
+      `v1/user/account/${id}/save`, data
     ).map((res: Response) => {
       let result = res.json();
       if (result.message.indexOf('Updated') >= 0) {
         let storedData = JSON.parse(localStorage.getItem('user'));
         data.message = result.message;
-        for(let key in data) {
-          if(data.hasOwnProperty(key)) {
+        for (let key in data) {
+          if (data.hasOwnProperty(key)) {
             storedData[key] = data[key];
           }
         }
@@ -202,7 +202,7 @@ export class AdminService {
    */
   view(id): Observable<any> {
     return this.http.get(
-      `v1/user/account/${ id }/view`
+      `v1/user/account/${id}/view`
     ).map((res: Response) => {
       let data = res.json();
       if (data.message == 'Found') {

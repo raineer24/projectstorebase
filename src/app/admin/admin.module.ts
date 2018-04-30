@@ -16,7 +16,11 @@ import { TransactionsComponent, SortPipe } from './transactions/transactions.com
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+<<<<<<< HEAD
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+=======
+import { DataTableModule } from 'primeng/primeng';
+>>>>>>> 848646e652505fc976e77f31b99b4565f2f74363
 @NgModule({
   declarations: [
     AdminComponent,
@@ -26,8 +30,13 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
+<<<<<<< HEAD
       PrintTransactionsComponent,
       SortPipe
+=======
+    PrintTransactionsComponent,
+    SortPipe
+>>>>>>> 848646e652505fc976e77f31b99b4565f2f74363
 
   ],
   imports: [
@@ -36,9 +45,15 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     SharedModule,
     FormsModule,
     ButtonsModule.forRoot(),
+<<<<<<< HEAD
       ModalModule,
       TypeaheadModule,
     //BrowserAnimationsModule
+=======
+    ModalModule,
+    TypeaheadModule,
+    DataTableModule
+>>>>>>> 848646e652505fc976e77f31b99b4565f2f74363
   ],
   exports: [
     AdminComponent
