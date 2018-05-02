@@ -10,9 +10,8 @@ import * as moment from 'moment';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-//dateCreated : Transaction[];
-  //result: Transaction[];
-  selectedAll: any;
+  selectedTransaction: Transaction[];
+  //selectedAll: any;
   public transaction: Transaction[];
   //public transaction: Transaction[];
   transactionSub: Subscription;
@@ -44,8 +43,30 @@ export class TransactionsComponent implements OnInit {
     return moment(dateCreated).format("MMM Do YY");
     
   }
+  onRowSelect(event) {
+    this.selectedTransaction;
+    console.log(this.selectedTransaction);
+  }
+  download() {
+    var item = this.selectedTransaction;
+    console.log(item);
+    var doc = new jsPDF();
+    var col = ["Order Id", "Transaction","Status","Date Created"];
+    var rows = [];
+
+    for (var key in item) {
+      //var temp = [key, item[key]];
+      var temp = [key, item[key]];
+      rows.push(temp);
+      var string = doc.output('datauristring');
+
+    }
 
 
+    doc.autoTable(col, rows);
+    console.log(col, rows);
+    doc.save('invoice.pdf');
+  }
 
   viewSub() {
     this.adminService.getTransactions()
@@ -117,32 +138,13 @@ export class TransactionsComponent implements OnInit {
   // checkAll(ev) {
   //   this.transaction.forEach(x => x.checked = ev.target.checked)
   // }
-  selectAll() {
-    for (var i = 0; i < this.transaction.length; i++) {
-      this.transaction[i].checked = this.selectedAll;
-      console.log(this.selectedAll);
-    }
-  }
-  download() {
-    var item = this.transaction;
-    console.log(item);
-    var doc = new jsPDF();
-    var col = ["Details", "Values"];
-    var rows = [];
-
-    for (var key in item) {
-      //var temp = [key, item[key]];
-      var temp = [key, JSON.stringify(item[key])];
-      rows.push(temp);
-      var string = doc.output('datauristring');
-
-    }
-
-
-    doc.autoTable(col, rows);
-    console.log(col, rows);
-    doc.save('invoice.pdf');
-  }
+  // selectAll() {
+  //   for (var i = 0; i < this.transaction.length; i++) {
+  //     this.transaction[i].checked = this.selectedAll;
+  //     console.log(this.selectedAll);
+  //   }
+  // }
+ 
   // public getCitiesAsObservable(token: string): Observable<any> {
   //   return Observable.of(
   //     this.transaction.filter((v: any) => {
@@ -150,13 +152,13 @@ export class TransactionsComponent implements OnInit {
   //     })
   //   );
   // }
-  checkIfAllSelected() {
-    this.selectedAll = this.transaction.every(function (item: any) {
-      return item.checked == true
+  // checkIfAllSelected() {
+  //   this.selectedAll = this.transaction.every(function (item: any) {
+  //     return item.checked == true
 
-    });
-    console.log(this.selectedAll);
-  }
+  //   });
+  //   console.log(this.selectedAll);
+  // }
   getCheckedValues() {
     return this.transaction.filter(obj => obj.checked);
   }

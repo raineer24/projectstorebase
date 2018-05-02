@@ -2,17 +2,26 @@
   <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
   <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
+<button (click)="download()">export</button>
 
-<p-dataTable [value]="transaction" [loading]="loading" [globalFilter]="gb" >
+
+<p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [loading]="loading" [globalFilter]="gb" dataKey="order_id"
+  #dt>
+<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
 
   <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" ></p-column>
   <p-column field="id" header="Transaction Number"></p-column>
   <p-column field="action" header="Status"></p-column>
-   <p-column field="dateCreated" header="Date Created" [sortable]="true" [filter]="true" >
+   <p-column field="dateCreated" header="Date Created" [sortable]="true" >
       <ng-template let-col let-transaction="rowData" pTemplate="body">
           {{transaction[col.field] }}
       </ng-template>
     </p-column>
-  
+<p-footer>
+  <ul>
+    <li *ngFor="let $ of selectedTransaction" style="text-align: left">{{$.order_id + ' - ' + $.id + ' - ' + $.action + ' - ' + $.dateCreated}}</li>
+  </ul>
+</p-footer>
+
 </p-dataTable>
 
