@@ -13,6 +13,7 @@ import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { TransactionsComponent } from './transactions/transactions.component';
     UsersComponent,
     UsersEditComponent,
     TransactionsComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    LoginComponent
 
   ],
   imports: [

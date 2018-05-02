@@ -6,6 +6,7 @@ import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { LoginComponent } from './login/login.component';
 
 export const AdminRoutes = [
   {

@@ -1,0 +1,36 @@
+<div class="row container">
+  <div id="content" class="col-sm-12">
+    <div class="col-md-5 col-centered">
+      <div class="panel panel-default">
+        <div class="panel-body text-center">
+
+          <h3>OMG! Admin Dashboard</h3>
+          <form class="login-form" [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+            <fieldset class="input-container">
+              <div class="input-item">
+                <input type="email" class="user-input-email user-input" name="email" placeholder="Your Email Address" formControlName="email"
+                  autocomplete="off">
+                <div *ngIf="signInForm.get('email').errors && signInForm.get('email').touched">
+                  <span class="login-error-icon text-danger">!</span>
+                  <p class="login-error-message text-danger">{{signInForm.get('email').errors.msg || 'Please enter a valid email id'}}</p>
+                </div>
+              </div>
+              <div class="input-item">
+                <input type="password" class="user-input-password user-input" name="password" placeholder="Enter Password" formControlName="password"
+                  autocomplete="off">
+                <div *ngIf="signInForm.get('password').errors && signInForm.get('password').touched">
+                  <span class="login-error-icon text-danger">!</span>
+                  <p class="login-error-message text-danger">{{signInForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="login-button-container">
+              <button type="submit" class="btn btn-danger login-button">Log in</button>
+            </fieldset>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
