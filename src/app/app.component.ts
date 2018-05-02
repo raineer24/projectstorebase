@@ -25,16 +25,34 @@ export class AppComponent implements OnInit, OnDestroy {
   errorMessage:string;
   private password = 'OmgLogin18!';
   private passwordList = [
-    'xltfts8u',
-    '2y4f2wkx',
-    'arg9gy5k',
-    'gfro54fr',
-    'qfhk7kix',
-    'krjytvl4',
-    'f8fsdzyy',
-    'yimdjcpa',
-    'o2a7j8z2',
-    '2iaba1no',
+    '7v5az5r1fn',
+    '5clsg0ae6r',
+    'b0oav3vre8',
+    'gfya8ajb6q',
+    'zvkl4klrxh',
+    'islf4pwlng',
+    'qyo1dvw0f8',
+    'bgx6ekgwm6',
+    'r42e2nzlec',
+    'k2b2ghwozx',
+    'jtzaq63ltu',
+    'ny1r6nwgki',
+    '7kos3q778n',
+    'jdtaks7vim',
+    'mguceavgrz',
+    '9xnp8oe8at',
+    'sn2t0ovaku',
+    'xs5vtfdjux',
+    'f7xzevzae0',
+    '4c79b5e2s3',
+    'rfnactipn2',
+    'n0fuh8cswn',
+    'gixszw0uep',
+    '6g6aq3lfom',
+    'kt7cnjja8y',
+    'we3vra61qy',
+    'iqj6uasnjl',
+    'yajijlldt7',
   ];
   constructor(
     private router: Router,
@@ -55,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   setValue() {
     let currentDate: string = moment().format("DD");
-    let index = parseInt(currentDate, 10) - 20;
+    let index = parseInt(currentDate, 10) - 2;
     if ((index >= 0 && (this.passwordList[index] && this.name === this.passwordList[index])) || (this.name == this.password)) {
       this.show = true;
     }

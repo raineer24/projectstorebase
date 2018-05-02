@@ -12,11 +12,7 @@ export class TransactionsComponent implements OnInit {
   constructor(private adminService: AdminService) { }
 
   ngOnInit() {
-    this.viewSub();
-
-  }
-
-  viewSub() {
+    const sellerId = 0;
     this.transactionSub = this.adminService.getTransactions().subscribe(transaction => {
       this.transaction = transaction;
     });
