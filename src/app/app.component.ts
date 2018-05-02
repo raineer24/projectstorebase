@@ -7,6 +7,7 @@ import { AuthService } from './core/services/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ProductActions } from './product/actions/product-actions';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,36 @@ export class AppComponent implements OnInit, OnDestroy {
   show: boolean;
   errorMessage:string;
   private password = 'OmgLogin18!';
+  private passwordList = [
+    '7v5az5r1fn',
+    '5clsg0ae6r',
+    'b0oav3vre8',
+    'gfya8ajb6q',
+    'zvkl4klrxh',
+    'islf4pwlng',
+    'qyo1dvw0f8',
+    'bgx6ekgwm6',
+    'r42e2nzlec',
+    'k2b2ghwozx',
+    'jtzaq63ltu',
+    'ny1r6nwgki',
+    '7kos3q778n',
+    'jdtaks7vim',
+    'mguceavgrz',
+    '9xnp8oe8at',
+    'sn2t0ovaku',
+    'xs5vtfdjux',
+    'f7xzevzae0',
+    '4c79b5e2s3',
+    'rfnactipn2',
+    'n0fuh8cswn',
+    'gixszw0uep',
+    '6g6aq3lfom',
+    'kt7cnjja8y',
+    'we3vra61qy',
+    'iqj6uasnjl',
+    'yajijlldt7',
+  ];
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -38,13 +69,15 @@ export class AppComponent implements OnInit, OnDestroy {
         this.findCurrentStep(this.currentUrl);
         window.scrollTo(0, 0);
       });
-    
+
   }
   setValue() {
-    if (this.name == this.password) {
+    let currentDate: string = moment().format("DD");
+    let index = parseInt(currentDate, 10) - 2;
+    if ((index >= 0 && (this.passwordList[index] && this.name === this.passwordList[index])) || (this.name == this.password)) {
       this.show = true;
     }
-    (!this.name == !this.password) 
+    (!this.name == !this.password)
     this.errorMessage = this.name;
   }
 
