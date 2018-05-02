@@ -12,6 +12,7 @@ export class OrdersComponent implements OnInit {
   orders: any;
   ordersSub: Subscription;
   orderSub: Subscription;
+  orderItem$: Subscription;
   orderIndex$: any;
   orderItems: any;
   itemList: any;
@@ -30,9 +31,6 @@ export class OrdersComponent implements OnInit {
       this.orders = order;
       var i: number;
       for(i=0; i < this.orders.length; i++){
-        if(this.orders[i].status === 'pending'){
-          console.log(this.orders[i]);
-        }
         if(this.statusContainer.length == 0){
           this.statusContainer.push(this.orders[i].status);
         } else {
@@ -69,19 +67,28 @@ export class OrdersComponent implements OnInit {
 
   getOrder(index)
   {
-    localStorage.setItem('order',JSON.stringify(this.orders[index]));
-    this.orderSub = this.adminService.getOrderDetail(this.orders[index].orderkey).subscribe(orderItems =>
+    var order = JSON.parse(localStorage.getItem('sellerorders'));
+    var orderCode = order[index].orderBarcode;
+    this.orderSub = this.adminService.getOrder(orderCode).subscribe(order =>
     {
-      this.orderItems = orderItems;
-      this.getOrderItems(this.orderItems);
+      this.orderItems = order;
+      const jsonData = JSON.stringify(this.orderItems);
+      this.getOrderItems(orderCode);
+      localStorage.setItem('orderseller',jsonData)
     })
 
 
   }
 
-  getOrderItems(orderedItems){
-    this.itemList = orderedItems;
-    localStorage.setItem('orderedList',JSON.stringify(this.itemList));
+  getOrderItems(orderCode){
+    this.orderItem$ = this.adminService.getOrderDetail(orderCode).subscribe( items =>
+      {
+        this.itemList = items;
+        localStorage.setItem('orderedList',JSON.stringify(this.itemList));
+        this.itemList = localStorage.getItem('orderedList');
+      }
+    )
+
   }
 
   ngOnDestroy() {
