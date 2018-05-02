@@ -51,16 +51,14 @@ export class TransactionsComponent implements OnInit {
     var item = this.selectedTransaction;
     console.log(item);
     var doc = new jsPDF();
-    var col = ["Order Id", "Transaction","Status","Date Created"];
+    var col = ["Order Id", "Transaction Number", "Date Created","Status"];
     var rows = [];
 
-    for (var key in item) {
-      //var temp = [key, item[key]];
-      var temp = [key, item[key]];
+    item.forEach(element => {
+      var temp = [element.order_id, element.id, element.dateCreated, element.action ];
       rows.push(temp);
-      var string = doc.output('datauristring');
-
-    }
+      console.log(temp);
+    });   
 
 
     doc.autoTable(col, rows);
@@ -173,6 +171,7 @@ export class Transaction {
   public order_id: string;
   public dateCreated: number | string;
   public checked: false;
+  public action: string;
 
 
 
