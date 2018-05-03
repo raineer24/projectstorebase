@@ -6,15 +6,22 @@
 
 
 <p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [loading]="loading" [globalFilter]="gb" dataKey="order_id"
-  #dt>
+ #dt [paginator]="true" [rows]="5" [pageLinks]="3" [rowsPerPageOptions]="[3,6,9]">
+
+
 <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
 
-  <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" ></p-column>
+  <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" >
+<ng-template let-col let-transaction="rowData" pTemplate="body">
+  <a routerLink="/target/{{transaction[col.field]}}">{{transaction[col.field]}}</a>
+</ng-template>
+
+  </p-column>
   <p-column field="id" header="Transaction Number"></p-column>
   <p-column field="action" header="Status"></p-column>
    <p-column field="dateCreated" header="Date Created" [sortable]="true" >
       <ng-template let-col let-transaction="rowData" pTemplate="body">
-          {{transaction[col.field] }}
+         <a routerLink="/target/{{transaction[col.field]}}">{{transaction[col.field]}}</a> 
       </ng-template>
     </p-column>
 <p-footer>
