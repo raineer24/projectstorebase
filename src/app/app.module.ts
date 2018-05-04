@@ -21,7 +21,8 @@ import { reducer } from "./app.reducers";
 import { CheckoutHeaderComponent } from "./layout/checkout-header/checkout-header.component";
 import { CheckoutFooterComponent } from "./layout/checkout-footer/checkout-footer.component";
 import { SpinnerModule } from "primeng/primeng";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 // adding rx operators
 import "rxjs/add/operator/map";
@@ -66,7 +67,7 @@ import { ModalModule } from "angular-custom-modal";
     ModalModule,
     BsDropdownModule,
     SpinnerModule,
-    BrowserAnimationsModule 
+    
    
   ],
   providers: [],
