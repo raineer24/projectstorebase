@@ -16,7 +16,7 @@ import { TransactionsComponent, SortPipe } from './transactions/transactions.com
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { DataTableModule, PaginatorModule } from 'primeng/primeng';
+import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
 
 @NgModule({
   declarations: [
@@ -41,6 +41,7 @@ import { DataTableModule, PaginatorModule } from 'primeng/primeng';
     TypeaheadModule,
     DataTableModule,
     PaginatorModule,
+    ButtonModule
     
   ],
   exports: [

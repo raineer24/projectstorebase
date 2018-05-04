@@ -2,7 +2,7 @@
   <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
   <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
-<button (click)="download()">export</button>
+<button [disabled]="selectedTransaction.length === 0" (click)="download()">export</button>
 
 
 <p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [loading]="loading" [globalFilter]="gb" dataKey="order_id"
@@ -13,7 +13,7 @@
 
   <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" >
 <ng-template let-col let-transaction="rowData" pTemplate="body">
-<a style="cursor:pointer;" (click)="selectOrder(transaction)" [style.color]="titleStyle ? 'normal' : '#737CA1'">{{transaction[col.field]}}</a>
+<a style="cursor:pointer;" (click)="selectOrder(transaction)" [style.color]="titleStyle ? 'normal' : '#737CA1'">#{{transaction[col.field]}}</a>
 
 </ng-template>
 

@@ -10,7 +10,7 @@ import * as moment from 'moment';
   styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
-  selectedTransaction: Transaction[];
+  selectedTransaction: Transaction[] = [];
   //selectedAll: any;
   public transaction: Transaction[];
   //public transaction: Transaction[];
