@@ -2,7 +2,7 @@
   <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
   <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
-<button [disabled]="selectedTransaction.length === 0" (click)="download()">export</button>
+<button [ngClass]="(selectedTransaction.length === 0) ? 'btn-danger':'btn-success'" [disabled]="selectedTransaction.length === 0" (click)="download()">export</button>
 
 
 <p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [loading]="loading" [globalFilter]="gb" dataKey="order_id"
