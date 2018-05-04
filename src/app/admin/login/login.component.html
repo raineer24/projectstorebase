@@ -5,22 +5,22 @@
         <div class="panel-body text-center">
 
           <h3>OMG! Admin Dashboard</h3>
-          <form class="login-form" [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+          <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <fieldset class="input-container">
               <div class="input-item">
-                <input type="email" class="user-input-email user-input" name="email" placeholder="Your Email Address" formControlName="email"
+                <input type="email" class="user-input-email user-input" name="" placeholder="Your Email Address" formControlName="email"
                   autocomplete="off">
-                <div *ngIf="signInForm.get('email').errors && signInForm.get('email').touched">
-                  <span class="login-error-icon text-danger">!</span>
-                  <p class="login-error-message text-danger">{{signInForm.get('email').errors.msg || 'Please enter a valid email id'}}</p>
+                <div *ngIf="loginForm.get('email').errors && loginForm.get('email').touched">
+                  <span class="error-icon text-danger">!</span>
+                  <p class="error-message text-danger">{{loginForm.get('email').errors.msg || 'Please enter a valid email address'}}</p>
                 </div>
               </div>
               <div class="input-item">
                 <input type="password" class="user-input-password user-input" name="password" placeholder="Enter Password" formControlName="password"
                   autocomplete="off">
-                <div *ngIf="signInForm.get('password').errors && signInForm.get('password').touched">
-                  <span class="login-error-icon text-danger">!</span>
-                  <p class="login-error-message text-danger">{{signInForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
+                <div *ngIf="loginForm.get('password').errors && loginForm.get('password').touched">
+                  <span class="error-icon text-danger">!</span>
+                  <p class="error-message text-danger">{{loginForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
                 </div>
               </div>
             </fieldset>

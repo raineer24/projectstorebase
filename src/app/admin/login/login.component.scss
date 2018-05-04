@@ -1,5 +1,7 @@
+@import "../../shared/scss/themes";
+
 .container {
-  padding-top: 100px;
+  padding-top: 150px;
   background-color: #fff;
   height: calc(100vh);
   width: calc(100vw);
@@ -54,7 +56,6 @@
   }
 }
 
-
 fieldset {
   display: block;
   -webkit-margin-start: 2px;
@@ -64,4 +65,29 @@ fieldset {
   -webkit-padding-end: 0.75em;
   -webkit-padding-after: 0.625em;
   min-width: -webkit-min-content;
+}
+
+.error-message {
+  font-size: 11px;
+  margin-left: 15px;
+  text-align: left;
+  margin-top: -9px;
+  max-height: 500px;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: .5s;
+  transition-duration: .5s;
+  -webkit-transition-timing-function: cubic-bezier(0,1,.5,1);
+  transition-timing-function: cubic-bezier(0,1,.5,1);
+}
+
+.error-icon {
+  border: 2px solid $state-danger-text;
+  padding: 0 7px;
+  display: inline-block;
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  font-weight: 500;
+  border-radius: 21px;
 }
