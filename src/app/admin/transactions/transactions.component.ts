@@ -102,6 +102,10 @@ export class TransactionsComponent implements OnInit {
     this.listDetailsModal.open()
 
   }
+  selectOrder(data) {
+    this.activeTransaction = data;
+    this.listDetailsModal.open();
+  }
   private detailClosed() {
     this.activeTransaction = null;
   }

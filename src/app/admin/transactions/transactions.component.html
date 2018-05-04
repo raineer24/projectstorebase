@@ -13,7 +13,8 @@
 
   <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" >
 <ng-template let-col let-transaction="rowData" pTemplate="body">
-  <a routerLink="/target/{{transaction[col.field]}}">{{transaction[col.field]}}</a>
+<a style="cursor:pointer;" (click)="selectOrder(transaction)" [style.color]="titleStyle ? 'normal' : '#737CA1'">{{transaction[col.field]}}</a>
+
 </ng-template>
 
   </p-column>
@@ -21,7 +22,7 @@
   <p-column field="action" header="Status"></p-column>
    <p-column field="dateCreated" header="Date Created" [sortable]="true" >
       <ng-template let-col let-transaction="rowData" pTemplate="body">
-         <a routerLink="/target/{{transaction[col.field]}}">{{transaction[col.field]}}</a> 
+    {{transaction[col.field]}}
       </ng-template>
     </p-column>
 <p-footer>
@@ -31,4 +32,12 @@
 </p-footer>
 
 </p-dataTable>
+<modal #listDetailsModal>
+  <ng-template #modalBody>
+<app-print-transactions [trans]="activeTransaction">
+</app-print-transactions>
+
+
+  </ng-template>
+</modal>
 
