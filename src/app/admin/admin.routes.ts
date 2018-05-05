@@ -10,6 +10,10 @@ import { LoginComponent } from './login/login.component';
 
 export const AdminRoutes = [
   {
+    path: 'admin/login',
+    component: LoginComponent
+  },
+  {
     path: '',
     component: AdminComponent,
     children: [
