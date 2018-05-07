@@ -63,7 +63,9 @@ export class TransactionsComponent implements OnInit {
 
     doc.autoTable(col, rows);
     console.log(col, rows);
-    doc.save('invoice.pdf');
+    doc.save('Test.pdf');
+    doc.addJS('print({});');
+    window.open(doc.output('bloburl'), '_blank');
   }
 
   viewSub() {
