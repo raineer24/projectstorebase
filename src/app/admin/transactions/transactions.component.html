@@ -2,6 +2,23 @@
   <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
   <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
+<div class="btn-group" dropdown>
+  <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+    Actions
+    <span class="caret"></span>
+  </button>
+  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+    <li role="menuitem">
+      <a class="dropdown-item" (click)="print()">Print all selected items</a>
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" (click)="download()">Export to pdf all selected items</a>
+    </li>
+
+
+  </ul>
+</div>
+
 <button class="btn"[ngClass]="(selectedTransaction.length === 0) ? 'btn-danger':'btn-success'" [disabled]="selectedTransaction.length === 0" (click)="download()">export</button>
 
 

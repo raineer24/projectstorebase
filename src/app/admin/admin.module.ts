@@ -17,7 +17,7 @@ import { PrintTransactionsComponent } from './transactions/print-transactions/pr
 import { ModalModule } from 'angular-custom-modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
-
+import { BsDropdownModule } from 'ngx-bootstrap';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -41,7 +41,9 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     TypeaheadModule,
     DataTableModule,
     PaginatorModule,
-    ButtonModule
+    ButtonModule,
+    BsDropdownModule.forRoot()
+    
     
   ],
   exports: [

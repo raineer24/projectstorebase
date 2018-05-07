@@ -47,27 +47,37 @@ export class TransactionsComponent implements OnInit {
     this.selectedTransaction;
     console.log(this.selectedTransaction);
   }
-  download() {
+  private buildPdf() {
     var item = this.selectedTransaction;
-    console.log(item);
-    var doc = new jsPDF();
-    var col = ["Order Id", "Transaction Number", "Date Created","Status"];
-    var rows = [];
+    if (item != this.selectedTransaction) {
+      console.log("error!");
+    } else {
+      var doc = new jsPDF();
+      var col = ["Order Id", "Transaction Number", "Status", "Date Created"];
+      var rows = [];
+      item.forEach(element => {
+        var temp = [element.order_id, element.dateCreated, element.action, element.dateCreated];
+        rows.push(temp);
+      });
+      doc.autoTable(col, rows);
 
-    item.forEach(element => {
-      var temp = [element.order_id, element.id, element.dateCreated, element.action ];
-      rows.push(temp);
-      console.log(temp);
-    });   
+      console.log(col, rows);
 
+    }
+    return doc;
 
-    doc.autoTable(col, rows);
-    console.log(col, rows);
-    doc.save('Test.pdf');
-    doc.addJS('print({});');
-    window.open(doc.output('bloburl'), '_blank');
   }
-
+  public download() {
+    const pdf = this.buildPdf();
+    // download pdf
+    pdf.save('invoice.pdf');
+  }
+  public print() {
+    const pdf = this.buildPdf();
+    // print pdf
+    pdf.addJS('print({});');
+    window.open(pdf.output('bloburl'), '_blank');
+  }
   viewSub() {
     this.adminService.getTransactions()
     .map((data: Transaction[]) => {
