@@ -14,6 +14,8 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
+import { AdminService } from './services/admin.service';
+import { AdminGuardService } from './guards/admin.guard';
 
 
 @NgModule({
@@ -37,6 +39,10 @@ import { LoginComponent } from './login/login.component';
   ],
   exports: [
     AdminComponent
+  ],
+  providers: [
+    AdminService,
+    AdminGuardService
   ]
 })
 export class AdminModule { }

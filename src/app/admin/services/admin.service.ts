@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Store } from '@ngrx/store';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../../core/services/http';
 import { AppState } from '../../interfaces';
-
 
 
 @Injectable()
@@ -41,6 +41,26 @@ export class AdminService {
       return resData;
     });
   }
+
+  /**
+   *
+   *
+   * @returns boolean
+   *
+   * @memberof AuthService
+   */
+   isAuthenticated(): boolean {
+     let jwtHelper: JwtHelperService = new JwtHelperService();
+     const storedData = JSON.parse(localStorage.getItem('selleruser'));
+     console.log(storedData.token);
+     if (storedData.token == null) {
+       return false;
+     } else {
+       console.log(jwtHelper.isTokenExpired(storedData.token));
+       console.log(jwtHelper.getTokenExpirationDate(storedData.token));
+       return !jwtHelper.isTokenExpired(storedData.token);
+     }
+   }
 
   /**
    *
