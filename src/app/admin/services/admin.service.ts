@@ -44,7 +44,18 @@ export class AdminService {
 
   /**
    *
+   * @param void
+   * @returns void
    *
+   * @memberof AuthService
+   */
+   logout(): void {
+     localStorage.removeItem('selleruser');
+   }
+
+  /**
+   *
+   * @param void
    * @returns boolean
    *
    * @memberof AuthService

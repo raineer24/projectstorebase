@@ -6,10 +6,14 @@
       </div>
       <ul class="nav navbar-nav">
         <li><a href="/admin">Messages</a></li>
-        <li><a href="/admin">Logout</a></li>
+        <li><a href="/admin" (click)="logout()">Logout</a></li>
       </ul>
     </div>
     <div class="sidebar">
+      <div>
+        <span class="user">Signed in as<br><b>{{ userData.username }}</b></span>
+      </div>
+      <hr>
       <ul class="nav nav-pills nav-stacked">
         <li routerLinkActive="active"><a [routerLink]="['/admin/orders']" >Orders</a></li>
         <li routerLinkActive="active"><a [routerLink]="['/admin/users']" >Users</a></li>
