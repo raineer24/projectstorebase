@@ -25,7 +25,7 @@ export class AdminService {
    */
   login(data): Observable<any> {
     return this.http.post(
-      'v1/seller/user/login', data)
+      'v1/selleraccount/login', data)
       .map((res: Response) => {
       const resData = res.json();
       if (resData.message == 'Found') {
@@ -63,8 +63,7 @@ export class AdminService {
    isAuthenticated(): boolean {
      let jwtHelper: JwtHelperService = new JwtHelperService();
      const storedData = JSON.parse(localStorage.getItem('selleruser'));
-     console.log(storedData.token);
-     if (storedData.token == null) {
+     if (!storedData) {
        return false;
      } else {
        console.log(jwtHelper.isTokenExpired(storedData.token));
@@ -205,7 +204,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getUsers(): Observable<any> {
-    return this.http.get(`v1/user/`)
+    return this.http.get(`v1/selleraccount/`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

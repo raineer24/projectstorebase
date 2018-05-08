@@ -23,7 +23,6 @@ export class AdminComponent implements OnInit {
 
   logout(): void {
     this.adminService.logout();
-    this.router.navigate(['/admin/login']);
   }
 
 }

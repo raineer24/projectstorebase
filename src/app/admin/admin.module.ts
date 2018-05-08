@@ -16,6 +16,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
 import { AdminService } from './services/admin.service';
 import { AdminGuardService } from './guards/admin.guard';
+import { RoleGuardService } from './guards/role.guard';
 
 
 @NgModule({
@@ -28,7 +29,6 @@ import { AdminGuardService } from './guards/admin.guard';
     TransactionsComponent,
     OrderDetailsComponent,
     LoginComponent
-
   ],
   imports: [
     CommonModule,
@@ -42,7 +42,8 @@ import { AdminGuardService } from './guards/admin.guard';
   ],
   providers: [
     AdminService,
-    AdminGuardService
+    AdminGuardService,
+    RoleGuardService
   ]
 })
 export class AdminModule { }

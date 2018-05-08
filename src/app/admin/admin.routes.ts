@@ -8,6 +8,7 @@ import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
 import { AdminGuardService } from './guards/admin.guard';
+import { RoleGuardService } from './guards/role.guard';
 
 
 export const AdminRoutes = [
@@ -19,9 +20,22 @@ export const AdminRoutes = [
     path: '',
     component: AdminComponent,
     children: [
-      // { path: '', redirectTo: 'orders'}
-      { path: 'orders', component: OrdersComponent },
-      { path: 'orders/edit/:id', component: OrderDetailsComponent },
+      {
+        path: 'orders',
+        component: OrdersComponent,
+        // canActivate: [RoleGuardService],
+        // data: {
+        //   expectedRole: 2
+        // }
+      },
+      {
+        path: 'orders/edit/:id',
+        component: OrderDetailsComponent,
+        // canActivate: [RoleGuardService],
+        // data: {
+        //   expectedRole: 2
+        // }
+      },
       { path: 'users', component: UsersComponent},
       { path: 'users-edit', component: UsersEditComponent},
       { path: 'view-order', component: ViewOrderComponent},
