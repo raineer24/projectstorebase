@@ -11,8 +11,7 @@ export const routes: Routes = [
     loadChildren: './checkout/checkout.module#CheckoutModule' },
   {
     path: 'user',
-    loadChildren: './user/index#UserModule',
-    canActivate: [ CanActivateViaAuthGuard ]
+    loadChildren: './user/index#UserModule'
   },
   {
     path: 'item',
@@ -30,5 +29,4 @@ export const routes: Routes = [
     path: 'admin',
     loadChildren: './admin/admin.module#AdminModule'
   }
-
 ];
