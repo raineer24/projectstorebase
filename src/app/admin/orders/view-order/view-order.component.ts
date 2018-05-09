@@ -33,7 +33,7 @@ export class ViewOrderComponent implements OnInit {
 
   ngOnInit() {
     if(localStorage.getItem('order') != ''){
-      this.orderData = JSON.parse(localStorage.getItem('order'));
+      this.orderData = JSON.parse(localStorage.getItem('orderseller'));
       this.itemList = JSON.parse(localStorage.getItem('orderedList'));
     }
   }
