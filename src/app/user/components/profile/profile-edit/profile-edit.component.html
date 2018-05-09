@@ -11,27 +11,27 @@
       <label class="col-md-3 control-label" for="email">Email</label>
       <div class="col-md-6">
         <input id="email" name="email" formControlName="email" class="form-control input-md" required="" type="text">
-      </div>
-      <div *ngIf="profileEditForm.get('email').errors && profileEditForm.get('email').touched">
-        <p class="register-error-message text-danger">! {{profileEditForm.get('email').errors.msg || 'Please enter a valid email ID'}}</p>
+        <div *ngIf="profileEditForm.get('email').errors && profileEditForm.get('email').touched">
+          <p class="error-message">{{profileEditForm.get('email').errors.msg || 'Please enter a valid email ID'}}</p>
+        </div>
       </div>
     </div>
     <div class="form-group">
       <label class="col-md-3 control-label" for="lastName">Last Name</label>
       <div class="col-md-6">
         <input id="lastName" name="lastName" formControlName="lastName" class="form-control input-md" required="" type="text">
-      </div>
-      <div *ngIf="profileEditForm.get('lastName').errors && profileEditForm.get('lastName').touched">
-        <p class="register-error-message text-danger">! {{profileEditForm.get('lastName').errors.msg || 'Please enter your last name'}}</p>
+        <div *ngIf="profileEditForm.get('lastName').errors && profileEditForm.get('lastName').touched">
+          <p class="error-message">{{profileEditForm.get('lastName').errors.msg || 'Please enter your last name'}}</p>
+        </div>
       </div>
     </div>
     <div class="form-group">
       <label class="col-md-3 control-label" for="firstName">First Name</label>
       <div class="col-md-6">
         <input id="firstName" name="firstName" formControlName="firstName" class="form-control input-md" required="" type="text">
-      </div>
-      <div *ngIf="profileEditForm.get('firstName').errors && profileEditForm.get('firstName').touched">
-        <p class="register-error-message text-danger">! {{profileEditForm.get('firstName').errors.msg || 'Please enter your first name'}}</p>
+        <div *ngIf="profileEditForm.get('firstName').errors && profileEditForm.get('firstName').touched">
+          <p class="error-message">{{profileEditForm.get('firstName').errors.msg || 'Please enter your first name'}}</p>
+        </div>
       </div>
     </div>
     <!-- <div class="form-group">
@@ -279,19 +279,18 @@
             <option value="+63">+63</option>
           </select>
           <input id="mobileNumber" name="mobileNumber" formControlName="mobileNumber" class="form-control input-md" required="" type="text">
+          <div *ngIf="profileEditForm.get('mobileNumber').errors && profileEditForm.get('mobileNumber').touched">
+            <p class="error-message">{{profileEditForm.get('mobileNumber').errors.msg || 'Please enter a valid mobile number'}}</p>
+          </div>
         </div>
       </div>
-      <div *ngIf="profileEditForm.get('mobileNumber').errors && profileEditForm.get('mobileNumber').touched">
-        <p class="register-error-message text-danger">! {{profileEditForm.get('mobileNumber').errors.msg || 'Please enter a valid mobile number'}}</p>
-      </div>
-
     </div>
     <!-- Button (Double) -->
     <div class="form-group">
       <label class="col-md-3 control-label" for="save"></label>
       <div class="col-md-6">
-        <button id="save" name="save" class="btn btn-success">Save Changes</button>
-        <button id="cancel" name="cancel" class="btn btn-danger" type="button" (click)="onCancelClick()">Cancel</button>
+        <button id="save" name="save" class="btn btn-primary">Save Changes</button>
+        <button id="cancel" name="cancel" class="btn btn-default" type="button" (click)="onCancelClick()">Cancel</button>
       </div>
     </div>
   </fieldset>
