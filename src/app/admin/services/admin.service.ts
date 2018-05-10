@@ -215,7 +215,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getUsers(): Observable<any> {
-    return this.http.get(`v1/selleraccount/`)
+    return this.http.get(`v1/selleraccounts`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
