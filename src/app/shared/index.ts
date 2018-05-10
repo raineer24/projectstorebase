@@ -11,12 +11,14 @@ import { LoadingIndicatorComponent } from './components/loading-indicator/loadin
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationComponent } from './components/notification/notification.component';
+import { StarRatingComponent } from './components/star-rating/star-rating.component';
 
 @NgModule({
   declarations: [
     // components
     LoadingIndicatorComponent,
     NotificationComponent,
+    StarRatingComponent,
     // pipes
     KeysPipe,
     HumanizePipe
@@ -25,6 +27,7 @@ import { NotificationComponent } from './components/notification/notification.co
     // components
     LoadingIndicatorComponent,
     NotificationComponent,
+    StarRatingComponent,
     // modules
     CommonModule,
     BsDropdownModule,
