@@ -3,7 +3,8 @@
   <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
 <div class="btn-group" dropdown>
-  <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+  <button #actionsButton [disabled]="isDisabled" id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"  
+    class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
     Actions
     <span class="caret"></span>
   </button>
@@ -17,9 +18,10 @@
 
 
   </ul>
+ 
 </div>
 
-<button class="btn"[ngClass]="(selectedTransaction.length === 0) ? 'btn-danger':'btn-success'" [disabled]="selectedTransaction.length === 0" (click)="download()">export</button>
+
 
 
 <p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [loading]="loading" [globalFilter]="gb" dataKey="order_id"

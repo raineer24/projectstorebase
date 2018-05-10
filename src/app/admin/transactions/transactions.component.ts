@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, ViewChild, Pipe, PipeTransform, Renderer2 } from '@angular/core';
 import { AdminService } from './../services/admin.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +11,9 @@ import * as moment from 'moment';
 })
 export class TransactionsComponent implements OnInit {
   selectedTransaction: Transaction[] = [];
+  get isDisabled(): boolean {
+    return this.selectedTransaction.length === 0;
+  }
   //selectedAll: any;
   public transaction: Transaction[];
   //public transaction: Transaction[];
@@ -20,15 +23,17 @@ export class TransactionsComponent implements OnInit {
 
   public filtered: Transaction[];
 
+  @ViewChild('actionsButton') actionsButton;
+
   @ViewChild('listDetailsModal') listDetailsModal;
   selectedRow: Number;
 
   setClickedRow(index) {
     this.selectedRow = index;
   }
-  constructor(private adminService: AdminService) {
+  constructor(private adminService: AdminService, private renderer: Renderer2) {
     this.activeTransaction = null;
-
+    setTimeout(() => { this.renderer.setAttribute(this.actionsButton.nativeElement, 'disabled', this.isDisabled ? 'disabled' : null); }, 1000);
   }
 
   ngOnInit() {
@@ -36,6 +41,11 @@ export class TransactionsComponent implements OnInit {
     this.filtered = this.transaction;
 
   }
+  // changeState() {
+  //   this.isDisabled = !this.isDisabled;
+  //   console.log("clciked");
+  // }
+
   format(dateCreated) {
     console.log(dateCreated);
    // return dateCreated = new Date();
