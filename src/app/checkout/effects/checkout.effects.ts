@@ -17,7 +17,7 @@ export class CheckoutEffects {
   @Effect()
     AddToCart$ = this.actions$
     .ofType(CheckoutActions.ADD_TO_CART)
-    .switchMap((action: Action) => {
+    .mergeMap((action: Action) => {
       return this.checkoutService.createNewCartItem(action.payload);
     })
     .map((cartItem: CartItem) => this.actions.addToCartSuccess(cartItem));
@@ -33,7 +33,7 @@ export class CheckoutEffects {
   @Effect()
     UpdateCartItem$ = this.actions$
     .ofType(CheckoutActions.UPDATE_CART_ITEM)
-    .switchMap((action: Action) => {
+    .mergeMap((action: Action) => {
       return this.checkoutService.updateCartItem(action.payload);
     })
     .map((cartItem: CartItem) => this.actions.updateCartItemSuccess(cartItem.quantity, cartItem.id));
