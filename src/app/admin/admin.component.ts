@@ -9,7 +9,23 @@ import { AdminService } from './services/admin.service';
 })
 export class AdminComponent implements OnInit {
   userData: any;
-
+  menuItems = [
+    {
+      name: "Orders",
+      routerLink: "/admin/orders",
+      rolesRequired: [2,5]
+    },
+    {
+      name: "Users",
+      routerLink: "/admin/users",
+      rolesRequired: [1,5]
+    },
+    {
+      name: "Transactions",
+      routerLink: "/admin/transactions",
+      rolesRequired: [3,5]
+    }
+  ]
   constructor(
     private adminService: AdminService,
     private router: Router
@@ -25,4 +41,10 @@ export class AdminComponent implements OnInit {
     this.adminService.logout();
   }
 
+  getMenu(){
+    const userRole = this.adminService.getUserRole();
+    return this.menuItems.filter(
+      menuItem => menuItem.rolesRequired.includes(userRole)
+    )
+  }
 }

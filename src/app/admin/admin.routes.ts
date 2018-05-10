@@ -17,29 +17,57 @@ export const AdminRoutes = [
     component: LoginComponent
   },
   {
-    path: '',
+    path: 'admin',
     component: AdminComponent,
     children: [
       {
         path: 'orders',
         component: OrdersComponent,
-        // canActivate: [RoleGuardService],
-        // data: {
-        //   expectedRole: 2
-        // }
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,5]
+        }
       },
       {
         path: 'orders/edit/:id',
         component: OrderDetailsComponent,
-        // canActivate: [RoleGuardService],
-        // data: {
-        //   expectedRole: 2
-        // }
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,5]
+        }
       },
-      { path: 'users', component: UsersComponent},
-      { path: 'users-edit', component: UsersEditComponent},
-      { path: 'view-order', component: ViewOrderComponent},
-      { path: 'transactions', component: TransactionsComponent }
+      {
+        path: 'view-order',
+        component: ViewOrderComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,5]
+        }
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,5]
+        }
+      },
+      {
+        path: 'users-edit',
+        component: UsersEditComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,5]
+        }
+      },
+      {
+        path: 'transactions',
+        component: TransactionsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [3,5]
+        }
+      }
     ],
     canActivate: [AdminGuardService]
   }

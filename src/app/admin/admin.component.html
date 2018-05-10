@@ -15,10 +15,9 @@
       </div>
       <hr>
       <ul class="nav nav-pills nav-stacked">
-        <li routerLinkActive="active"><a [routerLink]="['/admin/orders']" >Orders</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['/admin/users']" >Users</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['/admin/transactions']">Transactions</a></li>
-        <li routerLinkActive="active"><a [routerLink]="['/admin/menu3']">Menu 3</a></li>
+        <li *ngFor="let menuItem of getMenu()" routerLinkActive="active">
+          <a [routerLink]=menuItem.routerLink>{{menuItem.name}}</a>
+        </li>
         <li routerLinkActive="active"><a [routerLink]="['/admin/others']">Others</a></li>
       </ul>
     </div>

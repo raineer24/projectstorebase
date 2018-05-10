@@ -61,17 +61,28 @@ export class AdminService {
    * @memberof AuthService
    */
    isAuthenticated(): boolean {
-     let jwtHelper: JwtHelperService = new JwtHelperService();
-     const storedData = JSON.parse(localStorage.getItem('selleruser'));
-     if (!storedData) {
+     const jwtHelper: JwtHelperService = new JwtHelperService();
+     const userData = JSON.parse(localStorage.getItem('selleruser'));
+     if (!userData) {
        return false;
      } else {
-       console.log(jwtHelper.isTokenExpired(storedData.token));
-       console.log(jwtHelper.getTokenExpirationDate(storedData.token));
-       return !jwtHelper.isTokenExpired(storedData.token);
+       return !jwtHelper.isTokenExpired(userData.token);
      }
    }
 
+   /**
+    *
+    * @param void
+    * @returns any
+    *
+    * @memberof AuthService
+    */
+    getUserRole(): any {
+      const jwtHelper: JwtHelperService = new JwtHelperService();
+      const userData = JSON.parse(localStorage.getItem('selleruser'));
+      const tokenPayload = jwtHelper.decodeToken(userData.token);
+      return tokenPayload.role;
+    }
   /**
    *
    *
