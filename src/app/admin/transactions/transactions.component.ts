@@ -42,7 +42,7 @@ export class TransactionsComponent implements OnInit {
 
   }
 
-  
+
   // changeState() {
   //   this.isDisabled = !this.isDisabled;
   //   console.log("clciked");
@@ -50,10 +50,10 @@ export class TransactionsComponent implements OnInit {
 
   format(dateCreated) {
     console.log(dateCreated);
-   // return dateCreated = new Date();
+    // return dateCreated = new Date();
     //return dateCreated = moment().format("MMM Do YY");
     return moment(dateCreated).format("MMM Do YY");
-    
+
   }
   onRowSelect(event) {
     this.selectedTransaction;
@@ -79,7 +79,7 @@ export class TransactionsComponent implements OnInit {
     return doc;
 
   }
- 
+
   public download() {
     const pdf = this.buildPdf();
     // download pdf
@@ -93,32 +93,32 @@ export class TransactionsComponent implements OnInit {
   }
   viewSub() {
     this.adminService.getTransactions()
-    .map((data: Transaction[]) => {
-      return data.map((transaction: Transaction) => {
-        transaction.dateCreated = moment(transaction.dateCreated).format("MMM Do YYYY");
-        return transaction;
+      .map((data: Transaction[]) => {
+        return data.map((transaction: Transaction) => {
+          transaction.dateCreated = moment(transaction.dateCreated).format("MMM Do YYYY");
+          return transaction;
+        })
       })
-    })
-    .subscribe((data: Transaction[])=> {
-      this.transaction = data;
+      .subscribe((data: Transaction[]) => {
+        this.transaction = data;
 
 
 
 
 
 
-      //var myJSON = JSON.stringify(this.transaction);
-      //let x = myJSON["dateCreated"];
-      // var myJSON = JSON.stringify(this.transaction);
-      // let x = myJSON["dateCreated"];
-      //localStorage.setItem('orderedList', JSON.stringify(this.transaction));
-      // console.log(myJSON);
-      //console.log(moment(this.transaction[0].dateCreated).format("MMM Do YY"));
-      console.log(this.transaction);
+        //var myJSON = JSON.stringify(this.transaction);
+        //let x = myJSON["dateCreated"];
+        // var myJSON = JSON.stringify(this.transaction);
+        // let x = myJSON["dateCreated"];
+        //localStorage.setItem('orderedList', JSON.stringify(this.transaction));
+        // console.log(myJSON);
+        //console.log(moment(this.transaction[0].dateCreated).format("MMM Do YY"));
+        console.log(this.transaction);
 
-      //console.log(localStorage.getItem('orderedList'));
+        //console.log(localStorage.getItem('orderedList'));
 
-    });
+      });
 
 
   }
@@ -171,7 +171,7 @@ export class TransactionsComponent implements OnInit {
   //     console.log(this.selectedAll);
   //   }
   // }
- 
+
   // public getCitiesAsObservable(token: string): Observable<any> {
   //   return Observable.of(
   //     this.transaction.filter((v: any) => {

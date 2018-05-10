@@ -19,6 +19,33 @@ export class AdminService {
   /**
    *
    *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  login(data): Observable<any> {
+    return this.http.post(
+      'v1/seller/user/login', data)
+      .map((res: Response) => {
+      const resData = res.json();
+      if (resData.message == 'Found') {
+        // Setting token after login
+        localStorage.setItem('selleruser', JSON.stringify(resData));
+      } else {
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: 'Please enter valid Credentials'
+        });
+      }
+      return resData;
+    });
+  }
+
+  /**
+   *
+   *
    * @returns {Observable<any[]>}
    *
    * @memberof AdminService

@@ -12,12 +12,14 @@ import { OrderDetailsComponent } from './orders/components/order-details/order-d
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
-import { TransactionsComponent, SortPipe } from './transactions/transactions.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { LoginComponent } from './login/login.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
 import { BsDropdownModule } from 'ngx-bootstrap';
+
 @NgModule({
   declarations: [
     AdminComponent,
@@ -27,8 +29,8 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
-    PrintTransactionsComponent,
-    SortPipe
+    LoginComponent,
+    PrintTransactionsComponent
 
   ],
   imports: [

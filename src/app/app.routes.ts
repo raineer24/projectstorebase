@@ -5,14 +5,15 @@ import { CanActivateViaAuthGuard } from './core/guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: './home/index#HomeModule' },
+    loadChildren: './home/index#HomeModule'
+  },
   {
     path: 'checkout',
-    loadChildren: './checkout/checkout.module#CheckoutModule' },
+    loadChildren: './checkout/checkout.module#CheckoutModule'
+  },
   {
     path: 'user',
-    loadChildren: './user/index#UserModule',
-    canActivate: [ CanActivateViaAuthGuard ]
+    loadChildren: './user/index#UserModule'
   },
   {
     path: 'item',
@@ -30,5 +31,4 @@ export const routes: Routes = [
     path: 'admin',
     loadChildren: './admin/admin.module#AdminModule'
   }
-
 ];
