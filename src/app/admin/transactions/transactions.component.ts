@@ -41,6 +41,8 @@ export class TransactionsComponent implements OnInit {
     this.filtered = this.transaction;
 
   }
+
+  
   // changeState() {
   //   this.isDisabled = !this.isDisabled;
   //   console.log("clciked");
@@ -77,6 +79,7 @@ export class TransactionsComponent implements OnInit {
     return doc;
 
   }
+ 
   public download() {
     const pdf = this.buildPdf();
     // download pdf

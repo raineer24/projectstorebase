@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Transaction } from './../transactions.component';
-declare let jsPDF;
+//import * as jsPDF from 'jspdf'
+
+//import 'jspdf-autotable';
+declare var jsPDF: any; 
 @Component({
   selector: 'app-print-transactions',
   templateUrl: './print-transactions.component.html',
@@ -9,7 +12,7 @@ declare let jsPDF;
 })
 
 export class PrintTransactionsComponent implements OnInit {
-  @Input() trans: Transaction[];
+  @Input() trans: Transaction;
  
   
   
@@ -20,28 +23,50 @@ export class PrintTransactionsComponent implements OnInit {
   ngOnInit() {
   }
  
-  download() {
+ 
+  private buildPdf() {
     var item = this.trans;
     console.log(item);
-    var doc = new jsPDF();
-    var col = ["Details", "Values"];
-    var rows = [];
-
-    for (var key in item) {
-      //var temp = [key, item[key]];
-      var temp = [key, JSON.stringify(item[key])];
-      rows.push(temp);
-      var string = doc.output('datauristring');
-     
+    if (item) {
+      var doc = new jsPDF();
+      var col = ["Order Id", "Transaction Number", "Status", "Date Created"];
+      var rows = [];
+      rows.push([item.order_id, item.id, item.action, item.dateCreated]);
+      doc.autoTable(col, rows);
+      console.log(col, rows);
+    } else {
+      console.log("error");
     }
-  
-   
-    doc.autoTable(col, rows);
-    console.log(col, rows);
-    doc.save('invoice.pdf');
+    return doc;
+
   }
-  // private onClose() {
-  //   this.onClosed.emit(true);
+  public download() {
+    const pdf = this.buildPdf();
+    // download pdf
+    pdf.save('invoice.pdf');
+  }
+  public print() {
+    const pdf = this.buildPdf();
+    // print pdf
+    pdf.addJS('print({});');
+    window.open(pdf.output('bloburl'), '_blank');
+  }
+
+  // private buildPdf() {
+  //   var item = this.trans;
+  //   console.log(item);
+  //   if (item) {
+  //     var doc: jsPDF = new jsPDF();
+  //     var col = ["Order Id", "Transaction Number", "Status", "Date Created"];
+  //     var rows = [[]];
+  //     rows.push([item.order_id, "123", "NEW", item.dateCreated]);
+  //     doc.autoTable(col, rows);
+  //     console.log(col, rows);
+  //   } else {
+  //     console.log("error");
+  //   }
+  //   return doc;
+
   // }
   onCloseModal() {
     this.onCloseModalEmit.emit();
