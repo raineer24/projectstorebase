@@ -1,3 +1,4 @@
+import { CanActivateViaAuthGuard } from './../core/guards/auth.guard';
 import { OverviewComponent } from './components/overview/overview.component';
 import { UserComponent } from './user.component';
 import { OrdersComponent } from './components/orders/orders.component';
@@ -7,7 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ListsComponent } from  './components/lists/lists.component';
 import { ListDetailComponent } from  './components/lists/list-detail/list-detail.component';
 import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
-import { CanActivateViaAuthGuard } from './../core/guards/auth.guard';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 export const UserRoutes = [
   {
@@ -15,8 +16,12 @@ export const UserRoutes = [
     component: ResetPassComponent
   },
   {
-    path: 'forgotPassword',
+    path: 'resetPassword',
     component: ResetPassComponent
+  },
+  {
+    path: 'forgotPassword',
+    component: ForgotPasswordComponent
   },
   {
     path: '',
@@ -31,7 +36,7 @@ export const UserRoutes = [
       { path: 'lists', component: ListsComponent },
       { path: 'lists/detail/:userId/:id', component: ListDetailComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'resetPassword', component: ResetPassComponent }
+      { path: 'passwordReset', component: ResetPassComponent }
     ]
   },
 ];

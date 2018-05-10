@@ -114,12 +114,6 @@ export class AuthService {
     } );
   }
 
-
-
-
-
-
-
   /**
    *
    *
@@ -328,6 +322,26 @@ export class AuthService {
     localStorage.removeItem('pbu');
     this.store.dispatch(this.actions.logoutSuccess());
     return Observable.empty();
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  requestPasswordReset(email): Observable<any> {
+    return this.http.post(
+      `v1/user/account/${email}/forgotpassword`, {
+        email: email
+      }
+    ).map((res: Response) => {
+      let data = res.json();
+      console.log(data)
+      return data;
+    });
   }
 
   /**
