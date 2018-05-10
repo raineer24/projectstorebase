@@ -13,32 +13,33 @@
   </ng-container>
   <ng-template #elseBlock2>
     <h3>Reset Password</h3>
+    <br>
   </ng-template>
-  <div class="form-horizontal">
-    <form  [formGroup]="resetForm" (ngSubmit)="onSubmit()" #formDir="ngForm">
+  <div>
+    <form [formGroup]="resetForm" (ngSubmit)="onSubmit()" #formDir="ngForm">
       <div class="row">
-        <label class="col-md-3 control-label" for="password">New Password</label>
-        <div class="col-md-4 form-group">
+          <div class="col-md-4 form-group">
           <input type="password" class="form-control" formControlName="password" name="password" required placeholder="New Password">
-          <div *ngIf="resetForm.get('password').errors && resetForm.get('password').touched" >
-            <p class="error-message">{{resetForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
+          <div class="error-message" *ngIf="resetForm.get('password').errors && resetForm.get('password').touched" >
+            <p>{{resetForm.get('password').errors.msg || 'Password must be at least 6 characters'}}</p>
           </div>
         </div>
       </div>
       <div class="row">
-        <label class="col-md-3 control-label" for="verify">Verify Password</label>
         <div class="col-md-4 form-group">
           <input type="password" class="form-control"  formControlName="verify" name="verify" required placeholder="Verify Password">
-          <div *ngIf="(resetForm.get('verify').errors || resetForm.hasError('mismatchedPasswords')) && resetForm.get('verify').touched">
-            <p class="error-message">{{'Password must match'}}</p>
+          <div class="error-message" *ngIf="(resetForm.get('verify').errors || resetForm.hasError('mismatchedPasswords')) && resetForm.get('verify').touched">
+            <p>{{'Password must match'}}</p>
           </div>
         </div>
       </div>
-        <div class="col-md-3"></div>
+      <br>
+      <div class="row">
         <div class="col-md-4">
           <button type="submit" class="btn btn-primary">Confirm</button>
           <button type="button" class="btn btn-default" (click)="formDir.resetForm({})">Clear</button>
         </div>
+      </div>
     </form>
   </div>
 </ng-template>
