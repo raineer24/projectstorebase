@@ -278,15 +278,15 @@ export class CheckoutService {
     *
     * @memberof CheckoutService
     */
-    getGC(gcCode) {
-      console.log("SEARCHING FOR GIFTCERT");
-      console.log(gcCode);
-      return this.http.get(`v1/gc/${gcCode}`).map(res => {
-        const gc = res.json();
-        console.log(gc);
-        return gc;
-     }).catch(err => Observable.empty());
-    }
+  getGC(gcCode) {
+    console.log("SEARCHING FOR GIFTCERT");
+    console.log(gcCode);
+    return this.http.get(`v1/gc/${gcCode}`).map(res => {
+      const gc = res.json();
+      console.log(gc);
+      return gc;
+   }).catch(err => Observable.empty());
+  }
 
   /**
     * @param {any} vCode
@@ -294,13 +294,13 @@ export class CheckoutService {
     *
     * @memberof CheckoutService
     */
-    getvoucher(vCode) {
-          console.log("SEARCHING FOR VOUCHER");
-          return this.http.get(`v1/voucher/${vCode}`).map(res => {
-            const v = res.json();
-            return v;
-         }).catch(err => Observable.empty());
-    }
+  getvoucher(vCode) {
+        console.log("SEARCHING FOR VOUCHER");
+        return this.http.get(`v1/voucher/${vCode}`).map(res => {
+          const v = res.json();
+          return v;
+       }).catch(err => Observable.empty());
+  }
 
   /**
     * @param {any} vCode
@@ -308,45 +308,27 @@ export class CheckoutService {
     *
     * @memberof CheckoutService
     */
-    updateVoucherStatus(vCode) {
-      console.log("UPDATING VOUCHER - STATUS " + vCode);
-      return this.http.put(`v1/voucher/${vCode}`,{
-        status:'consumed'
-        }).map(res => {
-          return res.json();
-      }).catch(err => Observable.empty());
-    }
+  updateVoucherStatus(vCode) {
+    console.log("UPDATING VOUCHER - STATUS " + vCode);
+    return this.http.put(`v1/voucher/${vCode}`,{
+      status:'consumed'
+      }).map(res => {
+        return res.json();
+    }).catch(err => Observable.empty());
+  }
 
-    /**
-      * @param {any} gcCode
-      * @returns
-      *
-      * @memberof CheckoutService
-      */
-      updateGC_status(gcCode) {
-        console.log("UPDATING GIFTCERT - STATUS");
-        return this.http.put(`v1/gc/${gcCode}`,{
-          status:'used'
-          }).map(res => {
-            return res.json();
-        }).catch(err => Observable.empty());
-      }
-
-
-  /**return res.json();
-   *
-   *
-   * @returns
-   *
-   * @memberof CheckoutService
-   */
-  changeOrderState() {
-    return this.http.put(
-      `spree/api/v1/checkouts/${this.orderNumber}/next.json?order_token=${this.getOrderKey()}`,
-      {}
-    ).map((res) => {
-      const order = res.json();
-      this.store.dispatch(this.actions.changeOrderStateSuccess(order));
+  /**
+    * @param {any} gcCode
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+  updateGC_status(gcCode) {
+    console.log("UPDATING GIFTCERT - STATUS");
+    return this.http.put(`v1/gc/${gcCode}`,{
+      status:'used'
+      }).map(res => {
+        return res.json();
     }).catch(err => Observable.empty());
   }
 
@@ -489,41 +471,49 @@ export class CheckoutService {
   /**
    *
    *
-   * @returns
+   * @param {number} userId
+   * @returns any
    *
    * @memberof CheckoutService
    */
-  availablePaymentMethods() {
-    return this.http.get(
-      `spree/api/v1/orders/${this.orderNumber}/payments/new?order_token=${this.getOrderKey()}`
+  getAddress(userId: number): any {
+    return this.http.get(`v1/address/${userId}/list`
     ).map((res) => {
-      const payments = res.json();
-      return payments;
-    }).catch(err => Observable.empty());
+      const response = res.json();
+      return response;
+    });
   }
 
   /**
    *
    *
-   * @param {any} paymentModeId
-   * @param {any} paymentAmount
-   * @returns
+   * @param {any} data
+   * @returns any
    *
    * @memberof CheckoutService
    */
-  createNewPayment(paymentModeId, paymentAmount) {
-    return this.http.post(
-      `spree/api/v1/orders/${this.orderNumber}/payments?order_token=${this.getOrderKey()}`,
-      {
-        payment: {
-          payment_method_id: paymentModeId,
-          amount: paymentAmount
-        }
-      }
+  updateAddress(data: any): any {
+    return this.http.put(`v1/address/${data.id}/save`, data
     ).map((res) => {
-      this.changeOrderState()
-        .subscribe();
-    }).catch(err => Observable.empty());
+      const response = res.json();
+      return response;
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns any
+   *
+   * @memberof CheckoutService
+   */
+  saveAddress(data: any): any {
+    return this.http.post(`v1/address/save`, data
+    ).map((res) => {
+      const response = res.json();
+      return response;
+    });
   }
 
   /**

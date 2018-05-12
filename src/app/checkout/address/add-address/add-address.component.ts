@@ -3,6 +3,7 @@ import { AppState } from './../../../interfaces';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 import { AuthActions } from './../../../auth/actions/auth.actions';
 import { AddressService } from './../services/address.service';
 import { CheckoutService } from './../../../core/services/checkout.service';
@@ -27,6 +28,10 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   private componentDestroyed: Subject<any> = new Subject();
   prefix: any[] = ['+63'];
   _selectedVal: any[] = ['+63'];
+  shipAddressDB: any;
+  billAddressDB: any;
+  userId: number;
+
   constructor(
     private fb: FormBuilder,
     private authActions: AuthActions,
@@ -35,24 +40,96 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private addrService: AddressService,
     private store: Store<AppState>
   ) {
+    let userData = JSON.parse(localStorage.getItem('user'));
+    this.userId = userData.id;
+
     this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
       this.isAuthenticated = auth;
       this.addressForm = addrService.initAddressForm(auth);
     });
-    this.store.select(getShipAddress).takeUntil(this.componentDestroyed).subscribe(data => {
-      if(data)
-        this.addressForm.patchValue(data);
-        if(data.phone) {
-          const mobileNumber = data.phone.split(" ");
-          this.addressForm.patchValue({'prefix': mobileNumber[0], 'phone': mobileNumber[1]});
+
+    combineLatest(
+      [this.store.select(getShipAddress),
+      this.store.select(getBillAddress),
+      this.checkoutService.getAddress(this.userId)]
+    ).subscribe((results) => {
+      console.log(results)
+        let storeShipAddr, storeBillAddr, dbAddr;
+        [storeShipAddr, storeBillAddr, dbAddr] = results;
+
+        if(dbAddr.length == 1) {
+          this.shipAddressDB = dbAddr[0];
+        } else if (dbAddr.length == 2) {
+          if(dbAddr[0].default) {
+            [this.shipAddressDB, this.billAddressDB] = dbAddr;
+          } else {
+            [this.billAddressDB, this.shipAddressDB] = dbAddr;
+          }
         }
-    });
-    this.store.select(getBillAddress).takeUntil(this.componentDestroyed).subscribe(data => {
-      if(data && data.billingAddress01) {
-        this.addressForm.patchValue({'isBilling': true})
-        this.addressForm.patchValue(data);
-      }
-    });
+
+        if(storeShipAddr && storeShipAddr.shippingAddress01) {
+          this.addressForm.patchValue(storeShipAddr);
+          if(storeShipAddr.phone) {
+            const mobileNumber = storeShipAddr.phone.split(" ");
+            this.addressForm.patchValue({'prefix': mobileNumber[0], 'phone': mobileNumber[1]});
+          }
+        } else if (this.shipAddressDB){
+          this.addressForm.patchValue({
+            shippingAddress01: this.shipAddressDB.address01,
+            shippingAddress02: this.shipAddressDB.address02,
+            city: this.shipAddressDB.city,
+            postalcode: this.shipAddressDB.postalCode,
+            country: this.shipAddressDB.country
+          });
+        }
+
+        if(storeBillAddr && storeBillAddr.billingAddress01) {
+          this.addressForm.patchValue({'isBilling': true})
+          this.addressForm.patchValue(storeBillAddr);
+          this.checkBilling = true;
+        } else if (this.billAddressDB){
+          this.addressForm.patchValue({
+            shippingAddress01: this.billAddressDB.address01,
+            shippingAddress02: this.billAddressDB.address02,
+            city: this.billAddressDB.city,
+            postalcode: this.billAddressDB.postalCode,
+            country: this.billAddressDB.country
+          });
+        }
+      });
+    // this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
+    //   this.isAuthenticated = auth;
+    //   this.addressForm = addrService.initAddressForm(auth);
+    // });
+    // this.store.select(getShipAddress).takeUntil(this.componentDestroyed).subscribe(data => {
+    //   if(data) {
+    //     this.addressForm.patchValue(data);
+    //     if(data.phone) {
+    //       const mobileNumber = data.phone.split(" ");
+    //       this.addressForm.patchValue({'prefix': mobileNumber[0], 'phone': mobileNumber[1]});
+    //     }
+    //   }
+    // });
+    // this.store.select(getBillAddress).takeUntil(this.componentDestroyed).subscribe(data => {
+    //   if(data && data.billingAddress01) {
+    //     this.addressForm.patchValue({'isBilling': true})
+    //     this.addressForm.patchValue(data);
+    //   }
+    // });
+
+    // this.checkoutService.getAddress(this.userId).subscribe(dbAddr => {
+    //   if(dbAddr.length == 1) {
+    //     this.shipAddressDB = dbAddr[0];
+    //   } else if (dbAddr.length == 2) {
+    //     if(dbAddr[0].default) {
+    //       [this.shipAddressDB, this.billAddressDB] = dbAddr;
+    //     } else {
+    //       [this.billAddressDB, this.shipAddressDB] = dbAddr;
+    //     }
+    //   }
+    //   console.log(this.shipAddressDB)
+    //   console.log(this.billAddressDB)
+    // })
   }
 
   ngOnInit() {
@@ -64,7 +141,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country','prefix'];
     let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
     let hasError = false;
-    
+
     requiredFields.forEach(val => {
       const ctrl = this.addressForm.controls[val];
       if (!ctrl.valid) {
@@ -77,6 +154,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
     if(!hasError) {
       values.phone = this._selectedVal +" "+ values.phone;
+      this.saveAddress(values);
       delete values.isBilling;
       delete values.prefix;
       values.status = 'address';
@@ -87,9 +165,51 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     }
   }
 
-  showBillingAddr() {
+  showBillingAddr(): void {
     this.addressForm.value.isBilling = !this.addressForm.value.isBilling;
+  }
 
+  saveAddress(values: any): void {
+    let apiCalls = [];
+    let shipAddrData = {
+      address01: values.shippingAddress01,
+      address02: values.shippingAddress02,
+      city: values.city,
+      country: values.country,
+      postalCode: values.postalcode,
+      default: true,
+      billing: false,
+      useraccount_id: this.userId.toString()
+    }
+    if(this.shipAddressDB) {
+      shipAddrData['id'] = this.shipAddressDB.id;
+      apiCalls.push(this.checkoutService.updateAddress(shipAddrData));
+    } else {
+      apiCalls.push(this.checkoutService.saveAddress(shipAddrData));
+    }
+
+    if(values.isBilling) {
+      let billAddrData = {
+        address01: values.billingAddress01,
+        address02: values.billingAddress02,
+        city: values.billCity,
+        country: values.billCountry,
+        postalCode: values.billPostalcode,
+        default: false,
+        billing: true,
+        useraccount_id: this.userId.toString()
+      }
+      if(this.billAddressDB) {
+        billAddrData['id'] = this.billAddressDB.id;
+        apiCalls.push(this.checkoutService.updateAddress(billAddrData));
+      } else {
+        apiCalls.push(this.checkoutService.saveAddress(billAddrData));
+      }
+    }
+
+    combineLatest(apiCalls).subscribe(results => {
+      console.log(results)
+    })
   }
 
   ngOnDestroy() {

@@ -6,7 +6,11 @@ import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AddressService {
-  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<AppState>
+  ) {
+  }
 
   initAddressForm(auth) {
     if(auth){
