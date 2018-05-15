@@ -53,9 +53,8 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     combineLatest(
       [this.store.select(getShipAddress),
       this.store.select(getBillAddress),
-      this.checkoutService.getAddress(this.userId)]
+      this.userService.getAddress(this.userId)]
     ).subscribe((results) => {
-      console.log(results)
         let storeShipAddr, storeBillAddr, dbAddr;
         [storeShipAddr, storeBillAddr, dbAddr] = results;
 
@@ -185,9 +184,9 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     }
     if(this.shipAddressDB) {
       shipAddrData['id'] = this.shipAddressDB.id;
-      apiCalls.push(this.checkoutService.updateAddress(shipAddrData));
+      apiCalls.push(this.userService.updateAddress(shipAddrData));
     } else {
-      apiCalls.push(this.checkoutService.saveAddress(shipAddrData));
+      apiCalls.push(this.userService.saveAddress(shipAddrData));
     }
 
     if(values.isBilling) {
@@ -203,9 +202,9 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       }
       if(this.billAddressDB) {
         billAddrData['id'] = this.billAddressDB.id;
-        apiCalls.push(this.checkoutService.updateAddress(billAddrData));
+        apiCalls.push(this.userService.updateAddress(billAddrData));
       } else {
-        apiCalls.push(this.checkoutService.saveAddress(billAddrData));
+        apiCalls.push(this.userService.saveAddress(billAddrData));
       }
     }
 

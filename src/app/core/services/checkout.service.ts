@@ -471,54 +471,6 @@ export class CheckoutService {
   /**
    *
    *
-   * @param {number} userId
-   * @returns any
-   *
-   * @memberof CheckoutService
-   */
-  getAddress(userId: number): any {
-    return this.http.get(`v1/address/${userId}/list`
-    ).map((res) => {
-      const response = res.json();
-      return response;
-    });
-  }
-
-  /**
-   *
-   *
-   * @param {any} data
-   * @returns any
-   *
-   * @memberof CheckoutService
-   */
-  updateAddress(data: any): any {
-    return this.http.put(`v1/address/${data.id}/save`, data
-    ).map((res) => {
-      const response = res.json();
-      return response;
-    });
-  }
-
-  /**
-   *
-   *
-   * @param {any} data
-   * @returns any
-   *
-   * @memberof CheckoutService
-   */
-  saveAddress(data: any): any {
-    return this.http.post(`v1/address/save`, data
-    ).map((res) => {
-      const response = res.json();
-      return response;
-    });
-  }
-
-  /**
-   *
-   *
    * @param string
    * @returns void
    *
