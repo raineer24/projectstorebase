@@ -1,4 +1,4 @@
-<!-- <div *ngIf="!show" class="tmp-welcome">
+<div *ngIf="!show" class="tmp-welcome">
   <div class="text-center welcome">
     <div class="col-md-3 col-sm-4">&nbsp;</div>
     <div class="col-md-6 col-sm-4">
@@ -11,10 +11,9 @@
         </span>
       </div>
     </div>
-    <div class="col-md-3 col-sm-4">&nbsp;</div> -->
+    <!--div class="col-md-3 col-sm-4">&nbsp;</div> -->
 
-    <!--
-    <div class="panel-heading">
+    <!-- <div class="panel-heading">
       <h1>Demo App</h1>
     </div>
     <div class="panel-body">
@@ -26,9 +25,9 @@
       <div class="alert alert-danger" [hidden]="!errorMessage">Wrong Password. Please try again!</div>
       <button class="btn btn-lg" (click)="setValue()">Enter</button>
     </div> -->
-  <!-- </div>
-</div> -->
-<div class="default">
+  </div>
+</div>
+<div class="default" *ngIf="show">
   <ng-container *ngIf="!isAdminRoute()">
     <div class="default">
       <section>
@@ -36,7 +35,7 @@
         <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
         <!-- <app-loading-indicator></app-loading-indicator> -->
         <app-notification></app-notification>
-
+          <app-star-rating></app-star-rating>
         <main class="body container">
           <router-outlet></router-outlet>
         </main>
