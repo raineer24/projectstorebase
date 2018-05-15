@@ -1,16 +1,17 @@
-import { getAuthStatus } from './../../../auth/reducers/selectors';
-import { AppState } from './../../../interfaces';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { combineLatest } from 'rxjs/observable/combineLatest';
-import { AuthActions } from './../../../auth/actions/auth.actions';
+import { AppState } from './../../../interfaces';
 import { AddressService } from './../services/address.service';
-import { CheckoutService } from './../../../core/services/checkout.service';
-import { CheckoutActions } from './../../actions/checkout.actions';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { getShipAddress, getBillAddress } from './../../reducers/selectors';
+import { CheckoutActions } from './../../actions/checkout.actions';
+import { getAuthStatus } from './../../../auth/reducers/selectors';
+import { AuthActions } from './../../../auth/actions/auth.actions';
+import { CheckoutService } from './../../../core/services/checkout.service';
+import { UserService } from './../../../user/services/user.service';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private checkoutActions: CheckoutActions,
     private checkoutService: CheckoutService,
     private addrService: AddressService,
+    private userService: UserService,
     private store: Store<AppState>
   ) {
     let userData = JSON.parse(localStorage.getItem('user'));
@@ -207,9 +209,11 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       }
     }
 
-    combineLatest(apiCalls).subscribe(results => {
-      console.log(results)
-    })
+    for(let i = 0, l = apiCalls.length; i < l; i++) {
+      setTimeout(() => {
+        apiCalls[i].takeUntil(this.componentDestroyed).subscribe();
+      }, (i * 100))
+    }
   }
 
   ngOnDestroy() {
