@@ -107,7 +107,7 @@
   <div class="row">
     <div class="col-sm-12 bg-info form-group">
       <input class="check-billing" type="checkbox" formControlName="isBilling" [(ngModel)]="checkBilling">
-      <label class="check-billing" (click)="checkBilling=!checkBilling">Bill to a different address</label>
+      <label class="check-billing" (click)="showBillingAddr()">Bill to a different address</label>
     </div>
   </div>
   <ng-container *ngIf="checkBilling">

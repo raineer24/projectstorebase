@@ -31,6 +31,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   _selectedVal: any[] = ['+63'];
   shipAddressDB: any;
   billAddressDB: any;
+  billAddrStore: any;
   userId: number;
 
   constructor(
@@ -88,14 +89,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
           this.addressForm.patchValue({'isBilling': true})
           this.addressForm.patchValue(storeBillAddr);
           this.checkBilling = true;
-        } else if (this.billAddressDB){
-          this.addressForm.patchValue({
-            shippingAddress01: this.billAddressDB.address01,
-            shippingAddress02: this.billAddressDB.address02,
-            city: this.billAddressDB.city,
-            postalcode: this.billAddressDB.postalCode,
-            country: this.billAddressDB.country
-          });
+          this.billAddrStore = storeBillAddr;
         }
       });
     // this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
@@ -167,7 +161,28 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   showBillingAddr(): void {
-    this.addressForm.value.isBilling = !this.addressForm.value.isBilling;
+    this.checkBilling = !this.checkBilling;
+    if (this.checkBilling) {
+      if (this.billAddrStore) {
+        this.addressForm.patchValue(this.billAddrStore)
+      } else if (this.billAddressDB) {
+        this.addressForm.patchValue({
+          billingAddress01: this.billAddressDB.address01,
+          billingAddress02: this.billAddressDB.address02,
+          billCity: this.billAddressDB.city,
+          billPostalcode: this.billAddressDB.postalCode,
+          billCountry: this.billAddressDB.country,
+        });
+      }
+    } else {
+      this.addressForm.patchValue({
+        billingAddress01: '',
+        billingAddress02: '',
+        billCity: '',
+        billPostalcode: '',
+        billCountry: '',
+      });
+    }
   }
 
   saveAddress(values: any): void {
@@ -210,7 +225,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
     for(let i = 0, l = apiCalls.length; i < l; i++) {
       setTimeout(() => {
-        apiCalls[i].takeUntil(this.componentDestroyed).subscribe();
+        apiCalls[i].subscribe();
       }, (i * 100))
     }
   }
