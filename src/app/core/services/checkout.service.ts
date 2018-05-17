@@ -265,7 +265,8 @@ export class CheckoutService {
         "user_id": userId,
         "item_id": cartItem.item.id,
         "quantity": cartItem.quantity,
-        "orderkey": this.getOrderKey()
+        "orderkey": this.getOrderKey(),
+        "specialInstructions": cartItem.instructions,
       }
     ).map((res) => {
       return cartItem;
@@ -678,8 +679,9 @@ export class CheckoutService {
         "enabled": datum.enabled,
         "sellerAccount_id": datum.sellerAccount_id,
         "dateCreated": datum.dateCreated,
-        "dateUpdated": datum.dateUpdate
-      }
+        "dateUpdated": datum.dateUpdate,
+      },
+      "instructions": datum.specialInstructions,
     }
 
   }

@@ -40,9 +40,7 @@
   .item-info {
     // float: right;
     font-weight: 300; //width: 50%;
-    .meta-info {
-      min-height: 85px;
-    }
+
     > div {
       margin-bottom: 20px;
       font-weight: 400;
@@ -90,6 +88,20 @@
       }
     }
   }
+  .item-instructions {
+    label {
+      margin: 0 0 0.5em;
+      font-size: 1.1em;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      line-height: 20px;
+    }
+    textarea {
+      width: 355px;
+      resize: vertical;
+    }
+  }
+
   &:after {
     content: "";
     display: table;
@@ -149,6 +161,16 @@
     border-color: #b5beef;
     background: #f5f5f5;
   }
+
+  .buttons {
+    width: 170px;
+    float: left;
+    margin-right: 15px;
+
+    .add-to-list {
+      border-radius: 4px;
+    }
+  }
   // .input-group-btn button {
   //   color: #ff005d;
   // }
@@ -182,7 +204,6 @@ ul.list-dropdown {
   background-color: #fff;
   border-radius: 0px;
   border: 2px solid #ff005d;
-  left: 15px;
 
   .list-dropdown-item {
     padding: 2px 5px;
@@ -194,7 +215,19 @@ ul.list-dropdown {
 
   .user-list {
     max-height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
+  }
+
+  .checkbox {
+    margin: 5px 0;
+  }
+
+  .divider {
+    margin: 0 0 9px 0;
+  }
+
+  label {
+    padding-left: 5px;
   }
 }
 
@@ -257,10 +290,11 @@ ul.list-dropdown {
     opacity: .5;
 }
 
-.newList {
-  // width: 176px;
+.recommended-divider {
+  margin: 0px;
 }
 
+/* SUGGESTED ITEMS */
 .suggested-items {
   h5 {
     color: #666;
@@ -348,7 +382,6 @@ ul.list-dropdown {
     }
   }
 }
-
 
 .set1ToSet2 {
   -webkit-animation-duration: 400ms;

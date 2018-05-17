@@ -40,6 +40,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   includedLists: Array<any> = [];
   listState: Array<any> = [];
   inputNewList = new FormControl();
+  specialInstructions = new FormControl();
   itemCategories: Array<any> = [null,null,null];
   itemSlider = { state: 'set1', class: '' };
   private imageRetries: number = 0;
@@ -60,6 +61,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     const cartItem = this.getCartItem(this.item.id);
     if (typeof cartItem != "undefined") {
       this.itemQuantity = cartItem.quantity;
+      this.specialInstructions.setValue(cartItem.instructions);
     }
     this.quantityControl.valueChanges.debounceTime(300).subscribe(value => {
       if (isNaN(value) || !Number.isInteger(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
@@ -337,4 +339,12 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     this.itemSlider = { state: 'set1', class: '' };
     this.initSuggestedItems();
   }
+
+  onInstructionsBlur(): void {
+    const text = this.specialInstructions.value;
+    let cartItem = this.getCartItem(this.item.id);
+    if(text !== cartItem.instructions){
+      cartItem.instructions = text;
+      this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));}
+    }
 }
