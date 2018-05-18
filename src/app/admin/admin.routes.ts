@@ -9,7 +9,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
-
+import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 
 export const AdminRoutes = [
   {
@@ -63,6 +63,14 @@ export const AdminRoutes = [
       {
         path: 'transactions',
         component: TransactionsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [3,5]
+        }
+      },
+      { 
+        path: 'print-transaction', 
+        component: PrintTransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRole: [3,5]
