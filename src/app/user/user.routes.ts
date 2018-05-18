@@ -3,6 +3,7 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { UserComponent } from './user.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { AddressesComponent } from './components/addresses/addresses.component';
+import { AddressEditComponent } from './components/addresses/address-edit/address-edit.component';
 import { OrderDetailComponent } from './components/orders/order-detail/order-detail.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ListsComponent } from  './components/lists/lists.component';
@@ -32,7 +33,9 @@ export const UserRoutes = [
       { path: 'overview', component: OverviewComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'orders/detail/:orderkey', component: OrderDetailComponent },
-      { path: 'addresses', component: AddressesComponent, redirectTo: 'orders' },
+      { path: 'address', component: AddressesComponent },
+      { path: 'address/add/:type', component: AddressEditComponent},
+      { path: 'address/edit/:id', component: AddressEditComponent},
       { path: 'lists', component: ListsComponent },
       { path: 'lists/detail/:userId/:id', component: ListDetailComponent },
       { path: 'profile', component: ProfileComponent },

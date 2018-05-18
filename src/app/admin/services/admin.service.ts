@@ -7,7 +7,6 @@ import { HttpService } from '../../core/services/http';
 import { AppState } from '../../interfaces';
 import { Transaction } from '../transactions/transactions.component';
 
-
 @Injectable()
 export class AdminService {
 

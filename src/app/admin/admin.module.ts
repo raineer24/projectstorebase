@@ -32,6 +32,8 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
+    save-address
+    LoginComponent,
     seller-auth,
     LoginComponent,
     PrintTransactionsComponent

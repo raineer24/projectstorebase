@@ -41,23 +41,23 @@ export class PaymentModesListComponent implements OnInit {
   }
 
   private fetchAllPayments() {
-    this.checkoutService.availablePaymentMethods()
-      .subscribe((payment) => {
-        this.paymentModes = payment.payment_methods;
-        this.selectedMode = this.paymentService.setCODAsSelectedMode(this.paymentModes);
-      });
+    // this.checkoutService.availablePaymentMethods()
+    //   .subscribe((payment) => {
+    //     this.paymentModes = payment.payment_methods;
+    //     this.selectedMode = this.paymentService.setCODAsSelectedMode(this.paymentModes);
+    //   });
   }
 
   makePayment() {
-    const paymentModeId = this.selectedMode.id;
-    this.checkoutService.createNewPayment(paymentModeId, this.paymentAmount)
-      .do(() => {
-        this.store.dispatch(this.checkoutActions.orderCompleteSuccess());
-        this.redirectToNewPage();
-        this.checkoutService.createEmptyOrder()
-          .subscribe();
-      })
-      .subscribe();
+    // const paymentModeId = this.selectedMode.id;
+    // this.checkoutService.createNewPayment(paymentModeId, this.paymentAmount)
+    //   .do(() => {
+    //     this.store.dispatch(this.checkoutActions.orderCompleteSuccess());
+    //     this.redirectToNewPage();
+    //     this.checkoutService.createEmptyOrder()
+    //       .subscribe();
+    //   })
+    //   .subscribe();
   }
 
   private redirectToNewPage() {
