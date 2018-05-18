@@ -263,14 +263,17 @@
         </label> -->
       </div>
     </div>
-    <!-- File Button -->
-    <!-- <div class="form-group">
-      <label class="col-md-4 control-label" for="Upload photo">Upload photo</label>
-      <div class="col-md-4">
-        <input id="Upload photo" name="Upload photo" class="input-file" type="file">
+    <div class="form-group">
+      <div class="form-inline">
+        <label class="col-md-3 control-label" for="birthdate">Date of Birth</label>
+        <div class="col-md-6">
+          <input type="text" formControlName="birthdate" class="form-control" bsDatepicker >
+          <div class="error-message" *ngIf="profileEditForm.get('birthdate').errors && profileEditForm.get('birthdate').touched">
+            <p>{{profileEditForm.get('birthdate').errors.msg || 'Please enter date of birth'}}</p>
+          </div>
+        </div>
       </div>
-    </div> -->
-    <!-- Text input-->
+    </div>
     <div class="form-group">
       <div class="form-inline">
         <label class="col-md-3 control-label" for="mobileNumber">Mobile Number</label>

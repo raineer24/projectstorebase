@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { AuthService } from '../../../../core/services/auth.service';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
+import { AppState } from '../../../../interfaces';
+import { AuthService } from '../../../../core/services/auth.service';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     'lastName': string,
     'firstName': string,
     'gender': string,
-    'mobileNumber': string
+    'mobileNumber': string,
+    'birthdate': string,
   };
 
   constructor(
@@ -38,12 +39,13 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
       this.authService.view(this.userData.id).subscribe(data => {
         const error = data.error;
         if (error) {
-
         } else {
           this.userData = data;
-          console.log("USER DATA LOADED!");
+          this.userData.birthdate = this.formatDate(data.birthdate);
         }
       });
+    } else {
+      this.userData.birthdate = this.formatDate(this.userData.birthdate);
     }
   }
 
@@ -53,6 +55,10 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.profileViewSubs) { this.profileViewSubs.unsubscribe() }
+  }
+
+  private formatDate(date: string): string {
+    return new Date(date).toLocaleDateString('en-US');
   }
 
 }

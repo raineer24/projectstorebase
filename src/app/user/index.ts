@@ -25,6 +25,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { UserRoutes as routes } from './user.routes';
 
 import { SharedModule } from '../shared/index';
+import { BsDatepickerModule  } from "ngx-bootstrap";
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { SharedModule } from '../shared/index';
   ],
   imports: [
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    BsDatepickerModule.forRoot(),
   ]
 })
 export class UserModule {}
