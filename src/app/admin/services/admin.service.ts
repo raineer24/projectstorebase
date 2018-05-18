@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Store } from '@ngrx/store';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../../core/services/http';
 import { AppState } from '../../interfaces';
 import { Transaction } from '../transactions/transactions.component';
-
 
 
 @Injectable()
@@ -26,7 +26,7 @@ export class AdminService {
    */
   login(data): Observable<any> {
     return this.http.post(
-      'v1/seller/user/login', data)
+      'v1/selleraccount/login', data)
       .map((res: Response) => {
       const resData = res.json();
       if (resData.message == 'Found') {
@@ -43,6 +43,47 @@ export class AdminService {
     });
   }
 
+  /**
+   *
+   * @param void
+   * @returns void
+   *
+   * @memberof AuthService
+   */
+   logout(): void {
+     localStorage.removeItem('selleruser');
+   }
+
+  /**
+   *
+   * @param void
+   * @returns boolean
+   *
+   * @memberof AuthService
+   */
+   isAuthenticated(): boolean {
+     const jwtHelper: JwtHelperService = new JwtHelperService();
+     const userData = JSON.parse(localStorage.getItem('selleruser'));
+     if (!userData) {
+       return false;
+     } else {
+       return !jwtHelper.isTokenExpired(userData.token);
+     }
+   }
+
+   /**
+    *
+    * @param void
+    * @returns any
+    *
+    * @memberof AuthService
+    */
+    getUserRole(): any {
+      const jwtHelper: JwtHelperService = new JwtHelperService();
+      const userData = JSON.parse(localStorage.getItem('selleruser'));
+      const tokenPayload = jwtHelper.decodeToken(userData.token);
+      return tokenPayload.role;
+    }
   /**
    *
    *
@@ -178,7 +219,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getUsers(): Observable<any> {
-    return this.http.get(`v1/user/`)
+    return this.http.get(`v1/selleraccounts`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

@@ -14,6 +14,9 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
+import { AdminService } from './services/admin.service';
+import { AdminGuardService } from './guards/admin.guard';
+import { RoleGuardService } from './guards/role.guard';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ModalModule } from 'angular-custom-modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
@@ -29,9 +32,9 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
+    seller-auth,
     LoginComponent,
     PrintTransactionsComponent
-
   ],
   imports: [
     CommonModule,
@@ -50,6 +53,11 @@ import { BsDropdownModule } from 'ngx-bootstrap';
   ],
   exports: [
     AdminComponent
+  ],
+  providers: [
+    AdminService,
+    AdminGuardService,
+    RoleGuardService
   ]
 })
 export class AdminModule { }
