@@ -1,30 +1,62 @@
-<div>
-  <table class="table table-hover table-striped">
-    <thead>
-      <tr>
-        <th>Transaction ID</th>
-        <th>Transaction Type</th>
-        <th>Date Created</th>
-        <th>Status</th>
-        <th>Order ID</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let t of transaction; let i = index">
-        <td>{{t.id}}</td>
-        <td class="text-uppercase">{{t.action}}</td>
-        <td class="text-uppercase">{{t.dateCreated | date:'fullDate' }}</td>
-        <td class="text-uppercase"></td>
-        <td class="text-uppercase">{{t.order_id}}</td>
-        <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm">PRINT</button>
-            <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/users-edit']">EDIT</button>
-            <button type="button" class="btn btn-default btn-sm">DISABLE</button>
-            <button type="button" class="btn btn-default btn-sm">RESET PASSWORD</button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+  <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
+<div class="btn-group" dropdown>
+  <button #actionsButton [disabled]="isDisabled" id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"  
+    class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+    Actions
+    <span class="caret"></span>
+  </button>
+  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+    <li role="menuitem">
+      <a class="dropdown-item" (click)="print()">Print all selected items</a>
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" (click)="download()">Export to pdf all selected items</a>
+    </li>
+
+
+  </ul>
+ 
+</div>
+
+
+
+
+<p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [loading]="loading" [globalFilter]="gb" dataKey="order_id"
+ #dt [paginator]="true" [rows]="5" [pageLinks]="3" >
+
+
+<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+
+  <p-column field="order_id" header="Order Id"  sortField="order_id" rowspan="2" [sortable]="true" >
+<ng-template let-col let-transaction="rowData" pTemplate="body">
+<a style="cursor:pointer;" (click)="selectOrder(transaction)" [style.color]="titleStyle ? 'normal' : '#737CA1'">#{{transaction[col.field]}}</a>
+
+</ng-template>
+
+  </p-column>
+  <p-column field="id" header="Transaction Number"></p-column>
+  <p-column field="action" header="Status"></p-column>
+   <p-column field="dateCreated" header="Date Created" [sortable]="true" >
+      <ng-template let-col let-transaction="rowData" pTemplate="body">
+    {{transaction[col.field]}}
+      </ng-template>
+    </p-column>
+<p-footer>
+  <ul>
+    <li *ngFor="let $ of selectedTransaction" style="text-align: left">{{$.order_id + ' - ' + $.id + ' - ' + $.action + ' - ' + $.dateCreated}}</li>
+  </ul>
+</p-footer>
+
+</p-dataTable>
+<modal #listDetailsModal>
+  <ng-template #modalBody>
+<app-print-transactions [trans]="activeTransaction">
+</app-print-transactions>
+
+
+  </ng-template>
+</modal>
+

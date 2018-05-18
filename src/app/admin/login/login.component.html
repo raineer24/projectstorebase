@@ -4,15 +4,15 @@
       <div class="panel panel-default">
         <div class="panel-body text-center">
 
-          <h3>OMG! Admin Dashboard</h3>
+          <h3>OMG! Dashboard</h3>
           <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <fieldset class="input-container">
               <div class="input-item">
-                <input type="email" class="user-input-email user-input" name="" placeholder="Your Email Address" formControlName="email"
+                <input type="text" class="user-input-email user-input" name="" placeholder="Enter Username" formControlName="username"
                   autocomplete="off">
-                <div *ngIf="loginForm.get('email').errors && loginForm.get('email').touched">
+                <div *ngIf="loginForm.get('username').errors && loginForm.get('username').touched">
                   <span class="error-icon text-danger">!</span>
-                  <p class="error-message text-danger">{{loginForm.get('email').errors.msg || 'Please enter a valid email address'}}</p>
+                  <p class="error-message text-danger">{{loginForm.get('username').errors.msg || 'Please enter your username'}}</p>
                 </div>
               </div>
               <div class="input-item">
