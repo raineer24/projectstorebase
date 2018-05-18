@@ -32,9 +32,9 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
-    save-address
+    // save-address,
     LoginComponent,
-    seller-auth,
+    // seller-auth,
     LoginComponent,
     PrintTransactionsComponent
   ],
@@ -50,8 +50,8 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     PaginatorModule,
     ButtonModule,
     BsDropdownModule.forRoot()
-    
-    
+
+
   ],
   exports: [
     AdminComponent
