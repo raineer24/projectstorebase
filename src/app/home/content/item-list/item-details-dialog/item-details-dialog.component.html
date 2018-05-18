@@ -142,7 +142,7 @@
     </div> <!-- div.item-info -->
   </div>
   <!-- START: RECOMMENDED LIST -->
-  <hr>
+  <hr class="recommended-divider">
   <div class="row suggested-items">
     <h5>You might also be interested in these items</h5>
     <section class="col-xs-12">
@@ -159,7 +159,7 @@
             </li>
           </ul>
         </div>
-        <div class="next" (click)="sliderNext()" [ngClass]="{'disabled': itemSlider.state == 'set3'}">
+        <div class="next" (click)="sliderNext()" [ngClass]="{'disabled': itemSlider.state == 'set3' || this.suggestedItems.length < 6 || (itemSlider.state == 'set2' && this.suggestedItems.length < 11)}">
           <i class="glyphicon glyphicon-chevron-right"></i>
         </div>
       </div>

@@ -321,10 +321,14 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   sliderNext(): void {
     switch(this.itemSlider.state) {
     case 'set1':
-      this.itemSlider = { state: 'set2', class: 'set1ToSet2' };
+      if(this.suggestedItems.length > 5) {
+        this.itemSlider = { state: 'set2', class: 'set1ToSet2' };
+      }
       break;
     case 'set2':
-      this.itemSlider = { state: 'set3', class: 'set2ToSet3' };
+      if(this.suggestedItems.length > 10) {
+        this.itemSlider = { state: 'set3', class: 'set2ToSet3' };
+      }
       break;
     case 'set3':
       break;

@@ -200,14 +200,13 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* LIST DROPDOWN */
 ul.list-dropdown {
-  width:  200px;
+  width:  220px;
   background-color: #fff;
   border-radius: 0px;
   border: 2px solid #ff005d;
+  padding: 10px;
 
   .list-dropdown-item {
-    padding: 2px 5px;
-    // max-width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -291,7 +290,7 @@ ul.list-dropdown {
 }
 
 .recommended-divider {
-  margin: 0px;
+  margin: 5px 0;
 }
 
 /* SUGGESTED ITEMS */
