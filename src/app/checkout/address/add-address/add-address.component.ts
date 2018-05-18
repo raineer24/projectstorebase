@@ -64,7 +64,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country','prefix'];
     let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
     let hasError = false;
-    
+
     requiredFields.forEach(val => {
       const ctrl = this.addressForm.controls[val];
       if (!ctrl.valid) {
@@ -83,7 +83,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       this.checkoutService.updateOrder(values).subscribe();
       this.onProceedClickEmit.emit();
     } else {
-      this.checkoutService.showErrorMsg('address');
+      this.checkoutService.showErrorMsg('address','');
     }
   }
 
