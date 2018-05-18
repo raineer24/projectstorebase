@@ -14,7 +14,11 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
-
+import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
+import { ModalModule } from 'angular-custom-modal';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
+import { BsDropdownModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,8 @@ import { LoginComponent } from './login/login.component';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
-    LoginComponent
+    LoginComponent,
+    PrintTransactionsComponent
 
   ],
   imports: [
@@ -33,7 +38,15 @@ import { LoginComponent } from './login/login.component';
     RouterModule.forChild(routes),
     SharedModule,
     FormsModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ModalModule,
+    TypeaheadModule,
+    DataTableModule,
+    PaginatorModule,
+    ButtonModule,
+    BsDropdownModule.forRoot()
+    
+    
   ],
   exports: [
     AdminComponent
