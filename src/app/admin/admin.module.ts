@@ -14,7 +14,14 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
-
+import { AdminService } from './services/admin.service';
+import { AdminGuardService } from './guards/admin.guard';
+import { RoleGuardService } from './guards/role.guard';
+import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
+import { ModalModule } from 'angular-custom-modal';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
+import { BsDropdownModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,18 +32,34 @@ import { LoginComponent } from './login/login.component';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
-    LoginComponent
-
+    // save-address,
+    LoginComponent,
+    // seller-auth,
+    LoginComponent,
+    PrintTransactionsComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
     FormsModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ModalModule,
+    TypeaheadModule,
+    DataTableModule,
+    PaginatorModule,
+    ButtonModule,
+    BsDropdownModule.forRoot()
+
+
   ],
   exports: [
     AdminComponent
+  ],
+  providers: [
+    AdminService,
+    AdminGuardService,
+    RoleGuardService
   ]
 })
 export class AdminModule { }

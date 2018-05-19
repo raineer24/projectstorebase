@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin';
     this.loginForm = this.fb.group({
-      'email': ['', Validators.required],
+      'username': ['', Validators.required],
       'password': ['', Validators.required]
     });
   }
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     const values = this.loginForm.value;
     const data = {
-      'username': values.email,
+      'username': values.username,
       'password': values.password
     };
 

@@ -65,8 +65,8 @@ export function httpInterceptor(
     CheckoutActions,
     UserActions,
     UserService,
-    CanActivateViaAuthGuard,
-    AdminService
+    CanActivateViaAuthGuard
+
   ]
 })
 export class CoreModule {}

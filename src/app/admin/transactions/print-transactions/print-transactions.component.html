@@ -1,0 +1,27 @@
+<div class="dialog">
+  <ng-content></ng-content>
+
+  <button (click)="onCloseModal()" aria-label="Close">X</button>
+  <div>
+    <h1>Order details</h1>
+    <h3>Order #{{trans.order_id}}</h3>
+    <hr />
+    <table class="table table-hover table-striped">
+        <tr>
+          <td>Transaction Number</td>
+          <td>{{trans.id}}</td>
+        </tr>
+        <tr>
+          <td>Date Created</td>
+          <td class="text-uppercase">{{trans.action}}</td>
+        </tr>
+        <tr>
+          <td>Product Details</td>
+          <td class="text-uppercase">{{trans.number}}</td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+    <button type="submit" (click)="download()" class="btn btn-success">Export PDF</button>
+    <button type="submit" (click)="print()" class="btn btn-success">Print</button>
+</div>

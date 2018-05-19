@@ -237,13 +237,92 @@ export class UserService {
     }
   }
 
-  showMessage(mode: string, itemName: string) {
+  /**
+   *
+   *
+   * @param {number} userId
+   * @returns any
+   *
+   * @memberof CheckoutService
+   */
+  getAddress(userId: number): any {
+    return this.http.get(`v1/address/${userId}/list`
+    ).map((res) => {
+      const response = res.json();
+      return response;
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {number} userId
+   * @returns any
+   *
+   * @memberof CheckoutService
+   */
+  getAddressById(addressId: number): any {
+    return this.http.get(`v1/address/${addressId}/view`
+    ).map((res) => {
+      const response = res.json();
+      return response;
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns any
+   *
+   * @memberof CheckoutService
+   */
+  updateAddress(data: any): any {
+    return this.http.put(`v1/address/${data.id}/save`, data
+    ).map((res) => {
+      const response = res.json();
+      return response;
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns any
+   *
+   * @memberof CheckoutService
+   */
+  saveAddress(data: any): any {
+    return this.http.post(`v1/address/save`, data
+    ).map((res) => {
+      const response = res.json();
+      return response;
+    });
+  }
+
+  showMessage(mode: string, details: string = '') {
     switch(mode) {
       case 'item_exist':
         this.http.loading.next({
           loading: false,
           error: true,
-          message: `${itemName} already in cart.`
+          message: `${details} already in cart.`
+        });
+        break;
+      case 'address_error':
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: `Please enter required information.`,
+          reset: 4500
+        });
+        break;
+      case 'address_success':
+        this.http.loading.next({
+          loading: false,
+          success: true,
+          message: `Address successfully saved.`
         });
         break;
     }

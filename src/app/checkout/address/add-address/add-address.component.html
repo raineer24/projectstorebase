@@ -17,7 +17,7 @@
       <i>*</i>
       <input type="text" id="email" class="form-control" formControlName="email" placeholder="Email" required>
     </div>
-  
+
 <div class="col-sm-4 form-group">
   <label for="phone">Mobile Number</label>
   <i>*</i>
@@ -100,15 +100,14 @@
   <div class="row">
     <div class="col-sm-12">
       <p>
-        <span class="note">
-          <b>*</b>&nbsp;(required)</span>
+        <small class="note"><b>*</b>&nbsp;(required)</small>
       </p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 bg-info form-group">
       <input class="check-billing" type="checkbox" formControlName="isBilling" [(ngModel)]="checkBilling">
-      <label class="check-billing" (click)="checkBilling=!checkBilling">Bill to a different address</label>
+      <label class="check-billing" (click)="showBillingAddr()">Bill to a different address</label>
     </div>
   </div>
   <ng-container *ngIf="checkBilling">
@@ -151,4 +150,3 @@
     </div>
   </div>
 </form>
-

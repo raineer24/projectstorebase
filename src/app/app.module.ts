@@ -23,6 +23,7 @@ import { CheckoutFooterComponent } from "./layout/checkout-footer/checkout-foote
 import { SpinnerModule } from "primeng/primeng";
 
 
+
 // adding rx operators
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/filter";
@@ -64,7 +65,9 @@ import { ModalModule } from "angular-custom-modal";
     SharedModule,
     ModalModule,
     BsDropdownModule,
-    SpinnerModule
+    SpinnerModule,
+    
+   
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -17,6 +17,7 @@ import { ListsComponent } from  './components/lists/lists.component';
 import { ListDetailComponent } from './components/lists/list-detail/list-detail.component';
 import { ListEntryComponent } from './components/lists/list-entry/list-entry.component';
 import { AddressesComponent } from './components/addresses/addresses.component';
+import { AddressEditComponent } from './components/addresses/address-edit/address-edit.component';
 import { ResetPassComponent } from './components/reset-pass/reset-pass.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 // services
@@ -37,6 +38,7 @@ import { SharedModule } from '../shared/index';
     ReturnListItemComponent,
     UserComponent,
     AddressesComponent,
+    AddressEditComponent,
     OrderDetailComponent,
     ProfileComponent,
     ProfileViewComponent,
