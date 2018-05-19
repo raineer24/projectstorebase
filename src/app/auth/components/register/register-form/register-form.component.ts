@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../../core/services/auth.service';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
-import { getAuthStatus } from '../../../reducers/selectors';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
+import { AppState } from '../../../../interfaces';
+import { getAuthStatus } from '../../../reducers/selectors';
+import { AuthService } from '../../../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-register-form',
@@ -14,7 +15,6 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class RegisterFormComponent implements OnInit, OnDestroy {
   signUpForm: FormGroup;
-  formSubmit = false;
   registerSubs: Subscription;
   returnUrl: string;
 
@@ -36,38 +36,33 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    const email = '';
-    const password = '';
-    const password_confirmation = '';
-    const mobile = '';
-    const gender = '';
-
     this.signUpForm = this.fb.group({
-      'email': [email, Validators.compose([Validators.required, Validators.email])],
-      'password': [password, Validators.compose([Validators.required, Validators.minLength(6)])],
-      'password_confirmation': [password_confirmation, Validators.compose([Validators.required, Validators.minLength(6)])],
-      'mobile': [mobile, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')])],
-      'gender': [gender, Validators.required],
-      'prefix': ['+63', Validators.required]
-
+      'email': ['', Validators.compose([Validators.required, Validators.email])],
+      'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      'password_confirmation': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      'mobile': ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')])],
+      'gender': ['', Validators.required],
+      'prefix': ['+63', Validators.required],
+      'birthdate': ['', Validators.required],
     }, { validator: this.matchingPasswords('password', 'password_confirmation') });
   }
 
   onSubmit() {
     const values = this.signUpForm.value;
-    const keys = Object.keys(values);
-    this.formSubmit = true;
-    const data = {
-      'username': values.email,
-      'email': values.email,
-      'password': values.password,
-      'uiid': '',
-      'mobileNumber': values.prefix + " " + values.mobile,
-      'gender': values.gender,
-      'lastName': values.last_name || '',
-      'firstName': values.first_name || ''
-    };
+
     if (this.signUpForm.valid) {
+      const data = {
+        'username': values.email,
+        'email': values.email,
+        'password': values.password,
+        'uiid': '',
+        'mobileNumber': values.prefix + " " + values.mobile,
+        'gender': values.gender,
+        'lastName': values.last_name || '',
+        'firstName': values.first_name || '',
+        'birthdate': new Date(values.birthdate).getTime(),
+      };
+
       this.registerSubs = this.authService.register(data).subscribe(data => {
         const error = data.error;
         if (error) {
@@ -81,6 +76,7 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
         );
       });
     } else {
+      const keys = Object.keys(values);
       keys.forEach(val => {
         const ctrl = this.signUpForm.controls[val];
         if (!ctrl.valid) {

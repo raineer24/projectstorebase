@@ -6,7 +6,7 @@
         autocomplete="off">
       <div *ngIf="signUpForm.get('email').errors && signUpForm.get('email').touched">
         <span class="register-error-icon">!</span>
-        <p class="register-error-message">{{signUpForm.get('email').errors.msg || 'Please enter a valid email id'}}</p>
+        <p class="register-error-message">{{signUpForm.get('email').errors.msg || 'Please enter a valid email address'}}</p>
       </div>
     </div>
 
@@ -41,6 +41,14 @@
       <div *ngIf="signUpForm.get('mobile').errors && signUpForm.get('mobile').touched">
         <span class="register-error-icon">!</span>
         <p class="register-error-message">{{signUpForm.get('mobile').errors.msg || 'Please enter a valid mobile number (10 digits)'}}</p>
+      </div>
+    </div>
+
+    <div class="register-input-item">
+      <input type="text" formControlName="birthdate" name="birthdate" class="register-user-input register-user-input-password" bsDatepicker placeholder="Date of Birth" autocomplete="off">
+      <div *ngIf="signUpForm.get('birthdate').errors && signUpForm.get('birthdate').touched">
+        <span class="register-error-icon">!</span>
+        <p class="register-error-message">{{ 'Please enter date of birth'}}</p>
       </div>
     </div>
 
