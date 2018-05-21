@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { LayoutModule } from "../layout/index";
 import { FormsModule } from '@angular/forms';
 import { CheckoutRoutes as routes } from './checkout.routes';
+import { SharedModule } from "./../shared/index";
 
 import { HeaderComponent } from "../layout/header/header.component";
 import { ConfirmComponent } from './confirm/confirm.component';
@@ -24,7 +25,8 @@ import { ConfirmComponent } from './confirm/confirm.component';
     AddressModule,
     PaymentModule,
     LayoutModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
   ],
   exports: [HeaderComponent],
   declarations: [ConfirmComponent],

@@ -14,4 +14,8 @@
         <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1" (click)="getRating(1)">
         <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
   </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">We would like to here from you.</label>
+    <textarea class="form-control rounded-0" [(ngModel)]="userFeedback" rows="7"></textarea>
+  </div>
 </div>
