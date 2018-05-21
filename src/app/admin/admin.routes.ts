@@ -7,6 +7,9 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
+import { AdminGuardService } from './guards/admin.guard';
+import { RoleGuardService } from './guards/role.guard';
+import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 
 export const AdminRoutes = [
   {
@@ -14,16 +17,66 @@ export const AdminRoutes = [
     component: LoginComponent
   },
   {
-    path: '',
+    path: 'admin',
     component: AdminComponent,
     children: [
-      // { path: '', redirectTo: 'orders'}
-      { path: 'orders', component: OrdersComponent },
-      { path: 'orders/edit/:id', component: OrderDetailsComponent },
-      { path: 'users', component: UsersComponent},
-      { path: 'users-edit', component: UsersEditComponent},
-      { path: 'view-order', component: ViewOrderComponent},
-      { path: 'transactions', component: TransactionsComponent }
-    ]
+      {
+        path: 'orders',
+        component: OrdersComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,5]
+        }
+      },
+      {
+        path: 'orders/edit/:id',
+        component: OrderDetailsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,5]
+        }
+      },
+      {
+        path: 'view-order',
+        component: ViewOrderComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,5]
+        }
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,5]
+        }
+      },
+      {
+        path: 'users-edit',
+        component: UsersEditComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,5]
+        }
+      },
+      {
+        path: 'transactions',
+        component: TransactionsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [3,5]
+        }
+      },
+      { 
+        path: 'print-transaction', 
+        component: PrintTransactionsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [3,5]
+        }
+      }
+    ],
+    canActivate: [AdminGuardService]
   }
 ];

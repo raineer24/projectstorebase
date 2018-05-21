@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Store } from '@ngrx/store';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../../core/services/http';
 import { AppState } from '../../interfaces';
-
-
+import { Transaction } from '../transactions/transactions.component';
 
 @Injectable()
 export class AdminService {
@@ -25,7 +25,7 @@ export class AdminService {
    */
   login(data): Observable<any> {
     return this.http.post(
-      'v1/seller/user/login', data)
+      'v1/selleraccount/login', data)
       .map((res: Response) => {
       const resData = res.json();
       if (resData.message == 'Found') {
@@ -44,6 +44,47 @@ export class AdminService {
 
   /**
    *
+   * @param void
+   * @returns void
+   *
+   * @memberof AuthService
+   */
+   logout(): void {
+     localStorage.removeItem('selleruser');
+   }
+
+  /**
+   *
+   * @param void
+   * @returns boolean
+   *
+   * @memberof AuthService
+   */
+   isAuthenticated(): boolean {
+     const jwtHelper: JwtHelperService = new JwtHelperService();
+     const userData = JSON.parse(localStorage.getItem('selleruser'));
+     if (!userData) {
+       return false;
+     } else {
+       return !jwtHelper.isTokenExpired(userData.token);
+     }
+   }
+
+   /**
+    *
+    * @param void
+    * @returns any
+    *
+    * @memberof AuthService
+    */
+    getUserRole(): any {
+      const jwtHelper: JwtHelperService = new JwtHelperService();
+      const userData = JSON.parse(localStorage.getItem('selleruser'));
+      const tokenPayload = jwtHelper.decodeToken(userData.token);
+      return tokenPayload.role;
+    }
+  /**
+   *
    *
    * @returns {Observable<any[]>}
    *
@@ -58,15 +99,18 @@ export class AdminService {
   /**
    *
    *
-   * @returns {Observable<transactions[]>}
+   * @returns {Observable<Transaction[]>}
    *
    * @memberof AdminService
    */
-  getTransactions(): Observable<any> {
+  getTransactions(): Observable<Transaction[]> {
     return this.http.get(`v1/transactions`)
       .map((res: Response) => res.json())
-     .catch(res => Observable.empty());
+      
+      .catch(res => Observable.empty());
+      
   }
+
 
   /**
    *
@@ -75,11 +119,11 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-   getSellerOrder(orderseller_id: number): Observable<any> {
-     return this.http.get(`v1/ordersellers/${orderseller_id}`)
-       .map((res: Response) => res.json())
-       .catch(res => Observable.empty());
-   }
+  getSellerOrder(orderseller_id: number): Observable<any> {
+    return this.http.get(`v1/ordersellers/${orderseller_id}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
 
 
   /**
@@ -138,12 +182,12 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  updateOrderItem(orderItem: any): Observable<any>  {
+  updateOrderItem(orderItem: any): Observable<any> {
     return this.http.put(`v1/orderItem/${orderItem.orderItem_id}`, {
-        "item_id": orderItem.id,
-        "quantity": orderItem.finalQuantity,
-        "status": orderItem.status
-      }
+      "item_id": orderItem.id,
+      "quantity": orderItem.finalQuantity,
+      "status": orderItem.status
+    }
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());
@@ -158,9 +202,9 @@ export class AdminService {
    */
   finalizeOrder(order: any): Observable<any> {
     return this.http.put(`v1/order/${order.order_id}/seller`, {
-        "finalTotalQuantity": order.finalQuantity,
-        "finalItemTotal": order.finalTotal
-      }
+      "finalTotalQuantity": order.finalQuantity,
+      "finalItemTotal": order.finalTotal
+    }
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());
@@ -174,7 +218,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getUsers(): Observable<any> {
-    return this.http.get(`v1/user/`)
+    return this.http.get(`v1/selleraccounts`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -189,14 +233,14 @@ export class AdminService {
    */
   update(id, data): Observable<any> {
     return this.http.put(
-      `v1/user/account/${ id }/save`, data
+      `v1/user/account/${id}/save`, data
     ).map((res: Response) => {
       let result = res.json();
       if (result.message.indexOf('Updated') >= 0) {
         let storedData = JSON.parse(localStorage.getItem('user'));
         data.message = result.message;
-        for(let key in data) {
-          if(data.hasOwnProperty(key)) {
+        for (let key in data) {
+          if (data.hasOwnProperty(key)) {
             storedData[key] = data[key];
           }
         }
@@ -225,7 +269,7 @@ export class AdminService {
    */
   view(id): Observable<any> {
     return this.http.get(
-      `v1/user/account/${ id }/view`
+      `v1/user/account/${id}/view`
     ).map((res: Response) => {
       let data = res.json();
       if (data.message == 'Found') {
