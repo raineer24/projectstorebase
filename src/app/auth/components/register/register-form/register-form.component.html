@@ -31,11 +31,11 @@
     <div class="register-input-item">
       <div class="register-user-input-mobile register-user-input" >
         <div>
-          <select name="prefix" formControlName="prefix">
+          <select class="form-control" name="prefix" formControlName="prefix">
             <option value="+63">+63</option>
           </select>
-          <input type="number" name="mobile"
-            formControlName="mobile" placeholder="Mobile Number (For status updates)">
+          <input class="form-control" type="number" name="mobile"
+            formControlName="mobile" placeholder="Mobile Number">
         </div>
       </div>
       <div *ngIf="signUpForm.get('mobile').errors && signUpForm.get('mobile').touched">
@@ -45,11 +45,36 @@
     </div>
 
     <div class="register-input-item">
-      <input type="text" formControlName="birthdate" name="birthdate" class="register-user-input register-user-input-password" bsDatepicker placeholder="Date of Birth" autocomplete="off">
+      <div class="register-user-input-birthdate register-user-input">
+        <select class="form-control" name="month" formControlName="month">
+          <option value="" disabled selected hidden>Month</option>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+        <input class="form-control" type="number" name="day" formControlName="day" placeholder="Day">
+        <input class="form-control" type="number" name="year" formControlName="year" placeholder="Year">
+      </div>
+      <div *ngIf="(signUpForm.get('month').errors || signUpForm.get('day').errors || signUpForm.get('year').errors
+        || signUpForm.hasError('invalidDate')) && (signUpForm.get('day').touched || signUpForm.get('year').touched
+        || signUpForm.get('month').touched)">
+        <span class="register-error-icon">!</span>
+        <p class="register-error-message">{{ 'Please enter a valid date of birth'}}</p>
+      </div>
+      <!-- <input type="text" formControlName="birthdate" name="birthdate" class="register-user-input register-user-input-password" bsDatepicker placeholder="Date of Birth" autocomplete="off">
       <div *ngIf="signUpForm.get('birthdate').errors && signUpForm.get('birthdate').touched">
         <span class="register-error-icon">!</span>
         <p class="register-error-message">{{ 'Please enter date of birth'}}</p>
-      </div>
+      </div> -->
     </div>
 
     <fieldset data-type="horizontal" class="register-gender">

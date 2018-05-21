@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { AppState } from '../../../../interfaces';
 import { AuthService } from '../../../../core/services/auth.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     this.userData = JSON.parse(localStorage.getItem('user'));
 
     const mobileNumber = this.userData.mobileNumber ? this.userData.mobileNumber.split(" "): ['+63',''];
+    const birthdate = new Date(this.userData.birthdate);
     this.profileEditForm = this.fb.group({
       'email': [this.userData.email, Validators.compose([Validators.required, Validators.email]) ],
       'lastName': [this.userData.lastName, Validators.required],
@@ -47,7 +49,11 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
       'gender': [this.userData.gender, Validators.required],
       'mobileNumber': [mobileNumber[1], Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('[0-9]{10}')]) ],
       'prefix': [mobileNumber[0], Validators.required],
-      'birthdate': [new Date(this.userData.birthdate), Validators.required]
+      'month': [this.userData.birthdate ? birthdate.toLocaleDateString('en-US',{ month: '2-digit' }): '', Validators.required],
+      'day': [this.userData.birthdate ? birthdate.getDate(): '', Validators.compose([Validators.required, Validators.pattern('[0-9]{1,2}')])],
+      'year': [this.userData.birthdate ? birthdate.getFullYear(): '', Validators.compose([Validators.required, Validators.pattern('[0-9]{4}')])],
+    }, {
+      validator: this.isValidDate()
     });
   }
 
@@ -64,7 +70,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         'firstName': values.firstName,
         'gender': values.gender,
         'mobileNumber': values.prefix+" "+values.mobileNumber,
-        'birthdate': values.birthdate.getTime(),
+        'birthdate': new Date(`${values.year}-${values.month}-${values.day}`).getTime(),
       }
       this.profileEditSubs = this.authService.update(this.userData.id, data).subscribe(res => {
         if (res.message == 'Updated') {
@@ -80,6 +86,17 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
         };
       });
     }
+  }
+
+  isValidDate() {
+    return (group: FormGroup): {[key: string]: any } => {
+      const day = moment(`${group.controls['year'].value}-${group.controls['month'].value}-${group.controls['day'].value}`);
+      if (!day.isValid() || day > moment()) {
+        return {
+          invalidDate: true
+        };
+      }
+    };
   }
 
   private formatDate(date: string): string {

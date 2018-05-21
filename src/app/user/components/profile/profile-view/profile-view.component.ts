@@ -41,11 +41,11 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
         if (error) {
         } else {
           this.userData = data;
-          this.userData.birthdate = this.formatDate(data.birthdate);
+          this.userData.birthdate = data.birthdate ? this.formatDate(data.birthdate): data.birthdate;
         }
       });
     } else {
-      this.userData.birthdate = this.formatDate(this.userData.birthdate);
+      this.userData.birthdate = this.userData.birthdate? this.formatDate(this.userData.birthdate): this.userData.birthdate;
     }
   }
 
@@ -58,7 +58,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   }
 
   private formatDate(date: string): string {
-    return new Date(date).toLocaleDateString('en-US');
+    return new Date(date).toLocaleDateString('en-US',{ month:'long', day:'numeric', year:'numeric' });
   }
 
 }

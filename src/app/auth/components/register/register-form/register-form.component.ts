@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AppState } from '../../../../interfaces';
 import { getAuthStatus } from '../../../reducers/selectors';
 import { AuthService } from '../../../../core/services/auth.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -43,8 +44,12 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       'mobile': ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]{10}')])],
       'gender': ['', Validators.required],
       'prefix': ['+63', Validators.required],
-      'birthdate': ['', Validators.required],
-    }, { validator: this.matchingPasswords('password', 'password_confirmation') });
+      'month': ['', Validators.required],
+      'day': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{1,2}')])],
+      'year': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{4}')])],
+    }, {
+      validator: Validators.compose([this.matchingPasswords('password', 'password_confirmation'), this.isValidDate()])
+    });
   }
 
   onSubmit() {
@@ -60,7 +65,7 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
         'gender': values.gender,
         'lastName': values.last_name || '',
         'firstName': values.first_name || '',
-        'birthdate': new Date(values.birthdate).getTime(),
+        'birthdate': new Date(`${values.year}-${values.month}-${values.day}`).getTime(),
       };
 
       this.registerSubs = this.authService.register(data).subscribe(data => {
@@ -95,6 +100,17 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       if (password.value !== confirmPassword.value) {
         return {
           mismatchedPasswords: true
+        };
+      }
+    };
+  }
+
+  isValidDate() {
+    return (group: FormGroup): {[key: string]: any } => {
+      const day = moment(`${group.controls['year'].value}-${group.controls['month'].value}-${group.controls['day'].value}`);
+      if (!day.isValid() || day > moment()) {
+        return {
+          invalidDate: true
         };
       }
     };
