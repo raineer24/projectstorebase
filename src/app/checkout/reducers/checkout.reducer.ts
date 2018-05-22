@@ -144,8 +144,9 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         }) as CheckoutState;
 
       case CheckoutActions.UPDATE_CART_ITEM_SUCCESS:
-        const quantity = payload.quantity;
-        _cartItemId = payload.cartItemId;
+        const quantity = payload.cartItem.quantity;
+        const instructions = payload.cartItem.instructions;
+        _cartItemId = payload.cartItem.id;
         _cartItemEntities = state.cartItemEntities;
         _cartItem = _cartItemEntities.get(_cartItemId.toString()).toJS();
 
@@ -154,6 +155,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
         _cartItem['quantity'] = quantity;
         _cartItem['total'] = _cartItem['price'] * quantity;
+        _cartItem['instructions'] = instructions;
         _cartItemEntity = { [_cartItemId]: _cartItem }
         _totalCartItems = state.totalCartItems + quantityDifference;
         _totalCartValue = state.totalCartValue + total;

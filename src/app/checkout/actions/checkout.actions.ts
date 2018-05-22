@@ -100,10 +100,10 @@ export class CheckoutActions {
     };
   }
 
-  updateCartItemSuccess(quantity: number, cartItemId: number): Action {
+  updateCartItemSuccess(cartItem: CartItem): Action {
     return {
       type: CheckoutActions.UPDATE_CART_ITEM_SUCCESS,
-      payload: { quantity, cartItemId }
+      payload: { cartItem }
     };
   }
 
