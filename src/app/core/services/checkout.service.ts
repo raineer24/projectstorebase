@@ -265,7 +265,8 @@ export class CheckoutService {
         "user_id": userId,
         "item_id": cartItem.item.id,
         "quantity": cartItem.quantity,
-        "orderkey": this.getOrderKey()
+        "orderkey": this.getOrderKey(),
+        "specialInstructions": cartItem.instructions,
       }
     ).map((res) => {
       return cartItem;
@@ -401,14 +402,14 @@ export class CheckoutService {
     const userId = user ? user.id: 0;
     params['useraccount_id']= userId;
     params['orderkey'] = this.getOrderKey();
-    return this.http.put(`v1/order/${params.id}/payment`, params)
+    return this.http.put(`v1/order/${params.id}/payment/`, params)
     .map(res => {
       const response = res.json();
       if(response.message.indexOf('Processed') >= 0) {
         this.store.dispatch(this.actions.orderCompleteSuccess());
         this.createNewOrder().subscribe();
       } else {
-        this.showErrorMsg('payment');
+          this.showErrorMsg('payment',response.message);
       }
       return response;
     })
@@ -433,7 +434,7 @@ export class CheckoutService {
     ).map((res) => {
       const response = res.json();
       if(response.message == 'Slot is full') {
-        this.showErrorMsg('timeslot');
+        this.showErrorMsg('timeslot',response.message);
       } else {
         const date = {
           'status': 'pending',
@@ -453,7 +454,7 @@ export class CheckoutService {
     ).map((res) => {
       const response = res.json();
       if(response.message == 'Slot is full') {
-        this.showErrorMsg('timeslot');
+        this.showErrorMsg('timeslot',response.message);
       } else {
         const date = {
           'status': 'pending',
@@ -477,7 +478,7 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
 
-  showErrorMsg(mode: string): void {
+  showErrorMsg(mode: string, msg: string): void {
     let message = '';
     switch (mode) {
       case 'address':
@@ -490,13 +491,16 @@ export class CheckoutService {
         message = `Slot is already full. Please select another slot.`;
         break;
       case 'payment':
-        message = `Error occured. Please review your order and try again.`;
+        message = `Error occured. `+msg+` Please review your order and try again.`;
+        break;
+      case 'payment_gc':
+        message = msg;
         break;
       case 'voucher':
         message = "Please enter a valid coupon.";
         break;
       case 'giftcert':
-        message = "Please enter a valid gift certificate";
+        message = msg;
         break;
     }
     this.http.loading.next({
@@ -620,8 +624,9 @@ export class CheckoutService {
         "enabled": datum.enabled,
         "sellerAccount_id": datum.sellerAccount_id,
         "dateCreated": datum.dateCreated,
-        "dateUpdated": datum.dateUpdate
-      }
+        "dateUpdated": datum.dateUpdate,
+      },
+      "instructions": datum.specialInstructions,
     }
 
   }

@@ -40,6 +40,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   includedLists: Array<any> = [];
   listState: Array<any> = [];
   inputNewList = new FormControl();
+  specialInstructions = new FormControl();
   itemCategories: Array<any> = [null,null,null];
   itemSlider = { state: 'set1', class: '' };
   private imageRetries: number = 0;
@@ -60,6 +61,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     const cartItem = this.getCartItem(this.item.id);
     if (typeof cartItem != "undefined") {
       this.itemQuantity = cartItem.quantity;
+      this.specialInstructions.setValue(cartItem.instructions);
     }
     this.quantityControl.valueChanges.debounceTime(300).subscribe(value => {
       if (isNaN(value) || !Number.isInteger(value) || value < this.MIN_VALUE || value > this.MAX_VALUE) {
@@ -319,10 +321,14 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   sliderNext(): void {
     switch(this.itemSlider.state) {
     case 'set1':
-      this.itemSlider = { state: 'set2', class: 'set1ToSet2' };
+      if(this.suggestedItems.length > 5) {
+        this.itemSlider = { state: 'set2', class: 'set1ToSet2' };
+      }
       break;
     case 'set2':
-      this.itemSlider = { state: 'set3', class: 'set2ToSet3' };
+      if(this.suggestedItems.length > 10) {
+        this.itemSlider = { state: 'set3', class: 'set2ToSet3' };
+      }
       break;
     case 'set3':
       break;
@@ -337,4 +343,12 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
     this.itemSlider = { state: 'set1', class: '' };
     this.initSuggestedItems();
   }
+
+  onInstructionsBlur(): void {
+    const text = this.specialInstructions.value;
+    let cartItem = this.getCartItem(this.item.id);
+    if(text !== cartItem.instructions){
+      cartItem.instructions = text;
+      this.store.dispatch(this.checkoutActions.updateCartItem(cartItem));}
+    }
 }
