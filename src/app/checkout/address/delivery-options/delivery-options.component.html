@@ -9,7 +9,7 @@
   <div *ngFor="let slot of timeSlotRows; let i = index;" class="row">
     <div class="col-xs-2 col-sm-2 col-md-2">{{timeSlotLabels[i]}}</div>
     <div *ngFor="let timeslots of timeSlots; let j = index" class="col-xs-1 col-md-1 ">
-      <ng-container *ngIf="isPastTime(j,i); else elseBlock1">
+      <ng-container *ngIf="isClosedSlot(j,i); else elseBlock1">
         <label [ngClass]="['btn-warning','btn','btn-block']"
           (click)="selectSlot($event)" #radioButtons disabled
           [(ngModel)]="selectedTimeSlot" [btnRadio]="[j,i]">

@@ -1,14 +1,13 @@
-import { AppState } from './../../../interfaces';
-import { Store } from '@ngrx/store';
-import { getOrderId, getOrderState, getDeliveryDate } from './../../reducers/selectors';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { CheckoutService } from './../../../core/services/checkout.service';
-import { CheckoutActions } from './../../actions/checkout.actions';
-import { Component, OnInit, Input, ViewChildren, QueryList, EventEmitter,
-  Output, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { AppState } from './../../../interfaces';
+import { getOrderId, getOrderState, getDeliveryDate } from './../../reducers/selectors';
+import { CheckoutActions } from './../../actions/checkout.actions';
+import { CheckoutService } from './../../../core/services/checkout.service';
 
 
 @Component({
@@ -39,7 +38,6 @@ export class DeliveryOptionsComponent implements OnInit {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private router: Router,
-    private cdr: ChangeDetectorRef
   ) {
       this.checkoutService.getAllTimeSlot().takeUntil(this.componentDestroyed).subscribe(data => {
         this.timeSlots = data;
@@ -47,7 +45,7 @@ export class DeliveryOptionsComponent implements OnInit {
         const i = this.timeSlots.findIndex(day => day.date === this.deliveryDate.date);
         // TEMPORARY
         //this.timeSlots[5].range[2].booked = 5;
-        // console.log(this.timeSlots)
+        console.log(this.timeSlots)
         // this.selectedTimeSlot =[7,3];
 
         if(i >= 0){
@@ -56,7 +54,7 @@ export class DeliveryOptionsComponent implements OnInit {
 
           if(j >= 0) {
             const slot = this.timeSlots[i].range[j];
-            if(slot.booked < slot.max && !this.isPastTime(i,j)) {
+            if(slot.booked < slot.max && !this.isClosedSlot(i,j)) {
               this.selectedTimeSlot = [i, j];
             }
           }
@@ -100,13 +98,21 @@ export class DeliveryOptionsComponent implements OnInit {
     this.onBackClickEmit.emit();
   }
 
-  isPastTime(i,j) {
+  isClosedSlot(i,j) {
     if(i != 0) {
       return false;
     }
-    const range = this.timeSlots[i].range[j].range.split(':');
-    const today = new Date().getHours();
-    if(today < Number.parseInt(range[0]) - 3) {
+    // const range = this.timeSlots[i].range[j].range.split(':');
+    // const today = new Date().getHours();
+    // if(today < Number.parseInt(range[0]) - 3) {
+    //   return false;
+    // } else {
+    //   return true;
+    // }
+    let timeslot = new Date(`${this.timeSlots[i].date} ${this.timeSlots[i].range[j].range}`);
+    timeslot.setHours(timeslot.getHours() - 3);
+    const now = new Date();
+    if(now < timeslot) {
       return false;
     } else {
       return true;
