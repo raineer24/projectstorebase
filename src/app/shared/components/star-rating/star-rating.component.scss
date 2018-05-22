@@ -10,11 +10,12 @@
 	margin-left: auto;
   margin-right: auto;
   width: 420px;
-	height: 256px;
+	height: 326px;
   background-color: #ff5847;
   color: white;
   padding-left: 10px;
 	padding-right: 10px;
+	z-index: 10000;
 }
 .star-rating__wrap{
 	display: inline-block;
@@ -51,4 +52,10 @@
 	position: absolute;
 	top: 0;
   right: 0;
+}
+.sendFeedback{
+	text-align: center;
+}
+.btn-sendfeedback{
+	background-color: #18D277
 }

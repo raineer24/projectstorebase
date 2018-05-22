@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '../../../core/services/http';
@@ -13,6 +13,8 @@ import { SharedService } from './../services/shared.service';
 })
 
 export class StarRatingComponent implements OnInit, OnDestroy {
+  @Input() closeStarRating: boolean = false;
+  @Output() sendClose: EventEmitter<any> = new EventEmitter();
   bClose: boolean;
   userFeedback: string;
   userRating: Subscription;
@@ -47,9 +49,11 @@ export class StarRatingComponent implements OnInit, OnDestroy {
     this.rating['orderkey'] = order.order_token;
     this.rating['starCount'] = Number(value);
     this.rating['feedback'] = this.userFeedback;
+    // this.saveRating(this.rating);
+  }
+
+  sendFeedBack(){
     this.saveRating(this.rating);
-
-
   }
 
 //save the rating to db
@@ -61,8 +65,12 @@ export class StarRatingComponent implements OnInit, OnDestroy {
     });
   }
 
-  close(){
+  close(): boolean{
     this.bClose = true;
+    this.closeStarRating = this.bClose;
+    this.sendClose.emit(this.closeStarRating);
+    console.log(this.closeStarRating);
+    return this.bClose;
   }
 
   ngOnDestroy() {

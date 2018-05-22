@@ -79,7 +79,7 @@ export class PaymentComponent implements OnInit {
   checkedCash: boolean = true;
   checkedPP: boolean = false;
   checkedCC: boolean = false;
-  availableCredit: number = 8000;
+  availableCredit: number = 0;
   isPBU: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -113,6 +113,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    let user = localStorage.getItem('user');
     if(localStorage.getItem('pbu') !== null) {
       if(localStorage.getItem('pbu') === '1')
         this.isPBU = true;
@@ -252,6 +253,7 @@ export class PaymentComponent implements OnInit {
   addGiftCert(code){
     let tempList = [];
     let amountPaid = 0;
+    console.log(code.value);
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
           if(data.message != null) {
@@ -314,7 +316,10 @@ export class PaymentComponent implements OnInit {
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
     let grandTotal = this.totalAmount;
-    this.updateGCStatus(this.updateCoupon);
+    console.log(this.updateCoupon);
+    if(this.updateCoupon){
+      this.updateGCStatus(this.updateCoupon);
+    }
     let params: any = {};
     params = {
       id: this.orderId,
