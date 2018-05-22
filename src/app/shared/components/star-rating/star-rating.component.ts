@@ -15,7 +15,7 @@ import { SharedService } from './../services/shared.service';
 export class StarRatingComponent implements OnInit, OnDestroy {
   @Input() closeStarRating: boolean = false;
   @Output() sendClose: EventEmitter<any> = new EventEmitter();
-  bClose: boolean;
+  bClose: boolean = false;
   userFeedback: string;
   userRating: Subscription;
 
@@ -31,16 +31,19 @@ export class StarRatingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.bClose = true;
     let user = JSON.parse(localStorage.getItem('user'));
-    this.bClose = false;
     this.userFeedback = "";
     this.userRating = new Subscription();
-    this.rating = {
+    if(user){
+      this.bClose = false;
+      this.rating = {
       'useraccount_id': Number(user.id),
       'orderkey': '',
       'starCount': 0,
       'feedback': ''
-    };
+      };
+    }
   }
 
 //get the value of the rating and the user's feedback
