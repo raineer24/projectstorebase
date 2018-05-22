@@ -346,6 +346,10 @@ export class PaymentComponent implements OnInit {
     if(this.updateCoupon){
       this.updateGCStatus(this.updateCoupon);
     }
+    let gcArr: any = [];
+    for (const key in this.gcList){
+      gcArr.push(Number(this.gcList[key].code));
+    }
     let params: any = {};
     params = {
       id: this.orderId,
