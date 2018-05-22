@@ -35,7 +35,7 @@
         <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
         <!-- <app-loading-indicator></app-loading-indicator> -->
         <app-notification></app-notification>
-        <app-star-rating></app-star-rating>
+        <!-- <app-star-rating></app-star-rating> -->
         <main class="body container">
           <router-outlet></router-outlet>
         </main>
@@ -47,7 +47,7 @@
   </ng-container>
   <ng-container *ngIf="isAdminRoute()">
     <app-notification></app-notification>
-    <app-star-rating></app-star-rating>
+    <!-- <app-star-rating></app-star-rating> -->
     <router-outlet></router-outlet>
   </ng-container>
 </div>
