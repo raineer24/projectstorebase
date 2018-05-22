@@ -31,16 +31,19 @@ export class StarRatingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.bClose = true;
     let user = JSON.parse(localStorage.getItem('user'));
-    this.bClose = false;
-    this.userFeedback = "";
-    this.userRating = new Subscription();
-    this.rating = {
-      'useraccount_id': Number(user.id),
-      'orderkey': '',
-      'starCount': 0,
-      'feedback': ''
-    };
+    if(user){
+      this.bClose = false;
+      this.userFeedback = "";
+      this.userRating = new Subscription();
+      this.rating = {
+        'useraccount_id': Number(user.id),
+        'orderkey': '',
+        'starCount': 0,
+        'feedback': ''
+      };
+    }
   }
 
 //get the value of the rating and the user's feedback
@@ -53,6 +56,7 @@ export class StarRatingComponent implements OnInit, OnDestroy {
   }
 
   sendFeedBack(){
+    this.bClose = true;
     this.saveRating(this.rating);
   }
 
@@ -61,16 +65,16 @@ export class StarRatingComponent implements OnInit, OnDestroy {
     this.sharedService.createStarRating(rating).subscribe(rating => {
         console.log(rating.message)
         this.sharedService.showThankyou();
-        this.close();
+        // this.close();
+
     });
   }
 
-  close(): boolean{
-    this.bClose = true;
+  close(){
+    this.bClose = false;
     this.closeStarRating = this.bClose;
     this.sendClose.emit(this.closeStarRating);
     console.log(this.closeStarRating);
-    return this.bClose;
   }
 
   ngOnDestroy() {
