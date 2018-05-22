@@ -3,7 +3,7 @@
   <input #gb type="text" pInputText size="50" placeholder="Search Filter">
 </div>
 <div class="btn-group" dropdown>
-  <button #actionsButton [disabled]="isDisabled" id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"  
+  <button #actionsButton [disabled]="isDisabled" id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
     class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
     Actions
     <span class="caret"></span>
@@ -18,13 +18,13 @@
 
 
   </ul>
- 
+
 </div>
 
 
 
 
-<p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [loading]="loading" [globalFilter]="gb" dataKey="order_id"
+<p-dataTable [value]="transaction" [(selection)]="selectedTransaction" [globalFilter]="gb" dataKey="order_id"
  #dt [paginator]="true" [rows]="5" [pageLinks]="3" >
 
 
@@ -59,4 +59,3 @@
 
   </ng-template>
 </modal>
-
