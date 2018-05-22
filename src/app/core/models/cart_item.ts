@@ -8,4 +8,5 @@ export class CartItem {
   item_id: number;
   description: string;
   item: Item;
+  instructions: string;
 }

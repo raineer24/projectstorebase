@@ -13,11 +13,15 @@ import { LoginFormComponent } from './components/login/login-form/login-form.com
 import { RegisterFacebookComponent } from './components/register/register-facebook/register-facebook.component';
 import { RegisterFormComponent } from './components/register/register-form/register-form.component';
 
+import { BsDatepickerModule  } from "ngx-bootstrap";
+
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    BsDatepickerModule.forRoot(),
   ],
   declarations: [
     LoginComponent,

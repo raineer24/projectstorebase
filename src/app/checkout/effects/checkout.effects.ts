@@ -36,7 +36,7 @@ export class CheckoutEffects {
     .mergeMap((action: Action) => {
       return this.checkoutService.updateCartItem(action.payload);
     })
-    .map((cartItem: CartItem) => this.actions.updateCartItemSuccess(cartItem.quantity, cartItem.id));
+    .map((cartItem: CartItem) => this.actions.updateCartItemSuccess(cartItem));
 
   }
   // @Effect()
