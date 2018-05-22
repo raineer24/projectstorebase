@@ -28,7 +28,11 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _totalCartValue = _totalCartValue - _totalDiscount;
         } else {
           _totalCartValue = 0;
-          localStorage.setItem('confirmationPayment','');
+           // localStorage.setItem('confirmationPayment','');
+           // localStorage.setItem('payment','');
+           // localStorage.setItem('giftcert','');
+           // localStorage.setItem('voucher','');
+           // localStorage.setItem('discount','');
         }
 
         if(payload.totalDiscount != null){
@@ -191,6 +195,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
 
       //case APPLY GC
       case CheckoutActions.APPLY_GC:
+        console.log('apply gc')
         _totalAmountPaid = state.totalAmountPaid + payload.value;
         _totalAmountDue = state.grandTotal - _totalAmountPaid;
         _giftCerts = state.giftCerts.push(payload.gCerts);
@@ -201,6 +206,33 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalAmountDue: _totalAmountDue,
           giftCerts: _giftCerts
       }) as CheckoutState;
+
+      //case REMOVE GC
+      case CheckoutActions.REMOVE_GC:
+        console.log('remove gc');
+        console.log(state.totalAmountPaid);
+        console.log(payload.value);
+        if(_totalAmountDue > 0){
+          _totalAmountPaid = state.totalAmountPaid - payload.value;
+          _totalAmountDue = state.grandTotal + _totalAmountPaid;
+        } else {
+          _totalAmountPaid = 0;
+          _totalAmountDue = state.grandTotal;
+        }
+        var gcIndex = state.giftCerts.indexOf(payload.gCerts);
+        console.log(state.giftCerts);
+        state.giftCerts.splice(gcIndex, 1);
+        console.log(state.giftCerts);
+        _giftCerts = state.giftCerts;
+
+        localStorage.setItem('payment',JSON.stringify(_totalAmountPaid));
+        localStorage.setItem('confirmationPayment',JSON.stringify(_totalAmountPaid));
+        return state.merge({
+          totalAmountPaid: _totalAmountPaid,
+          totalAmountDue: _totalAmountDue,
+          giftCerts: _giftCerts
+      }) as CheckoutState;
+
 
       // case CheckoutActions.CHANGE_ORDER_STATE:
 
