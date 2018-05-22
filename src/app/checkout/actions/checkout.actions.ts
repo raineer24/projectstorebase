@@ -11,6 +11,7 @@ export class CheckoutActions {
   static APPLY_COUPON = 'APPLY_COUPON';
   static REMOVE_COUPON = 'REMOVE_COUPON';
   static APPLY_GC = 'APPLY_GC';
+  static REMOVE_GC = 'REMOVE_GC';
   static REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
   static REMOVE_CART_ITEM_SUCCESS = 'REMOVE_CART_ITEM_SUCCESS';
   static UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
@@ -71,6 +72,13 @@ export class CheckoutActions {
     };
   }
 
+  removeGC(gc: any): Action {
+    return {
+      type: CheckoutActions.REMOVE_GC,
+      payload: gc
+    };
+  }
+
   removeCartItem(cartItemId: number): Action {
     return {
       type: CheckoutActions.REMOVE_CART_ITEM,
@@ -92,10 +100,10 @@ export class CheckoutActions {
     };
   }
 
-  updateCartItemSuccess(quantity: number, cartItemId: number): Action {
+  updateCartItemSuccess(cartItem: CartItem): Action {
     return {
       type: CheckoutActions.UPDATE_CART_ITEM_SUCCESS,
-      payload: { quantity, cartItemId }
+      payload: { cartItem }
     };
   }
 

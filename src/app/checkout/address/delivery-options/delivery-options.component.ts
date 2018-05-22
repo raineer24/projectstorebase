@@ -141,7 +141,7 @@ export class DeliveryOptionsComponent implements OnInit {
           return this.checkoutService.getAllTimeSlot().map(data => {
             this.timeSlots = data;
             this.selectedTimeSlot = [null, null];
-            this.checkoutService.showErrorMsg('timeslot');
+            this.checkoutService.showErrorMsg('timeslot','');
           });
         } else {
           params = {
@@ -152,7 +152,7 @@ export class DeliveryOptionsComponent implements OnInit {
         }
       }).subscribe();
     } else {
-      this.checkoutService.showErrorMsg('delivery');
+      this.checkoutService.showErrorMsg('delivery','');
     }
     localStorage.setItem('confirmationPayment','');
     localStorage.setItem('payment','');
