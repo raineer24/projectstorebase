@@ -36,6 +36,7 @@ export class StarRatingComponent implements OnInit, OnDestroy {
     this.userFeedback = "";
     this.userRating = new Subscription();
     if(user){
+      this.bClose = false;
       this.rating = {
       'useraccount_id': Number(user.id),
       'orderkey': '',
