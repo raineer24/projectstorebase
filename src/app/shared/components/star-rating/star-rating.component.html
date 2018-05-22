@@ -1,7 +1,7 @@
 <!--star rating html file-->
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <div class="star-rating" [hidden]="bClose">
-  <div>Please rate our app! <span class="close-btn"><button class="btn-primary close-btn" (click)="close()" >x</button></span></div>
+  <!-- <div>Please rate our app! <span class="close-btn"><button class="btn-primary close-btn" (click)="close()" >x</button></span></div> -->
   <div class="star-rating__wrap">
         <input class="star-rating__input" id="star-rating-5" type="radio" name="rating" value="5" (click)="getRating(5)">
         <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 5 stars"></label>
@@ -14,4 +14,12 @@
         <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1" (click)="getRating(1)">
         <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
   </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">We would like to here from you.</label>
+    <textarea class="form-control rounded-0" [(ngModel)]="userFeedback" rows="7"></textarea>
+  </div>
+  <div class="sendFeedback">
+    <button class="btn btn-primary btn-sendfeedback" (click)="sendFeedBack()">Send Feedback</button>
+  </div>
+
 </div>

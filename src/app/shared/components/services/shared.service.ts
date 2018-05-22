@@ -16,6 +16,9 @@ export class SharedService {
   ) { }
 
   /**
+   * Creates an instance of CheckoutService.
+   * @param {HttpService} http
+  /**
    *function to save star rating to db
    *
    * @returns {Observable<Order[]>}
@@ -23,13 +26,30 @@ export class SharedService {
    * @memberof SharedService
    */
   createStarRating(rating): Observable<any> {
-    console.log('creating star rating');
-    console.log(rating);
     return this.http.post(`v1/ratings/`,{
+      useraccount_id: rating.useraccount_id,
       orderkey: rating.orderkey,
-      starCount: rating.starCount
+      starCount: rating.starCount,
+      feedback: rating.feedback
     }).map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
 
-  }
+  /**
+   *
+   *
+   * @returns void
+   *
+   * @memberof CheckoutService
+   */
+
+  showThankyou(): void{
+    this.http.loading.next({
+      loading: false,
+      thankYou: true,
+      hasMsg: `Thank you!`,
+      reset: 4500
+    });
+   }
+
+}

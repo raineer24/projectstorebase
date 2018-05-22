@@ -1,13 +1,21 @@
 //css for star rating
 .star-rating{
-	font-size: 2;
+	font-size: 5;
   position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 220px;
+  // bottom: 0;
+  // right: 0;
+	top: 220px;
+  left: 680px;
+
+	margin-left: auto;
+  margin-right: auto;
+  width: 420px;
+	height: 326px;
   background-color: #ff5847;
   color: white;
   padding-left: 10px;
+	padding-right: 10px;
+	z-index: 10000;
 }
 .star-rating__wrap{
 	display: inline-block;
@@ -20,7 +28,7 @@
 }
 .star-rating__ico{
 	float: right;
-	padding-left: 2px;
+	padding-left: 4px;
 	cursor: pointer;
 	// color: #FFB300;
   color: #18D277
@@ -37,8 +45,17 @@
 {
 	content: "\f005";
 }
+.rounded-0{
+	resize: none;
+}
 .close-btn{
 	position: absolute;
 	top: 0;
   right: 0;
+}
+.sendFeedback{
+	text-align: center;
+}
+.btn-sendfeedback{
+	background-color: #18D277
 }
