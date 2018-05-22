@@ -15,7 +15,7 @@ import { SharedService } from './../services/shared.service';
 export class StarRatingComponent implements OnInit, OnDestroy {
   @Input() closeStarRating: boolean = false;
   @Output() sendClose: EventEmitter<any> = new EventEmitter();
-  bClose: boolean;
+  bClose: boolean = false;
   userFeedback: string;
   userRating: Subscription;
 
