@@ -9,6 +9,15 @@
   </div>
 </div>
 
+<div class="notify-container in" *ngIf="loading.thankYou">
+  <div class="alert-content notify-content">
+    <div class="alert alert-success alert-dismissable dark-success-txt">
+        <strong><i class="glyphicon glyphicon-ok"></i></strong>&nbsp;
+        {{loading.hasMsg}}
+    </div>
+  </div>
+</div>
+
 <div class="alert-container in" *ngIf="loading.success">
   <div class="alert-content">
     <div class="alert alert-success alert-dismissable dark-success-txt">

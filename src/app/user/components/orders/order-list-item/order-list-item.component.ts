@@ -9,6 +9,7 @@ import { environment } from '../../../../../environments/environment';
 export class OrderListItemComponent implements OnInit {
   @Input() order: any;
   @Input() tSlot: any;
+  showFeedBackTemplate: boolean = false;
 
   constructor() { }
 
@@ -18,5 +19,16 @@ export class OrderListItemComponent implements OnInit {
   getProductImageUrl(url) {
     return environment.API_ENDPOINT + url;
   }
+
+  createFeedBack(){
+    this.showFeedBackTemplate = true;
+    console.log(this.showFeedBackTemplate);
+  }
+
+  close(event){
+    this.showFeedBackTemplate = false;
+    console.log(this.showFeedBackTemplate);
+  }
+
 
 }

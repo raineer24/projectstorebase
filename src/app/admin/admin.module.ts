@@ -22,6 +22,7 @@ import { ModalModule } from 'angular-custom-modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { SortPipe } from './transactions/transactions.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { BsDropdownModule } from 'ngx-bootstrap';
     LoginComponent,
     // seller-auth,
     LoginComponent,
-    PrintTransactionsComponent
+    PrintTransactionsComponent,
+    SortPipe
   ],
   imports: [
     CommonModule,

@@ -156,7 +156,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       this.checkoutService.updateOrder(values).subscribe();
       this.onProceedClickEmit.emit();
     } else {
-      this.checkoutService.showErrorMsg('address');
+      this.checkoutService.showErrorMsg('address','');
     }
   }
 

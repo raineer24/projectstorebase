@@ -79,12 +79,31 @@
 
   select {
     width: 60px;
-    border-width: 0;
     border-radius: 0;
+    display: inline-block;
   }
   input {
-    width: 75%;
-    border-width: 0;
+    width: 200px;
+    display: inline-block;
+  }
+}
+
+.register-user-input-birthdate {
+  border-top: 1px solid #d5d6d9;
+  text-align: left;
+  input {
+    display: inline-block;
+
+    &:nth-child(2) {
+      width: 60px;
+    }
+    &:nth-child(3) {
+      width: 80px;
+    }
+  }
+  select {
+    display: inline-block;
+    width: 120px;
   }
 }
 

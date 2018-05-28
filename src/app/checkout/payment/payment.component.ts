@@ -79,7 +79,7 @@ export class PaymentComponent implements OnInit {
   checkedCash: boolean = true;
   checkedPP: boolean = false;
   checkedCC: boolean = false;
-  availableCredit: number = 8000;
+  availableCredit: number = 0;
   isPBU: boolean = false;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -113,6 +113,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    let user = localStorage.getItem('user');
     if(localStorage.getItem('pbu') !== null) {
       if(localStorage.getItem('pbu') === '1')
         this.isPBU = true;
@@ -183,12 +184,12 @@ export class PaymentComponent implements OnInit {
             // this.gErrMsg = 'Invalid coupon or voucher';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
             this.hasErr = true;
-            this.checkoutService.showErrorMsg('voucher');
+            this.checkoutService.showErrorMsg('voucher','');
         } else if (data.status == "used") {
             // this.gErrMsg = 'Coupon or voucher already consumed';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
             this.hasErr = true;
-            this.checkoutService.showErrorMsg('voucher');
+            this.checkoutService.showErrorMsg('voucher','');
         } else {
             // this.gErrMsg = 'Coupon is valid!';
             this.voucherIcon = 'glyphicon glyphicon-ok text-success';
@@ -239,7 +240,7 @@ export class PaymentComponent implements OnInit {
     if(this.gcQuantity > 0) {
       if(this.gcList.find(gc => gc.code === code.value))
       {
-        this.checkoutService.showErrorMsg('giftcert');
+        this.checkoutService.showErrorMsg('giftcert','');
       } else {
         this.addGiftCert(code);
       }
@@ -252,15 +253,16 @@ export class PaymentComponent implements OnInit {
   addGiftCert(code){
     let tempList = [];
     let amountPaid = 0;
+    console.log(code.value);
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
           if(data.message != null) {
-            // this.gErrMsg = data.message;
-            this.checkoutService.showErrorMsg('giftcert');
+            this.gErrMsg = "GC "+code.value+" not found!";
+            this.checkoutService.showErrorMsg('giftcert',this.gErrMsg);
             return this.totalPaidAmount;
           } else if (data.status == "used") {
-            // this.gErrMsg = "Already used!";
-            this.checkoutService.showErrorMsg('giftcert');
+            this.gErrMsg = "GC "+code.value+" is no longer available!";
+            this.checkoutService.showErrorMsg('giftcert',this.gErrMsg);
             return this.totalPaidAmount;
           } else {
             console.log("update gc table");
@@ -277,7 +279,6 @@ export class PaymentComponent implements OnInit {
             localStorage.setItem('giftcert',JSON.stringify(this.gcList));
 
             amountPaid = Number(data.amount);
-            // this.totalAmountDue = this.totalAmountDue - this.totalPaidAmount;
             this.forGC = {
                 value: amountPaid,
                 gCerts: tempList
@@ -298,6 +299,33 @@ export class PaymentComponent implements OnInit {
       }
     }
 
+  startReload() {
+    setTimeout(function () {
+        location.reload()
+    }, 2500);
+  }
+
+  removeGC(code){
+    // this.gErrMsg = "GC "+code+" is no longer available!";
+    // this.checkoutService.showErrorMsg('giftcert',this.gErrMsg);
+    console.log('Revalidating GCs');
+    let tempList = [];
+    console.log(this.gcList);
+    // var ctr;
+    console.log("remove gc");
+    var index = this.gcList.indexOf(code);
+    console.log(index);
+    tempList.push({
+      code: code,
+      value: this.gcList.value
+    });
+    this.gcList.splice(index, 1);
+    console.log(this.gcList);
+    this.store.dispatch(this.checkoutAction.removeGC(tempList));
+    this.startReload();
+    return this.totalPaidAmount;
+  }
+
   gcCount(){
     this.usableGCcount = Math.floor(this.totalAmount / 100);
     this.usableGCcount = this.usableGCcount - this.gcQuantity;
@@ -314,7 +342,14 @@ export class PaymentComponent implements OnInit {
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
     let grandTotal = this.totalAmount;
-    this.updateGCStatus(this.updateCoupon);
+    console.log(this.updateCoupon);
+    if(this.updateCoupon){
+      this.updateGCStatus(this.updateCoupon);
+    }
+    let gcArr: any = [];
+    for (const key in this.gcList){
+      gcArr.push(Number(this.gcList[key].code));
+    }
     let params: any = {};
     params = {
       id: this.orderId,
@@ -323,14 +358,18 @@ export class PaymentComponent implements OnInit {
       discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
       total: grandTotal,
-      status: 'Pending'
+      status: 'Pending',
+      gcList: gcArr
     }
-
     this.checkoutService.updateOrderPayment(params
     ).mergeMap(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
         return this.checkoutService.updateVoucherStatus(this.voucherCode);
+      } else {
+        // this.checkoutService.showErrorMsg('giftcert',res.message);
+        let num = res.message.match(/\d+/g).map(n => parseInt(n));
+        this.removeGC(num.toString());
       }
 
     }).subscribe();

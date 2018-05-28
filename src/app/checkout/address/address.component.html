@@ -1,29 +1,31 @@
 <div class="address-section" style="align: center">
-	<!-- <div *ngIf="(shipAddress$ | async)">
-		<div class="">
-			<div class="edit-address">
-				<span class="edit-label">
-					Select Delivery Address
-				</span>
-			</div>
-			<app-delivery-address [address]="(shipAddress$ | async)" ></app-delivery-address>
-		</div>
-	</div> -->
 	<div id="deliverytime" class="delivery-time" *ngIf="isShowDeliveryOption">
 		<div class="col-md-12">
-      <h3><span class="num">1</span><span class="txt">Information</span><span class="num num-sel">2</span><span class="txt txt-sel">Delivery time</span><span class="num">3</span>Payment</h3>
-      <!-- <h3>Pick a delivery time slot</h3> -->
+			<h3>
+				<span class="num">1</span>
+				<span class="txt">Information</span>
+				<span class="num num-sel">2</span>
+				<span class="txt txt-sel">Delivery time</span>
+				<span class="num">3</span>
+				<span class="txt">Payment</span>
+			</h3>
 			<app-delivery-options [orderId]="orderId$ | async" [orderStatus]="orderStatus$ | async"
 			 [deliveryDate]="deliveryDate$ | async" (onBackClickEmit)="toggleShowDeliveryAddressOption()"></app-delivery-options>
 		</div>
 	</div>
 	<div id="enterAddress" *ngIf="!isShowDeliveryOption">
+		<div class="col-md-12">
+			<h3>
+				<span class="num num-sel">1</span>
+				<span class="txt txt-sel">Information</span>
+				<span class="num">2</span>
+				<span class="txt">Delivery time</span>
+				<span class="num">3</span>
+				<span class="txt">Payment</span>
+			</h3>
+		</div>
 		<div class="col-md-8 add-address">
-      <h3><span class="num num-sel">1</span><span class="txt txt-sel">Information</span><span class="num">2</span><span class="txt">Delivery time</span><span class="num">3</span>Payment</h3>
 			 <app-add-address (onProceedClickEmit)="toggleShowDeliveryDateOption()"></app-add-address>
 		</div>
-		<!-- <div class="col-md-3">
-		  <h3>Order Summary</h3>
-		</div> -->
 	</div>
 </div>

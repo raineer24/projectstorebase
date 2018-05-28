@@ -26,3 +26,42 @@ input.ng-invalid.ng-touched {
     transition-timing-function: cubic-bezier(0,1,.5,1);
   }
 }
+
+.birthdate {
+  input {
+    display: inline-block;
+
+    &:nth-child(2) {
+      width: 60px;
+    }
+    &:nth-child(3) {
+      width: 80px;
+    }
+  }
+  select {
+    display: inline-block;
+    width: 120px;
+  }
+}
+
+.mobileNumber {
+  select {
+    width: 60px;
+    display: inline-block;
+  }
+  input {
+    width: 200px;
+    display: inline-block;
+  }
+}
+
+/* For Firefox */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

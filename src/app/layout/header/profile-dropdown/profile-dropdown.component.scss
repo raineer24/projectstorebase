@@ -40,7 +40,7 @@
         overflow-x: hidden;
       }
       .subtotal {
-        border-top: 5px solid #ccc;
+        // border-top: 5px solid #ccc;
       }
 
       .empty {
@@ -62,5 +62,21 @@
      color: #fff;
      font-size: 20px;
    }
+}
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+ /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #aaa;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #888;
 }
