@@ -1,13 +1,11 @@
 <div *ngIf="item">
   <div class="dialog-header">
-    <div class="row">
-      <ol *ngIf="itemCategories[0]" class="breadcrumb small">
-        <li>&nbsp;</li>
-        <li ><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
-        <li *ngIf="itemCategories[1]"><a (click)=selectCategory(itemCategories[1],itemCategories[0])>{{itemCategories[1].name}}</a></li>
-        <li *ngIf="itemCategories[2]"><a (click)=selectCategory(itemCategories[2],itemCategories[1],itemCategories[0])>{{itemCategories[2].name}}</a></li>
-      </ol>
-    </div>
+    <ol *ngIf="itemCategories[0]" class="breadcrumb small">
+      <li>&nbsp;</li>
+      <li ><a (click)=selectCategory(itemCategories[0])>{{itemCategories[0].name}}</a></li>
+      <li *ngIf="itemCategories[1]"><a (click)=selectCategory(itemCategories[1],itemCategories[0])>{{itemCategories[1].name}}</a></li>
+      <li *ngIf="itemCategories[2]"><a (click)=selectCategory(itemCategories[2],itemCategories[1],itemCategories[0])>{{itemCategories[2].name}}</a></li>
+    </ol>
     <a href="javascript:void(0)" class="closeModal" (click)="onCloseModal()"><span class="glyphicon glyphicon-remove"></span></a>
   </div>
   <div class="item-details row">
