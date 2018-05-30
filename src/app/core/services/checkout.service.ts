@@ -325,7 +325,7 @@ export class CheckoutService {
     * @memberof CheckoutService
     */
   updateGC_status(gcCode) {
-    console.log("UPDATING GIFTCERT - STATUS");
+    console.log(gcCode)
     return this.http.put(`v1/gc/${gcCode}`,{
       status:'used'
       }).map(res => {

@@ -196,6 +196,7 @@ export class PaymentComponent implements OnInit {
             this.hasErr = false;
             this.voucherCode = this.couponCode;
             this.updateCoupon = this.voucherCode;
+            console.log(this.updateCoupon);
         }
       });
     } else {
@@ -336,16 +337,13 @@ export class PaymentComponent implements OnInit {
   }
 
   updateGCStatus(code){
+    console.log('Update '+code+' GC Status');
     this.updategcStatus$ = this.checkoutService.updateGC_status(code).subscribe(data => data);
   }
 
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
     let grandTotal = this.totalAmount;
-    console.log(this.updateCoupon);
-    if(this.updateCoupon){
-      this.updateGCStatus(this.updateCoupon);
-    }
     let gcArr: any = [];
     for (const key in this.gcList){
       gcArr.push(Number(this.gcList[key].code));
@@ -365,7 +363,11 @@ export class PaymentComponent implements OnInit {
     ).mergeMap(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
-        return this.checkoutService.updateVoucherStatus(this.voucherCode);
+        if(this.voucherCode)
+          { return this.checkoutService.updateVoucherStatus(this.voucherCode); }
+        for(const key in gcArr){
+          this.updateGCStatus(gcArr[key]);
+        }
       } else {
         // this.checkoutService.showErrorMsg('giftcert',res.message);
         let num = res.message.match(/\d+/g).map(n => parseInt(n));
