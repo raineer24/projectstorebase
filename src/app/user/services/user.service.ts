@@ -314,7 +314,7 @@ export class UserService {
         this.http.loading.next({
           loading: false,
           hasError: true,
-          hasMsg: `Please enter required information.`,
+          hasMsg: `Please enter required information. ${details}`,
           reset: 4500
         });
         break;

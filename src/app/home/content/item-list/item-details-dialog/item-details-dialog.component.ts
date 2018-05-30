@@ -105,9 +105,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnChanges() {
-    console.log("TEST");
     if (this.cartItems.length) {
-      console.log(this.item.id)
       const cartItem = this.getCartItem(this.item.id);
       if(cartItem) {
         this.itemQuantity = cartItem.quantity;
