@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../interfaces';
 import { UserActions } from '../../actions/user.actions';
@@ -13,6 +13,7 @@ import { getUserOrders } from '../../reducers/selector';
 })
 export class OrdersComponent implements OnInit {
   orders$: Observable<any[]>;
+  showFeedBackTemplate: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -24,5 +25,5 @@ export class OrdersComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(this.userActions.getUserOrders());
   }
-
+  
 }

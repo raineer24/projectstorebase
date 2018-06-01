@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { UserService } from '../../../services/user.service';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
@@ -9,26 +10,21 @@ import { environment } from '../../../../../environments/environment';
 export class OrderListItemComponent implements OnInit {
   @Input() order: any;
   @Input() tSlot: any;
-  showFeedBackTemplate: boolean = false;
+  showFeedBackTemplate: boolean;
 
-  constructor() { }
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.showFeedBackTemplate = this.userService.switchBool;
   }
 
   getProductImageUrl(url) {
     return environment.API_ENDPOINT + url;
   }
 
-  createFeedBack(){
-    this.showFeedBackTemplate = true;
-    console.log(this.showFeedBackTemplate);
+  createFeedBack(event: any){
+    this.showFeedBackTemplate = this.userService.switch();
   }
-
-  close(event){
-    this.showFeedBackTemplate = false;
-    console.log(this.showFeedBackTemplate);
-  }
-
 
 }

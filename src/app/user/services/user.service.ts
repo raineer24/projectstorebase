@@ -11,7 +11,8 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
-
+  switchBool: boolean = false;
+  closeBtn: boolean = false;
   constructor(
     private http: HttpService,
     private actions: UserActions,
@@ -301,6 +302,40 @@ export class UserService {
     });
   }
 
+  /**
+   *function to save star rating to db
+   *
+   * @returns {Observable<Order[]>}
+   *
+   * @memberof UserService
+   */
+  createStarRating(rating): Observable<any> {
+    return this.http.post(`v1/ratings/`,{
+      useraccount_id: rating.useraccount_id,
+      orderkey: rating.orderkey,
+      starCount: rating.starCount,
+      feedback: rating.feedback
+    }).map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @returns void
+   *
+   * @memberof UserService
+   */
+
+  showThankyou(): void{
+    this.http.loading.next({
+      loading: false,
+      thankYou: true,
+      hasMsg: `Thank you!`,
+      reset: 4500
+    });
+   }
+
   showMessage(mode: string, details: string = '') {
     switch(mode) {
       case 'item_exist':
@@ -328,6 +363,27 @@ export class UserService {
     }
 
   }
+
+  /**
+   *
+   *
+   * @returns boolean
+   *
+   * @memberof UserService
+   */
+
+   switch(): boolean{
+     console.log('BEFORE: '+this.switchBool);
+     if(this.switchBool){
+      this.switchBool = false;
+     } else {
+      this.switchBool = true;
+     }
+     console.log('AFTER: '+this.switchBool);
+     return this.switchBool;
+   }
+
+
 /*
 GET list/{useraccount_id} = return all user's list
 POST list {useraccount_id} = create new list
