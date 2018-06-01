@@ -16,7 +16,12 @@
       <li><a [routerLink]="['/auth', 'login']">Sign in</a></li>
     </ng-container>
     <ng-template #elseBlock>
-      <li><a routerLink="/user/lists"><i class="glyphicon glyphicon-list"></i> My List</a></li>
+      <li>
+        <a routerLink="/user/lists">
+          <i class="glyphicon glyphicon-list"></i>
+          <span class="hidden-xs hidden-sm">My List</span>
+        </a>
+      </li>
       <li class="dropdown" dropdown>
         <a class="dropdown-toggle" dropdownToggle>
           <i class="fa fa-user" aria-hidden="true"></i>

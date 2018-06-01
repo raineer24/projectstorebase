@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-fixed-top topbar">
   <div class="container hidden-xs">
-    <!-- <div class="row nav-menu-top hidden-xs">
+    <!-- <div class="row nav-menu-top ">
       <ul class="nav navbar-nav navbar-left">
         <li class="active"><a routerLink="/">OMG Philippines</a></li>
 
@@ -12,16 +12,17 @@
       </ul>
     </div> -->
     <div [ngClass]="" class="row nav-menu-mid">
-      <div class="col-md-1 col-sm-1 hidden-xs">
+      <div class="col-xs-1">
         <a routerLink="/" (click)="selectCategory('all')" class="navbar-brand">
-          <img src="assets/omg-logo-01.png" />
+          <img class="logo" src="assets/omg-logo-01.png" />
         </a>
       </div>
-      <div class="col-md-2 col-sm-2 hidden-xs">
+      <div class="col-xs-2">
         <ul class="nav navbar-nav">
           <li (onShown)="onMenuToggle()" (onHidden)="onMenuToggle()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">
-            <a href="#" (click)="selectCategory('all')">Categories
+            <a href="#" (click)="selectCategory('all')">
+              <span>Categories</span>
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu multi-level">
@@ -43,7 +44,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-5 col-sm-5 col-xs-12 hidden-xs">
+      <div class="col-xs-5 nopadding">
         <div class="input-group">
           <!-- NOTE: AUTOSUGGEST SEARCH -->
           <ng-template #searchTemplate let-keyword="item" let-index="index">
@@ -81,13 +82,15 @@
         <!-- typeaheadGroupField="category1" <div *ngIf="typeaheadLoading===true">Loading</div> -->
         <!-- <div *ngIf="typeaheadNoResults===true">&#10060; No Results Found</div> -->
       </div>
-      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      <div class="col-xs-4 nopadding">
+        <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
+      </div>
     </div>
   </div>
 
   <!-- Mobile -->
-  <div class="container-fluid">
-    <div class="hidden-sm hidden-md hidden-lg hidden-xl mobile-header navbar-header">
+  <div class="container-fluid hidden-sm hidden-md hidden-lg hidden-xl ">
+    <div class="mobile-header navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
@@ -98,13 +101,13 @@
         <img src="assets/omg-logo-01.png" />
       </a>
     </div>
-    <div class="hidden-sm hidden-md hidden-lg hidden-xl collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="hidden-sm hidden-md hidden-lg hidden-xl nav navbar-nav">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
         <li><a [routerLink]="['/auth']">Register</a></li>
         <li><a [routerLink]="['/auth', 'login']">Sign in</a></li>
       </ul>
     </div>
-    <div class="hidden-sm hidden-md hidden-lg hidden-xl">
+    <div class="">
       <div class="input-group">
         <!-- NOTE: AUTOSUGGEST SEARCH -->
         <ng-template #searchTemplate let-keyword="item" let-index="index">
@@ -137,188 +140,4 @@
       </div>
     </div>
   </div>
-
-  <!-- MOBILE HEADER: START -->
-  <!-- <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'" class="mobile">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <div class="omglogo">
-      <a routerLink="/">
-        <img src="assets/omg-logo-01.png" />
-      </a>
-    </div>
-    <div class="input-group col-xs-9">
-      <input [(ngModel)]="asyncSelected" class="form-control" (keyup.enter)="searchKeyword()" placeholder="Search for a product or category">
-      <span class="input-group-btn">
-        <button class="btn btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
-      </span>
-    </div>
-    <app-profile-dropdown [totalCartItems]="totalCartItems | async" [totalCartValue]="totalCartValue | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
-    <div class="numbers">
-      <p>
-        <a href="">
-          <i class="glyphicon glyphicon-search"></i>
-        </a>
-      </p>
-      <p class="cart" [routerLink]="['checkout','cart']">
-        <a>
-          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-          <span class="badge badge-danger">{{totalCartItems}}</span>
-          {{totalCartValue}}
-        </a>
-      </p>
-    </div>
-  </div> -->
-  <!-- MOBILE HEADER: END -->
-  <!--
-  <div *ngIf="isHomeRoute" class="header-sticky-wrapper">
-    <div class="container">
-      <div class=" navbar yamm">
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li #dpmenu="bs-dropdown" dropdown class="dropdown yamm-fw"
-              (onShown)="onMenuToggle()"
-              (onHidden)="onMenuToggle()">
-              <a class="dropdown-toggle" dropdownToggle
-                (click)="selectCategory('all', 0)"
-                (mouseover)="onMenuOver($event, 0)"
-                (mouseleave)="onMenuLeave($event, 0)">All categories</a>
-              <ul *dropdownMenu class="dropdown-menu" role="menu"
-                (mouseover)="onSubMenuOver($event, 0)"
-                (mouseleave)="onSubMenuLeave($event, 0)">
-                <li>
-                  <div class="yamm-content">
-                    <ng-container *ngFor="let allCategory of categories$ | async">
-                      <ul class="col-sm-6 col-md-2 list-unstyled">
-                        <li>
-                          <h5 class="dropdown-item">
-                            <a (click)="selectCategory(allCategory)">{{allCategory.name}}</a>
-                          </h5>
-                        </li>
-                        <li *ngFor="let allCategory2 of allCategory.subCategories" role="menuitem">
-                          <a class="dropdown-item" href="javascript:void(0)" (click)="selectCategory(allCategory2)">{{allCategory2.name}}</a>
-                        </li>
-                      </ul>
-                    </ng-container>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li *ngFor="let category of categories$ | async; let i = index;"
-              #dpmenu="bs-dropdown" dropdown class="dropdown yamm-fw"
-              (onShown)="onMenuToggle()"
-              (onHidden)="onMenuToggle()">
-              <a class="dropdown-toggle" dropdownToggle
-                (click)="selectCategory(category, i + 1);"
-                (mouseover)="onMenuOver($event, i + 1)"
-                (mouseleave)="onMenuLeave($event, i + 1)">{{category.name}}</a>
-              <ul *dropdownMenu class="dropdown-menu" role="menu"
-                (mouseover)="onSubMenuOver($event, i + 1)"
-                (mouseleave)="onSubMenuLeave($event, i + 1)">
-                <li>
-                  <div class="yamm-content">
-                    <ng-container *ngFor="let category2 of category.subCategories">
-                      <ul class="col-sm-6 col-md-2 list-unstyled">
-                        <li>
-                          <h5 class="dropdown-item" >
-                            <a href="javascript:void(0)" (click)="selectCategory(category2)">{{category2.name}}</a>
-                          </h5>
-                        </li>
-                        <li *ngFor="let category3 of category2.subCategories" role="menuitem">
-                          <a class="dropdown-item" href="javascript:void(0)" (click)="selectCategory(category3)">{{category3.name}}</a>
-                        </li>
-                      </ul>
-                    </ng-container>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <li dropdown class="dropdown yamm-fw">
-              <a class="dropdown-toggle" dropdownToggle>Past Purchases</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
--->
-
 </nav>
-<!-- <ul>
-            <li><a (click)="selectAll()" href="javascript:void(0)">All categories</a></li>
-            <li *ngFor="let category of categories$ | async" class="">
-              <a (click)="selectCategory(category)" href="javascript:void(0)">{{category.name}}
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li><a href="javascript:void(0)">Past Purchases</a></li> -->
-
-<!-- <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container"> -->
-<!-- <a href="https://github.com/aviabird/angularspree">
-      <img style="position: absolute; top: 0; right: 0; border: 0; height: 130px" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
-        alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
-    </a> -->
-<!--
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-        aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" routerLink="/"><img src="assets/omg-logo-01.png" alt="Eos Grocery app"></a>
-      <div class="desktop-query">
-        <input (input)="autoComplete($event)" placeholder="Search" class="desktop-searchBar">
-        <a class="desktop-submit">
-          <span class="web-sprite desktop-iconSearch sprites-search"></span>
-        </a>
-      </div>
-      <app-profile-dropdown [totalCartItems]="totalCartItems | async" [isAuthenticated]="isAuthenticated | async"></app-profile-dropdown>
-    </div> -->
-
-<!-- Collect the nav links, forms, and other content for toggling -->
-<!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> -->
-
-<!-- <ul class="nav navbar-nav">
-            <li *ngFor="let taxon of taxonList" class="">
-              <a (click)="selectTaxon(taxon)" href="javascript:void(0)">{{taxon.name}}
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-          </ul> -->
-
-<!-- <div class="nav navbar-nav" dropdown *ngFor="let taxon of taxonList">
-        <a href dropdownToggle  type="button" href="javascript:void(0)">{{taxon.name}}</a>
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li *ngFor="let child of taxon.children">
-            <a class="dropdown-item" href="#">{{child}}</a>
-          </li>
-        </ul>
-      </div> -->
-<!--
-      <ul class="nav navbar-nav">
-          <li dropdown *ngFor="let taxon of taxonList">
-            <a href dropdownToggle  type="button" href="javascript:void(0)">{{taxon.name}}</a>
-            <ul *dropdownMenu class="dropdown-menu" role="menu">
-              <li *ngFor="let child of taxon.children">
-                <a class="dropdown-item" href="#">{{child}}</a>
-              </li>
-            </ul>
-        </li>
-      </ul>  -->
-
-
-
-
-
-<!--
-
-    </div>
-  </div>
-</nav> -->
