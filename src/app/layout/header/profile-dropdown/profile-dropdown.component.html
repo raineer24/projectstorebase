@@ -12,8 +12,8 @@
       </ul>
     </li> -->
     <ng-container *ngIf="!isAuthenticated; else elseBlock">
-      <li><a [routerLink]="['/auth']">Register</a></li>
-      <li><a [routerLink]="['/auth', 'login']">Sign in</a></li>
+      <li><a class="notlogged" [routerLink]="['/auth']">Register</a></li>
+      <li><a class="notlogged" [routerLink]="['/auth', 'login']">Sign in</a></li>
     </ng-container>
     <ng-template #elseBlock>
       <li>

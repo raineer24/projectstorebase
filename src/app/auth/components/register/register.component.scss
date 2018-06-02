@@ -6,6 +6,10 @@
   }
 }
 
+.col-centered {
+  max-width: 440px;
+}
+
 .panel {
   margin-bottom: 20px;
   margin: 20px 0;
@@ -54,20 +58,13 @@
   margin-top: 10px;
 }
 
-@media (min-width: 360px) {
-  .register-facebook {
-    margin-right: 15px;
-    margin-bottom: 0;
-  }
-  .register-button {
-    width: 49%;
-    display: inline-block;
-  }
-}
-
 .register-container {
   box-sizing: border-box;
   text-align: center;
   position: relative;
   // padding-bottom: 40px;
+}
+
+.policy-text {
+  margin-bottom: 0;
 }
