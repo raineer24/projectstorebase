@@ -41,6 +41,7 @@ export class PaymentComponent implements OnInit {
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
   cartTotal$: Observable<number>;
+  transactiondetails$: Subscription;
   cartItems$: Observable<CartItem[]>;
   isAuthenticated$: Observable<boolean>;
   giftCertList$:Observable<any>;
@@ -208,7 +209,7 @@ export class PaymentComponent implements OnInit {
 
   applyVoucher(){
     if(!this.hasErr && this.couponCode){
-
+      console.log('Apply Voucher');
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         this.discount = Number(data.discount);
         localStorage.setItem('discount',JSON.stringify(this.discount));
@@ -337,13 +338,15 @@ export class PaymentComponent implements OnInit {
   }
 
   updateGCStatus(code){
-    console.log('Update '+code+' GC Status');
     this.updategcStatus$ = this.checkoutService.updateGC_status(code).subscribe(data => data);
   }
 
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
     let grandTotal = this.totalAmount;
+    if(this.updateCoupon){
+      this.updateGCStatus(this.updateCoupon);
+    }
     let gcArr: any = [];
     for (const key in this.gcList){
       gcArr.push(Number(this.gcList[key].code));
@@ -363,17 +366,11 @@ export class PaymentComponent implements OnInit {
     ).mergeMap(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
-        if(this.voucherCode)
-          { return this.checkoutService.updateVoucherStatus(this.voucherCode); }
-        for(const key in gcArr){
-          this.updateGCStatus(gcArr[key]);
-        }
+        return this.checkoutService.updateVoucherStatus(this.voucherCode);
       } else {
-        // this.checkoutService.showErrorMsg('giftcert',res.message);
         let num = res.message.match(/\d+/g).map(n => parseInt(n));
         this.removeGC(num.toString());
       }
-
     }).subscribe();
     localStorage.setItem('giftcert','');
   }
