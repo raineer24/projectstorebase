@@ -122,9 +122,33 @@ html {
   //background: orange;
 }
 
-div.modal-dialog {
-  top: 40%;
-  height: 46%;
+body.modal-open {
+  padding-right: 0 !important;
+  .modal {
+    z-index: 1050 !important;
+  }
+
+}
+
+div.home-container {
+  .modal.in {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: initial;
+  }
+  .modal-dialog {
+    -webkit-transform: translate(0,0) !important;
+    -o-transform: translate(0,0) !important;
+    transform: translate(0,0) !important;
+    // top: 50%;
+    margin: 30 auto;
+    width: 80%;
+  }
+  .modal-header {
+    display: none;
+  }
+  .modal-footer {
+    display: none;
+  }
 }
 
 .drop1 {

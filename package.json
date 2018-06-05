@@ -43,7 +43,7 @@
     "jspdf-autotable": "^2.3.2",
     "live-server": "^1.2.0",
     "moment": "^2.20.1",
-    "ngx-bootstrap": "^1.7.1",
+    "ngx-bootstrap": "^2.0.5",
     "primeng": "^4.3.0-rc.1",
     "puppeteer": "^1.1.1",
     "reselect": "^2.5.4",
