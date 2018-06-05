@@ -17,6 +17,12 @@ export class AddressEditComponent implements OnInit {
   addressForm: FormGroup;
   userId: number;
   operation: string;
+  private fieldLabels = {
+    address01: 'Address 1',
+    city: 'City/Municipality',
+    postalCode: 'Zip Code',
+    country: 'Country',
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -89,14 +95,16 @@ export class AddressEditComponent implements OnInit {
         });
       }
     } else {
+      let errorDetails = '';
       const keys = Object.keys(values);
       keys.forEach(val => {
         const ctrl = this.addressForm.controls[val];
         if (!ctrl.valid) {
           ctrl.markAsTouched();
+          errorDetails += `\n\u2022 ${this.fieldLabels[val]}`
         };
       });
-      this.userService.showMessage('address_error');
+      this.userService.showMessage('address_error', errorDetails);
     }
   }
 

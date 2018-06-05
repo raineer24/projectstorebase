@@ -46,7 +46,7 @@ import { ModalModule } from "angular-custom-modal";
   declarations: [
     AppComponent,
     CheckoutHeaderComponent,
-    CheckoutFooterComponent
+    CheckoutFooterComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -66,8 +66,8 @@ import { ModalModule } from "angular-custom-modal";
     ModalModule,
     BsDropdownModule,
     SpinnerModule,
-    
-   
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
