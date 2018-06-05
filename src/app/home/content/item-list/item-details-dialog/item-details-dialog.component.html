@@ -45,6 +45,10 @@
           <span style="display: inline-block;">{{itemQuantity}}</span>
         </p>
         <!-- <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p> -->
+        <p class="disclaimer" *ngIf="this.itemCategories[0].name === 'meat & frozen' || this.itemCategories[0].name === 'vegetables & fruits'">
+          <i class="glyphicon glyphicon-info-sign"></i>
+          <small>Disclaimer: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</small>
+        </p>
       </div>
       <div class="row">
         <!-- <p> -->
