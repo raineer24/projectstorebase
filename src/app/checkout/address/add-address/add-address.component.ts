@@ -33,6 +33,20 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   billAddressDB: any;
   billAddrStore: any;
   userId: number;
+  private fieldLabels = {
+    firstname: 'First Name',
+    lastname: 'Last Name',
+    email: 'Email',
+    phone: 'Mobile Number',
+    shippingAddress01: 'Address 1',
+    city: 'City/Municipality',
+    postalcode: 'Zip Code',
+    country: 'Country',
+    billingAddress01: 'Address 1 (billing)',
+    billCity: 'City/Municipality (billing)',
+    billPostalcode: 'Zip Code (billing)',
+    billCountry: 'Country (billing)',
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -132,6 +146,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    let errorDetails = '';
     let values = this.addressForm.value;
     let addressFields = ['firstname','lastname','email','phone','shippingAddress01','city','postalcode','country','prefix'];
     let requiredFields = !values.isBilling ? addressFields: addressFields.concat(['billingAddress01','billCity','billPostalcode','billCountry'])
@@ -142,6 +157,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       if (!ctrl.valid) {
         ctrl.markAsTouched();
         hasError = true;
+        errorDetails += `\n\u2022 ${this.fieldLabels[val]}`
       };
       // console.log(requiredFields[val] + " " +this.addressForm.controls[requiredFields[val]].errors?.required);
       // console.log(val +" "+ this.addressForm.hasError('required', [val]))
@@ -156,7 +172,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       this.checkoutService.updateOrder(values).subscribe();
       this.onProceedClickEmit.emit();
     } else {
-      this.checkoutService.showErrorMsg('address','');
+      this.checkoutService.showErrorMsg('address', errorDetails);
     }
   }
 

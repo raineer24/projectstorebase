@@ -282,10 +282,8 @@ export class CheckoutService {
     */
   getGC(gcCode) {
     console.log("SEARCHING FOR GIFTCERT");
-    console.log(gcCode);
     return this.http.get(`v1/gc/${gcCode}`).map(res => {
       const gc = res.json();
-      console.log(gc);
       return gc;
    }).catch(err => Observable.empty());
   }
@@ -531,11 +529,11 @@ export class CheckoutService {
    * @memberof CheckoutService
    */
 
-  showErrorMsg(mode: string, msg: string): void {
+  showErrorMsg(mode: string, msg: string = ''): void {
     let message = '';
     switch (mode) {
       case 'address':
-        message = `Please enter required information.`;
+        message = `Please enter required information. ${msg}`;
         break;
       case 'delivery':
         message = `Please select a delivery time slot.`;
@@ -544,7 +542,7 @@ export class CheckoutService {
         message = `Slot is already full. Please select another slot.`;
         break;
       case 'payment':
-        message = `Error occured. `+msg+` Please review your order and try again.`;
+        message = `Error occured. ${msg} Please review your order and try again.`;
         break;
       case 'payment_gc':
         message = msg;
