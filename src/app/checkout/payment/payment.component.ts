@@ -197,6 +197,7 @@ export class PaymentComponent implements OnInit {
             this.hasErr = false;
             this.voucherCode = this.couponCode;
             this.updateCoupon = this.voucherCode;
+            console.log(this.updateCoupon);
         }
       });
     } else {
@@ -337,7 +338,6 @@ export class PaymentComponent implements OnInit {
   }
 
   updateGCStatus(code){
-    console.log('Update GC Status');
     this.updategcStatus$ = this.checkoutService.updateGC_status(code).subscribe(data => data);
   }
 
@@ -366,8 +366,7 @@ export class PaymentComponent implements OnInit {
     ).mergeMap(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
-        if(this.voucherCode)
-          { return this.checkoutService.updateVoucherStatus(this.voucherCode); }
+        return this.checkoutService.updateVoucherStatus(this.voucherCode);
       } else {
         let num = res.message.match(/\d+/g).map(n => parseInt(n));
         this.removeGC(num.toString());
