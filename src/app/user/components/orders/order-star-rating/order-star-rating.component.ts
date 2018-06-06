@@ -50,7 +50,6 @@ export class OrderStarRatingComponent implements OnInit, OnDestroy {
 //get the value of the rating and the user's feedback
   getRating(value){
     let oKey = localStorage.getItem('currentOrderKey');
-    console.log(oKey);
     this.rating['orderkey'] = oKey;
     this.rating['starCount'] = Number(value);
     this.rating['feedbacktype'] = 1;
@@ -59,14 +58,12 @@ export class OrderStarRatingComponent implements OnInit, OnDestroy {
 
   sendFeedBack(value){
     this.bClose = true;
-    console.log(value);
     this.rating['feedback'] = value;
     this.saveRating(this.rating);
   }
 
 //save the rating to db
   saveRating(rating){
-    console.log(rating);
     this.userService.createStarRating(rating).subscribe(rating => {
         this.userService.showThankyou();
         // this.close();

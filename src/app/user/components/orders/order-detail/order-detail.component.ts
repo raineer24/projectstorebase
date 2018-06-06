@@ -52,7 +52,6 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
     if(localStorage.getItem('orderwithFB') !== null)
     {
       this.orderNums = localStorage.getItem('orderwithFB');
-      console.log(this.orderNums);
     }
     this.store.dispatch(this.userAction.getUserOrders());
 
@@ -60,16 +59,13 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
       (params: any) => {
 
         const orderKey =  params['orderkey'];
-        console.log(orderKey);
         localStorage.setItem('currentOrderKey',orderKey);
         this.store.select(getUserOrders).subscribe(orders => {
           this.order = orders.find(order => order.orderkey == orderKey);
             if(this.order) {
-              console.log(this.order.id);
               this.order.discountTotal = Number(this.order.discountTotal);
               this.order.paymentTotal = Number(this.order.paymentTotal);
               this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
-              console.log(this.order.grandTotal);
               this.timeslotSubscription$ = this.userService.getTimeSlotOrder(this.order.id).subscribe( timeslot => {
                   this.tSlot = timeslot;
               });

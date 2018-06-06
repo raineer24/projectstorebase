@@ -34,7 +34,6 @@ export class OrdersComponent implements OnInit {
     this.orders$.subscribe(res => {
       if(this.orderKeyContainer.length > 1){ this.orderKeyContainer = []; }
       for(const key in res){
-        console.log(res[key]);
         if(res[key].number > 0){
           this.orderKeyContainer.push({
             orderkey: res[key].orderkey,
@@ -48,26 +47,19 @@ export class OrdersComponent implements OnInit {
           this.orderKeyContainer.pop();
         }
       }
-      console.log(this.orderKeyContainer);
     });
 
     for( var i = 0; i < this.orderKeyContainer.length; i ++){
-      console.log(this.orderKeyContainer[i]);
       this.hasStarFeedback(this.orderKeyContainer[i]);
-      // this.getOrderNumber(this.orderKeyContainer[i]);
-      console.log(this.withStarFeedBack);
     }
   }
 
   hasStarFeedback(order) {
-    console.log('check if order has feedback!');
-    console.log(order['orderkey']);
     this.userService.getStarRating(order['orderkey']).subscribe(rating => {
       if(this.withStarFeedBack.length > 1){  this.withStarFeedBack = []; }
       if(rating.message == null){
         if(rating.feedbacktype == 1){
           this.withStarFeedBack.push(order['ordernum']);
-          console.log(this.withStarFeedBack);
           localStorage.setItem('orderwithFB',JSON.stringify(this.withStarFeedBack));
         }
       }
