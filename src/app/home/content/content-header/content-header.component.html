@@ -46,7 +46,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-8 col-xs-7">
     <ol class="breadcrumb">
       <li *ngFor="let breadcrumb of breadcrumbs; let i = index;">
         <a *ngIf="i != breadcrumbs.length - 1; else elseBlock" href="#" class="breadcrumb-item" (click)="selectBreadcrumb(breadcrumb)">
@@ -58,7 +58,7 @@
       </li>
     </ol>
   </div>
-  <div class="col-md-4 text-right">
+  <div class="col-md-4 col-xs-5 text-right nopaddingleft">
     <div class="content">
       <div class="options small">
         <!-- <ul class="img-size">

@@ -1,50 +1,48 @@
-ul {
-  margin-left: -50px;
+ul.results-base {
+  margin: 0;
+  padding: 0px;
+  min-height: 970px;
+  text-align: center;
+
   li.product-base {
-    width: 255px;
-    width: 200px;
-    width: 14em;
-    width: 11.6em;
-    width: 12em;
     height:100%;
     text-align: center;
     position: relative;
     vertical-align: top;
     overflow: hidden;
     display: inline-block;
-    // transition: all 500ms;
-    // border-top: 1px solid #fff;
     background: #ffffff;
-    margin-top: 25px !important;
-    // margin: 0 30px 20px 0
-
-    .product-zoom {
-      position: absolute;
-      right: 5px;
-      opacity: 0.2;
-      font-size: 15px;
-    }
+    padding: 5px;
 
     &.product-base:hover {
-      // outline: 1px solid #eaeaec;
-      // outline: 1px solid #efd2db;
-      // outline: 1px solid #b5beef;
-      // border-top: 1px solid #c10;
-      // box-shadow: 0 1px 2px rgba(0,0,0,.05);
-      .product-actions {
-        z-index: 10;
-      }
-      .product-zoom:hover {
-        opacity: 1;
-      }
-    }
-  }
-  @media screen and (max-width: 400px) {
-    li.product-base {
-      width: 24.5em;
-    }
-  }
 
+    }
+  }
+  .noresult {
+    min-width: 1024px;
+    padding: 20px 0;
+  }
+  // @media screen and (max-width: 400px) {
+  //   li.product-base {
+  //     width: 24.5em;
+  //   }
+  // }
+}
+
+.btn-scroll {
+  width:100%;
+  height:35px;
+  display:block;
+  overflow: auto;
+  white-space: nowrap;
+  border:0px white solid;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+div.load-more{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 // Modal CSS
@@ -109,31 +107,3 @@ ul {
 //     display: none;
 //   }
 // }
-ul.results-base {
-  margin: 0;
-  padding: 0px;
-  min-height: 970px;
-  p {
-    min-width: 1024px;
-    padding: 20px 0;
-  }
-}
-
-ul li.product-base {
-  // width: 15%;
-}
-.btn-scroll {
-  width:100%;
-  height:35px;
-  display:block;
-  overflow: auto;
-  white-space: nowrap;
-  border:0px white solid;
-  margin-left: auto;
-  margin-right: auto;
-
-}
-div.load-more{
-  margin-left: auto;
-  margin-right: auto;
-}
