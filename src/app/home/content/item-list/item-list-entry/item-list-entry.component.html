@@ -1,4 +1,3 @@
-<div class="product-thumbShim"></div>
 <a itemprop="url" (click)="selectItem()">
   <img itemprop="image" class="product-thumb" alt="{{item.name}}" [src]="getItemImageUrl(item.imageKey)" (load)="onImageLoaded()"
     (error)="onImageError()">
@@ -54,13 +53,11 @@
               <span class="input-group-btn"><button title="Add more of this item" class="btn btn-success" type="button"(click)="incrementQuantity($event)"
               [disabled]="itemQuantity == MAX_VALUE"><span class="glyphicon glyphicon-plus"></span></button></span>
             <!-- </div> -->
-
           </div>
         </div>
       </div>
     </ng-container>
     <ng-template #addCart>
-      <!-- <button title="Add 1 item" class="btn-add-cart btn-block" (click)="addToCart($event)"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button> -->
       <button title="Add 1 item" class="btn btn-default btn-block" (click)="addToCart($event)"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Add to cart</button>
     </ng-template>
   </div>

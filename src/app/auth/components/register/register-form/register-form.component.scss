@@ -79,7 +79,6 @@
 
   select {
     width: 60px;
-    border-radius: 0;
     display: inline-block;
   }
   input {
@@ -106,6 +105,33 @@
     width: 120px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .register-user-input-birthdate {
+    font-size: 12px;
+    input {
+      &:nth-child(2) {
+        width: 22%;
+      }
+      &:nth-child(3) {
+        width: 30%;
+      }
+    }
+    select {
+      width: 44%;
+    }
+  }
+  .register-user-input-mobile {
+    font-size: 12px;
+    select {
+      width: 33%;
+    }
+    input {
+      width: 65%;
+    }
+  }
+}
+
 
 .register-gender {
   position: relative;

@@ -1,16 +1,20 @@
+.nopaddingleft {
+  padding-left: 0;
+}
+
 .breadcrumb {
   background-color: #fff;
   text-transform: capitalize;
   padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 0px;
   a {
     color: #000;
   }
   li {
 
   }
-  margin-bottom: 0px;
 }
-
 
 .content {
   background-color: #fff;
@@ -47,7 +51,7 @@
     position: relative;
     float: right;
     text-align: right;
-    margin: 12px 0 0 5px;
+    margin-top: 12px;
     display: inline-block;
     ul.img-size {
       display: inline-block;
@@ -85,6 +89,7 @@
       display: inline-block;
       position: relative;
       color: #282c3f;
+      padding: 0;
       label {
         margin-left: 5px;
         font-weight: 400;

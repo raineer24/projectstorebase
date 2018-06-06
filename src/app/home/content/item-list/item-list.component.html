@@ -10,8 +10,8 @@
 <div class="row-base" style="display: -webkit-flex">
   <section>
     <ul class="results-base">
-      <p *ngIf="items.length === 0">No results found. Please try another keyword or select another category.</p>
-      <li *ngFor="let item of items" class="product-base" [style.margin]="getMargin()" itemscope
+      <p *ngIf="items.length === 0" class="noresult">No results found. Please try another keyword or select another category.</p>
+      <li *ngFor="let item of items" class="product-base col-md-2 col-sm-3 col-xs-6" itemscope
         itemtype="https://schema.org/Product">
         <app-item-list-entry [item]="item" [cartItem]="getCartItem(item.id)" (onOpenModalEmit)="openItemDialog($event)"></app-item-list-entry>
         <!--span class="product-zoom glyphicon glyphicon-search"></span-->
@@ -19,6 +19,7 @@
     </ul>
     </section>
   </div>
+  <br>
   <div *ngIf="this.items.length && (this.items.length % this.itemsPerPage == 0)" class="load-more">
     <section class="scroll_div">
       <button type="button" class="btn-scroll btn-danger" (click)="loadMoreItems()">
