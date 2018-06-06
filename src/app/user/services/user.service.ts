@@ -310,15 +310,21 @@ export class UserService {
    * @memberof UserService
    */
   createStarRating(rating): Observable<any> {
-    return this.http.post(`v1/ratings/`,{
+    return this.http.post(`v1/ratings/save`,{
       useraccount_id: rating.useraccount_id,
       orderkey: rating.orderkey,
       starCount: rating.starCount,
-      feedback: rating.feedback
+      feedback: rating.feedback,
+      feedbacktype: rating.feedbacktype
     }).map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
 
+  getStarRating(orderkey: string): Observable<any> {
+    return this.http.get(`v1/ratings/?orderkey=${orderkey}`
+    ).map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
   /**
    *
    *

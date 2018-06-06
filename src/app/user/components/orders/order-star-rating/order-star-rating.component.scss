@@ -1,38 +1,85 @@
-//css for star rating
+// //css for star rating
+// .star-rating{
+// 	font-size: 5;
+//   position: fixed;
+//   // bottom: 0;
+//   // right: 0;
+// 	top: 220px;
+//   left: 680px;
+//
+// 	margin-left: auto;
+//   margin-right: auto;
+//   width: 420px;
+// 	height: 400px;
+//   background-color: #ff5847;
+//   color: white;
+//   padding-left: 10px;
+// 	padding-right: 10px;
+// 	z-index: 10000;
+// }
+// .star-rating__wrap{
+// 	display: inline-block;
+// 	font-size: 2rem;
+// 	align: center;
+// }
+// .star-rating__wrap:after{
+// 	content: "";
+// 	display: table;
+// 	clear: both;
+// }
+.rating-header{
+	background-color: #ff5847;
+	margin-left: 0;
+	margin-right: 0;
+	padding-top: 35px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 25px;
+	border-radius: 3px;
+
+}
 .star-rating{
 	font-size: 5;
-  position: fixed;
-  // bottom: 0;
-  // right: 0;
+	position:fixed;
+	border-width: thin;
+	background-color: #f8f8ff;
+	border-style: solid;;
 	top: 220px;
   left: 680px;
-
 	margin-left: auto;
   margin-right: auto;
   width: 420px;
-	height: 400px;
-  background-color: #ff5847;
+	height: 490px;
+  background-color: white;
   color: white;
+	padding-top: 20px;
   padding-left: 10px;
 	padding-right: 10px;
 	z-index: 10000;
 }
+.space1{
+	padding-top: 20px;
+}
+.space2{
+	padding-bottom: 15px;
+}
 .star-rating__wrap{
 	display: inline-block;
 	font-size: 2rem;
-	align: center;
+	text-align: center;
 }
-.star-rating__wrap:after{
-	content: "";
+ .star-rating__wrap:after{
+ 	content: "";
 	display: table;
 	clear: both;
 }
 .star-rating__ico{
 	float: right;
 	padding-left: 12px;
+	font-size: 30px;
 	cursor: pointer;
 	// color: #FFB300;
-  color: #18D277
+  color: #ffcc00
 }
 .star-rating__ico:last-child{
 	padding-left: 0;
@@ -48,15 +95,22 @@
 }
 .rounded-0{
 	resize: none;
+	background-color: #F5F5F5;
+}
+.i {
+	padding: 30px 30px;
 }
 .close-btn{
 	position: absolute;
-	top: 0;
-  right: 0;
+	top: 10px;
+  right: 8px;
+	border: 0;
+	background-color: #ff5847;
 }
 .sendFeedback{
 	text-align: center;
 }
 .btn-sendfeedback{
-	background-color: #18D277
+	background-color: #ff5847;
+	width: 400px;
 }

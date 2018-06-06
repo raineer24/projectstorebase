@@ -19,10 +19,11 @@ export class OrderStarRatingComponent implements OnInit, OnDestroy {
   @Input() closeRating: boolean = false;
 
   rating: {
-    'useraccount_id': number;
+    'useraccount_id': number,
     'orderkey': string,
     'starCount': number,
-    'feedback': string
+    'feedback': string,
+    'feedbacktype':number
   };
 
   constructor(
@@ -30,42 +31,48 @@ export class OrderStarRatingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.bClose = true;
+    this.bClose = false;
     let user = JSON.parse(localStorage.getItem('user'));
     if(user){
-      this.bClose = false;
+      // this.bClose = false;
       this.userFeedback = "";
       this.userRating = new Subscription();
       this.rating = {
         'useraccount_id': Number(user.id),
         'orderkey': '',
         'starCount': 0,
-        'feedback': ''
+        'feedback': '',
+        'feedbacktype': 0
       };
     }
   }
 
 //get the value of the rating and the user's feedback
   getRating(value){
-    let order = JSON.parse(localStorage.getItem('order'));
-    this.rating['orderkey'] = order.order_token;
+    let oKey = localStorage.getItem('currentOrderKey');
+    console.log(oKey);
+    this.rating['orderkey'] = oKey;
     this.rating['starCount'] = Number(value);
-    this.rating['feedback'] = this.userFeedback;
+    this.rating['feedbacktype'] = 1;
     // this.saveRating(this.rating);
   }
 
-  sendFeedBack(){
+  sendFeedBack(value){
     this.bClose = true;
+    console.log(value);
+    this.rating['feedback'] = value;
     this.saveRating(this.rating);
   }
 
 //save the rating to db
   saveRating(rating){
+    console.log(rating);
     this.userService.createStarRating(rating).subscribe(rating => {
         this.userService.showThankyou();
         // this.close();
 
     });
+    localStorage.removeItem('currentOrderKey');
   }
 
   close(){

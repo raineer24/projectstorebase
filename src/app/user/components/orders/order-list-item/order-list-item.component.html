@@ -12,17 +12,12 @@
       </small>
     </div>
     <div class="col-xs-6">
-      <h5>Deliver to: {{order.firstname}} {{order.lastname}}</h5><button class="btn btn-primary btn-feedback" (click)="createFeedBack(event)">Feedback</button>
+      <h5>Deliver to: {{order.firstname}} {{order.lastname}}</h5>
       <small>
         {{order.shippingAddress01}},
         <span *ngIf="order.shippingAddress02">{{order.shippingAddress02}},</span>
         {{order.city}}, {{order.country}} {{order.postalcode}}
       </small>
     </div>
-  </div>
-  <div>
-    <ng-container *ngIf="showFeedBackTemplate">
-      <app-order-star-rating></app-order-star-rating>
-    </ng-container>
   </div>
 </div>

@@ -10,21 +10,14 @@ import { environment } from '../../../../../environments/environment';
 export class OrderListItemComponent implements OnInit {
   @Input() order: any;
   @Input() tSlot: any;
-  showFeedBackTemplate: boolean;
+  orderContainer: Array<any>;
+  bhasStarfb: boolean = false;
 
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.showFeedBackTemplate = this.userService.switchBool;
-  }
-
-  getProductImageUrl(url) {
-    return environment.API_ENDPOINT + url;
-  }
-
-  createFeedBack(event: any){
-    this.showFeedBackTemplate = this.userService.switch();
+    this.orderContainer = [];
   }
 
 }
