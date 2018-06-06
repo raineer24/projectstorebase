@@ -1,5 +1,5 @@
-<nav class="navbar navbar-default navbar-fixed-top topbar">
-  <div class="container hidden-xs">
+<nav class="navbar navbar-default navbar-fixed-top topbar  hidden-xs">
+  <div class="container">
     <!-- <div class="row nav-menu-top ">
       <ul class="nav navbar-nav navbar-left">
         <li class="active"><a routerLink="/">OMG Philippines</a></li>
@@ -87,11 +87,12 @@
       </div>
     </div>
   </div>
-
-  <!-- Mobile -->
-  <div class="container-fluid hidden-sm hidden-md hidden-lg hidden-xl ">
+</nav>
+<!--NOTE: MOBILE HEADER START -->
+<nav class="navbar navbar-default navbar-fixed-top topbar hidden-sm hidden-md hidden-lg hidden-xl" aria-expanded="false">
+  <div class="container-fluid">
     <div class="mobile-header navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <button type="button" class="navbar-toggle collapsed" (click)="toggleMobileMenu()">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -100,43 +101,80 @@
       <a routerLink="/" (click)="selectCategory('all')" class="navbar-brand">
         <img src="assets/omg-logo-01.png" />
       </a>
+      <a class="cart-summary" routerLink="/checkout/cart">
+        <i class="fa fa-shopping-cart" aria-hidden="false"></i>
+        <span class="badge badge-danger">{{totalCartItems | async}}</span>
+        ₱{{totalCartValue | async | number : '1.2-2'}}
+      </a>
     </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse" [attr.aria-expanded]="!isCollapsed" #mobileMenu [ngClass]="{collapse: isCollapsed}">
       <ul class="nav navbar-nav">
-        <li><a [routerLink]="['/auth']">Register</a></li>
-        <li><a [routerLink]="['/auth', 'login']">Sign in</a></li>
+        <ng-container *ngIf="!(isAuthenticated | async); else elseBlock">
+          <li><a [routerLink]="['/auth']">Register</a></li>
+          <li><a [routerLink]="['/auth','login']">Sign in</a></li>
+        </ng-container>
+        <ng-template #elseBlock>
+          <li><a routerLink="/user">My Profile</a></li>
+          <li><a routerLink="/user/address">Saved Addresses</a></li>
+          <li><a routerLink="/user/orders">Orders</a></li>
+          <li><a routerLink="/user/lists">Lists</a></li>
+          <li><a (click)="logout()" href="">Logout</a></li>
+        </ng-template>
       </ul>
     </div>
-    <div class="">
-      <div class="input-group">
-        <!-- NOTE: AUTOSUGGEST SEARCH -->
-        <ng-template #searchTemplate let-keyword="item" let-index="index">
-          <div class="result-box" *ngIf="keyword.price; else categories">
-            <div class="imgbox">
-              <img class="product-thumb imgitems img-responsive" itemprop="image" alt="{{keyword.name}}" (error)="onImageError($event)"
-                [src]="getItemImageUrl(keyword.imageKey)">
+    <div class="row">
+      <div class="categories col-xs-12 nopadding" #categoryMenuMobile>
+        <div class="btn btn-default btn-block btn-lg" [ngClass]="{active: isShowCategories}" (click)="toggleCategoryMenuMobile()">
+          Categories<span class="caret"></span>
+        </div>
+        <div *ngIf="isShowCategories"  class="accordion">
+          <accordion [closeOthers]="oneAtATime">
+            <accordion-group *ngFor="let category of categories$ | async; let i = index;">
+              <div accordion-heading class="category-name-title">{{category.name}}</div>
+              <div class="col-xs-12 category-name">
+                <div (click)="selectCategory(category)">
+                  <a href="javascript:void(0)">{{category.name}}</a>
+                </div>
+              </div>
+              <div class="col-xs-6 category-name" *ngFor="let category2 of category.subCategories">
+                <div (click)="selectCategory(category2, category)">
+                  <a href="javascript:void(0)">{{category2.name}}</a>
+                </div>
+              </div>
+            </accordion-group>
+          </accordion>
+        </div>
+      </div>
+      <div class="col-xs-12 nopadding">
+        <div class="input-group">
+          <!-- NOTE: AUTOSUGGEST SEARCH -->
+          <ng-template #searchTemplate let-keyword="item" let-index="index">
+            <div class="result-box" *ngIf="keyword.price; else categories">
+              <div class="imgbox">
+                <img class="product-thumb imgitems img-responsive" itemprop="image" alt="{{keyword.name}}" (error)="onImageError($event)"
+                  [src]="getItemImageUrl(keyword.imageKey)">
+              </div>
+              <div class="itemdetailsbox small">
+                <p>{{keyword.name}}</p>
+                <p>₱ {{keyword.price | number:'1.2-2'}}</div>
             </div>
-            <div class="itemdetailsbox small">
-              <p>{{keyword.name}}</p>
-              <p>₱ {{keyword.price | number:'1.2-2'}}</div>
-          </div>
-          <ng-template #categories>
-            <div class="catbox">{{keyword.name}}</div>
+            <ng-template #categories>
+              <div class="catbox">{{keyword.name}}</div>
+            </ng-template>
           </ng-template>
-        </ng-template>
-        <input #searchbox [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
-          (typeaheadNoResults)="changeTypeaheadNoResults($event)" [typeaheadOptionsLimit]="10" [typeaheadWaitMs]="300" (typeaheadOnSelect)="typeaheadOnSelect($event)"
-          [typeaheadMinLength]="2" typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate" (keyup.enter)="typeaheadOnSelect($event)"
-          class="form-control" placeholder="Search for...">
-        <!-- NOTE: REGULAR SEARCH -->
-        <!-- <input [(ngModel)]="asyncSelected
-            class="form-control"
-            (keyup.enter)="searchKeyword()"
-            placeholder="Search for a product or category"> -->
-        <span class="input-group-btn">
-          <button class="btn btn-secondary btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
-        </span>
-
+          <input #searchbox [(ngModel)]="asyncSelected" [typeahead]="dataSource" (typeaheadLoading)="changeTypeaheadLoading($event)"
+            (typeaheadNoResults)="changeTypeaheadNoResults($event)" [typeaheadOptionsLimit]="10" [typeaheadWaitMs]="300" (typeaheadOnSelect)="typeaheadOnSelect($event)"
+            [typeaheadMinLength]="2" typeaheadGroupField="group" [typeaheadItemTemplate]="searchTemplate" (keyup.enter)="typeaheadOnSelect($event)"
+            class="form-control" placeholder="Search for...">
+          <!-- NOTE: REGULAR SEARCH -->
+          <!-- <input [(ngModel)]="asyncSelected
+              class="form-control"
+              (keyup.enter)="searchKeyword()"
+              placeholder="Search for a product or category"> -->
+          <span class="input-group-btn">
+            <button class="btn btn-secondary btn-danger glyphicon glyphicon-search" type="button" (click)="searchKeyword()"></button>
+          </span>
+        </div>
       </div>
     </div>
   </div>

@@ -1,22 +1,22 @@
-import { Router } from '@angular/router';
-import { SearchActions } from './../../home/reducers/search.actions';
-import { getTaxonomies } from './../../product/reducers/selectors';
-import { getTotalCartValue, getTotalCartItems } from './../../checkout/reducers/selectors';
-import { getSortSettings } from './../../home/reducers/selectors';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
   ViewChild, ViewChildren, QueryList, Input, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../interfaces';
-import { getAuthStatus } from '../../auth/reducers/selectors';
-import { Observable } from 'rxjs/Rx';
+import { Subscription, Observable } from "rxjs";
+import { environment } from './../../../environments/environment';
+import { AppState } from './../../interfaces';
+import { getAuthStatus } from './../../auth/reducers/selectors';
+import { AuthActions } from './../../auth/actions/auth.actions';
+import { getTotalCartValue, getTotalCartItems } from './../../checkout/reducers/selectors';
+import { Item } from './../../core/models/item';
 import { AuthService } from '../../core/services/auth.service';
-import { AuthActions } from '../../auth/actions/auth.actions';
-import { ProductService } from '../../core/services/product.service';
-import { ProductActions } from '../../product/actions/product-actions';
-import { Item } from '../../core/models/item';
+import { ProductService } from './../../core/services/product.service';
+import { SearchActions } from './../../home/reducers/search.actions';
+import { getSortSettings } from './../../home/reducers/selectors';
+import { getTaxonomies } from './../../product/reducers/selectors';
+import { ProductActions } from './../../product/actions/product-actions';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
-import { Subscription } from "rxjs";
-import { environment } from '../../../environments/environment';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 
 @Component({
@@ -50,6 +50,13 @@ export class HeaderComponent implements OnInit {
   show: boolean = false;
   catSubs: Subscription;
   inputString: string;
+  @ViewChild('mobileMenu') mobileMenu;
+  isCollapsed: boolean = true;
+  oneAtATime: boolean = true;
+  mobileMenuSubs: Subscription;
+  isShowCategories: boolean = false;
+  @ViewChild('categoryMenuMobile') categoryMenuMobile;
+  categoryMenuSubs: Subscription;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -80,6 +87,7 @@ export class HeaderComponent implements OnInit {
       // flatten level 1 and 2 categories
       this.categories = data.concat([].concat.apply([], data.map(cat => cat.subCategories)));
     });
+
   }
 
   ngOnDestroy() {
@@ -100,6 +108,10 @@ export class HeaderComponent implements OnInit {
     // if(typeof(index) != 'undefined') {
     //   this.menuDelay.clicked[index] = true;
     // }
+    this.isShowCategories = false;
+    if(this.categoryMenuSubs) {
+      this.categoryMenuSubs.unsubscribe();
+    }
     let filters;
     if(categories[0] == 'all') {
       this.store.dispatch(this.productActions.getAllProducts(this.sortSettings));
@@ -289,6 +301,42 @@ export class HeaderComponent implements OnInit {
 
   onImageError(e: any): void {
     e.target.src = "assets/omg-03.png";
+  }
+
+  logout() {
+    this.authService.logout().subscribe(
+      data => console.log(data)
+    );
+    window.location.href="./index.html";
+  }
+
+  toggleCategoryMenuMobile(): void {
+    this.isShowCategories = !this.isShowCategories;
+    if(this.isShowCategories) {
+      this.categoryMenuSubs = Observable.fromEvent(document, 'click').subscribe((e: any) => {
+        if (!this.categoryMenuMobile.nativeElement.contains(e.target)) {
+          this.isShowCategories = false;
+          this.categoryMenuSubs.unsubscribe();
+          this.cd.markForCheck();
+        }
+      });
+    } else {
+      this.categoryMenuSubs.unsubscribe();
+    }
+  }
+
+  toggleMobileMenu(): void {
+    this.isCollapsed = !this.isCollapsed;
+    if(!this.isCollapsed) {
+      this.mobileMenuSubs = Observable.fromEvent(document, 'click').subscribe((e: any) => {
+        // if (!this.mobileMenu.nativeElement.contains(e.target)) {
+          this.isCollapsed = true;
+          this.mobileMenuSubs.unsubscribe();
+        // }
+      });
+    } else {
+      this.mobileMenuSubs.unsubscribe();
+    }
   }
 
 }
