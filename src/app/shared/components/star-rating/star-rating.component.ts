@@ -71,8 +71,6 @@ export class StarRatingComponent implements OnInit, OnDestroy {
     this.sharedService.createStarRating(rating).subscribe(rating => {
         console.log(rating);
         this.sharedService.showThankyou();
-        // this.close();
-
     });
   }
 

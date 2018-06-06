@@ -1,8 +1,8 @@
 .dialog-header {
   .closeModal {
     position: absolute;
-    top: 25px;
-    right: 15px;
+    top: 20px;
+    right: 25px;
     color: #666;
     font-size: 20px;
   }
@@ -432,4 +432,15 @@ ul.list-dropdown {
 @keyframes slide-set2-to-set1 {
   0% { margin-left: -1000px; }
   100% {margin-left: 0px;}
+}
+.disclaimer {
+  font-style: italic;
+}
+
+.disclaimer .glyphicon {
+  top: 4px;
+}
+
+.disclaimer small {
+  margin-left: 3px;
 }

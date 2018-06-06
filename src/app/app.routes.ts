@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CanActivateViaAuthGuard } from './core/guards/auth.guard';
-
+import { StaticPagesComponent } from './shared/components/static-pages/static-pages.component';
 
 export const routes: Routes = [
   {
@@ -30,5 +30,13 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadChildren: './admin/admin.module#AdminModule'
-  }
+  },
+  { path: 'vision', component: StaticPagesComponent },
+  { path: 'team', component: StaticPagesComponent },
+  { path: 'careers', component: StaticPagesComponent },
+  { path: 'faq', component: StaticPagesComponent },
+  { path: 'suggest', component: StaticPagesComponent },
+  { path: 'privacy', component: StaticPagesComponent },
+  { path: 'terms', component: StaticPagesComponent },
+  { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];

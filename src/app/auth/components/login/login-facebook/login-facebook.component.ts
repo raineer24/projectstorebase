@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-import { AuthService } from '../../../../core/services/auth.service';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
-import { getAuthStatus } from '../../../reducers/selectors';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
+import { environment } from '../../../../../environments/environment';
+import { getAuthStatus } from '../../../reducers/selectors';
+import { AppState } from '../../../../interfaces';
 import { UserActions } from '../../../../user/actions/user.actions';
+import { AuthService } from '../../../../core/services/auth.service';
 
 declare const window: any;
 declare const FB: any;
@@ -88,24 +88,20 @@ export class LoginFacebookComponent implements OnInit, OnDestroy {
                 error = data.error;
                 if(!error) {
                   this.store.dispatch(this.userActions.getUserLists());
-                  this.router.navigate(['user/profile']);
+                  if(this.returnUrl != '/') {
+                    this.router.navigate([this.returnUrl]);
+                  } else {
+                    this.router.navigate(['user/profile']);
+                  }
                 }
               })
           } else {
             this.store.dispatch(this.userActions.getUserLists());
-            this.router.navigate([this.returnUrl])
-            //this.router.navigate(['user/profile']);
+            this.router.navigate([this.returnUrl]);
           }
-          //this.store.select(getAuthStatus).subscribe(
-          //  data => {
-          //    if (data === true) { this.router.navigate([this.returnUrl]); }
-          //  }
-          //);
         });
       });
     });
-
-
   }
 
 }

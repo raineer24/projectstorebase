@@ -30,7 +30,7 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
   @Input() userLists: any;
   @Output() onCloseModalEmit: EventEmitter<string> = new EventEmitter();
   @Output() onClose: EventEmitter<any> = new EventEmitter();
-  suggestedItems: Array<Object>;
+  suggestedItems: Array<Object> = [];
   itemQuantity: number = 0;
   quantityControl = new FormControl();
   saveAmount: any;
@@ -109,6 +109,8 @@ export class ItemDetailsDialogComponent implements OnInit, OnDestroy {
       const cartItem = this.getCartItem(this.item.id);
       if(cartItem) {
         this.itemQuantity = cartItem.quantity;
+      } else {
+        this.itemQuantity = 0;
       }
     }
     this.initBreadCrumbs();

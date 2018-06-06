@@ -4,6 +4,12 @@
     <li class="breadcrumb-item text-primary" aria-current="page">{{operation}}</li>
   </ol>
 </nav>
+<ng-container *ngIf="addressType == 'shipping'; else elseBlock">
+  <h3>Shipping Address</h3>
+</ng-container>
+<ng-template #elseBlock>
+  <h3>Billing Address</h3>
+</ng-template>
 <form class="form" [formGroup]="addressForm" (ngSubmit)="onSubmit()" #formAddress="ngForm">
   <div class="row">
     <div class="col-sm-8 form-group">
