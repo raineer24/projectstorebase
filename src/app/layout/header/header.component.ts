@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
   totalCartValue: Observable<number>;
   categories$: Observable<any>;
   timer: Observable<any>;
-  subscription: Subscription;
+  timerSubs: Subscription;
   asyncSelected: string;
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
@@ -53,10 +53,9 @@ export class HeaderComponent implements OnInit {
   @ViewChild('mobileMenu') mobileMenu;
   isCollapsed: boolean = true;
   oneAtATime: boolean = true;
-  mobileMenuSubs: Subscription;
   isShowCategories: boolean = false;
   @ViewChild('categoryMenuMobile') categoryMenuMobile;
-  categoryMenuSubs: Subscription;
+  clickEventSubs: Subscription;
   // menuDelay: {'show': Array<any>, 'hide': Array<any>, 'clicked': Array<any>} = {show:[], hide:[], clicked: []};
   // @ViewChildren("dpmenu") dpmenus: QueryList<any>;
 
@@ -87,14 +86,24 @@ export class HeaderComponent implements OnInit {
       // flatten level 1 and 2 categories
       this.categories = data.concat([].concat.apply([], data.map(cat => cat.subCategories)));
     });
-
+    this.clickEventSubs = Observable.fromEvent(document, 'click').subscribe((e: any) => {
+      if (this.isShowCategories && !this.categoryMenuMobile.nativeElement.contains(e.target)) {
+        this.isShowCategories = false;
+        this.cd.markForCheck();
+      }
+      if (!this.isCollapsed && !this.mobileMenu.nativeElement.contains(e.target)) {
+        this.isCollapsed = true;
+        this.cd.markForCheck();
+      }
+    });
   }
 
   ngOnDestroy() {
     this.catSubs.unsubscribe();
     this.sortSubs.unsubscribe();
-    if(this.subscription != undefined){
-      this.subscription.unsubscribe();
+    this.clickEventSubs.unsubscribe();
+    if(this.timerSubs != undefined){
+      this.timerSubs.unsubscribe();
     }
   }
   toggle() {
@@ -109,9 +118,6 @@ export class HeaderComponent implements OnInit {
     //   this.menuDelay.clicked[index] = true;
     // }
     this.isShowCategories = false;
-    if(this.categoryMenuSubs) {
-      this.categoryMenuSubs.unsubscribe();
-    }
     let filters;
     if(categories[0] == 'all') {
       this.store.dispatch(this.productActions.getAllProducts(this.sortSettings));
@@ -154,50 +160,6 @@ export class HeaderComponent implements OnInit {
   onMenuToggle(): void{
     this.cd.markForCheck();
   }
-
-  //  NOTE: MEGA MENU DELAY CODE - START
-  /*
-  onMenuOver(e: any, index: number): void{
-    e.stopPropagation();
-    if(!this.menuDelay.clicked[index]) {
-      const dpmenu = this.dpmenus.toArray()[index];
-      const prev = this.dpmenus.find(data => data.isOpen);
-      if(!prev) {
-        this.menuDelay.show[index] = setTimeout(() => {
-          dpmenu.show();
-        }, 200)
-      } else {
-        clearTimeout(this.menuDelay.hide[index]);
-        prev.hide();
-        dpmenu.show();
-      }
-    }
-  }
-
-  onMenuLeave(e: any, index: number): void{
-    e.stopPropagation();
-    const dpmenu = this.dpmenus.toArray()[index];
-    clearTimeout(this.menuDelay.show[index]);
-    this.menuDelay.hide[index] = setTimeout(() => {
-      dpmenu.hide();
-    }, 50);
-    this.menuDelay.clicked[index] = false;
-  }
-
-  onSubMenuOver(e: any, index: number): void{
-    e.stopPropagation();
-    clearTimeout(this.menuDelay.hide[index]);
-  }
-
-  onSubMenuLeave(e: any, index: number): void{
-    e.stopPropagation();
-    const dpmenu = this.dpmenus.toArray()[index];
-    this.menuDelay.hide[index] = setTimeout(() => {
-      dpmenu.hide();
-    }, 50);
-  }
-  */
-  //  NOTE: MEGA MENU DELAY CODE - END
 
   // NOTE: AUTO SUGGEST CODE - START
   initAutoSuggest(): void {
@@ -278,7 +240,7 @@ export class HeaderComponent implements OnInit {
 
   setProgressDisplayTimer(): void {
     this.timer = Observable.timer(50); // 5000 millisecond means 5 seconds
-      this.subscription = this.timer.subscribe(() => {
+      this.timerSubs = this.timer.subscribe(() => {
       // set showloader to false to hide loading div from view after 5 seconds
       this.bShowProgress = false;
     });
@@ -310,33 +272,47 @@ export class HeaderComponent implements OnInit {
     window.location.href="./index.html";
   }
 
-  toggleCategoryMenuMobile(): void {
-    this.isShowCategories = !this.isShowCategories;
-    if(this.isShowCategories) {
-      this.categoryMenuSubs = Observable.fromEvent(document, 'click').subscribe((e: any) => {
-        if (!this.categoryMenuMobile.nativeElement.contains(e.target)) {
-          this.isShowCategories = false;
-          this.categoryMenuSubs.unsubscribe();
-          this.cd.markForCheck();
-        }
-      });
-    } else {
-      this.categoryMenuSubs.unsubscribe();
+  //  NOTE: MEGA MENU DELAY CODE - START
+  /*
+  onMenuOver(e: any, index: number): void{
+    e.stopPropagation();
+    if(!this.menuDelay.clicked[index]) {
+      const dpmenu = this.dpmenus.toArray()[index];
+      const prev = this.dpmenus.find(data => data.isOpen);
+      if(!prev) {
+        this.menuDelay.show[index] = setTimeout(() => {
+          dpmenu.show();
+        }, 200)
+      } else {
+        clearTimeout(this.menuDelay.hide[index]);
+        prev.hide();
+        dpmenu.show();
+      }
     }
   }
 
-  toggleMobileMenu(): void {
-    this.isCollapsed = !this.isCollapsed;
-    if(!this.isCollapsed) {
-      this.mobileMenuSubs = Observable.fromEvent(document, 'click').subscribe((e: any) => {
-        // if (!this.mobileMenu.nativeElement.contains(e.target)) {
-          this.isCollapsed = true;
-          this.mobileMenuSubs.unsubscribe();
-        // }
-      });
-    } else {
-      this.mobileMenuSubs.unsubscribe();
-    }
+  onMenuLeave(e: any, index: number): void{
+    e.stopPropagation();
+    const dpmenu = this.dpmenus.toArray()[index];
+    clearTimeout(this.menuDelay.show[index]);
+    this.menuDelay.hide[index] = setTimeout(() => {
+      dpmenu.hide();
+    }, 50);
+    this.menuDelay.clicked[index] = false;
   }
 
+  onSubMenuOver(e: any, index: number): void{
+    e.stopPropagation();
+    clearTimeout(this.menuDelay.hide[index]);
+  }
+
+  onSubMenuLeave(e: any, index: number): void{
+    e.stopPropagation();
+    const dpmenu = this.dpmenus.toArray()[index];
+    this.menuDelay.hide[index] = setTimeout(() => {
+      dpmenu.hide();
+    }, 50);
+  }
+  */
+  //  NOTE: MEGA MENU DELAY CODE - END
 }
