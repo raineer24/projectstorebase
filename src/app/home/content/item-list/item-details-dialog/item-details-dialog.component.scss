@@ -433,3 +433,14 @@ ul.list-dropdown {
   0% { margin-left: -1000px; }
   100% {margin-left: 0px;}
 }
+.disclaimer {
+  font-style: italic;
+}
+
+.disclaimer .glyphicon {
+  top: 4px;
+}
+
+.disclaimer small {
+  margin-left: 3px;
+}

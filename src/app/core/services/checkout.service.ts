@@ -13,6 +13,7 @@ import { HttpService } from './http';
 @Injectable()
 export class CheckoutService {
   private orderNumber: number;
+  private orderIdContainer: number;
 
   /**
    * Creates an instance of CheckoutService.
@@ -302,13 +303,25 @@ export class CheckoutService {
   }
 
   /**
+    * @param {any} orderId
+    * @returns
+    *
+    * @memberof CheckoutService
+    */
+  getTransaction(orderId) {
+        console.log("SEARCHING FOR TRANSACTION");
+        return this.http.get(`v1/transactions/${orderId}`).map(res => {
+          return res.json();
+       }).catch(err => Observable.empty());
+  }
+
+  /**
     * @param {any} vCode
     * @returns
     *
     * @memberof CheckoutService
     */
   updateVoucherStatus(vCode) {
-    console.log("UPDATING VOUCHER - STATUS " + vCode);
     return this.http.put(`v1/voucher/${vCode}`,{
       status:'consumed'
       }).map(res => {
@@ -323,7 +336,6 @@ export class CheckoutService {
     * @memberof CheckoutService
     */
   updateGC_status(gcCode) {
-    console.log("UPDATING GIFTCERT - STATUS");
     return this.http.put(`v1/gc/${gcCode}`,{
       status:'used'
       }).map(res => {
@@ -396,14 +408,27 @@ export class CheckoutService {
   }
 
   updateOrderPayment(params: any) {
+    console.log(params);
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? user.id: 0;
     params['useraccount_id']= userId;
     params['orderkey'] = this.getOrderKey();
+    this.orderIdContainer = params.id;
     return this.http.put(`v1/order/${params.id}/payment/`, params)
     .map(res => {
       const response = res.json();
       if(response.message.indexOf('Processed') >= 0) {
+        this.getTransaction(params.id).subscribe(res => {
+          if(res){
+            let trans: any = {};
+            trans = {
+                order_id:this.orderIdContainer,
+                value: params.paymentTotal
+            }
+            console.log(trans);
+            this.updateTransaction(trans).subscribe();
+          }
+        });
         this.store.dispatch(this.actions.orderCompleteSuccess());
         this.createNewOrder().subscribe();
       } else {
@@ -411,6 +436,34 @@ export class CheckoutService {
       }
       return response;
     })
+  }
+
+  createTransaction(params: any){
+    const order = JSON.parse(localStorage.getItem('order'));
+    const orderId = order ? order.id: 0;
+    params['number'] = this.getOrderKey();
+    params['order_id'] = orderId;
+    return this.http.post(`v1/transactions/`, params)
+    .map(res => {
+      const response = res.json();
+      return response;
+    })
+
+  }
+
+  updateTransaction(params: any){
+    console.log('update transaction');
+    const order = JSON.parse(localStorage.getItem('order'));
+    console.log(order);
+    const order_id = this.orderIdContainer;
+    console.log(this.orderIdContainer);
+    // params['value'] = this.getOrderKey();
+    return this.http.put(`v1/transactions/${order_id}`, params)
+    .map(res => {
+      const response = res.json();
+      return response;
+    })
+
   }
 
   getAllTimeSlot() {
