@@ -1,26 +1,25 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { HttpService } from '../../../core/services/http';
-import { SharedService } from './../services/shared.service';
+// import { HttpService } from '../../../core/services/http';
+import { UserService } from '../../../services/user.service';
 
 
 @Component({
-  selector: 'app-star-rating',
-  templateUrl: './star-rating.component.html',
-  styleUrls: ['./star-rating.component.scss'],
-  providers: [SharedService]
+  selector: 'app-order-star-rating',
+  templateUrl: './order-star-rating.component.html',
+  styleUrls: ['./order-star-rating.component.scss'],
+  providers: [UserService]
 })
 
-export class StarRatingComponent implements OnInit, OnDestroy {
-  @Input() closeStarRating: boolean = false;
-  @Output() sendClose: EventEmitter<any> = new EventEmitter();
+export class OrderStarRatingComponent implements OnInit, OnDestroy {
   bClose: boolean = false;
   userFeedback: string;
   userRating: Subscription;
+  @Input() closeRating: boolean = false;
 
   rating: {
-    'useraccount_id': number;
+    'useraccount_id': number,
     'orderkey': string,
     'starCount': number,
     'feedback': string,
@@ -28,14 +27,14 @@ export class StarRatingComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private sharedService: SharedService
+    private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.bClose = true;
+    this.bClose = false;
     let user = JSON.parse(localStorage.getItem('user'));
     if(user){
-      this.bClose = false;
+      // this.bClose = false;
       this.userFeedback = "";
       this.userRating = new Subscription();
       this.rating = {
@@ -50,32 +49,31 @@ export class StarRatingComponent implements OnInit, OnDestroy {
 
 //get the value of the rating and the user's feedback
   getRating(value){
-    console.log(value);
-    let order = JSON.parse(localStorage.getItem('order'));
-    this.rating['orderkey'] = order.order_token;
+    let oKey = localStorage.getItem('currentOrderKey');
+    this.rating['orderkey'] = oKey;
     this.rating['starCount'] = Number(value);
-    // this.rating['feedback'] = this.userFeedback;
-    this.rating['feedbacktype'] = 2;
+    this.rating['feedbacktype'] = 1;
     // this.saveRating(this.rating);
   }
 
-  sendFeedBack(value: string){
+  sendFeedBack(value){
     this.bClose = true;
     this.rating['feedback'] = value;
-    console.log(this.rating);
     this.saveRating(this.rating);
   }
 
 //save the rating to db
   saveRating(rating){
-    this.sharedService.createStarRating(rating).subscribe(rating => {
-        console.log(rating);
-        this.sharedService.showThankyou();
+    this.userService.createStarRating(rating).subscribe(rating => {
+        this.userService.showThankyou();
+        // this.close();
+
     });
+    localStorage.removeItem('currentOrderKey');
   }
 
   close(){
-    this.bClose = true;
+    this.bClose =  true;
   }
 
   ngOnDestroy() {

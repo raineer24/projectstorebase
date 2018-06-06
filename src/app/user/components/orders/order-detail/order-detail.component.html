@@ -52,6 +52,7 @@
             Timeslot: <span class="text-primary">{{tSlot.datetime | date:'fullDate'}} at {{getTimeSlotLabel(tSlot.timeslot_id)}}</span>
           </dt>
         </dl>
+          <ng-container *ngIf="!hasStarFeedback(order.number)"><button class="btn btn-primary btn-feedback" (click)="createFeedBack()">Feedback</button></ng-container>
       </div>
 
       <!-- <dl class="col-md-12">
@@ -123,4 +124,9 @@
       </div>
     </div>
   </div>
+</div>
+<div>
+  <ng-container *ngIf="showFeedBackTemplate">
+    <app-order-star-rating></app-order-star-rating>
+  </ng-container>
 </div>
