@@ -22,7 +22,6 @@ export class AppComponent implements OnInit, OnDestroy {
   homeUrls = ['/', '/item']
   name: string;
   show: boolean;
-  mobile: boolean = false;;
   errorMessage:string;
   private password = 'OmgLogin18!';
   private passwordList = [
@@ -83,12 +82,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (window.screen.width === 360) { // 768px portrait
-      this.mobile = true;
-    }
-    else {
-      this.mobile = false;
-    }
     this.authService.checkSessionPersistence();
     this.store.select(getAuthStatus)
     .subscribe(() => {

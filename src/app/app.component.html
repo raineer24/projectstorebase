@@ -1,65 +1,92 @@
+<div *ngIf="!show" class="tmp-welcome">
+  <div class="text-center welcome">
+    <div class="col-md-3 col-sm-4">&nbsp;</div>
+    <div class="col-md-6 col-sm-4">
+      <div class="input-group">
+        <input type="password" [(ngModel)]="name" #ctrl="ngModel" required class="input-lg form-control" placeholder="One does not simply walk into mordor"
+          autofocus="autofocus" (keypress)="setValue()">
+        <span class="input-group-btn">
+          <button class="btn btn-lg btn-success" (click)="setValue()">Alohomora</button>
 
-<div class="default">
- 
-      <div class="hidden-xs">
-          <ng-container *ngIf="!isAdminRoute()">
-            <div class="default">
-              <section>
-                <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"  ></app-header>
-                <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
-                <!-- <app-loading-indicator></app-loading-indicator> -->
-                <app-notification></app-notification>
-                <!-- <app-star-rating></app-star-rating> -->
-                <main class="body container">
-                  <router-outlet></router-outlet>
-                </main>
-          
-                <!-- <app-checkout-footer *ngIf="currentUrl && isHomeRoute()"></app-checkout-footer> -->
-                <app-footer></app-footer>
-              </section>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="isAdminRoute()">
-            <app-notification></app-notification>
-            <!-- <app-star-rating></app-star-rating> -->
-            <router-outlet></router-outlet>
-          </ng-container>
+        </span>
       </div>
- 
-
-  <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'hidden-xs'" class="mobile">
-    <div  class="container">
-      <div class="mobile-header navbar-header">
-        <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed" #mobileMenu>
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      
-      </div>
-      <nav class="nav">
-        <h1 class="omg-logo">
-          <a href="#">
-            <img src="assets/omg-logo-01.png" />
-          </a>
-        </h1>
-      </nav>
-     <div class="detail text-center">
-        <h1>Coming Soon</h1>
-        <p class="mobile">
-          <small>"We're almost done beta testing this version of OMG!, and it will be available really soon. For now, you can shop through
-            the desktop version of the app."</small>
-        </p>
-     </div>
-     <div class="notify text-center">
-       <a href="#">Notify me</a>
-     </div>
-     <div class="copy text-center">
-       <p><small>© 2018 by OMG! Oh My Grocery.</small></p>
-     </div>
     </div>
-    
+    <!--div class="col-md-3 col-sm-4">&nbsp;</div> -->
+
+    <!-- <div class="panel-heading">
+      <h1>Demo App</h1>
+    </div>
+    <div class="panel-body">
+      <div>
+        <input type="password" [(ngModel)]="name" #ctrl="ngModel" required>
+      </div>
+    </div>
+    <div class="panel-footer plan">
+      <div class="alert alert-danger" [hidden]="!errorMessage">Wrong Password. Please try again!</div>
+      <button class="btn btn-lg" (click)="setValue()">Enter</button>
+    </div> -->
   </div>
 </div>
- 
+<div class="default" *ngIf="show">
+
+  <div class="hidden-xs">
+    <ng-container *ngIf="!isAdminRoute()">
+      <div class="default">
+        <section>
+          <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
+          <!-- <app-checkout-header [currentStep]="currentStep" *ngIf="currentUrl && isCheckoutRoute()"></app-checkout-header> -->
+          <!-- <app-loading-indicator></app-loading-indicator> -->
+          <app-notification></app-notification>
+          <!-- <app-star-rating></app-star-rating> -->
+          <main class="body container">
+            <router-outlet></router-outlet>
+          </main>
+
+          <!-- <app-checkout-footer *ngIf="currentUrl && isHomeRoute()"></app-checkout-footer> -->
+          <app-footer></app-footer>
+        </section>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isAdminRoute()">
+      <app-notification></app-notification>
+      <!-- <app-star-rating></app-star-rating> -->
+      <router-outlet></router-outlet>
+    </ng-container>
+  </div>
+</div>
+<div *ngIf="show" [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'hidden-xs'" class="mobile">
+  <div class="container">
+    <div class="mobile-header navbar-header">
+      <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed" #mobileMenu>
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <nav class="nav">
+      <h1 class="omg-logo">
+        <a href="#">
+          <img src="assets/omg-logo-01.png" />
+        </a>
+      </h1>
+    </nav>
+    <div class="detail text-center">
+      <h2>Coming Soon</h2>
+      <p class="mobile">
+        <small>"We're almost done beta testing this version of OMG!, and it will be available really soon. For now, you can shop
+          through the desktop version of the app."</small>
+      </p>
+    </div>
+    <div class="notify text-center">
+      <a href="#">Notify me</a>
+    </div>
+    <div class="copy text-center">
+      <p>
+        <small>© 2018 by OMG! Oh My Grocery.</small>
+      </p>
+    </div>
+  </div>
+
+</div>

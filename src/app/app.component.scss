@@ -24,22 +24,33 @@ section {
 @media(max-width: 720px) {
   .navbar-toggle .icon-bar {
     background: #777;
+    height: 4px;
   }
-
+  .mobile nav {
+    margin-top: -1em;
+  }
   .omg-logo {
     text-align: center;
   }
   .omg-logo img {
     width: 69%;
   }
-  .detail h1 {
-    font-size: 40px;
-    font-weight: bold;
-    color: #000;
+  .detail h2 {
+   font-size: 40px;
+   font-weight: bold;
+   width: 56%;
+   color: #000;
+   margin-left: 68px;
+   text-align: center;
+   margin-top: 0;
+
 
   }
   .detail p {
     font-size: 18px;
+  }
+  .notify {
+    padding-bottom: 10em;
   }
   .notify a {
     background: #18D277;
