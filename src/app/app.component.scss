@@ -18,3 +18,19 @@ section {
     margin-top: 20%;
   }
 }
+.mobile {
+ color: #fff;
+}
+@media(max-width: 720px) {
+  .omg-logo {
+    text-align: center;
+  }
+  .omg-logo img {
+    width: 69%;
+  }
+  .detail h1 {
+    font-size: 40px;
+    font-weight: bold;
+  }
+}
+
