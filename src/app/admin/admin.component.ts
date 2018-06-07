@@ -13,18 +13,38 @@ export class AdminComponent implements OnInit {
     {
       name: "Orders",
       routerLink: "/admin/orders",
-      rolesRequired: [2,5]
+      type: 'main',
+      rolesRequired: [2,6],
     },
     {
       name: "Users",
       routerLink: "/admin/users",
-      rolesRequired: [1,5]
+      type: 'main',
+      rolesRequired: [1,6],
     },
     {
       name: "Transactions",
       routerLink: "/admin/transactions",
-      rolesRequired: [3,5]
-    }
+      type: 'main',
+      rolesRequired: [3,6],
+    },
+    {
+      name: "Admin Tools",
+      type: 'label',
+      rolesRequired: [5,6],
+    },
+    {
+      name: "Manage Timeslot",
+      routerLink: "/admin/tools/manage-timeslot",
+      type: 'submenu',
+      rolesRequired: [5,6],
+    },
+    {
+      name: "Others",
+      routerLink: "/admin/others",
+      type: 'main',
+      rolesRequired: [5,6],
+    },
   ]
   constructor(
     private adminService: AdminService,

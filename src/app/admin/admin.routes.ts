@@ -10,6 +10,8 @@ import { LoginComponent } from './login/login.component';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
+import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot.component';
+
 
 export const AdminRoutes = [
   {
@@ -25,7 +27,7 @@ export const AdminRoutes = [
         component: OrdersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,5]
+          expectedRole: [2,6]
         }
       },
       {
@@ -33,7 +35,7 @@ export const AdminRoutes = [
         component: OrderDetailsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,5]
+          expectedRole: [2,6]
         }
       },
       {
@@ -41,7 +43,7 @@ export const AdminRoutes = [
         component: ViewOrderComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,5]
+          expectedRole: [2,6]
         }
       },
       {
@@ -49,7 +51,7 @@ export const AdminRoutes = [
         component: UsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5]
+          expectedRole: [1,6]
         }
       },
       {
@@ -57,7 +59,7 @@ export const AdminRoutes = [
         component: UsersEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5]
+          expectedRole: [1,6]
         }
       },
       {
@@ -65,17 +67,25 @@ export const AdminRoutes = [
         component: TransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [3,5]
+          expectedRole: [3,6]
         }
       },
-      { 
-        path: 'print-transaction', 
+      {
+        path: 'print-transaction',
         component: PrintTransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [3,5]
+          expectedRole: [3,6]
         }
-      }
+      },
+      {
+        path: 'tools/manage-timeslot',
+        component: ManageTimeslotComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [5,6]
+        }
+      },
     ],
     canActivate: [AdminGuardService]
   }

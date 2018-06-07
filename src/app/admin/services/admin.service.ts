@@ -106,9 +106,9 @@ export class AdminService {
   getTransactions(): Observable<Transaction[]> {
     return this.http.get(`v1/transactions`)
       .map((res: Response) => res.json())
-      
+
       .catch(res => Observable.empty());
-      
+
   }
 
 
@@ -256,6 +256,14 @@ export class AdminService {
         // });
       }
       return result;
+    });
+  }
+
+  getTimeSlot(): Observable<any> {
+    return this.http.get(
+      `v1/timeslotorder`
+    ).map((res: Response) => {
+      return res.json();
     });
   }
 
