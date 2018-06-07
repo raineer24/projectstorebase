@@ -27,8 +27,17 @@
       </div>
  
 
-  <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'not-hide'" class="mobile">
+  <div [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'hidden-xs'" class="mobile">
     <div  class="container">
+      <div class="mobile-header navbar-header">
+        <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed" #mobileMenu>
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      
+      </div>
       <nav class="nav">
         <h1 class="omg-logo">
           <a href="#">
@@ -36,14 +45,19 @@
           </a>
         </h1>
       </nav>
-     <div class="detail">
+     <div class="detail text-center">
         <h1>Coming Soon</h1>
         <p class="mobile">
           <small>"We're almost done beta testing this version of OMG!, and it will be available really soon. For now, you can shop through
             the desktop version of the app."</small>
         </p>
      </div>
-     
+     <div class="notify text-center">
+       <a href="#">Notify me</a>
+     </div>
+     <div class="copy text-center">
+       <p><small>© 2018 by OMG! Oh My Grocery.</small></p>
+     </div>
     </div>
     
   </div>
