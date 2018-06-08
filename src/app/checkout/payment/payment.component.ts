@@ -360,6 +360,8 @@ export class PaymentComponent implements OnInit {
               this.confirmOrder();
             });
           }
+        } else {
+          this.confirmOrder();
         }
       }
   }
