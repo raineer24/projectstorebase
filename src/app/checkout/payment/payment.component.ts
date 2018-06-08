@@ -88,6 +88,7 @@ export class PaymentComponent implements OnInit {
   pEmail: string;
   isPBU: boolean = false;
   bDisabled: boolean = false;
+  pbuEmail: string = "";
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -209,7 +210,6 @@ export class PaymentComponent implements OnInit {
             this.hasErr = false;
             this.voucherCode = this.couponCode;
             this.updateCoupon = this.voucherCode;
-            console.log(this.updateCoupon);
         }
       });
     } else {
@@ -221,7 +221,6 @@ export class PaymentComponent implements OnInit {
 
   applyVoucher(){
     if(!this.hasErr && this.couponCode){
-      console.log('Apply Voucher');
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         this.discount = Number(data.discount);
         localStorage.setItem('discount',JSON.stringify(this.discount));
@@ -267,7 +266,6 @@ export class PaymentComponent implements OnInit {
   addGiftCert(code){
     let tempList = [];
     let amountPaid = 0;
-    console.log(code.value);
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
           if(data.message != null) {
@@ -320,21 +318,15 @@ export class PaymentComponent implements OnInit {
   }
 
   removeGC(code){
-    // this.gErrMsg = "GC "+code+" is no longer available!";
-    // this.checkoutService.showErrorMsg('giftcert',this.gErrMsg);
-    console.log('Revalidating GCs');
     let tempList = [];
     console.log(this.gcList);
     // var ctr;
-    console.log("remove gc");
     var index = this.gcList.indexOf(code);
-    console.log(index);
     tempList.push({
       code: code,
       value: this.gcList.value
     });
     this.gcList.splice(index, 1);
-    console.log(this.gcList);
     this.store.dispatch(this.checkoutAction.removeGC(tempList));
     this.startReload();
     return this.totalPaidAmount;
@@ -358,35 +350,37 @@ export class PaymentComponent implements OnInit {
         this.confirmOrder();
       } else {
         if(this.checkedPBU){
-          if(this.pEmail !== ""){
+          if(this.checkPBUEmail(this.pbuEmail)){
             let newBal = this.availableCredit - this.totalAmountDue;
             let pbuData = {
                 useraccount_id: this.PBUcontainer['useraccount_id'],
                 balance: newBal
             };
-            console.log(pbuData);
             this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
-              console.log(data.message);
               this.confirmOrder();
             });
-
-          }   else {
-            this.gErrMsg = "Please enter your work email!";
-            this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
           }
-        } else {
-          this.confirmOrder();
         }
       }
   }
 
-  checkPBUEmail(email){
-    if(email.value === this.PBUcontainer['email'] ){
-      this.pEmail = email.value;
+  checkPBUEmail(email): boolean{
+    let ret = false;
+    if(email !== ""){
+      if(email === this.PBUcontainer['email'] ){
+        this.pEmail = email;
+        ret = true;
+      } else {
+        ret = false;
+        this.gErrMsg = "Incorrect work email. Please enter correct work email!";
+        this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
+      }
     } else {
-      this.gErrMsg = "Incorrect work email. Please enter correct work email!";
+      ret = false;
+      this.gErrMsg = "Please enter your work email!";
       this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
     }
+    return ret;
   }
 
   confirmOrder(){

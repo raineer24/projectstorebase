@@ -121,7 +121,7 @@
             <div #group4 class="partnerVoucher" *ngIf="isPBU">
                 <div class="checkbox">
                   <label>
-                    <input #pbucheckbox type="checkbox" [(ngModel)]="checkedPBU" [disabled] = "bDisabled">
+                    <input #pbucheckbox type="checkbox" [(ngModel)]="checkedPBU" [disabled]="bDisabled">
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Employee Voucher
                   </label>
                   <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P2,500.">
@@ -130,7 +130,7 @@
                 </div>
             <div class="row" *ngIf="checkedPBU">
               <div class="col-md-1">
-                <!-- <label>Enter your company email address:</label> -->
+                <!-- <label>Enter your company email address:</label><span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="checkPBUEmail(pbuemail)">Enter</button></span> -->
               </div>
               <div class="col-md-8">
                 <div class="input-group">
@@ -138,7 +138,7 @@
                       <span class="input-group-addon">
                         <span class="glyphicon glyphicon-envelope"></span>
                       </span>
-                      <input #pbuemail class="emailaddr" type="text" id="pbuemail" class="form-control no-spin" placeholder="Your work email address"><span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="checkPBUEmail(pbuemail)">Enter</button></span>
+                      <input #pbuemail [(ngModel)]="pbuEmail" [disabled]="bValidEmail" class="emailaddr" type="text" id="pbuemail" class="form-control no-spin" placeholder="Your work email address"/>
                     </div>
 
                 </div>
