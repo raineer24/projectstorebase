@@ -46,7 +46,6 @@ export class ManageTimeslotComponent implements OnInit {
         return inner.slice(x).concat(inner.slice(0,x));
       })
     }
-
     const apiData = transposed.map((inner, i) => {
       let objArr = inner.map((inner2, j) => {
         let obj = {};
@@ -55,8 +54,7 @@ export class ManageTimeslotComponent implements OnInit {
       })
       return Object.assign({ id: i + 1 }, Object.assign({}, ...objArr),)
     })
-    console.log(JSON.parse(apiData));
-
+    this.adminService.updateAllTimeSlots(apiData).subscribe();
   }
 
   updateValue(e, i, j): void {

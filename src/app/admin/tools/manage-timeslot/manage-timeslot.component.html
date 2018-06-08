@@ -1,3 +1,10 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <!-- <li class="breadcrumb-item"><a [routerLink]="['/admin/orders']" (click)="onCancelClick()">Orders</a></li> -->
+    <li class="breadcrumb-item">Admin Tools</li>
+    <li class="breadcrumb-item text-primary" aria-current="page">Manange Timeslot</li>
+  </ol>
+</nav>
 <table class="table table-hover table-striped table-bordered">
   <thead>
     <tr>
@@ -24,14 +31,14 @@
       <ng-container *ngFor="let timeslots of timeSlotData; let j = index">
       <td class="text-center booked">{{ timeslots.range[i].booked }}</td>
       <td>
-        <input #timeSlotValues class="form-control" type="number" value="{{timeslots.range[i].max}}" (blur)="updateValue($event, i, j)" />
+        <input #timeSlotValues class="form-control" type="number" value="{{timeslots.range[i].max}}" (blur)="updateValue($event, i, j)" (click)="$event.target.select()"/>
       </td>
       </ng-container>
     </tr>
   </tbody>
 </table>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-12 text-right">
     <button type="button" (click)="saveTimeSlots()" class="btn btn-primary btn-lg">SAVE</button>
   </div>
 </div>
