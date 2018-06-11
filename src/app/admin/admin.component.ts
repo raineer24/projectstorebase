@@ -9,6 +9,7 @@ import { AdminService } from './services/admin.service';
 })
 export class AdminComponent implements OnInit {
   userData: any;
+  isCollapsed: boolean = true;
   menuItems = [
     {
       name: "Orders",
@@ -59,6 +60,7 @@ export class AdminComponent implements OnInit {
 
   logout(): void {
     this.adminService.logout();
+    this.router.navigate(['/admin/login']);
   }
 
   getMenu(){

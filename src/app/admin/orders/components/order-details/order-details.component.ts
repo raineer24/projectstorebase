@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { environment } from '../../../../../environments/environment';
@@ -23,28 +23,35 @@ export class OrderDetailsComponent implements OnInit {
   itemsTotal: number = 0;
   itemsConfirmed: number = 0;
   itemsUnavailable: number = 0;
-
+  userData: any;
   MIN_VALUE = 1;
   MAX_VALUE = 9999;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private adminService: AdminService,
     private checkoutService: CheckoutService
   ) { }
 
   ngOnInit() {
+    this.userData = JSON.parse(localStorage.getItem('selleruser'));
     this.routeSubscription$ = this.route.params.subscribe(
       (params: any) => {
         const orderSellerId = params['id'];
         this.adminService.getSellerOrder(orderSellerId).mergeMap(orderSeller => {
           this.orderSeller = orderSeller;
+          if(orderSeller.selleraccount_id != this.userData.id) {
+            this.router.navigate(['/admin/orders']);
+            return Observable.empty();
+          }
           return this.adminService.getOrderItems(orderSeller.order_id).map(orderItems => {
             // NOTE: TEMPORARY ORDER ID 0
             // return this.adminService.getOrderItems(0).map(orderItems => {
             this.orderItems = orderItems
             orderItems.forEach((item, index) => {
-              item.finalQuantity = item.finalQuantity ? Number(item.finalQuantity) : Number(item.quantity);
+              item.quantity = Number(item.quantity);
+              item.finalQuantity = item.finalQuantity ? Number(item.finalQuantity) : item.quantity;
               this.orderItemStatus[item.orderItem_id] = item.status;
               switch (item.status) {
                 case 'confirmed':
@@ -57,6 +64,7 @@ export class OrderDetailsComponent implements OnInit {
                   break;
               }
             })
+            console.log(orderItems);
             return orderItems;
           })
         }).subscribe();
@@ -93,7 +101,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   unavailable(orderItem: any): void {
-    orderItem.finalQuantity = 0;
+    // orderItem.finalQuantity = 0;
     orderItem.status = "unavailable";
     this.recalculate();
     this.adminService.updateOrderItem(orderItem).subscribe();
@@ -101,9 +109,10 @@ export class OrderDetailsComponent implements OnInit {
 
   reset(orderItem: any): void {
     this.orderItemStatus[orderItem.orderItem_id] = 0;
-    orderItem.status = null;
+    orderItem.status = 'ordered';
     orderItem.finalQuantity = orderItem.quantity;
     this.recalculate();
+    this.adminService.updateOrderItem(orderItem).subscribe();
   }
 
   finalize() {

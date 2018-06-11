@@ -111,7 +111,6 @@ export class AdminService {
 
   }
 
-
   /**
    *
    *
@@ -125,6 +124,19 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @param {data} any
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateSellerOrder(data: any): Observable<any> {
+    return this.http.put(`v1/ordersellers/${data.id}`, data)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
 
   /**
    *

@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    document.body.classList.add('admin-body');
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin';
     this.loginForm = this.fb.group({
       'username': ['', Validators.required],
