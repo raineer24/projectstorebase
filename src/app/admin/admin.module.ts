@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
+import { OrderDeliveryComponent } from './orders/components/order-delivery/order-delivery.component';
 import { AdminService } from './services/admin.service';
 import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
@@ -42,7 +43,8 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     LoginComponent,
     PrintTransactionsComponent,
     SortPipe,
-    ManageTimeslotComponent
+    ManageTimeslotComponent,
+    OrderDeliveryComponent
   ],
   imports: [
     CommonModule,

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
+import { OrderDeliveryComponent } from './orders/components/order-delivery/order-delivery.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
@@ -31,8 +32,16 @@ export const AdminRoutes = [
         }
       },
       {
-        path: 'orders/edit/:id',
+        path: 'orders/in-progress/:id',
         component: OrderDetailsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,6]
+        }
+      },
+      {
+        path: 'orders/in-transit/:id',
+        component: OrderDeliveryComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRole: [2,6]

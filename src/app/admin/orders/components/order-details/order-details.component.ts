@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -7,7 +8,7 @@ import { AdminService } from '../../../services/admin.service';
 import { CheckoutService } from '../../../../core/services/checkout.service';
 import { UserService } from '../../../../user/services/user.service';
 import { UserActions } from '../../../../user/actions/user.actions';
-import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-order-details',
@@ -68,12 +69,15 @@ export class OrderDetailsComponent implements OnInit {
                   break;
               }
             })
-            console.log(orderItems);
             return orderItems;
           })
         }).subscribe();
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.routeSubscription$.unsubscribe();
   }
 
   getProductImageUrl(key: string): string {
@@ -156,8 +160,8 @@ export class OrderDetailsComponent implements OnInit {
     const data = {
       order: {
         id: this.orderSeller.order_id,
-        finalTotal: this.itemsTotal,
-        finalQuantity: this.itemsQuantity,
+        finalItemTotal: this.itemsTotal,
+        finalTotalQuantity: this.itemsQuantity,
         status: 'assembled',
       },
       orderseller: {

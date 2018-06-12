@@ -55,13 +55,20 @@ export class OrdersComponent implements OnInit {
       }
     }).subscribe(response => {
       if(response && response.message.indexOf('Updated') >= 0) {
-        this.router.navigate(['/admin/orders/edit', orderSeller.id]);
+        this.router.navigate(['/admin/orders/in-progress', orderSeller.id]);
       }
     })
   }
 
-  deliverOrder(order: any): void {
-    
+  deliverOrder(orderSeller: any): void {
+    const data = {
+      id: orderSeller.id,
+      selleraccount_id: this.userData.id,
+      deliveredBy: this.userData.id,
+      updatedBy: this.userData.id,
+      status: 'in-transit',
+    }
+    this.router.navigate(['/admin/orders/in-transit', orderSeller.id]);
   }
 
   refresh(): void {
