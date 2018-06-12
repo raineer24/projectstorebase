@@ -141,6 +141,58 @@ export class AdminService {
   /**
    *
    *
+   * @param {data} any
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  takeOrder(data: any): Observable<any> {
+    return this.http.put(`v1/ordersellers/takeOrder/${data.id}`, data)
+      .map((res: Response) => {
+        const response = res.json();
+        if(response.message.indexOf('Updated') == -1) {
+          let errMsg = '';
+          switch (response.message) {
+            case 'User Assigned':
+              errMsg = 'You are already handling an order';
+              break;
+            case 'Already Taken':
+              errMsg = 'Order already handled by another user';
+              break;
+            case 'Failed':
+              errMsg = 'Server error. Please try again later.';
+              break;
+          }
+          this.http.loading.next({
+            loading: false,
+            hasError: true,
+            hasMsg: errMsg,
+            reset: 4500
+          });
+        };
+        return response;
+      }).catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {data} any
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  forwardToDelivery(data: any): Observable<any> {
+    return this.http.put(`v1/ordersellers/forwardToDelivery/${data.orderseller.id}`, data)
+      .map((res: Response) => {
+        const response = res.json();
+        return response;
+      }).catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @param {any} orderNumber
    * @returns
    *
@@ -182,7 +234,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getOrderItems(order_id: number): Observable<any> {
-    return this.http.get(`v1/orderItem?limit=1000&orderId=${order_id}`)
+    return this.http.get(`v1/orderItem?limit=1000&orderId=${order_id}&addCategory=true`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -194,12 +246,8 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  updateOrderItem(orderItem: any): Observable<any> {
-    return this.http.put(`v1/orderItem/${orderItem.orderItem_id}`, {
-      "item_id": orderItem.id,
-      "quantity": orderItem.finalQuantity,
-      "status": orderItem.status
-    }
+  updateOrderItem(data: any): Observable<any> {
+    return this.http.put(`v1/orderItem/${data.id}`, data
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());
@@ -212,11 +260,8 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  finalizeOrder(order: any): Observable<any> {
-    return this.http.put(`v1/order/${order.order_id}/seller`, {
-      "finalTotalQuantity": order.finalQuantity,
-      "finalItemTotal": order.finalTotal
-    }
+  updateOrder(data: any): Observable<any> {
+    return this.http.put(`v1/order/${data.id}/seller`, data
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());

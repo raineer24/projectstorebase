@@ -64,6 +64,9 @@
   .instructions {
     width: unset;
   }
+  .category {
+    text-transform: capitalize;
+  }
 }
 
 .padding-left-0 {
@@ -91,4 +94,9 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.error-message {
+  font-size: 11px;
+  text-align: left;
 }

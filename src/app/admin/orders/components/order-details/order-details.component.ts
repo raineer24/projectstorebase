@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,6 +26,8 @@ export class OrderDetailsComponent implements OnInit {
   userData: any;
   MIN_VALUE = 1;
   MAX_VALUE = 9999;
+  isCancelReason: boolean = false;
+  @ViewChild('cancelModal') cancelModal;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,7 +53,9 @@ export class OrderDetailsComponent implements OnInit {
             this.orderItems = orderItems
             orderItems.forEach((item, index) => {
               item.quantity = Number(item.quantity);
+              item.price = Number(item.price);
               item.finalQuantity = item.finalQuantity ? Number(item.finalQuantity) : item.quantity;
+              item.finalPrice = item.finalPrice ? Number(item.finalPrice): item.price;
               this.orderItemStatus[item.orderItem_id] = item.status;
               switch (item.status) {
                 case 'confirmed':
@@ -95,33 +99,104 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   confirm(orderItem: any): void {
-    orderItem.status = "confirmed";
+    orderItem.status = 'confirmed';
+    const data = {
+      id: orderItem.orderItem_id,
+      item_id: orderItem.id,
+      quantity: orderItem.quantity,
+      finalQuantity: orderItem.finalQuantity,
+      finalPrice: orderItem.finalPrice,
+      status: 'confirmed',
+    }
     this.recalculate();
-    this.adminService.updateOrderItem(orderItem).subscribe();
+    this.adminService.updateOrderItem(data).subscribe();
   }
 
   unavailable(orderItem: any): void {
-    // orderItem.finalQuantity = 0;
-    orderItem.status = "unavailable";
+    orderItem.status = 'unavailable';
+    const data = {
+      id: orderItem.orderItem_id,
+      item_id: orderItem.id,
+      quantity: orderItem.quantity,
+      finalQuantity: '',
+      finalPrice: '',
+      status: 'unavailable',
+    }
     this.recalculate();
-    this.adminService.updateOrderItem(orderItem).subscribe();
+    this.adminService.updateOrderItem(data).subscribe();
   }
 
   reset(orderItem: any): void {
     this.orderItemStatus[orderItem.orderItem_id] = 0;
     orderItem.status = 'ordered';
     orderItem.finalQuantity = orderItem.quantity;
+    orderItem.finalPrice = orderItem.price;
+    const data = {
+      id: orderItem.orderItem_id,
+      item_id: orderItem.id,
+      quantity: orderItem.quantity,
+      finalQuantity: '',
+      finalPrice: '',
+      status: 'ordered',
+    }
     this.recalculate();
-    this.adminService.updateOrderItem(orderItem).subscribe();
+    this.adminService.updateOrderItem(data).subscribe();
   }
 
-  finalize() {
-    this.orderSeller.finalTotal = this.itemsTotal;
-    this.orderSeller.finalQuantity = this.itemsQuantity;
-    this.adminService.finalizeOrder(this.orderSeller).subscribe();
+  updatePrice(e: any, orderItem: any): void {
+    const value = Number(e.srcElement.value);
+    if(isNaN(value)) {
+      e.srcElement.value = orderItem.price;
+    } else {
+      orderItem.finalPrice = value;
+    }
   }
 
-  recalculate() {
+  forwardToDelivery(): void {
+    const data = {
+      order: {
+        id: this.orderSeller.order_id,
+        finalTotal: this.itemsTotal,
+        finalQuantity: this.itemsQuantity,
+        status: 'assembled',
+      },
+      orderseller: {
+        id: this.orderSeller.id,
+        selleraccount_id: 0,
+        status: 'assembled',
+        updatedBy: this.userData.id,
+      }
+    }
+    this.adminService.updateSellerOrder(data.orderseller).mergeMap(() => {
+      return this.adminService.updateOrder(data.order)
+    }).subscribe(res => {
+      if(res.message.indexOf('Updated') >= 0) {
+        this.router.navigate(['/admin/orders']);
+      }
+    });
+  }
+
+  cancelOrder(comments: string): void {
+    if(!comments) {
+      this.isCancelReason = true;
+    } else {
+      const data = {
+        id: this.orderSeller.id,
+        selleraccount_id: 0,
+        updatedBy: this.userData.id,
+        status: 'cancelled',
+        comments: comments
+      }
+      this.cancelModal.hide();
+      this.adminService.updateSellerOrder(data).subscribe(res => {
+        if(res.message.indexOf('Updated') >= 0) {
+          this.router.navigate(['/admin/orders']);
+        }
+      });
+    }
+  }
+
+  recalculate(): void {
     this.itemsConfirmed = 0;
     this.itemsUnavailable = 0;
     this.itemsQuantity = 0;
@@ -131,7 +206,7 @@ export class OrderDetailsComponent implements OnInit {
         case 'confirmed':
           this.itemsConfirmed++;
           this.itemsQuantity += Number(item.finalQuantity);
-          this.itemsTotal += Number(item.finalQuantity) * Number(item.price);
+          this.itemsTotal += Number(item.finalQuantity) * Number(item.finalPrice);
           break;
         case 'unavailable':
           this.itemsUnavailable++;

@@ -17,8 +17,8 @@
       Item(s) Sub-total: ₱ {{itemsTotal | number:'1.2-2'}} <br>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4">
-      <button type="button" class="btn btn-danger btn-lg btn-margin-top" [disabled]="itemsConfirmed + itemsUnavailable != orderItems.length" (click)="finalize()">Forward to Delivery</button>
-      <button type="button" class="btn btn-default btn-lg btn-margin-top">Cancel Order</button>
+      <button type="button" class="btn btn-danger btn-lg btn-margin-top" [disabled]="itemsConfirmed + itemsUnavailable != orderItems.length" (click)="forwardToDelivery()">Forward to Delivery</button>
+      <button type="button" class="btn btn-default btn-lg btn-margin-top" (click)="cancelModal.show()">Cancel Order</button>
     </div>
   </div>
 </div>
@@ -33,11 +33,11 @@
       <div class="form-group">
         <b>{{item.name}}</b>
         <br>
-        <small>{{ item.category1 }} / {{ item.category2 }}</small>
+        <small class="category">{{ item.category1Name }} / {{ item.category2Name }}</small>
       </div>
     	<div class="form-group">
     	  <label class="control-label">Price:</label>
-        <input type="number" class="text-center form-control final-price" [value]="item.price" />
+        <input type="number" class="text-center form-control final-price" [value]="item.finalPrice | number:'1.2-2'" (blur)="updatePrice($event, item)" />
     	</div>
       <div class="form-group">
         <label class="control-label">Quantity:</label>
@@ -59,7 +59,7 @@
       </div>
       <div class="form-group">
         <label class="control-label">Total:</label>
-        <span [ngClass]="{'unavailable': item.status == 'unavailable'}">₱ {{(item.price * item.finalQuantity) | number:'1.2-2'}}</span>
+        <span [ngClass]="{'unavailable': item.status == 'unavailable'}">₱ {{(item.finalPrice * item.finalQuantity) | number:'1.2-2'}}</span>
       </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6">
@@ -71,6 +71,30 @@
         <label class="btn btn-lg btn-success btn-margin-top" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="confirmed" (click)="confirm(item)">Confirm</label>
         <label class="btn btn-lg btn-default btn-margin-top" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="unavailable" (click)="unavailable(item)">Unavailable</label>
         <label class="btn btn-lg btn-default btn-margin-top" (click)="reset(item)">Reset</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" bsModal #cancelModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="cancelModal.hide()">&times;</button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="comment">Reason for cancellation:</label>
+          <textarea #cancelReason class="form-control" rows="5"></textarea>
+          <div *ngIf="isCancelReason">
+            <p class="error-message text-danger">{{ 'Please enter your reason' }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="cancelOrder(cancelReason.value)">OK</button>
+        <button type="button" class="btn btn-default" (click)="cancelModal.hide()">Close</button>
       </div>
     </div>
   </div>

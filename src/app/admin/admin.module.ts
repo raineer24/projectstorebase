@@ -22,8 +22,9 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 
 // 3rd party
-import { ModalModule } from 'angular-custom-modal';
+import { ModalModule as CustomModalModule } from 'angular-custom-modal';
 import { BsDropdownModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
 
@@ -49,12 +50,13 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     SharedModule,
     FormsModule,
     ButtonsModule.forRoot(),
-    ModalModule,
+    ModalModule.forRoot(),
     TypeaheadModule,
     DataTableModule,
     PaginatorModule,
     ButtonModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    CustomModalModule,
   ],
   exports: [
     AdminComponent
