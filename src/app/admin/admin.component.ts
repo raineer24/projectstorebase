@@ -13,7 +13,7 @@ export class AdminComponent implements OnInit {
     {
       name: "Orders",
       routerLink: "/admin/orders",
-      rolesRequired: [2,5]
+      rolesRequired: [1,2,5]
     },
     {
       name: "Users",
@@ -24,6 +24,11 @@ export class AdminComponent implements OnInit {
       name: "Transactions",
       routerLink: "/admin/transactions",
       rolesRequired: [3,5]
+    },
+    {
+      name: "Logs",
+      routerLink: "/admin/logs",
+      rolesRequired: [1,5]
     }
   ]
   constructor(

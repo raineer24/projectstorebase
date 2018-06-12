@@ -14,6 +14,7 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
+import { LogsComponent } from './logs/logs.component';
 import { AdminService } from './services/admin.service';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
@@ -35,6 +36,7 @@ import { SortPipe } from './transactions/transactions.component';
     OrderDetailsComponent,
     // save-address,
     LoginComponent,
+    LogsComponent,
     // seller-auth,
     LoginComponent,
     PrintTransactionsComponent,

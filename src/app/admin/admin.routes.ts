@@ -7,6 +7,7 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
+import { LogsComponent } from './logs/logs.component';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
@@ -25,7 +26,7 @@ export const AdminRoutes = [
         component: OrdersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,5]
+          expectedRole: [1,2,5]
         }
       },
       {
@@ -53,6 +54,14 @@ export const AdminRoutes = [
         }
       },
       {
+        path: 'logs',
+        component: LogsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole:[1,5]
+        }
+      },
+      {
         path: 'users-edit',
         component: UsersEditComponent,
         canActivate: [RoleGuardService],
@@ -68,8 +77,8 @@ export const AdminRoutes = [
           expectedRole: [3,5]
         }
       },
-      { 
-        path: 'print-transaction', 
+      {
+        path: 'print-transaction',
         component: PrintTransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
