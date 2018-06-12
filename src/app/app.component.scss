@@ -21,7 +21,11 @@ section {
 .mobile {
  color: #777;
 }
+
 @media(max-width: 720px) {
+  body {
+    background: #18D277;
+  }
   .navbar-toggle .icon-bar {
     background: #777;
     height: 4px;
@@ -50,7 +54,7 @@ section {
     font-size: 18px;
   }
   .notify {
-    padding-bottom: 10em;
+    padding-bottom: 6em;
   }
   .notify a {
     background: #18D277;

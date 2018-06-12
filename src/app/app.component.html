@@ -29,8 +29,10 @@
 </div>
 <div class="default" *ngIf="show">
 
-  <div class="hidden-xs">
-    <ng-container *ngIf="!isAdminRoute()">
+  <div [ngClass]="this.currentUrl.indexOf('/admin') >= 0 ? 'red' : 'hidden-xs'">
+<ng-container *ngIf="!isAdminRoute()">
+
+
       <div class="default">
         <section>
           <app-header [currentStep]="currentStep" [isHomeRoute]="isHomeRoute()"></app-header>
@@ -54,8 +56,15 @@
     </ng-container>
   </div>
 </div>
-<div *ngIf="show" [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'hidden-xs'" class="mobile">
-  <div class="container">
+<ng-container>
+<div *ngIf="show" [ngStyle]="{'background-color': style1 ? 'red' : (style2 ? 'blue' : null) }" [ngClass]="!mobile ? 'hidden-sm hidden-md hidden-lg hidden-xl' : 'hidden-xs'"
+  class="mobile">
+
+
+<div  *ngIf="!isAdminRoute()" class="container">
+
+
+
     <div class="mobile-header navbar-header">
       <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed" #mobileMenu>
         <span class="sr-only">Toggle navigation</span>
@@ -90,3 +99,5 @@
   </div>
 
 </div>
+
+</ng-container>

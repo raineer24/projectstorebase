@@ -22,8 +22,10 @@ export class AppComponent implements OnInit, OnDestroy {
   homeUrls = ['/', '/item']
   name: string;
   show: boolean;
+  mobile: boolean = false;
+  styleOne: boolean;
   errorMessage:string;
-  private password = 'OmgLogin18!';
+  private password = '1';
   private passwordList = [
     '7v5az5r1fn',
     '5clsg0ae6r',
@@ -104,6 +106,10 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+  get myBackgroundColor() {
+    return this.styleOne ? "red" : "blue";
+    //or however you want to programmatically change the color 
   }
 
   isAdminRoute() {
