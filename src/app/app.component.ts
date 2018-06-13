@@ -23,7 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
   name: string;
   show: boolean;
   mobile: boolean = false;
-  styleOne: boolean;
   errorMessage:string;
   private password = '1';
   private passwordList = [
@@ -107,10 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-  get myBackgroundColor() {
-    return this.styleOne ? "red" : "blue";
-    //or however you want to programmatically change the color 
-  }
+  
 
   isAdminRoute() {
     if (!this.currentUrl) {
