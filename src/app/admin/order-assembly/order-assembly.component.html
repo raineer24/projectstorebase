@@ -4,8 +4,39 @@
       <li class="breadcrumb-item text-primary" aria-current="page">Orders</li>
     </ol>
   </nav>
-  <div>
-    <button type="button" class="btn btn-default btn-sm" (click)="refresh()">Refresh</button>
+  <div class="options">
+    <div class="small">Filters: Status = {{ selectedValue }}, Date Range = {{ fromDate | date:'shortDate' }} - {{ toDate | date:'shortDate' }}</div>
+    <div>
+      <button type="button" class="btn btn-default btn-sm" (click)="showFilter = !showFilter">Change Filter<i class="caret"></i></button>
+      &nbsp;|&nbsp;
+      <button type="button" class="btn btn-default btn-sm" (click)="refresh()">Refresh List</button>
+    </div>
+    <div *ngIf="showFilter" class="filter well">
+      <form class="form-inline small">
+        <div class="form-group">
+          <label>Status:</label>
+          <select class="form-control btn-sm" [(ngModel)]="selectedValue" name="status">
+            <option value="ALL" selected>ALL</option>
+            <option value="PENDING">PENDING</option>
+            <option value="IN-PROGRESS">IN-PROGRESS</option>
+            <option value="ASSEMBLED">ASSEMBLED</option>
+            <option value="IN-TRANSIT">IN-TRANSIT</option>
+            <option value="COMPLETE">COMPLETE</option>
+            <option value="CANCELLED">CANCELLED</option>
+            <option value="RETURNED">RETURNED</option>
+            <option value="RETURNED-COMPLETE">RETURNED-COMPLETE</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date Range:</label>
+          <input type="text" placeholder="From" class="form-control btn-sm"
+            bsDatepicker [(ngModel)]="fromDate" name="fromdate" [maxDate]="toDate">
+          <input type="text" placeholder="To" class="form-control btn-sm"
+            bsDatepicker [(ngModel)]="toDate" name="todate" [maxDate]="maxDate">
+        </div>
+        <button type="button" class="btn btn-default btn-sm" (click)="applyFilter()">Apply Filter</button>
+      </form>
+    </div>
   </div>
   <br>
   <div>

@@ -90,8 +90,15 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrders(seller_id: number): Observable<any> {
-    return this.http.get(`v1/ordersellers?sellerId=${seller_id}`)
+  getSellerOrders(seller_id: number, filters = {minDate: 0, maxDate: 0, status: ''}): Observable<any> {
+    let filterText = [];
+    if(filters.minDate && filters.maxDate) {
+      filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
+    }
+    if(filters.status) {
+      filterText.push(`orderStatus=${filters.status}`);
+    }
+    return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

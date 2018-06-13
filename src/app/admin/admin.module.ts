@@ -19,6 +19,9 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { SortPipe } from './transactions/transactions.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
+import { OrderAssemblyComponent } from './order-assembly/order-assembly.component';
+import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
+import { OrderAssembleComponent } from './order-assembly/components/order-assemble/order-assemble.component';
 import { SharedModule } from '../shared/index';
 
 // 3rd party
@@ -26,10 +29,8 @@ import { ModalModule as CustomModalModule } from 'angular-custom-modal';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
-import { OrderAssemblyComponent } from './order-assembly/order-assembly.component';
-import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
-import { OrderAssembleComponent } from './order-assembly/components/order-assemble/order-assemble.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { OrderAssembleComponent } from './order-assembly/components/order-assemb
     ButtonModule,
     BsDropdownModule.forRoot(),
     CustomModalModule,
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     AdminComponent

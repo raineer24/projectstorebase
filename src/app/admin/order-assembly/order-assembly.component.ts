@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AdminService } from './../services/admin.service';
@@ -19,8 +20,13 @@ export class OrderAssemblyComponent implements OnInit {
   itemList: any;
   ordersShow: any;
   statusContainer: string[] = [];
-  selected: string = "All";
   userData: any;
+  selectedValue: string = 'ALL';
+  toDate = new Date();
+  fromDate = new Date();
+  maxDate = new Date();
+  showFilter: boolean = false;
+  sellerId = 1; //TODO: dummy ID
 
   constructor(
     private adminService: AdminService,
@@ -28,9 +34,7 @@ export class OrderAssemblyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //NOTE: dummy ID
-    const sellerId = 0;
-    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
+    this.ordersSub = this.adminService.getSellerOrders(this.sellerId).subscribe(order => {
       this.orders = order;
     });
     this.userData = JSON.parse(localStorage.getItem('selleruser'));
@@ -85,11 +89,21 @@ export class OrderAssemblyComponent implements OnInit {
   }
 
   refresh(): void {
-    //NOTE: dummy ID
-    const sellerId = 0;
-    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
+    this.ordersSub = this.adminService.getSellerOrders(this.sellerId).subscribe(order => {
       this.orders = order;
     });
+  }
+
+  applyFilter(): void {
+    const filters = {
+      status: this.selectedValue != 'ALL' ? this.selectedValue: '',
+      minDate: new Date(this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate()).getTime(),
+      maxDate: new Date(this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate()).getTime(),
+    }
+    this.ordersSub = this.adminService.getSellerOrders(this.sellerId, filters).subscribe(order => {
+      this.orders = order;
+    });
+    this.showFilter = false;
   }
 
   ngOnDestroy() {
