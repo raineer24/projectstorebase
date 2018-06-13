@@ -1,25 +1,32 @@
 <!--star rating html file-->
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+
 <div class="star-rating" [hidden]="bClose">
-  <div>Please rate our app! </div> <!--span class="close-btn"><button class="btn-primary close-btn" (click)="close()" >x</button></span> -->
+  <div class="rating-header">
+    <h2>Send us your feedback!</h2>
+    <p>How do you feel about your experience on the OMG! app. Do you have a suggestion or found some bugs? Let us know in the field below.</p>
+    <span class="close-btn"><button class="btn-primary close-btn" (click)="close()" ><span class="glyphicon glyphicon-remove"></span></button></span>
+  </div>
+  <div class="question_exp"><p>How was your experience?</p></div>
   <div class="star-rating__wrap">
-        <input class="star-rating__input" id="star-rating-5" type="radio" name="rating" value="5" (click)="getRating(5)">
-        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 5 stars"></label>
-        <input class="star-rating__input" id="star-rating-4" type="radio" name="rating" value="4" (click)="getRating(4)">
-        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4" title="4 out of 5 stars"></label>
-        <input class="star-rating__input" id="star-rating-3" type="radio" name="rating" value="3" (click)="getRating(3)">
-        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3" title="3 out of 5 stars"></label>
-        <input class="star-rating__input" id="star-rating-2" type="radio" name="rating" value="2" (click)="getRating(2)">
-        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2" title="2 out of 5 stars"></label>
-        <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1" (click)="getRating(1)">
-        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
+        <input checked="checked" type="radio" (click)="getRating(3)" name="rating" id="gr3" value="3"/>
+        <label class="em em-smiley" for="gr3"></label>
+        <i>&nbsp;</i>
+        <input class="rating" type="radio" (click)="getRating(2)" name="rating" id="gr2" value="2"/>
+        <label class="em em-neutral_face" for="gr2"></label>
+        <i>&nbsp;</i>
+        <input class="rating" type="radio" (click)="getRating(1)" name="rating" id="gr1" value="1"/>
+        <label class="em em-white_frowning_face" for="gr1"></label>
+  </div>
+  <div>
+    <br>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlTextarea1">We would like to here from you.</label>
-    <textarea class="form-control rounded-0" [(ngModel)]="userFeedback" rows="7"></textarea>
+    <textarea class="form-control rounded-0" #fback [(ngModel)]="userFeedback" rows="7" placeholder="Describe your experience here"></textarea>
   </div>
   <div class="sendFeedback">
-    <button class="btn btn-primary btn-sendfeedback" (click)="sendFeedBack()">Send Feedback</button>
+    <button class="btn btn-primary btn-sendfeedback" (click)="sendFeedBack(fback.value)">Send Feedback</button>
   </div>
 
 </div>
