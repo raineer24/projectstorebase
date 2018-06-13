@@ -23,10 +23,10 @@
             {{order.shippingAddress02}}<br>
           </ng-container>
           {{order.city}}, {{order.country}} {{order.postalcode}}<br>
-          <abbr title="Mobile Number">M:</abbr> {{order.phone}}
-          <ng-container *ngIf="order.landline">
+          <abbr title="Mobile Number">Mobile Number:</abbr> {{order.phone}}
+          <!-- <ng-container *ngIf="order.landline">
             <br><abbr title="Phone Number">P:</abbr> {{order.landline}}
-          </ng-container>
+          </ng-container> -->
         </address>
       </div>
 
