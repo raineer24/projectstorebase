@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       this.loginSubs = this.adminService.login(data).subscribe(res => {
         if (res.message == 'Found') {
           if(res.role_id == 2) {
-            this.router.navigate(['/admin/orders']);
+            this.router.navigate(['/admin/order-assemble']);
           } else {
             this.router.navigate([this.returnUrl]);
           }

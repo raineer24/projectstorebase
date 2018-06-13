@@ -2,7 +2,9 @@ import { Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
-import { OrderDeliveryComponent } from './orders/components/order-delivery/order-delivery.component';
+import { OrderAssemblyComponent } from './order-assembly/order-assembly.component';
+import { OrderAssembleComponent } from './order-assembly/components/order-assemble/order-assemble.component';
+import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
@@ -24,27 +26,43 @@ export const AdminRoutes = [
     component: AdminComponent,
     children: [
       {
+        path: 'order-assemble',
+        component: OrderAssemblyComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,6]
+        }
+      },
+      {
+        path: 'order-assemble/edit/:id',
+        component: OrderAssembleComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,6]
+        }
+      },
+      {
+        path: 'order-assemble/view/:id',
+        component: OrderDeliverComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,6]
+        }
+      },
+      {
         path: 'orders',
         component: OrdersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,6]
+          expectedRole: [5,6]
         }
       },
       {
-        path: 'orders/in-progress/:id',
+        path: 'orders/edit/:id',
         component: OrderDetailsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,6]
-        }
-      },
-      {
-        path: 'orders/in-transit/:id',
-        component: OrderDeliveryComponent,
-        canActivate: [RoleGuardService],
-        data: {
-          expectedRole: [2,6]
+          expectedRole: [5,6]
         }
       },
       {
@@ -52,7 +70,7 @@ export const AdminRoutes = [
         component: ViewOrderComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,6]
+          expectedRole: [5,6]
         }
       },
       {

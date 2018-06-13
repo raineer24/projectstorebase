@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AdminService } from './../services/admin.service';
@@ -20,11 +19,9 @@ export class OrdersComponent implements OnInit {
   ordersShow: any;
   statusContainer: string[] = [];
   selected: string = "All";
-  userData: any;
 
   constructor(
-    private adminService: AdminService,
-    private router: Router,
+    private adminService: AdminService
   ) { }
 
   ngOnInit() {
@@ -32,47 +29,71 @@ export class OrdersComponent implements OnInit {
     const sellerId = 0;
     this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
       this.orders = order;
-    });
-    this.userData = JSON.parse(localStorage.getItem('selleruser'));
+      var i: number;
+      for(i=0; i < this.orders.length; i++){
+        if(this.statusContainer.length == 0){
+          this.statusContainer.push(this.orders[i].status);
+        } else {
+          if(!this.statusContainer.includes(this.orders[i].status)){
+            this.statusContainer.push(this.orders[i].status);
+          }
+        }
+      }
+      const jsonData = JSON.stringify(this.orders);
+      localStorage.setItem('sellerorders',jsonData);
+      this.ordersShow = JSON.parse(localStorage.getItem('sellerorders'));
+    } )
   }
 
-  takeOrder(orderSeller: any) {
-    const data = {
-      id: orderSeller.id,
-      selleraccount_id: this.userData.id,
-      assembledBy: this.userData.id,
-      updatedBy: this.userData.id,
-      status: 'in-progress',
+  filterStatus(status){
+    var i = 0;
+    var filteredOrders = [];
+    this.ordersShow = JSON.parse(localStorage.getItem('sellerorders'));
+
+    if(status != 'All') {
+      for(i=0; i < this.ordersShow.length; i++){
+        if(this.ordersShow[i].status === status){
+          filteredOrders.push(this.ordersShow[i]);
+        }
+      }
+      localStorage.setItem('sellerorders_filtered',JSON.stringify(filteredOrders))
+      this.ordersShow = filteredOrders;
+    } else {
+      this.ordersShow = JSON.parse(localStorage.getItem('sellerorders'));
     }
-    this.adminService.takeOrder(data).mergeMap(response => {
-      if(response.message.indexOf('Updated') >= 0) {
-        return this.adminService.updateOrder({
-          id: orderSeller.order_id,
-          status: 'in-progress',
-        });
-      } else {
-        return Observable.empty();
-      }
-    }).subscribe(response => {
-      if(response && response.message.indexOf('Updated') >= 0) {
-        this.router.navigate(['/admin/orders/edit', orderSeller.id]);
-      }
+    this.selected = status;
+    localStorage.removeItem('sellerorders_filtered');
+  }
+
+  getOrder(index)
+  {
+    var order = JSON.parse(localStorage.getItem('sellerorders'));
+    var orderCode = order[index].orderBarcode;
+    this.orderSub = this.adminService.getOrder(orderCode).subscribe(order =>
+    {
+      this.orderItems = order;
+      const jsonData = JSON.stringify(this.orderItems);
+      this.getOrderItems(orderCode);
+      localStorage.setItem('orderseller',jsonData)
     })
+
+
   }
 
-  deliverOrder(order: any): void {
-    
-  }
+  getOrderItems(orderCode){
+    this.orderItem$ = this.adminService.getOrderDetail(orderCode).subscribe( items =>
+      {
+        this.itemList = items;
+        localStorage.setItem('orderedList',JSON.stringify(this.itemList));
+        this.itemList = localStorage.getItem('orderedList');
+      }
+    )
 
-  refresh(): void {
-    //NOTE: dummy ID
-    const sellerId = 0;
-    this.ordersSub = this.adminService.getSellerOrders(sellerId).subscribe(order => {
-      this.orders = order;
-    });
   }
 
   ngOnDestroy() {
     this.ordersSub.unsubscribe();
+    // localStorage.removeItem('order');
   }
+
 }

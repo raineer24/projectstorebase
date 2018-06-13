@@ -39,6 +39,8 @@
     </div>
     <div class="collapse navbar-collapse" [attr.aria-expanded]="!isCollapsed" [ngClass]="{collapse: isCollapsed}">
       <ul class="nav" (click)="isCollapsed = true">
+        <li><a class="text-primary">Signed in as {{ userData.username }}</a></li>
+        <hr>
         <li *ngFor="let menuItem of getMenu()">
             <a *ngIf="menuItem.type != 'label'" [routerLink]=menuItem.routerLink>{{menuItem.name}}</a>
         </li>

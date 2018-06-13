@@ -12,10 +12,16 @@ export class AdminComponent implements OnInit {
   isCollapsed: boolean = true;
   menuItems = [
     {
+      name: "Assemble Order",
+      routerLink: "/admin/order-assemble",
+      type: 'main',
+      rolesRequired: [2,6],
+    },
+    {
       name: "Orders",
       routerLink: "/admin/orders",
       type: 'main',
-      rolesRequired: [2,6],
+      rolesRequired: [5,6],
     },
     {
       name: "Users",
