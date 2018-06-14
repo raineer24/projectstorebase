@@ -1,12 +1,12 @@
 <div class="admin bg-dark">
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar navbar-inverse hidden-xs">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="/admin">OMG! Dashboard</a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="/admin">Messages</a></li>
-        <li><a href="/admin" (click)="logout()">Logout</a></li>
+        <li><a href="admin">Messages</a></li>
+        <li><a (click)="logout()">Logout</a></li>
       </ul>
     </div>
     <div class="sidebar">
@@ -24,6 +24,27 @@
               <a [routerLink]=menuItem.routerLink>{{menuItem.name}}</a>
           </ng-template>
         </li>
+      </ul>
+    </div>
+  </nav>
+  <nav class="navbar navbar-fixed-top navbar-inverse hidden-sm hidden-md hidden-lg hidden-xl">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/admin">OMG! Dashboard</a>
+      <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed" #mobileMenu >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" [attr.aria-expanded]="!isCollapsed" [ngClass]="{collapse: isCollapsed}">
+      <ul class="nav" (click)="isCollapsed = true">
+        <li><a class="text-primary">Signed in as {{ userData.username }}</a></li>
+        <hr>
+        <li *ngFor="let menuItem of getMenu()">
+            <a *ngIf="menuItem.type != 'label'" [routerLink]=menuItem.routerLink>{{menuItem.name}}</a>
+        </li>
+        <li><a (click)="logout()">Logout</a></li>
       </ul>
     </div>
   </nav>

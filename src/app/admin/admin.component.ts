@@ -9,12 +9,19 @@ import { AdminService } from './services/admin.service';
 })
 export class AdminComponent implements OnInit {
   userData: any;
+  isCollapsed: boolean = true;
   menuItems = [
+    {
+      name: "Assemble Order",
+      routerLink: "/admin/order-assemble",
+      type: 'main',
+      rolesRequired: [2,6],
+    },
     {
       name: "Orders",
       routerLink: "/admin/orders",
       type: 'main',
-      rolesRequired: [2,6],
+      rolesRequired: [5,6],
     },
     {
       name: "Users",
@@ -65,6 +72,7 @@ export class AdminComponent implements OnInit {
 
   logout(): void {
     this.adminService.logout();
+    this.router.navigate(['/admin/login']);
   }
 
   getMenu(){
