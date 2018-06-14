@@ -554,6 +554,9 @@ export class CheckoutService {
       case 'giftcert':
         message = msg;
         break;
+      case 'pbuvoucher':
+        message = msg;
+        break;
     }
     this.http.loading.next({
       loading: false,

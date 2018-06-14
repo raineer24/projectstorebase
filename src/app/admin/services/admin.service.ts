@@ -121,6 +121,19 @@ export class AdminService {
   /**
    *
    *
+   * @returns {Observable<Logs[]>}
+   *
+   * @memberof AdminService
+   */
+  getLogs(): Observable<Transaction[]> {
+    return this.http.get(`v1/logs`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @returns {Observable<any>}
    *
    * @memberof AdminService

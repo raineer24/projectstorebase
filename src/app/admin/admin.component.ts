@@ -33,7 +33,13 @@ export class AdminComponent implements OnInit {
       name: "Transactions",
       routerLink: "/admin/transactions",
       type: 'main',
-      rolesRequired: [3,6],
+      rolesRequired: [3,6]
+    },
+    {
+      name: "Logs",
+      routerLink: "/admin/logs",
+      type: 'main',
+      rolesRequired: [1,5]
     },
     {
       name: "Admin Tools",

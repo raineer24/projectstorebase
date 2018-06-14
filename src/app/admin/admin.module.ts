@@ -9,6 +9,7 @@ import { AdminComponent } from './admin.component';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
 import { LoginComponent } from './login/login.component';
+import { LogsComponent } from './logs/logs.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
@@ -43,6 +44,7 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     TransactionsComponent,
     OrderDetailsComponent,
     LoginComponent,
+    LogsComponent,
     LoginComponent,
     PrintTransactionsComponent,
     SortPipe,
