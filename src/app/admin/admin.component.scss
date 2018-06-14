@@ -12,6 +12,17 @@
   top: 50px;
   width: 250px;
   padding: 10px;
+
+  .nav {
+    small {
+      margin-left: 10px;
+    }
+    span {
+      color: #eee;
+      padding: 10px 15px;
+
+    }
+  }
 }
 
 .container {

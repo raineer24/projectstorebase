@@ -7,6 +7,14 @@
   </div>
 </div>
 
+<div class="notify-container in" *ngIf="loading.isSuccess">
+  <div class="notify-success notify-content">
+    <div class="notify-error-message">
+      <p class="notify-icon-text">{{loading.hasMsg}}</p>
+    </div>
+  </div>
+</div>
+
 <div class="notify-container in" *ngIf="loading.thankYou">
   <div class="alert-content notify-content">
     <div class="alert alert-success alert-dismissable dark-success-txt">
