@@ -84,7 +84,7 @@ export class PaymentComponent implements OnInit {
   checkedCC: boolean = false;
   checkedPBU: boolean = false;
   PBUcontainer: any;
-  availableCredit: number = 0;
+  availableCredit: number = 0.00;
   pEmail: string;
   isPBU: boolean = false;
   bDisabled: boolean = false;
@@ -129,7 +129,7 @@ export class PaymentComponent implements OnInit {
         this.isPBU = true;
         this.PBUcontainer = JSON.parse(localStorage.getItem('PBUser'));
         this.availableCredit = this.PBUcontainer['balance'];
-        if(this.availableCredit === 0){
+        if(this.availableCredit === 0.00){
           this.bDisabled = true;
         } else {
           this.bDisabled = false;
@@ -350,20 +350,22 @@ export class PaymentComponent implements OnInit {
         this.confirmOrder();
       } else {
         if(this.checkedPBU){
-          if(this.checkPBUEmail(this.pbuEmail)){
-            let newBal = this.availableCredit - this.totalAmountDue;
-            let pbuData = {
+          if(this.availableCredit > this.totalAmountDue){
+              let newBal = Number(this.availableCredit) - Number(this.totalAmountDue);
+              let pbuData = {
                 useraccount_id: this.PBUcontainer['useraccount_id'],
                 balance: newBal
-            };
-            this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
-              this.confirmOrder();
-            });
+              };
+              this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
+                this.confirmOrder();
+              });
+          } else {
+            this.gErrMsg = "You do not have enough credit for this purchase."
+            this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
           }
-        } else {
-          this.confirmOrder();
-        }
+
       }
+    }
   }
 
   checkPBUEmail(email): boolean{
