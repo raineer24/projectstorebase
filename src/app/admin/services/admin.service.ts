@@ -91,7 +91,9 @@ export class AdminService {
    * @memberof AdminService
    */
   getSellerOrders(seller_id: number): Observable<any> {
-    return this.http.get(`v1/ordersellers?sellerId=${seller_id}`)
+    const userData = JSON.parse(localStorage.getItem('selleruser'));
+    console.log(userData.id);
+    return this.http.get(`v1/ordersellers?sellerId=${userData.id}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -111,6 +113,18 @@ export class AdminService {
 
   }
 
+  /**
+   *
+   *
+   * @returns {Observable<Logs[]>}
+   *
+   * @memberof AdminService
+   */
+  getLogs(): Observable<Transaction[]> {
+    return this.http.get(`v1/logs`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
 
   /**
    *
