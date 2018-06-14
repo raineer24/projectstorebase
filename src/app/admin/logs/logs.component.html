@@ -26,7 +26,7 @@
             </ul>
           </div>
         </th>
-        <th><button class="btn">Activity Date<span class="caret"></span></button></th>
+        <th><button class="btn" (click)="openDateRange()">Activity Date<span class="caret"></span></button></th>
         <!-- <th>
           <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Status - {{selected}}
@@ -39,6 +39,11 @@
         </th> -->
       </tr>
     </thead>
+    <ng-container *ngIf="bOpenDateRange">
+      <div class="dateRange">
+        From <input #dateFrom id="dateFrom" type="date"> To <input #dateTo id="dateTo" type="date"> <button class="btn btn-primary" (click)="filterDateRange(dateFrom.value, dateTo.value)">Filter</button> <button class="btn btn-primary" (click)="resetFilters()">Reset Filter</button>
+      </div>
+    </ng-container>
     <!-- <tbody>
       <tr *ngFor="let log of logsShow let i = index">
         <td>{{log.id}}</td>
@@ -48,6 +53,7 @@
         <td>{{log.datecreated | date:'short'}}</td>
       </tr>
     </tbody> -->
+    <ng-container *ngIf="logsShow.length > 0; else elseBlock">
     <tbody>
           <tr *ngFor="let item of pagedItems">
             <td>{{item.id}}</td>
@@ -76,6 +82,15 @@
             </ul>
       </tr>
     </tbody>
+  </ng-container>
+  <ng-template #elseBlock>
+      <div class="order-empty">
+        <!-- <div class="empty-order-icon">
+          <img src="assets/omg-01.png"[tSlot]="timeSlot" />
+        </div> -->
+        <div class="empty-order-message">No records found.</div>
+      </div>
+  </ng-template>
   </table>
     <!-- <div style="display: none;"><app-view-order [orderedItems] = "orderSub | async"></app-view-order></div> -->
 </div>

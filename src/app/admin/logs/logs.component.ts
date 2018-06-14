@@ -30,6 +30,8 @@ export class LogsComponent implements OnInit {
   pager: any = {};
   // paged items
   pagedItems: any[];
+  bOpenDateRange: boolean;
+  bHasPages: boolean;
 
   constructor(
     private adminService: AdminService
@@ -40,7 +42,8 @@ export class LogsComponent implements OnInit {
     const sellerId = 0;
     this.logsShow = [];
     this.allItems = [];
-
+    this.bOpenDateRange = false;
+    this.bHasPages = false;
     this.userContainer = [];
     this.actionContainer = [];
     this.selectedA = this.selectedU = "All";
@@ -49,19 +52,6 @@ export class LogsComponent implements OnInit {
       this.userContainer = [];
       this.actionContainer = []
       this.getAllSellerUsers(this.logs);
-      // if(this.userContainer){
-      //   for(const key in this.logs){
-      //     if(this.userContainer.length === 0){
-      //       this.userContainer.push(this.logs[key].name);
-      //       console.log(this.userContainer);
-      //     } else {
-      //       if(!this.userContainer.includes(this.logs[key].name)){
-      //         this.userContainer.push(this.logs[key].name);
-      //         console.log(this.userContainer);
-      //       }
-      //     }
-      //   }
-      // }
       const jsonData = JSON.stringify(this.logs);
       localStorage.setItem('logs',jsonData);
 
@@ -71,10 +61,11 @@ export class LogsComponent implements OnInit {
   setPage(page: number) {
         if (page < 1 || page > this.pager.totalPages) {
             return;
+        } else {
+          this.bHasPages = true;
+          this.pager = this.getPager(this.logsShow.length, page);
+          this.pagedItems = this.logsShow.slice(this.pager.startIndex, this.pager.endIndex + 1);
         }
-
-        this.pager = this.getPager(this.logsShow.length, page);
-        this.pagedItems = this.logsShow.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
   getPager(totalItems: number, currentPage: number = 1, pageSize: number = 30) {
@@ -165,40 +156,82 @@ export class LogsComponent implements OnInit {
   }
 
   filterUsers(user: string){
+    console.log(user);
+    // this.resetFilters();
     var i = 0;
     var filteredLogs = [];
     this.selectedU = user;
-    if(this.selectedU !== 'All') {
+    if(this.selectedU === 'All') {
+      this.resetFilters();
+    } else {
       for(i=0; i < this.logsShow.length; i++){
         if(this.logsShow[i].user === user){
           filteredLogs.push(this.logsShow[i]);
         }
       }
       this.logsShow = filteredLogs;
-    } else {
-      this.logsShow = JSON.parse(localStorage.getItem('logs'));
+      this.setPage(1);
     }
-
   }
 
   filterActions(action: string){
+    console.log(action);
+    // this.resetFilters();
     var i = 0;
     this.selectedA = action;
     var filteredLogs = [];
-    this.logsShow = JSON.parse(localStorage.getItem('logs'));
-    if(action !== 'All') {
+    if(this.selectedA === 'All') {
+      this.resetFilters();
+    }
+    else {
       for(i=0; i < this.logsShow.length; i++){
         if(this.logsShow[i].action === action){
           filteredLogs.push(this.logsShow[i]);
         }
       }
       this.logsShow = filteredLogs;
-    }
-    else {
-      this.logsShow = JSON.parse(localStorage.getItem('logs'));
+      this.setPage(1);
     }
 
   }
+
+  openDateRange(){
+    if(!this.bOpenDateRange){
+      this.bOpenDateRange = true;
+    } else {
+      this.bOpenDateRange = false;
+    }
+  }
+
+  filterDateRange(dateFrom, dateTo){
+    this.resetFilters();
+    var i;
+    var filteredLogs = [];
+    let dF = new Date(dateFrom).getTime();
+    let dT = new Date(dateTo).getTime();
+    console.log(dF+' - '+dT);
+    this.logsShow = JSON.parse(localStorage.getItem('logs'));
+    for(i = 0; i < this.logsShow.length; i++){
+      if(this.logsShow[i].datecreated >= dF && this.logsShow[i].datecreated <= dT){
+        filteredLogs.push(this.logsShow[i]);
+      }
+    }
+    if(filteredLogs.length > 0){
+      this.logsShow = filteredLogs;
+      this.setPage(1);
+    } else {
+      var noShow = [];
+      this.logsShow = noShow;
+      this.setPage(0);
+    }
+
+  }
+
+  resetFilters(){
+    this.logsShow = JSON.parse(localStorage.getItem('logs'));
+    this.setPage(1);
+  }
+
 
   ngOnDestroy() {
     this.logsSub.unsubscribe();
