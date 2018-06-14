@@ -160,7 +160,8 @@ export class CheckoutService {
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart',
-          useraccount_id: userId
+          useraccount_id: userId,
+          seller_id: 1, // TODO: refer to actual seller ID
         }).map(newOrder => {
           const orderId = newOrder.json()['id'];
           this.setOrderTokenInLocalStorage({
@@ -181,7 +182,6 @@ export class CheckoutService {
           order.billingAddress01 = '';
           order.deliveryDate = '';
           order.status = 'cart';
-          order.seller_id = 1; // TODO: refer to actual seller ID
           return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
         })
     });

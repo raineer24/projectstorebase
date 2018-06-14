@@ -2,7 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,
   ViewChild, ViewChildren, QueryList, Input, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription, Observable } from "rxjs";
+import { Observable } from "rxjs/Rx";
+import { Subscription } from "rxjs";
 import { environment } from './../../../environments/environment';
 import { AppState } from './../../interfaces';
 import { getAuthStatus } from './../../auth/reducers/selectors';

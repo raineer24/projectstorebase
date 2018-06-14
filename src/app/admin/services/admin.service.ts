@@ -27,18 +27,24 @@ export class AdminService {
     return this.http.post(
       'v1/selleraccount/login', data)
       .map((res: Response) => {
-      const resData = res.json();
-      if (resData.message == 'Found') {
+      const response = res.json();
+      if (response.message.toUpperCase() == 'FOUND') {
         // Setting token after login
-        localStorage.setItem('selleruser', JSON.stringify(resData));
+        localStorage.setItem('selleruser', JSON.stringify(response));
       } else {
+        let errMsg = '';
+        if(response.message.toUpperCase() == 'NOT FOUND') {
+          errMsg = 'Please enter valid credentials';
+        } else if (response.message.toUpperCase() == 'DISABLED') {
+          errMsg = 'Account disabled. Please contact our administrator';
+        }
         this.http.loading.next({
           loading: false,
           hasError: true,
-          hasMsg: 'Please enter valid Credentials'
+          hasMsg: errMsg,
         });
       }
-      return resData;
+      return response;
     });
   }
 
@@ -51,6 +57,22 @@ export class AdminService {
    */
    logout(): void {
      localStorage.removeItem('selleruser');
+   }
+
+  /**
+   *
+   * @param void
+   * @returns void
+   *
+   * @memberof AuthService
+   */
+   updateUser(data): Observable<any> {
+     return this.http.put(
+       `v1/selleraccount/${data.id}/update`, data)
+       .map((res: Response) => {
+         const response = res.json();
+         return response;
+       });
    }
 
   /**
@@ -282,7 +304,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getUsers(): Observable<any> {
-    return this.http.get(`v1/selleraccounts`)
+    return this.http.get(`v1/selleraccounts?limit=50`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
