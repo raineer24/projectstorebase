@@ -10,6 +10,9 @@ import { OrdersComponent } from './orders/orders.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
 import { UsersComponent } from './users/users.component';
+import { PbuComponent } from './pbu/pbu.component';
+import { PbuEditComponent } from './pbu/pbu-edit/pbu-edit.component';
+import { PbuAddComponent } from './pbu/pbu-add/pbu-add.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
 import { TransactionsComponent } from './transactions/transactions.component';
@@ -30,6 +33,9 @@ import { SortPipe } from './transactions/transactions.component';
     OrdersComponent,
     ViewOrderComponent,
     UsersComponent,
+    PbuComponent,
+    PbuEditComponent,
+    PbuAddComponent,
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,

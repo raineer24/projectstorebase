@@ -21,6 +21,11 @@ export class AdminComponent implements OnInit {
       rolesRequired: [1,5]
     },
     {
+      name: "Partnerbuyer",
+      routerLink: "/admin/pbu",
+      rolesRequired: [1,7]
+    },
+    {
       name: "Transactions",
       routerLink: "/admin/transactions",
       rolesRequired: [3,5]

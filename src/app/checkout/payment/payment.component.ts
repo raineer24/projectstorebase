@@ -316,13 +316,11 @@ export class PaymentComponent implements OnInit {
     // var ctr;
     console.log("remove gc");
     var index = this.gcList.indexOf(code);
-    console.log(index);
     tempList.push({
       code: code,
       value: this.gcList.value
     });
     this.gcList.splice(index, 1);
-    console.log(this.gcList);
     this.store.dispatch(this.checkoutAction.removeGC(tempList));
     this.startReload();
     return this.totalPaidAmount;
