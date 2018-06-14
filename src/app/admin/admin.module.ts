@@ -6,24 +6,28 @@ import { ButtonsModule } from "ngx-bootstrap";
 
 import { AdminRoutes as routes } from './admin.routes';
 import { AdminComponent } from './admin.component';
+import { AdminGuardService } from './guards/admin.guard';
+import { RoleGuardService } from './guards/role.guard';
+import { LoginComponent } from './login/login.component';
+import { LogsComponent } from './logs/logs.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
+import { AdminService } from './services/admin.service';
+import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot.component';
+import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { SortPipe } from './transactions/transactions.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { SharedModule } from '../shared/index';
-import { TransactionsComponent } from './transactions/transactions.component';
-import { LoginComponent } from './login/login.component';
-import { LogsComponent } from './logs/logs.component';
-import { AdminService } from './services/admin.service';
-import { AdminGuardService } from './guards/admin.guard';
-import { RoleGuardService } from './guards/role.guard';
-import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
+
+// 3rd party
 import { ModalModule } from 'angular-custom-modal';
+import { BsDropdownModule } from 'ngx-bootstrap';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
-import { BsDropdownModule } from 'ngx-bootstrap';
-import { SortPipe } from './transactions/transactions.component';
+
 
 @NgModule({
   declarations: [
@@ -34,13 +38,12 @@ import { SortPipe } from './transactions/transactions.component';
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
-    // save-address,
     LoginComponent,
     LogsComponent,
-    // seller-auth,
     LoginComponent,
     PrintTransactionsComponent,
-    SortPipe
+    SortPipe,
+    ManageTimeslotComponent
   ],
   imports: [
     CommonModule,
@@ -54,8 +57,6 @@ import { SortPipe } from './transactions/transactions.component';
     PaginatorModule,
     ButtonModule,
     BsDropdownModule.forRoot()
-
-
   ],
   exports: [
     AdminComponent
