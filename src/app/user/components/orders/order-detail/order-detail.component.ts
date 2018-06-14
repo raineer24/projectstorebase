@@ -49,6 +49,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
       service: 100,
       delivery: 100,
     };
+
     if(localStorage.getItem('orderwithFB') !== null)
     {
       this.orderNums = localStorage.getItem('orderwithFB');
@@ -79,6 +80,14 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
           });
      }
     );
+  }
+
+  checkTimeSlot(): boolean{
+    if(this.tSlot){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getProductImageUrl(key: string): string {
