@@ -92,3 +92,10 @@ fieldset {
   font-weight: 500;
   border-radius: 21px;
 }
+@media screen and (max-width: 767px) {
+  .bg {
+    background: #fff;
+    height: 672px;
+
+  }
+}

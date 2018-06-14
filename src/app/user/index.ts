@@ -7,6 +7,7 @@ import { UserComponent } from './user.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { OrderListItemComponent } from './components/orders/order-list-item/order-list-item.component';
+import { OrderStarRatingComponent } from './components/orders/order-star-rating/order-star-rating.component';
 import { OrderDetailComponent } from './components/orders/order-detail/order-detail.component';
 import { ReturnsComponent } from './components/returns/returns.component';
 import { ReturnListItemComponent } from './components/returns/return-list-item/return-list-item.component';
@@ -34,6 +35,7 @@ import { BsDatepickerModule  } from "ngx-bootstrap";
     // components
     OverviewComponent,
     OrderListItemComponent,
+    OrderStarRatingComponent,
     OrdersComponent,
     ReturnsComponent,
     ReturnListItemComponent,

@@ -4,16 +4,16 @@
   </ol>
 </nav>
 <div *ngIf="(orders$ | async).length; else elseBlock">
-  <div *ngFor="let order of orders$ | async">
-    <app-order-list-item *ngIf="order.status != 'cart' && order.status != 'address' && order.status != 'delivery'"
-      [order]="order" [tSlot]="timeSlot"></app-order-list-item>
-  </div>
+    <div *ngFor="let order of orders$ | async">
+      <app-order-list-item *ngIf="order.status != 'cart' && order.status != 'address' && order.status != 'delivery'"
+      [order]="order"></app-order-list-item>
+    </div>
 </div>
 
 <ng-template #elseBlock>
   <div class="order-empty">
     <!-- <div class="empty-order-icon">
-      <img src="assets/omg-01.png" />
+      <img src="assets/omg-01.png"[tSlot]="timeSlot" />
     </div> -->
     <div class="empty-order-message">You haven't ordered anything yet.</div>
     <a class="empty-wishlist-link" routerLink="/">Start Shopping</a>

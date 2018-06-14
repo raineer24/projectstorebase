@@ -25,9 +25,14 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
   order: any;
   tSlot: any;
   deliveryDate: any = {};
-  orderItems: Array<any>
+  orderItems: Array<any>;
   fees: Object;
   timeSlotLabels: Array<string> = ['8:00AM','11:00AM','2:00PM','5:00PM','8:00PM'];
+  bHasFeedback: boolean = false;
+  showFeedBackTemplate: boolean = false;
+  ratingType: number = 0;
+  orderContainer: Array<any>;
+  orderNums: any;
 
   constructor(
     private userService: UserService,
@@ -45,20 +50,23 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
       delivery: 100,
     };
 
+    if(localStorage.getItem('orderwithFB') !== null)
+    {
+      this.orderNums = localStorage.getItem('orderwithFB');
+    }
     this.store.dispatch(this.userAction.getUserOrders());
 
     this.routeSubscription$ = this.route.params.subscribe(
       (params: any) => {
 
         const orderKey =  params['orderkey'];
+        localStorage.setItem('currentOrderKey',orderKey);
         this.store.select(getUserOrders).subscribe(orders => {
           this.order = orders.find(order => order.orderkey == orderKey);
             if(this.order) {
-              console.log(this.order.id);
               this.order.discountTotal = Number(this.order.discountTotal);
               this.order.paymentTotal = Number(this.order.paymentTotal);
               this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
-              console.log(this.order.grandTotal);
               this.timeslotSubscription$ = this.userService.getTimeSlotOrder(this.order.id).subscribe( timeslot => {
                   this.tSlot = timeslot;
               });
@@ -72,6 +80,14 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
           });
      }
     );
+  }
+
+  checkTimeSlot(): boolean{
+    if(this.tSlot){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getProductImageUrl(key: string): string {
@@ -88,7 +104,25 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
     return this.timeSlotLabels[index-1];
   }
 
+
+  hasStarFeedback(ordernum): boolean{
+    if(this.orderNums){
+      if(this.orderNums.indexOf(ordernum) != -1){
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  createFeedBack(){
+    this.showFeedBackTemplate = this.userService.switch();
+  }
+
   ngOnDestroy() {
+    localStorage.removeItem('orderwithFB');
     this.routeSubscription$.unsubscribe();
     this.orderSubscription$.unsubscribe();
   }
