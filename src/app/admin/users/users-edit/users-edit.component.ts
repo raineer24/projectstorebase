@@ -39,6 +39,7 @@ export class UsersEditComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
+    const selleracct = JSON.parse(localStorage.getItem('selleruser'));
     this.userData = JSON.parse(localStorage.getItem('user'));
     console.log(this.userData);
     if(typeof(this.userData.email) == 'undefined' && typeof(this.userData.id) != 'undefined') {
