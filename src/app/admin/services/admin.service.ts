@@ -91,7 +91,9 @@ export class AdminService {
    * @memberof AdminService
    */
   getSellerOrders(seller_id: number): Observable<any> {
-    return this.http.get(`v1/ordersellers?sellerId=${seller_id}`)
+    const userData = JSON.parse(localStorage.getItem('selleruser'));
+    console.log(userData.id);
+    return this.http.get(`v1/ordersellers?sellerId=${userData.id}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -106,11 +108,23 @@ export class AdminService {
   getTransactions(): Observable<Transaction[]> {
     return this.http.get(`v1/transactions`)
       .map((res: Response) => res.json())
-      
+
       .catch(res => Observable.empty());
-      
+
   }
 
+  /**
+   *
+   *
+   * @returns {Observable<Logs[]>}
+   *
+   * @memberof AdminService
+   */
+  getLogs(): Observable<Transaction[]> {
+    return this.http.get(`v1/logs`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
 
   /**
    *
@@ -256,6 +270,53 @@ export class AdminService {
         // });
       }
       return result;
+    });
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getTimeSlot(): Observable<any> {
+    return this.http.get(
+      `v1/timeslotorder`
+    ).map((res: Response) => {
+      return res.json();
+    });
+  }
+
+  /**
+   *
+   * @param {Array<any>} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateAllTimeSlots(data: Array<any>): Observable<any> {
+    return this.http.put(
+      `v1/timeslots/all`, data
+    ).map((res: Response) => {
+      const response = res.json();
+      if(response.message.indexOf('Updated') >= 0) {
+        this.http.loading.next({
+          loading: false,
+          isSuccess: true,
+          hasMsg: response.message,
+          reset: 4500
+        });
+      } else {
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: response.message,
+          reset: 4500
+        });
+      }
+
+      return response;
     });
   }
 

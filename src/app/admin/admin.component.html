@@ -16,9 +16,14 @@
       <hr>
       <ul class="nav nav-pills nav-stacked">
         <li *ngFor="let menuItem of getMenu()" routerLinkActive="active">
-          <a [routerLink]=menuItem.routerLink>{{menuItem.name}}</a>
+          <span *ngIf="menuItem.type == 'label'; else elseBlock1">{{menuItem.name}}</span>
+          <ng-template #elseBlock1>
+            <a *ngIf="menuItem.type == 'submenu'; else elseBlock2" [routerLink]=menuItem.routerLink><small>{{menuItem.name}}</small></a>
+          </ng-template>
+          <ng-template #elseBlock2>
+              <a [routerLink]=menuItem.routerLink>{{menuItem.name}}</a>
+          </ng-template>
         </li>
-        <li routerLinkActive="active"><a [routerLink]="['/admin/others']">Others</a></li>
       </ul>
     </div>
   </nav>

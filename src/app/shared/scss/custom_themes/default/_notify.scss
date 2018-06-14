@@ -55,6 +55,15 @@
   background-color: #ff5722;
 }
 
+.notify-success {
+  background-color: #4CAF50;
+  p {
+    margin: 10px;
+    color: #000;
+    text-align: justify;
+  }
+}
+
 .notify-content {
   max-width: 380px;
   width: 80%;
