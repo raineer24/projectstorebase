@@ -90,8 +90,15 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrders(seller_id: number): Observable<any> {
-    return this.http.get(`v1/ordersellers?sellerId=${seller_id}`)
+  getSellerOrders(seller_id: number, filters = {minDate: 0, maxDate: 0, status: ''}): Observable<any> {
+    let filterText = [];
+    if(filters.minDate && filters.maxDate) {
+      filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
+    }
+    if(filters.status) {
+      filterText.push(`orderStatus=${filters.status}`);
+    }
+    return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -106,11 +113,23 @@ export class AdminService {
   getTransactions(): Observable<Transaction[]> {
     return this.http.get(`v1/transactions`)
       .map((res: Response) => res.json())
-      
+
       .catch(res => Observable.empty());
-      
+
   }
 
+  /**
+   *
+   *
+   * @returns {Observable<Logs[]>}
+   *
+   * @memberof AdminService
+   */
+  getLogs(): Observable<Transaction[]> {
+    return this.http.get(`v1/logs`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
 
   /**
    *
@@ -125,6 +144,71 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @param {data} any
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateSellerOrder(data: any): Observable<any> {
+    return this.http.put(`v1/ordersellers/${data.id}`, data)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {data} any
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  takeOrder(data: any): Observable<any> {
+    return this.http.put(`v1/ordersellers/takeOrder/${data.id}`, data)
+      .map((res: Response) => {
+        const response = res.json();
+        if(response.message.indexOf('Updated') == -1) {
+          let errMsg = '';
+          switch (response.message) {
+            case 'User Assigned':
+              errMsg = 'You are already handling an order';
+              break;
+            case 'Already Taken':
+              errMsg = 'Order already handled by another user';
+              break;
+            case 'Failed':
+              errMsg = 'Server error. Please try again later.';
+              break;
+          }
+          this.http.loading.next({
+            loading: false,
+            hasError: true,
+            hasMsg: errMsg,
+            reset: 4500
+          });
+        };
+        return response;
+      }).catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {data} any
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  forwardToDelivery(data: any): Observable<any> {
+    return this.http.put(`v1/ordersellers/forwardToDelivery/${data.orderseller.id}`, data)
+      .map((res: Response) => {
+        const response = res.json();
+        return response;
+      }).catch(res => Observable.empty());
+  }
 
   /**
    *
@@ -170,7 +254,7 @@ export class AdminService {
    * @memberof AdminService
    */
   getOrderItems(order_id: number): Observable<any> {
-    return this.http.get(`v1/orderItem?limit=1000&orderId=${order_id}`)
+    return this.http.get(`v1/orderItem?limit=1000&orderId=${order_id}&addCategory=true`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -182,12 +266,8 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  updateOrderItem(orderItem: any): Observable<any> {
-    return this.http.put(`v1/orderItem/${orderItem.orderItem_id}`, {
-      "item_id": orderItem.id,
-      "quantity": orderItem.finalQuantity,
-      "status": orderItem.status
-    }
+  updateOrderItem(data: any): Observable<any> {
+    return this.http.put(`v1/orderItem/${data.id}`, data
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());
@@ -200,11 +280,8 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  finalizeOrder(order: any): Observable<any> {
-    return this.http.put(`v1/order/${order.order_id}/seller`, {
-      "finalTotalQuantity": order.finalQuantity,
-      "finalItemTotal": order.finalTotal
-    }
+  updateOrder(data: any): Observable<any> {
+    return this.http.put(`v1/order/${data.id}/seller`, data
     ).map((res) => {
       return res.json();
     }).catch(err => Observable.empty());
@@ -256,6 +333,53 @@ export class AdminService {
         // });
       }
       return result;
+    });
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getTimeSlot(): Observable<any> {
+    return this.http.get(
+      `v1/timeslotorder`
+    ).map((res: Response) => {
+      return res.json();
+    });
+  }
+
+  /**
+   *
+   * @param {Array<any>} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateAllTimeSlots(data: Array<any>): Observable<any> {
+    return this.http.put(
+      `v1/timeslots/all`, data
+    ).map((res: Response) => {
+      const response = res.json();
+      if(response.message.indexOf('Updated') >= 0) {
+        this.http.loading.next({
+          loading: false,
+          isSuccess: true,
+          hasMsg: response.message,
+          reset: 4500
+        });
+      } else {
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: response.message,
+          reset: 4500
+        });
+      }
+
+      return response;
     });
   }
 

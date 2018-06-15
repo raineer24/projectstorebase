@@ -107,9 +107,6 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   finalize() {
-    this.orderSeller.finalTotal = this.itemsTotal;
-    this.orderSeller.finalQuantity = this.itemsQuantity;
-    this.adminService.finalizeOrder(this.orderSeller).subscribe();
   }
 
   recalculate() {

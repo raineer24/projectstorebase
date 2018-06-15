@@ -1,0 +1,149 @@
+<div *ngIf="orderSeller">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/admin','order-assemble']">Orders</a></li>
+    <li class="breadcrumb-item text-primary" aria-current="page">Edit - Order #{{orderSeller.orderNumber}}</li>
+  </ol>
+</nav>
+<div class="margin-bottom-5">
+  <button type="button" class="btn btn-danger btn-lg" [disabled]="itemsConfirmed + itemsUnavailable != orderItems.length" (click)="forwardToDelivery()">Forward to Delivery</button>
+  <button type="button" class="btn btn-default btn-lg " (click)="cancelModal.show()">Cancel Order</button>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body row small">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <b>Item(s) Processed: {{itemsConfirmed + itemsUnavailable}} of {{orderItems.length}}</b><br>
+      Confirmed Item(s): {{itemsConfirmed}}<br>
+      Unavailable Item(s): {{itemsUnavailable}}<br>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      Item(s) Quantity: {{itemsQuantity}}<br>
+      Item(s) Sub-total: ₱ {{itemsTotal | number:'1.2-2'}} <br>
+    </div>
+  </div>
+</div>
+<div class="container-fluid item-list">
+  <div *ngFor="let item of orderItems; let i = index;" class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6">
+      <div class="item-img-container">
+        <i *ngIf="item.status == 'confirmed'" class="glyphicon glyphicon-ok-sign text-success"></i>
+        <i *ngIf="item.status == 'unavailable'" class="glyphicon glyphicon-remove-sign text-danger"></i>
+        <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
+      </div>
+      <div class="form-group">
+        <b>{{item.name}}</b>
+        <br>
+        <small class="category">{{ item.category1Name }} / {{ item.category2Name }}</small>
+      </div>
+    	<div class="form-group">
+    	  <label class="control-label">Price:</label>
+        <input type="number" class="text-center form-control final-price" [value]="item.finalPrice | number:'1.2-2'" (blur)="updatePrice($event, item)" />
+    	</div>
+      <div class="form-group">
+        <label class="control-label">Quantity:</label>
+        <div class="item-quantity">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.finalQuantity == MIN_VALUE || item.status != 'ordered'">
+                <span class="glyphicon glyphicon-minus"> </span>
+              </button>
+            </span>
+            <input type="number" class="text-center form-control" [value]="item.finalQuantity" disabled/>
+             <span class="input-group-btn">
+               <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.finalQuantity == item.quantity || item.status != 'ordered'">
+                 <span class="glyphicon glyphicon-plus"></span>
+               </button>
+             </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Total:</label>
+        <span [ngClass]="{'unavailable': item.status == 'unavailable'}">₱ {{(item.finalPrice * item.finalQuantity) | number:'1.2-2'}}</span>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6">
+      <div *ngIf="item.specialInstructions" class="form-group small">
+        <label class="control-label instructions">Special Instructions:</label>
+        <span>{{ item.specialInstructions }}</span>
+      </div>
+      <div class="form-group">
+        <label class="btn btn-lg btn-success margin-top-5" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="confirmed" (click)="confirm(item)">Confirm</label>
+        <label class="btn btn-lg btn-default margin-top-5" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="unavailable" (click)="unavailable(item)">Unavailable</label>
+        <label class="btn btn-lg btn-default margin-top-5" (click)="reset(item)">Reset</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" bsModal #cancelModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="cancelModal.hide()">&times;</button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="comment">Reason for cancellation:</label>
+          <textarea #cancelReason class="form-control" rows="5"></textarea>
+          <div *ngIf="isCancelReason">
+            <p class="error-message text-danger">{{ 'Please enter your reason' }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="cancelOrder(cancelReason.value)">OK</button>
+        <button type="button" class="btn btn-default" (click)="cancelModal.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Final Quantity</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody class="item-list">
+    <tr *ngFor="let item of orderItems; let i = index;">
+      <td>
+        <div class="item-img-container">
+          <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
+        </div>
+        <div class="item-name">
+          <span [ngClass]="{'unavailable': item.status == 'unavailable'}">{{item.name}}<br>Price: ₱ {{item.price | number:'1.2-2'}}<br>Quantity: {{item.quantity}}</span>
+        </div>
+      </td>
+      <td class="text-uppercase">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.finalQuantity == MIN_VALUE || item.status != 'ordered'">
+              <span class="glyphicon glyphicon-minus"> </span>
+            </button>
+          </span>
+          <input type="number" class="text-center form-control" [value]="item.finalQuantity" disabled/>
+           <span class="input-group-btn">
+             <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.finalQuantity == MAX_VALUE || item.status != 'ordered'">
+               <span class="glyphicon glyphicon-plus"></span>
+             </button>
+           </span>
+        </div>
+      </td>
+      <td class="text-right">
+        <span [ngClass]="{'unavailable': item.status == 'unavailable'}">₱ {{(item.price * item.finalQuantity) | number:'1.2-2'}}</span>
+      </td>
+      <td>
+        <div>
+          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="confirmed" (click)="confirm(item)">Confirm</label>
+          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="unavailable" (click)="unavailable(item)">Unavailable</label>
+          <label class="btn btn-lg btn-default" (click)="reset(item)">Reset</label>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+</div>

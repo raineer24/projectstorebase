@@ -5,7 +5,6 @@
   background-color: #fff;
   height: calc(100vh);
   width: calc(100vw);
-  margin-top: -78px;
 }
 
 .input-container {
@@ -91,4 +90,11 @@ fieldset {
   right: 10px;
   font-weight: 500;
   border-radius: 21px;
+}
+@media screen and (max-width: 767px) {
+  .bg {
+    background: #fff;
+    height: 672px;
+
+  }
 }

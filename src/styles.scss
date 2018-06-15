@@ -25,9 +25,13 @@ body {
   padding-top: 78px;
 }
 @media screen and (max-width: 767px) {
-  body {
-    padding-top: 158px;
-  }
+  
+ body {
+   padding-top: 46px;
+   background: url('/assets/con.png')#fff 30px -169px;
+
+ }
+
 }
 
 section {

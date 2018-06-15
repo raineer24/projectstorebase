@@ -1,0 +1,29 @@
+.stat{
+  cursor: pointer;
+}
+
+.form-inline {
+  .form-group {
+    display: inline-block;
+    margin-bottom: 5px;
+    select.form-control {
+      width: 120px;
+      display: inline-block;
+    }
+    input.form-control {
+      width: 100px;
+      display: inline-block;
+    }
+  }
+}
+
+.caret {
+  position: static;
+  margin-left: 5px;
+}
+
+.filter {
+  margin-top: 5px;
+  margin-bottom: 0;
+  padding: 10px;
+}
