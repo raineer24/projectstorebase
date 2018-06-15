@@ -2,14 +2,20 @@ import { Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
+import { OrderAssemblyComponent } from './order-assembly/order-assembly.component';
+import { OrderAssembleComponent } from './order-assembly/components/order-assemble/order-assemble.component';
+import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
+import { LogsComponent } from './logs/logs.component';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
+import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot.component';
+
 
 export const AdminRoutes = [
   {
@@ -21,11 +27,35 @@ export const AdminRoutes = [
     component: AdminComponent,
     children: [
       {
+        path: 'order-assemble',
+        component: OrderAssemblyComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,6]
+        }
+      },
+      {
+        path: 'order-assemble/edit/:id',
+        component: OrderAssembleComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,6]
+        }
+      },
+      {
+        path: 'order-assemble/view/:id',
+        component: OrderDeliverComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [2,6]
+        }
+      },
+      {
         path: 'orders',
         component: OrdersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,5]
+          expectedRole: [5,6]
         }
       },
       {
@@ -33,7 +63,7 @@ export const AdminRoutes = [
         component: OrderDetailsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,5]
+          expectedRole: [5,6]
         }
       },
       {
@@ -41,7 +71,7 @@ export const AdminRoutes = [
         component: ViewOrderComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,5]
+          expectedRole: [5,6]
         }
       },
       {
@@ -49,7 +79,15 @@ export const AdminRoutes = [
         component: UsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5]
+          expectedRole: [1,6]
+        }
+      },
+      {
+        path: 'logs',
+        component: LogsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole:[1,5]
         }
       },
       {
@@ -57,7 +95,7 @@ export const AdminRoutes = [
         component: UsersEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5]
+          expectedRole: [1,6]
         }
       },
       {
@@ -65,17 +103,25 @@ export const AdminRoutes = [
         component: TransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [3,5]
+          expectedRole: [3,6]
         }
       },
-      { 
-        path: 'print-transaction', 
+      {
+        path: 'print-transaction',
         component: PrintTransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [3,5]
+          expectedRole: [3,6]
         }
-      }
+      },
+      {
+        path: 'tools/manage-timeslot',
+        component: ManageTimeslotComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [5,6]
+        }
+      },
     ],
     canActivate: [AdminGuardService]
   }

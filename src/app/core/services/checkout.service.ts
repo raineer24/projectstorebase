@@ -181,6 +181,7 @@ export class CheckoutService {
           order.billingAddress01 = '';
           order.deliveryDate = '';
           order.status = 'cart';
+          order.seller_id = 1; // TODO: refer to actual seller ID
           return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
         })
     });
@@ -551,6 +552,9 @@ export class CheckoutService {
         message = "Please enter a valid coupon.";
         break;
       case 'giftcert':
+        message = msg;
+        break;
+      case 'pbuvoucher':
         message = msg;
         break;
     }

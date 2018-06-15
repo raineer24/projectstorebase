@@ -40,7 +40,6 @@ export class OrdersComponent implements OnInit {
             ordernum: res[key].number
           });
         }
-
       }
       if(this.orderKeyContainer.length > 1) {
         if(this.orderKeyContainer[0].number === 0) {
@@ -62,6 +61,8 @@ export class OrdersComponent implements OnInit {
           this.withStarFeedBack.push(order['ordernum']);
           localStorage.setItem('orderwithFB',JSON.stringify(this.withStarFeedBack));
         }
+      } else {
+        rating => Observable.empty();
       }
     });
   }

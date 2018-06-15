@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    document.body.classList.add('admin-body');
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin';
     this.loginForm = this.fb.group({
       'username': ['', Validators.required],
@@ -48,7 +49,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.loginSubs = this.adminService.login(data).subscribe(res => {
         if (res.message == 'Found') {
-          this.router.navigate([this.returnUrl]);
+          if(res.role_id == 2) {
+            this.router.navigate(['/admin/order-assemble']);
+          } else {
+            this.router.navigate([this.returnUrl]);
+          }
+
         }
       });
     } else {
