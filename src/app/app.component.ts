@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { CheckoutService } from './core/services/checkout.service';
 import { AuthService } from './core/services/auth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ProductActions } from './product/actions/product-actions';
 import * as moment from 'moment';
@@ -19,12 +19,13 @@ export class AppComponent implements OnInit, OnDestroy {
   currentUrl: string;
   currentStep: string;
   checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment', '/checkout/confirm'];
-  homeUrls = ['/', '/item']
+  homeUrls = ['/', '/item'];
+  innerWidth: any;
   name: string;
   show: boolean;
   mobile: boolean = false;
   errorMessage:string;
-  private password = '1';
+  private password = 'OmgLogin18!';
   private passwordList = [
     '7v5az5r1fn',
     '5clsg0ae6r',
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.currentUrl = e.url;
         this.findCurrentStep(this.currentUrl);
         window.scrollTo(0, 0);
+        this.onResize(event);
       });
 
   }
@@ -81,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
     (!this.name == !this.password)
     this.errorMessage = this.name;
   }
+  
 
   ngOnInit() {
     this.authService.checkSessionPersistence();
@@ -91,6 +94,8 @@ export class AppComponent implements OnInit, OnDestroy {
       });
     this.store.dispatch(this.actions.getAllProducts());
     this.store.dispatch(this.actions.getAllTaxonomies());
+    
+    console.log(this.innerWidth);
   }
 
   isHomeRoute() {
@@ -109,16 +114,26 @@ export class AppComponent implements OnInit, OnDestroy {
   
 
   isAdminRoute() {
-    if (!this.currentUrl) {
-      return false;
-    }
+    
     if (this.currentUrl.indexOf('/admin') >= 0) {
       return true;
     } else {
       return false;
     }
   }
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+    console.log(this.innerWidth);
+   
+    if (this.currentUrl.indexOf('/admin') !== 0) {
+      console.log(this.currentUrl);
+      if (this.innerWidth < 768) { // 768px portrait
+        window.location.href = 'https://aminoacids.io'
+      }
+    }
+    console.log(this.currentUrl);
+  }
   private findCurrentStep(currentRoute) {
     const currRouteFragments = currentRoute.split('/');
     const length = currRouteFragments.length;
