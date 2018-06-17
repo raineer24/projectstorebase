@@ -129,7 +129,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.currentUrl.indexOf('/admin') !== 0) {
       console.log(this.currentUrl);
       if (this.innerWidth < 768) { // 768px portrait
-        window.location.href = 'https://aminoacids.io'
+        window.location.href = 'https://ohmygrocery.com'
       }
     }
     console.log(this.currentUrl);
