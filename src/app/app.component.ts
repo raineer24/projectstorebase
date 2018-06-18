@@ -1,12 +1,34 @@
-import { getAuthStatus } from './auth/reducers/selectors';
-import { AppState } from './interfaces';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import { CheckoutService } from './core/services/checkout.service';
-import { AuthService } from './core/services/auth.service';
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { ProductActions } from './product/actions/product-actions';
+import {
+  getAuthStatus
+} from './auth/reducers/selectors';
+import {
+  AppState
+} from './interfaces';
+import {
+  Store
+} from '@ngrx/store';
+import {
+  Subscription
+} from 'rxjs/Subscription';
+import {
+  CheckoutService
+} from './core/services/checkout.service';
+import {
+  AuthService
+} from './core/services/auth.service';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener
+} from '@angular/core';
+import {
+  Router,
+  NavigationEnd
+} from '@angular/router';
+import {
+  ProductActions
+} from './product/actions/product-actions';
 import * as moment from 'moment';
 
 @Component({
@@ -24,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   name: string;
   show: boolean;
   mobile: boolean = false;
-  errorMessage:string;
+  errorMessage: string;
   private password = 'OmgLogin18!';
   private passwordList = [
     '7v5az5r1fn',
@@ -60,9 +82,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService,
     private checkoutService: CheckoutService,
-    private store: Store<AppState>,
+    private store: Store < AppState > ,
     private actions: ProductActions
-    ) {
+  ) {
     router
       .events
       .filter(e => e instanceof NavigationEnd)
@@ -83,19 +105,18 @@ export class AppComponent implements OnInit, OnDestroy {
     (!this.name == !this.password)
     this.errorMessage = this.name;
   }
-  
+
 
   ngOnInit() {
     this.authService.checkSessionPersistence();
     this.store.select(getAuthStatus)
-    .subscribe(() => {
+      .subscribe(() => {
         this.orderSub$ = this.checkoutService.fetchCurrentOrder()
           .subscribe();
       });
     this.store.dispatch(this.actions.getAllProducts());
     this.store.dispatch(this.actions.getAllTaxonomies());
-    
-    console.log(this.innerWidth);
+
   }
 
   isHomeRoute() {
@@ -105,16 +126,16 @@ export class AppComponent implements OnInit, OnDestroy {
     const index = this.homeUrls.indexOf(this.currentUrl);
     if (index >= 0) {
       return true;
-    } else if (this.currentUrl.indexOf('/item/') >= 0){
+    } else if (this.currentUrl.indexOf('/item/') >= 0) {
       return true;
     } else {
       return false;
     }
   }
-  
+
 
   isAdminRoute() {
-    
+
     if (this.currentUrl.indexOf('/admin') >= 0) {
       return true;
     } else {
@@ -124,15 +145,15 @@ export class AppComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.innerWidth = window.innerWidth;
-    console.log(this.innerWidth);
-   
+
+
     if (this.currentUrl.indexOf('/admin') !== 0) {
-      console.log(this.currentUrl);
+
       if (this.innerWidth < 768) { // 768px portrait
         window.location.href = 'https://ohmygrocery.com'
       }
     }
-    console.log(this.currentUrl);
+
   }
   private findCurrentStep(currentRoute) {
     const currRouteFragments = currentRoute.split('/');
@@ -145,3 +166,4 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 }
+
