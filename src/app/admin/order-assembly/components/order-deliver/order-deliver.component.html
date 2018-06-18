@@ -1,0 +1,53 @@
+<div *ngIf="orderSeller">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/admin','order-assemble']">Orders</a></li>
+      <li class="breadcrumb-item text-primary" aria-current="page">View - Order #{{orderSeller.orderNumber}}</li>
+    </ol>
+  </nav>
+  <div class="margin-bottom-5">
+    <button *ngIf="(orderSeller.status | uppercase) == 'IN-TRANSIT'" type="button" class="btn btn-danger btn-lg" (click)="completeOrder()">Complete Order</button>
+    <button *ngIf="(orderSeller.status | uppercase) == 'IN-TRANSIT'" type="button" class="btn btn-default btn-lg" (click)="returnOrder()">Return Order</button>
+    <button *ngIf="(orderSeller.status | uppercase) == 'RETURNED'" type="button" class="btn btn-default btn-lg" (click)="returnComplete()">Return Complete</button>
+  </div>
+  <div class="panel panel-default ">
+    <div class="panel-heading small"><b>Payment Details</b></div>
+    <div class="panel-body"><small>
+      Grand Total: {{ orderSeller.total | number:'1.2-2' }} <br>
+      Paid: {{ orderSeller.paymentTotal | number:'1.2-2' }} <br></small>
+      Payment Due: {{ orderSeller.adjustmentTotal | number:'1.2-2' }}
+    </div>
+  </div>
+  <div class="panel panel-default small">
+    <div class="panel-heading"><b>Delivery Address</b></div>
+    <div class="panel-body">
+      <address>
+        <strong>{{orderSeller.firstname}} {{orderSeller.lastname}}</strong><br>
+        {{orderSeller.shippingAddress01}}<br>
+        <ng-container *ngIf="orderSeller.shippingAddress02">
+          {{orderSeller.shippingAddress02}}<br>
+        </ng-container>
+        {{orderSeller.city}}, {{orderSeller.country}} {{orderSeller.postalcode}}<br>
+        <abbr title="Mobile Number">M:</abbr> {{orderSeller.phone}}
+        <ng-container *ngIf="orderSeller.landline">
+          <br><abbr title="Phone Number">P:</abbr> {{orderSeller.landline}}
+        </ng-container>
+      </address>
+      <hr>
+      <div>
+        <strong>Special instructions:</strong> {{orderSeller.specialInstructions ? orderSeller.specialInstructions : 'None'}}
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default small">
+    <div class="panel-heading"><b>Items</b></div>
+    <div class="panel-body">
+      <div *ngFor="let item of orderItems; let i = index;" class="row">
+        <p class="col-xs-9">
+          {{item.name}} <i class="small">(Quantity: {{ item.finalQuantity }})</i>
+        </p>
+        <p class="col-xs-3 text-right">₱ {{ (item.finalPrice * item.quantity) | number:'1.2-2'}}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,16 +9,25 @@ import { AdminService } from './services/admin.service';
 })
 export class AdminComponent implements OnInit {
   userData: any;
+  isCollapsed: boolean = true;
   menuItems = [
+    {
+      name: "Assemble Order",
+      routerLink: "/admin/order-assemble",
+      type: 'main',
+      rolesRequired: [2,6],
+    },
     {
       name: "Orders",
       routerLink: "/admin/orders",
-      rolesRequired: [2,5]
+      type: 'main',
+      rolesRequired: [5,6],
     },
     {
       name: "Users",
       routerLink: "/admin/users",
-      rolesRequired: [1,5]
+      type: 'main',
+      rolesRequired: [1,6],
     },
     {
       name: "Partnerbuyer",
@@ -28,8 +37,32 @@ export class AdminComponent implements OnInit {
     {
       name: "Transactions",
       routerLink: "/admin/transactions",
-      rolesRequired: [3,5]
-    }
+      type: 'main',
+      rolesRequired: [3,6]
+    },
+    {
+      name: "Logs",
+      routerLink: "/admin/logs",
+      type: 'main',
+      rolesRequired: [1,5]
+    },
+    {
+      name: "Admin Tools",
+      type: 'label',
+      rolesRequired: [5,6],
+    },
+    {
+      name: "Manage Timeslot",
+      routerLink: "/admin/tools/manage-timeslot",
+      type: 'submenu',
+      rolesRequired: [5,6],
+    },
+    {
+      name: "Others",
+      routerLink: "/admin/others",
+      type: 'main',
+      rolesRequired: [5,6],
+    },
   ]
   constructor(
     private adminService: AdminService,
@@ -44,6 +77,7 @@ export class AdminComponent implements OnInit {
 
   logout(): void {
     this.adminService.logout();
+    this.router.navigate(['/admin/login']);
   }
 
   getMenu(){

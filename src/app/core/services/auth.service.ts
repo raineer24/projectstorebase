@@ -122,6 +122,31 @@ export class AuthService {
    *
    * @memberof AuthService
    */
+  getPartnerBuyerUser(id): Observable<any>{
+    return this.http.get(
+      `v1/user/account/partnerbuyeruser/${id}`)
+      .map((res: Response) => {
+      let data = res.json();
+      return data;
+    } );
+  }
+
+  updatePartnerBuyerUser(data): Observable<any>{
+    console.log(data);
+    return this.http.put(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
+    .map(res => {
+      return res.json();
+    }).catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
   register(data): Observable<any> {
     return this.http.post(
       'v1/user/account/save', data
@@ -320,6 +345,7 @@ export class AuthService {
     // .catch(err => Observable.empty());
     localStorage.removeItem('user');
     localStorage.removeItem('pbu');
+    localStorage.removeItem('PBUser');
     this.store.dispatch(this.actions.logoutSuccess());
     return Observable.empty();
   }

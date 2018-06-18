@@ -56,6 +56,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
             if (isFound)
             {
               localStorage.setItem('pbu','1');
+              this.checkPartnerBuyer = this.authService.getPartnerBuyerUser(user.id).subscribe ( data => {
+                localStorage.setItem('PBUser',JSON.stringify(data));
+              })
             } else {
               localStorage.setItem('pbu','0');
             }

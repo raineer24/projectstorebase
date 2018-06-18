@@ -77,7 +77,6 @@ export class OrdersComponent implements OnInit {
       localStorage.setItem('orderseller',jsonData)
     })
 
-
   }
 
   getOrderItems(orderCode){

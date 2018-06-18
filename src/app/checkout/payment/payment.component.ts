@@ -1,4 +1,5 @@
 import { CheckoutService } from './../../core/services/checkout.service';
+import { AuthService } from './../../core/services/auth.service';
 import { CheckoutActions } from './../actions/checkout.actions';
 import { getOrderId, getShipAddress, getBillAddress, getDeliveryDate, getGiftCerts, getGrandTotal,
   getTotalCartItems, getTotalCartValue, getCartItems, getOrderState, getTotalDiscount, getTotalAmtDue, getTotalAmtPaid } from './../reducers/selectors';
@@ -41,6 +42,7 @@ export class PaymentComponent implements OnInit {
   orderNumber$: Observable<string>;
   orderTotal$: Observable<number>;
   cartTotal$: Observable<number>;
+  pbuDetails$: Subscription;
   transactiondetails$: Subscription;
   cartItems$: Observable<CartItem[]>;
   isAuthenticated$: Observable<boolean>;
@@ -80,8 +82,13 @@ export class PaymentComponent implements OnInit {
   checkedCash: boolean = true;
   checkedPP: boolean = false;
   checkedCC: boolean = false;
+  checkedPBU: boolean = false;
+  PBUcontainer: any;
   availableCredit: number = 0;
+  pEmail: string;
   isPBU: boolean = false;
+  bDisabled: boolean = false;
+  pbuEmail: string = "";
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -90,7 +97,8 @@ export class PaymentComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private checkoutService: CheckoutService,
-    private checkoutAction: CheckoutActions
+    private checkoutAction: CheckoutActions,
+    private authService: AuthService
   ) {
     this.store.select(getOrderId).subscribe(id => this.orderId = id);
     this.store.select(getOrderState).subscribe(status => this.orderStatus = status);
@@ -114,12 +122,21 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.pEmail = "";
     let user = localStorage.getItem('user');
     if(localStorage.getItem('pbu') !== null) {
-      if(localStorage.getItem('pbu') === '1')
+      if(localStorage.getItem('pbu') === '1'){
         this.isPBU = true;
-      else
+        this.PBUcontainer = JSON.parse(localStorage.getItem('PBUser'));
+        this.availableCredit = this.PBUcontainer['balance'];
+        if(this.availableCredit === 0){
+          this.bDisabled = true;
+        } else {
+          this.bDisabled = false;
+        }
+      } else {
         this.isPBU = false;
+      }
     }
     this.voucherIcon = 'glyphicon glyphicon-tag text-default';
     this.gcList = [];
@@ -177,10 +194,6 @@ export class PaymentComponent implements OnInit {
   checkVoucher(){
     if(this.couponCode.length > 2) {
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
-        // if(this.bCouponEntered){
-        //   this.store.dispatch(this.checkoutAction.removeCoupon());
-        //   this.bCouponEntered = false;
-        // }
         if(data.message != null) {
             // this.gErrMsg = 'Invalid coupon or voucher';
             this.voucherIcon = 'glyphicon glyphicon-remove text-danger';
@@ -197,7 +210,6 @@ export class PaymentComponent implements OnInit {
             this.hasErr = false;
             this.voucherCode = this.couponCode;
             this.updateCoupon = this.voucherCode;
-            console.log(this.updateCoupon);
         }
       });
     } else {
@@ -209,7 +221,6 @@ export class PaymentComponent implements OnInit {
 
   applyVoucher(){
     if(!this.hasErr && this.couponCode){
-      console.log('Apply Voucher');
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
         this.discount = Number(data.discount);
         localStorage.setItem('discount',JSON.stringify(this.discount));
@@ -255,7 +266,6 @@ export class PaymentComponent implements OnInit {
   addGiftCert(code){
     let tempList = [];
     let amountPaid = 0;
-    console.log(code.value);
     if(code.value != ''){
       this.totalAmountPaid$ = this.checkoutService.getGC(Number(code.value)).map(data => {
           if(data.message != null) {
@@ -308,13 +318,9 @@ export class PaymentComponent implements OnInit {
   }
 
   removeGC(code){
-    // this.gErrMsg = "GC "+code+" is no longer available!";
-    // this.checkoutService.showErrorMsg('giftcert',this.gErrMsg);
-    console.log('Revalidating GCs');
     let tempList = [];
     console.log(this.gcList);
     // var ctr;
-    console.log("remove gc");
     var index = this.gcList.indexOf(code);
     tempList.push({
       code: code,
@@ -337,6 +343,46 @@ export class PaymentComponent implements OnInit {
 
   updateGCStatus(code){
     this.updategcStatus$ = this.checkoutService.updateGC_status(code).subscribe(data => data);
+  }
+
+  validateOrder(){
+      if(localStorage.getItem('pbu') !== '1'){
+        this.confirmOrder();
+      } else {
+        if(this.checkedPBU){
+          if(this.checkPBUEmail(this.pbuEmail)){
+            let newBal = this.availableCredit - this.totalAmountDue;
+            let pbuData = {
+                useraccount_id: this.PBUcontainer['useraccount_id'],
+                balance: newBal
+            };
+            this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
+              this.confirmOrder();
+            });
+          }
+        } else {
+          this.confirmOrder();
+        }
+      }
+  }
+
+  checkPBUEmail(email): boolean{
+    let ret = false;
+    if(email !== ""){
+      if(email === this.PBUcontainer['email'] ){
+        this.pEmail = email;
+        ret = true;
+      } else {
+        ret = false;
+        this.gErrMsg = "Incorrect work email. Please enter correct work email!";
+        this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
+      }
+    } else {
+      ret = false;
+      this.gErrMsg = "Please enter your work email!";
+      this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
+    }
+    return ret;
   }
 
   confirmOrder(){
@@ -364,6 +410,10 @@ export class PaymentComponent implements OnInit {
     ).mergeMap(res => {
       if(res.message.indexOf('Processed') >= 0) {
         this.router.navigate(['/checkout', 'confirm', orderKey]);
+        let userid = this.PBUcontainer['useraccount_id'];
+        this.authService.getPartnerBuyerUser(userid).subscribe ( data => {
+          localStorage.setItem('PBUser',JSON.stringify(data));
+        });
         return this.checkoutService.updateVoucherStatus(this.voucherCode);
       } else {
         let num = res.message.match(/\d+/g).map(n => parseInt(n));

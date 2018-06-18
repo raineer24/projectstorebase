@@ -23,10 +23,10 @@
             {{order.shippingAddress02}}<br>
           </ng-container>
           {{order.city}}, {{order.country}} {{order.postalcode}}<br>
-          <abbr title="Mobile Number">M:</abbr> {{order.phone}}
-          <ng-container *ngIf="order.landline">
+          <abbr title="Mobile Number">Mobile Number:</abbr> {{order.phone}}
+          <!-- <ng-container *ngIf="order.landline">
             <br><abbr title="Phone Number">P:</abbr> {{order.landline}}
-          </ng-container>
+          </ng-container> -->
         </address>
       </div>
 
@@ -49,7 +49,7 @@
             Total: <span class="text-primary">₱ {{order.grandTotal | number:'1.2-2'}}</span>
           </dt>
           <dt>
-            Timeslot: <span class="text-primary">{{tSlot.datetime | date:'fullDate'}} at {{getTimeSlotLabel(tSlot.timeslot_id)}}</span>
+            <ng-container *ngIf="checkTimeSlot()">Timeslot: <span class="text-primary">{{tSlot.datetime | date:'fullDate'}} at {{getTimeSlotLabel(tSlot.timeslot_id)}}</span></ng-container>
           </dt>
         </dl>
           <ng-container *ngIf="!hasStarFeedback(order.number)"><button class="btn btn-primary btn-feedback" (click)="createFeedBack()">Feedback</button></ng-container>
