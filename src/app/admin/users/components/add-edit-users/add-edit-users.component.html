@@ -1,0 +1,26 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" [routerLink]="['/admin/users']">Users</li>
+    <li class="breadcrumb-item text-primary" aria-current="page">{{ operation }}</li>
+  </ol>
+</nav>
+<form class="form-inline small" [formGroup]="addEditUserForm" (ngSubmit)="onSubmit()" #addEditUserForm="ngForm">
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="username">Username:</label>
+      <input type="text" formControlName="username" class="form-control" placeholder="Username">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="name">Name:</label>
+      <input type="text" formControlName="name" class="form-control" placeholder="Name">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="name">Email:</label>
+      <input type="text" formControlName="email" class="form-control" placeholder="Email">
+    </div>
+  </div>
+</form>

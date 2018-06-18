@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AdminService } from './../services/admin.service';
 
 @Component({
-  selector: 'app-orders',
+  selector: 'app-admin-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })

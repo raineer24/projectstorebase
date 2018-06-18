@@ -31,6 +31,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
+import { AddEditUsersComponent } from './users/components/add-edit-users/add-edit-users.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     ManageTimeslotComponent,
     OrderAssemblyComponent,
     OrderDeliverComponent,
-    OrderAssembleComponent
+    OrderAssembleComponent,
+    AddEditUsersComponent
   ],
   imports: [
     CommonModule,

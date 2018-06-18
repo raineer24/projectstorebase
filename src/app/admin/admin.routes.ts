@@ -7,6 +7,7 @@ import { OrderAssembleComponent } from './order-assembly/components/order-assemb
 import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
 import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
+import { AddEditUsersComponent } from './users/components/add-edit-users/add-edit-users.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
@@ -83,7 +84,15 @@ export const AdminRoutes = [
       },
       {
         path: 'users/edit/:id',
-        component: UsersEditComponent,
+        component: AddEditUsersComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,2,3]
+        }
+      },
+      {
+        path: 'users/add',
+        component: AddEditUsersComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRole: [1,2,3]
