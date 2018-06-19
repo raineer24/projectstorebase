@@ -221,13 +221,6 @@ export class PaymentComponent implements OnInit {
 
   }
 
-  uncheckCash(event){
-    console.log(event);
-    if(event){
-      this.bcashChecked = false;
-    }
-  }
-
   applyVoucher(){
     if(!this.hasErr && this.couponCode){
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
