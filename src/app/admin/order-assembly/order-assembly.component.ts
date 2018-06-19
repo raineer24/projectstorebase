@@ -75,7 +75,11 @@ export class OrderAssemblyComponent implements OnInit {
           default: // coordinator
             timeslotOrders = orders.filter(order => order.timeslot_id == `${index + 1}`);
         }
-        this.orders.push({ timeslot: timeslot, orders: timeslotOrders, pending: timeslotOrders.filter(order => order.status.toUpperCase() == 'PENDING').length });
+        this.orders.push({
+          timeslot: timeslot,
+          orders: timeslotOrders,
+          pending: timeslotOrders.filter(order => order.status.toUpperCase() == 'PENDING').length,
+        });
       });
     });
   }
