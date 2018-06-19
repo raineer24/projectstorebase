@@ -29,7 +29,6 @@ export class PbuComponent implements OnInit {
     const pbAcct = 1;
     this.pbuSub = this.adminService.getPBUsers(pbAcct).subscribe(pbu => {
         this.pbuShow = pbu;
-        console.log(this.pbuShow);
     });
   }
 
