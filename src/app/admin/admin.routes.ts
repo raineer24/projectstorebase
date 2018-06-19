@@ -31,7 +31,7 @@ export const AdminRoutes = [
         component: OrderAssemblyComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,6]
+          expectedRole: [1,4,9,10],
         }
       },
       {
@@ -39,7 +39,7 @@ export const AdminRoutes = [
         component: OrderAssembleComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,6]
+          expectedRole: [1,4,9,10],
         }
       },
       {
@@ -47,7 +47,7 @@ export const AdminRoutes = [
         component: OrderDeliverComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [2,6]
+          expectedRole: [1,4,9,10]
         }
       },
       {

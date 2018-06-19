@@ -31,6 +31,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
 
 
@@ -67,6 +68,7 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     BsDropdownModule.forRoot(),
     CustomModalModule,
     BsDatepickerModule.forRoot(),
+    TabsModule.forRoot(),
   ],
   exports: [
     AdminComponent

@@ -4,7 +4,7 @@
       <li class="breadcrumb-item text-primary" aria-current="page">Orders</li>
     </ol>
   </nav>
-  <div class="options">
+  <!-- <div class="options">
     <div class="small">Filters: Status = {{ selectedValue }}, Date Range = {{ fromDate | date:'shortDate' }} - {{ toDate | date:'shortDate' }}</div>
     <div>
       <button type="button" class="btn btn-default btn-sm" (click)="showFilter = !showFilter">Change Filter<i class="caret"></i></button>
@@ -17,14 +17,7 @@
           <label>Status:</label>
           <select class="form-control btn-sm" [(ngModel)]="selectedValue" name="status">
             <option value="ALL" selected>ALL</option>
-            <option value="PENDING">PENDING</option>
-            <option value="IN-PROGRESS">IN-PROGRESS</option>
-            <option value="ASSEMBLED">ASSEMBLED</option>
-            <option value="IN-TRANSIT">IN-TRANSIT</option>
-            <option value="COMPLETE">COMPLETE</option>
-            <option value="CANCELLED">CANCELLED</option>
-            <option value="RETURNED">RETURNED</option>
-            <option value="RETURNED-COMPLETE">RETURNED-COMPLETE</option>
+            <option *ngFor="let status of statusArray" [value]="status">{{ status }}</option>
           </select>
         </div>
         <div class="form-group">
@@ -37,27 +30,49 @@
         <button type="button" class="btn btn-default btn-sm" (click)="applyFilter()">Apply Filter</button>
       </form>
     </div>
+  </div> -->
+  <div>
+    <form class="form-inline small">
+      <div class="form-group">
+        <label>Status:</label>
+        <select class="form-control btn-sm" [(ngModel)]="selectedValue" name="status" (change)="refresh()">
+          <option value="ALL" selected>ALL</option>
+          <option *ngFor="let status of statusArray" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+    </form>
   </div>
   <br>
   <div>
-    <div *ngFor="let order of orders; let i = index" class="panel panel-default">
-      <div class="panel-body row">
-        <div class="col-xs-12 col-sm-8">
-          Order Number: <b><span class="text-primary">{{order.orderNumber}}</span></b><br>
-          <small>
-            Date Ordered: <span>{{ order.dateCreated | date:'short' }}</span><br>
-            Status: <b><span class="text-primary">{{ order.status | uppercase }}</span></b><br>
-            <span *ngIf="order.sellerAccountName">Handled By: <b>{{ order.sellerAccountName }}</b><br></span>
-            Last Updated On: <span>{{ order.dateUpdated | date:'short' }}</span><br>
-          </small>
+    <tabset>
+      <tab *ngFor="let timeslot of orders; let j = index" [customClass]="timeslot.pending ? 'customTabs pending' : 'customTabs'" [active]="(activeTab == j) ? true: false">
+        <ng-template tabHeading>
+          {{ timeslot.timeslot }}<small *ngIf="timeslot.pending">&nbsp;({{ timeslot.pending }})</small>
+        </ng-template>
+        <div *ngFor="let order of timeslot.orders; let i = index" class="panel panel-default">
+          <div class="panel-body row">
+            <div class="col-xs-12 col-sm-8">
+              Order Number: <b><span class="text-primary">{{order.orderNumber}}</span></b><br>
+              <small>
+                Delivery Date: <span>{{ order.datetime | date: 'short' }}</span><br>
+                Status: <b><span class="text-primary">{{ order.status | uppercase }}</span></b><br>
+                <span *ngIf="order.sellerAccountName">Handled By: <b>{{ order.sellerAccountName }}</b><br></span>
+                Date Ordered: <span>{{ order.dateCreated | date:'short' }}</span><br>
+                Last Updated On: <span>{{ order.dateUpdated | date:'short' }}</span><br>
+              </small>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <button *ngIf="(order.status | uppercase)== 'PENDING'" type="button" class="btn btn-default btn-lg" (click)="takeOrder(order)">TAKE ORDER</button>
+              <button *ngIf="(order.status | uppercase)== 'IN-PROGRESS' && order.assembledBy == userData.id" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/edit',order.id]">CONTINUE</button>
+              <button *ngIf="(order.status | uppercase)== 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" (click)="deliverOrder(order)">DELIVER ORDER</button>
+              <button *ngIf="(order.status | uppercase)!= 'PENDING' && (order.status | uppercase)!= 'IN-PROGRESS' && (order.status | uppercase)!= 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/view',order.id]">VIEW ORDER</button>
+            </div>
+          </div>
         </div>
-        <div class="col-xs-12 col-sm-4">
-          <button *ngIf="(order.status | uppercase)== 'PENDING'" type="button" class="btn btn-default btn-lg" (click)="takeOrder(order)">TAKE ORDER</button>
-          <button *ngIf="(order.status | uppercase)== 'IN-PROGRESS' && order.assembledBy == userData.id" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/edit',order.id]">CONTINUE</button>
-          <button *ngIf="(order.status | uppercase)== 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" (click)="deliverOrder(order)">DELIVER ORDER</button>
-          <button *ngIf="(order.status | uppercase)!= 'PENDING' && (order.status | uppercase)!= 'IN-PROGRESS' && (order.status | uppercase)!= 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/view',order.id]">VIEW ORDER</button>
+        <div *ngIf="!timeslot.orders.length">
+          No orders
         </div>
-      </div>
-    </div>
+      </tab>
+    </tabset>
   </div>
 </div>

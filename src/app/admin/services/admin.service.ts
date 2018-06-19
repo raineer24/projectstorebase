@@ -90,7 +90,7 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrders(seller_id: number, filters = {minDate: 0, maxDate: 0, status: ''}): Observable<any> {
+  getSellerOrders(seller_id: number, filters?: any): Observable<any> {
     let filterText = [];
     if(filters.minDate && filters.maxDate) {
       filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
