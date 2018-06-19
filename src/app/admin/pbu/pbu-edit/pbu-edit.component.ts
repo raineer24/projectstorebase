@@ -22,7 +22,8 @@ export class PbuEditComponent implements OnInit, OnDestroy {
     'name': string,
     'username': string,
     'email': string,
-    'balance': Number,
+    'availablebalance': Number,
+    'outstandingbalance': Number,
     'credit': Number,
     'status': string,
     'dateUpdated': string
@@ -58,12 +59,22 @@ export class PbuEditComponent implements OnInit, OnDestroy {
 
   save(id: number, email: string, credit: number) {
     // console.log(id,email,Number(credit));
-
+    if(email && Number(credit)) {
       this.storePBU = {
         email: email,
         credit: Number(credit),
+        avalablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
       };
-
+    } else if(email && !Number(credit)) {
+      this.storePBU = {
+        email: email,
+      };
+    } else if(!email && Number(credit)) {
+      this.storePBU = {
+        credit: Number(credit),
+        avalablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
+      };
+    }
 
     this.storePBU$ = this.adminService.updatePBU(id,this.storePBU).subscribe();
     console.log(this.storePBU);

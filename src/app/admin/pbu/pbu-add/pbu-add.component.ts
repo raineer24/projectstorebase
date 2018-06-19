@@ -73,7 +73,7 @@ export class PbuAddComponent implements OnInit, OnDestroy {
         if(i !== 0){
           if(!newCsv.includes(item)){
             newCsv.push(item);
-          } 
+          }
         }
       })
       let dArr = [];
@@ -86,7 +86,8 @@ export class PbuAddComponent implements OnInit, OnDestroy {
           email: dArr[1].replace(/'/g,""),
           name: dArr[2].replace(/'/g,""),
           credit: Number(dArr[3]),
-          balance: Number(dArr[4]),
+          availablebalance: Number(dArr[4]),
+          outstandingbalance: 0.00,
           status: dArr[5].replace(/'/g,""),
           useraccount_id: Number(dArr[6]),
           partnerBuyer_id: Number(dArr[7]),
