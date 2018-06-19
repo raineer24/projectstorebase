@@ -10,6 +10,8 @@ import { Transaction } from '../transactions/transactions.component';
 @Injectable()
 export class AdminService {
 
+  hasError: boolean;
+
   constructor(
     private http: HttpService,
     private store: Store<AppState>
@@ -321,7 +323,6 @@ export class AdminService {
    * @memberof AdminService
    */
   updatePBU(id, data): Observable<any> {
-    console.log(data);
     return this.http.put(
       `v1/user/account/partnerbuyeruser/${id}/save`, data
     ).map((res: Response) => {
@@ -346,7 +347,7 @@ export class AdminService {
    * @memberof AdminService
    */
   createPBU(data): Observable<any> {
-    console.log(data);
+    this.hasError = false;
     return this.http.post(
       `v1/user/account/partnerbuyerusers`, data
     ).map((res: Response) => res.json())

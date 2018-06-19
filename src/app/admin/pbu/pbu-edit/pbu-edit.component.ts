@@ -22,16 +22,21 @@ export class PbuEditComponent implements OnInit, OnDestroy {
     'name': string,
     'username': string,
     'email': string,
-    'balance': string,
-    'credit': string
+    'balance': Number,
+    'credit': Number,
+    'status': string,
+    'dateUpdated': string
   };
   storePBU$: Subscription;
   storePBU: any;
+  status: any;
+  pStatus: string;
 
   constructor(
     private fb: FormBuilder,
     // private store: Store<AppState>,
     private adminService: AdminService,
+    private router: Router,
     // private authService : AuthService
   ) { }
 
@@ -43,22 +48,33 @@ export class PbuEditComponent implements OnInit, OnDestroy {
   initForm() {
     this.storePBU = [];
     this.pbuData = JSON.parse(localStorage.getItem('pbuser'));
-    console.log(this.pbuData);
+    this.pStatus = this.pbuData.status;
+    console.log(this.pStatus);
   }
 
   onCancelClick() {
-    history.back();
+    this.router.navigate(['/admin/pbu']);
   }
 
   save(id: number, email: string, credit: number) {
     // console.log(id,email,Number(credit));
-    this.storePBU = {
-      email: email,
-      credit: Number(credit)
-    };
+
+      this.storePBU = {
+        email: email,
+        credit: Number(credit),
+      };
+
 
     this.storePBU$ = this.adminService.updatePBU(id,this.storePBU).subscribe();
     console.log(this.storePBU);
+  }
+
+  setStatusEnabled() {
+    this.pStatus = "enabled";
+  }
+
+  setStatusDisabled() {
+    this.pStatus = "disabled";
   }
 
   ngOnDestroy() {

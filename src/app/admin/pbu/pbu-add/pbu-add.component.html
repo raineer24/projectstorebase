@@ -1,3 +1,6 @@
+<div #loader class="loader" [hidden]="bPBUAdded" id="loader">
+    <span class="loader-text">Loading....</span>
+</div>
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a [routerLink]="['/admin/pbu']" (click)="onCancelClick()">Partner Buyer User</a></li>
@@ -5,6 +8,9 @@
   </ol>
 </nav>
 
-<div>
-  <input #csvInput type="file" id="myFile" accept=".csv" (change)="convertFile(csvInput)">
+<div class="csv-upload">
+  <input #csvInput type="file" id="myFile" accept=".csv" (change)="enableAddBtn(csvInput)">
+</div>
+<div class="create-cancel">
+  <button class="btn btn-danger" (click)="convertFile(csvInput)" [disabled]="bHasFile">Create Users</button><button class="btn btn-danger" (click)="goBack()">Cancel</button>
 </div>

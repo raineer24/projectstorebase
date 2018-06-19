@@ -18,6 +18,7 @@ export class PbuComponent implements OnInit {
   pbuShow: any;
   statusContainer: string[] = [];
   selected: string = "All";
+  storePBU: any;
 
   constructor(
     private adminService: AdminService
@@ -32,13 +33,40 @@ export class PbuComponent implements OnInit {
     });
   }
 
+  isEnabled(id: number): boolean{
+    for(const key in this.pbuShow){
+      if(this.pbuShow[key].id === id){
+        if(this.pbuShow[key].status === "enabled"){
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+  }
+
   filterStatus(status){
 
   }
 
   getOrder(index){
 
+  }
 
+  disablePBU(id: number){
+    this.storePBU = {
+      status: 'disabled'
+    };
+    this.pbuSub = this.adminService.updatePBU(id,this.storePBU).subscribe();
+    this.ngOnInit();
+  }
+
+  enablePBU(id: number){
+    this.storePBU = {
+      status: 'enabled'
+    };
+    this.pbuSub = this.adminService.updatePBU(id,this.storePBU).subscribe();
+    this.ngOnInit();
   }
 
   getPbu(id: number){
@@ -49,11 +77,6 @@ export class PbuComponent implements OnInit {
             return;
         }
       }
-
-  }
-
-  getOrderItems(orderCode){
-
 
   }
 

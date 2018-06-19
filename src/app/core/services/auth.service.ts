@@ -109,7 +109,9 @@ export class AuthService {
       .map((res: Response) => {
       let data = res.json();
       if (data.message == 'Found'){
-        return true;
+        if(data.status == 'enabled'){
+          return true;
+        }
       } else { return false; }
     } );
   }

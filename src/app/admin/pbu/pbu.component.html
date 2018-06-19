@@ -12,8 +12,8 @@
         <th><button class="btn">Employee Name<span class="caret"></span></button></th>
         <th><button class="btn">User name<span class="caret"></span></button></th>
         <th><button class="btn">Email Address<span class="caret"></span></button></th>
-        <th><button class="btn">Balance<span class="caret"></span></button></th>
-        <th><button class="btn">Credit Line<span class="caret"></span></button></th>
+        <th><button class="btn"><span>&#8369;</span>Balance<span class="caret"></span></button></th>
+        <th><button class="btn"><span>&#8369;</span>Credit Line<span class="caret"></span></button></th>
         <th><button class="btn">Status<span class="caret"></span></button></th>
       </tr>
     </thead>
@@ -23,12 +23,18 @@
         <td>{{pbu.name}}</td>
         <td>{{pbu.username}}</td>
         <td>{{pbu.email}}</td>
-        <td>{{pbu.balance}}</td>
-        <td>{{pbu.credit}}</td>
+        <td>{{pbu.balance | number:'1.2-2'}}</td>
+        <td>{{pbu.credit | number:'1.2-2'}}</td>
         <td>{{pbu.status}}</td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/pbu-edit']" (click)="getPbu(pbu.id)">Edit</button>
+            <ng-container *ngIf="isEnabled(pbu.id); else elseBlock">
+              <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/admin/pbu']" (click)="disablePBU(pbu.id)">Disable</button>
+            </ng-container>
+            <ng-template #elseBlock>
+              <button type="button" class="btn btn-success btn-sm" [routerLink]="['/admin/pbu']" (click)="enablePBU(pbu.id)">Enable</button>
+            </ng-template>
             <!-- <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/view-order']" (click)="getOrder(i)">VIEW</button>
             <button type="button" class="btn btn-default btn-sm">FORWARD TO DELIVERY</button>
             <button type="button" class="btn btn-default btn-sm">CANCEL ORDER</button> -->

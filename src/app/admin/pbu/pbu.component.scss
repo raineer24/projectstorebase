@@ -5,8 +5,13 @@
 nav {
   position:relative;
 }
+
 .adduser{
   position: absolute;
   right: 1rem;
   top: 3%;
+}
+
+span .currencySymbol{
+  content: "\20B1";
 }
