@@ -84,7 +84,7 @@ export class PaymentComponent implements OnInit {
   checkedCC: boolean = false;
   checkedPBU: boolean = false;
   PBUcontainer: any;
-  availableCredit: number = 0;
+  availableBalance: number = 0;
   pEmail: string;
   isPBU: boolean = false;
   bDisabled: boolean = false;
@@ -128,8 +128,8 @@ export class PaymentComponent implements OnInit {
       if(localStorage.getItem('pbu') === '1'){
         this.isPBU = true;
         this.PBUcontainer = JSON.parse(localStorage.getItem('PBUser'));
-        this.availableCredit = this.PBUcontainer['balance'];
-        if(this.availableCredit === 0){
+        this.availableBalance = this.PBUcontainer['availablebalance'];
+        if(this.availableBalance === 0){
           this.bDisabled = true;
         } else {
           this.bDisabled = false;
@@ -350,16 +350,15 @@ export class PaymentComponent implements OnInit {
         this.confirmOrder();
       } else {
         if(this.checkedPBU){
-          if(this.checkPBUEmail(this.pbuEmail)){
-            let newBal = this.availableCredit - this.totalAmountDue;
+            let newBal = this.availableBalance - this.totalAmountDue;
             let pbuData = {
                 useraccount_id: this.PBUcontainer['useraccount_id'],
-                balance: newBal
+                availablebalance: Number(newBal),
+                outstandingbalance: Number(this.PBUcontainer['outstandingbalance']) + Number(this.totalAmountDue)
             };
             this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
               this.confirmOrder();
             });
-          }
         } else {
           this.confirmOrder();
         }

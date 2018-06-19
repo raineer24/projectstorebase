@@ -135,7 +135,7 @@ export class AuthService {
 
   updatePartnerBuyerUser(data): Observable<any>{
     console.log(data);
-    return this.http.put(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
+    return this.http.post(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
     .map(res => {
       return res.json();
     }).catch(err => Observable.empty());

@@ -126,11 +126,10 @@
                   </label>
                   <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P2,500.">
                       <i class="glyphicon glyphicon-question-sign"></i>
-                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableCredit | number:'1.2-2'}}</span></button>
+                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableBalance | number:'1.2-2'}}</span></button>
                 </div>
-            <div class="row" *ngIf="checkedPBU">
+            <!-- <div class="row" *ngIf="checkedPBU">
               <div class="col-md-1">
-                <!-- <label>Enter your company email address:</label><span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="checkPBUEmail(pbuemail)">Enter</button></span> -->
               </div>
               <div class="col-md-8">
                 <div class="input-group">
@@ -143,7 +142,7 @@
 
                 </div>
             </div>
-          </div>
+          </div> -->
         </div>
         </ng-container>
 

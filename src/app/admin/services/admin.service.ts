@@ -323,7 +323,7 @@ export class AdminService {
    * @memberof AdminService
    */
   updatePBU(id, data): Observable<any> {
-    return this.http.put(
+    return this.http.post(
       `v1/user/account/partnerbuyeruser/${id}/save`, data
     ).map((res: Response) => {
       let result = res.json();
@@ -348,7 +348,7 @@ export class AdminService {
    */
   createPBU(data): Observable<any> {
     this.hasError = false;
-    return this.http.post(
+    return this.http.put(
       `v1/user/account/partnerbuyerusers`, data
     ).map((res: Response) => res.json())
     .catch(res => Observable.empty());
