@@ -27,6 +27,7 @@ export class PaymentComponent implements OnInit {
   gcForm: FormGroup;
   @ViewChild('gCode') gCode:ElementRef;
   @ViewChild('gc') gc:ElementRef;
+  @ViewChild('cod') cod:ElementRef;
   @Input() discount: number = 0;
   isShowErrMsg: boolean = false;
   customClass: string = "customClass";
@@ -88,6 +89,7 @@ export class PaymentComponent implements OnInit {
   pEmail: string;
   isPBU: boolean = false;
   bDisabled: boolean = false;
+  bcashChecked: boolean;
   pbuEmail: string = "";
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -122,6 +124,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.bcashChecked = true;
     this.pEmail = "";
     let user = localStorage.getItem('user');
     if(localStorage.getItem('pbu') !== null) {
@@ -190,7 +193,6 @@ export class PaymentComponent implements OnInit {
     this.setDefault();
   }
 
-//new voucher validation
   checkVoucher(){
     if(this.couponCode.length > 2) {
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
@@ -217,6 +219,13 @@ export class PaymentComponent implements OnInit {
       this.hasErr = false;
     }
 
+  }
+
+  uncheckCash(event){
+    console.log(event);
+    if(event){
+      this.bcashChecked = false;
+    }
   }
 
   applyVoucher(){
