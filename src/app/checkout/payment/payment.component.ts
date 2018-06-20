@@ -89,6 +89,8 @@ export class PaymentComponent implements OnInit {
   isPBU: boolean = false;
   bDisabled: boolean = false;
   pbuEmail: string = "";
+  userData: any;
+  deliveryDate: any;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -123,7 +125,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     this.pEmail = "";
-    let user = localStorage.getItem('user');
+    this.userData = localStorage.getItem('user');
     if(localStorage.getItem('pbu') !== null) {
       if(localStorage.getItem('pbu') === '1'){
         this.isPBU = true;
@@ -140,26 +142,22 @@ export class PaymentComponent implements OnInit {
     }
     this.voucherIcon = 'glyphicon glyphicon-tag text-default';
     this.gcList = [];
-    if(localStorage.getItem('giftcert') == ''){
+    if (localStorage.getItem('giftcert') == ''){
       this.store.select(getGiftCerts).takeUntil(this.componentDestroyed).subscribe(gc => {
-
-          this.gcList = gc.map(gcert => gcert[0]);
-          if(this.gcList.length) {
-            this.gcQuantity = this.gcList.length;
-            this.checkedGC = true;
-          }
-          this.initForm();
-        });
-
-
-      } else {
-        this.totalAmountPaid$ = this.store.select(getTotalAmtPaid);
-        // let storedData = JSON.parse(localStorage.getItem('giftcert'));
-        this.gcList = JSON.parse(localStorage.getItem('giftcert'));
+        this.gcList = gc.map(gcert => gcert[0]);
+        if (this.gcList.length) {
           this.gcQuantity = this.gcList.length;
           this.checkedGC = true;
-
         }
+        this.initForm();
+      });
+    } else {
+      this.totalAmountPaid$ = this.store.select(getTotalAmtPaid);
+      // let storedData = JSON.parse(localStorage.getItem('giftcert'));
+      this.gcList = JSON.parse(localStorage.getItem('giftcert'));
+      this.gcQuantity = this.gcList.length;
+      this.checkedGC = true;
+    }
 
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalAmount = val - this.totalDiscount;
@@ -178,6 +176,9 @@ export class PaymentComponent implements OnInit {
         this.voucherCode = localStorage.getItem('voucher');
         this.bCouponEntered = true;
       }
+    });
+    this.deliveryDate$.takeUntil(this.componentDestroyed).subscribe(val => {
+      this.deliveryDate = val;
     });
     return this.gcList;
   }
@@ -346,24 +347,24 @@ export class PaymentComponent implements OnInit {
   }
 
   validateOrder(){
-      if(localStorage.getItem('pbu') !== '1'){
-        this.confirmOrder();
-      } else {
-        if(this.checkedPBU){
-          if(this.checkPBUEmail(this.pbuEmail)){
-            let newBal = this.availableCredit - this.totalAmountDue;
-            let pbuData = {
-                useraccount_id: this.PBUcontainer['useraccount_id'],
-                balance: newBal
-            };
-            this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
-              this.confirmOrder();
-            });
-          }
-        } else {
-          this.confirmOrder();
+    if (localStorage.getItem('pbu') !== '1'){
+      this.confirmOrder();
+    } else {
+      if (this.checkedPBU){
+        if(this.checkPBUEmail(this.pbuEmail)){
+          let newBal = this.availableCredit - this.totalAmountDue;
+          let pbuData = {
+            useraccount_id: this.PBUcontainer['useraccount_id'],
+            balance: newBal
+          };
+          this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
+            this.confirmOrder();
+          });
         }
+      } else {
+        this.confirmOrder();
       }
+    }
   }
 
   checkPBUEmail(email): boolean{
@@ -403,23 +404,48 @@ export class PaymentComponent implements OnInit {
       discountTotal: this.discount,
       adjustmentTotal: this.totalAmountDue,
       total: grandTotal,
-      status: 'Pending',
-      gcList: gcArr
+      status: 'pending',
+      gcList: gcArr,
+      useraccount_id: this.userData.id,
     }
-    this.checkoutService.updateOrderPayment(params
-    ).mergeMap(res => {
-      if(res.message.indexOf('Processed') >= 0) {
-        this.router.navigate(['/checkout', 'confirm', orderKey]);
-        let userid = this.PBUcontainer['useraccount_id'];
-        this.authService.getPartnerBuyerUser(userid).subscribe ( data => {
-          localStorage.setItem('PBUser',JSON.stringify(data));
-        });
-        return this.checkoutService.updateVoucherStatus(this.voucherCode);
+    this.checkoutService.setTimeSlotOrder({
+      order_id: this.orderId,
+      timeslot_id: this.deliveryDate.timeslotId,
+      date: this.deliveryDate.date,
+    }).mergeMap(response => {
+      if (response.message.toUpperCase() == 'SAVED') {
+        return this.checkoutService.updateOrderPayment(params).mergeMap(res => {
+          if (res.message.indexOf('Processed') >= 0) {
+            this.router.navigate(['/checkout', 'confirm', orderKey]);
+            if (this.voucherCode) {
+              return this.checkoutService.updateVoucherStatus(this.voucherCode);
+            }
+              return Observable.empty();
+          } else {
+            let num = res.message.match(/\d+/g).map(n => parseInt(n));
+            this.removeGC(num.toString());
+            return Observable.empty();
+          }
+        })
       } else {
-        let num = res.message.match(/\d+/g).map(n => parseInt(n));
-        this.removeGC(num.toString());
+        return Observable.empty();
       }
     }).subscribe();
+
+    // this.checkoutService.updateOrderPayment(params).mergeMap(res => {
+    //   if(res.message.indexOf('Processed') >= 0) {
+    //     this.router.navigate(['/checkout', 'confirm', orderKey]);
+    //     let userid = this.PBUcontainer['useraccount_id'];
+    //     this.authService.getPartnerBuyerUser(userid).subscribe ( data => {
+    //       localStorage.setItem('PBUser',JSON.stringify(data));
+    //     });
+    //     return this.checkoutService.updateVoucherStatus(this.voucherCode);
+    //   } else {
+    //     let num = res.message.match(/\d+/g).map(n => parseInt(n));
+    //     this.removeGC(num.toString());
+    //     return Observable.empty();
+    //   }
+    // }).subscribe();
     localStorage.setItem('giftcert','');
   }
 

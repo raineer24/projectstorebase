@@ -100,8 +100,7 @@ export class CheckoutService {
         let order:any = {};
         order = res.json();
         if(order.id) { console.log("FETCH CURRENT ORDER")
-          return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`
-          ).mergeMap(res2 => {
+          return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`).map(res2 => {
             let cart_items = [], total = 0, total_quantity = 0, discount = 0,
                               amtDue = 0, amtPaid = 0;
             const data = res2.json();
@@ -122,16 +121,20 @@ export class CheckoutService {
             order.paymentTotal = amtPaid.toString();
             order.shippingAddress01 = orderStorage.shipping_address;
             order.billingAddress01 = orderStorage.billing_address;
-
-            return this.http.get(`v1/timeslotorder/${order.id}`
-            ).map(res3 => {
-              const date = res3.json();
-              order.deliveryDate = {
-                date: date.date,
-                timeslotId: date.timeslot_id
-              }
-              return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
-            })
+            order.deliveryDate = {
+              date: '',
+              timeslotId: null,
+            }
+            return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+            // return this.http.get(`v1/timeslotorder/${order.id}`
+            // ).map(res3 => {
+            //   const date = res3.json();
+            //   order.deliveryDate = {
+            //     date: date.date,
+            //     timeslotId: date.timeslot_id
+            //   }
+            //   return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+            // })
           })
         } else { console.log("CREATE NEW ORDER")
           return this.createNewOrder();
@@ -488,15 +491,6 @@ export class CheckoutService {
       const response = res.json();
       if(response.message == 'Slot is full') {
         this.showErrorMsg('timeslot',response.message);
-      } else {
-        const date = {
-          'status': 'pending',
-          'date': {
-            'date': params.date,
-            'timeslotId': params.timeslot_id
-          }
-        }
-        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       }
       return response;
     })
