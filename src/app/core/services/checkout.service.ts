@@ -90,20 +90,17 @@ export class CheckoutService {
   *
   * @memberof CheckoutService
   */
-  fetchCurrentOrder() {
+  fetchCurrentOrder(isAuth: boolean) {
+    const user = JSON.parse(localStorage.getItem('user'));
     const orderStorage = this.getOrderInLocalStorage();
     const orderkey = orderStorage != null ? orderStorage.order_token: null;
     if(orderkey) { console.log("CURRENT ORDER KEY")
-      return this.http.get(`v1/order?orderkey=${orderkey}`
-      // ).map(res => res.json()
-      ).mergeMap(res => {
+      return this.http.get(`v1/order?orderkey=${orderkey}`).mergeMap(res => {
         let order:any = {};
         order = res.json();
         if(order.id) { console.log("FETCH CURRENT ORDER")
-          return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`
-          ).mergeMap(res2 => {
-            let cart_items = [], total = 0, total_quantity = 0, discount = 0,
-                              amtDue = 0, amtPaid = 0;
+          return this.http.get(`v1/orderItem?limit=5000&key=${orderkey}`).mergeMap(res2 => {
+            let cart_items = [], total = 0, total_quantity = 0, discount = 0, amtDue = 0, amtPaid = 0;
             const data = res2.json();
             for (let datum of data) {
               cart_items.push(this.formatCartItem(datum));
@@ -112,7 +109,6 @@ export class CheckoutService {
               discount = Number(datum.discount);
               amtDue = Number(datum.totalAmtDue);
               amtPaid = Number(datum.totalAmtPaid);
-
             }
             order.cartItems =  cart_items;
             order.totalQuantity = total_quantity.toString();
@@ -120,11 +116,25 @@ export class CheckoutService {
             order.discount = discount.toString();
             order.adjustmentTotal= amtDue.toString();
             order.paymentTotal = amtPaid.toString();
-            order.shippingAddress01 = orderStorage.shipping_address;
-            order.billingAddress01 = orderStorage.billing_address;
-
-            return this.http.get(`v1/timeslotorder/${order.id}`
-            ).map(res3 => {
+            if (isAuth && user.id != order.useraccount_id) {
+              order.firstname = '';
+              order.lastname = '';
+              order.email = '';
+              order.phone = '';
+              order.shippingAddress01 = '';
+              order.shippingAddress02 = '';
+              order.city = '';
+              order.country = '';
+              order.postalcode = '';
+              order.specialInstructions = '';
+              order.billingAddress01 = '';
+              order.billingAddress02 = '';
+              order.billCity = '';
+              order.billCountry = '';
+              order.billPostalcode = '';
+              order.useraccount_id = user.id;
+            }
+            return this.http.get(`v1/timeslotorder/${order.id}`).map(res3 => {
               const date = res3.json();
               order.deliveryDate = {
                 date: date.date,
@@ -166,8 +176,6 @@ export class CheckoutService {
           this.setOrderTokenInLocalStorage({
             order_id: orderId,
             order_token: orderkey,
-            shipping_address: '',
-            billing_address: ''
           });
 
           let order: any = {};
@@ -376,7 +384,8 @@ export class CheckoutService {
               'city': params.city,
               'postalcode': params.postalcode,
               'country': params.country,
-              'specialInstructions': params.specialInstructions
+              'specialInstructions': params.specialInstructions,
+              'userAccountId': userId,
             },
             'billingAddress': {
               'billCity': params.billCity,
@@ -387,14 +396,6 @@ export class CheckoutService {
             },
             'status': 'delivery'
           }
-          this.setOrderTokenInLocalStorage(
-            {
-              order_id: this.getOrderId,
-              order_token: orderkey,
-              shipping_address: address.shippingAddress,
-              billing_address: address.billingAddress
-            }
-          )
           this.store.dispatch(this.actions.updateOrderAddressSuccess(address));
           break;
         case 'delivery': console.log("UPDATE DELIVERY")
