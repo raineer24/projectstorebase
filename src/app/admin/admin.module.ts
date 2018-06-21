@@ -19,6 +19,9 @@ import { PrintTransactionsComponent } from './transactions/print-transactions/pr
 import { TransactionsComponent } from './transactions/transactions.component';
 import { SortPipe } from './transactions/transactions.component';
 import { UsersComponent } from './users/users.component';
+import { PbuComponent } from './pbu/pbu.component';
+import { PbuEditComponent } from './pbu/pbu-edit/pbu-edit.component';
+import { PbuAddComponent } from './pbu/pbu-add/pbu-add.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { OrderAssemblyComponent } from './order-assembly/order-assembly.component';
 import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
@@ -40,6 +43,9 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     OrdersComponent,
     ViewOrderComponent,
     UsersComponent,
+    PbuComponent,
+    PbuEditComponent,
+    PbuAddComponent,
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,

@@ -27,6 +27,7 @@ export class PaymentComponent implements OnInit {
   gcForm: FormGroup;
   @ViewChild('gCode') gCode:ElementRef;
   @ViewChild('gc') gc:ElementRef;
+  @ViewChild('cod') cod:ElementRef;
   @Input() discount: number = 0;
   isShowErrMsg: boolean = false;
   customClass: string = "customClass";
@@ -88,6 +89,7 @@ export class PaymentComponent implements OnInit {
   pEmail: string;
   isPBU: boolean = false;
   bDisabled: boolean = false;
+  bcashChecked: boolean;
   pbuEmail: string = "";
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -122,14 +124,15 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.bcashChecked = true;
     this.pEmail = "";
     let user = localStorage.getItem('user');
     if(localStorage.getItem('pbu') !== null) {
       if(localStorage.getItem('pbu') === '1'){
         this.isPBU = true;
         this.PBUcontainer = JSON.parse(localStorage.getItem('PBUser'));
-        this.availableCredit = this.PBUcontainer['balance'];
-        if(this.availableCredit === 0.00){
+        this.availableBalance = this.PBUcontainer['availablebalance'];
+        if(this.availableBalance === 0.00){
           this.bDisabled = true;
         } else {
           this.bDisabled = false;
@@ -190,7 +193,6 @@ export class PaymentComponent implements OnInit {
     this.setDefault();
   }
 
-//new voucher validation
   checkVoucher(){
     if(this.couponCode.length > 2) {
       this.discount$ = this.checkoutService.getvoucher(Number(this.couponCode)).subscribe(data => {
@@ -351,19 +353,22 @@ export class PaymentComponent implements OnInit {
       } else {
         if(this.checkedPBU){
           if(this.availableCredit > this.totalAmountDue){
-              let newBal = Number(this.availableCredit) - Number(this.totalAmountDue);
-              let pbuData = {
+            let newBal = this.availableBalance - this.totalAmountDue;
+            let pbuData = {
                 useraccount_id: this.PBUcontainer['useraccount_id'],
-                balance: newBal
-              };
-              this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
-                this.confirmOrder();
-              });
+                availablebalance: Number(newBal),
+                outstandingbalance: Number(this.PBUcontainer['outstandingbalance']) + Number(this.totalAmountDue)
+            };
+            this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
+              this.confirmOrder();
+            });
           } else {
             this.gErrMsg = "You do not have enough credit for this purchase."
             this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
           }
-
+        } else {
+          this.confirmOrder();
+        }
       }
     }
   }

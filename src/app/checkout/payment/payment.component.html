@@ -108,10 +108,10 @@
           <div class="checkbox">
             <label>
               <ng-container *ngIf="totalAmount > 100; else secondCash">
-                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked >
+                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;checkedPBU=false" (checked)="bcashChecked" >
               </ng-container>
               <ng-template #secondCash>
-                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked disabled>
+                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=falsep;checkedPBU=false;" checked disabled>
               </ng-template>
               <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Cash
             </label>
@@ -121,12 +121,12 @@
             <div #group4 class="partnerVoucher" *ngIf="isPBU">
                 <div class="checkbox">
                   <label>
-                    <input #pbucheckbox type="checkbox" [(ngModel)]="checkedPBU" [disabled]="bDisabled">
+                    <input #pbucheckbox type="checkbox" [(ngModel)]="checkedPBU" [disabled]="bDisabled" (ngModelChange)="checkedCash=false;">
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Employee Voucher
                   </label>
                   <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P2,500.">
                       <i class="glyphicon glyphicon-question-sign"></i>
-                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableCredit | number:'1.2-2'}}</span></button>
+                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableBalance | number:'1.2-2'}}</span></button>
                 </div>
             <!-- <div class="row" *ngIf="checkedPBU">
               <div class="col-md-1">
