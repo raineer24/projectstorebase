@@ -355,7 +355,8 @@ export class PaymentComponent implements OnInit {
         this.confirmOrder();
       } else {
         if(this.checkedPBU){
-          if(this.availableCredit > this.totalAmountDue){
+          console.log(this.availableBalance);
+          if(this.availableBalance > this.totalAmountDue){
             let newBal = this.availableBalance - this.totalAmountDue;
             let pbuData = {
                 useraccount_id: this.PBUcontainer['useraccount_id'],
