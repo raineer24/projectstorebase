@@ -6,6 +6,9 @@ import { OrderAssemblyComponent } from './order-assembly/order-assembly.componen
 import { OrderAssembleComponent } from './order-assembly/components/order-assemble/order-assemble.component';
 import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
 import { UsersComponent } from './users/users.component';
+import { PbuComponent } from './pbu/pbu.component';
+import { PbuEditComponent } from './pbu/pbu-edit/pbu-edit.component';
+import { PbuAddComponent } from './pbu/pbu-add/pbu-add.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
@@ -88,6 +91,30 @@ export const AdminRoutes = [
         canActivate: [RoleGuardService],
         data: {
           expectedRole:[1,2,3]
+        }
+      },
+      {
+        path: 'pbu',
+        component: PbuComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,7]
+        }
+      },
+      {
+        path: 'pbu-edit',
+        component: PbuEditComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,7]
+        }
+      },
+      {
+        path: 'pbu-add',
+        component: PbuAddComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,7]
         }
       },
       {

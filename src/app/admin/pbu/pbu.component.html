@@ -1,0 +1,49 @@
+<div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item text-primary" aria-current="page">Parnter Buyer User Interface</li>
+    </ol>
+    <button id="add-user" name="add-user" class="adduser btn btn-danger" type="button" [routerLink]="['/admin/pbu-add']">Add User</button>
+  </nav>
+  <table class="table table-hover table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th class="theaders" scope="col">ID<span class="caret"></span></th>
+        <th class="theaders" scope="col">Employee Name<span class="caret"></span></th>
+        <th class="theaders" scope="col">User name<span class="caret"></span></th>
+        <th class="theaders" scope="col">Email Address<span class="caret"></span></th>
+        <th class="theadersM" scope="col"><span>&#8369;</span> Available Balance<span class="caret"></span></th>
+        <th class="theadersM" scope="col"><span>&#8369;</span> Outstanding Balance<span class="caret"></span></th>
+        <th class="theadersM" scope="col"><span>&#8369;</span> Credit Line<span class="caret"></span></th>
+        <th class="theaders" scope="col">Status<span class="caret"></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pbu of pbuShow; let i = index">
+        <td class="tdata">{{pbu.id}}</td>
+        <td class="tdata">{{pbu.name}}</td>
+        <td class="tdata">{{pbu.username}}</td>
+        <td class="tdata">{{pbu.email}}</td>
+        <td class="tdataMon">{{pbu.availablebalance | number:'1.2-2'}}</td>
+        <td class="tdataMon">{{pbu.outstandingbalance | number:'1.2-2'}}</td>
+        <td class="tdataMon">{{pbu.credit | number:'1.2-2'}}</td>
+        <td class="tdataStat">{{pbu.status}}</td>
+        <td>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/pbu-edit']" (click)="getPbu(pbu.id)">Edit</button>
+            <ng-container *ngIf="isEnabled(pbu.id); else elseBlock">
+              <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/admin/pbu']" (click)="disablePBU(pbu.id)">Disable</button>
+            </ng-container>
+            <ng-template #elseBlock>
+              <button type="button" class="btn btn-success btn-sm" [routerLink]="['/admin/pbu']" (click)="enablePBU(pbu.id)">Enable</button>
+            </ng-template>
+            <!-- <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/view-order']" (click)="getOrder(i)">VIEW</button>
+            <button type="button" class="btn btn-default btn-sm">FORWARD TO DELIVERY</button>
+            <button type="button" class="btn btn-default btn-sm">CANCEL ORDER</button> -->
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    <!-- <div style="display: none;"><app-view-order [orderedItems] = "orderSub | async"></app-view-order></div> -->
+</div>

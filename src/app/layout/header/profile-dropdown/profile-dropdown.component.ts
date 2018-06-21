@@ -29,6 +29,9 @@ export class ProfileDropdownComponent implements OnInit {
       data => console.log(data)
     );
     window.location.href="./index.html";
+    if(localStorage.getItem('pbuser')){
+      localStorage.removeItem('pbuser');
+    }
   }
 
   showCartPreview(): void {
