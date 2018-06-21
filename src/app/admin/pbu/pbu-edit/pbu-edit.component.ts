@@ -57,21 +57,21 @@ export class PbuEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/pbu']);
   }
 
-  save(id: number, email: string, credit: number) {
+  save(id: Number, email: string, credit: Number) {
     // console.log(id,email,Number(credit));
-    if(email && Number(credit)) {
+    if(email && credit) {
       this.storePBU = {
         email: email,
-        credit: Number(credit),
+        credit: credit,
         avalablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
       };
-    } else if(email && !Number(credit)) {
+    } else if(email && !credit) {
       this.storePBU = {
         email: email,
       };
-    } else if(!email && Number(credit)) {
+    } else if(!email && credit) {
       this.storePBU = {
-        credit: Number(credit),
+        credit: credit,
         avalablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
       };
     }

@@ -20,15 +20,21 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-md-3 control-label" for="balance">Balance <span>&#8369;</span></label>
+      <label class="col-md-3 control-label" for="balance">Available Balance <span>&#8369;</span></label>
       <div class="col-md-6">
-        <input id="balance" name="balance" class="form-control input-md" required="" type="text" value="{{pbuData.balance | number:'1.2-2'}}" disabled>
+        <input #aBal id="aBalance" name="aBalance" class="form-control input-md" required="" type="text" value="{{pbuData.availablebalance}}" disabled>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="balance">Outstanding Balance <span>&#8369;</span></label>
+      <div class="col-md-6">
+        <input #oBal id="oBalance" name="oBalance" class="form-control input-md" required="" type="text" value="{{pbuData.outstandingbalance}}" disabled>
       </div>
     </div>
     <div class="form-group">
       <label class="col-md-3 control-label" for="credit">Credit <span>&#8369;</span></label>
       <div class="col-md-6">
-        <input #credit id="credit" name="credit" class="form-control input-md" required="" type="text" value="{{pbuData.credit | number:'1.2-2'}}">
+        <input #credit id="credit" name="credit" class="form-control input-md" required="" type="text" value="{{pbuData.credit}}">
       </div>
     </div>
 

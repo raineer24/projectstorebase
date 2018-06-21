@@ -86,6 +86,8 @@ export class PaymentComponent implements OnInit {
   checkedPBU: boolean = false;
   PBUcontainer: any;
   availableCredit: number = 0.00;
+  availableBalance: number = 0.00;
+  outstandingBalance: number = 0.00;
   pEmail: string;
   isPBU: boolean = false;
   bDisabled: boolean = false;
@@ -370,8 +372,6 @@ export class PaymentComponent implements OnInit {
         } else {
           this.confirmOrder();
         }
-      } else {
-        this.confirmOrder();
       }
     }
 
@@ -416,7 +416,6 @@ export class PaymentComponent implements OnInit {
       gcList: gcArr,
       useraccount_id: this.userData.id,
     }
-<<<<<<< Updated upstream
     this.checkoutService.setTimeSlotOrder({
       order_id: this.orderId,
       timeslot_id: this.deliveryDate.timeslotId,
@@ -428,44 +427,17 @@ export class PaymentComponent implements OnInit {
             this.router.navigate(['/checkout', 'confirm', orderKey]);
             if (this.voucherCode) {
               return this.checkoutService.updateVoucherStatus(this.voucherCode);
-            }
+            } else {
               return Observable.empty();
+            }
           } else {
             let num = res.message.match(/\d+/g).map(n => parseInt(n));
             this.removeGC(num.toString());
             return Observable.empty();
           }
         })
-=======
-    this.checkoutService.updateOrderPayment(params
-    ).mergeMap(res => {
-      if(res.message.indexOf('Processed') >= 0) {
-        this.router.navigate(['/checkout', 'confirm', orderKey]);
-        let userid = this.PBUcontainer['useraccount_id'];
-        // this.authService.getPartnerBuyerUser(userid).subscribe ( data => {
-        //   localStorage.setItem('PBUser',JSON.stringify(data));
-        // });
-        return this.checkoutService.updateVoucherStatus(this.voucherCode);
->>>>>>> Stashed changes
-      } else {
-        return Observable.empty();
       }
     }).subscribe();
-
-    // this.checkoutService.updateOrderPayment(params).mergeMap(res => {
-    //   if(res.message.indexOf('Processed') >= 0) {
-    //     this.router.navigate(['/checkout', 'confirm', orderKey]);
-    //     let userid = this.PBUcontainer['useraccount_id'];
-    //     this.authService.getPartnerBuyerUser(userid).subscribe ( data => {
-    //       localStorage.setItem('PBUser',JSON.stringify(data));
-    //     });
-    //     return this.checkoutService.updateVoucherStatus(this.voucherCode);
-    //   } else {
-    //     let num = res.message.match(/\d+/g).map(n => parseInt(n));
-    //     this.removeGC(num.toString());
-    //     return Observable.empty();
-    //   }
-    // }).subscribe();
     localStorage.setItem('giftcert','');
   }
 
