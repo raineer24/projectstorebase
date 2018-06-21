@@ -58,7 +58,7 @@ export const AdminRoutes = [
         component: OrdersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [5,6]
+          expectedRole: [1,2,6]
         }
       },
       {
@@ -66,7 +66,7 @@ export const AdminRoutes = [
         component: OrderDetailsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [5,6]
+          expectedRole: [1,2,6]
         }
       },
       {
@@ -74,7 +74,7 @@ export const AdminRoutes = [
         component: ViewOrderComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [5,6]
+          expectedRole: [1,2,6]
         }
       },
       {
@@ -82,7 +82,7 @@ export const AdminRoutes = [
         component: UsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,6]
+          expectedRole: [1,2,3]
         }
       },
       {
@@ -90,7 +90,7 @@ export const AdminRoutes = [
         component: LogsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole:[1,5]
+          expectedRole:[1,2,3]
         }
       },
       {
@@ -122,7 +122,7 @@ export const AdminRoutes = [
         component: UsersEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,6]
+          expectedRole: [1,2,3]
         }
       },
       {
@@ -130,7 +130,7 @@ export const AdminRoutes = [
         component: TransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [3,6]
+          expectedRole: [1,5]
         }
       },
       {
@@ -138,7 +138,7 @@ export const AdminRoutes = [
         component: PrintTransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [3,6]
+          expectedRole: [1,5]
         }
       },
       {
@@ -146,7 +146,7 @@ export const AdminRoutes = [
         component: ManageTimeslotComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [5,6]
+          expectedRole: [1,2]
         }
       },
     ],
