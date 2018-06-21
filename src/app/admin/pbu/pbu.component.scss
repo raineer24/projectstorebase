@@ -1,0 +1,40 @@
+.stat{
+  cursor: pointer;
+}
+
+nav {
+  position:relative;
+}
+
+.adduser{
+  position: absolute;
+  right: 1rem;
+  top: 3%;
+}
+
+span .currencySymbol{
+  content: "\20B1";
+}
+
+.theaders{
+  text-align: center;
+}
+
+.theadersM{
+  text-align: right;
+}
+
+.tdata{
+  font-size: small;
+  text-align: left;
+}
+
+.tdataMon{
+  font-size: small;
+  text-align: right;
+}
+
+.tdataStat{
+  font-size: small;
+  text-align: center;
+}
