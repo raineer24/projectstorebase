@@ -374,7 +374,6 @@ export class PaymentComponent implements OnInit {
         this.confirmOrder();
       }
     }
-  }
 
   checkPBUEmail(email): boolean{
     let ret = false;
@@ -417,6 +416,7 @@ export class PaymentComponent implements OnInit {
       gcList: gcArr,
       useraccount_id: this.userData.id,
     }
+<<<<<<< Updated upstream
     this.checkoutService.setTimeSlotOrder({
       order_id: this.orderId,
       timeslot_id: this.deliveryDate.timeslotId,
@@ -436,6 +436,17 @@ export class PaymentComponent implements OnInit {
             return Observable.empty();
           }
         })
+=======
+    this.checkoutService.updateOrderPayment(params
+    ).mergeMap(res => {
+      if(res.message.indexOf('Processed') >= 0) {
+        this.router.navigate(['/checkout', 'confirm', orderKey]);
+        let userid = this.PBUcontainer['useraccount_id'];
+        // this.authService.getPartnerBuyerUser(userid).subscribe ( data => {
+        //   localStorage.setItem('PBUser',JSON.stringify(data));
+        // });
+        return this.checkoutService.updateVoucherStatus(this.voucherCode);
+>>>>>>> Stashed changes
       } else {
         return Observable.empty();
       }
