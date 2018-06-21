@@ -44,7 +44,6 @@ export class OrderAssembleComponent implements OnInit {
         const orderSellerId = params['id'];
         this.adminService.getSellerOrder(orderSellerId).mergeMap(orderSeller => {
           this.orderSeller = orderSeller;
-          console.log(orderSeller);
           if(orderSeller.selleraccount_id != this.userData.id) {
             this.router.navigate(['/admin/order-assemble']);
             return Observable.empty();
@@ -52,7 +51,7 @@ export class OrderAssembleComponent implements OnInit {
           return this.adminService.getOrderItems(orderSeller.order_id).map(orderItems => {
             // NOTE: TEMPORARY ORDER ID 0
             // return this.adminService.getOrderItems(0).map(orderItems => {
-            this.orderItems = orderItems
+            this.orderItems = orderItems;
             orderItems.forEach((item, index) => {
               item.quantity = Number(item.quantity);
               item.price = Number(item.price);

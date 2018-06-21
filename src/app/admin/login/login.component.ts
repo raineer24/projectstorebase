@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.loginSubs = this.adminService.login(data).subscribe(res => {
         if (res.message == 'Found') {
-          if(res.role_id == 2) {
+          if(res.role_id == 4 || res.role_id == 9 || res.rold_id == 10) {
             this.router.navigate(['/admin/order-assemble']);
           } else {
             this.router.navigate([this.returnUrl]);

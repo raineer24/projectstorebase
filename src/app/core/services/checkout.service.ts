@@ -160,7 +160,8 @@ export class CheckoutService {
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart',
-          useraccount_id: userId
+          useraccount_id: userId,
+          seller_id: 1, //TODO: use partner buyer ID
         }).map(newOrder => {
           const orderId = newOrder.json()['id'];
           this.setOrderTokenInLocalStorage({
