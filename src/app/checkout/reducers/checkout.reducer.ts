@@ -55,8 +55,26 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
            } else { _totalAmountPaid = state.totalAmountPaid; }
         }
 
-        _ship_address = payload.shippingAddress01;
-        _bill_address = payload.billingAddress01;
+        _ship_address = {
+          firstname: payload.firstname,
+          lastname: payload.lastname,
+          email: payload.email,
+          phone: payload.phone,
+          shippingAddress01: payload.shippingAddress01,
+          shippingAddress02: payload.shippingAddress02,
+          city: payload.city,
+          country: payload.country,
+          postalcode: payload.postalcode,
+          specialInstructions: payload.specialInstructions,
+          userAccountId: payload.useraccount_id,
+        };;
+        _bill_address = {
+          billingAddress01: payload.billingAddress01,
+          billingAddress02: payload.billingAddress02,
+          billCity: payload.billCity,
+          billCountry: payload.billCountry,
+          billPostalcode: payload.billPostalcode,
+        };
         _orderStatus = payload.status;
         _deliveryDate = payload.deliveryDate;
         _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;

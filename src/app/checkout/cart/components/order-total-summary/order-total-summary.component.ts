@@ -45,29 +45,19 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   placeOrder() {
-      if(this.totalDiscounts == null) { this.totalDiscounts = 0; }
-      this.checkoutService.updateOrder({
-        'status': 'cart',
-        'totalQuantity': this.totalCartItems,
-        'itemTotal': this.totalCartValue,
-        'total': this.grandTotalContainer,
-        'discount':this.totalDiscounts,
-        'adjustmentTotal': this.totalAmtDue
-        }).do(() => {
-          this.router.navigate(['/checkout', 'address']);
-        })
-        .subscribe();
-    // } else {
-    //   this.checkoutService.updateOrder({
-    //     'status': 'cart'
-    //     'totalQuantity': this.totalCartItems,
-    //     'total': this.totalCartValue
-    //   }, 'cart')
-    //     .do(() => {
-    //       this.router.navigate(['/checkout', 'address']);
-    //     })
-    //     .subscribe();
-    // }
+    if (this.totalDiscounts == null) {
+      this.totalDiscounts = 0;
+    }
+    this.checkoutService.updateOrder({
+      status: 'cart',
+      totalQuantity: this.totalCartItems,
+      itemTotal: this.totalCartValue,
+      total: this.grandTotalContainer,
+      discount: this.totalDiscounts,
+      adjustmentTotal: this.totalAmtDue,
+    }).do(() => {
+      this.router.navigate(['/checkout', 'address']);
+    }).subscribe();
   }
 
   ngOnDestroy() {

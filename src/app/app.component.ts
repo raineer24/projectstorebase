@@ -109,11 +109,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authService.checkSessionPersistence();
-    this.store.select(getAuthStatus)
-      .subscribe(() => {
-        this.orderSub$ = this.checkoutService.fetchCurrentOrder()
-          .subscribe();
-      });
+    this.store.select(getAuthStatus).subscribe(isAuth => {
+      this.orderSub$ = this.checkoutService.fetchCurrentOrder(isAuth).subscribe();
+    });
     this.store.dispatch(this.actions.getAllProducts());
     this.store.dispatch(this.actions.getAllTaxonomies());
 
@@ -166,4 +164,3 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 }
-

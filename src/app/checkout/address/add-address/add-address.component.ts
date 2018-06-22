@@ -26,13 +26,14 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   shipAddress$: Observable<any>;
   billAddress$: Observable<any>;
   checkBilling: boolean = false;
-  private componentDestroyed: Subject<any> = new Subject();
+
   prefix: any[] = ['+63'];
   _selectedVal: any[] = ['+63'];
   shipAddressDB: any;
   billAddressDB: any;
   billAddrStore: any;
   userId: number;
+  private componentDestroyed: Subject<any> = new Subject();
   private fieldLabels = {
     firstname: 'First Name',
     lastname: 'Last Name',
@@ -57,7 +58,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private store: Store<AppState>
   ) {
-    let userData = JSON.parse(localStorage.getItem('user'));
+    const userData = JSON.parse(localStorage.getItem('user'));
     this.userId = userData.id;
 
     this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
@@ -83,7 +84,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
           }
         }
 
-        if(storeShipAddr && storeShipAddr.shippingAddress01) {
+        if(storeShipAddr && storeShipAddr.shippingAddress01 && storeShipAddr.userAccountId == this.userId) {
           this.addressForm.patchValue(storeShipAddr);
           if(storeShipAddr.phone) {
             const mobileNumber = storeShipAddr.phone.split(" ");
@@ -99,7 +100,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
           });
         }
 
-        if(storeBillAddr && storeBillAddr.billingAddress01) {
+        if(storeBillAddr && storeBillAddr.billingAddress01 && storeShipAddr.userAccountId == this.userId) {
           this.addressForm.patchValue({'isBilling': true})
           this.addressForm.patchValue(storeBillAddr);
           this.checkBilling = true;
@@ -165,6 +166,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
     if(!hasError) {
       values.phone = this._selectedVal +" "+ values.phone;
+      values['useraccount_id'] = this.userId;
       this.saveAddress(values);
       delete values.isBilling;
       delete values.prefix;

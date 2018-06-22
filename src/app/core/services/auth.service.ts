@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
-import { HttpService } from './http';
-import { AppState } from '../../interfaces';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
+import { HttpService } from './http';
+import { Auth } from '../models/user';
+import { AppState } from '../../interfaces';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { UserActions } from '../../user/actions/user.actions';
-import { Auth } from '../models/user';
+import { CheckoutActions } from '../../checkout/actions/checkout.actions';
+
+
 @Injectable()
 export class AuthService {
 
@@ -23,7 +26,8 @@ export class AuthService {
     private http: HttpService,
     private actions: AuthActions,
     private userActions: UserActions,
-    private store: Store<AppState>
+    private checkoutActions: CheckoutActions,
+    private store: Store<AppState>,
   ) {
 
   }
@@ -134,7 +138,6 @@ export class AuthService {
   }
 
   updatePartnerBuyerUser(data): Observable<any>{
-    console.log(data);
     return this.http.post(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
     .map(res => {
       return res.json();
@@ -154,7 +157,6 @@ export class AuthService {
       'v1/user/account/save', data
     ).map((res: Response) => {
       let response = res.json();
-      console.log(data)
       if (response.message == 'Saved') {
         // Setting token after login
         const d = Date.now();
@@ -367,7 +369,6 @@ export class AuthService {
       }
     ).map((res: Response) => {
       let data = res.json();
-      console.log(data)
       return data;
     });
   }
@@ -408,7 +409,6 @@ export class AuthService {
         localStorage.removeItem('user');
       }
     }
-
   }
 
 }
