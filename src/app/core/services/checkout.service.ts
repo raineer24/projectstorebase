@@ -142,6 +142,22 @@ export class CheckoutService {
               }
               return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
             })
+            // order.shippingAddress01 = orderStorage.shipping_address;
+            // order.billingAddress01 = orderStorage.billing_address;
+            // order.deliveryDate = {
+            //   date: '',
+            //   timeslotId: null,
+            // }
+            // return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+            // // return this.http.get(`v1/timeslotorder/${order.id}`
+            // // ).map(res3 => {
+            // //   const date = res3.json();
+            // //   order.deliveryDate = {
+            // //     date: date.date,
+            // //     timeslotId: date.timeslot_id
+            // //   }
+            // //   return this.store.dispatch(this.actions.fetchCurrentOrderSuccess(order));
+            // // })
           })
         } else { console.log("CREATE NEW ORDER")
           return this.createNewOrder();
@@ -170,7 +186,8 @@ export class CheckoutService {
       return this.http.post('v1/order', {
           orderkey: orderkey,
           status: 'cart',
-          useraccount_id: userId
+          useraccount_id: userId,
+          seller_id: 1, //TODO: use partner buyer ID
         }).map(newOrder => {
           const orderId = newOrder.json()['id'];
           this.setOrderTokenInLocalStorage({
@@ -488,15 +505,6 @@ export class CheckoutService {
       const response = res.json();
       if(response.message == 'Slot is full') {
         this.showErrorMsg('timeslot',response.message);
-      } else {
-        const date = {
-          'status': 'pending',
-          'date': {
-            'date': params.date,
-            'timeslotId': params.timeslot_id
-          }
-        }
-        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       }
       return response;
     })

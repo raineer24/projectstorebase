@@ -1,135 +1,26 @@
-.del-lbl {
-	color: #7e818c;
-	font-size: 12px;
-	padding: 30px 0 15px;
-	font-weight: 600;
-	// font-family: "Whitney-semi-bold";
-}
-.del-options {
-	border: 1px solid #b9f0e5;
-  background-color: #f4fdfb;
-	border-radius: 4px;
-	padding: 15px;
-	.option {
-		.option-name {
-			font-weight: 700;
-			padding-bottom: 5px;
-			// font-family: "Whitney-semi-bold";
-		}
-		.option-rate {
-			font-size: 12px;
-			color: #535766;
-		}
-	}
-}
-.mini-bag-summary {
-	position: relative;
-	padding: none;
-	margin-top: 25px;
-	border-bottom: 1px solid #eaeaec;
-	.items {
-		font-size: 12px;
-		font-weight: 600;
-		// font-family: "Whitney-semi-bold";
-		padding-top: 5px;
-		border-bottom: 1px dotted #d4d5d9;
-		padding-bottom: 5px;
-	}
-	.order-total, .shipping {
-		font-size: 14px;
-		padding-top: 6px;
-		padding-bottom: 20px;
-		height: 22px;
-		position: relative;
-		span {
-			color: #535766;
-		}
-	}
-	.shipping {
-		height: 36px;
-	}
-	.order-total > .value,
-	.shipping > .shipping-fee {
-		position: absolute;
-		right: 0;
-		text-align: right;
-		color: #596062;
-	}
-	.shipping > .c-green {
-		color: #20bd99;
-	}
-}
-.pay-lbl-total {
-	padding: 10px 0;
-	.pay-lbl, .pay-total {
-		font-weight: 600;
-		font-size: 14px;
-		font-family: "Whitney-semi-bold";
-	}
-	.pay-total {
-		float: right;
-	}
-}
-.form-group{
-	width: 100%;
-}
-.btn-group{
-	width: 100%;
-}
-
 .calendar {
-  .row:first-child {
-    text-align: center;
-    margin-bottom: 15px;
-  }
   .row {
-    margin-bottom: 15px;
+		margin: 0 -10px 15px;
     font-weight: 500;
+		&:first-child {
+			text-align: center;
+		}
     div {
       padding: 0 10px;
     }
     div:first-child {
-      padding: 0 0 0 3%;
+      text-align: right;
     }
-    .col-xs-2 {
-      width: 12%;
-    }
-    .col-md-1 {
-      width: 10.9%;
-    }
+		.col-custom {
+			width: 12.5%;
+			float: left;
+			position: relative;
+			min-height: 1px;
+		}
     label {
       padding: 12px 0;
     }
-    .month-label {
-      text-align: center;
-    }
   }
-}
-
-.time-slot 				{  }
-.time-slot input 	 { display:none; }
-.time-slot label 	 {
-  padding:10px 20px;
-  color:#FFF;
-  cursor:pointer;
-  background:#EEE;
-  border-radius:5px;
-	transition:0.3s ease all;
-  -moz-transition:0.3s ease all;
-  -webkit-transition:0.3s ease all;
-}
-.time-slot input:checked ~ label {
-  background:#f2dede;
-  cursor:not-allowed;
-  animation:flashBooked 0.5s ease;
-  -moz-animation:flashBooked 0.5s ease;
-  -webkit-animation:flashBooked 0.5s ease;
-}
-.time-slot input:not(:checked) ~ label {
-  background:#6AB074;
-  animation:flashAvailable 0.5s ease;
-  -moz-animation:flashAvailable 0.5s ease;
-  -webkit-animation:flashAvailable 0.5s ease;
 }
 
 .btn-success-selected {

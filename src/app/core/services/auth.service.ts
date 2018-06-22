@@ -113,7 +113,9 @@ export class AuthService {
       .map((res: Response) => {
       let data = res.json();
       if (data.message == 'Found'){
-        return true;
+        if(data.status == 'enabled'){
+          return true;
+        }
       } else { return false; }
     } );
   }
@@ -136,7 +138,7 @@ export class AuthService {
   }
 
   updatePartnerBuyerUser(data): Observable<any>{
-    return this.http.put(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
+    return this.http.post(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
     .map(res => {
       return res.json();
     }).catch(err => Observable.empty());

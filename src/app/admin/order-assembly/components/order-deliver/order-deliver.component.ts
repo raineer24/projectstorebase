@@ -82,7 +82,7 @@ export class OrderDeliverComponent implements OnInit {
     this.orderSeller.status = 'returned';
     const data = {
       id: this.orderSeller.id,
-      selleraccount_id: 0,
+      selleraccount_id: this.userData.id,
       status: 'returned',
       updatedBy: this.userData.id,
     }

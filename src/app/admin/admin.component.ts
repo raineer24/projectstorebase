@@ -8,6 +8,20 @@ import { AdminService } from './services/admin.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+
+/*
+(1,'EOS Dev'
+(2,'EOS Admin'
+(3,'PS Admin'
+(4,'PS Assembly'0
+5,'PS Finance'
+(6,'PS Management'
+(7,'PB Admin'
+(8,'PB Finance'
+(9,'Partner Seller - Shopper'
+(10,'Partner Seller - Delivery'
+
+*/
   userData: any;
   isCollapsed: boolean = true;
   menuItems = [
@@ -15,48 +29,47 @@ export class AdminComponent implements OnInit {
       name: "Assemble Order",
       routerLink: "/admin/order-assemble",
       type: 'main',
-      rolesRequired: [2,6],
+      rolesRequired: [1,4,9,10],
     },
     {
       name: "Orders",
       routerLink: "/admin/orders",
       type: 'main',
-      rolesRequired: [5,6],
+      rolesRequired: [1,2,3],
     },
     {
       name: "Users",
       routerLink: "/admin/users",
       type: 'main',
-      rolesRequired: [1,6],
+      rolesRequired: [1,2,7],
+    },
+    {
+      name: "Partnerbuyer",
+      routerLink: "/admin/pbu",
+      rolesRequired: [1,7]
     },
     {
       name: "Transactions",
       routerLink: "/admin/transactions",
       type: 'main',
-      rolesRequired: [3,6]
+      rolesRequired: [1,5,8]
     },
     {
       name: "Logs",
       routerLink: "/admin/logs",
       type: 'main',
-      rolesRequired: [1,5]
+      rolesRequired: [1,2,3]
     },
     {
       name: "Admin Tools",
       type: 'label',
-      rolesRequired: [5,6],
+      rolesRequired: [1,2],
     },
     {
       name: "Manage Timeslot",
       routerLink: "/admin/tools/manage-timeslot",
       type: 'submenu',
-      rolesRequired: [5,6],
-    },
-    {
-      name: "Others",
-      routerLink: "/admin/others",
-      type: 'main',
-      rolesRequired: [5,6],
+      rolesRequired: [1,2,],
     },
   ]
   constructor(
