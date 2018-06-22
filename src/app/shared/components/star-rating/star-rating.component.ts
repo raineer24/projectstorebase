@@ -50,27 +50,23 @@ export class StarRatingComponent implements OnInit, OnDestroy {
 
 //get the value of the rating and the user's feedback
   getRating(value){
-    console.log(value);
-    let order = JSON.parse(localStorage.getItem('order'));
-    this.rating['orderkey'] = order.order_token;
+    let order_key = localStorage.getItem('rating_orderKey');
+    this.rating['orderkey'] = order_key;
     this.rating['starCount'] = Number(value);
-    // this.rating['feedback'] = this.userFeedback;
     this.rating['feedbacktype'] = 2;
-    // this.saveRating(this.rating);
   }
 
   sendFeedBack(value: string){
     this.bClose = true;
     this.rating['feedback'] = value;
-    console.log(this.rating);
     this.saveRating(this.rating);
   }
 
 //save the rating to db
   saveRating(rating){
     this.sharedService.createStarRating(rating).subscribe(rating => {
-        console.log(rating);
-        this.sharedService.showThankyou();
+      this.sharedService.showThankyou();
+      localStorage.removeItem('rating_orderKey');
     });
   }
 
