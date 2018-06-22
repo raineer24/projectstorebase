@@ -58,7 +58,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private store: Store<AppState>
   ) {
-    let userData = JSON.parse(localStorage.getItem('user'));
+    const userData = JSON.parse(localStorage.getItem('user'));
     this.userId = userData.id;
 
     this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
@@ -166,6 +166,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
     if(!hasError) {
       values.phone = this._selectedVal +" "+ values.phone;
+      values['useraccount_id'] = this.userId;
       this.saveAddress(values);
       delete values.isBilling;
       delete values.prefix;

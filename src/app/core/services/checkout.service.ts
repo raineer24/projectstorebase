@@ -384,11 +384,7 @@ export class CheckoutService {
    */
   updateOrder(params: any) {
     const orderkey = this.getOrderKey();
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userId = user ? user.id: 0;
-    params['useraccount_id'] = userId;
-    return this.http.put(`v1/order/${orderkey}`,params)
-    .map((res) => {
+    return this.http.put(`v1/order/${orderkey}`, params).map((res) => {
       const order = res.json();
       switch (params.status) {
         case 'cart': console.log("UPDATE CART")
@@ -407,7 +403,7 @@ export class CheckoutService {
               'postalcode': params.postalcode,
               'country': params.country,
               'specialInstructions': params.specialInstructions,
-              'userAccountId': userId,
+              'userAccountId': params.useraccount_id,
             },
             'billingAddress': {
               'billCity': params.billCity,
