@@ -166,10 +166,12 @@ export class AuthService {
           lastName: data.lastName,
           mobileNumber: data.mobileNumber,
           gender: data.gender,
+          email: data.username,
+          username: data.username,
           dataCreated: d,
           dateUpdated: d,
           dateAuthorized: d,
-          dateTime: d
+          dateTime: d,
         });
         this.store.dispatch(this.actions.loginSuccess());
       } else {
@@ -196,7 +198,7 @@ export class AuthService {
    *
    * @memberof AuthService
    */
-  update(id, data): Observable<any> {
+  update(id, data, isMsg = true): Observable<any> {
     return this.http.put(
       `v1/user/account/${ id }/save`, data
     ).map((res: Response) => {
@@ -210,11 +212,13 @@ export class AuthService {
           }
         }
         this.setTokenInLocalStorage(storedData);
-        this.http.loading.next({
-          loading: false,
-          success: true,
-          message: `Profile was successfully saved.`
-        });
+        if (isMsg) {
+          this.http.loading.next({
+            loading: false,
+            success: true,
+            message: `Profile was successfully saved.`
+          });
+        }
       } else {
         // this.http.loading.next({
         //   loading: false,

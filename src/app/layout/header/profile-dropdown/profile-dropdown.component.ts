@@ -15,13 +15,18 @@ export class ProfileDropdownComponent implements OnInit {
   @ViewChild('cartDropdown') cartDropdown;
   isShowCartPreview: boolean = false;
   cartPreviewSub: Subscription;
+  userData: any;
 
   constructor(
     private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.userData = JSON.parse(localStorage.getItem('user'));
+  }
 
+  ngOnChanges() {
+    this.userData = JSON.parse(localStorage.getItem('user'));
   }
 
   logout() {

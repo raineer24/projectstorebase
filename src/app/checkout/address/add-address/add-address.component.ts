@@ -10,6 +10,7 @@ import { getShipAddress, getBillAddress } from './../../reducers/selectors';
 import { CheckoutActions } from './../../actions/checkout.actions';
 import { getAuthStatus } from './../../../auth/reducers/selectors';
 import { AuthActions } from './../../../auth/actions/auth.actions';
+import { AuthService } from './../../../core/services/auth.service';
 import { CheckoutService } from './../../../core/services/checkout.service';
 import { UserService } from './../../../user/services/user.service';
 
@@ -26,13 +27,12 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   shipAddress$: Observable<any>;
   billAddress$: Observable<any>;
   checkBilling: boolean = false;
-
   prefix: any[] = ['+63'];
   _selectedVal: any[] = ['+63'];
   shipAddressDB: any;
   billAddressDB: any;
   billAddrStore: any;
-  userId: number;
+  userData: any;
   private componentDestroyed: Subject<any> = new Subject();
   private fieldLabels = {
     firstname: 'First Name',
@@ -56,10 +56,10 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     private checkoutService: CheckoutService,
     private addrService: AddressService,
     private userService: UserService,
-    private store: Store<AppState>
+    private authService: AuthService,
+    private store: Store<AppState>,
   ) {
-    const userData = JSON.parse(localStorage.getItem('user'));
-    this.userId = userData.id;
+    this.userData = JSON.parse(localStorage.getItem('user'));
 
     this.store.select(getAuthStatus).takeUntil(this.componentDestroyed).subscribe(auth => {
       this.isAuthenticated = auth;
@@ -69,7 +69,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     combineLatest(
       [this.store.select(getShipAddress),
       this.store.select(getBillAddress),
-      this.userService.getAddress(this.userId)]
+      this.userService.getAddress(this.userData.id)]
     ).subscribe((results) => {
         let storeShipAddr, storeBillAddr, dbAddr;
         [storeShipAddr, storeBillAddr, dbAddr] = results;
@@ -84,7 +84,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
           }
         }
 
-        if(storeShipAddr && storeShipAddr.shippingAddress01 && storeShipAddr.userAccountId == this.userId) {
+        if(storeShipAddr && storeShipAddr.shippingAddress01 && storeShipAddr.userAccountId == this.userData.id) {
           this.addressForm.patchValue(storeShipAddr);
           if(storeShipAddr.phone) {
             const mobileNumber = storeShipAddr.phone.split(" ");
@@ -100,7 +100,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
           });
         }
 
-        if(storeBillAddr && storeBillAddr.billingAddress01 && storeShipAddr.userAccountId == this.userId) {
+        if(storeBillAddr && storeBillAddr.billingAddress01 && storeShipAddr.userAccountId == this.userData.id) {
           this.addressForm.patchValue({'isBilling': true})
           this.addressForm.patchValue(storeBillAddr);
           this.checkBilling = true;
@@ -127,7 +127,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     //   }
     // });
 
-    // this.checkoutService.getAddress(this.userId).subscribe(dbAddr => {
+    // this.checkoutService.getAddress(this.userData.id).subscribe(dbAddr => {
     //   if(dbAddr.length == 1) {
     //     this.shipAddressDB = dbAddr[0];
     //   } else if (dbAddr.length == 2) {
@@ -167,6 +167,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
     if(!hasError) {
       values.phone = this._selectedVal +" "+ values.phone;
       values['useraccount_id'] = this.userId;
+      this.saveUserProfile(values);
       this.saveAddress(values);
       delete values.isBilling;
       delete values.prefix;
@@ -213,16 +214,16 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       postalCode: values.postalcode,
       default: true,
       billing: false,
-      useraccount_id: this.userId.toString()
+      useraccount_id: this.userData.id.toString()
     }
-    if(this.shipAddressDB) {
+    if (this.shipAddressDB) {
       shipAddrData['id'] = this.shipAddressDB.id;
       apiCalls.push(this.userService.updateAddress(shipAddrData));
     } else {
       apiCalls.push(this.userService.saveAddress(shipAddrData));
     }
 
-    if(values.isBilling) {
+    if (values.isBilling) {
       let billAddrData = {
         address01: values.billingAddress01,
         address02: values.billingAddress02,
@@ -231,9 +232,9 @@ export class AddAddressComponent implements OnInit, OnDestroy {
         postalCode: values.billPostalcode,
         default: false,
         billing: true,
-        useraccount_id: this.userId.toString()
+        useraccount_id: this.userData.id.toString()
       }
-      if(this.billAddressDB) {
+      if (this.billAddressDB) {
         billAddrData['id'] = this.billAddressDB.id;
         apiCalls.push(this.userService.updateAddress(billAddrData));
       } else {
@@ -241,10 +242,32 @@ export class AddAddressComponent implements OnInit, OnDestroy {
       }
     }
 
-    for(let i = 0, l = apiCalls.length; i < l; i++) {
+    for (let i = 0, l = apiCalls.length; i < l; i++) {
       setTimeout(() => {
         apiCalls[i].subscribe();
       }, (i * 100))
+    }
+  }
+
+  saveUserProfile(values: any): void {
+    if (!this.userData.firstname || !this.userData.lastname || !this.userData.email || !this.userData.mobileNumber ) {
+      const data = {
+        id: this.userData.id,
+      };
+      if (!this.userData.firstname) {
+        data['firstName'] = values.firstname;
+      }
+      if (!this.userData.firstname) {
+        data['lastName'] = values.lastname;
+      }
+      if (!this.userData.firstname) {
+        data['email'] = values.email;
+      }
+      if (!this.userData.firstname) {
+        data['mobileNumber'] = values.mobileNumber;
+      }
+      console.log
+      this.authService.update(this.userData.id, data, false).subscribe();
     }
   }
 
