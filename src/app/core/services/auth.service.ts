@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
-import { HttpService } from './http';
-import { AppState } from '../../interfaces';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
+import { HttpService } from './http';
+import { Auth } from '../models/user';
+import { AppState } from '../../interfaces';
 import { AuthActions } from '../../auth/actions/auth.actions';
 import { UserActions } from '../../user/actions/user.actions';
-import { Auth } from '../models/user';
+import { CheckoutActions } from '../../checkout/actions/checkout.actions';
+
+
 @Injectable()
 export class AuthService {
 
@@ -23,7 +26,8 @@ export class AuthService {
     private http: HttpService,
     private actions: AuthActions,
     private userActions: UserActions,
-    private store: Store<AppState>
+    private checkoutActions: CheckoutActions,
+    private store: Store<AppState>,
   ) {
 
   }
@@ -109,9 +113,35 @@ export class AuthService {
       .map((res: Response) => {
       let data = res.json();
       if (data.message == 'Found'){
-        return true;
+        if(data.status == 'enabled'){
+          return true;
+        }
       } else { return false; }
     } );
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  getPartnerBuyerUser(id): Observable<any>{
+    return this.http.get(
+      `v1/user/account/partnerbuyeruser/${id}`)
+      .map((res: Response) => {
+      let data = res.json();
+      return data;
+    } );
+  }
+
+  updatePartnerBuyerUser(data): Observable<any>{
+    return this.http.post(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
+    .map(res => {
+      return res.json();
+    }).catch(err => Observable.empty());
   }
 
   /**
@@ -127,7 +157,6 @@ export class AuthService {
       'v1/user/account/save', data
     ).map((res: Response) => {
       let response = res.json();
-      console.log(data)
       if (response.message == 'Saved') {
         // Setting token after login
         const d = Date.now();
@@ -137,10 +166,12 @@ export class AuthService {
           lastName: data.lastName,
           mobileNumber: data.mobileNumber,
           gender: data.gender,
+          email: data.username,
+          username: data.username,
           dataCreated: d,
           dateUpdated: d,
           dateAuthorized: d,
-          dateTime: d
+          dateTime: d,
         });
         this.store.dispatch(this.actions.loginSuccess());
       } else {
@@ -167,7 +198,7 @@ export class AuthService {
    *
    * @memberof AuthService
    */
-  update(id, data): Observable<any> {
+  update(id, data, isMsg = true): Observable<any> {
     return this.http.put(
       `v1/user/account/${ id }/save`, data
     ).map((res: Response) => {
@@ -181,11 +212,13 @@ export class AuthService {
           }
         }
         this.setTokenInLocalStorage(storedData);
-        this.http.loading.next({
-          loading: false,
-          success: true,
-          message: `Profile was successfully saved.`
-        });
+        if (isMsg) {
+          this.http.loading.next({
+            loading: false,
+            success: true,
+            message: `Profile was successfully saved.`
+          });
+        }
       } else {
         // this.http.loading.next({
         //   loading: false,
@@ -320,6 +353,7 @@ export class AuthService {
     // .catch(err => Observable.empty());
     localStorage.removeItem('user');
     localStorage.removeItem('pbu');
+    localStorage.removeItem('PBUser');
     this.store.dispatch(this.actions.logoutSuccess());
     return Observable.empty();
   }
@@ -339,7 +373,6 @@ export class AuthService {
       }
     ).map((res: Response) => {
       let data = res.json();
-      console.log(data)
       return data;
     });
   }
@@ -380,7 +413,6 @@ export class AuthService {
         localStorage.removeItem('user');
       }
     }
-
   }
 
 }

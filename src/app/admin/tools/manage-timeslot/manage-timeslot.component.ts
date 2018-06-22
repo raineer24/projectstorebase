@@ -20,7 +20,6 @@ export class ManageTimeslotComponent implements OnInit {
 
   ngOnInit() {
     this.adminService.getTimeSlot().subscribe(data => {
-      data.splice(7,1);
       this.timeSlotData = data;
       this.timeSlotRows = this.timeSlotData[0].range;
       for(let i = 0, il = data.length; i < il; i++) {

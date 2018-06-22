@@ -1,0 +1,96 @@
+<div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item text-primary" aria-current="page">Logs</li>
+    </ol>
+  </nav>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th><button class="btn">Id<span class="caret"></span></button></th>
+        <th><div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Action - {{selectedA}} <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li><a class="stat" (click)="filterActions('All')">All</a></li>
+            <li *ngFor="let action of actionContainer"><a class="stat" (click)="filterActions(action)">{{action}}</a></li>
+          </ul>
+        </div>
+        </th>
+        <th><button class="btn">Detail<span class="caret"></span></button></th>
+        <th>
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">User - {{selectedU}}<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a class="stat" (click)="filterUsers('All')">All</a></li>
+              <li *ngFor="let user of userContainer"><a class="stat" (click)="filterUsers(user)">{{user}}</a></li>
+            </ul>
+          </div>
+        </th>
+        <th><button class="btn" (click)="openDateRange()">Activity Date<span class="caret"></span></button></th>
+        <!-- <th>
+          <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Status - {{selected}}
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a class="stat" (click)="filterStatus('All')">All</a></li>
+              <li *ngFor="let status of statusContainer"> <a class="stat" (click)="filterStatus(status)">{{status}}</a></li>
+            </ul>
+          </div>
+        </th> -->
+      </tr>
+    </thead>
+    <ng-container *ngIf="bOpenDateRange">
+      <div class="dateRange">
+        From <input #dateFrom id="dateFrom" type="date"> To <input #dateTo id="dateTo" type="date"> <button class="btn btn-primary" (click)="filterDateRange(dateFrom.value, dateTo.value)">Filter</button> <button class="btn btn-primary" (click)="resetFilters()">Reset Filter</button>
+      </div>
+    </ng-container>
+    <!-- <tbody>
+      <tr *ngFor="let log of logsShow let i = index">
+        <td>{{log.id}}</td>
+        <td>{{log.action}}</td>
+        <td class="text-uppercase">{{log.message}}</td>
+        <td>{{log.user}}</td>
+        <td>{{log.datecreated | date:'short'}}</td>
+      </tr>
+    </tbody> -->
+    <ng-container *ngIf="logsShow.length > 0; else elseBlock">
+    <tbody>
+          <tr *ngFor="let item of pagedItems">
+            <td>{{item.id}}</td>
+            <td>{{item.action}}</td>
+            <td class="text-uppercase">{{item.message}}</td>
+            <td>{{item.user}}</td>
+            <td>{{item.datecreated | date:'short'}}</td>
+          </tr>
+        <tr class="text-center">
+            <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(1)">First</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+            </ul>
+      </tr>
+    </tbody>
+  </ng-container>
+  <ng-template #elseBlock>
+      <div class="order-empty">
+        <!-- <div class="empty-order-icon">
+          <img src="assets/omg-01.png"[tSlot]="timeSlot" />
+        </div> -->
+        <div class="empty-order-message">No records found.</div>
+      </div>
+  </ng-template>
+  </table>
+    <!-- <div style="display: none;"><app-view-order [orderedItems] = "orderSub | async"></app-view-order></div> -->
+</div>

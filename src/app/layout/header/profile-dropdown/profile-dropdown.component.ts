@@ -15,13 +15,18 @@ export class ProfileDropdownComponent implements OnInit {
   @ViewChild('cartDropdown') cartDropdown;
   isShowCartPreview: boolean = false;
   cartPreviewSub: Subscription;
+  userData: any;
 
   constructor(
     private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.userData = JSON.parse(localStorage.getItem('user'));
+  }
 
+  ngOnChanges() {
+    this.userData = JSON.parse(localStorage.getItem('user'));
   }
 
   logout() {
@@ -29,6 +34,9 @@ export class ProfileDropdownComponent implements OnInit {
       data => console.log(data)
     );
     window.location.href="./index.html";
+    if(localStorage.getItem('pbuser')){
+      localStorage.removeItem('pbuser');
+    }
   }
 
   showCartPreview(): void {

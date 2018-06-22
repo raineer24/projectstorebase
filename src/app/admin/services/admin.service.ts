@@ -10,6 +10,8 @@ import { Transaction } from '../transactions/transactions.component';
 @Injectable()
 export class AdminService {
 
+  hasError: boolean;
+
   constructor(
     private http: HttpService,
     private store: Store<AppState>
@@ -112,7 +114,7 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrders(seller_id: number, filters = {minDate: 0, maxDate: 0, status: ''}): Observable<any> {
+  getSellerOrders(seller_id: number, filters?: any): Observable<any> {
     let filterText = [];
     if(filters.minDate && filters.maxDate) {
       filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
@@ -138,6 +140,19 @@ export class AdminService {
 
       .catch(res => Observable.empty());
 
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<Logs[]>}
+   *
+   * @memberof AdminService
+   */
+  getLogs(): Observable<Transaction[]> {
+    return this.http.get(`v1/logs`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
   }
 
   /**
@@ -303,10 +318,62 @@ export class AdminService {
    *
    * @memberof AdminService
    */
+  getPBUsers(pb_id: number): Observable<any> {
+    return this.http.get(`v1/user/account/partnerbuyerusers/${pb_id}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+  /**
+   *
+   *
+   * @returns {Observable<user[]>}
+   *
+   * @memberof AdminService
+   */
   getUsers(): Observable<any> {
     return this.http.get(`v1/selleraccounts?limit=50`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updatePBU(id, data): Observable<any> {
+    return this.http.post(
+      `v1/user/account/partnerbuyeruser/${id}/save`, data
+    ).map((res: Response) => {
+      let result = res.json();
+      if (result.message.indexOf('Updated') >= 0) {
+        data.message = result.message;
+        }
+        //this.setTokenInLocalStorage(storedData);
+        this.http.loading.next({
+          message: `Profile was successfully saved.`
+        });
+      return result;
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  createPBU(data): Observable<any> {
+    this.hasError = false;
+    return this.http.put(
+      `v1/user/account/partnerbuyerusers`, data
+    ).map((res: Response) => res.json())
+    .catch(res => Observable.empty());
   }
 
   /**

@@ -9,6 +9,7 @@ import { AdminComponent } from './admin.component';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
 import { LoginComponent } from './login/login.component';
+import { LogsComponent } from './logs/logs.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
@@ -18,6 +19,9 @@ import { PrintTransactionsComponent } from './transactions/print-transactions/pr
 import { TransactionsComponent } from './transactions/transactions.component';
 import { SortPipe } from './transactions/transactions.component';
 import { UsersComponent } from './users/users.component';
+import { PbuComponent } from './pbu/pbu.component';
+import { PbuEditComponent } from './pbu/pbu-edit/pbu-edit.component';
+import { PbuAddComponent } from './pbu/pbu-add/pbu-add.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { OrderAssemblyComponent } from './order-assembly/order-assembly.component';
 import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
@@ -30,6 +34,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
 import { AddEditUsersComponent } from './users/components/add-edit-users/add-edit-users.component';
 
@@ -40,10 +45,14 @@ import { AddEditUsersComponent } from './users/components/add-edit-users/add-edi
     OrdersComponent,
     ViewOrderComponent,
     UsersComponent,
+    PbuComponent,
+    PbuEditComponent,
+    PbuAddComponent,
     UsersEditComponent,
     TransactionsComponent,
     OrderDetailsComponent,
     LoginComponent,
+    LogsComponent,
     LoginComponent,
     PrintTransactionsComponent,
     SortPipe,
@@ -67,6 +76,7 @@ import { AddEditUsersComponent } from './users/components/add-edit-users/add-edi
     BsDropdownModule.forRoot(),
     CustomModalModule,
     BsDatepickerModule.forRoot(),
+    TabsModule.forRoot(),
   ],
   exports: [
     AdminComponent

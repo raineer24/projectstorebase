@@ -108,10 +108,10 @@
           <div class="checkbox">
             <label>
               <ng-container *ngIf="totalAmount > 100; else secondCash">
-                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked >
+                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;checkedPBU=false" (checked)="bcashChecked" >
               </ng-container>
               <ng-template #secondCash>
-                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;" checked disabled>
+                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=falsep;checkedPBU=false;" checked disabled>
               </ng-template>
               <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Cash
             </label>
@@ -121,16 +121,15 @@
             <div #group4 class="partnerVoucher" *ngIf="isPBU">
                 <div class="checkbox">
                   <label>
-                    <input #gc type="checkbox" [(ngModel)]="checkedPV" >
+                    <input #pbucheckbox type="checkbox" [(ngModel)]="checkedPBU" [disabled]="bDisabled" (ngModelChange)="checkedCash=false;">
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Employee Voucher
                   </label>
-                  <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P 8,000.">
+                  <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P2,500.">
                       <i class="glyphicon glyphicon-question-sign"></i>
-                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableCredit | number:'1.2-2'}}</span></button>
+                  </label><button type="button" class="btn btn-light" disabled>Balance  <span class="badge badge-light float-right"> P {{availableBalance | number:'1.2-2'}}</span></button>
                 </div>
-            <div class="row" *ngIf="checkedPV">
+            <!-- <div class="row" *ngIf="checkedPBU">
               <div class="col-md-1">
-                <!-- <label>Enter your company email address:</label> -->
               </div>
               <div class="col-md-8">
                 <div class="input-group">
@@ -138,12 +137,12 @@
                       <span class="input-group-addon">
                         <span class="glyphicon glyphicon-envelope"></span>
                       </span>
-                      <input class="emailaddr" type="text" class="form-control no-spin" placeholder="Your work email address"><span class="input-group-btn"><button class="btn btn-primary" type="button">Enter</button></span>
+                      <input #pbuemail [(ngModel)]="pbuEmail" [disabled]="bValidEmail" class="emailaddr" type="text" id="pbuemail" class="form-control no-spin" placeholder="Your work email address"/>
                     </div>
 
                 </div>
             </div>
-          </div>
+          </div> -->
         </div>
         </ng-container>
 
@@ -238,7 +237,7 @@
         [deliveryDate]="deliveryDate$ | async"></app-review-order>
         <div class="row place-order">
           <div class="col-md-12">
-          <button class="btn btn-block btn-primary" (click)="confirmOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
+          <button class="btn btn-block btn-primary" (click)="validateOrder()"><span class="glyphicon glyphicon-tags"></span> &nbsp;Place order now</button>
           </div>
         </div>
     </div>

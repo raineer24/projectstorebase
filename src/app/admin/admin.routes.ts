@@ -6,11 +6,15 @@ import { OrderAssemblyComponent } from './order-assembly/order-assembly.componen
 import { OrderAssembleComponent } from './order-assembly/components/order-assemble/order-assemble.component';
 import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
 import { UsersComponent } from './users/users.component';
+import { PbuComponent } from './pbu/pbu.component';
+import { PbuEditComponent } from './pbu/pbu-edit/pbu-edit.component';
+import { PbuAddComponent } from './pbu/pbu-add/pbu-add.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { AddEditUsersComponent } from './users/components/add-edit-users/add-edit-users.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
+import { LogsComponent } from './logs/logs.component';
 import { AdminGuardService } from './guards/admin.guard';
 import { RoleGuardService } from './guards/role.guard';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
@@ -31,7 +35,7 @@ export const AdminRoutes = [
         component: OrderAssemblyComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,4]
+          expectedRole: [1,4,9,10],
         }
       },
       {
@@ -39,7 +43,7 @@ export const AdminRoutes = [
         component: OrderAssembleComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,4]
+          expectedRole: [1,4,9,10],
         }
       },
       {
@@ -47,7 +51,7 @@ export const AdminRoutes = [
         component: OrderDeliverComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,4]
+          expectedRole: [1,4,9,10]
         }
       },
       {
@@ -55,7 +59,7 @@ export const AdminRoutes = [
         component: OrdersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5,6]
+          expectedRole: [1,2,6]
         }
       },
       {
@@ -63,7 +67,7 @@ export const AdminRoutes = [
         component: OrderDetailsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5,6]
+          expectedRole: [1,2,6]
         }
       },
       {
@@ -71,7 +75,7 @@ export const AdminRoutes = [
         component: ViewOrderComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5,6]
+          expectedRole: [1,2,6]
         }
       },
       {
@@ -80,6 +84,38 @@ export const AdminRoutes = [
         canActivate: [RoleGuardService],
         data: {
           expectedRole: [1,2,3]
+        }
+      },
+      {
+        path: 'logs',
+        component: LogsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole:[1,2,3]
+        }
+      },
+      {
+        path: 'pbu',
+        component: PbuComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,7]
+        }
+      },
+      {
+        path: 'pbu-edit',
+        component: PbuEditComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,7]
+        }
+      },
+      {
+        path: 'pbu-add',
+        component: PbuAddComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,7]
         }
       },
       {
@@ -103,7 +139,7 @@ export const AdminRoutes = [
         component: TransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5,6]
+          expectedRole: [1,5]
         }
       },
       {
@@ -111,7 +147,7 @@ export const AdminRoutes = [
         component: PrintTransactionsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,5,6]
+          expectedRole: [1,5]
         }
       },
       {
