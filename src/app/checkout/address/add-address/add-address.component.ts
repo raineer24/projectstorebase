@@ -250,7 +250,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   saveUserProfile(values: any): void {
-    if (!this.userData.firstName || !this.userData.lastName || !this.userData.email || !this.userData.mobileNumber ) {
+    if (!this.userData.firstName || !this.userData.lastName || !this.userData.mobileNumber ) {
       const data = {
         id: this.userData.id,
         email: this.userData.email,
