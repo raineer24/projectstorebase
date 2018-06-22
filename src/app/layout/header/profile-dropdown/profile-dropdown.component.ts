@@ -25,6 +25,10 @@ export class ProfileDropdownComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem('user'));
   }
 
+  ngOnChanges() {
+    this.userData = JSON.parse(localStorage.getItem('user'));
+  }
+
   logout() {
     this.authService.logout().subscribe(
       data => console.log(data)
