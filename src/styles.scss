@@ -171,6 +171,12 @@ div.home-container {
   font-size: 1.2em;
 }
 
+.dropdown .dropdown-menu .username {
+  display: block;
+  padding: 3px 20px;
+  color: #fff;
+}
+
 .btn-group.open .dropdown-toggle {
   box-shadow: none;
 }
