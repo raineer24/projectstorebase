@@ -397,6 +397,7 @@ export class PaymentComponent implements OnInit {
 
   confirmOrder(){
     const orderKey = this.checkoutService.getOrderKey();
+    localStorage.setItem('rating_orderKey',orderKey);
     let grandTotal = this.totalAmount;
     if(this.updateCoupon){
       this.updateGCStatus(this.updateCoupon);
