@@ -57,13 +57,14 @@ export class PbuEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/pbu']);
   }
 
-  save(id: Number, email: string, credit: Number) {
+  save(id: Number, email: string, credit: string) {
     // console.log(id,email,Number(credit));
+    credit = credit.replace(/,/g,"");
     if(email && credit) {
       this.storePBU = {
         email: email,
-        credit: credit,
-        avalablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
+        credit: Number(credit),
+        availablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
       };
     } else if(email && !credit) {
       this.storePBU = {
@@ -71,8 +72,8 @@ export class PbuEditComponent implements OnInit, OnDestroy {
       };
     } else if(!email && credit) {
       this.storePBU = {
-        credit: credit,
-        avalablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
+        credit: Number(credit),
+        availablebalance: Number(credit) - Number(this.pbuData.outstandingbalance),
       };
     }
 

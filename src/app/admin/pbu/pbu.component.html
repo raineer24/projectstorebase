@@ -32,10 +32,10 @@
           <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/pbu-edit']" (click)="getPbu(pbu.id)">Edit</button>
             <ng-container *ngIf="isEnabled(pbu.id); else elseBlock">
-              <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/admin/pbu']" (click)="disablePBU(pbu.id)">Disable</button>
+              <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/admin/pbu']" (click)="disablePBU(pbu.useraccount_id)">Disable</button>
             </ng-container>
             <ng-template #elseBlock>
-              <button type="button" class="btn btn-success btn-sm" [routerLink]="['/admin/pbu']" (click)="enablePBU(pbu.id)">Enable</button>
+              <button type="button" class="btn btn-success btn-sm" [routerLink]="['/admin/pbu']" (click)="enablePBU(pbu.useraccount_id)">Enable</button>
             </ng-template>
             <!-- <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/view-order']" (click)="getOrder(i)">VIEW</button>
             <button type="button" class="btn btn-default btn-sm">FORWARD TO DELIVERY</button>

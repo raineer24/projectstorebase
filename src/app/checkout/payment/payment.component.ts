@@ -94,6 +94,7 @@ export class PaymentComponent implements OnInit {
   bcashChecked: boolean;
   pbuEmail: string = "";
   userData: any;
+  selleruser: any;
   deliveryDate: any;
   private componentDestroyed: Subject<any> = new Subject();
 
@@ -159,9 +160,11 @@ export class PaymentComponent implements OnInit {
     } else {
       this.totalAmountPaid$ = this.store.select(getTotalAmtPaid);
       // let storedData = JSON.parse(localStorage.getItem('giftcert'));
-      this.gcList = JSON.parse(localStorage.getItem('giftcert'));
-      this.gcQuantity = this.gcList.length;
-      this.checkedGC = true;
+      if(localStorage.getItem('giftcert')){
+        this.gcList = JSON.parse(localStorage.getItem('giftcert'));
+        this.gcQuantity = this.gcList.length;
+        this.checkedGC = true;
+      }
     }
 
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
@@ -324,8 +327,6 @@ export class PaymentComponent implements OnInit {
 
   removeGC(code){
     let tempList = [];
-    console.log(this.gcList);
-    // var ctr;
     var index = this.gcList.indexOf(code);
     tempList.push({
       code: code,
@@ -365,6 +366,9 @@ export class PaymentComponent implements OnInit {
             };
             this.pbuDetails$ = this.authService.updatePartnerBuyerUser(pbuData).subscribe(data => {
               this.confirmOrder();
+              this.authService.getPartnerBuyerUser(this.PBUcontainer['useraccount_id']).subscribe ( data => {
+                localStorage.setItem('PBUser',JSON.stringify(data));
+              });
             });
           } else {
             this.gErrMsg = "You do not have enough credit for this purchase."
@@ -440,7 +444,12 @@ export class PaymentComponent implements OnInit {
         })
       }
     }).subscribe();
-    localStorage.setItem('giftcert','');
+
+    localStorage.removeItem('giftcert');
+    localStorage.removeItem('voucher');
+    localStorage.removeItem('discount');
+    localStorage.removeItem('currentOrderKey');
+    localStorage.removeItem('currentOrderToken');
   }
 
   ngOnDestroy() {
