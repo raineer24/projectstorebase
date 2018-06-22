@@ -146,10 +146,10 @@ export class DeliveryOptionsComponent implements OnInit {
       this.checkoutService.showErrorMsg('delivery','');
     }
     localStorage.setItem('confirmationPayment','');
-    localStorage.setItem('payment','');
-    localStorage.setItem('voucher','');
-    localStorage.setItem('giftcert','');
-    localStorage.setItem('discount','');
+    // localStorage.setItem('payment','');
+    // localStorage.setItem('voucher','');
+    // localStorage.setItem('giftcert','');
+    // localStorage.setItem('discount','');
   }
 
   ngOnDestroy() {
