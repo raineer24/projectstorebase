@@ -166,7 +166,7 @@ export class AddAddressComponent implements OnInit, OnDestroy {
 
     if(!hasError) {
       values.phone = this._selectedVal +" "+ values.phone;
-      values['useraccount_id'] = this.userId;
+      values['useraccount_id'] = this.userData.id;
       this.saveUserProfile(values);
       this.saveAddress(values);
       delete values.isBilling;
