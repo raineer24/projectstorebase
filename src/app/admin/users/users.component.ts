@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
 
   setUserStatus(user: any): void {
     const data = {
-      id: user.id,
+      id: user.id.toString(),
       enabled: !user.enabled.data[0] ? 1: 0,
     }
     this.adminService.updateUser(data).subscribe(res => {

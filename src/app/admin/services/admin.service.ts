@@ -61,21 +61,93 @@ export class AdminService {
      localStorage.removeItem('selleruser');
    }
 
-  /**
-   *
-   * @param void
-   * @returns void
-   *
-   * @memberof AuthService
-   */
-   updateUser(data): Observable<any> {
-     return this.http.put(
-       `v1/selleraccount/${data.id}/update`, data)
+   /**
+    *
+    *
+    * @param {id} number
+    * @returns {Observable<any>}
+    *
+    * @memberof AdminService
+    */
+   getUser(id: number): Observable<any> {
+     return this.http.get(`v1/selleraccount/${id}/view`)
        .map((res: Response) => {
          const response = res.json();
          return response;
        });
    }
+
+   /**
+    *
+    * @param {any} data
+    * @returns {Observable<any>}
+    *
+    * @memberof AuthService
+    */
+    addUser(data: any): Observable<any> {
+      return this.http.post(`v1/selleraccount/save`, data)
+        .map((res: Response) => {
+          const response = res.json();
+          if(response.message === 'Saved') {
+            this.http.loading.next({
+              loading: false,
+              isSuccess: true,
+              hasMsg: response.message,
+              reset: 4500
+            });
+          } else {
+            this.http.loading.next({
+              loading: false,
+              hasError: true,
+              hasMsg: response.message,
+              reset: 4500
+            });
+          }
+          return response;
+        });
+    }
+
+  /**
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+   updateUser(data: any): Observable<any> {
+     return this.http.put(`v1/selleraccount/${data.id}/save`, data)
+       .map((res: Response) => {
+         const response = res.json();
+         if(response.message.indexOf('Updated') >= 0) {
+           this.http.loading.next({
+             loading: false,
+             isSuccess: true,
+             hasMsg: response.message,
+             reset: 4500
+           });
+         } else {
+           this.http.loading.next({
+             loading: false,
+             hasError: true,
+             hasMsg: response.message,
+             reset: 4500
+           });
+         }
+         return response;
+       });
+   }
+
+   /**
+    *
+    * @param {void}
+    * @returns {Observable<any>}
+    *
+    * @memberof AuthService
+    */
+    getRolesList(): Observable<any> {
+      return this.http.get('v1/selleraccount/roles')
+        .map((res: Response) => res.json());
+    }
 
   /**
    *
@@ -379,42 +451,6 @@ export class AdminService {
   /**
    *
    *
-   * @param {any} data
-   * @returns {Observable<any>}
-   *
-   * @memberof AdminService
-   */
-  update(id, data): Observable<any> {
-    return this.http.put(
-      `v1/user/account/${id}/save`, data
-    ).map((res: Response) => {
-      let result = res.json();
-      if (result.message.indexOf('Updated') >= 0) {
-        let storedData = JSON.parse(localStorage.getItem('user'));
-        data.message = result.message;
-        for (let key in data) {
-          if (data.hasOwnProperty(key)) {
-            storedData[key] = data[key];
-          }
-        }
-        //this.setTokenInLocalStorage(storedData);
-        this.http.loading.next({
-          message: `Profile was successfully saved.`
-        });
-      } else {
-        // this.http.loading.next({
-        //   loading: false,
-        //   hasError: true,
-        //   hasMsg: 'Please enter valid Credentials'
-        // });
-      }
-      return result;
-    });
-  }
-
-  /**
-   *
-   *
    * @returns {Observable<any>}
    *
    * @memberof AdminService
@@ -461,33 +497,18 @@ export class AdminService {
 
   /**
    *
-   *
-   * @param {any} data
-   * @returns {Observable<any>}
+   * @param {string} message
+   * @returns {void}
    *
    * @memberof AdminService
    */
-  view(id): Observable<any> {
-    return this.http.get(
-      `v1/user/account/${id}/view`
-    ).map((res: Response) => {
-      let data = res.json();
-      if (data.message == 'Found') {
-        this.setTokenInLocalStorage(res.json());
-      } else {
-        data.error = true;
-        // this.http.loading.next({
-        //   loading: false,
-        //   hasError: true,
-        //   hasMsg: 'Please enter valid Credentials'
-        // });
-      }
-      return data;
+  showErrorMsg(message: string): void {
+    this.http.loading.next({
+      loading: false,
+      hasError: true,
+      hasMsg: message,
+      reset: 4500
     });
-    // catch should be handled here with the http observable
-    // so that only the inner obs dies and not the effect Observable
-    // otherwise no further login requests will be fired
-    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
   }
 
   /**

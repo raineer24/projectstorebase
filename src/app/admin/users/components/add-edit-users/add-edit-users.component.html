@@ -4,11 +4,11 @@
     <li class="breadcrumb-item text-primary" aria-current="page">{{ operation }}</li>
   </ol>
 </nav>
-<form class="form-inline small" [formGroup]="addEditUserForm" (ngSubmit)="onSubmit()" #addEditUserForm="ngForm">
+<form class="form-inline small" [formGroup]="addEditUserForm" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-sm-12">
       <label for="username">Username:</label>
-      <input type="text" formControlName="username" class="form-control" placeholder="Username">
+      <input type="text" formControlName="username" class="form-control" placeholder="Username" [disabled]="operation === 'Add' ? true: false">
     </div>
   </div>
   <div class="row">
@@ -19,8 +19,23 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <label for="name">Email:</label>
+      <label for="email">Email:</label>
       <input type="text" formControlName="email" class="form-control" placeholder="Email">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label>Role:</label>
+      <select class="form-control" formControlName="role" name="role">
+        <option *ngFor="let role of rolesList" [value]="role.id">{{ role.name }}</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-sm-12">
+        <button class="btn btn-primary">Save</button>
+      </div>
     </div>
   </div>
 </form>

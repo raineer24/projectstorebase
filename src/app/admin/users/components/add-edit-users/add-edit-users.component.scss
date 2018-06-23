@@ -6,3 +6,10 @@ label {
   width: 100px;
   margin-left: 100px;
 }
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+select.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
