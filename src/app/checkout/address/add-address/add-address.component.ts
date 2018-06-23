@@ -250,23 +250,20 @@ export class AddAddressComponent implements OnInit, OnDestroy {
   }
 
   saveUserProfile(values: any): void {
-    if (!this.userData.firstname || !this.userData.lastname || !this.userData.email || !this.userData.mobileNumber ) {
+    if (!this.userData.firstName || !this.userData.lastName || !this.userData.mobileNumber ) {
       const data = {
         id: this.userData.id,
+        email: this.userData.email,
       };
-      if (!this.userData.firstname) {
+      if (!this.userData.firstName) {
         data['firstName'] = values.firstname;
       }
-      if (!this.userData.firstname) {
+      if (!this.userData.lastName) {
         data['lastName'] = values.lastname;
       }
-      if (!this.userData.firstname) {
-        data['email'] = values.email;
+      if (!this.userData.mobileNumber) {
+        data['mobileNumber'] = values.phone;
       }
-      if (!this.userData.firstname) {
-        data['mobileNumber'] = values.mobileNumber;
-      }
-      console.log
       this.authService.update(this.userData.id, data, false).subscribe();
     }
   }
