@@ -390,6 +390,23 @@ export class AuthService {
     localStorage.setItem('user', jsonData);
   }
 
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  getSettings(): Observable<any> {
+    return this.http.get(`v1/settings`)
+    .map((res: Response) => {
+      console.log('get settings');
+      let data = res.json();
+      return data;
+    });
+  }
+
 
   /**
    *
@@ -414,5 +431,6 @@ export class AuthService {
       }
     }
   }
+
 
 }

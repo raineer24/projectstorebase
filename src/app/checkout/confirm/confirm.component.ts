@@ -49,6 +49,9 @@ export class ConfirmComponent implements OnInit {
 
   ngOnInit() {
     //NOTE: TEMPORARY!!! FEES TO BE DECIDED
+    let settings = localStorage.getItem('settings');
+    settings = JSON.parse(settings);
+    console.log(settings);
     this.fees = {
       service: 100,
       delivery: 100,

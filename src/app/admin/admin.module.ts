@@ -15,6 +15,9 @@ import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { OrderDetailsComponent } from './orders/components/order-details/order-details.component';
 import { AdminService } from './services/admin.service';
 import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot.component';
+import { MasterListComponent } from './master-list/master-list.component';
+import { AddItemsComponent } from './master-list/components/add-items/add-items.component';
+import { AddCategoryComponent } from './master-list/components/add-category/add-category.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { SortPipe } from './transactions/transactions.component';
@@ -56,6 +59,9 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     PrintTransactionsComponent,
     SortPipe,
     ManageTimeslotComponent,
+    MasterListComponent,
+    AddItemsComponent,
+    AddCategoryComponent,
     OrderAssemblyComponent,
     OrderDeliverComponent,
     OrderAssembleComponent

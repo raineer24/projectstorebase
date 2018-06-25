@@ -8,11 +8,23 @@ export const initialState: CheckoutState = new CheckoutStateRecord() as Checkout
 
 export const checkoutReducer: ActionReducer<CheckoutState> =
   (state: CheckoutState = initialState, { type, payload }: Action): CheckoutState => {
+    let sFee = 0.00; let dFee = 0.00
+    if(localStorage.getItem('settings')){
+      let settings = localStorage.getItem('settings');
+      settings = JSON.parse(settings);
+      let sf = settings[0];
+      let df = settings[1];
+      sFee = sf[`value`];
+      dFee = df[`value`];
+    } else {
+      sFee = 0.00;
+      dFee = 0.00;
+    }
 
     let _cartItems, _cartItemEntities, _cartItemIds,
         _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue, _totalDiscount = 0, _totalAmountPaid = 0, _totalAmountDue = 0,
-        _ship_address, _bill_address, _giftCerts, _deliveryFee = 100, _serviceFee = 100, _grandTotal = 0,
+        _ship_address, _bill_address, _giftCerts, _deliveryFee = Number(dFee), _serviceFee = Number(sFee), _grandTotal = 0,
         _orderStatus, _orderId, _deliveryDate;
 
     switch (type) {

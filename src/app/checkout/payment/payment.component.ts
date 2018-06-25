@@ -55,8 +55,8 @@ export class PaymentComponent implements OnInit {
   instructionsText: string = '';
   gcQuantity: number = 0;
   gcCode: string;
-  deliveryFee: number = 100.00;
-  serviceFee: number = 100.00
+  deliveryFee: number;
+  serviceFee: number;
   totalAmount: number = 0;
   paymentTotal: number = 0;
   totalPaidAmount: number = 0;
@@ -129,6 +129,8 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    let settings = localStorage.getItem('settings');
+    settings = JSON.parse(settings);
     this.bcashChecked = true;
     this.pEmail = "";
     this.userData = localStorage.getItem('user');

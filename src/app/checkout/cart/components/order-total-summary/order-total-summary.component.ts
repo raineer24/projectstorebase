@@ -16,8 +16,10 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
 
   stateSub$: Subscription;
   orderStatus: string;
-  serviceFee: number = 100.00;
-  deliveryFee: number = 100.00;
+  serviceFee: number;
+  deliveryFee: number;
+  sFee: any;
+  dFee: any;
   @Input() totalCartValue: number;
   @Input() totalCartItems: number;
   @Input() totalDiscounts: number;
@@ -40,7 +42,14 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.grandTotalContainer = this.totalCartValue + this.serviceFee + this.deliveryFee - this.totalDiscounts;
+    let settings = localStorage.getItem('settings');
+    settings = JSON.parse(settings);
+    this.sFee = settings[0];
+    this.dFee = settings[1];
+    this.serviceFee = this.sFee[`value`];
+    this.deliveryFee = this.dFee[`value`];
+    this.grandTotalContainer = Number(this.totalCartValue) + this.serviceFee + this.deliveryFee - this.totalDiscounts;
+    this.grandTotal = this.grandTotalContainer;
     this.totalAmtDue = this.grandTotalContainer;
   }
 
