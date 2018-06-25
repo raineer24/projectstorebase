@@ -6,10 +6,10 @@
   </nav>
 
   <div class="csv-upload">
-    <input #csvInput type="file" id="myFile" accept=".csv" (change)="enableAddBtn(csvInput)">
+    <input #csvInput type="file" id="myFile" accept=".csv">
   </div>
   <div class="create-cancel">
-    <button class="btn btn-danger" (click)="convertFile(csvInput)" [disabled]="bHasFile">Add Categories</button><button class="btn btn-danger" (click)="goBack()">Cancel</button>
+    <button class="btn btn-danger" (click)="convertFile(csvInput)" [disabled]="bHasFile">Add Categories</button><button class="btn btn-danger">Cancel</button>
   </div>
 
 </div>

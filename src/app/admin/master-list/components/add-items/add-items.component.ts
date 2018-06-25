@@ -67,19 +67,19 @@ export class AddItemsComponent implements OnInit {
       newCsv = [];
       for( i = 0; i < this.csvData.length; i++){
         dArr = this.csvData[i].split(',');
-        newCsv.push({
-          username: dArr[0].replace(/'/g,""),
-          email: dArr[1].replace(/'/g,""),
-          name: dArr[2].replace(/'/g,""),
-          credit: Number(dArr[3]),
-          availablebalance: Number(dArr[4]),
-          outstandingbalance: 0.00,
-          status: dArr[5].replace(/'/g,""),
-          useraccount_id: Number(dArr[6]),
-          partnerBuyer_id: Number(dArr[7]),
-          dateCreated: dateCreated,
-          dateUpdated: dateCreated
-        });
+        // newCsv.push({
+        //   username: dArr[0].replace(/'/g,""),
+        //   email: dArr[1].replace(/'/g,""),
+        //   name: dArr[2].replace(/'/g,""),
+        //   credit: Number(dArr[3]),
+        //   availablebalance: Number(dArr[4]),
+        //   outstandingbalance: 0.00,
+        //   status: dArr[5].replace(/'/g,""),
+        //   useraccount_id: Number(dArr[6]),
+        //   partnerBuyer_id: Number(dArr[7]),
+        //   dateCreated: dateCreated,
+        //   dateUpdated: dateCreated
+        // });
       }
       var Obj = {...newCsv};
       // this.createPBUsers(Obj,newCsv.length);
