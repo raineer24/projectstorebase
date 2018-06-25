@@ -83,7 +83,7 @@ export const AdminRoutes = [
         component: UsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,2,3]
+          expectedRole: [1,2,3,7]
         }
       },
       {
@@ -123,7 +123,7 @@ export const AdminRoutes = [
         component: AddEditUsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,2,3]
+          expectedRole: [1,2,3,7]
         }
       },
       {
@@ -131,7 +131,7 @@ export const AdminRoutes = [
         component: AddEditUsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,2,3]
+          expectedRole: [1,2,3,7]
         }
       },
       {

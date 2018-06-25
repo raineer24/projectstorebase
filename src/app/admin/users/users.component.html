@@ -29,12 +29,12 @@
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.role }}</td>
-        <td>{{ user.enabled.data[0] ? 'Enabled': 'Disabled' }}</td>
+        <td>{{ user.enabled ? 'Enabled': 'Disabled' }}</td>
         <td><span *ngIf="user.lastLogin">{{ user.lastLogin | date:'short' }}</span></td>
         <td>
           <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/users/edit/', user.id]">Edit</button>
-            <button type="button" class="btn btn-default btn-sm" (click)="setUserStatus(user)">{{ user.enabled.data[0] ? 'Disable': 'Enable' }}</button>
+            <button type="button" class="btn btn-default btn-sm" (click)="setUserStatus(user)">{{ user.enabled ? 'Disable': 'Enable' }}</button>
             <button type="button" class="btn btn-default btn-sm" (click)="resetPassword(user)">Reset Password</button>
           </div>
         </td>

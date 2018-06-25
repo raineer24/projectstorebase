@@ -4,11 +4,26 @@
     <li class="breadcrumb-item text-primary" aria-current="page">{{ operation }}</li>
   </ol>
 </nav>
-<form class="form-inline small" [formGroup]="addEditUserForm" (ngSubmit)="onSubmit()">
+<form class="form-inline small" [formGroup]="addEditUserForm">
+  <div class="row">
+    <div class="col-sm-12">
+      <ng-container *ngIf="operation === 'Add'">
+        <button class="btn btn-primary" (click)="onSubmit('Add1')">Save and Edit</button>
+        <button class="btn btn-primary" (click)="onSubmit('Add2')">Save and Create New User</button>
+      </ng-container>
+      <ng-container *ngIf="operation === 'Edit'">
+        <button class="btn btn-primary" (click)="onSubmit('Add1')">Save Changes</button>
+        <button class="btn btn-default">Reset Password</button>
+        <button class="btn btn-default">Disable</button>
+      </ng-container>
+    </div>
+  </div>
+  <hr>
   <div class="row">
     <div class="col-sm-12">
       <label for="username">Username:</label>
-      <input type="text" formControlName="username" class="form-control" placeholder="Username" [disabled]="operation === 'Add' ? true: false">
+      <input *ngIf="operation === 'Add'" type="text" formControlName="username" class="form-control" placeholder="Username">
+      <span *ngIf="operation === 'Edit' && userData" class="display-text">{{ userData.username }}</span>
     </div>
   </div>
   <div class="row">
@@ -27,15 +42,15 @@
     <div class="col-sm-12">
       <label>Role:</label>
       <select class="form-control" formControlName="role" name="role">
+        <option *ngIf="operation === 'Add'" value="0" disabled selected hidden>Role</option>
         <option *ngFor="let role of rolesList" [value]="role.id">{{ role.name }}</option>
       </select>
     </div>
   </div>
-  <div>
-    <div class="row">
-      <div class="col-sm-12">
-        <button class="btn btn-primary">Save</button>
-      </div>
+  <div *ngIf="operation === 'Edit' && userData" class="row">
+    <div class="col-sm-12">
+      <label for="email">Status:</label>
+      <span class="display-text">{{ userData.enabled.data[0] ? 'Enabled': 'Disabled' }}</span>
     </div>
   </div>
 </form>

@@ -31,11 +31,11 @@ export class UsersComponent implements OnInit {
   setUserStatus(user: any): void {
     const data = {
       id: user.id.toString(),
-      enabled: !user.enabled.data[0] ? 1: 0,
+      enabled: !user.enabled,
     }
     this.adminService.updateUser(data).subscribe(res => {
       if(res.message.toUpperCase() == 'UPDATED') {
-        user.enabled.data[0] = !user.enabled.data[0] ? 1: 0
+        user.enabled = !user.enabled;
       }
     })
   }

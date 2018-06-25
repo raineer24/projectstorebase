@@ -14,35 +14,56 @@ export class AddEditUsersComponent implements OnInit {
   routeSubscription$: Subscription;
   addEditUserForm: FormGroup;
   userData: any = null;
+  activeUser: any;
   operation: string;
   rolesList: Array<any> = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private adminService: AdminService,
   ) { }
 
   ngOnInit() {
+    this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
     this.initForm();
     this.routeSubscription$ = this.route.params.subscribe((params: any) => {
       this.adminService.getRolesList().subscribe((roleList) => {
-        this.rolesList = roleList;
+        switch (this.activeUser.role_id) {
+          case 1: // EOS Developer
+            this.rolesList = roleList;
+            break;
+          case 2: // EOS Admin
+            this.rolesList = [roleList[1]];
+            break;
+          case 3: // Partner Seller Admin
+            this.rolesList = roleList.filter(role => role.name.indexOf('Partner Seller') >= 0);
+            break;
+          case 7: // Partner Buyer Admin
+            this.rolesList = roleList.filter(role => role.name.indexOf('Partner Buyer') >= 0)
+            break;
+        }
+
         if (params.id) {
           this.operation = 'Edit';
           this.adminService.getUser(params.id).subscribe(userData => {
+            console.log(userData);
             if (userData.message.toUpperCase() == 'FOUND') {
               this.userData = userData;
               this.addEditUserForm.patchValue({
-                username: this.userData.username,
-                name: this.userData.name,
-                email: this.userData.email,
-                role: this.userData.role_id,
+                name: userData.name,
+                email: userData.email,
+                role: userData.role_id,
               });
+              this.addEditUserForm.controls.username.reset({ value: this.userData.username, disabled: true })
             }
           });
         } else {
           this.operation = 'Add';
+          this.addEditUserForm.patchValue({
+            role: 0,
+          });
         }
       });
     });
@@ -61,7 +82,7 @@ export class AddEditUsersComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  onSubmit(option?: string): void {
     const values = this.addEditUserForm.value;
 
     if (this.addEditUserForm.valid) {
@@ -72,7 +93,17 @@ export class AddEditUsersComponent implements OnInit {
           name: values.name,
           role_id: Number(values.role),
         }
-        this.adminService.addUser(data).subscribe();
+        this.adminService.addUser(data).subscribe(response => {
+          if (response.message == 'Saved') {
+            if (option === 'Add1') {
+              setTimeout(() => {
+                this.router.navigate(['/admin/users/edit/', response.id]);
+              }, 2000);
+            } else {
+              this.initForm();
+            }
+          }
+        });
       } else {
         const data = {
           id: this.userData.id.toString(),
