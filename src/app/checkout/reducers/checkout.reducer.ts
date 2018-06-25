@@ -106,6 +106,8 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
           totalDiscount: _totalDiscount,
+          serviceFee: _serviceFee,
+          deliveryFee: _deliveryFee,
           totalAmountPaid: _totalAmountPaid,
           totalAmountDue: _totalAmountDue,
           grandTotal: _grandTotal,

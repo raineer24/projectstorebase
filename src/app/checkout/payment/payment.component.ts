@@ -59,6 +59,7 @@ export class PaymentComponent implements OnInit {
   serviceFee: number;
   totalAmount: number = 0;
   paymentTotal: number = 0;
+  paymentType: string;
   totalPaidAmount: number = 0;
   totalDiscount: number = 0;
   usableGCcount: number = 0;
@@ -71,7 +72,7 @@ export class PaymentComponent implements OnInit {
   gErrMsg: string = " ";
   hasErr: boolean = false;
   forGC: any;
-  bCouponEntered: boolean = false;
+  bCouponEntered: boolean;
   gcList: any;
   updateCoupon: any;
   couponContainer: any;
@@ -96,6 +97,7 @@ export class PaymentComponent implements OnInit {
   userData: any;
   selleruser: any;
   deliveryDate: any;
+  pbucheckbox: any;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -129,10 +131,17 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.bCouponEntered = false;
+    this.paymentType = "CASH";
     let settings = localStorage.getItem('settings');
     settings = JSON.parse(settings);
+    let sFee = settings[0];
+    let dFee = settings[1];
+    this.serviceFee = Number(sFee['value']);
+    this.deliveryFee = Number(dFee['value']);
     this.bcashChecked = true;
     this.pEmail = "";
+    this.paymentType = "";
     this.userData = localStorage.getItem('user');
     if(localStorage.getItem('pbu') !== null) {
       if(localStorage.getItem('pbu') === '1'){
@@ -358,8 +367,10 @@ export class PaymentComponent implements OnInit {
         this.confirmOrder();
       } else {
         if(this.checkedPBU){
+          this.paymentType = "SALARY_DEDUCTION";
           console.log(this.availableBalance);
           if(this.availableBalance > this.totalAmountDue){
+            this.paymentHolder = this.paymentHolder + this.totalAmountDue;
             let newBal = this.availableBalance - this.totalAmountDue;
             let pbuData = {
                 useraccount_id: this.PBUcontainer['useraccount_id'],
@@ -405,19 +416,25 @@ export class PaymentComponent implements OnInit {
     const orderKey = this.checkoutService.getOrderKey();
     localStorage.setItem('rating_orderKey',orderKey);
     let grandTotal = this.totalAmount;
-    if(this.updateCoupon){
-      this.updateGCStatus(this.updateCoupon);
-    }
+    // if(this.updateCoupon){
+    //   this.updateGCStatus(this.updateCoupon);
+    // }
     let gcArr: any = [];
     for (const key in this.gcList){
       gcArr.push(Number(this.gcList[key].code));
+    }
+    if(this.checkedCash){
+      this.paymentType = "CASH";
     }
     let params: any = {};
     params = {
       id: this.orderId,
       specialInstructions: this.instructionsText,
       paymentTotal: this.paymentHolder,
+      paymentType: this.paymentType,
       discountTotal: this.discount,
+      serviceFee: this.serviceFee,
+      deliveryFee: this.deliveryFee,
       adjustmentTotal: this.totalAmountDue,
       total: grandTotal,
       status: 'pending',
@@ -431,6 +448,7 @@ export class PaymentComponent implements OnInit {
     }).mergeMap(response => {
       if (response.message.toUpperCase() == 'SAVED') {
         return this.checkoutService.updateOrderPayment(params).mergeMap(res => {
+          console.log(res);
           if (res.message.indexOf('Processed') >= 0) {
             this.router.navigate(['/checkout', 'confirm', orderKey]);
             if (this.voucherCode) {

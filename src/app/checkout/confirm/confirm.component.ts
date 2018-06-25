@@ -51,10 +51,11 @@ export class ConfirmComponent implements OnInit {
     //NOTE: TEMPORARY!!! FEES TO BE DECIDED
     let settings = localStorage.getItem('settings');
     settings = JSON.parse(settings);
-    console.log(settings);
+    let sFee = settings[0];
+    let dFee = settings[1];
     this.fees = {
-      service: 100,
-      delivery: 100,
+      service: Number(sFee['value']),
+      delivery: Number(dFee['value']),
     };
     let paidAmount = 0;
     this.isAuthenticated$ = this.store.select(getAuthStatus);

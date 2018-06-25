@@ -443,7 +443,8 @@ export class CheckoutService {
             let trans: any = {};
             trans = {
                 order_id:this.orderIdContainer,
-                value: params.paymentTotal
+                value: params.paymentTotal,
+                type: params.paymentType,
             }
             console.log(trans);
             this.updateTransaction(trans).subscribe();
