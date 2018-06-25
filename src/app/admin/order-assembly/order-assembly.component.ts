@@ -102,7 +102,7 @@ export class OrderAssemblyComponent implements OnInit {
       } else {
         return Observable.empty();
       }
-    }).subscribe(response => {
+    }).subscribe((response: any) => {
       if(response && response.message.indexOf('Updated') >= 0) {
         this.router.navigate(['/admin/order-assemble/edit', orderSeller.id]);
       } else {
