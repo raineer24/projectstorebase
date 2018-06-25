@@ -305,7 +305,7 @@ typeahead-container ul.dropdown-menu {
 }
 
 // CUSTOM CLASS FOR TABS IN ASSEMBLE ORDER
-.nav-item.customTabs {
+.nav-item.customTabs, .nav-item.customTabsPending {
   a.nav-link {
     padding: 10px;
     color: #333;
@@ -319,18 +319,21 @@ typeahead-container ul.dropdown-menu {
     background-color: #fff;
     border-bottom: 1px solid transparent;
   }
-  &.pending {
-    a.nav-link {
-      color: #000;
-      background-color: #a87d7d;
-      border-bottom: 1px solid #a87d7d;
-    }
-    &.active a.nav-link {
-      background-color: #de0051;
-      border-bottom: 1px solid transparent;
-    }
+}
+
+.nav-item.customTabsPending {
+  a.nav-link {
+    color: #000;
+    background-color: #a87d7d;
+    border-bottom: 1px solid #a87d7d;
+  }
+  &.active a.nav-link {
+    color: #000;
+    background-color: #de0051;
+    border-bottom: 1px solid transparent;
   }
 }
-.tab-pane.customTabs {
+
+.tab-pane.customTabs, .tab-pane.customTabsPending {
   padding-top: 20px;
 }
