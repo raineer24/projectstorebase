@@ -62,7 +62,7 @@ export const AdminRoutes = [
         }
       },
       {
-        path: 'orders/edit/:id',
+        path: 'orders/view/:id',
         component: OrderDetailsComponent,
         canActivate: [RoleGuardService],
         data: {

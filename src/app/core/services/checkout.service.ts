@@ -517,15 +517,6 @@ export class CheckoutService {
       const response = res.json();
       if(response.message == 'Slot is full') {
         this.showErrorMsg('timeslot',response.message);
-      } else {
-        const date = {
-          'status': 'pending',
-          'date': {
-            'date': params.date,
-            'timeslotId': params.timeslot_id
-          }
-        }
-        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       }
       return response;
     })
