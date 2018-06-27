@@ -97,7 +97,7 @@
         <br>
         <div class="col-md-2">
           <div class="item-img-container">
-            <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
+            <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name" (error)="onImageError()">
           </div>
         </div>
 
