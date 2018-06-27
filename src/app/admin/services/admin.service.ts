@@ -93,13 +93,13 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrders(seller_id: number, filters?: any): Observable<any> {
+  getAssembleOrders(seller_id: number, filters?: any): Observable<any> {
     let filterText = [];
     // if(filters.minDate && filters.maxDate) {
     //   filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
     // }
-    if(filters.status) {
-      filterText.push(`orderStatus=${filters.status}`);
+    if(filters.orderStatus) {
+      filterText.push(`orderStatus=${filters.orderStatus}`);
     }
     if(filters.mode) {
       filterText.push(`mode=${filters.mode}`);
