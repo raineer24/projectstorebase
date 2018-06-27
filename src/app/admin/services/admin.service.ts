@@ -118,10 +118,6 @@ export class AdminService {
    */
   getOrdersellerList(seller_id: number, filters?: any): Observable<any> {
     let filterText = [];
-    // if(filters.minDate && filters.maxDate) {
-    //   filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
-    // }
-
     const keys = Object.keys(filters);
     keys.forEach(key => {
       if (filters[key]) {

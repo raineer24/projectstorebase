@@ -7,7 +7,7 @@
 }
 
 hr {
-  margin: 0;
+  margin: 10px 0;
 }
 
 .filter-text {
@@ -39,4 +39,16 @@ hr {
 
 .margin-bottom-5 {
   margin-bottom: 5px;
+}
+
+.table tbody {
+  display: block;
+  height: calc(100vh - 300px);
+  min-height: 300px;
+  overflow-y: auto;
+}
+.table thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }

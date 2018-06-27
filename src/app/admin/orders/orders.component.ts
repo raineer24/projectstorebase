@@ -25,12 +25,9 @@ export class OrdersComponent implements OnInit {
 
   showFilter: boolean = false;
   filterText: string = 'None';
+  filterUrl: any = {};
   filterStatus: any = 0;
   filterOrderNumber: number = null;
-  filterDateTo: Date = null;
-  filterDateFrom: Date = null;
-  filterDeliverTo: Date = null;
-  filterDeliverFrom: Date = null;
   filterTimeslotId: number = 0;
   filterOrderDate: Array<Date> = [];
   filterDeliverDate: Array<Date> = [];
@@ -40,7 +37,16 @@ export class OrdersComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private datePipe: DatePipe,
-  ) { }
+  ) {
+    this.filterUrl = {
+      mode: 'orderlist',
+      orderStatus: null,
+      orderNumber: null,
+      orderDate: null,
+      deliverDate: null,
+      timeslotId: null,
+    }
+  }
 
   ngOnInit() {
     this.ordersSub = this.adminService.getOrdersellerList(this.sellerId, { mode: 'orderlist' }).subscribe(orders => {
@@ -113,7 +119,7 @@ export class OrdersComponent implements OnInit {
 
   applyFilter(): void {
     const filterText = [];
-    const filterUrl = {
+    this.filterUrl = {
       mode: 'orderlist',
       orderStatus: null,
       orderNumber: null,
@@ -123,11 +129,11 @@ export class OrdersComponent implements OnInit {
     };
     if (this.filterStatus) {
       filterText.push(`Status = <i>${this.filterStatus}</i>`);
-      filterUrl.orderStatus = this.filterStatus;
+      this.filterUrl.orderStatus = this.filterStatus;
     }
     if (this.filterOrderNumber) {
       filterText.push(`Order Number = <i>${this.filterOrderNumber}</i>`);
-      filterUrl.orderNumber = this.filterOrderNumber;
+      this.filterUrl.orderNumber = this.filterOrderNumber;
     }
     if (this.filterOrderDate.length) {
       const d1 = this.filterOrderDate[0];
@@ -135,7 +141,7 @@ export class OrdersComponent implements OnInit {
       const d1time = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate()).getTime();
       const d2time = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate() + 1).getTime();
       filterText.push(`Order Date = <i>From: ${this.datePipe.transform(d1,'MM/dd/yyyy')} To: ${this.datePipe.transform(d2,'MM/dd/yyyy')}</i>`);
-      filterUrl.orderDate = `${d1time}|${d2time}`;
+      this.filterUrl.orderDate = `${d1time}|${d2time}`;
     }
     if (this.filterDeliverDate.length) {
       let deliveryText = '';
@@ -144,17 +150,16 @@ export class OrdersComponent implements OnInit {
       const d1time = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate()).getTime();
       const d2time = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate() + 1).getTime();
       deliveryText = `Delivery Date = <i>From: ${this.datePipe.transform(d1,'MM/dd/yyyy')} To: ${this.datePipe.transform(d2,'MM/dd/yyyy')}</i>`;
-      filterUrl.deliverDate = `${d1time}|${d2time}`;
+      this.filterUrl.deliverDate = `${d1time}|${d2time}`;
       if (this.filterTimeslotId) {
-        filterUrl.timeslotId = this.filterTimeslotId;
+        this.filterUrl.timeslotId = this.filterTimeslotId;
         deliveryText += ` <i>Slot: ${this.timeslotsData[this.filterTimeslotId - 1]}</i>`
       }
       filterText.push(deliveryText);
     }
     this.filterText = filterText.length ? filterText.join(', '): 'None';
-    console.log(filterUrl);
 
-    this.ordersSub = this.adminService.getOrdersellerList(this.sellerId, filterUrl).subscribe(orders => {
+    this.ordersSub = this.adminService.getOrdersellerList(this.sellerId, this.filterUrl).subscribe(orders => {
       this.orders  = orders.map(order => {
         order.finalItemTotal = Number(order.finalItemTotal);
         return order;
@@ -172,6 +177,15 @@ export class OrdersComponent implements OnInit {
 
   closeFilter(): void {
     this.showFilter = false;
+  }
+
+  refreshList(): void {
+    this.ordersSub = this.adminService.getOrdersellerList(this.sellerId, this.filterUrl).subscribe(orders => {
+      this.orders  = orders.map(order => {
+        order.finalItemTotal = Number(order.finalItemTotal);
+        return order;
+      });
+    });
   }
 
   ngOnDestroy() {

@@ -8,7 +8,7 @@
     <div class="margin-bottom-5">
       <button type="button" class="btn btn-default btn-sm" (click)="showFilter = !showFilter">Change Filters&nbsp;<i class="glyphicon glyphicon-menu-down"></i></button>
       &nbsp;|&nbsp;
-      <button type="button" class="btn btn-default btn-sm" (click)="refresh()">Refresh List</button>
+      <button type="button" class="btn btn-default btn-sm" (click)="refreshList()">Refresh List</button>
     </div>
     <div class="small filter-text">Filters: <span [innerHTML]="filterText"></span></div>
     <div *ngIf="showFilter" class="filter well">
