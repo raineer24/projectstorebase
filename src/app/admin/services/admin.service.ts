@@ -352,6 +352,31 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  addCategories(data): Observable<any> {
+    return this.http.post(
+      `v1/category/addmany`, data)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
   addItems(data): Observable<any> {
     return this.http.put(
       `v1/items/create`, data)
@@ -360,6 +385,7 @@ export class AdminService {
     })
     .catch(res => Observable.empty());
   }
+
   /**
    *
    *

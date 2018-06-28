@@ -97,6 +97,7 @@ export class AddItemsComponent implements OnInit {
     });
   }
 
+
   addItems(data){
     this.adminService.addItems(data).subscribe();
   }

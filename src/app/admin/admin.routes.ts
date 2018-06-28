@@ -178,6 +178,14 @@ export const AdminRoutes = [
           expectedRole:[1,2,3]
         }
       },
+      // {
+      //   path: 'master-list/components/add-category',
+      //   component: AddCategoryComponent,
+      //   canActivate: [RoleGuardService],
+      //   data: {
+      //     expectedRole:[1,2,3]
+      //   }
+      // },
     ],
     canActivate: [AdminGuardService]
   }
