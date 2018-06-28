@@ -263,7 +263,7 @@ export class PaymentComponent implements OnInit {
       this.bCouponEntered = false;
 
     });
-    localStorage.setItem('voucher','');
+    localStorage.removeItem('voucher');
     localStorage.setItem('discount','0');
     this.setDefault();
   }

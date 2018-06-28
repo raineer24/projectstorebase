@@ -273,22 +273,6 @@ export class AdminService {
   }
 
   /**
-  *
-  *
-  * @param {any} data
-  * @returns {Observable<any>}
-  *
-  * @memberof AdminService
-  */
- createUsers(data): Observable<any> {
-   this.hasError = false;
-   return this.http.put(
-     `v1/user/account/savemany`, data
-   ).map((res: Response) => res.json())
-   .catch(res => Observable.empty());
- }
-
-  /**
    *
    *
    * @returns {Observable<any>}
@@ -399,6 +383,23 @@ export class AdminService {
       return result;
     });
   }
+
+  /**
+  *
+  *
+  * @param {any} data
+  * @returns {Observable<any>}
+  *
+  * @memberof AdminService
+  */
+  createUsers(data): Observable<any> {
+   this.hasError = false;
+   return this.http.put(
+     `v1/user/account/savemany`, data
+   ).map((res: Response) => res.json())
+   .catch(res => Observable.empty());
+  }
+
 
   /**
    *
