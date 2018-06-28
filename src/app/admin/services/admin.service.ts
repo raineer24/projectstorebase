@@ -325,6 +325,7 @@ export class AdminService {
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
+
   /**
    *
    *
@@ -338,6 +339,27 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @returns {Observable<user[]>}
+   *
+   * @memberof AdminService
+   */
+  checkUser(username): Observable<any> {
+    return this.http.get(`v1//user/account/${username}/check`)
+      .map((res: Response) => { return res.json(); })
+      .catch(res => Observable.empty());
+  }
+
+  addItems(data): Observable<any> {
+    return this.http.put(
+      `v1/items/create`, data)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch(res => Observable.empty());
+  }
   /**
    *
    *
@@ -374,6 +396,22 @@ export class AdminService {
     this.hasError = false;
     return this.http.put(
       `v1/user/account/partnerbuyerusers`, data
+    ).map((res: Response) => res.json())
+    .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  createUsers(data): Observable<any> {
+    this.hasError = false;
+    return this.http.put(
+      `v1/user/account/savemany`, data
     ).map((res: Response) => res.json())
     .catch(res => Observable.empty());
   }

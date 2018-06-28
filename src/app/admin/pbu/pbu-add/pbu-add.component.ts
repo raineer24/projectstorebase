@@ -84,19 +84,20 @@ export class PbuAddComponent implements OnInit, OnDestroy {
         newCsv.push({
           username: dArr[0].replace(/'/g,""),
           email: dArr[1].replace(/'/g,""),
-          name: dArr[2].replace(/'/g,""),
-          credit: Number(dArr[3]),
-          availablebalance: Number(dArr[4]),
+          firstname: dArr[2].replace(/'/g,""),
+          lastname: dArr[3].replace(/'/g,""),
+          credit: Number(dArr[4]),
+          availablebalance: Number(dArr[5]),
           outstandingbalance: 0.00,
-          status: dArr[5].replace(/'/g,""),
-          useraccount_id: Number(dArr[6]),
-          partnerBuyer_id: Number(dArr[7]),
+          status: dArr[6].replace(/'/g,""),
+          // useraccount_id: Number(dArr[7]),
+          partnerBuyer_id: dArr[7].replace(/'/g,""),
           dateCreated: dateCreated,
           dateUpdated: dateCreated
         });
       }
       var Obj = {...newCsv};
-      this.createPBUsers(Obj,newCsv.length);
+      this.createPBUsers(Obj);
 
     };
     this.reader.readAsText(input.files[0]);
@@ -117,8 +118,39 @@ export class PbuAddComponent implements OnInit, OnDestroy {
     this.bPBUAdded = true;
   }
 
-  createPBUsers(data, length){
-    this.adminService.createPBU(data).subscribe();
+  createPBUsers(data){
+    var toUsers = [];
+    var toPBU = []
+    for(const key in data){
+      toUsers.push({
+        username: data[key].email,
+        email: data[key].email,
+        firstName: data[key].firstname,
+        lastName: data[key].lastname,
+        password: this.passwordGen(),
+        dateCreated: data[key].dateCreated,
+        dateUpdated: data[key].dateCreated
+      });
+    }
+    var usersObj = {...toUsers};
+    console.log(usersObj);
+    this.adminService.createUsers(usersObj).subscribe(users => {
+      if(users.message == "Saved"){
+        for(const key in usersObj){
+          this.adminService.checkUser(usersObj[key].username).subscribe(user => {
+            console.log(user);
+          })
+        }
+      }
+    });
+  }
+
+  passwordGen(): string{
+    var length = 4, charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
   }
 
   checkcsvInput(input): boolean {

@@ -99,7 +99,6 @@ export class AddItemsComponent implements OnInit {
   }
 
   addItems(data){
-    console.log(data);
     this.adminService.addItems(data).subscribe();
   }
 
