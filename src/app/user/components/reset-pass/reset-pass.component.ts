@@ -79,7 +79,7 @@ export class ResetPassComponent {
     this.formSubmit = true;
 
     if(this.resetForm.valid) {
-      if(this.token) {
+      if(this.token) { // Reset password via email
         this.authService.changePassword({
           password: values.password,
           email: this.email,
@@ -90,7 +90,7 @@ export class ResetPassComponent {
             this.router.navigate(['/auth/login']);
           }
         })
-      } else {
+      } else { // Change password via user profile
         const user = JSON.parse(localStorage.getItem('user'));
         this.authService.update(user.id, {
           password: values.password,

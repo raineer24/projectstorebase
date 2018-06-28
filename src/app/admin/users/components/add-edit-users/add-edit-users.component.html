@@ -50,7 +50,7 @@
   <div *ngIf="operation === 'Edit' && userData" class="row">
     <div class="col-sm-12">
       <label for="email">Status:</label>
-      <span class="display-text">{{ userData.enabled.data[0] ? 'Enabled': 'Disabled' }}</span>
+      <span class="display-text">{{ userData.enabled ? 'Enabled': 'Disabled' }}</span>
     </div>
   </div>
 </form>

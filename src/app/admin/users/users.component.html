@@ -5,8 +5,9 @@
     </ol>
   </nav>
   <div>
-    <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/users/add']">Add New User</button>
+    <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/admin/users/add']">Add New User</button>
   </div>
+  <hr>
   <table class="table table-hover table-striped small">
     <thead>
       <tr>
@@ -24,7 +25,7 @@
     <tbody>
       <tr *ngFor="let user of users; let i = index">
         <!-- <td><input type="checkbox" name="user" (change)="queueUser(user)"></td> -->
-        <td>{{ user.id }}</td>
+        <td class="text-center">{{ user.id }}</td>
         <td><a [routerLink]="['/admin/users/edit/', user.id]">{{ user.username }}</a></td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
