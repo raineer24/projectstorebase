@@ -59,7 +59,10 @@ export class OrderAssemblyComponent implements OnInit {
     const now = new Date().getHours();
     this.activeTab = now < 5 ? 0: Math.floor((now - 5)/3);
     this.activeTab = this.activeTab > 4 ? 4: this.activeTab;
-    this.ordersSub = this.adminService.getSellerOrders(this.sellerId, { status: this.selectedValue }).subscribe(orders => {
+    this.ordersSub = this.adminService.getAssembleOrders(this.sellerId, {
+      orderStatus: this.selectedValue,
+      mode: 'assembly',
+    }).subscribe(orders => {
       this.orders = [];
       let timeslotOrders = [];
       this.timeslotsData.forEach((timeslot, index) => {
