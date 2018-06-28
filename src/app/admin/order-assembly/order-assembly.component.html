@@ -45,7 +45,7 @@
   <br>
   <div>
     <tabset>
-      <tab *ngFor="let timeslot of orders; let j = index" [customClass]="timeslot.pending ? 'customTabs pending' : 'customTabs'" [active]="(activeTab == j) ? true: false">
+      <tab *ngFor="let timeslot of orders; let j = index" [customClass]="timeslot.pending ? 'customTabsPending' : 'customTabs'" [active]="(activeTab == j) ? true: false">
         <ng-template tabHeading>
           {{ timeslot.timeslot }}<small *ngIf="timeslot.pending">&nbsp;({{ timeslot.pending }})</small>
         </ng-template>

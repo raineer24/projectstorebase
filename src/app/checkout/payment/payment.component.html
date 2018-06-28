@@ -200,7 +200,6 @@
             <span class="input-group-btn"><button class="btn btn-default" type="button" disabled><i [ngClass]="voucherIcon"></i></button></span>
             <ng-container *ngIf="!bCouponEntered; else removeCoupon">
               <input #couponInput [(ngModel)]="couponCode" type="text" [disabled]="bCouponEntered" class="form-control no-spin" id="coupon-code" name="coupon-code" placeholder="Enter Coupon code" (keyup)="checkVoucher()" />
-
               <span class="input-group-btn"><button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply</button></span>
             </ng-container>
             <ng-template #removeCoupon>

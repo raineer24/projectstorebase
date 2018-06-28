@@ -442,7 +442,8 @@ export class CheckoutService {
             let trans: any = {};
             trans = {
                 order_id:this.orderIdContainer,
-                value: params.paymentTotal
+                value: params.paymentTotal,
+                type: params.paymentType,
             }
             console.log(trans);
             this.updateTransaction(trans).subscribe();
@@ -516,15 +517,6 @@ export class CheckoutService {
       const response = res.json();
       if(response.message == 'Slot is full') {
         this.showErrorMsg('timeslot',response.message);
-      } else {
-        const date = {
-          'status': 'pending',
-          'date': {
-            'date': params.date,
-            'timeslotId': params.timeslot_id
-          }
-        }
-        this.store.dispatch(this.actions.updateOrderDeliveryOptionsSuccess(date));
       }
       return response;
     })

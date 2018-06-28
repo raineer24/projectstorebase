@@ -38,6 +38,7 @@ import * as moment from 'moment';
 })
 export class AppComponent implements OnInit, OnDestroy {
   orderSub$: Subscription;
+  settingsSub$: Subscription;
   currentUrl: string;
   currentStep: string;
   checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment', '/checkout/confirm'];
@@ -112,7 +113,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.authService.checkSessionPersistence();
     this.store.select(getAuthStatus).subscribe(isAuth => {
-      this.orderSub$ = this.checkoutService.fetchCurrentOrder(isAuth).subscribe();
+      this.settingsSub$ = this.authService.getSettings().subscribe(setting => {
+        let settings = JSON.stringify(setting);
+        localStorage.setItem('settings',settings);
+        this.orderSub$ = this.checkoutService.fetchCurrentOrder(isAuth).subscribe();
+      });
     });
     this.store.dispatch(this.actions.getAllProducts());
     this.store.dispatch(this.actions.getAllTaxonomies());

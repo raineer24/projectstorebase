@@ -71,6 +71,23 @@ export class AdminComponent implements OnInit {
       type: 'submenu',
       rolesRequired: [1,2],
     },
+    {
+      name: "Master List",
+      type: 'label',
+      rolesRequired: [1,2,3],
+    },
+    {
+      name: "Manage Item List",
+      routerLink:"/admin/master-list/components/add-items",
+      type: 'submenu',
+      rolesRequired: [1,2,3],
+    },
+    {
+      name: "Manage Categories",
+      routerLink:"/admin/master-list/components/add-category",
+      type: 'submenu',
+      rolesRequired: [1,2,3],
+    },
   ]
   constructor(
     private adminService: AdminService,

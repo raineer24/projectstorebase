@@ -179,6 +179,7 @@ export class AdminService {
       const tokenPayload = jwtHelper.decodeToken(userData.token);
       return tokenPayload.role;
     }
+
   /**
    *
    *
@@ -186,14 +187,37 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrders(seller_id: number, filters?: any): Observable<any> {
+  getAssembleOrders(seller_id: number, filters?: any): Observable<any> {
     let filterText = [];
-    if(filters.minDate && filters.maxDate) {
-      filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
+    // if(filters.minDate && filters.maxDate) {
+    //   filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
+    // }
+    if(filters.orderStatus) {
+      filterText.push(`orderStatus=${filters.orderStatus}`);
     }
-    if(filters.status) {
-      filterText.push(`orderStatus=${filters.status}`);
+    if(filters.mode) {
+      filterText.push(`mode=${filters.mode}`);
     }
+    return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<any[]>}
+   *
+   * @memberof AdminService
+   */
+  getOrdersellerList(seller_id: number, filters?: any): Observable<any> {
+    let filterText = [];
+    const keys = Object.keys(filters);
+    keys.forEach(key => {
+      if (filters[key]) {
+        filterText.push(`${key}=${filters[key]}`)
+      }
+    });
     return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
@@ -395,6 +419,7 @@ export class AdminService {
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
+
   /**
    *
    *
@@ -408,6 +433,27 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  /**
+   *
+   *
+   * @returns {Observable<user[]>}
+   *
+   * @memberof AdminService
+   */
+  checkUser(username): Observable<any> {
+    return this.http.get(`v1//user/account/${username}/check`)
+      .map((res: Response) => { return res.json(); })
+      .catch(res => Observable.empty());
+  }
+
+  addItems(data): Observable<any> {
+    return this.http.put(
+      `v1/items/create`, data)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch(res => Observable.empty());
+  }
   /**
    *
    *
@@ -446,6 +492,58 @@ export class AdminService {
       `v1/user/account/partnerbuyerusers`, data
     ).map((res: Response) => res.json())
     .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  createUsers(data): Observable<any> {
+    this.hasError = false;
+    return this.http.put(
+      `v1/user/account/savemany`, data
+    ).map((res: Response) => res.json())
+    .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  update(id, data): Observable<any> {
+    return this.http.put(
+      `v1/user/account/${id}/save`, data
+    ).map((res: Response) => {
+      let result = res.json();
+      if (result.message.indexOf('Updated') >= 0) {
+        let storedData = JSON.parse(localStorage.getItem('user'));
+        data.message = result.message;
+        for (let key in data) {
+          if (data.hasOwnProperty(key)) {
+            storedData[key] = data[key];
+          }
+        }
+        //this.setTokenInLocalStorage(storedData);
+        this.http.loading.next({
+          message: `Profile was successfully saved.`
+        });
+      } else {
+        // this.http.loading.next({
+        //   loading: false,
+        //   hasError: true,
+        //   hasMsg: 'Please enter valid Credentials'
+        // });
+      }
+      return result;
+    });
   }
 
   /**

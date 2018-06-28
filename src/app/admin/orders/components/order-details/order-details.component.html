@@ -7,7 +7,7 @@
 </nav>
 <div class="panel panel-default">
   <div class="panel-body">
-    <div class="col-md-4 padding-left-0">
+    <!-- <div class="col-md-4 padding-left-0">
       Item(s) Processed: {{itemsConfirmed + itemsUnavailable}} / {{orderItems.length}}<br>
       Confirmed Item(s): {{itemsConfirmed}}<br>
       Unavailable Item(s): {{itemsUnavailable}}<br>
@@ -18,16 +18,31 @@
     </div>
     <div class="col-md-4 padding-right-0 text-right">
       <button type="button" class="btn btn-danger btn-lg" [disabled]="itemsConfirmed + itemsUnavailable != orderItems.length" (click)="finalize()">FINALIZE ORDER</button>
+    </div> -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        Status: <b class="text-primary text-uppercase">{{ orderSeller.status }}</b><br>
+        Order Date: {{ orderSeller.dateCreated | date:'MMM d, y hh:mm a' }}<br>
+        Delivery Date: {{ orderSeller.datetime | date:'MMM d, y hh:mm a' }}<br>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <br>
+        Assembled By: {{ orderSeller.assembledByName }}<br>
+        Delivered By: {{ orderSeller.deliveredByName }}<br>
+      </div>
     </div>
   </div>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-hover table-striped small">
   <thead>
     <tr>
       <th>Item</th>
-      <th>Final Quantity</th>
-      <th>Total</th>
-      <th>Actions</th>
+      <th class="text-center">Order Price</th>
+      <th class="text-center">Order Quantity</th>
+      <th class="text-center">Order Total</th>
+      <th class="text-center">Final Price</th>
+      <th class="text-center">Final Quantity</th>
+      <th class="text-center">Final Total</th>
     </tr>
   </thead>
   <tbody class="item-list">
@@ -37,34 +52,27 @@
           <img class="img-responsive item-img" [src]="getProductImageUrl(item.imageKey)" alt="item.name">
         </div>
         <div class="item-name">
-          <span [ngClass]="{'unavailable': item.status == 'unavailable'}">{{item.name}}<br>Price: ₱ {{item.price | number:'1.2-2'}}<br>Quantity: {{item.quantity}}</span>
+          <b>{{item.name}}</b><br>
+          Item Code: {{item.code}}
         </div>
       </td>
-      <td class="text-uppercase">
-        <div class="input-group">
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default" (click)="decrementQuantity(i)" [disabled]="item.finalQuantity == MIN_VALUE || item.status != 'ordered'">
-              <span class="glyphicon glyphicon-minus"> </span>
-            </button>
-          </span>
-          <input type="number" class="text-center form-control" [value]="item.finalQuantity" disabled/>
-           <span class="input-group-btn">
-             <button type="button" class="btn btn-success" (click)="incrementQuantity(i)" [disabled]="item.finalQuantity == MAX_VALUE || item.status != 'ordered'">
-               <span class="glyphicon glyphicon-plus"></span>
-             </button>
-           </span>
-        </div>
+      <td class="border-left text-center">
+        <span>₱ {{ item.price | number:'1.2-2' }}</span>
       </td>
-      <td class="text-right">
-        <span [ngClass]="{'unavailable': item.status == 'unavailable'}">₱ {{(item.price * item.finalQuantity) | number:'1.2-2'}}</span>
+      <td class="text-center">
+        <span>{{ item.quantity }}</span>
       </td>
-      <td>
-        <div>
-          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="confirmed" (click)="confirm(item)">Confirm</label>
-          <label class="btn btn-lg btn-default" [(ngModel)]="orderItemStatus[item.orderItem_id]" btnRadio="unavailable" (click)="unavailable(item)">Unavailable</label>
-          <label class="btn btn-lg btn-default" (click)="reset(item)">Reset</label>
-        </div>
-        <!-- <pre>{{orderItemStatus[item.orderItem_id]}}</pre> -->
+      <td class="text-center">
+        <span>₱ {{ (item.price * item.quantity) | number:'1.2-2' }}</span>
+      </td>
+      <td class="border-left text-center">
+        <span>₱ {{ item.finalPrice | number:'1.2-2' }}</span>
+      </td>
+      <td class="text-center">
+        <span>{{ item.finalQuantity }}</span>
+      </td>
+      <td class="text-center">
+        <span>₱ {{ (item.finalPrice * item.finalQuantity) | number:'1.2-2' }}</span>
       </td>
     </tr>
   </tbody>
