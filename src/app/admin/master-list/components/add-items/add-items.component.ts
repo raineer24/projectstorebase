@@ -63,26 +63,25 @@ export class AddItemsComponent implements OnInit {
         }
       })
       let dArr = [];
+      this.bHasFile = false;
       this.csvData = newCsv.slice(0, -1);
       newCsv = [];
       for( i = 0; i < this.csvData.length; i++){
         dArr = this.csvData[i].split(',');
-        // newCsv.push({
-        //   username: dArr[0].replace(/'/g,""),
-        //   email: dArr[1].replace(/'/g,""),
-        //   name: dArr[2].replace(/'/g,""),
-        //   credit: Number(dArr[3]),
-        //   availablebalance: Number(dArr[4]),
-        //   outstandingbalance: 0.00,
-        //   status: dArr[5].replace(/'/g,""),
-        //   useraccount_id: Number(dArr[6]),
-        //   partnerBuyer_id: Number(dArr[7]),
-        //   dateCreated: dateCreated,
-        //   dateUpdated: dateCreated
-        // });
+        newCsv.push({
+          code: dArr[1].replace(/'/g,""),
+          name: dArr[2].replace(/'/g,""),
+          brandName: dArr[3].replace(/'/g,""),
+          price: Number(dArr[4]),
+          category1: dArr[5].replace(/'/g,""),
+          category2: dArr[6].replace(/'/g,""),
+          category3: dArr[7].replace(/'/g,""),
+          dateCreated: dateCreated,
+          dateUpdated: dateCreated
+        });
       }
       var Obj = {...newCsv};
-      // this.createPBUsers(Obj,newCsv.length);
+      this.addItems(Obj);
 
     };
     this.reader.readAsText(input.files[0]);
@@ -95,11 +94,24 @@ export class AddItemsComponent implements OnInit {
     this.subs = this.timer.subscribe(() => {
         // set showloader to false to hide loading div from view after 5 seconds
         this.bPBUAdded = true;
-        this.router.navigate(['/admin/pbu']);
+        // this.router.navigate(['/admin/pbu']);
     });
   }
 
+  addItems(data){
+    console.log(data);
+    this.adminService.addItems(data).subscribe();
+  }
 
+  enableAddBtn(csvInput: any){
+    const input = csvInput;
+    if(input){
+      this.bHasFile = false;
+    } else {
+      this.bHasFile = true;
+    }
+
+  }
 
 
   ngOnDestroy() {
