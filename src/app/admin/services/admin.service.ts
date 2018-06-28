@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../../core/services/http';
 import { AppState } from '../../interfaces';
 import { Transaction } from '../transactions/transactions.component';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class AdminService {
@@ -271,6 +272,21 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  /**
+  *
+  *
+  * @param {any} data
+  * @returns {Observable<any>}
+  *
+  * @memberof AdminService
+  */
+ createUsers(data): Observable<any> {
+   this.hasError = false;
+   return this.http.put(
+     `v1/user/account/savemany`, data
+   ).map((res: Response) => res.json())
+   .catch(res => Observable.empty());
+ }
 
   /**
    *
@@ -408,11 +424,27 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  createUsers(data): Observable<any> {
+  createItems(data): Observable<any> {
     this.hasError = false;
     return this.http.put(
-      `v1/user/account/savemany`, data
+      `v1/items/create`, data
     ).map((res: Response) => res.json())
+    .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getItems(offset: number): Observable<any> {
+    this.hasError = false;
+    const limit = 10;
+    return this.http.get(`v1/item?skip=${offset}`, )
+    .map((res: Response) => res.json())
     .catch(res => Observable.empty());
   }
 

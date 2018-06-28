@@ -19,6 +19,7 @@ import { RoleGuardService } from './guards/role.guard';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot.component';
 import { MasterListComponent } from './master-list/master-list.component';
+import { ItemListComponent } from './master-list/components/item-list/item-list.component';
 import { AddItemsComponent } from './master-list/components/add-items/add-items.component';
 import { AddCategoryComponent } from './master-list/components/add-category/add-category.component';
 
@@ -170,8 +171,8 @@ export const AdminRoutes = [
         }
       },
       {
-        path: 'master-list/components/add-category',
-        component: AddCategoryComponent,
+        path: 'master-list/components/item-list',
+        component: ItemListComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRole:[1,2,3]

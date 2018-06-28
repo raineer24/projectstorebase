@@ -492,6 +492,7 @@ export class PaymentComponent implements OnInit {
   ngOnDestroy() {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
+    this.couponCode = '';
   }
 
 }

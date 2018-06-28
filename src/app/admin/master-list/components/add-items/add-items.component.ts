@@ -26,7 +26,7 @@ export class AddItemsComponent implements OnInit {
   csvInput: any;
   csvData: any;
   bHasFile: boolean;
-  bPBUAdded: boolean;
+  bItemsAdded: boolean;
 
   constructor(
     private adminService: AdminService,
@@ -38,7 +38,7 @@ export class AddItemsComponent implements OnInit {
     this.reader = new FileReader();
     this.csvData = [];
     this.bHasFile = true;
-    this.bPBUAdded = true;
+    this.bItemsAdded = true;
 
   }
 
@@ -89,11 +89,10 @@ export class AddItemsComponent implements OnInit {
   }
 
   setLoader(){
-    this.bPBUAdded = false;
+    this.bItemsAdded = false;
     this.timer = Observable.timer(3000); // 5000 millisecond means 5 seconds
     this.subs = this.timer.subscribe(() => {
         // set showloader to false to hide loading div from view after 5 seconds
-        this.bPBUAdded = true;
         // this.router.navigate(['/admin/pbu']);
     });
   }
@@ -101,6 +100,7 @@ export class AddItemsComponent implements OnInit {
   addItems(data){
     this.adminService.addItems(data).subscribe();
   }
+
 
   enableAddBtn(csvInput: any){
     const input = csvInput;
@@ -114,7 +114,7 @@ export class AddItemsComponent implements OnInit {
 
 
   ngOnDestroy() {
-
+    this.reader = new FileReader();
     // localStorage.removeItem('order');
   }
 
