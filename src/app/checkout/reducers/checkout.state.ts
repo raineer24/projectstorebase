@@ -11,6 +11,8 @@ export interface CheckoutState extends Map<string, any> {
   totalCartItems: number;
   totalCartValue: number;
   totalDiscount: number;
+  serviceFee: number,
+  deliveryFee: number,
   totalAmountPaid: number;
   totalAmountDue: number;
   grandTotal: number;
@@ -29,6 +31,8 @@ export const CheckoutStateRecord = Record({
   totalCartItems: 0,
   totalCartValue: 0,
   totalDiscount: 0,
+  serviceFee: 0,
+  deliveryFee: 0,
   totalAmountPaid: 0,
   totalAmountDue: 0,
   grandTotal:0,
