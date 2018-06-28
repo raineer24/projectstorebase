@@ -368,7 +368,6 @@ export class PaymentComponent implements OnInit {
       } else {
         if(this.checkedPBU){
           this.paymentType = "SALARY_DEDUCTION";
-          console.log(this.availableBalance);
           if(this.availableBalance > this.totalAmountDue){
             this.paymentHolder = this.paymentHolder + this.totalAmountDue;
             let newBal = this.availableBalance - this.totalAmountDue;
@@ -383,16 +382,14 @@ export class PaymentComponent implements OnInit {
                 localStorage.setItem('PBUser',JSON.stringify(data));
               });
             });
-          });
+          }
+          this.confirmOrder();
         } else {
-          this.gErrMsg = "You do not have enough credit for this purchase."
+          this.gErrMsg = "You do not have enough credit for this purchase.";
           this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
         }
-      } else {
-        this.confirmOrder();
       }
     }
-  }
 
   checkPBUEmail(email): boolean{
     let ret = false;
@@ -466,7 +463,6 @@ export class PaymentComponent implements OnInit {
     }).mergeMap(response => {
       if (response.message.toUpperCase() == 'SAVED') {
         return this.checkoutService.updateOrderPayment(params).mergeMap(res => {
-          console.log(res);
           if (res.message.indexOf('Processed') >= 0) {
             this.router.navigate(['/checkout', 'confirm', orderKey]);
             if (this.voucherCode) {
