@@ -383,15 +383,16 @@ export class PaymentComponent implements OnInit {
                 localStorage.setItem('PBUser',JSON.stringify(data));
               });
             });
-          } else {
-            this.gErrMsg = "You do not have enough credit for this purchase."
-            this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
-          }
+          });
         } else {
-          this.confirmOrder();
+          this.gErrMsg = "You do not have enough credit for this purchase."
+          this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
         }
+      } else {
+        this.confirmOrder();
       }
     }
+  }
 
   checkPBUEmail(email): boolean{
     let ret = false;
@@ -441,10 +442,27 @@ export class PaymentComponent implements OnInit {
       gcList: gcArr,
       useraccount_id: this.userData.id,
     }
-    this.checkoutService.setTimeSlotOrder({
-      order_id: this.orderId,
-      timeslot_id: this.deliveryDate.timeslotId,
-      date: this.deliveryDate.date,
+
+    this.checkoutService.getTimeSlotOrder(this.orderId).mergeMap(res => {
+      const timeslotParams = {
+        order_id: this.orderId,
+        timeslot_id: this.deliveryDate.timeslotId,
+        date: this.deliveryDate.date,
+      };
+      if(res.message){
+        return this.checkoutService.setTimeSlotOrder({
+          order_id: this.orderId,
+          timeslot_id: this.deliveryDate.timeslotId,
+          date: this.deliveryDate.date,
+        });
+      } else {
+        return this.checkoutService.updateTimeSlotOrder({
+          id: res.id,
+          order_id: this.orderId,
+          timeslot_id: this.deliveryDate.timeslotId,
+          date: this.deliveryDate.date,
+        });
+      }
     }).mergeMap(response => {
       if (response.message.toUpperCase() == 'SAVED') {
         return this.checkoutService.updateOrderPayment(params).mergeMap(res => {
@@ -454,12 +472,14 @@ export class PaymentComponent implements OnInit {
             if (this.voucherCode) {
               return this.checkoutService.updateVoucherStatus(this.voucherCode);
             } else {
-              return Observable.empty();
+              return Observable.of(false);
+              // return Observable.empty();
             }
           } else {
             let num = res.message.match(/\d+/g).map(n => parseInt(n));
             this.removeGC(num.toString());
-            return Observable.empty();
+            return Observable.of(false);
+            // return Observable.empty();
           }
         })
       }

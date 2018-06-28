@@ -85,6 +85,7 @@ export class AdminService {
       const tokenPayload = jwtHelper.decodeToken(userData.token);
       return tokenPayload.role;
     }
+
   /**
    *
    *
@@ -92,14 +93,37 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getSellerOrders(seller_id: number, filters?: any): Observable<any> {
+  getAssembleOrders(seller_id: number, filters?: any): Observable<any> {
     let filterText = [];
-    if(filters.minDate && filters.maxDate) {
-      filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
+    // if(filters.minDate && filters.maxDate) {
+    //   filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
+    // }
+    if(filters.orderStatus) {
+      filterText.push(`orderStatus=${filters.orderStatus}`);
     }
-    if(filters.status) {
-      filterText.push(`orderStatus=${filters.status}`);
+    if(filters.mode) {
+      filterText.push(`mode=${filters.mode}`);
     }
+    return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @returns {Observable<any[]>}
+   *
+   * @memberof AdminService
+   */
+  getOrdersellerList(seller_id: number, filters?: any): Observable<any> {
+    let filterText = [];
+    const keys = Object.keys(filters);
+    keys.forEach(key => {
+      if (filters[key]) {
+        filterText.push(`${key}=${filters[key]}`)
+      }
+    });
     return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());

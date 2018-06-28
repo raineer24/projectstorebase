@@ -45,6 +45,10 @@
   text-decoration: line-through;
 }
 
+.border-left {
+  border-left: 1px solid #ccc;
+}
+
 input[type='number'] {
     -moz-appearance:textfield;
 }
