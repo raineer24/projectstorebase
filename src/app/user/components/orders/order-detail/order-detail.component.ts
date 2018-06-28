@@ -33,6 +33,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
   ratingType: number = 0;
   orderContainer: Array<any>;
   orderNums: any;
+  private imageRetries: number = 0;
 
   constructor(
     private userService: UserService,
@@ -95,10 +96,28 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
     if (!key) {
       url = "assets/omg-04.png";
     } else {
-      url = environment.IMAGE_REPO + key + ".jpg";
+      switch (this.imageRetries) {
+        case 0: {
+          // return environment.IMAGE_REPO + key + ".jpg";
+          url = environment.IMAGE_REPO + key + ".jpg";
+          break;
+        }
+        case 1: {
+          url = "assets/omg-04.png";
+          break;
+        }
+        default: {
+          url = "assets/omg-04.png";
+          break;
+        }
+      }
     }
     return url;
   }
+  onImageError(): void {
+    this.imageRetries++;
+  }
+
 
   getTimeSlotLabel(index: number): string {
     return this.timeSlotLabels[index-1];
