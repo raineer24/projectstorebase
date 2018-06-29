@@ -372,6 +372,19 @@ export class AdminService {
   /**
    *
    *
+   * @returns {*}
+   *
+   * @memberof ProductService
+   */
+  getCategories(): any {
+    return this.http.get(`v1/category/list`)
+    .map(res => res.json())
+    .catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @param {any} data
    * @returns {Observable<any>}
    *

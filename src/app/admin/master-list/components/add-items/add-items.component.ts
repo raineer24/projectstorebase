@@ -72,7 +72,7 @@ export class AddItemsComponent implements OnInit {
           code: dArr[1].replace(/'/g,""),
           name: dArr[2].replace(/'/g,""),
           brandName: dArr[3].replace(/'/g,""),
-          price: Number(dArr[4]),
+          price: Number(dArr[4].replace(/'/g,"")),
           category1: dArr[5].replace(/'/g,""),
           category2: dArr[6].replace(/'/g,""),
           category3: dArr[7].replace(/'/g,""),
@@ -93,10 +93,9 @@ export class AddItemsComponent implements OnInit {
     this.timer = Observable.timer(3000); // 5000 millisecond means 5 seconds
     this.subs = this.timer.subscribe(() => {
         // set showloader to false to hide loading div from view after 5 seconds
-        // this.router.navigate(['/admin/pbu']);
+       this.router.navigate(['/admin/master-list/components/item-list']);
     });
   }
-
 
   addItems(data){
     this.adminService.addItems(data).subscribe();
