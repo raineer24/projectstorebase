@@ -215,8 +215,9 @@ export class AuthService {
         if (isMsg) {
           this.http.loading.next({
             loading: false,
-            success: true,
-            message: `Profile was successfully saved.`
+            isSuccess: true,
+            message: `Profile was successfully saved.`,
+            reset: 4500,
           });
         }
       } else {
@@ -367,12 +368,25 @@ export class AuthService {
    * @memberof AuthService
    */
   requestPasswordReset(email): Observable<any> {
-    return this.http.post(
-      `v1/user/account/${email}/forgotpassword`, {
-        email: email
-      }
-    ).map((res: Response) => {
+    return this.http.post(`v1/user/account/${email}/forgotpassword`, {
+      email: email
+    }).map((res: Response) => {
       let data = res.json();
+      if (data.message.toUpperCase() === 'SUCCESS') {
+        this.http.loading.next({
+          loading: false,
+          isSuccess: true,
+          hasMsg: 'Email has been successfully sent.',
+          reset: 4500,
+        });
+      } else {
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: 'Error occurred. Please try again later.',
+          reset: 4500,
+        });
+      }
       return data;
     });
   }

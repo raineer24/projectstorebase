@@ -43,15 +43,15 @@ export class UsersEditComponent implements OnInit, OnDestroy {
     this.userData = JSON.parse(localStorage.getItem('user'));
     console.log(this.userData);
     if(typeof(this.userData.email) == 'undefined' && typeof(this.userData.id) != 'undefined') {
-      this.adminService.view(this.userData.id).subscribe(data => {
-        const error = data.error;
-        if (error) {
-
-        } else {
-          this.userData = data;
-          console.log("USER DATA LOADED!");
-        }
-      });
+      // this.adminService.getUser(this.userData.id).subscribe(data => {
+      //   const error = data.error;
+      //   if (error) {
+      //
+      //   } else {
+      //     this.userData = data;
+      //     console.log("USER DATA LOADED!");
+      //   }
+      // });
     }
   }
 

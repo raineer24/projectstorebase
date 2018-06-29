@@ -30,18 +30,24 @@ export class AdminService {
     return this.http.post(
       'v1/selleraccount/login', data)
       .map((res: Response) => {
-      const resData = res.json();
-      if (resData.message == 'Found') {
+      const response = res.json();
+      if (response.message.toUpperCase() == 'FOUND') {
         // Setting token after login
-        localStorage.setItem('selleruser', JSON.stringify(resData));
+        localStorage.setItem('selleruser', JSON.stringify(response));
       } else {
+        let errMsg = '';
+        if(response.message.toUpperCase() == 'NOT FOUND') {
+          errMsg = 'Please enter valid credentials';
+        } else if (response.message.toUpperCase() == 'DISABLED') {
+          errMsg = 'Account disabled. Please contact our administrator';
+        }
         this.http.loading.next({
           loading: false,
           hasError: true,
-          hasMsg: 'Please enter valid Credentials'
+          hasMsg: errMsg,
         });
       }
-      return resData;
+      return response;
     });
   }
 
@@ -55,6 +61,94 @@ export class AdminService {
    logout(): void {
      localStorage.removeItem('selleruser');
    }
+
+   /**
+    *
+    *
+    * @param {id} number
+    * @returns {Observable<any>}
+    *
+    * @memberof AdminService
+    */
+   getUser(id: number): Observable<any> {
+     return this.http.get(`v1/selleraccount/${id}/view`)
+       .map((res: Response) => {
+         const response = res.json();
+         return response;
+       });
+   }
+
+   /**
+    *
+    * @param {any} data
+    * @returns {Observable<any>}
+    *
+    * @memberof AuthService
+    */
+    addUser(data: any): Observable<any> {
+      return this.http.post(`v1/selleraccount/save`, data)
+        .map((res: Response) => {
+          const response = res.json();
+          if(response.message === 'Saved') {
+            this.http.loading.next({
+              loading: false,
+              isSuccess: true,
+              hasMsg: response.message,
+              reset: 4500
+            });
+          } else {
+            this.http.loading.next({
+              loading: false,
+              hasError: true,
+              hasMsg: response.message,
+              reset: 4500
+            });
+          }
+          return response;
+        });
+    }
+
+  /**
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+   updateUser(data: any): Observable<any> {
+     return this.http.put(`v1/selleraccount/${data.id}/save`, data)
+       .map((res: Response) => {
+         const response = res.json();
+         if(response.message.indexOf('Updated') >= 0) {
+           this.http.loading.next({
+             loading: false,
+             isSuccess: true,
+             hasMsg: response.message,
+             reset: 4500
+           });
+         } else {
+           this.http.loading.next({
+             loading: false,
+             hasError: true,
+             hasMsg: response.message,
+             reset: 4500
+           });
+         }
+         return response;
+       });
+   }
+
+   /**
+    *
+    * @param {void}
+    * @returns {Observable<any>}
+    *
+    * @memberof AuthService
+    */
+    getRolesList(): Observable<any> {
+      return this.http.get('v1/selleraccount/roles')
+        .map((res: Response) => res.json());
+    }
 
   /**
    *
@@ -73,19 +167,19 @@ export class AdminService {
      }
    }
 
-   /**
-    *
-    * @param void
-    * @returns any
-    *
-    * @memberof AuthService
-    */
-    getUserRole(): any {
-      const jwtHelper: JwtHelperService = new JwtHelperService();
-      const userData = JSON.parse(localStorage.getItem('selleruser'));
-      const tokenPayload = jwtHelper.decodeToken(userData.token);
-      return tokenPayload.role;
-    }
+  /**
+   *
+   * @param void
+   * @returns any
+   *
+   * @memberof AuthService
+   */
+  getUserRole(): any {
+    const jwtHelper: JwtHelperService = new JwtHelperService();
+    const userData = JSON.parse(localStorage.getItem('selleruser'));
+    const tokenPayload = jwtHelper.decodeToken(userData.token);
+    return tokenPayload.role;
+  }
 
   /**
    *
@@ -333,8 +427,15 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getUsers(): Observable<any> {
-    return this.http.get(`v1/selleraccounts`)
+  getUsers(options ?: any): Observable<any> {
+    let optionText = [];
+    const keys = Object.keys(options);
+    keys.forEach(key => {
+      if (options[key]) {
+        optionText.push(`${key}=${options[key]}`)
+      }
+    });
+    return this.http.get(`v1/selleraccounts?${optionText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -573,33 +674,18 @@ export class AdminService {
 
   /**
    *
-   *
-   * @param {any} data
-   * @returns {Observable<any>}
+   * @param {string} message
+   * @returns {void}
    *
    * @memberof AdminService
    */
-  view(id): Observable<any> {
-    return this.http.get(
-      `v1/user/account/${id}/view`
-    ).map((res: Response) => {
-      let data = res.json();
-      if (data.message == 'Found') {
-        this.setTokenInLocalStorage(res.json());
-      } else {
-        data.error = true;
-        // this.http.loading.next({
-        //   loading: false,
-        //   hasError: true,
-        //   hasMsg: 'Please enter valid Credentials'
-        // });
-      }
-      return data;
+  showErrorMsg(message: string): void {
+    this.http.loading.next({
+      loading: false,
+      hasError: true,
+      hasMsg: message,
+      reset: 4500
     });
-    // catch should be handled here with the http observable
-    // so that only the inner obs dies and not the effect Observable
-    // otherwise no further login requests will be fired
-    // MORE INFO https://youtu.be/3LKMwkuK0ZE?t=24m29s
   }
 
   /**

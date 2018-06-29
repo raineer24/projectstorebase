@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription'
 import { AdminService } from './../../services/admin.service';
 
 
@@ -9,6 +10,7 @@ import { AdminService } from './../../services/admin.service';
   styleUrls: ['./manage-timeslot.component.scss']
 })
 export class ManageTimeslotComponent implements OnInit {
+  timeslotSub$: Subscription;
   timeSlotData$: Observable<any>;
   timeSlotRows: Array<any>;
   timeSlotData: Array<any>;
@@ -19,7 +21,15 @@ export class ManageTimeslotComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.adminService.getTimeSlot().subscribe(data => {
+    this.initData();
+  }
+
+  ngOnDestroy() {
+    this.timeslotSub$.unsubscribe();
+  }
+
+  initData(): void {
+    this.timeslotSub$ = this.adminService.getTimeSlot().subscribe(data => {
       this.timeSlotData = data;
       this.timeSlotRows = this.timeSlotData[0].range;
       for(let i = 0, il = data.length; i < il; i++) {
@@ -53,7 +63,9 @@ export class ManageTimeslotComponent implements OnInit {
       })
       return Object.assign({ id: i + 1 }, Object.assign({}, ...objArr),)
     })
-    this.adminService.updateAllTimeSlots(apiData).subscribe();
+    this.adminService.updateAllTimeSlots(apiData).subscribe(() => {
+      this.initData();
+    });
   }
 
   updateValue(e, i, j): void {
@@ -64,6 +76,10 @@ export class ManageTimeslotComponent implements OnInit {
       e.srcElement.value = value;
       this.timeSlotMax[i][j] = value;
     }
+  }
+
+  refresh(): void {
+    this.initData();
   }
 
 }

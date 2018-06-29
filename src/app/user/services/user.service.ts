@@ -356,14 +356,15 @@ export class UserService {
           loading: false,
           hasError: true,
           hasMsg: `Please enter required information. ${details}`,
-          reset: 4500
+          reset: 4500,
         });
         break;
       case 'address_success':
         this.http.loading.next({
           loading: false,
-          success: true,
-          message: `Address successfully saved.`
+          isSuccess: true,
+          message: `Address successfully saved.`,
+          reset: 4500,
         });
         break;
     }

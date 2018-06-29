@@ -54,7 +54,6 @@ export class OrdersComponent implements OnInit {
         order.finalItemTotal = Number(order.finalItemTotal);
         return order;
       });
-      console.log(orders);
       //
       // var i: number;
       // for(i=0; i < this.orders.length; i++){

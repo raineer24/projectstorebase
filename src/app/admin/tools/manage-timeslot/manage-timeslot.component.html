@@ -5,6 +5,13 @@
     <li class="breadcrumb-item text-primary" aria-current="page">Manange Timeslot</li>
   </ol>
 </nav>
+<div class="row">
+  <div class="col-md-12">
+    <button type="button" (click)="saveTimeSlots()" class="btn btn-primary">Save</button>
+    <button type="button" (click)="refresh()" class="btn btn-default">Refresh</button>
+  </div>
+</div>
+<hr>
 <table class="table table-hover table-striped table-bordered">
   <thead>
     <tr>
@@ -37,8 +44,3 @@
     </tr>
   </tbody>
 </table>
-<div class="row">
-  <div class="col-md-12 text-right">
-    <button type="button" (click)="saveTimeSlots()" class="btn btn-primary btn-lg">SAVE</button>
-  </div>
-</div>
