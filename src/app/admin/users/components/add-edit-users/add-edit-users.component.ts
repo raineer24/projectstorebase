@@ -78,7 +78,7 @@ export class AddEditUsersComponent implements OnInit {
       username: ['', Validators.required],
       name: ['', Validators.required],
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      role: ['', Validators.required],
+      role: ['', Validators.compose([Validators.required, Validators.min(1)])],
     });
   }
 

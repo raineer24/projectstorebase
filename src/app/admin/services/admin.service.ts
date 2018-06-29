@@ -166,19 +166,19 @@ export class AdminService {
      }
    }
 
-   /**
-    *
-    * @param void
-    * @returns any
-    *
-    * @memberof AuthService
-    */
-    getUserRole(): any {
-      const jwtHelper: JwtHelperService = new JwtHelperService();
-      const userData = JSON.parse(localStorage.getItem('selleruser'));
-      const tokenPayload = jwtHelper.decodeToken(userData.token);
-      return tokenPayload.role;
-    }
+  /**
+   *
+   * @param void
+   * @returns any
+   *
+   * @memberof AuthService
+   */
+  getUserRole(): any {
+    const jwtHelper: JwtHelperService = new JwtHelperService();
+    const userData = JSON.parse(localStorage.getItem('selleruser'));
+    const tokenPayload = jwtHelper.decodeToken(userData.token);
+    return tokenPayload.role;
+  }
 
   /**
    *
@@ -427,8 +427,15 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getUsers(): Observable<any> {
-    return this.http.get(`v1/selleraccounts?limit=50`)
+  getUsers(options ?: any): Observable<any> {
+    let optionText = [];
+    const keys = Object.keys(options);
+    keys.forEach(key => {
+      if (options[key]) {
+        optionText.push(`${key}=${options[key]}`)
+      }
+    });
+    return this.http.get(`v1/selleraccounts?${optionText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
