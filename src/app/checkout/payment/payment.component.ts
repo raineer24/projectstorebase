@@ -382,11 +382,12 @@ export class PaymentComponent implements OnInit {
                 localStorage.setItem('PBUser',JSON.stringify(data));
               });
             });
+          } else {
+            this.gErrMsg = "You do not have enough credit for this purchase.";
+            this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
           }
-          this.confirmOrder();
         } else {
-          this.gErrMsg = "You do not have enough credit for this purchase.";
-          this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
+          this.confirmOrder();
         }
       }
     }
