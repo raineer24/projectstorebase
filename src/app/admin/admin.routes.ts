@@ -10,6 +10,7 @@ import { PbuComponent } from './pbu/pbu.component';
 import { PbuEditComponent } from './pbu/pbu-edit/pbu-edit.component';
 import { PbuAddComponent } from './pbu/pbu-add/pbu-add.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
+import { AddEditUsersComponent } from './users/components/add-edit-users/add-edit-users.component';
 import { ViewOrderComponent } from './orders/view-order/view-order.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { LoginComponent } from './login/login.component';
@@ -86,7 +87,7 @@ export const AdminRoutes = [
         component: UsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,2,3]
+          expectedRole: [1,2,3,7]
         }
       },
       {
@@ -122,11 +123,19 @@ export const AdminRoutes = [
         }
       },
       {
-        path: 'users-edit',
-        component: UsersEditComponent,
+        path: 'users/edit/:id',
+        component: AddEditUsersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,2,3]
+          expectedRole: [1,2,3,7]
+        }
+      },
+      {
+        path: 'users/add',
+        component: AddEditUsersComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,2,3,7]
         }
       },
       {

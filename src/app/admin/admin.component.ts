@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit {
       name: "Users",
       routerLink: "/admin/users",
       type: 'main',
-      rolesRequired: [1,2,7],
+      rolesRequired: [1,2,3,7],
     },
     {
       name: "Partnerbuyer",
@@ -69,7 +69,7 @@ export class AdminComponent implements OnInit {
       name: "Manage Timeslot",
       routerLink: "/admin/tools/manage-timeslot",
       type: 'submenu',
-      rolesRequired: [1,2,],
+      rolesRequired: [1,2],
     },
     {
       name: "Master List",
