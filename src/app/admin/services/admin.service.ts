@@ -440,6 +440,31 @@ export class AdminService {
       .catch(res => Observable.empty());
   }
 
+  resetPassword(email): Observable<any> {
+    return this.http.post(`v1/selleraccount/${email}/resetpassword`, {
+      email: email
+    }).map((res: Response) => {
+      let data = res.json();
+      console.log(data);
+      if (data.message === 'Success') {
+        this.http.loading.next({
+          loading: false,
+          isSuccess: true,
+          hasMsg: 'Password reset email has been successfully sent.',
+          reset: 4500,
+        });
+      } else {
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: 'Error occurred. Please try again later.',
+          reset: 4500,
+        });
+      }
+      return data;
+    });
+  }
+
   /**
    *
    *

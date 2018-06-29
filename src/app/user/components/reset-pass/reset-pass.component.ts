@@ -41,7 +41,7 @@ export class ResetPassComponent {
       this.email = params['email'] || '';
       this.userId = params['i'] || '';
       this.authService.checkToken({
-        useraccount_id: this.userId,
+        accountId: this.userId,
         token: this.token,
         type: 'PASSWORD_RESET'
       }).takeUntil(this.componentDestroyed).subscribe(res => {

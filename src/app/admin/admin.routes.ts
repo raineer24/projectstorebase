@@ -22,7 +22,7 @@ import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot
 import { MasterListComponent } from './master-list/master-list.component';
 import { AddItemsComponent } from './master-list/components/add-items/add-items.component';
 import { AddCategoryComponent } from './master-list/components/add-category/add-category.component';
-
+import { ResetPasswordComponent } from './users/components/reset-password/reset-password.component';
 
 
 export const AdminRoutes = [
@@ -30,6 +30,11 @@ export const AdminRoutes = [
     path: 'admin/login',
     component: LoginComponent
   },
+  {
+    path: 'admin/resetPassword',
+    component: ResetPasswordComponent
+  },
+
   {
     path: 'admin',
     component: AdminComponent,

@@ -29,6 +29,8 @@ import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { OrderAssemblyComponent } from './order-assembly/order-assembly.component';
 import { OrderDeliverComponent } from './order-assembly/components/order-deliver/order-deliver.component';
 import { OrderAssembleComponent } from './order-assembly/components/order-assemble/order-assemble.component';
+import { AddEditUsersComponent } from './users/components/add-edit-users/add-edit-users.component';
+import { ResetPasswordComponent } from './users/components/reset-password/reset-password.component';
 import { SharedModule } from '../shared/index';
 
 // 3rd party
@@ -39,7 +41,6 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng';
-import { AddEditUsersComponent } from './users/components/add-edit-users/add-edit-users.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { AddEditUsersComponent } from './users/components/add-edit-users/add-edi
     OrderAssemblyComponent,
     OrderDeliverComponent,
     OrderAssembleComponent,
-    AddEditUsersComponent
+    AddEditUsersComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

@@ -49,7 +49,7 @@ export class UsersComponent implements OnInit {
   }
 
   resetPassword(user: any): void {
-
+    this.adminService.resetPassword(user.email).subscribe();
   }
 
   queueUser(user: any): void {
