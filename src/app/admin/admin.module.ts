@@ -18,6 +18,7 @@ import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot
 import { MasterListComponent } from './master-list/master-list.component';
 import { AddItemsComponent } from './master-list/components/add-items/add-items.component';
 import { AddCategoryComponent } from './master-list/components/add-category/add-category.component';
+import { ItemListComponent } from './master-list/components/item-list/item-list.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { SortPipe } from './transactions/transactions.component';
@@ -61,6 +62,7 @@ import { AddEditUsersComponent } from './users/components/add-edit-users/add-edi
     SortPipe,
     ManageTimeslotComponent,
     MasterListComponent,
+    ItemListComponent,
     AddItemsComponent,
     AddCategoryComponent,
     OrderAssemblyComponent,
