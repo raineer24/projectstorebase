@@ -98,6 +98,15 @@ export class AddCategoryComponent implements OnInit {
     this.adminService.addCategories(data).subscribe();
   }
 
+  enableAddBtn(csvInput: any){
+    const input = csvInput;
+    if(input){
+      this.bHasFile = false;
+    } else {
+      this.bHasFile = true;
+    }
+
+  }
 
   ngOnDestroy() {
 
