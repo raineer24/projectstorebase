@@ -124,4 +124,22 @@ export class AddEditUsersComponent implements OnInit {
       this.adminService.showErrorMsg('Validation Error');
     }
   }
+
+  resetPassword(): void {
+    this.adminService.resetPassword(this.userData.email).subscribe();
+  }
+
+  setUserStatus(): void {
+    const data = {
+      id: this.userData.id.toString(),
+      enabled: !this.userData.enabled,
+    }
+    this.adminService.updateUser(data).subscribe(res => {
+      if(res.message.toUpperCase() == 'UPDATED') {
+        this.userData.enabled = !this.userData.enabled;
+      }
+    })
+  }
+
+
 }

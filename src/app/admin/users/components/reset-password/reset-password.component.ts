@@ -11,9 +11,13 @@ import { AdminService } from './../../../services/admin.service';
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
-  loginForm: FormGroup;
+  resetForm: FormGroup;
   returnUrl: string;
-  loginSubs: Subscription;
+  resetSubs: Subscription;
+  token: string;
+  email: string;
+  userId: string;
+  isValid: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -27,31 +31,60 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit() {
     document.body.classList.add('admin-body');
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin';
-    this.loginForm = this.fb.group({
-      'password': ['', Validators.required],
-      'verify': ['', Validators.required]
+    this.resetForm = this.fb.group({
+      'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      'verify': ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+    }, { validator: this.matchingPasswords('password', 'verify') });
+    this.route.queryParams.subscribe((params: any) => {
+      this.token = params['token'] || '';
+      this.email = params['email'] || '';
+      this.userId = params['i'] || '';
+      this.adminService.checkToken({
+        accountId: this.userId,
+        token: this.token,
+        type: 'PASSWORD_RESET'
+      }).subscribe(res => {
+        if(res.message == 'Valid') {
+          this.isValid = true;
+        } else {
+          this.isValid = false;
+        }
+      })
     });
   }
 
   ngOnDestroy() {
-    if (this.loginSubs) {
-      this.loginSubs.unsubscribe();
+    if (this.resetSubs) {
+      this.resetSubs.unsubscribe();
     }
   }
 
   onSubmit(): void {
-    const values = this.loginForm.value;
+    const values = this.resetForm.value;
     const data = {
       'username': values.username,
       'password': values.password
     };
 
-    if (this.loginForm.valid) {
-
+    if (this.resetForm.valid) {
+      if(this.token) { // Reset password via email
+        this.adminService.changePassword({
+          password: values.password,
+          email: this.email,
+          id: this.userId,
+          newPassword: true
+        }).subscribe((res)=> {
+          if(res.message.indexOf('Updated') >= 0) {
+            setTimeout(() => {
+              this.router.navigate(['/admin/login']);
+            }, 4000);
+          }
+        })
+      }
     } else {
       const keys = Object.keys(values);
       keys.forEach(val => {
-        const ctrl = this.loginForm.controls[val];
+        const ctrl = this.resetForm.controls[val];
         if (!ctrl.valid) {
           this.pushErrorFor(val, null);
           ctrl.markAsTouched();
@@ -60,8 +93,20 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
+  matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
+    return(group: FormGroup): {[key: string]: any} => {
+      const password = group.controls[passwordKey];
+      const verify = group.controls[confirmPasswordKey];
+      if(password.value !== verify.value) {
+        return {
+            mismatchedPasswords: true
+        };
+      }
+    }
+  }
+
   private pushErrorFor(ctrl_name: string, msg: string): void {
-    this.loginForm.controls[ctrl_name].setErrors({'msg': msg});
+    this.resetForm.controls[ctrl_name].setErrors({'msg': msg});
   }
 
   redirectIfUserLoggedIn(): void {

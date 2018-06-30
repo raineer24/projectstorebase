@@ -1,6 +1,6 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item" [routerLink]="['/admin/users']">Users</li>
+    <li class="breadcrumb-item"><a [routerLink]="['/admin/users']">Users</a></li>
     <li class="breadcrumb-item text-primary" aria-current="page">{{ operation }}</li>
   </ol>
 </nav>
@@ -13,8 +13,8 @@
       </ng-container>
       <ng-container *ngIf="operation === 'Edit'">
         <button class="btn btn-primary" (click)="onSubmit('Add1')">Save Changes</button>
-        <button class="btn btn-default">Reset Password</button>
-        <button class="btn btn-default">Disable</button>
+        <button class="btn btn-default" (click)="resetPassword()">Reset Password</button>
+        <button class="btn btn-default" (click)="setUserStatus()">Disable</button>
       </ng-container>
     </div>
   </div>
