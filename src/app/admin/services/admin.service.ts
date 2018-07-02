@@ -210,12 +210,18 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getOrdersellerList(seller_id: number, filters?: any): Observable<any> {
+  getOrdersellerList(seller_id: number, options?: any, filters?: any): Observable<any> {
     let filterText = [];
-    const keys = Object.keys(filters);
+    let keys = Object.keys(filters);
     keys.forEach(key => {
       if (filters[key]) {
         filterText.push(`${key}=${filters[key]}`)
+      }
+    });
+    keys = Object.keys(options);
+    keys.forEach(key => {
+      if (options[key]) {
+        filterText.push(`${key}=${options[key]}`)
       }
     });
     return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
