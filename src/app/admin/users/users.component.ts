@@ -13,8 +13,11 @@ export class UsersComponent implements OnInit {
   activeUser: any;
   queue: Array<any> = [];
   usersSub: Subscription;
-  itemsPerPage: number = 15;
+  userCountSub: Subscription;
   currentPage: number = 1;
+  itemsPerPage: number = 15;
+  totalItems: number;
+  numPages: number;
 
   constructor(
     private adminService: AdminService
@@ -24,16 +27,27 @@ export class UsersComponent implements OnInit {
     this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
     const options = {
       sellersId: this.activeUser.seller_id,
-      // limit: this.itemsPerPage,
-      limit: 100,
+      limit: this.itemsPerPage,
     }
-    this.usersSub = this.adminService.getUsers(options).subscribe(users => {
+    this.usersSub = this.adminService.getUsers({
+      sellersId: this.activeUser.seller_id,
+      limit: this.itemsPerPage,
+    }).subscribe(users => {
       this.users = users;
+    });
+    this.userCountSub = this.adminService.getUsers({
+      sellersId: this.activeUser.seller_id,
+      count: 1,
+    }).subscribe(result => {
+      if (result.length) {
+        this.totalItems = result[0].count;
+      }
     });
   }
 
   ngOnDestroy() {
     this.usersSub.unsubscribe();
+    this.userCountSub.unsubscribe();
   }
 
   setUserStatus(user: any): void {
@@ -50,6 +64,16 @@ export class UsersComponent implements OnInit {
 
   resetPassword(user: any): void {
     this.adminService.resetPassword(user.email).subscribe();
+  }
+
+  pageChanged(event: any): void {
+    this.usersSub = this.adminService.getUsers({
+      sellersId: this.activeUser.seller_id,
+      limit: this.itemsPerPage,
+      skip: (event.page - 1) * this.itemsPerPage,
+    }).subscribe(users => {
+      this.users = users;
+    });
   }
 
   queueUser(user: any): void {

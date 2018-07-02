@@ -8,38 +8,49 @@
     <button type="button" class="btn btn-primary btn-sm" [routerLink]="['/admin/users/add']">Add New User</button>
   </div>
   <hr>
-  <table class="table table-hover table-striped small">
-    <thead>
-      <tr>
-        <!-- <th></th> -->
-        <th>ID</th>
-        <th>Username</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Last Login</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users; let i = index">
-        <!-- <td><input type="checkbox" name="user" (change)="queueUser(user)"></td> -->
-        <td class="text-center">{{ user.id }}</td>
-        <td><a [routerLink]="['/admin/users/edit/', user.id]">{{ user.username }}</a></td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.enabled ? 'Enabled': 'Disabled' }}</td>
-        <td><span *ngIf="user.lastLogin">{{ user.lastLogin | date:'short' }}</span></td>
-        <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/users/edit/', user.id]">Edit</button>
-            <button type="button" class="btn btn-default btn-sm" (click)="setUserStatus(user)">{{ user.enabled ? 'Disable': 'Enable' }}</button>
-            <button type="button" class="btn btn-default btn-sm" (click)="resetPassword(user)">Reset Password</button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-border">
+    <table class="table table-hover table-striped small">
+      <thead>
+        <tr>
+          <!-- <th></th> -->
+          <th>ID</th>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Last Login</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <!-- <td><input type="checkbox" name="user" (change)="queueUser(user)"></td> -->
+          <td class="text-center">{{ user.id }}</td>
+          <td><a [routerLink]="['/admin/users/edit/', user.id]">{{ user.username }}</a></td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.enabled ? 'Enabled': 'Disabled' }}</td>
+          <td><span *ngIf="user.lastLogin">{{ user.lastLogin | date:'short' }}</span></td>
+          <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm" [routerLink]="['/admin/users/edit/', user.id]">Edit</button>
+              <button type="button" class="btn btn-default btn-sm" (click)="setUserStatus(user)">{{ user.enabled ? 'Disable': 'Enable' }}</button>
+              <button type="button" class="btn btn-default btn-sm" (click)="resetPassword(user)">Reset Password</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-6">
+      <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage" [rotate]="true"
+        [maxSize]="5" [boundaryLinks]="true" (pageChanged)="pageChanged($event)" (numPages)="numPages = $event"></pagination>
+    </div>
+    <div class="col-xs-6 col-6 text-right">
+      <small>Page {{ currentPage }} of {{ numPages }}, {{ totalItems }} total users</small>
+    </div>
+  </div>
 </div>
