@@ -1,0 +1,56 @@
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+
+.breadcrumb {
+  a {
+    color: #666;
+  }
+}
+
+.stat{
+  cursor: pointer;
+}
+
+nav {
+  position:relative;
+}
+
+.adduser{
+  position: absolute;
+  right: 1rem;
+  top: 3%;
+}
+
+span .currencySymbol{
+  content: "\20B1";
+}
+
+.theaders{
+  text-align: left;
+}
+
+.theadersM{
+  text-align: right;
+}
+
+.tdata{
+  font-size: small;
+  text-align: left;
+}
+
+.tdataMon{
+  font-size: small;
+  text-align: right;
+}
+
+.tdataStat{
+  font-size: small;
+  text-align: center;
+}
+
+.next {
+  position: absolute;
+  right: 10px;
+}

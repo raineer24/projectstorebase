@@ -25,7 +25,7 @@ export class ProductService {
    * @memberof ProductService
    */
   getAutoSuggestItems(keyword: string, offset = 0, limit = 5): Observable<any> {
-    return this.http.get(`v1/item?offset=${offset}&limit=${limit}&keyword=${keyword}`)
+    return this.http.get(`v1/item?skip=${offset}&limit=${limit}&keyword=${keyword}`)
       .map(res => res.json())
       .catch(err => Observable.empty());
   }
@@ -87,7 +87,7 @@ export class ProductService {
       url.push(`limit=${environment.ITEMS_PER_PAGE}`);
     }
     if(options.offset)
-      url.push(`offset=${options.offset}`);
+      url.push(`skip=${options.offset}`);
     if(options.sortBy)
       url.push(`sortBy=${options.sortBy}`);
     if(options.sortOrder)
