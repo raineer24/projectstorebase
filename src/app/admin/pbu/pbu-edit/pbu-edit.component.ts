@@ -26,6 +26,7 @@ export class PbuEditComponent implements OnInit, OnDestroy {
     'outstandingbalance': Number,
     'credit': Number,
     'status': string,
+    'useraccount_id': Number,
     'dateUpdated': string
   };
   storePBU$: Subscription;
