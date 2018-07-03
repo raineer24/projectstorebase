@@ -48,9 +48,8 @@ export class PbuEditComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.storePBU = [];
-    this.pbuData = JSON.parse(localStorage.getItem('pbuser'));
+    this.pbuData = JSON.parse(localStorage.getItem('pbuser_selected'));
     this.pStatus = this.pbuData.status;
-    console.log(this.pStatus);
   }
 
   onCancelClick() {
@@ -90,6 +89,7 @@ export class PbuEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('pbuser_selected');
   }
 
 }
