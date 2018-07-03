@@ -24,6 +24,8 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
   orderNumber: String;
   order: any;
   tSlot: any;
+  sFee: any;
+  dFee: any;
   deliveryDate: any = {};
   orderItems: Array<any>;
   fees: Object;
@@ -46,9 +48,13 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     //NOTE: TEMPORARY!!! FEES TO BE DECIDED
+    let settings = localStorage.getItem('settings');
+    settings = JSON.parse(settings);
+    this.sFee = settings[0];
+    this.dFee = settings[1];
     this.fees = {
-      service: 100,
-      delivery: 100,
+      service: this.sFee[`value`],
+      delivery: this.dFee[`value`],
     };
 
     if(localStorage.getItem('orderwithFB') !== null)
@@ -67,13 +73,13 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
             if(this.order) {
               this.order.discountTotal = Number(this.order.discountTotal);
               this.order.paymentTotal = Number(this.order.paymentTotal);
-              this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
+              this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal;
               this.timeslotSubscription$ = this.userService.getTimeSlotOrder(this.order.id).subscribe( timeslot => {
                   this.tSlot = timeslot;
               });
           }
         })
-
+        // - this.order.paymentTotal - this.order.discountTotal
         this.orderSubscription$ = this.userService
           .getOrderDetail(orderKey)
           .subscribe(orderItems => {
