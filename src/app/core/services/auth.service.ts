@@ -216,7 +216,7 @@ export class AuthService {
           this.http.loading.next({
             loading: false,
             isSuccess: true,
-            message: `Profile was successfully saved.`,
+            hasMsg: `Profile was successfully updated.`,
             reset: 4500,
           });
         }
@@ -250,14 +250,16 @@ export class AuthService {
       if (result.message.indexOf('Updated') >= 0) {
         this.http.loading.next({
           loading: false,
-          success: true,
-          message: `Password was successfully changed.`
+          isSuccess: true,
+          hasMsg: `Password was successfully updated.`,
+          reset: 4500,
         });
       } else {
         this.http.loading.next({
           loading: false,
           hasError: true,
-          hasMsg: 'Error has occurred. Please try again.'
+          hasMsg: 'Error occurred. Please try again later.',
+          reset: 4500,
         });
       }
       return result;

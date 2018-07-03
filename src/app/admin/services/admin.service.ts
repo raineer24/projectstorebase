@@ -211,12 +211,18 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getOrdersellerList(seller_id: number, filters?: any): Observable<any> {
+  getOrdersellerList(seller_id: number, options?: any, filters?: any): Observable<any> {
     let filterText = [];
-    const keys = Object.keys(filters);
+    let keys = Object.keys(filters);
     keys.forEach(key => {
       if (filters[key]) {
         filterText.push(`${key}=${filters[key]}`)
+      }
+    });
+    keys = Object.keys(options);
+    keys.forEach(key => {
+      if (options[key]) {
+        filterText.push(`${key}=${options[key]}`)
       }
     });
     return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
@@ -438,6 +444,84 @@ export class AdminService {
     return this.http.get(`v1/selleraccounts?${optionText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   * @param {string} email
+   * @returns {Observable<user[]>}
+   *
+   * @memberof AdminService
+   */
+  resetPassword(email): Observable<any> {
+    return this.http.post(`v1/selleraccount/${email}/resetpassword`, {
+      email: email
+    }).map((res: Response) => {
+      let data = res.json();
+      if (data.message === 'Success') {
+        this.http.loading.next({
+          loading: false,
+          isSuccess: true,
+          hasMsg: 'Password reset email has been successfully sent.',
+          reset: 4500,
+        });
+      } else {
+        this.http.loading.next({
+          loading: false,
+          hasError: true,
+          hasMsg: 'Error occurred. Please try again later.',
+          reset: 4500,
+        });
+      }
+      return data;
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  changePassword(data): Observable<any> {
+    return this.http.put(`v1/selleraccount/${ data.id }/changepassword`, data)
+      .map((res: Response) => {
+        let result = res.json();
+        if (result.message.indexOf('Updated') >= 0) {
+          this.http.loading.next({
+            loading: false,
+            isSuccess: true,
+            hasMsg: `Password was successfully updated.`,
+            reset: 4500,
+          });
+        } else {
+          this.http.loading.next({
+            loading: false,
+            hasError: true,
+            hasMsg: 'Error occurred. Please try again later.',
+            reset: 4500,
+          });
+        }
+        return result;
+      });
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AuthService
+   */
+  checkToken(data): Observable<any> {
+    return this.http.post(
+      'v1/selleraccount/token', data
+    ).map((res: Response) => {
+      return res.json();
+    });
   }
 
   /**

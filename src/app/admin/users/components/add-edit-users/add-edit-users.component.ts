@@ -92,6 +92,7 @@ export class AddEditUsersComponent implements OnInit {
           email: values.email,
           name: values.name,
           role_id: Number(values.role),
+          seller_id: this.activeUser.seller_id,
         }
         this.adminService.addUser(data).subscribe(response => {
           if (response.message == 'Saved') {
@@ -124,4 +125,22 @@ export class AddEditUsersComponent implements OnInit {
       this.adminService.showErrorMsg('Validation Error');
     }
   }
+
+  resetPassword(): void {
+    this.adminService.resetPassword(this.userData.email).subscribe();
+  }
+
+  setUserStatus(): void {
+    const data = {
+      id: this.userData.id.toString(),
+      enabled: !this.userData.enabled,
+    }
+    this.adminService.updateUser(data).subscribe(res => {
+      if(res.message.toUpperCase() == 'UPDATED') {
+        this.userData.enabled = !this.userData.enabled;
+      }
+    })
+  }
+
+
 }

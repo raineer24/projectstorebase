@@ -10,3 +10,12 @@ a {
 hr {
   margin: 10px 0;
 }
+
+.table-border {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  min-height: 562px;
+  .table {
+    margin-bottom: 0;
+  }
+}
