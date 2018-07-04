@@ -63,6 +63,7 @@
             </div>
             <div class="col-xs-12 col-sm-4">
               <button *ngIf="(order.status | uppercase)== 'PENDING'" type="button" class="btn btn-default btn-lg" (click)="takeOrder(order)">TAKE ORDER</button>
+              <!-- <button *ngIf="(order.status | uppercase)== 'PENDING'" type="button" class="btn btn-default btn-lg" (click)="takeOrder(order)">TAKE ORDER</button> -->
               <button *ngIf="(order.status | uppercase)== 'IN-PROGRESS' && order.assembledBy == userData.id" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/edit',order.id]">CONTINUE</button>
               <button *ngIf="(order.status | uppercase)== 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" (click)="deliverOrder(order)">DELIVER ORDER</button>
               <button *ngIf="(order.status | uppercase)!= 'PENDING' && (order.status | uppercase)!= 'IN-PROGRESS' && (order.status | uppercase)!= 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/view',order.id]">VIEW ORDER</button>

@@ -437,18 +437,18 @@ export class CheckoutService {
     .map(res => {
       const response = res.json();
       if(response.message.indexOf('Processed') >= 0) {
-        this.getTransaction(params.id).subscribe(res => {
-          if(res){
-            let trans: any = {};
-            trans = {
-                order_id:this.orderIdContainer,
-                value: params.paymentTotal,
-                type: params.paymentType,
-            }
-            console.log(trans);
-            this.updateTransaction(trans).subscribe();
-          }
-        });
+        // this.getTransaction(params.id).subscribe(res => {
+        //   if(res){
+        //     let trans: any = {};
+        //     trans = {
+        //         order_id:this.orderIdContainer,
+        //         value: params.paymentTotal,
+        //         type: params.paymentType,
+        //     }
+        //     console.log(trans);
+        //     this.updateTransaction(trans).subscribe();
+        //   }
+        // });
         this.store.dispatch(this.actions.orderCompleteSuccess());
         this.createNewOrder().subscribe();
       } else {

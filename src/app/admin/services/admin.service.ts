@@ -239,9 +239,7 @@ export class AdminService {
   getTransactions(): Observable<Transaction[]> {
     return this.http.get(`v1/transactions`)
       .map((res: Response) => res.json())
-
       .catch(res => Observable.empty());
-
   }
 
   /**
@@ -604,38 +602,102 @@ export class AdminService {
   /**
    *
    *
+   * @param {any} id
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getPartnerBuyerUser(id): Observable<any>{
+    return this.http.get(`v1/user/account/partnerbuyeruser/${id}`)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @param {any} data
    * @returns {Observable<any>}
    *
    * @memberof AdminService
    */
-  update(id, data): Observable<any> {
-    return this.http.put(
-      `v1/user/account/${id}/save`, data
-    ).map((res: Response) => {
-      let result = res.json();
-      if (result.message.indexOf('Updated') >= 0) {
-        let storedData = JSON.parse(localStorage.getItem('user'));
-        data.message = result.message;
-        for (let key in data) {
-          if (data.hasOwnProperty(key)) {
-            storedData[key] = data[key];
-          }
-        }
-        //this.setTokenInLocalStorage(storedData);
-        this.http.loading.next({
-          message: `Profile was successfully saved.`
-        });
-      } else {
-        // this.http.loading.next({
-        //   loading: false,
-        //   hasError: true,
-        //   hasMsg: 'Please enter valid Credentials'
-        // });
-      }
-      return result;
-    });
+  updatePartnerBuyerUser(data): Observable<any>{
+    return this.http.post(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
+    .map(res => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
   }
+
+  /**
+   *
+   *
+   * @param {number} order_id
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getTransactionsPerOrder(order_id: number): Observable<any>{
+    return this.http.get(`v1/transactions/orders/${order_id}`)
+    .map(res => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateTransaction(data: any): Observable<any>{
+    return this.http.put(`v1/transactions/${data.id}`, data)
+    .map(res => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
+  }
+
+  // /**
+  //  *
+  //  *
+  //  * @param {any} data
+  //  * @returns {Observable<any>}
+  //  *
+  //  * @memberof AdminService
+  //  */
+  // update(id, data): Observable<any> {
+  //   return this.http.put(
+  //     `v1/user/account/${id}/save`, data
+  //   ).map((res: Response) => {
+  //     let result = res.json();
+  //     if (result.message.indexOf('Updated') >= 0) {
+  //       let storedData = JSON.parse(localStorage.getItem('user'));
+  //       data.message = result.message;
+  //       for (let key in data) {
+  //         if (data.hasOwnProperty(key)) {
+  //           storedData[key] = data[key];
+  //         }
+  //       }
+  //       //this.setTokenInLocalStorage(storedData);
+  //       this.http.loading.next({
+  //         message: `Profile was successfully saved.`
+  //       });
+  //     } else {
+  //       // this.http.loading.next({
+  //       //   loading: false,
+  //       //   hasError: true,
+  //       //   hasMsg: 'Please enter valid Credentials'
+  //       // });
+  //     }
+  //     return result;
+  //   });
+  // }
 
   /**
    *

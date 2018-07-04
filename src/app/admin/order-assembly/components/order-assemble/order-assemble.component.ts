@@ -25,6 +25,8 @@ export class OrderAssembleComponent implements OnInit {
   itemsConfirmed: number = 0;
   itemsUnavailable: number = 0;
   userData: any;
+  pbuData: any;
+  transactions: Array<any> = [];
   MIN_VALUE = 1;
   MAX_VALUE = 9999;
   isCancelReason: boolean = false;
@@ -71,7 +73,23 @@ export class OrderAssembleComponent implements OnInit {
             })
             return orderItems;
           })
-        }).subscribe();
+        }).subscribe(() => {
+          this.adminService.getTransactionsPerOrder(this.orderSeller.order_id).subscribe((transactions) => {
+            if (transactions.length) {
+              this.transactions = transactions;
+              const index = transactions.findIndex((trans) => {
+                return trans.type === 'SALARY_DEDUCTION';
+              });
+              if (index >= 0) {
+                this.adminService.getPartnerBuyerUser(this.orderSeller.useraccount_id).subscribe((pbu) => {
+                  if (pbu.message == 'Found') {
+                    this.pbuData = pbu;
+                  }
+                });
+              }
+            }
+          });
+        });
       }
     );
   }
@@ -157,7 +175,7 @@ export class OrderAssembleComponent implements OnInit {
   }
 
   forwardToDelivery(): void {
-    const difference = Number(this.orderSeller.total) - this.itemsTotal;
+    const difference = Number(this.orderSeller.itemTotal) - this.itemsTotal;
     const data = {
       order: {
         id: this.orderSeller.order_id,
@@ -165,6 +183,7 @@ export class OrderAssembleComponent implements OnInit {
         finalTotalQuantity: this.itemsQuantity,
         total: Number(this.orderSeller.total) - difference,
         adjustmentTotal: Number(this.orderSeller.adjustmentTotal) - difference,
+        paymentTotal: Number(this.orderSeller.paymentTotal) ? Number(this.orderSeller.paymentTotal) - difference : 0,
         status: 'assembled',
       },
       orderseller: {
@@ -178,9 +197,64 @@ export class OrderAssembleComponent implements OnInit {
       return this.adminService.updateOrder(data.order)
     }).subscribe(res => {
       if(res.message.indexOf('Updated') >= 0) {
+        if (this.orderSeller.itemTotal != this.itemsTotal) {
+          if (this.pbuData) {
+            this.adminService.updatePartnerBuyerUser({
+              useraccount_id: this.orderSeller.useraccount_id,
+              availablebalance: Number(this.pbuData.availablebalance) + difference,
+              outstandingbalance: Number(this.pbuData.outstandingbalance) - difference,
+            }).subscribe();
+          }
+          this.updateTransactions();
+        }
         this.router.navigate(['/admin/order-assemble']);
       }
     });
+  }
+
+  updateTransactions(): void {
+    let difference = Number(this.orderSeller.itemTotal) - this.itemsTotal;
+    const typeIndex = this.transactions.reduce((result, current, index) => {
+      result[current.type] = index;
+      return result;
+    }, {});
+    if(typeIndex.hasOwnProperty('CASH')) {
+      difference = this.updateTransactionPerId(this.transactions[typeIndex['CASH']], difference);
+    }
+    if(typeIndex.hasOwnProperty('SALARY_DEDUCTION') && difference > 0) {
+      difference = this.updateTransactionPerId(this.transactions[typeIndex['SALARY_DEDUCTION']], difference);
+    }
+    if(typeIndex.hasOwnProperty('PAYPAL') && difference > 0) {
+      difference = this.updateTransactionPerId(this.transactions[typeIndex['PAYPAL']], difference);
+    }
+    if(typeIndex.hasOwnProperty('CREDIT_CARD') && difference > 0) {
+      difference = this.updateTransactionPerId(this.transactions[typeIndex['CREDIT_CARD']], difference);
+    }
+    if(typeIndex.hasOwnProperty('DEBIT_CARD') && difference > 0) {
+      difference = this.updateTransactionPerId(this.transactions[typeIndex['DEBIT_CARD']], difference);
+    }
+    if(typeIndex.hasOwnProperty('GIFT_CERTIFICATE') && difference > 0) {
+      difference = this.updateTransactionPerId(this.transactions[typeIndex['GIFT_CERTIFICATE']], difference);
+    }
+  }
+
+  updateTransactionPerId(transaction, amount): number {
+    if (Number(transaction.value) < amount) {
+      this.adminService.updateTransaction({
+        id: transaction.id,
+        value: 0,
+        order_id: Number(transaction.order_id),
+      }).subscribe();
+      amount -= Number(transaction.value);
+    } else {
+      this.adminService.updateTransaction({
+        id: transaction.id,
+        value: Number(transaction.value) - amount,
+        order_id: Number(transaction.order_id),
+      }).subscribe();
+      amount = 0;
+    }
+    return amount;
   }
 
   cancelOrder(comments: string): void {
@@ -202,6 +276,13 @@ export class OrderAssembleComponent implements OnInit {
         })
       }).subscribe(res => {
         if(res.message.indexOf('Updated') >= 0) {
+          if (this.pbuData) {
+            this.adminService.updatePartnerBuyerUser({
+              useraccount_id: this.orderSeller.useraccount_id,
+              availablebalance: Number(this.pbuData.availablebalance) + Number(this.orderSeller.adjustmentTotal),
+              outstandingbalance: Number(this.pbuData.outstandingbalance) - Number(this.orderSeller.adjustmentTotal),
+            }).subscribe();
+          }
           this.router.navigate(['/admin/order-assemble']);
         }
       });
