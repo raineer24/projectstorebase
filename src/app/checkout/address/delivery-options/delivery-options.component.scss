@@ -10,6 +10,10 @@
     }
     div:first-child {
       text-align: right;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 44px;
     }
 		.col-custom {
 			width: 12.5%;

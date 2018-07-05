@@ -1,13 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { environment } from '../../../../../environments/environment';
 import { AdminService } from '../../../services/admin.service';
-import { CheckoutService } from '../../../../core/services/checkout.service';
-import { UserService } from '../../../../user/services/user.service';
-import { UserActions } from '../../../../user/actions/user.actions';
 
 
 @Component({
@@ -30,13 +27,13 @@ export class OrderAssembleComponent implements OnInit {
   MIN_VALUE = 1;
   MAX_VALUE = 9999;
   isCancelReason: boolean = false;
+  isSticky: boolean = false;
   @ViewChild('cancelModal') cancelModal;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private adminService: AdminService,
-    private checkoutService: CheckoutService
   ) { }
 
   ngOnInit() {
@@ -46,9 +43,10 @@ export class OrderAssembleComponent implements OnInit {
         const orderSellerId = params['id'];
         this.adminService.getSellerOrder(orderSellerId).mergeMap(orderSeller => {
           this.orderSeller = orderSeller;
+          console.log(orderSeller)
           if(orderSeller.selleraccount_id != this.userData.id) {
             this.router.navigate(['/admin/order-assemble']);
-            return Observable.empty();
+            return Observable.of(false);
           }
           return this.adminService.getOrderItems(orderSeller.order_id).map(orderItems => {
             // NOTE: TEMPORARY ORDER ID 0
@@ -308,4 +306,13 @@ export class OrderAssembleComponent implements OnInit {
     });
   }
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const number = window.scrollY;
+    if (number > 60) {
+      this.isSticky = true;
+    } else {
+      this.isSticky = false;
+    }
+  }
 }

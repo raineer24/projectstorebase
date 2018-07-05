@@ -411,11 +411,11 @@ export class CheckoutService {
               'billingAddress02': params.billingAddress02,
               'billPostalcode': params.billPostalcode
             },
-            'status': 'delivery'
+            'status': 'timeslot'
           }
           this.store.dispatch(this.actions.updateOrderAddressSuccess(address));
           break;
-        case 'delivery': console.log("UPDATE DELIVERY")
+        case 'timeslot': console.log("UPDATE DELIVERY")
           break;
         // case 'payment':
         //   break;
@@ -505,10 +505,15 @@ export class CheckoutService {
     ).map((res) => {
       const response = res.json();
       if(response.message == 'Slot is full') {
-        this.showErrorMsg('timeslot',response.message);
+        this.showErrorMsg('timeslot_full');
+      } else if (response.message == 'Validation errors') {
+        this.showErrorMsg('timeslot');
       }
       return response;
     })
+    .catch(() => {
+      return Observable.of(false);
+    });
   }
 
   updateTimeSlotOrder(params) {
@@ -516,10 +521,15 @@ export class CheckoutService {
     ).map((res) => {
       const response = res.json();
       if(response.message == 'Slot is full') {
-        this.showErrorMsg('timeslot',response.message);
+        this.showErrorMsg('timeslot_full');
+      } else if (response.message == 'Validation errors') {
+        this.showErrorMsg('timeslot');
       }
       return response;
     })
+    .catch(() => {
+      return Observable.of(false);
+    });
   }
 
   /**
@@ -537,10 +547,10 @@ export class CheckoutService {
       case 'address':
         message = `Please enter required information. ${msg}`;
         break;
-      case 'delivery':
+      case 'timeslot':
         message = `Please select a delivery time slot.`;
         break;
-      case 'timeslot':
+      case 'timeslot_full':
         message = `Slot is already full. Please select another slot.`;
         break;
       case 'payment':
