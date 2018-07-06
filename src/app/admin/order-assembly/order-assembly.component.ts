@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -26,11 +26,12 @@ export class OrderAssemblyComponent implements OnInit {
   fromDate = new Date();
   maxDate = new Date();
   showFilter: boolean = false;
-  sellerId = 1; //TODO: dummy ID
   activeTab: number;
+  unassignOrder: any;
   statusArrayData: Array<string> = ['PENDING','IN-PROGRESS','ASSEMBLED','IN-TRANSIT','COMPLETE','CANCELLED','RETURNED','RETURNED-COMPLETE'];
   timeslotsData: Array<string> = ['8AM','11AM','2PM','5PM','8PM'];
   statusArray: Array<string> = [];
+  @ViewChild('unassignModal') unassignModal;
 
   constructor(
     private adminService: AdminService,
@@ -59,7 +60,7 @@ export class OrderAssemblyComponent implements OnInit {
     const now = new Date().getHours();
     this.activeTab = now < 5 ? 0: Math.floor((now - 5)/3);
     this.activeTab = this.activeTab > 4 ? 4: this.activeTab;
-    this.ordersSub = this.adminService.getAssembleOrders(this.sellerId, {
+    this.ordersSub = this.adminService.getAssembleOrders(this.userData.seller_id, {
       orderStatus: this.selectedValue,
       mode: 'assembly',
     }).subscribe(orders => {
@@ -142,6 +143,62 @@ export class OrderAssemblyComponent implements OnInit {
 
   refresh(): void {
     this.initOrders();
+  }
+
+  setUnassign(orderSeller: any): void {
+    this.unassignOrder = orderSeller;
+    this.unassignModal.show();
+  }
+
+  cancelUnassign(): void {
+    this.unassignOrder = null;
+    this.unassignModal.hide();
+  }
+
+  confirmUnassign(): void {
+    this.unassignModal.hide();
+    const order = this.unassignOrder;
+    const data = {
+      id: order.id,
+      selleraccount_id: 0,
+      updatedBy: this.userData.id,
+      status: '',
+      assembledBy: 0,
+      deliveredBy: 0,
+    }
+    if (order.status.toUpperCase() == 'IN-PROGRESS') {
+      this.orders[Number(order.timeslot_id) - 1].pending--;
+      data.status = 'pending';
+      delete data.deliveredBy;
+    } else if (order.status.toUpperCase() == 'IN-TRANSIT') {
+      data.status = 'assembled';
+      delete data.assembledBy;
+    }
+    this.adminService.updateSellerOrder(data).mergeMap(response => {
+      if(response.message.indexOf('Updated') >= 0) {
+        return this.adminService.updateOrder({
+          id: order.order_id,
+          status: data.status,
+        });
+      } else {
+        return Observable.empty();
+      }
+    }).subscribe(response => this.initOrders());
+  }
+
+  showButton(orderSeller: any, button: string): boolean {
+    switch (button) {
+      case 'TAKE':
+        return orderSeller.status.toUpperCase() == 'PENDING';
+      case 'CONTINUE':
+        return (orderSeller.status.toUpperCase() == 'IN-PROGRESS' && orderSeller.assembledBy == this.userData.id);
+      case 'DELIVER':
+        return orderSeller.status.toUpperCase() == 'ASSEMBLED';
+      case 'VIEW':
+        return ((orderSeller.status.toUpperCase() != 'PENDING' && orderSeller.status.toUpperCase() != 'IN-PROGRESS' && orderSeller.status.toUpperCase() != 'ASSEMBLED') || (this.userData.role_id != 9 && this.userData.role_id != 10));
+      case 'UNASSIGN':
+        return (orderSeller.selleraccount_id && this.userData.role_id != 9 && this.userData.role_id != 10);
+    }
   }
 
   applyFilter(): void {

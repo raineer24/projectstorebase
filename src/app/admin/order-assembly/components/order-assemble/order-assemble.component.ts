@@ -119,7 +119,6 @@ export class OrderAssembleComponent implements OnInit {
   }
 
   confirm(orderItem: any): void {
-    orderItem.status = 'confirmed';
     const data = {
       id: orderItem.orderItem_id,
       item_id: orderItem.id,
@@ -128,12 +127,17 @@ export class OrderAssembleComponent implements OnInit {
       finalPrice: orderItem.finalPrice,
       status: 'confirmed',
     }
-    this.recalculate();
-    this.adminService.updateOrderItem(data).subscribe();
+    this.adminService.updateOrderItem(data).subscribe((res) => {
+      if (res.message && res.message.indexOf('Updated') >= 0) {
+        orderItem.status = 'confirmed';
+        this.recalculate();
+      } else if (!res.message && res.type == 'error') {
+        this.adminService.showErrorMsg('Unable to connect to server. Please try again later.');
+      }
+    });
   }
 
   unavailable(orderItem: any): void {
-    orderItem.status = 'unavailable';
     const data = {
       id: orderItem.orderItem_id,
       item_id: orderItem.id,
@@ -142,15 +146,17 @@ export class OrderAssembleComponent implements OnInit {
       finalPrice: '',
       status: 'unavailable',
     }
-    this.recalculate();
-    this.adminService.updateOrderItem(data).subscribe();
+    this.adminService.updateOrderItem(data).subscribe((res) => {
+      if (res.message && res.message.indexOf('Updated') >= 0) {
+        orderItem.status = 'unavailable';
+        this.recalculate();
+      } else if (!res.message && res.type == 'error') {
+        this.adminService.showErrorMsg('Unable to connect to server. Please try again later.');
+      }
+    });
   }
 
   reset(orderItem: any): void {
-    this.orderItemStatus[orderItem.orderItem_id] = 0;
-    orderItem.status = 'ordered';
-    orderItem.finalQuantity = orderItem.quantity;
-    orderItem.finalPrice = orderItem.price;
     const data = {
       id: orderItem.orderItem_id,
       item_id: orderItem.id,
@@ -159,8 +165,17 @@ export class OrderAssembleComponent implements OnInit {
       finalPrice: '',
       status: 'ordered',
     }
-    this.recalculate();
-    this.adminService.updateOrderItem(data).subscribe();
+    this.adminService.updateOrderItem(data).subscribe((res) => {
+      if (res.message && res.message.indexOf('Updated') >= 0) {
+        this.orderItemStatus[orderItem.orderItem_id] = 0;
+        orderItem.status = 'ordered';
+        orderItem.finalQuantity = orderItem.quantity;
+        orderItem.finalPrice = orderItem.price;
+        this.recalculate();
+      } else if (!res.message && res.type == 'error') {
+        this.adminService.showErrorMsg('Unable to connect to server. Please try again later.');
+      }
+    });
   }
 
   updatePrice(e: any, orderItem: any): void {
@@ -192,9 +207,13 @@ export class OrderAssembleComponent implements OnInit {
       }
     }
     this.adminService.updateSellerOrder(data.orderseller).mergeMap((res) => {
-      return this.adminService.updateOrder(data.order)
+      if(res.message && res.message.indexOf('Updated') >= 0) {
+        return this.adminService.updateOrder(data.order);
+      } else {
+        return Observable.of(res);
+      }
     }).subscribe(res => {
-      if(res.message.indexOf('Updated') >= 0) {
+      if(res.message && res.message.indexOf('Updated') >= 0) {
         if (this.orderSeller.itemTotal != this.itemsTotal) {
           if (this.pbuData) {
             this.adminService.updatePartnerBuyerUser({
@@ -206,6 +225,8 @@ export class OrderAssembleComponent implements OnInit {
           this.updateTransactions();
         }
         this.router.navigate(['/admin/order-assemble']);
+      } else if (!res.message && res.type == 'error') {
+        this.adminService.showErrorMsg('Unable to connect to server. Please try again later.');
       }
     });
   }
@@ -273,7 +294,7 @@ export class OrderAssembleComponent implements OnInit {
           status: 'cancelled',
         })
       }).subscribe(res => {
-        if(res.message.indexOf('Updated') >= 0) {
+        if(res.message && res.message.indexOf('Updated') >= 0) {
           if (this.pbuData) {
             this.adminService.updatePartnerBuyerUser({
               useraccount_id: this.orderSeller.useraccount_id,
@@ -282,7 +303,9 @@ export class OrderAssembleComponent implements OnInit {
             }).subscribe();
           }
           this.router.navigate(['/admin/order-assemble']);
-        }
+        } else if (!res.message && res.type == 'error') {
+         this.adminService.showErrorMsg('Unable to connect to server. Please try again later.');
+       }
       });
     }
   }

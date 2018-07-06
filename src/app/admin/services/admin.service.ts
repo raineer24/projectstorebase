@@ -34,11 +34,15 @@ export class AdminService {
         // Setting token after login
         localStorage.setItem('selleruser', JSON.stringify(response));
       } else {
+        console.log(response)
+        const msg = response.message.toUpperCase();
         let errMsg = '';
-        if(response.message.toUpperCase() == 'NOT FOUND') {
+        if(msg == 'NOT FOUND') {
           errMsg = 'Please enter valid credentials';
-        } else if (response.message.toUpperCase() == 'DISABLED') {
+        } else if (msg == 'DISABLED') {
           errMsg = 'Account disabled. Please contact our administrator';
+        } else if (msg == 'Failed') {
+          errMsg = 'Server error. Pleaes try again later.'
         }
         this.http.loading.next({
           loading: false,
@@ -394,7 +398,9 @@ export class AdminService {
     return this.http.put(`v1/orderItem/${data.id}`, data
     ).map((res) => {
       return res.json();
-    }).catch(err => Observable.empty());
+    }).catch((err) => {
+      return Observable.of(err);
+    });
   }
 
   /**
