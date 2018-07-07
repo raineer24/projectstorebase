@@ -26,7 +26,7 @@ export class AddCategoryComponent implements OnInit {
   csvInput: any;
   csvData: any;
   bHasFile: boolean;
-  bPBUAdded: boolean;
+  bCategoriesAdded: boolean;
 
   constructor(
     private adminService: AdminService,
@@ -38,7 +38,7 @@ export class AddCategoryComponent implements OnInit {
     this.reader = new FileReader();
     this.csvData = [];
     this.bHasFile = true;
-    this.bPBUAdded = true;
+    this.bCategoriesAdded = true;
 
   }
 
@@ -68,22 +68,16 @@ export class AddCategoryComponent implements OnInit {
       newCsv = [];
       for( i = 0; i < this.csvData.length; i++){
         dArr = this.csvData[i].split(',');
-        // newCsv.push({
-        //   username: dArr[0].replace(/'/g,""),
-        //   email: dArr[1].replace(/'/g,""),
-        //   name: dArr[2].replace(/'/g,""),
-        //   credit: Number(dArr[3]),
-        //   availablebalance: Number(dArr[4]),
-        //   outstandingbalance: 0.00,
-        //   status: dArr[5].replace(/'/g,""),
-        //   useraccount_id: Number(dArr[6]),
-        //   partnerBuyer_id: Number(dArr[7]),
-        //   dateCreated: dateCreated,
-        //   dateUpdated: dateCreated
-        // });
+        newCsv.push({
+          name: dArr[1].replace(/'/g,""),
+          level: dArr[2].replace(/'/g,""),
+          category_id: dArr[3].replace(/'/g,""),
+          dateCreated: dateCreated,
+          dateUpdated: dateCreated
+        });
       }
       var Obj = {...newCsv};
-      // this.createPBUsers(Obj,newCsv.length);
+      this.createCategories(Obj);
 
     };
     this.reader.readAsText(input.files[0]);
@@ -91,15 +85,28 @@ export class AddCategoryComponent implements OnInit {
   }
 
   setLoader(){
-    this.bPBUAdded = false;
+    this.bCategoriesAdded = false;
     this.timer = Observable.timer(3000); // 5000 millisecond means 5 seconds
     this.subs = this.timer.subscribe(() => {
         // set showloader to false to hide loading div from view after 5 seconds
-        this.bPBUAdded = true;
-        this.router.navigate(['/admin/pbu']);
+        this.bCategoriesAdded = true;
+        this.router.navigate(['/admin']);
     });
   }
 
+  createCategories(data){
+    this.adminService.addCategories(data).subscribe();
+  }
+
+  enableAddBtn(csvInput: any){
+    const input = csvInput;
+    if(input){
+      this.bHasFile = false;
+    } else {
+      this.bHasFile = true;
+    }
+
+  }
 
   ngOnDestroy() {
 

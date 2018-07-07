@@ -72,7 +72,7 @@ export class PbuComponent implements OnInit {
       let pbuContainer = [];
       for(const key in this.pbuShow){
         if(this.pbuShow[key].id === id){
-            localStorage.setItem('pbuser',JSON.stringify(this.pbuShow[key]));
+            localStorage.setItem('pbuser_selected',JSON.stringify(this.pbuShow[key]));
             return;
         }
       }

@@ -26,6 +26,7 @@ export class PbuEditComponent implements OnInit, OnDestroy {
     'outstandingbalance': Number,
     'credit': Number,
     'status': string,
+    'useraccount_id': Number,
     'dateUpdated': string
   };
   storePBU$: Subscription;
@@ -48,9 +49,8 @@ export class PbuEditComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.storePBU = [];
-    this.pbuData = JSON.parse(localStorage.getItem('pbuser'));
+    this.pbuData = JSON.parse(localStorage.getItem('pbuser_selected'));
     this.pStatus = this.pbuData.status;
-    console.log(this.pStatus);
   }
 
   onCancelClick() {
@@ -90,6 +90,7 @@ export class PbuEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('pbuser_selected');
   }
 
 }

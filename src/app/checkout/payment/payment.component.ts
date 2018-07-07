@@ -131,6 +131,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.couponCode = '';
     this.bCouponEntered = false;
     this.paymentType = "CASH";
     let settings = localStorage.getItem('settings');
@@ -179,14 +180,14 @@ export class PaymentComponent implements OnInit {
     }
 
     this.orderTotal$.takeUntil(this.componentDestroyed).subscribe(val => {
-      this.totalAmount = val - this.totalDiscount;
+      this.totalAmount = val;
       // this.totalPaidAmount = 0.00;
     });
     this.cartItems$.takeUntil(this.componentDestroyed).subscribe(cartItems => {
       this.cartItemIds = cartItems.map(cartItem => cartItem.item_id);
     });
     this.totalAmountDue$.takeUntil(this.componentDestroyed).subscribe(val => {
-      this.totalAmountDue = val;
+      this.totalAmountDue = val - this.totalDiscount;
     });
     this.tempDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalDiscount = val;
@@ -263,7 +264,7 @@ export class PaymentComponent implements OnInit {
       this.bCouponEntered = false;
 
     });
-    localStorage.setItem('voucher','');
+    localStorage.removeItem('voucher');
     localStorage.setItem('discount','0');
     this.setDefault();
   }
@@ -489,6 +490,7 @@ export class PaymentComponent implements OnInit {
   ngOnDestroy() {
     this.componentDestroyed.next();
     this.componentDestroyed.unsubscribe();
+    // this.couponCode = '';
   }
 
 }

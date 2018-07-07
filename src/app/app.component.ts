@@ -114,8 +114,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.checkSessionPersistence();
     this.store.select(getAuthStatus).subscribe(isAuth => {
       this.settingsSub$ = this.authService.getSettings().subscribe(setting => {
-        let settings = JSON.stringify(setting);
-        localStorage.setItem('settings',settings);
+        console.log(setting.type);
+        if(!setting.type){
+            localStorage.setItem('settings',JSON.stringify(setting));
+        } else {
+            localStorage.setItem('settings','');
+        }
         this.orderSub$ = this.checkoutService.fetchCurrentOrder(isAuth).subscribe();
       });
     });

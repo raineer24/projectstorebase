@@ -82,9 +82,15 @@ export class AdminComponent implements OnInit {
       type: 'submenu',
       rolesRequired: [1,2,3],
     },
+    // {
+    //   name: "Manage Categories",
+    //   routerLink:"/admin/master-list/components/add-category",
+    //   type: 'submenu',
+    //   rolesRequired: [1,2,3],
+    // },
     {
-      name: "Manage Categories",
-      routerLink:"/admin/master-list/components/add-category",
+      name: "Item List",
+      routerLink:"/admin/master-list/components/item-list",
       type: 'submenu',
       rolesRequired: [1,2,3],
     },

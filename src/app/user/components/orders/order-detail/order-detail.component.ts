@@ -24,6 +24,8 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
   orderNumber: String;
   order: any;
   tSlot: any;
+  sFee: any;
+  dFee: any;
   deliveryDate: any = {};
   orderItems: Array<any>;
   bHasFeedback: boolean = false;
@@ -60,13 +62,13 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
             if(this.order) {
               this.order.discountTotal = Number(this.order.discountTotal);
               this.order.paymentTotal = Number(this.order.paymentTotal);
-              this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal - this.order.discountTotal;
+              this.order.grandTotal = Number(this.order.total) - this.order.paymentTotal;
               this.timeslotSubscription$ = this.userService.getTimeSlotOrder(this.order.id).subscribe( timeslot => {
                   this.tSlot = timeslot;
               });
           }
         })
-
+        // - this.order.paymentTotal - this.order.discountTotal
         this.orderSubscription$ = this.userService
           .getOrderDetail(orderKey)
           .subscribe(orderItems => {
