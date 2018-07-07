@@ -460,7 +460,8 @@ export class PaymentComponent implements OnInit {
         });
       }
     }).mergeMap(response => {
-      if (response.message.toUpperCase() == 'SAVED') {
+      const message = response.message.toUpperCase();
+      if (message == 'SAVED' || message.indexOf('UPDATED') >= 0) {
         return this.checkoutService.updateOrderPayment(params).mergeMap(res => {
           if (res.message.indexOf('Processed') >= 0) {
             this.router.navigate(['/checkout', 'confirm', orderKey]);

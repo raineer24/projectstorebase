@@ -86,7 +86,6 @@ export class OrderAssemblyComponent implements OnInit {
   }
 
   takeOrder(orderSeller: any): void {
-    this.orders[Number(orderSeller.timeslot_id) - 1].pending--;
     const data = {
       id: orderSeller.id,
       selleraccount_id: this.userData.id,
@@ -105,6 +104,7 @@ export class OrderAssemblyComponent implements OnInit {
       }
     }).subscribe((response: any) => {
       if(response && response.message.indexOf('Updated') >= 0) {
+        this.orders[Number(orderSeller.timeslot_id) - 1].pending--;
         this.router.navigate(['/admin/order-assemble/edit', orderSeller.id]);
       } else {
         this.initOrders();
