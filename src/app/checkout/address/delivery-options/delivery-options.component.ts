@@ -28,6 +28,7 @@ export class DeliveryOptionsComponent implements OnInit {
   timeSlotRows: Array<any>;
   selectedTimeSlot: Array<number> = [null, null];
   isShowErrMsg: boolean = false;
+  BUFFER_HOUR: number = 3;
 
   constructor(
     private checkoutAction: CheckoutActions,
@@ -86,7 +87,7 @@ export class DeliveryOptionsComponent implements OnInit {
     //   return true;
     // }
     let timeslot = new Date(`${this.timeSlots[i].date} ${this.timeSlots[i].range[j].range}`);
-    timeslot.setHours(timeslot.getHours() - 3);
+    timeslot.setHours(timeslot.getHours() - this.BUFFER_HOUR);
     const now = new Date();
     if(now < timeslot) {
       return false;

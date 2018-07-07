@@ -221,11 +221,21 @@ export class AuthService {
           });
         }
       } else {
-        // this.http.loading.next({
-        //   loading: false,
-        //   hasError: true,
-        //   hasMsg: 'Please enter valid Credentials'
-        // });
+        if (isMsg) {
+          let errorMsg = 'Error occurred. Please try again later.';
+          if (result.message == 'Not Found') {
+            errorMsg = 'User does not exist.';
+          } else if (result.message == 'Email Already Taken') {
+            errorMsg = 'Email already in use. Please provide another one.'
+          }
+          this.http.loading.next({
+            loading: false,
+            hasError: true,
+            hasMsg: errorMsg,
+            reset: 4500,
+          });
+        }
+
       }
       return result;
     });

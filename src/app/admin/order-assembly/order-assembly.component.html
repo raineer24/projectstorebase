@@ -53,6 +53,7 @@
         </ng-template>
         <div *ngFor="let order of timeslot.orders; let i = index" class="panel panel-default">
           <div class="panel-body row">
+            <div class="fresh-meat" *ngIf="isPerishable(order)">Contains Fresh & Frozen Goods</div>
             <div class="col-xs-12 col-sm-8">
               Order Number: <b><span class="text-primary">{{order.orderNumber}}</span></b><br>
               <small>

@@ -262,6 +262,9 @@ div.home-container {
   .navbar-nav > li > a {
      font-size: 12px;
    }
+  .navbar-fixed-top .navbar-collapse {
+    max-height: unset;
+  }
   .navbar-default .navbar-collapse,
   .navbar-default .navbar-form {
     border-color: #e7e7e7;

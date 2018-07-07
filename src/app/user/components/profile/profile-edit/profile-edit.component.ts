@@ -17,6 +17,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
   @Output() onCancelClickEmit: EventEmitter<string> = new EventEmitter();
   profileEditForm: FormGroup;
   profileEditSubs: Subscription;
+  isPBU: boolean = false;
   userData: {
     'id': Number,
     'email': string,
@@ -39,11 +40,11 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.userData = JSON.parse(localStorage.getItem('user'));
-
+    this.isPBU = localStorage.getItem('pbu') ? true: false;
     const mobileNumber = this.userData.mobileNumber ? this.userData.mobileNumber.split(" "): ['+63',''];
     const birthdate = new Date(this.userData.birthdate);
     this.profileEditForm = this.fb.group({
-      'email': [this.userData.email, Validators.compose([Validators.required, Validators.email]) ],
+      'email': [{value: this.userData.email, disabled: this.isPBU}, Validators.compose([Validators.required, Validators.email]) ],
       'lastName': [this.userData.lastName, Validators.required],
       'firstName': [this.userData.firstName, Validators.required],
       'gender': [this.userData.gender, Validators.required],

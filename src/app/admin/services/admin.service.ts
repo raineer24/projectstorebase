@@ -237,6 +237,19 @@ export class AdminService {
   /**
    *
    *
+   * @returns {Observable<any[]>}
+   *
+   * @memberof AdminService
+   */
+  getFreshFrozenCount(sellerId): Observable<any[]> {
+    return this.http.get(`v1/ordersellers/count/freshFrozen?sellerId=${sellerId}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @returns {Observable<Transaction[]>}
    *
    * @memberof AdminService

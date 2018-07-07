@@ -12,14 +12,8 @@ import { AdminService } from './../services/admin.service';
 })
 export class OrderAssemblyComponent implements OnInit {
   orders: any;
+  ordersCount: any;
   ordersSub: Subscription;
-  orderSub: Subscription;
-  orderItem$: Subscription;
-  orderIndex$: any;
-  orderItems: any;
-  itemList: any;
-  ordersShow: any;
-  statusContainer: string[] = [];
   userData: any;
   selectedValue: string = 'ALL';
   toDate = new Date();
@@ -85,6 +79,9 @@ export class OrderAssemblyComponent implements OnInit {
           pending: timeslotOrders.filter(order => order.status.toUpperCase() == 'PENDING').length,
         });
       });
+      this.adminService.getFreshFrozenCount(this.userData.seller_id).subscribe(result => {
+        this.ordersCount = result;
+      })
     });
   }
 
@@ -209,6 +206,15 @@ export class OrderAssemblyComponent implements OnInit {
     }
     this.initOrders();
     this.showFilter = false;
+  }
+
+  isPerishable(orderSeller: any): boolean {
+    const index = this.ordersCount.findIndex((order) => orderSeller.order_id == order.order_id);
+    if (index >= 0) {
+      return this.ordersCount[index].itemCount ? true : false;
+    } else {
+      return false;
+    }
   }
 
   ngOnDestroy() {
