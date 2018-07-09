@@ -532,8 +532,10 @@ export class AdminService {
    * @memberof AdminService
    */
   checkUser(username): Observable<any> {
-    return this.http.get(`v1//user/account/${username}/check`)
-      .map((res: Response) => { return res.json(); })
+    return this.http.get(`v1/user/account/${username}/check`)
+      .map((res: Response) => {
+        return res.json();
+      })
       .catch(res => Observable.empty());
   }
 
@@ -618,9 +620,12 @@ export class AdminService {
   */
   createUsers(data): Observable<any> {
    this.hasError = false;
-   return this.http.put(
+   return this.http.post(
      `v1/user/account/savemany`, data
-   ).map((res: Response) => res.json())
+   ).map((res: Response) => {
+     console.log(res.json());
+     return res.json();
+  })
    .catch(res => Observable.empty());
   }
 
