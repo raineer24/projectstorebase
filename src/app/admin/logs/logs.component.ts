@@ -32,14 +32,19 @@ export class LogsComponent implements OnInit {
   pagedItems: any[];
   bOpenDateRange: boolean;
   bHasPages: boolean;
+  activeUser: any;
 
   constructor(
     private adminService: AdminService
   ) { }
 
   ngOnInit() {
-    //NOTE: dummy ID
-    const partnerId = 0;
+    this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
+    partnerId = this.activeUser.partnerId;
+    const options = {
+      partnersId: this.activeUser.partner_id,
+      limit: 0,
+    }
     this.logsShow = [];
     this.allItems = [];
     this.bOpenDateRange = false;
@@ -51,7 +56,7 @@ export class LogsComponent implements OnInit {
       this.logs = logs;
       this.userContainer = [];
       this.actionContainer = []
-      this.getAllSellerUsers(this.logs);
+      this.getAllSellerUsers(this.logs,options);
       const jsonData = JSON.stringify(this.logs);
       localStorage.setItem('logs',jsonData);
 
@@ -111,8 +116,8 @@ export class LogsComponent implements OnInit {
         };
     }
 
-  getAllSellerUsers(logs: any){
-    this.usersSub = this.adminService.getUsers().subscribe(user => {
+  getAllSellerUsers(logs: any, options: any){
+    this.usersSub = this.adminService.getUsers(options).subscribe(user => {
       this.users = user;
       this.userContainer = [];
       for(const key in logs){

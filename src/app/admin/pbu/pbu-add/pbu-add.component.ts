@@ -24,6 +24,7 @@ export class PbuAddComponent implements OnInit, OnDestroy {
   private timer: Observable<any>;
   bHasFile: boolean;
   bPBUAdded: boolean;
+  bUsersCreated: boolean;
   @Input() loader: any;
 
   constructor(
@@ -39,6 +40,7 @@ export class PbuAddComponent implements OnInit, OnDestroy {
     this.csvData = [];
     this.bHasFile = true;
     this.bPBUAdded = true;
+    this.bUsersCreated = false;
   }
 
 
@@ -97,7 +99,8 @@ export class PbuAddComponent implements OnInit, OnDestroy {
         });
       }
       var Obj = {...newCsv};
-      this.createPBUsers(Obj);
+      // this.createUsers(Obj);
+      this.createUsers(Obj);
 
     };
     this.reader.readAsText(input.files[0]);
@@ -118,35 +121,54 @@ export class PbuAddComponent implements OnInit, OnDestroy {
     this.bPBUAdded = true;
   }
 
-  createPBUsers(data){
+  createUsers(data) {
     var toUsers = [];
-    var toPBU = []
+    var toPBU = [];
     for(const key in data){
       toUsers.push({
-        username: data[key].email,
-        email: data[key].email,
-        firstName: data[key].firstname,
-        lastName: data[key].lastname,
-        password: this.passwordGen(),
-        dateCreated: data[key].dateCreated,
-        dateUpdated: data[key].dateCreated
+        user: {
+          username: data[key].email,
+          email: data[key].email,
+          firstName: data[key].firstname,
+          lastName: data[key].lastname,
+          password: this.passwordGen(),
+          dateCreated: data[key].dateCreated,
+          dateUpdated: data[key].dateCreated
+        },
+        pbu:{
+          username: data[key].email,
+          email: data[key].email,
+          name: data[key].firstname+ ' '+data[key].lastname,
+          credit: data[key].credit,
+          availablebalance: data[key].credit,
+          status: data[key].status,
+          partnerBuyer_id: data[key].partnerBuyer_id,
+        }
       });
     }
     var usersObj = {...toUsers};
-    console.log(usersObj);
     this.adminService.createUsers(usersObj).subscribe(users => {
-      if(users.message == "Saved"){
-        for(const key in usersObj){
-          this.adminService.checkUser(usersObj[key].username).subscribe(user => {
-            console.log(user);
-          })
-        }
+      if(users.message === "Saved"){
+        this.setPBUData(data);
       }
     });
   }
 
+  setPBUData(data){
+
+
+  }
+
+  createPBUsers(data){
+    this.createUsers(data);
+    for(const key in data){
+      this.adminService.createPBU(data[key].email).subscribe();
+    }
+  }
+
+
   passwordGen(): string{
-    var length = 4, charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", retVal = "";
+    var length = 4, charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()`~,./:;{}[]", retVal = "";
     for (var i = 0, n = charset.length; i < length; ++i) {
         retVal += charset.charAt(Math.floor(Math.random() * n));
     }
