@@ -5,7 +5,6 @@
 }
 
 .item-list {
-
   div.row:nth-of-type(odd) {
     background-color: #f9f9f9;
   }
@@ -19,19 +18,19 @@
   //   border: 1px solid #15bb6a;
   // }
   div.input-group {
-    width: 140px;
+    width: 130px;
     float: left;
   }
   .form-group {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
   }
   .control-label {
-    width: 70px;
+    width: 55px;
     vertical-align: top;
     font-weight: 400;
   }
   .final-price {
-    width: 140px;
+    width: 130px;
     display: inline-block;
   }
   .item-quantity {
@@ -62,7 +61,10 @@
     }
   }
   .instructions {
-    width: unset;
+    font-style: italic;
+    background-color: #fdefd0;
+    padding: 3px;
+    margin-top: 5px;
   }
   .category {
     text-transform: capitalize;
@@ -88,6 +90,45 @@
 .unavailable {
   color: red;
   text-decoration: line-through;
+}
+
+.col-xs-12 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.col-12 {
+  width: 100%;
+  float: left;
+}
+
+.col-6 {
+  width: 50%;
+  float: left;
+}
+
+.panel {
+  margin-bottom: 10px;
+  .panel-body {
+    padding: 5px 15px;
+    hr {
+      margin: 0;
+    }
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  padding: 10px 15px 0;
+  background: #fff;
+}
+
+.sticky + .container-fluid {
+  padding-top: 151px;
 }
 
 input[type='number'] {

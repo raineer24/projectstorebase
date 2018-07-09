@@ -10,6 +10,9 @@
     <button *ngIf="(orderSeller.status | uppercase) == 'IN-TRANSIT'" type="button" class="btn btn-default btn-lg" (click)="returnOrder()">Return Order</button>
     <button *ngIf="(orderSeller.status | uppercase) == 'RETURNED'" type="button" class="btn btn-default btn-lg" (click)="returnComplete()">Return Complete</button>
   </div>
+  <div class="well small">
+    <b>Status: <span class="text-primary">{{ orderSeller.status | uppercase }}</span></b>
+  </div>
   <div class="panel panel-default ">
     <div class="panel-heading small"><b>Payment Details</b></div>
     <div class="panel-body"><small>
@@ -42,12 +45,30 @@
   <div class="panel panel-default small">
     <div class="panel-heading"><b>Items</b></div>
     <div class="panel-body">
-      <div *ngFor="let item of orderItems; let i = index;" class="row">
-        <p class="col-xs-9">
-          {{item.name}} <i class="small">(Quantity: {{ item.finalQuantity }})</i>
-        </p>
-        <p class="col-xs-3 text-right">₱ {{ (item.finalPrice * item.quantity) | number:'1.2-2'}}</p>
-      </div>
+      <ng-container *ngIf="(orderSeller.status | uppercase) == 'PENDING' || (orderSeller.status | uppercase) == 'IN-PROGRESS'; else elseBlock">
+        <div *ngFor="let item of orderItems; let i = index;" class="row">
+          <p class="col-xs-9">
+            {{item.name}} <i class="small">(Quantity: {{ item.quantity }})</i>
+          </p>
+          <p class="col-xs-3 text-right">₱ {{ (item.price * item.quantity) | number:'1.2-2'}}</p>
+        </div>
+      </ng-container>
+      <ng-template #elseBlock>
+        <div *ngFor="let item of orderItems; let i = index;" class="row">
+          <ng-container *ngIf="item.finalQuantity; else elseBlock2">
+            <p class="col-xs-9">
+              {{item.name}} <i class="small">(Quantity: {{ item.finalQuantity }})</i>
+            </p>
+            <p class="col-xs-3 text-right">₱ {{ (item.finalPrice * item.finalQuantity) | number:'1.2-2'}}</p>
+          </ng-container>
+          <ng-template #elseBlock2>
+            <p class="col-xs-9 unavailable">
+              {{item.name}} <i class="small">(Quantity: {{ item.quantity }})</i>
+            </p>
+            <p class="col-xs-3 unavailable text-right">₱ {{ (item.price * item.quantity) | number:'1.2-2'}}</p>
+          </ng-template>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

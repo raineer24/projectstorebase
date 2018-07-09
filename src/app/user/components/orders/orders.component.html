@@ -5,7 +5,7 @@
 </nav>
 <div *ngIf="(orders$ | async).length; else elseBlock">
     <div *ngFor="let order of orders$ | async">
-      <app-order-list-item *ngIf="order.status != 'cart' && order.status != 'address' && order.status != 'delivery'"
+      <app-order-list-item *ngIf="order.status != 'cart' && order.status != 'address' && order.status != 'timeslot'"
       [order]="order"></app-order-list-item>
     </div>
 </div>

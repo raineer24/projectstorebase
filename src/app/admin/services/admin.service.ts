@@ -35,11 +35,15 @@ export class AdminService {
         // Setting token after login
         localStorage.setItem('selleruser', JSON.stringify(response));
       } else {
+        console.log(response)
+        const msg = response.message.toUpperCase();
         let errMsg = '';
-        if(response.message.toUpperCase() == 'NOT FOUND') {
+        if(msg == 'NOT FOUND') {
           errMsg = 'Please enter valid credentials';
-        } else if (response.message.toUpperCase() == 'DISABLED') {
+        } else if (msg == 'DISABLED') {
           errMsg = 'Account disabled. Please contact our administrator';
+        } else if (msg == 'Failed') {
+          errMsg = 'Server error. Pleaes try again later.'
         }
         this.http.loading.next({
           loading: false,
@@ -233,6 +237,19 @@ export class AdminService {
   /**
    *
    *
+   * @returns {Observable<any[]>}
+   *
+   * @memberof AdminService
+   */
+  getFreshFrozenCount(sellerId): Observable<any[]> {
+    return this.http.get(`v1/ordersellers/count/freshFrozen?sellerId=${sellerId}`)
+      .map((res: Response) => res.json())
+      .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
    * @returns {Observable<Transaction[]>}
    *
    * @memberof AdminService
@@ -240,9 +257,7 @@ export class AdminService {
   getTransactions(): Observable<Transaction[]> {
     return this.http.get(`v1/transactions`)
       .map((res: Response) => res.json())
-
       .catch(res => Observable.empty());
-
   }
 
   /**
@@ -396,7 +411,9 @@ export class AdminService {
     return this.http.put(`v1/orderItem/${data.id}`, data
     ).map((res) => {
       return res.json();
-    }).catch(err => Observable.empty());
+    }).catch((err) => {
+      return Observable.of(err);
+    });
   }
 
   /**
@@ -665,11 +682,19 @@ export class AdminService {
   /**
    *
    *
-   * @param {any} data
+   * @param {any} id
    * @returns {Observable<any>}
    *
    * @memberof AdminService
    */
+  getPartnerBuyerUser(id): Observable<any>{
+    return this.http.get(`v1/user/account/partnerbuyeruser/${id}`)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
+  }
+
   getItems(offset: number): Observable<any> {
     this.hasError = false;
     const limit = 10;
@@ -686,33 +711,81 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  update(id, data): Observable<any> {
-    return this.http.put(
-      `v1/user/account/${id}/save`, data
-    ).map((res: Response) => {
-      let result = res.json();
-      if (result.message.indexOf('Updated') >= 0) {
-        let storedData = JSON.parse(localStorage.getItem('user'));
-        data.message = result.message;
-        for (let key in data) {
-          if (data.hasOwnProperty(key)) {
-            storedData[key] = data[key];
-          }
-        }
-        //this.setTokenInLocalStorage(storedData);
-        this.http.loading.next({
-          message: `Profile was successfully saved.`
-        });
-      } else {
-        // this.http.loading.next({
-        //   loading: false,
-        //   hasError: true,
-        //   hasMsg: 'Please enter valid Credentials'
-        // });
-      }
-      return result;
-    });
+  updatePartnerBuyerUser(data): Observable<any>{
+    return this.http.post(`v1/user/account/partnerbuyeruser/${data.useraccount_id}/save`,data)
+    .map(res => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
   }
+
+  /**
+   *
+   *
+   * @param {number} order_id
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  getTransactionsPerOrder(order_id: number): Observable<any>{
+    return this.http.get(`v1/transactions/orders/${order_id}`)
+    .map(res => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateTransaction(data: any): Observable<any>{
+    return this.http.put(`v1/transactions/${data.id}`, data)
+    .map(res => {
+      return res.json();
+    })
+    .catch(err => Observable.empty());
+  }
+
+  // /**
+  //  *
+  //  *
+  //  * @param {any} data
+  //  * @returns {Observable<any>}
+  //  *
+  //  * @memberof AdminService
+  //  */
+  // update(id, data): Observable<any> {
+  //   return this.http.put(
+  //     `v1/user/account/${id}/save`, data
+  //   ).map((res: Response) => {
+  //     let result = res.json();
+  //     if (result.message.indexOf('Updated') >= 0) {
+  //       let storedData = JSON.parse(localStorage.getItem('user'));
+  //       data.message = result.message;
+  //       for (let key in data) {
+  //         if (data.hasOwnProperty(key)) {
+  //           storedData[key] = data[key];
+  //         }
+  //       }
+  //       //this.setTokenInLocalStorage(storedData);
+  //       this.http.loading.next({
+  //         message: `Profile was successfully saved.`
+  //       });
+  //     } else {
+  //       // this.http.loading.next({
+  //       //   loading: false,
+  //       //   hasError: true,
+  //       //   hasMsg: 'Please enter valid Credentials'
+  //       // });
+  //     }
+  //     return result;
+  //   });
+  // }
 
   /**
    *

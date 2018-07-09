@@ -8,6 +8,7 @@ import { AppState } from './../../../interfaces';
 import { getOrderId, getOrderState, getDeliveryDate } from './../../reducers/selectors';
 import { CheckoutActions } from './../../actions/checkout.actions';
 import { CheckoutService } from './../../../core/services/checkout.service';
+import { Globals } from './../../../globals';
 
 
 @Component({
@@ -25,9 +26,9 @@ export class DeliveryOptionsComponent implements OnInit {
   timeSlots: Array<any>;
   availableSlots: Array<any>;
   timeSlotRows: Array<any>;
-  timeSlotLabels: Array<string> = ['8:00 AM','11:00 AM','2:00 PM','5:00 PM','8:00 PM'];
   selectedTimeSlot: Array<number> = [null, null];
   isShowErrMsg: boolean = false;
+  BUFFER_HOUR: number = 3;
 
   constructor(
     private checkoutAction: CheckoutActions,
@@ -35,6 +36,7 @@ export class DeliveryOptionsComponent implements OnInit {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private router: Router,
+    private globals: Globals,
   ) {
     this.checkoutService.getAllTimeSlot().takeUntil(this.componentDestroyed).subscribe(data => {
       this.timeSlots = data;
@@ -61,7 +63,7 @@ export class DeliveryOptionsComponent implements OnInit {
   ngOnInit() {
     // TODO: check if user has order
     // console.log(this.orderStatus)
-    // if(this.orderStatus == 'delivery'
+    // if(this.orderStatus == 'timeslot'
     // || this.orderStatus == 'payment') {
     //   //do nothing;
     // } else {
@@ -85,7 +87,7 @@ export class DeliveryOptionsComponent implements OnInit {
     //   return true;
     // }
     let timeslot = new Date(`${this.timeSlots[i].date} ${this.timeSlots[i].range[j].range}`);
-    timeslot.setHours(timeslot.getHours() - 3);
+    timeslot.setHours(timeslot.getHours() - this.BUFFER_HOUR);
     const now = new Date();
     if(now < timeslot) {
       return false;
@@ -101,11 +103,14 @@ export class DeliveryOptionsComponent implements OnInit {
       this.isShowErrMsg = false;
       this.checkoutService.getAllTimeSlot().subscribe(data => {
         if (data[i].range[j].booked < data[i].range[j].max) {
+          let datetime = new Date(this.timeSlots[i].date);
+          datetime.setHours(5 + (Number(this.timeSlots[i].range[j].timeslotId) * 3));
           this.store.dispatch(this.checkoutAction.updateOrderDeliveryOptionsSuccess({
-            status: 'delivery',
+            status: 'timeslot',
             date: {
               date: this.timeSlots[i].date,
               timeslotId: Number(this.timeSlots[i].range[j].timeslotId),
+              datetime: datetime.getTime(),
             },
           }));
           this.router.navigate(['/checkout', 'payment']);
@@ -136,14 +141,14 @@ export class DeliveryOptionsComponent implements OnInit {
       //     });
       //   } else {
       //     params = {
-      //       status: 'delivery'
+      //       status: 'timeslot'
       //     }
       //     this.router.navigate(['/checkout', 'payment']);
       //     return this.checkoutService.updateOrder(params);
       //   }
       // }).subscribe();
     } else {
-      this.checkoutService.showErrorMsg('delivery','');
+      this.checkoutService.showErrorMsg('timeslot','');
     }
     localStorage.setItem('confirmationPayment','');
     // localStorage.setItem('payment','');

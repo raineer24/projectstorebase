@@ -10,7 +10,7 @@ import { UserService } from '../../../services/user.service';
 import { UserActions } from '../../../actions/user.actions';
 import { Order } from '../../../../core/models/order';
 import { LineItem } from '../../../../core/models/line_item';
-
+import { Globals } from '../../../../globals';
 
 @Component({
   selector: 'app-order-detail',
@@ -28,8 +28,6 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
   dFee: any;
   deliveryDate: any = {};
   orderItems: Array<any>;
-  fees: Object;
-  timeSlotLabels: Array<string> = ['8:00AM','11:00AM','2:00PM','5:00PM','8:00PM'];
   bHasFeedback: boolean = false;
   showFeedBackTemplate: boolean = false;
   ratingType: number = 0;
@@ -41,22 +39,13 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private userAction: UserActions,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private globals: Globals,
   ) {
 
   }
 
   ngOnInit() {
-    //NOTE: TEMPORARY!!! FEES TO BE DECIDED
-    let settings = localStorage.getItem('settings');
-    settings = JSON.parse(settings);
-    this.sFee = settings[0];
-    this.dFee = settings[1];
-    this.fees = {
-      service: this.sFee[`value`],
-      delivery: this.dFee[`value`],
-    };
-
     if(localStorage.getItem('orderwithFB') !== null)
     {
       this.orderNums = localStorage.getItem('orderwithFB');
@@ -126,7 +115,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
 
 
   getTimeSlotLabel(index: number): string {
-    return this.timeSlotLabels[index-1];
+    return this.globals.TIMESLOT_LABELS[index-1];
   }
 
 
