@@ -39,7 +39,7 @@ export class LogsComponent implements OnInit {
 
   ngOnInit() {
     //NOTE: dummy ID
-    const sellerId = 0;
+    const partnerId = 0;
     this.logsShow = [];
     this.allItems = [];
     this.bOpenDateRange = false;

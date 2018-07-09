@@ -91,7 +91,7 @@ export class PbuAddComponent implements OnInit, OnDestroy {
           outstandingbalance: 0.00,
           status: dArr[6].replace(/'/g,""),
           // useraccount_id: Number(dArr[7]),
-          partnerBuyer_id: dArr[7].replace(/'/g,""),
+          partner_id: dArr[7].replace(/'/g,""),
           dateCreated: dateCreated,
           dateUpdated: dateCreated
         });

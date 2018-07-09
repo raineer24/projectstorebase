@@ -92,7 +92,7 @@ export class AddEditUsersComponent implements OnInit {
           email: values.email,
           name: values.name,
           role_id: Number(values.role),
-          seller_id: this.activeUser.seller_id,
+          partner_id: this.activeUser.partner_id,
         }
         this.adminService.addUser(data).subscribe(response => {
           if (response.message == 'Saved') {
