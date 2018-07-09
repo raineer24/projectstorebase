@@ -68,6 +68,7 @@ export class PaymentComponent implements OnInit {
   totalAmtDue: number = 0;
   updategcStatus$: Subscription;
   discount$: Subscription;
+  checkPartnerBuyer: Subscription;
   vErrMsg: string;
   gErrMsg: string = " ";
   hasErr: boolean = false;
@@ -131,7 +132,36 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    localStorage.removeItem('PBUser');
+    this.userData = JSON.parse(localStorage.getItem('user'));
+
+    if(localStorage.getItem('pbu') !== null) {
+      if(localStorage.getItem('pbu') === '1'){
+        this.checkPartnerBuyer = this.authService.getPartnerBuyerUser(this.userData.id).subscribe ( data => {
+          localStorage.setItem('PBUser',JSON.stringify(data));
+
+          this.PBUcontainer = JSON.parse(localStorage.getItem('PBUser'));
+          if(this.PBUcontainer.status === "enabled"){
+            this.isPBU = true;
+          } else {
+            this.isPBU = false;
+          }
+
+          this.availableBalance = this.PBUcontainer['availablebalance'];
+          if(this.availableBalance === 0.00){
+            this.bDisabled = true;
+          } else {
+            this.bDisabled = false;
+          }
+
+        });
+
+      } else {
+        this.isPBU = false;
+      }
+    }
     this.couponCode = '';
+    this.voucherCode = '';
     this.bCouponEntered = false;
     this.paymentType = "CASH";
     let settings = localStorage.getItem('settings');
@@ -143,21 +173,6 @@ export class PaymentComponent implements OnInit {
     this.bcashChecked = true;
     this.pEmail = "";
     this.paymentType = "";
-    this.userData = localStorage.getItem('user');
-    if(localStorage.getItem('pbu') !== null) {
-      if(localStorage.getItem('pbu') === '1'){
-        this.isPBU = true;
-        this.PBUcontainer = JSON.parse(localStorage.getItem('PBUser'));
-        this.availableBalance = this.PBUcontainer['availablebalance'];
-        if(this.availableBalance === 0.00){
-          this.bDisabled = true;
-        } else {
-          this.bDisabled = false;
-        }
-      } else {
-        this.isPBU = false;
-      }
-    }
     this.voucherIcon = 'glyphicon glyphicon-tag text-default';
     this.gcList = [];
     if (localStorage.getItem('giftcert') == ''){
@@ -191,7 +206,7 @@ export class PaymentComponent implements OnInit {
     });
     this.tempDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalDiscount = val;
-      if(localStorage.getItem('discount') != '' && localStorage.getItem('discount') != '0'){
+      if(localStorage.getItem('discount') !== '' && localStorage.getItem('discount') !== '0'){
         this.discount = Number(localStorage.getItem('discount'));
         this.voucherCode = localStorage.getItem('voucher');
         this.bCouponEntered = true;
