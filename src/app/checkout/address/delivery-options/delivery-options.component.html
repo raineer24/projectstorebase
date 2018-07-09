@@ -8,7 +8,9 @@
     </div>
   </div>
   <div *ngFor="let slot of timeSlotRows; let i = index;" class="row">
-    <div class="col-custom">{{timeSlotLabels[i]}}</div>
+    <div class="col-custom">
+      <span>{{ globals.TIMESLOT_LABELS[i] }}</span>
+    </div>
     <div *ngFor="let timeslots of timeSlots; let j = index" class="col-custom">
       <ng-container *ngIf="isClosedSlot(j,i); else elseBlock1">
         <label [ngClass]="['btn-warning','btn','btn-block']" #radioButtons disabled

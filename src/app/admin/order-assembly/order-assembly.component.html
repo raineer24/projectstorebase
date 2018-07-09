@@ -40,6 +40,8 @@
           <option *ngFor="let status of statusArray" [value]="status">{{ status }}</option>
         </select>
       </div>
+      &nbsp;|&nbsp;
+      <button type="button" class="btn btn-default btn-sm" (click)="refresh()">Refresh List</button>
     </form>
   </div>
   <br>
@@ -51,6 +53,7 @@
         </ng-template>
         <div *ngFor="let order of timeslot.orders; let i = index" class="panel panel-default">
           <div class="panel-body row">
+            <div class="fresh-meat" *ngIf="isPerishable(order)">Contains Fresh & Frozen Goods</div>
             <div class="col-xs-12 col-sm-8">
               Order Number: <b><span class="text-primary">{{order.orderNumber}}</span></b><br>
               <small>
@@ -62,10 +65,11 @@
               </small>
             </div>
             <div class="col-xs-12 col-sm-4">
-              <button *ngIf="(order.status | uppercase)== 'PENDING'" type="button" class="btn btn-default btn-lg" (click)="takeOrder(order)">TAKE ORDER</button>
-              <button *ngIf="(order.status | uppercase)== 'IN-PROGRESS' && order.assembledBy == userData.id" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/edit',order.id]">CONTINUE</button>
-              <button *ngIf="(order.status | uppercase)== 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" (click)="deliverOrder(order)">DELIVER ORDER</button>
-              <button *ngIf="(order.status | uppercase)!= 'PENDING' && (order.status | uppercase)!= 'IN-PROGRESS' && (order.status | uppercase)!= 'ASSEMBLED'" type="button" class="btn btn-default btn-lg" [routerLink]="['/admin/order-assemble/view',order.id]">VIEW ORDER</button>
+              <button *ngIf="showButton(order,'TAKE')" type="button" class="btn btn-primary btn-lg" (click)="takeOrder(order)">TAKE ORDER</button>
+              <button *ngIf="showButton(order,'CONTINUE')" type="button" class="btn btn-success btn-lg" [routerLink]="['/admin/order-assemble/edit',order.id]">CONTINUE</button>
+              <button *ngIf="showButton(order,'DELIVER')" type="button" class="btn btn-danger btn-lg" (click)="deliverOrder(order)">DELIVER ORDER</button>
+              <button *ngIf="showButton(order,'VIEW')" type="button" class="btn btn-default" [routerLink]="['/admin/order-assemble/view',order.id]">VIEW</button>
+              <button *ngIf="showButton(order,'UNASSIGN')" type="button" class="btn btn-default" (click)="setUnassign(order)">UNASSIGN</button>
             </div>
           </div>
         </div>
@@ -74,5 +78,17 @@
         </div>
       </tab>
     </tabset>
+  </div>
+</div>
+
+<div class="modal" bsModal #unassignModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <p>Do you want to confirm?</p>
+        <button type="button" class="btn btn-default" (click)="confirmUnassign(order)">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="cancelUnassign()">No</button>
+      </div>
+    </div>
   </div>
 </div>

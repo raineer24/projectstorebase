@@ -7,52 +7,60 @@
   </nav>
   <h5>SHIPPING DETAILS</h5>
   <div class="panel panel-default">
-    <div class="row panel-body">
-      <div class="col-md-6">
-        <h5>Order No: {{order.number}}</h5>
-      </div>
-      <div class="col-md-6">
-        <h5>Ordered on {{order.dateCreated | date:'fullDate'}}</h5>
-      </div>
-      <div class="col-md-6">
-        <h5>ADDRESS</h5>
-        <address>
-          <strong>{{order.firstname}} {{order.lastname}}</strong><br>
-          {{order.shippingAddress01}}<br>
-          <ng-container *ngIf="order.shippingAddress02">
-            {{order.shippingAddress02}}<br>
-          </ng-container>
-          {{order.city}}, {{order.country}} {{order.postalcode}}<br>
-          Mobile Number: {{order.phone}}
-          <ng-container *ngIf="order.landline">
-            <br>Phone: {{order.landline}}
-          </ng-container>
-        </address>
-      </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-5">
+          <h5>Order No: {{order.number}}</h5>
 
-      <div class="col-md-6">
-        <h5>ORDER SUMMARY</h5>
-        <dl>
-          <dd>
-            Item(s) Subtotal: ₱ {{order.itemTotal | number:'1.2-2'}}
-          </dd>
-          <dd>
-            Fees: ₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}
-          </dd>
-          <dd *ngIf="order.discountTotal">
-            Discount: <span class="text-success">- ₱ {{order.discountTotal | number:'1.2-2'}}</span>
-          </dd>
-          <dd *ngIf="order.paymentTotal">
-            Credits: <span class="text-success">- ₱ {{order.paymentTotal | number:'1.2-2'}}</span>
-          </dd>
-          <dt>
-            Total: <span class="text-primary">₱ {{order.grandTotal | number:'1.2-2'}}</span>
-          </dt>
-          <dt>
-            <ng-container *ngIf="checkTimeSlot()">Timeslot: <span class="text-primary">{{tSlot.datetime | date:'fullDate'}} at {{getTimeSlotLabel(tSlot.timeslot_id)}}</span></ng-container>
-          </dt>
-        </dl>
-          <ng-container *ngIf="!hasStarFeedback(order.number)"><button class="btn btn-primary btn-feedback" (click)="createFeedBack()">Feedback</button></ng-container>
+        </div>
+        <div class="col-md-7 small">
+          <span>Order Date: {{order.dateCreated | date:'fullDate'}}</span><br>
+          <ng-container *ngIf="checkTimeSlot()">
+            Delivery Date: <span class="text-primary">{{tSlot.datetime | date:'fullDate'}} at {{getTimeSlotLabel(tSlot.timeslot_id)}}</span><br>
+          </ng-container>
+          Status:<span class="text-primary"> {{order.status | uppercase}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <h5>ADDRESS</h5>
+          <address>
+            <strong>{{order.firstname}} {{order.lastname}}</strong><br>
+            {{order.shippingAddress01}}<br>
+            <ng-container *ngIf="order.shippingAddress02">
+              {{order.shippingAddress02}}<br>
+            </ng-container>
+            {{order.city}}, {{order.country}} {{order.postalcode}}<br>
+            Mobile Number: {{order.phone}}
+            <ng-container *ngIf="order.landline">
+              <br>Phone: {{order.landline}}
+            </ng-container>
+          </address>
+        </div>
+
+        <div class="col-md-7">
+          <h5>ORDER SUMMARY</h5>
+          <dl>
+            <dd>
+              Item(s) Subtotal: ₱ {{order.itemTotal | number:'1.2-2'}}
+            </dd>
+            <dd>
+              Fees: ₱ {{(order.serviceFee + order.deliveryFee) | number:'1.2-2'}}
+            </dd>
+            <dd *ngIf="order.discountTotal">
+              Discount: <span class="text-success">- ₱ {{order.discountTotal | number:'1.2-2'}}</span>
+            </dd>
+            <dd *ngIf="order.paymentTotal">
+              Credits: <span class="text-success">- ₱ {{order.paymentTotal | number:'1.2-2'}}</span>
+            </dd>
+            <dd>
+              Total: <span class="text-primary">₱ {{order.grandTotal | number:'1.2-2'}}</span>
+            </dd>
+          </dl>
+          <ng-container *ngIf="!hasStarFeedback(order.number)">
+            <button class="btn btn-primary btn-feedback" (click)="createFeedBack()">Feedback</button>
+          </ng-container>
+        </div>
       </div>
 
       <!-- <dl class="col-md-12">

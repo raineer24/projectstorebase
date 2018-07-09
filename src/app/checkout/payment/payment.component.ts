@@ -443,16 +443,12 @@ export class PaymentComponent implements OnInit {
     }
 
     this.checkoutService.getTimeSlotOrder(this.orderId).mergeMap(res => {
-      const timeslotParams = {
-        order_id: this.orderId,
-        timeslot_id: this.deliveryDate.timeslotId,
-        date: this.deliveryDate.date,
-      };
       if(res.message){
         return this.checkoutService.setTimeSlotOrder({
           order_id: this.orderId,
           timeslot_id: this.deliveryDate.timeslotId,
           date: this.deliveryDate.date,
+          datetime: this.deliveryDate.datetime,
         });
       } else {
         return this.checkoutService.updateTimeSlotOrder({
@@ -460,10 +456,12 @@ export class PaymentComponent implements OnInit {
           order_id: this.orderId,
           timeslot_id: this.deliveryDate.timeslotId,
           date: this.deliveryDate.date,
+          datetime: this.deliveryDate.datetime,
         });
       }
     }).mergeMap(response => {
-      if (response.message.toUpperCase() == 'SAVED') {
+      const message = response.message.toUpperCase();
+      if (message == 'SAVED' || message.indexOf('UPDATED') >= 0) {
         return this.checkoutService.updateOrderPayment(params).mergeMap(res => {
           if (res.message.indexOf('Processed') >= 0) {
             this.router.navigate(['/checkout', 'confirm', orderKey]);
@@ -471,15 +469,15 @@ export class PaymentComponent implements OnInit {
               return this.checkoutService.updateVoucherStatus(this.voucherCode);
             } else {
               return Observable.of(false);
-              // return Observable.empty();
             }
           } else {
             let num = res.message.match(/\d+/g).map(n => parseInt(n));
             this.removeGC(num.toString());
             return Observable.of(false);
-            // return Observable.empty();
           }
         })
+      } else {
+        return Observable.of(false);
       }
     }).subscribe();
 

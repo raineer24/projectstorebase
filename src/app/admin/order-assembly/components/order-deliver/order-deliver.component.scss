@@ -4,6 +4,15 @@
   }
 }
 
-.margin-bottom-5, .panel {
+.margin-bottom-5, .panel, .well {
   margin-bottom: 5px;
+}
+
+.well {
+  padding: 10px 15px;
+}
+
+.unavailable {
+  color: red;
+  text-decoration: line-through;
 }

@@ -8,6 +8,8 @@ import { RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
 // Routes
 import { routes } from "./app.routes";
+// Providers
+import { Globals } from "./globals";
 // Modules
 import { SharedModule } from "./shared/index";
 import { UserModule } from "./user/index";
@@ -69,7 +71,7 @@ import { ModalModule } from "angular-custom-modal";
 
 
   ],
-  providers: [],
+  providers: [Globals],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
