@@ -39,12 +39,9 @@ export class LogsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //NOTE: dummy ID
-    let sellerId = 0;
     this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
-    sellerId = this.activeUser.sellerId;
     const options = {
-      sellersId: this.activeUser.seller_id,
+      partnersId: this.activeUser.partner_id,
       limit: 0,
     }
     this.logsShow = [];
