@@ -38,5 +38,6 @@ export const routes: Routes = [
   { path: 'suggest', component: StaticPagesComponent },
   { path: 'privacy', component: StaticPagesComponent },
   { path: 'terms', component: StaticPagesComponent },
+  { path: 'contact', component: StaticPagesComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
