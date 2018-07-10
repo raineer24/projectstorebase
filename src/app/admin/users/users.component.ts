@@ -26,17 +26,17 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
     const options = {
-      sellersId: this.activeUser.seller_id,
+      partnersId: this.activeUser.partner_id,
       limit: this.itemsPerPage,
     }
     this.usersSub = this.adminService.getUsers({
-      sellersId: this.activeUser.seller_id,
+      partnersId: this.activeUser.partner_id,
       limit: this.itemsPerPage,
     }).subscribe(users => {
       this.users = users;
     });
     this.userCountSub = this.adminService.getUsers({
-      sellersId: this.activeUser.seller_id,
+      partnersId: this.activeUser.partner_id,
       count: 1,
     }).subscribe(result => {
       if (result.length) {
@@ -68,7 +68,7 @@ export class UsersComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.usersSub = this.adminService.getUsers({
-      sellersId: this.activeUser.seller_id,
+      partnersId: this.activeUser.partner_id,
       limit: this.itemsPerPage,
       skip: (event.page - 1) * this.itemsPerPage,
     }).subscribe(users => {

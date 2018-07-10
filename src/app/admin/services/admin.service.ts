@@ -192,7 +192,7 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getAssembleOrders(seller_id: number, filters?: any): Observable<any> {
+  getAssembleOrders(partner_id: number, filters?: any): Observable<any> {
     let filterText = [];
     // if(filters.minDate && filters.maxDate) {
     //   filterText.push(`minDate=${filters.minDate}&maxDate=${filters.maxDate}`);
@@ -203,7 +203,7 @@ export class AdminService {
     if(filters.mode) {
       filterText.push(`mode=${filters.mode}`);
     }
-    return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
+    return this.http.get(`v1/ordersellers?partnerId=${partner_id}&${filterText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -215,7 +215,7 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getOrdersellerList(seller_id: number, options?: any, filters?: any): Observable<any> {
+  getOrdersellerList(partner_id: number, options?: any, filters?: any): Observable<any> {
     let filterText = [];
     let keys = Object.keys(filters);
     keys.forEach(key => {
@@ -229,7 +229,7 @@ export class AdminService {
         filterText.push(`${key}=${options[key]}`)
       }
     });
-    return this.http.get(`v1/ordersellers?sellerId=${seller_id}&${filterText.join('&')}`)
+    return this.http.get(`v1/ordersellers?partnerId=${partner_id}&${filterText.join('&')}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
@@ -241,8 +241,8 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getFreshFrozenCount(sellerId): Observable<any[]> {
-    return this.http.get(`v1/ordersellers/count/freshFrozen?sellerId=${sellerId}`)
+  getFreshFrozenCount(partnerId): Observable<any[]> {
+    return this.http.get(`v1/ordersellers/count/freshFrozen?partnerId=${partnerId}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }

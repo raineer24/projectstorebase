@@ -14,7 +14,7 @@ export class OrdersComponent implements OnInit {
   orders: any;
   ordersSub: Subscription;
   ordersCountSub: Subscription;
-  sellerId: number = 1; //TODO: temporary
+  partnerId: number = 1; //TODO: temporary
   currentPage: number = 1;
   itemsPerPage: number = 15;
   totalItems: number;
@@ -49,7 +49,7 @@ export class OrdersComponent implements OnInit {
   }
 
   initOrders(options: any = { mode: 'orderlist', limit: this.itemsPerPage }): void {
-    this.ordersSub = this.adminService.getOrdersellerList(this.sellerId, options, this.filterUrl).subscribe(orders => {
+    this.ordersSub = this.adminService.getOrdersellerList(this.partnerId, options, this.filterUrl).subscribe(orders => {
       this.orders  = orders.map(order => {
         order.finalItemTotal = Number(order.finalItemTotal);
         return order;
@@ -58,7 +58,7 @@ export class OrdersComponent implements OnInit {
   }
 
   initOrdersCount(): void {
-    this.ordersCountSub = this.adminService.getOrdersellerList(this.sellerId, { mode: 'orderlist', count: 1 }, this.filterUrl).subscribe(result => {
+    this.ordersCountSub = this.adminService.getOrdersellerList(this.partnerId, { mode: 'orderlist', count: 1 }, this.filterUrl).subscribe(result => {
       if (result.length) {
         this.totalItems = result[0].count;
       }
