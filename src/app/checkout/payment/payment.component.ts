@@ -82,17 +82,18 @@ export class PaymentComponent implements OnInit {
   voucherIcon: string;
   couponCode: string;
   checkedGC: boolean = false;
-  checkedCash: boolean = true;
+  // checkedCash: boolean = true; temporarily set to false for BETA
+  checkedCash: boolean = false;
   checkedPP: boolean = false;
   checkedCC: boolean = false;
-  checkedPBU: boolean = false;
+  checkedPBU: boolean = true;
   PBUcontainer: any;
   availableCredit: number = 0.00;
   availableBalance: number = 0.00;
   outstandingBalance: number = 0.00;
   pEmail: string;
   isPBU: boolean = false;
-  bDisabled: boolean = false;
+  bDisabled: boolean = true;
   bcashChecked: boolean;
   pbuEmail: string = "";
   userData: any;

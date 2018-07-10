@@ -108,10 +108,11 @@
           <div class="checkbox">
             <label>
               <ng-container *ngIf="totalAmount > 100; else secondCash">
-                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;checkedPBU=false" (checked)="bcashChecked" >
+                <!-- <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;checkedPBU=false" (checked)="bcashChecked" > -->
+                <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;checkedPBU=false" disabled >
               </ng-container>
               <ng-template #secondCash>
-                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=falsep;checkedPBU=false;" checked disabled>
+                <input #cod type="checkbox" value=""  [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=falsep;checkedPBU=false;" disabled>
               </ng-template>
               <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Cash
             </label>
