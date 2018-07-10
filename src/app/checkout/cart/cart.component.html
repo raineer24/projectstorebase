@@ -14,11 +14,12 @@
     <div class="col-md-9 panel-board">
       <div class="panel panel-info">
         <div class="row">
-          <div class="col-md-9">
-            <h1>Cart summary</h1>
+          <div class="col-md-6">
+            <h2>Cart summary</h2>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-6 text-right">
             <button *ngIf="isAuthenticated$ | async" class="btn btn-danger" [routerLink]="['/user','lists']">Copy items from My List</button>
+            <button type="button" class="btn btn-default" (click)="confirmModal.show()">Clear Cart</button>
           </div>
         </div>
         <!-- <p>Please review the items on your shopping cart before you checkout</p> -->
@@ -54,4 +55,16 @@
   <ng-template #emptyCart>
     <app-empty-cart></app-empty-cart>
   </ng-template>
+</div>
+
+<div class="modal" bsModal #confirmModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <p>Are you sure you want to remove all items?</p>
+        <button type="button" class="btn btn-default" (click)="clearCart()">Yes</button>
+        <button type="button" class="btn btn-primary" (click)="confirmModal.hide()">No</button>
+      </div>
+    </div>
+  </div>
 </div>
