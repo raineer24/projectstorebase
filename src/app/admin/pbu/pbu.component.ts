@@ -19,16 +19,16 @@ export class PbuComponent implements OnInit {
   statusContainer: string[] = [];
   selected: string = "All";
   storePBU: any;
+  activeUser: any;
 
   constructor(
     private adminService: AdminService
   ) { }
 
   ngOnInit() {
-    //NOTE: dummy ID
-    const pbAcct = 1;
-    this.pbuSub = this.adminService.getPBUsers(pbAcct).subscribe(pbu => {
-        this.pbuShow = pbu;
+    this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
+    this.pbuSub = this.adminService.getPBUsers(this.activeUser.partner_id).subscribe(pbu => {
+      this.pbuShow = pbu;
     });
   }
 

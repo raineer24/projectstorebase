@@ -54,7 +54,7 @@ export class OrderAssemblyComponent implements OnInit {
     const now = new Date().getHours();
     this.activeTab = now < 5 ? 0: Math.floor((now - 5)/3);
     this.activeTab = this.activeTab > 4 ? 4: this.activeTab;
-    this.ordersSub = this.adminService.getAssembleOrders(this.userData.seller_id, {
+    this.ordersSub = this.adminService.getAssembleOrders(this.userData.partner_id, {
       orderStatus: this.selectedValue,
       mode: 'assembly',
     }).subscribe(orders => {
@@ -79,7 +79,7 @@ export class OrderAssemblyComponent implements OnInit {
           pending: timeslotOrders.filter(order => order.status.toUpperCase() == 'PENDING').length,
         });
       });
-      this.adminService.getFreshFrozenCount(this.userData.seller_id).subscribe(result => {
+      this.adminService.getFreshFrozenCount(this.userData.partner_id).subscribe(result => {
         this.ordersCount = result;
       })
     });

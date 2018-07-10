@@ -25,6 +25,7 @@ export class PbuAddComponent implements OnInit, OnDestroy {
   bHasFile: boolean;
   bPBUAdded: boolean;
   bUsersCreated: boolean;
+  activeUser: any;
   @Input() loader: any;
 
   constructor(
@@ -41,6 +42,8 @@ export class PbuAddComponent implements OnInit, OnDestroy {
     this.bHasFile = true;
     this.bPBUAdded = true;
     this.bUsersCreated = false;
+    this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
+    console.log(this.activeUser.partner_id);
   }
 
 
@@ -93,12 +96,13 @@ export class PbuAddComponent implements OnInit, OnDestroy {
           outstandingbalance: 0.00,
           status: dArr[6].replace(/'/g,""),
           // useraccount_id: Number(dArr[7]),
-          partnerBuyer_id: dArr[7].replace(/'/g,""),
+          partner_id: this.activeUser.partner_id,
           dateCreated: dateCreated,
           dateUpdated: dateCreated
         });
       }
       var Obj = {...newCsv};
+      console.log(Obj);
       // this.createUsers(Obj);
       this.createUsers(Obj);
 
@@ -142,7 +146,7 @@ export class PbuAddComponent implements OnInit, OnDestroy {
           credit: data[key].credit,
           availablebalance: data[key].credit,
           status: data[key].status,
-          partnerBuyer_id: data[key].partnerBuyer_id,
+          partner_id: data[key].partner_id,
         }
       });
     }
