@@ -40,7 +40,6 @@ export class LogsComponent implements OnInit {
 
   ngOnInit() {
     this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
-    partnerId = this.activeUser.partnerId;
     const options = {
       partnersId: this.activeUser.partner_id,
       limit: 0,
