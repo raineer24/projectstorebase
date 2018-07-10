@@ -11,8 +11,8 @@ import { AdminService } from './../services/admin.service';
   styleUrls: ['./order-assembly.component.scss']
 })
 export class OrderAssemblyComponent implements OnInit {
-  orders: any;
-  ordersCount: any;
+  orders: Array<any> = [];
+  ordersCount: Array<any> = [];
   ordersSub: Subscription;
   userData: any;
   selectedValue: string = 'ALL';
