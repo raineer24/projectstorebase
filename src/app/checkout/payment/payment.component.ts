@@ -100,6 +100,7 @@ export class PaymentComponent implements OnInit {
   selleruser: any;
   deliveryDate: any;
   pbucheckbox: any;
+  paymentMethod: any;
   private componentDestroyed: Subject<any> = new Subject();
 
 
@@ -133,6 +134,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.paymentMethod = [];
     localStorage.removeItem('PBUser');
     this.userData = JSON.parse(localStorage.getItem('user'));
 
@@ -164,7 +166,6 @@ export class PaymentComponent implements OnInit {
     this.couponCode = '';
     this.voucherCode = '';
     this.bCouponEntered = false;
-    this.paymentType = "CASH";
     let settings = localStorage.getItem('settings');
     settings = JSON.parse(settings);
     let sFee = settings[0];
@@ -385,6 +386,7 @@ export class PaymentComponent implements OnInit {
       } else {
         if(this.checkedPBU){
           this.paymentType = "SALARY_DEDUCTION";
+          this.paymentMethod.push(this.paymentType);
           if(this.availableBalance > this.totalAmountDue){
             this.paymentHolder = this.paymentHolder + this.totalAmountDue;
             let newBal = this.availableBalance - this.totalAmountDue;
@@ -404,7 +406,12 @@ export class PaymentComponent implements OnInit {
             this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
           }
         } else {
-          this.confirmOrder();
+          if(this.paymentMethod.length > 0){
+            this.confirmOrder();
+          } else {
+            this.gErrMsg = "Please select a payment method";
+            this.checkoutService.showErrorMsg('pbuvoucher',this.gErrMsg);
+          }
         }
       }
     }
