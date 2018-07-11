@@ -105,7 +105,7 @@
           </div>
         </div>
         <div #group3>
-          <div class="checkbox">
+          <div class="checkbox disabled">
             <label>
               <ng-container *ngIf="totalAmount > 100; else secondCash">
                 <!-- <input #cod type="checkbox" value="" [(ngModel)]="checkedCash" (ngModelChange)="checkedPP=false;checkedCC=false;checkedPBU=false" (checked)="bcashChecked" > -->
@@ -152,7 +152,7 @@
 
         <ng-container *ngIf="totalAmountDue > 0">
           <div #group4 class="GiftCert">
-              <div class="checkbox">
+              <div class="checkbox disabled">
                 <label>
                   <input #gc disabled type="checkbox" [(ngModel)]="checkedGC" >
                   <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Gift Certificate(s)

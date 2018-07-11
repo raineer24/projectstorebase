@@ -208,9 +208,10 @@ export class PaymentComponent implements OnInit {
     });
     this.tempDiscount$.takeUntil(this.componentDestroyed).subscribe(val => {
       this.totalDiscount = val;
-      if(localStorage.getItem('discount') !== '' && localStorage.getItem('discount') !== '0'){
+      if(localStorage.getItem('discount')){
         this.discount = Number(localStorage.getItem('discount'));
         this.voucherCode = localStorage.getItem('voucher');
+
         this.bCouponEntered = true;
       }
     });
