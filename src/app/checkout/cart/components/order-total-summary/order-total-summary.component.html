@@ -8,36 +8,21 @@
           <span>₱ {{totalCartValue | number:'1.2-2'}}</span>
         </div>
       </div>
-      <ng-container *ngIf="!isPromo; else promoFees">
-        <div class="col-md-12">
-          <small>Service Fee</small>
-          <div class="pull-right">
-            <span>₱ {{serviceFee | number:'1.2-2'}}</span>
-          </div>
+      <div class="col-md-12">
+        <small>Service Fee</small>
+        <div class="pull-right">
+          <span [ngClass]="{ 'line-through' : promoSFee < serviceFee }">₱ {{serviceFee | number:'1.2-2'}}</span>
+          <span *ngIf="promoSFee < serviceFee" class="text-primary">₱ {{promoSFee | number:'1.2-2'}}</span>
         </div>
-        <div class="col-md-12">
-          <small>Delivery Fee</small>
-          <div class="pull-right">
-            <span>₱ {{deliveryFee | number:'1.2-2'}}</span>
-          </div>
-          <hr>
+      </div>
+      <div class="col-md-12">
+        <small>Delivery Fee</small>
+        <div class="pull-right">
+          <span [ngClass]="{ 'line-through' : promoDFee < deliveryFee }">₱ {{deliveryFee | number:'1.2-2'}}</span>
+          <span *ngIf="promoDFee < deliveryFee" class="text-primary">₱ {{promoDFee | number:'1.2-2'}}</span>
         </div>
-      </ng-container>
-      <ng-template #promoFees>
-        <div class="col-md-12">
-          <small>Service Fee</small>
-          <div class="pull-right">
-            <span class="line-through">₱ {{serviceFee | number:'1.2-2'}}</span> <span><strong>₱ {{promoSFee | number:'1.2-2'}}</strong></span>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <small>Delivery Fee</small>
-          <div class="pull-right">
-            <span class="line-through">₱ {{deliveryFee | number:'1.2-2'}}</span> <span><strong>₱ {{promoDFee | number:'1.2-2'}}</strong></span>
-          </div>
-          <hr>
-        </div>
-      </ng-template>
+        <hr>
+      </div>
       <div class="col-md-12" *ngIf="totalDiscounts > 0">
         <small>Discounts</small>
         <div class="pull-right">
