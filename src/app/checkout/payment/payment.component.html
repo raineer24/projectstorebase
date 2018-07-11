@@ -125,6 +125,7 @@
                 <div class="checkbox">
                   <label>
                     <input #pbucheckbox type="checkbox" [(ngModel)]="checkedPBU" [disabled]="bDisabled" (ngModelChange)="checkedCash=false;">
+                    <!-- <input #pbucheckbox type="checkbox" [(ngModel)]="checkedPBU" disabled (ngModelChange)="checkedCash=false;"> -->
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>Pay with Employee Voucher
                   </label>
                   <label data-toggle="tooltip" data-placement="right" title="The total amount for this order will be debited from your salary. Maximum amount is P2,500.">
