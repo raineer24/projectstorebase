@@ -22,7 +22,7 @@
   }
   .order-list {
     max-height: 150px;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-bottom: 5px;
   }
   .save-list {
@@ -31,6 +31,10 @@
 }
 .line-through{
   text-decoration: line-through;
+  font-size: 85%;
+}
+.text-red {
+  color: red;
 }
 /* width */
 
