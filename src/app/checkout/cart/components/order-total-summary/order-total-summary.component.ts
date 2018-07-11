@@ -18,8 +18,12 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   orderStatus: string;
   serviceFee: number;
   deliveryFee: number;
+  promoSFee: number;
+  promoDFee: number;
   sFee: any;
   dFee: any;
+  promo_sFee: any;
+  promo_dFee: any;
   @Input() totalCartValue: number;
   @Input() totalCartItems: number;
   @Input() totalDiscounts: number;
@@ -29,6 +33,7 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
   @ViewChild('appCoupon') appCoupon:ElementRef;
   totalDiscount$: Subscription;
   grandTotalContainer: number = 0;
+  isPromo: boolean = false;
   forCoupon: any;
   errMsg: string;
   isShowErrMsg: boolean = false;
@@ -46,9 +51,18 @@ export class OrderTotalSummaryComponent implements OnInit, OnDestroy {
     settings = JSON.parse(settings);
     this.sFee = settings[0];
     this.dFee = settings[1];
+    this.promo_sFee = settings[2];
+    this.promo_dFee = settings[3];
     this.serviceFee = this.sFee[`value`];
     this.deliveryFee = this.dFee[`value`];
-    this.grandTotalContainer = Number(this.totalCartValue) + this.serviceFee + this.deliveryFee - this.totalDiscounts;
+    this.promoSFee = this.promo_sFee[`value`];
+    this.promoDFee = this.promo_dFee[`value`];
+    if(this.serviceFee > this.promoSFee && this.deliveryFee > this.promoDFee){
+      this.grandTotalContainer = Number(this.totalCartValue) + this.promoSFee + this.promoDFee - this.totalDiscounts;
+      this.isPromo = true;
+    } else {
+      this.grandTotalContainer = Number(this.totalCartValue) + this.serviceFee + this.deliveryFee - this.totalDiscounts;
+    }
     this.grandTotal = this.grandTotalContainer;
     this.totalAmtDue = this.grandTotalContainer;
   }

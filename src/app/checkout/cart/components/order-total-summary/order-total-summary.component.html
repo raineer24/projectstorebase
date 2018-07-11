@@ -7,20 +7,37 @@
           <!-- <span>{{totalCartValue | currency:'PHP':true:'1.2'}}</span> -->
           <span>₱ {{totalCartValue | number:'1.2-2'}}</span>
         </div>
-      </div>  
-      <div class="col-md-12">
-        <strong>Service Fee</strong>
-        <div class="pull-right">
-          <span>₱ {{serviceFee | number:'1.2-2'}}</span>
-        </div>
       </div>
-      <div class="col-md-12">
-        <small>Delivery Fee</small>
-        <div class="pull-right">
-          <span>₱ {{deliveryFee | number:'1.2-2'}}</span>
+      <ng-container *ngIf="!isPromo; else promoFees">
+        <div class="col-md-12">
+          <small>Service Fee</small>
+          <div class="pull-right">
+            <span>₱ {{serviceFee | number:'1.2-2'}}</span>
+          </div>
         </div>
-        <hr>
-      </div>
+        <div class="col-md-12">
+          <small>Delivery Fee</small>
+          <div class="pull-right">
+            <span>₱ {{deliveryFee | number:'1.2-2'}}</span>
+          </div>
+          <hr>
+        </div>
+      </ng-container>
+      <ng-template #promoFees>
+        <div class="col-md-12">
+          <small>Service Fee</small>
+          <div class="pull-right">
+            <span class="line-through">₱ {{serviceFee | number:'1.2-2'}}</span> <span><strong>₱ {{promoSFee | number:'1.2-2'}}</strong></span>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <small>Delivery Fee</small>
+          <div class="pull-right">
+            <span class="line-through">₱ {{deliveryFee | number:'1.2-2'}}</span> <span><strong>₱ {{promoDFee | number:'1.2-2'}}</strong></span>
+          </div>
+          <hr>
+        </div>
+      </ng-template>
       <div class="col-md-12" *ngIf="totalDiscounts > 0">
         <small>Discounts</small>
         <div class="pull-right">
@@ -53,10 +70,10 @@
           <hr>
       </div> -->
       <div class="col-md-12">
-        <strong>Total</strong>
+        <!-- <strong>Total</strong>
         <div class="pull-right">
           <span>₱ {{totalAmtDue | number:'1.2-2'}}</span>
-        </div>
+        </div> -->
         <p class="small">If everything looks good, click on CHECKOUT NOW to enter your delivery and payment information</p>
       </div>
       &nbsp;
