@@ -12,16 +12,17 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
     if(localStorage.getItem('settings')){
       let settings = localStorage.getItem('settings');
       settings = JSON.parse(settings);
-      let sf = settings[0];
-      let df = settings[1];
-      let promo_sf = settings[2];
-      let promo_df = settings[3];
+      if(settings[0]){
+        let sf = settings[0];
+        let df = settings[1];
+        let promo_sf = settings[2];
+        let promo_df = settings[3];
 
-      let tempSFee = sf[`value`];
-      let tempDFee = df[`value`];
+        let tempSFee = sf[`value`];
+        let tempDFee = df[`value`];
 
-      promo_sFee = promo_sf[`value`];
-      promo_dFee = promo_df[`value`];
+        promo_sFee = promo_sf[`value`];
+        promo_dFee = promo_df[`value`];
 
       if(tempSFee > promo_sFee && tempDFee > promo_dFee) {
         sFee = promo_sFee;
@@ -30,6 +31,10 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         sFee = tempSFee;
         dFee = tempDFee
       }
+    } else {
+      sFee = 0.00;
+      dFee = 0.00;
+    }
 
     } else {
       sFee = 0.00;

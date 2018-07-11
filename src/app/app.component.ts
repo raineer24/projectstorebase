@@ -114,8 +114,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.checkSessionPersistence();
     this.store.select(getAuthStatus).subscribe(isAuth => {
       this.settingsSub$ = this.authService.getSettings().subscribe(setting => {
-        console.log(setting.type);
-        if(!setting.type){
+        if(setting){
             localStorage.setItem('settings',JSON.stringify(setting));
         } else {
             localStorage.setItem('settings','');
