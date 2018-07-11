@@ -170,8 +170,10 @@ export class PaymentComponent implements OnInit {
     settings = JSON.parse(settings);
     let sFee = settings[0];
     let dFee = settings[1];
-    this.serviceFee = Number(sFee['value']);
-    this.deliveryFee = Number(dFee['value']);
+    let promoService = settings[2];
+    let promoDelivery = settings[3];
+    this.serviceFee = (Number(sFee['value']) > Number(promoService['value'])) ? Number(promoService['value']) : Number(sFee['value']);
+    this.deliveryFee = (Number(dFee['value']) > Number(promoDelivery['value'])) ? Number(promoDelivery['value']) : Number(dFee['value']);
     this.bcashChecked = true;
     this.pEmail = "";
     this.paymentType = "";

@@ -53,7 +53,26 @@
       </div>
     </h5>
   </div>
-  <ng-container *ngIf="!isPromo; else promoFees">
+  <div class="col-md-12">
+    <h5>
+      Service Fee
+      <div class="pull-right">
+        <span [ngClass]="{ 'line-through' : promoSFee < serviceFee }">₱ {{serviceFee | number:'1.2-2'}}</span>
+        <span *ngIf="promoSFee < serviceFee" class="text-red">₱ {{promoSFee | number:'1.2-2'}}</span>
+      </div>
+    </h5>
+  </div>
+  <div class="col-md-12">
+    <h5>
+      Delivery Fee
+      <div class="pull-right">
+        <span [ngClass]="{ 'line-through' : promoDFee < deliveryFee }">₱ {{deliveryFee | number:'1.2-2'}}</span>
+        <span *ngIf="promoDFee < deliveryFee" class="text-red">₱ {{promoDFee | number:'1.2-2'}}</span>
+      </div>
+    </h5>
+    <hr>
+  </div>
+  <!-- <ng-container *ngIf="!isPromo; else promoFees">
     <div class="col-md-12">
       <h5>Service Fee
         <div class="pull-right">
@@ -84,7 +103,7 @@
         </div>
       </h5>
     </div>
-  </ng-template>
+  </ng-template> -->
   <div class="col-md-12" *ngIf="discount > 0">
     <h5>Discounts
       <div class="pull-right">
