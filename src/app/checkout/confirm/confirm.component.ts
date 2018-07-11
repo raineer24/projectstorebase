@@ -53,10 +53,17 @@ export class ConfirmComponent implements OnInit {
     settings = JSON.parse(settings);
     let sFee = settings[0];
     let dFee = settings[1];
+    let promoService = settings[2];
+    let promoDelivery = settings[3];
+
+    let serviceFee = (Number(sFee['value']) > Number(promoService['value'])) ? Number(promoService['value']) : Number(sFee['value']);
+    let deliveryFee = (Number(dFee['value']) > Number(promoDelivery['value'])) ? Number(promoDelivery['value']) : Number(dFee['value']);
+
     this.fees = {
-      service: Number(sFee['value']),
-      delivery: Number(dFee['value']),
+      service: serviceFee,
+      delivery: deliveryFee,
     };
+    
     let paidAmount = 0;
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.route.params.map((params: any) => {
