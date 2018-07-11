@@ -1,10 +1,13 @@
 <div>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item text-primary" aria-current="page">Parnter Buyer User Interface</li>
+      <li class="breadcrumb-item text-primary" aria-current="page">Employees</li>
     </ol>
-    <button id="add-user" name="add-user" class="adduser btn btn-danger" type="button" [routerLink]="['/admin/pbu-add']">Add User</button>
   </nav>
+  <div>
+    <button id="add-user" name="add-user" class="btn btn-primary btn-sm" type="button" [routerLink]="['/admin/pbu-add']">Add Employee</button>
+  </div>
+  <hr>
   <table class="table table-hover table-striped">
     <thead class="thead-dark">
       <tr>

@@ -40,8 +40,8 @@
 
 .fresh-meat {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 40px;
+  right: 15px;
   z-index: 2;
   border: 5px solid #cc0000; /* #794ca6; */
   border-radius: 10px;
@@ -54,4 +54,5 @@
   color: #cc0000; /* #794ca6; */
   background-color: #fff;
   text-transform: uppercase;
+  opacity: 0.5;
 }

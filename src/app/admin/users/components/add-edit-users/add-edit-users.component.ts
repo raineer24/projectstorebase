@@ -30,12 +30,15 @@ export class AddEditUsersComponent implements OnInit {
     this.initForm();
     this.routeSubscription$ = this.route.params.subscribe((params: any) => {
       this.adminService.getRolesList().subscribe((roleList) => {
+        console.log(roleList);
         switch (this.activeUser.role_id) {
           case 1: // EOS Developer
             this.rolesList = roleList;
             break;
           case 2: // EOS Admin
-            this.rolesList = [roleList[1]];
+            const index = roleList.findIndex((role) => role.name === 'EOS Developer');
+            roleList.splice(index, 1);
+            this.rolesList = roleList.filter(role => role.name.indexOf('EOS') >= 0);
             break;
           case 3: // Partner Seller Admin
             this.rolesList = roleList.filter(role => role.name.indexOf('Partner Seller') >= 0);
