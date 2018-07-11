@@ -33,7 +33,6 @@ export class ItemListComponent implements OnInit {
     this.itemList$ = this.adminService.getItems(offset).subscribe(list => {
       this.items = list['list'];
       this.categories = list['categories'];
-      console.log(this.categories);
     });
   }
 

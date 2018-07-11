@@ -20,14 +20,16 @@ export class PbuComponent implements OnInit {
   selected: string = "All";
   storePBU: any;
   activeUser: any;
+  userCount: number;
 
   constructor(
     private adminService: AdminService
   ) { }
 
   ngOnInit() {
+    this.userCount = 0;
     this.activeUser = JSON.parse(localStorage.getItem('selleruser'));
-    this.pbuSub = this.adminService.getPBUsers(this.activeUser.partner_id).subscribe(pbu => {
+    this.pbuSub = this.adminService.getPBUsers(this.activeUser.partner_id, this.userCount).subscribe(pbu => {
       this.pbuShow = pbu;
     });
   }
@@ -76,7 +78,24 @@ export class PbuComponent implements OnInit {
             return;
         }
       }
+  }
 
+  generateUserList(offset: number){
+    this.pbuSub = this.adminService.getPBUsers(this.activeUser.partner_id, offset).subscribe(pbu => {
+      this.pbuShow = pbu;
+    });
+  }
+
+  nextItems(){
+    this.userCount = this.userCount + 10;
+    this.generateUserList(this.userCount);
+  }
+
+  prevItems(){
+    if(this.userCount !== 0){
+      this.userCount = this.userCount - 10;
+      this.generateUserList(this.userCount);
+    }
   }
 
   ngOnDestroy() {

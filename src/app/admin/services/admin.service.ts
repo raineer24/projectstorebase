@@ -437,8 +437,8 @@ export class AdminService {
    *
    * @memberof AdminService
    */
-  getPBUsers(pb_id: number): Observable<any> {
-    return this.http.get(`v1/user/account/partnerbuyerusers/${pb_id}`)
+  getPBUsers(pb_id: number, skip: number): Observable<any> {
+    return this.http.get(`v1/user/account/partnerbuyerusers/${pb_id}?skip=${skip}`)
       .map((res: Response) => res.json())
       .catch(res => Observable.empty());
   }
