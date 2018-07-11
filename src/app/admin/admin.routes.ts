@@ -69,7 +69,7 @@ export const AdminRoutes = [
         component: OrdersComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,2,6]
+          expectedRole: [1,2,4,5,6,8,11,12,13]
         }
       },
       {
@@ -77,20 +77,36 @@ export const AdminRoutes = [
         component: OrderDetailsComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,2,6]
+          expectedRole: [1,2,4,5,6,8,11,12,13]
         }
       },
-      {
-        path: 'view-order',
-        component: ViewOrderComponent,
-        canActivate: [RoleGuardService],
-        data: {
-          expectedRole: [1,2,6]
-        }
-      },
+      // {
+      //   path: 'view-order',
+      //   component: ViewOrderComponent,
+      //   canActivate: [RoleGuardService],
+      //   data: {
+      //     expectedRole: [1,2,6]
+      //   }
+      // },
       {
         path: 'users',
         component: UsersComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,2,3,7]
+        }
+      },
+      {
+        path: 'users/edit/:id',
+        component: AddEditUsersComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: [1,2,3,7]
+        }
+      },
+      {
+        path: 'users/add',
+        component: AddEditUsersComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRole: [1,2,3,7]
@@ -109,7 +125,7 @@ export const AdminRoutes = [
         component: PbuComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,7]
+          expectedRole: [1,8]
         }
       },
       {
@@ -117,7 +133,7 @@ export const AdminRoutes = [
         component: PbuEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,7]
+          expectedRole: [1,8]
         }
       },
       {
@@ -125,23 +141,7 @@ export const AdminRoutes = [
         component: PbuAddComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: [1,7]
-        }
-      },
-      {
-        path: 'users/edit/:id',
-        component: AddEditUsersComponent,
-        canActivate: [RoleGuardService],
-        data: {
-          expectedRole: [1,2,3,7]
-        }
-      },
-      {
-        path: 'users/add',
-        component: AddEditUsersComponent,
-        canActivate: [RoleGuardService],
-        data: {
-          expectedRole: [1,2,3,7]
+          expectedRole: [1,8]
         }
       },
       {

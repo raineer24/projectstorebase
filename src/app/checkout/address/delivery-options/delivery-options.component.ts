@@ -79,20 +79,20 @@ export class DeliveryOptionsComponent implements OnInit {
     if(i != 0) {
       return false;
     }
-    // const range = this.timeSlots[i].range[j].range.split(':');
-    // const today = new Date().getHours();
-    // if(today < Number.parseInt(range[0]) - 3) {
+    // NOTE: 3 hour buffer
+    // let timeslot = new Date(`${this.timeSlots[i].date} ${this.timeSlots[i].range[j].range}`);
+    // timeslot.setHours(timeslot.getHours() - this.BUFFER_HOUR);
+    // const now = new Date();
+    // if(now < timeslot) {
     //   return false;
     // } else {
     //   return true;
     // }
-    let timeslot = new Date(`${this.timeSlots[i].date} ${this.timeSlots[i].range[j].range}`);
-    timeslot.setHours(timeslot.getHours() - this.BUFFER_HOUR);
-    const now = new Date();
-    if(now < timeslot) {
-      return false;
-    } else {
+    // NOTE: 1 day buffer
+    if(new Date(this.timeSlots[i].date).setHours(0,0,0,0) == new Date().setHours(0,0,0,0)) {
       return true;
+    } else {
+      return false;
     }
   }
 

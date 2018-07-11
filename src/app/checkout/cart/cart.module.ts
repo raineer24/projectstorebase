@@ -11,6 +11,8 @@ import { EmptyCartComponent } from './components/empty-cart/empty-cart.component
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 // import { HeaderComponent } from "../../layout/header/header.component";
 // import { LayoutModule } from "../../layout/index";
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    ModalModule.forRoot(),
     //BrowserModule,
     // LayoutModule
   ],

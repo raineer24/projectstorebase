@@ -10,16 +10,19 @@ import { AdminService } from './services/admin.service';
 export class AdminComponent implements OnInit {
 
 /*
-(1,'EOS Dev'
-(2,'EOS Admin'
-(3,'PS Admin'
-(4,'PS Assembly'0
-5,'PS Finance'
-(6,'PS Management'
-(7,'PB Admin'
-(8,'PB Finance'
-(9,'Partner Seller - Shopper'
-(10,'Partner Seller - Delivery'
+1,'EOS Dev'
+2,'EOS Admin'
+3,'Partner Seller - Admin'
+4,'Partner Seller - Coordinator'
+5,'Partner Seller - Finance'
+6,'Partner Seller - Management'
+7,'Partner Buyer - Admin'
+8,'Partner Buyer - Finance'
+9,'Partner Seller - Assembly'
+10,'Partner Seller - Delivery'
+11, 'EOS Customer Support 1'
+12, 'EOS Customer Support 2'
+13, 'EOS Finance'
 
 */
   userData: any;
@@ -35,7 +38,7 @@ export class AdminComponent implements OnInit {
       name: "Orders",
       routerLink: "/admin/orders",
       type: 'main',
-      rolesRequired: [1,2,3],
+      rolesRequired: [1,2,4,5,6,8,11,12,13],
     },
     {
       name: "Users",
@@ -44,16 +47,16 @@ export class AdminComponent implements OnInit {
       rolesRequired: [1,2,3,7],
     },
     {
-      name: "Partnerbuyer",
+      name: "Employees",
       routerLink: "/admin/pbu",
-      rolesRequired: [1,7]
+      rolesRequired: [1,8]
     },
-    {
-      name: "Transactions",
-      routerLink: "/admin/transactions",
-      type: 'main',
-      rolesRequired: [1,5,8]
-    },
+    // {
+    //   name: "Transactions",
+    //   routerLink: "/admin/transactions",
+    //   type: 'main',
+    //   rolesRequired: [1,5,8]
+    // },
     {
       name: "Logs",
       routerLink: "/admin/logs",

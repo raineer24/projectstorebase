@@ -14,6 +14,8 @@ export class CheckoutActions {
   static REMOVE_GC = 'REMOVE_GC';
   static REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
   static REMOVE_CART_ITEM_SUCCESS = 'REMOVE_CART_ITEM_SUCCESS';
+  static REMOVE_CART_ITEMS = 'REMOVE_CART_ITEMS';
+  static REMOVE_CART_ITEMS_SUCCESS = 'REMOVE_CART_ITEMS_SUCCESS';
   static UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
   static UPDATE_CART_ITEM_SUCCESS = 'UPDATE_CART_ITEM_SUCCESS';
   static PLACE_ORDER = 'PLACE_ORDER';
@@ -90,6 +92,18 @@ export class CheckoutActions {
     return {
       type: CheckoutActions.REMOVE_CART_ITEM_SUCCESS,
       payload: cartItem
+    };
+  }
+
+  removeCartItems(): Action {
+    return {
+      type: CheckoutActions.REMOVE_CART_ITEMS,
+    };
+  }
+
+  removeCartItemsSuccess(): Action {
+    return {
+      type: CheckoutActions.REMOVE_CART_ITEMS_SUCCESS,
     };
   }
 

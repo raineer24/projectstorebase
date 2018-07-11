@@ -40,31 +40,22 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           _totalCartValue = _totalCartValue - _totalDiscount;
         } else {
           _totalCartValue = 0;
-           // localStorage.setItem('confirmationPayment','');
-           // localStorage.setItem('payment','');
-           // localStorage.setItem('giftcert','');
-           // localStorage.setItem('voucher','');
-           // localStorage.setItem('discount','');
         }
 
         if(payload.totalDiscount != null){
-            _totalDiscount = parseFloat(payload.totalDiscount);
+          _totalDiscount = parseFloat(payload.totalDiscount);
         } else if(localStorage.getItem('discount')!= '') {
-            _totalDiscount = Number(localStorage.getItem('discount'));
-        }
-        else {
-            _totalDiscount = 0;
+          _totalDiscount = Number(localStorage.getItem('discount'));
+        } else {
+          _totalDiscount = 0;
         }
 
         if(payload.totalAmtPaid != null) {
           _totalAmountPaid = parseFloat(payload.totalAmtPaid);
-
-
+        } else if(localStorage.getItem('payment') != '') {
+          _totalAmountPaid = Number(localStorage.getItem('payment'));
         } else {
-          if(localStorage.getItem('payment') != '')
-           {
-             _totalAmountPaid = Number(localStorage.getItem('payment'));
-           } else { _totalAmountPaid = state.totalAmountPaid; }
+          _totalAmountPaid = state.totalAmountPaid;
         }
 
         _ship_address = {
@@ -169,6 +160,38 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
           cartItemEntities: _cartItemEntities,
           totalCartItems: _totalCartItems,
           totalCartValue: _totalCartValue,
+          totalAmountDue: _totalAmountDue,
+          totalDiscount: _totalDiscount,
+          grandTotal: _grandTotal,
+          // giftCerts:_giftCerts
+        }) as CheckoutState;
+
+      case CheckoutActions.REMOVE_CART_ITEMS_SUCCESS:
+
+        if(localStorage.getItem('discount')!= '') {
+          _totalDiscount = Number(localStorage.getItem('discount'));
+        } else {
+          _totalDiscount = 0;
+        }
+
+        if(localStorage.getItem('payment') != '') {
+          _totalAmountPaid = Number(localStorage.getItem('payment'));
+        } else {
+          _totalAmountPaid = state.totalAmountPaid;
+        }
+
+        _grandTotal = _totalCartValue + _serviceFee + _deliveryFee - _totalDiscount;
+        _totalAmountDue = _grandTotal - _totalAmountPaid;
+
+        localStorage.setItem('payment','');
+        localStorage.setItem('giftcert','');
+        localStorage.setItem('voucher','');
+        localStorage.setItem('discount','');
+        return state.merge({
+          cartItemIds: [],
+          cartItemEntities: {},
+          totalCartItems: 0,
+          totalCartValue: 0,
           totalAmountDue: _totalAmountDue,
           totalDiscount: _totalDiscount,
           grandTotal: _grandTotal,

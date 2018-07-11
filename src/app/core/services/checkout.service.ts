@@ -289,6 +289,33 @@ export class CheckoutService {
    *
    * @memberof CheckoutService
    */
+  deleteCartItems() {
+    const orderId = this.getOrderId();
+    console.log(orderId)
+    if (!orderId) {
+      return Observable.of(false);
+    }
+
+    return this.http.delete(`v1/orderItem/all/${orderId}`)
+      .map(res => {
+        this.http.loading.next({
+          loading: false,
+          info: true,
+          message: `All items removed from cart.`
+        });
+        this.store.dispatch(this.actions.removeCartItemsSuccess());
+      }).catch(err => Observable.empty());
+  }
+
+
+  /**
+   *
+   *
+   * @param {CartItem} cartItem
+   * @returns
+   *
+   * @memberof CheckoutService
+   */
   updateCartItem(cartItem: CartItem) {
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? user.id: 0;
