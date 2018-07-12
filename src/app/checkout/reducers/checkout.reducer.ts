@@ -8,44 +8,17 @@ export const initialState: CheckoutState = new CheckoutStateRecord() as Checkout
 
 export const checkoutReducer: ActionReducer<CheckoutState> =
   (state: CheckoutState = initialState, { type, payload }: Action): CheckoutState => {
-    let sFee = 0.00, dFee = 0.00, promo_sFee = 0.00, promo_dFee = 0.00;
-    if(localStorage.getItem('settings')){
-      let settings = localStorage.getItem('settings');
-      settings = JSON.parse(settings);
-      if(settings[0]){
-        let sf = settings[0];
-        let df = settings[1];
-        let promo_sf = settings[2];
-        let promo_df = settings[3];
-
-        let tempSFee = sf[`value`];
-        let tempDFee = df[`value`];
-
-        promo_sFee = promo_sf[`value`];
-        promo_dFee = promo_df[`value`];
-
-      if(tempSFee > promo_sFee && tempDFee > promo_dFee) {
-        sFee = promo_sFee;
-        dFee = promo_dFee;
-      } else {
-        sFee = tempSFee;
-        dFee = tempDFee
-      }
-    } else {
-      sFee = 0.00;
-      dFee = 0.00;
-    }
-
-    } else {
-      sFee = 0.00;
-      dFee = 0.00;
-    }
-
     let _cartItems, _cartItemEntities, _cartItemIds,
         _cartItem, _cartItemEntity, _cartItemId,
         _totalCartItems = 0, _totalCartValue, _totalDiscount = 0, _totalAmountPaid = 0, _totalAmountDue = 0,
-        _ship_address, _bill_address, _giftCerts, _deliveryFee = Number(dFee), _serviceFee = Number(sFee), _grandTotal = 0,
+        _ship_address, _bill_address, _giftCerts, _deliveryFee = 0.00, _serviceFee = 0.00, _grandTotal = 0,
         _orderStatus, _orderId, _deliveryDate;
+
+    const settings = JSON.parse(localStorage.getItem('settings'));
+    if (settings.hasOwnProperty('length') && settings.length) {
+      _serviceFee = Number(settings[0].value) > Number(settings[2].value) ? Number(settings[2].value) : Number(settings[0].value);
+      _deliveryFee = Number(settings[1].value) > Number(settings[3].value) ? Number(settings[3].value) : Number(settings[1].value);
+    }
 
     switch (type) {
 

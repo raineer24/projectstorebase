@@ -117,7 +117,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if(setting){
             localStorage.setItem('settings',JSON.stringify(setting));
         } else {
-            localStorage.setItem('settings','');
+            localStorage.setItem('settings','[]');
         }
         this.orderSub$ = this.checkoutService.fetchCurrentOrder(isAuth).subscribe();
       });
