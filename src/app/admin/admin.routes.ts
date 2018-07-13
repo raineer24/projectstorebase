@@ -22,6 +22,7 @@ import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot
 import { MasterListComponent } from './master-list/master-list.component';
 import { ItemListComponent } from './master-list/components/item-list/item-list.component';
 import { AddItemsComponent } from './master-list/components/add-items/add-items.component';
+import { UpdateItemsComponent } from './master-list/components/update-items/update-items.component';
 import { AddCategoryComponent } from './master-list/components/add-category/add-category.component';
 import { ResetPasswordComponent } from './users/components/reset-password/reset-password.component';
 
@@ -179,6 +180,14 @@ export const AdminRoutes = [
       {
         path: 'master-list/components/add-items',
         component: AddItemsComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole:[1,2,3]
+        }
+      },
+      {
+        path: 'master-list/components/update-items',
+        component: UpdateItemsComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRole:[1,2,3]

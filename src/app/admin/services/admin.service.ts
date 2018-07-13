@@ -595,8 +595,25 @@ export class AdminService {
    * @memberof AdminService
    */
   addItems(data): Observable<any> {
-    return this.http.put(
+    return this.http.post(
       `v1/items/create`, data)
+    .map((res: Response) => {
+      return res.json();
+    })
+    .catch(res => Observable.empty());
+  }
+
+  /**
+   *
+   *
+   * @param {any} data
+   * @returns {Observable<any>}
+   *
+   * @memberof AdminService
+   */
+  updateItems(data): Observable<any> {
+    return this.http.put(
+      `v1/items/update`, data)
     .map((res: Response) => {
       return res.json();
     })
