@@ -64,8 +64,6 @@ export class UpdateItemsComponent implements OnInit {
         dArr = this.csvData[i].split(',');
         newCsv.push({
           code: dArr[0].replace(/'/g,""),
-          // name: dArr[2].replace(/'/g,""),
-          // brandName: dArr[3].replace(/'/g,""),
           price: Number(dArr[1].replace(/'/g,"")),
           displayPrice: Number(dArr[1].replace(/'/g,"")),
           packaging: Number(dArr[1].replace(/'/g,"")),
