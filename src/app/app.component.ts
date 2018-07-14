@@ -48,7 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
   show: boolean;
   mobile: boolean = false;
   errorMessage: string;
-  private password = '1';
+  private password = 'OmgLogin18!';
   private passwordList = [
     '7v5az5r1fn',
     '5clsg0ae6r',
