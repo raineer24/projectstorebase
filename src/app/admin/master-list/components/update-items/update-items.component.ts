@@ -67,6 +67,8 @@ export class UpdateItemsComponent implements OnInit {
           // name: dArr[2].replace(/'/g,""),
           // brandName: dArr[3].replace(/'/g,""),
           price: Number(dArr[1].replace(/'/g,"")),
+          displayPrice: Number(dArr[1].replace(/'/g,"")),
+          packaging: Number(dArr[1].replace(/'/g,"")),
           dateUpdated: dateCreated
         });
       }
