@@ -1,4 +1,4 @@
-<div *ngIf="!show" class="tmp-welcome">
+<!-- <div *ngIf="!show" class="tmp-welcome">
   <div class="text-center welcome">
     <div class="col-md-3 col-sm-4">&nbsp;</div>
     <div class="col-md-6 col-sm-4">
@@ -10,7 +10,7 @@
 
         </span>
       </div>
-    </div>
+    </div> -->
     <!--div class="col-md-3 col-sm-4">&nbsp;</div> -->
 
     <!-- <div class="panel-heading">
@@ -25,10 +25,10 @@
       <div class="alert alert-danger" [hidden]="!errorMessage">Wrong Password. Please try again!</div>
       <button class="btn btn-lg" (click)="setValue()">Enter</button>
     </div> -->
-  </div>
+  <!-- </div>
 </div>
-<div class="default" *ngIf="show">
-
+<div class="default" *ngIf="show"> -->
+<div class="default">
   <div [ngClass]="this.currentUrl.indexOf('/admin') >= 0 ? 'red' : 'hidden-xs'">
 <ng-container *ngIf="!isAdminRoute()">
 
@@ -64,7 +64,7 @@
 <div  *ngIf="!isAdminRoute()" class="container">
 
 
-<!-- 
+<!--
     <div class="mobile-header navbar-header">
       <button type="button" class="navbar-toggle collapsed" (click)="isCollapsed = !isCollapsed" #mobileMenu>
         <span class="sr-only">Toggle navigation</span>
