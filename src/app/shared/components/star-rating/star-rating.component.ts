@@ -52,14 +52,16 @@ export class StarRatingComponent implements OnInit, OnDestroy {
   getRating(value){
     let order_key = localStorage.getItem('rating_orderKey');
     this.rating['orderkey'] = order_key;
-    this.rating['starCount'] = Number(value);
-    this.rating['feedbacktype'] = 2;
+    this.rating['starCount'] = 0;
+    this.rating['feedbacktype'] = value;
+    console.log("rating:" + JSON.stringify(this.rating));
   }
 
   sendFeedBack(value: string){
     this.bClose = true;
     this.rating['feedback'] = value;
     this.saveRating(this.rating);
+    console.log("rating:" + JSON.stringify(this.rating));
   }
 
 //save the rating to db

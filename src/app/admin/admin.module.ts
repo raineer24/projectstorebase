@@ -17,6 +17,7 @@ import { AdminService } from './services/admin.service';
 import { ManageTimeslotComponent } from './tools/manage-timeslot/manage-timeslot.component';
 import { MasterListComponent } from './master-list/master-list.component';
 import { AddItemsComponent } from './master-list/components/add-items/add-items.component';
+import { UpdateItemsComponent } from './master-list/components/update-items/update-items.component';
 import { AddCategoryComponent } from './master-list/components/add-category/add-category.component';
 import { ItemListComponent } from './master-list/components/item-list/item-list.component';
 import { PrintTransactionsComponent } from './transactions/print-transactions/print-transactions.component';
@@ -66,6 +67,7 @@ import { DataTableModule, PaginatorModule, ButtonModule } from 'primeng/primeng'
     MasterListComponent,
     ItemListComponent,
     AddItemsComponent,
+    UpdateItemsComponent,
     AddCategoryComponent,
     OrderAssemblyComponent,
     OrderDeliverComponent,
