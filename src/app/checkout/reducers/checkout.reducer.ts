@@ -15,7 +15,7 @@ export const checkoutReducer: ActionReducer<CheckoutState> =
         _orderStatus, _orderId, _deliveryDate;
 
     const settings = JSON.parse(localStorage.getItem('settings'));
-    if (settings.hasOwnProperty('length') && settings.length) {
+    if (settings && settings.hasOwnProperty('length') && settings.length) {
       _serviceFee = Number(settings[0].value) > Number(settings[2].value) ? Number(settings[2].value) : Number(settings[0].value);
       _deliveryFee = Number(settings[1].value) > Number(settings[3].value) ? Number(settings[3].value) : Number(settings[1].value);
     }
