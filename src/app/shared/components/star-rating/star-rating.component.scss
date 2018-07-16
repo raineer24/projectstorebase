@@ -1,12 +1,12 @@
 // //css for star rating
-.container{
+.star-rating-container{
 	width: 100%;
 	position: fixed;
 	top: 100px;
 	left: -47px;
 	// background-color:#DCDCDC;
 	// opacity: 0.6;
-	// z-index: 9000;
+	 z-index: 10000;
 }
 .rating-header{
 	position: relative;

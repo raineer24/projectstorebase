@@ -1,9 +1,10 @@
 
-.container{
+.star-rating-container{
 	width: 100%;
 	position: fixed;
 	top: 100px;
 	left: -47px;
+	z-index: 10000;
 }
 .rating-header{
 	position: relative;
@@ -31,7 +32,7 @@
 	margin-left: auto;
   margin-right: auto;
   width: 440px;
-	height: 550px;
+	height: 505px;
   background-color: #f8f8ff;
   color: white;
 	padding-top: 15px;
