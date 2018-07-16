@@ -2,17 +2,21 @@
   padding-left: 0;
 }
 
-.breadcrumb {
-  background-color: #fff;
-  text-transform: capitalize;
-  padding-left: 0;
-  padding-right: 0;
-  margin-bottom: 0px;
-  a {
-    color: #000;
-  }
-  li {
+.breadcrumb-container {
+  margin-top: 40px;
 
+  .breadcrumb {
+    background-color: #fff;
+    text-transform: capitalize;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0px;
+    a {
+      color: #000;
+    }
+    li {
+
+    }
   }
 }
 

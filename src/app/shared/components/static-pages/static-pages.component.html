@@ -54,7 +54,17 @@
     <hr>
     <div class="container-fluid">
       <div *ngIf='isAuthenticated | async'>
-        <h4><i class="glyphicon glyphicon-modal-window"></i>&nbsp;<a (click)="showChat()">Launch Support Chat</a></h4>
+        <div>
+          <p>OMG!  We're super excited to serve you!</p>
+          <p>Our mantra: Just do what you love, we'll do the grocery shopping for you. </p>
+          <p>Our vision: To provide our users the best online grocery shopping ever.</p>
+          <br>
+          <p>Need help with your orders?  Just fire a message and our friendly OMG! staff will be there to assist you. As we are still on beta, we're pretty sure you'll be as understanding as you can be.  Coz you're cool like that ; ).  And we really appreciate that.  Our assurance: we won't stop until all is good.  Okie dokie.  Have a fantastic day!</p>
+          <br>
+          <button type="button" class="btn btn-primary btn-lg" (click)="showChat()">
+            <i class="glyphicon glyphicon-modal-window"></i>&nbsp;Launch Support Chat
+          </button>
+        </div>
       </div>
     </div>
   </div>
