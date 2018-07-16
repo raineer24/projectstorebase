@@ -43,10 +43,12 @@
           <span style="display: inline-block;">{{itemQuantity}}</span>
         </p>
         <!-- <p>You Save: <span style='color: black; font-weight: bold'>Php 300.00(14.28%)</span></p> -->
-        <p class="disclaimer" *ngIf="this.itemCategories[0].name === 'meat & frozen' || this.itemCategories[0].name === 'vegetables & fruits'">
-          <i class="glyphicon glyphicon-info-sign"></i>
-          <small>Disclaimer: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</small>
-        </p>
+        <div class="disclaimer-container">
+          <label class="info-sign"><i class="glyphicon glyphicon-info-sign"></i></label>
+          <span class="disclaimer" *ngIf="this.item.weighted">
+            <small>Disclaimer: Actual price may vary slightly, especially for meat and produce. But our friendly OMG! staff will contact you if ever... For meat and some produce, price indicated is for 1 kilogram.  You may order less than a kilo but should be in increments of 250 grams (250g, 500g, 750g, etc.).</small>
+          </span>
+        </div>
       </div>
       <div class="row">
         <!-- <p> -->
