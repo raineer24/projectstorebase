@@ -62,7 +62,6 @@ export class UpdateItemsComponent implements OnInit {
       newCsv = [];
       for( i = 0; i < this.csvData.length; i++){
         dArr = this.csvData[i].split(',');
-        console.log(dArr[1]);
         if (dArr[1] === 'TRUE'){
           newCsv.push({
             code: dArr[0].replace(/'/g,""),
