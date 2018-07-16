@@ -62,13 +62,21 @@ export class UpdateItemsComponent implements OnInit {
       newCsv = [];
       for( i = 0; i < this.csvData.length; i++){
         dArr = this.csvData[i].split(',');
-        newCsv.push({
-          code: dArr[0].replace(/'/g,""),
-          price: Number(dArr[1].replace(/'/g,"")),
-          displayPrice: Number(dArr[1].replace(/'/g,"")),
-          packaging: Number(dArr[1].replace(/'/g,"")),
-          dateUpdated: dateCreated
-        });
+        if(Number(dArr[1]) || Number(dArr[1]) > 0){
+          newCsv.push({
+            code: dArr[0].replace(/'/g,""),
+            price: Number(dArr[1].replace(/'/g,"")),
+            displayPrice: Number(dArr[1].replace(/'/g,"")),
+            packaging: Number(dArr[1].replace(/'/g,"")),
+            dateUpdated: dateCreated
+          });
+        } else {
+          newCsv.push({
+            code: dArr[0].replace(/'/g,""),
+            enabled: 0,
+            dateUpdated: dateCreated
+          });
+        }
       }
       var Obj = {...newCsv};
       this.updateItems(Obj);
