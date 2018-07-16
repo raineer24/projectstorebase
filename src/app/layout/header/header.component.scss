@@ -34,7 +34,7 @@
     letter-spacing: 0.5px; // #606382
   }
   .navbar-nav>li>a:hover {
-    color: #ff005d;
+    color: #ff2679;
     border-bottom: 3px solid transparent;
   }
   .navbar-nav>li.active>a {
@@ -277,7 +277,7 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
           a {
             min-height: initial;
             &:hover {
-              color: #ff005d;
+              color: #ff2679;
             }
           }
         }
@@ -293,7 +293,7 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
         font-weight: 500;
         padding: 10px 15px;
         line-height: 20px;
-        border: 2px solid #ff005d;
+        border: 2px solid #ff2679;
         border-top: 0;
         float: right;
         margin-right: 10px;
@@ -348,7 +348,7 @@ ul.nav li.dropdown-toggle:hover>ul.dropdown-menu {
           cursor: pointer;
 
           a {
-            color: #ff005d;
+            color: #ff2679;
             text-transform: capitalize;
             &:hover {
               color: #000;

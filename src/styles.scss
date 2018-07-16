@@ -21,7 +21,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #ff005d;
+  background: #ff2679;
   padding-top: 78px;
 }
 @media screen and (max-width: 767px) {
@@ -78,23 +78,23 @@ main[_ngcontent-c0] {
 
 .nav .open>a,
 .nav .open>a:hover {
-  color: #ff005d;
+  color: #ff2679;
 }
 
 .nav .open>a:focus {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-  background: #ff005d;
+  background: #ff2679;
   color: #ffffff;
 }
 
 .nav>li>a:hover,
 .nav>li>a:focus {
-  color: #ff005d;
+  color: #ff2679;
 }
 
 .navbar-right>li>a {
-  color: #ff005d;
+  color: #ff2679;
 }
 @media screen and (max-width: 900px) {
   .navbar-nav>li>a {
