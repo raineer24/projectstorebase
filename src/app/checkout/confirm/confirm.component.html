@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading">Summary of Order <b>#{{orderDetails.number}}</b>, {{orderDetails.totalQuantity}} items ordered. This will be delivered to you on <b>{{deliveryDate | date:'fullDate'}}</b> at <b>{{timeSlot}} {{merridian}}</b>. </div>
+      <div class="panel-heading">Summary of Order <b>#{{orderDetails.number}}</b>, {{orderDetails.totalQuantity}} items ordered. This will be delivered to you on <b>{{deliveryDate | date:'fullDate'}}</b> at <b>{{ globals.TIMESLOT_LABELS[timeSlotId] }}</b>. </div>
       <div class="panel-body">
         <div class="row orderlist small">
           <div *ngFor="let item of orderDetails.items">
@@ -27,7 +27,7 @@
         </div>
         <div class="row small">
           <div class="col-xs-10 text-right"><h5>Fees</h5></div>
-          <div class="col-xs-2 text-right text-primary"><h5>₱ {{(fees.delivery + fees.service) | number:'1.2-2'}}</h5></div>
+          <div class="col-xs-2 text-right text-primary"><h5>₱ {{(orderDetails.deliveryFee + orderDetails.serviceFee) | number:'1.2-2'}}</h5></div>
         </div>
         <div class="row small">
           <div class="col-xs-10 text-right"><h5>Discount</h5></div>
@@ -41,14 +41,13 @@
           <div class="col-xs-10 text-right"><h4>Total</h4></div>
           <div class="col-xs-2 text-right"><h4 class="text-primary">₱ {{orderDetails.amountTotal | number:'1.2-2'}}</h4></div>
         </div>
-        <div class="row">
-          <div class="col-xs-10 text-left">
-            <p class="disclaimer">
-              <i class="glyphicon glyphicon-info-sign"></i>
-              <small>Disclaimer: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</small>
-            </p>
+        <div class="row" *ngIf="countWeighted > 0">
+          <div class="col-xs-10 text-left disclaimer-container">
+            <label class="info-sign"><i class="glyphicon glyphicon-info-sign"></i></label>
+            <span class="disclaimer">
+              <small>Disclaimer: Actual price may vary slightly, especially for meat and produce. But our friendly OMG! staff will contact you if ever... For meat and some produce, price indicated is for 1 kilogram.  You may order less than a kilo but should be in increments of 250 grams (250g, 500g, 750g, etc.).</small>
+            </span>
           </div>
-
         </div>
       </div>
     </div>
