@@ -53,7 +53,7 @@ export class SharedService {
   showThankyou(): void{
     this.http.loading.next({
       loading: false,
-      thankYou: true,
+      isSuccess: true,
       hasMsg: `Thank you!`,
       reset: 4500
     });

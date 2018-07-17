@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../../core/services/auth.service';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
-import { getAuthStatus } from '../../../reducers/selectors';
+import { Store } from '@ngrx/store';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { environment } from '../../../../../environments/environment';
+import { AppState } from '../../../../interfaces';
+import { AuthService } from '../../../../core/services/auth.service';
+import { getAuthStatus } from '../../../reducers/selectors';
 import { UserActions } from '../../../../user/actions/user.actions';
+
 
 @Component({
   selector: 'app-login-form',
@@ -52,11 +53,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
         } else {
           const user = JSON.parse(localStorage.getItem('user'));
-          this.checkPartnerBuyer = this.authService.checkPartnerBuyer(user.id).subscribe( isFound => {
-            if (isFound)
-            {
+          this.checkPartnerBuyer = this.authService.checkPartnerBuyer(user.id).subscribe(isFound => {
+            if (isFound) {
               localStorage.setItem('pbu','1');
-              this.checkPartnerBuyer = this.authService.getPartnerBuyerUser(user.id).subscribe ( data => {
+              this.checkPartnerBuyer = this.authService.getPartnerBuyerUser(user.id).subscribe(data => {
                 localStorage.setItem('PBUser',JSON.stringify(data));
                 const pbu = JSON.parse(localStorage.getItem('PBUser'));
                 localStorage.setItem('pbuid',pbu.id);
@@ -64,12 +64,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
             } else {
               localStorage.setItem('pbu','0');
             }
-
           });
-
           this.store.dispatch(this.userActions.getUserLists());
-          this.router.navigate([this.returnUrl])
-          //this.router.navigate(['user/profile']);
+          // this.router.navigate([this.returnUrl]);
+          window.location.href = this.returnUrl;
         }
       });
     } else {
