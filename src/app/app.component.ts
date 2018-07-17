@@ -39,7 +39,7 @@ import * as moment from 'moment';
 export class AppComponent implements OnInit, OnDestroy {
   orderSub$: Subscription;
   settingsSub$: Subscription;
-  currentUrl: string;
+  currentUrl: string = '';
   currentStep: string;
   checkoutUrls = ['/checkout/cart', '/checkout/address', '/checkout/payment', '/checkout/confirm'];
   homeUrls = ['/', '/item'];

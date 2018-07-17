@@ -66,7 +66,7 @@ export class ProfileEditComponent implements OnInit, OnDestroy {
     const values = this.profileEditForm.value;
     if (this.profileEditForm.valid) {
       let data = {
-        'email': values.email,
+        'email': values.email ? values.email : this.userData.email,
         'lastName': values.lastName,
         'firstName': values.firstName,
         'gender': values.gender,
