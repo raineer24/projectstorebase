@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Globals } from './../../globals';
 
 @Component({
   selector: 'app-confirm',
@@ -24,15 +25,15 @@ export class ConfirmComponent implements OnInit {
   inputNewList: string;
   isAuthenticated$: Observable<boolean>;
   timeSlotOrder$: Subscription;
-  timeSlot$: Subscription;
   orderKey: string;
   orderDetails: any;
   timeSlot: any;
   deliveryDate: any;
   cartItemArray: Array<number>;
-  merridian: string;
-  fees: Object;
   sortSettings: any;
+  countWeighted: number;
+  timeSlotId: number = 0;
+
 
   constructor(
     private userActions: UserActions,
@@ -43,27 +44,14 @@ export class ConfirmComponent implements OnInit {
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private router: Router,
-    private searchActions: SearchActions
+    private searchActions: SearchActions,
+    private globals: Globals,
 
   ) { }
 
   ngOnInit() {
     //NOTE: TEMPORARY!!! FEES TO BE DECIDED
-    let settings = localStorage.getItem('settings');
-    settings = JSON.parse(settings);
-    let sFee = settings[0];
-    let dFee = settings[1];
-    let promoService = settings[2];
-    let promoDelivery = settings[3];
-
-    let serviceFee = (Number(sFee['value']) > Number(promoService['value'])) ? Number(promoService['value']) : Number(sFee['value']);
-    let deliveryFee = (Number(dFee['value']) > Number(promoDelivery['value'])) ? Number(promoDelivery['value']) : Number(dFee['value']);
-
-    this.fees = {
-      service: serviceFee,
-      delivery: deliveryFee,
-    };
-    
+    this.countWeighted = 0;
     let paidAmount = 0;
     this.isAuthenticated$ = this.store.select(getAuthStatus);
     this.route.params.map((params: any) => {
@@ -76,11 +64,18 @@ export class ConfirmComponent implements OnInit {
           details.paymentTotal = paidAmount;
           details.discount = Number(localStorage.getItem('discount'));
           this.orderDetails = details;
+          var ctr = 0;
+          for (ctr=0; ctr < this.orderDetails.items.length; ctr++){
+            if(this.orderDetails.items[ctr].weighted != null){
+              this.countWeighted++;
+            }
+          }
           this.showTimeSlotOrder(details.id);
           this.cartItemArray = details['items'].map(item => item.item_id)
           return details;
         }).subscribe();
     }).subscribe();
+
     // localStorage.removeItem('confirmationPayment');
     localStorage.removeItem('payment');
     // localStorage.removeItem('discount');
@@ -88,30 +83,10 @@ export class ConfirmComponent implements OnInit {
   }
 
   showTimeSlotOrder(orderId){
-    let tsID = 0;
-    let timerange = 0;
     this.timeSlot = 0;
     this.timeSlotOrder$ = this.userService.getTimeSlotOrder(orderId).map( timeslot => {
         this.deliveryDate = timeslot.datetime;
-        tsID = timeslot.timeslot_id;
-        this.timeSlot$ = this.userService.getTimeslot(tsID).map( time => {
-          timerange = time.range;
-          //Sets time as AM/PM
-          if(tsID > 2){
-            this.merridian = 'PM';
-          } else {  this.merridian = 'AM'; }
-          //Convert military time to standard time - 13:00 becomes 1:00
-          if(tsID == 2){
-            this.timeSlot = '11:00';
-          } else if(tsID == 3){
-            this.timeSlot = '2:00';
-          } else if(tsID == 4){
-            this.timeSlot = '5:00';
-          } else if (tsID == 5 || tsID == 1){
-            this.timeSlot = '8:00';
-          }
-          return this.timeSlot;
-        }).subscribe();
+        this.timeSlotId = timeslot.timeslot_id - 1;
     }).subscribe();
   }
 
